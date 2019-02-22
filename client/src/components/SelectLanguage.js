@@ -1,0 +1,52 @@
+import React from "react";
+import { languages } from "../Constants/GlobalVars.js";
+import LanguageIcon from "./LanguageIcon";
+import withLanguage from "./LanguageContext";
+import { Menu, Dropdown } from "antd";
+
+class SelectLanguage extends React.Component {
+  state = { language: this.props.language };
+
+  handleClick = e => {
+    this.props.updateLanguage(e.key);
+  };
+  render() {
+    const menuStyle = {
+      width: "4rem",
+      borderRadius: "20px",
+      backgroundColor: "transparent",
+      boxShadow: "none",
+      WebkitBoxShadow: "none",
+      MozBoxShadow: "none"
+    };
+    const menuItemStyle = {
+      padding: "0.3rem 0"
+    };
+    const languageIconStyle = {
+      position: "relative",
+      left: "0"
+    };
+    const menu = (
+      <Menu style={menuStyle} onClick={this.handleClick}>
+        {languages.map(language =>
+          language !== this.props.language ? (
+            <Menu.Item key={language} style={menuItemStyle}>
+              <LanguageIcon style={languageIconStyle} language={language} />
+            </Menu.Item>
+          ) : (
+            ""
+          )
+        )}
+      </Menu>
+    );
+    return (
+      <Dropdown trigger={["hover", "click"]} overlay={menu}>
+        <div className="ant-dropdown-link" >
+          <LanguageIcon style={menuItemStyle} language={this.props.language} />
+        </div>
+      </Dropdown>
+    );
+  }
+}
+
+export default withLanguage(SelectLanguage);
