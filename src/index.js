@@ -8,7 +8,10 @@ const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const compression = require('compression')
 const port = parseInt(process.env.PORT, 10);
+const app_instance = process.argv.NODE_APP_INSTANCE;
+process.argv.NODE_APP_INSTANCE = "";
 const config = require('config');
+process.argv.NODE_APP_INSTANCE = app_instance;
 const dbHost= config.get('dbConfig.host')
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
