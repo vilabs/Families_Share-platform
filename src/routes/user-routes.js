@@ -569,7 +569,7 @@ router.get('/:id/groups', (req,res) => {
 					res.status(404).send("Something went wrong")
         }
         if (groups.length>0) {
-            return res.json(groups);
+            res.json(groups);
         } else {
             res.status(404).send("User hasn't joined any groups")
         }

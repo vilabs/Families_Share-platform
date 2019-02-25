@@ -1,9 +1,9 @@
-let common = require('../common')
-let server = common.server;
-let chai = common.chai;
+const common = require('../common')
+const server = common.server;
+const chai = common.chai;
 
-let User = require('../../src/models/user');
-let Password_Reset = require('../../src/models/password-reset')
+const User = require('../../src/models/user');
+const Password_Reset = require('../../src/models/password-reset')
 
 describe('/Post/users', () => {
 	it('it should sign up a user with correct parameters', (done) => {

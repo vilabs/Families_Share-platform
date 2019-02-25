@@ -65,8 +65,9 @@ describe("Test", function () {
 	before( async () =>{
 		await initializeDB();
 	});
-	importTest("User Model Test", './Users/userModel');
-	importTest("Group Model Test", './Groups/groupModel');
+	importTest("User Endpoints Test", './Users/userEndpoints');
+	importTest("Group Endpoints Test", './Groups/groupEndpoints');
+	importTest("User's Groups Endpoints Test", './Users/groupEndpoints');
 	after(async () => {
 		await User.deleteMany({});
 		await Profile.deleteMany({});
