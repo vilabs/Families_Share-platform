@@ -19,6 +19,8 @@ const groupSchema = new mongoose.Schema({
     
 },{timestamps: true, toJSON: { virtuals: true } });
 
+groupSchema.index({ name: 1}); 
+
 groupSchema.virtual('image', {
     ref: 'Image',
     localField: 'image_id',

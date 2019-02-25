@@ -47,16 +47,9 @@ class MyFamiliesShareScreen extends React.Component {
 		const myGroups = groups.filter(group => group.user_accepted && group.group_accepted).map(group => group.group_id);
 		const pendingInvites = groups.filter(group => group.group_accepted && !group.user_accepted).length
 		const myNotifications = await getMyNotifications(userId);
-		const sortedNotifications = myNotifications.sort((a, b) => {
-			if (a.createdAt > b.createdAt) {
-				return -1
-			} else {
-				return 1;
-			}
-		})
 		this.setState({
 			fetchedUserInfo: true,
-			myNotifications: sortedNotifications,
+			myNotifications,
 			myGroups,
 			pendingInvites
 		});

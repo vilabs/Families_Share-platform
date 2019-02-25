@@ -31,14 +31,7 @@ class InviteModal extends React.Component {
         users.forEach(user => {
           user.name = user.given_name + " " + user.family_name;
         });
-        const sortedUsers = users.sort( (a,b) => {
-          if(a.name < b.name){
-            return -1
-          } else { 
-            return 1;
-          }
-        })
-        this.setState({ fetchedGroups: true, users: sortedUsers });
+        this.setState({ fetchedGroups: true, users});
         this.handleSearch("");
 
       })

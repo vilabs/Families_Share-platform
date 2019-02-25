@@ -14,13 +14,7 @@ class GroupMessages extends React.Component {
     axios
       .get("/groups/" + this.props.groupId + "/announcements")
       .then(async response => {
-        const announcements = response.data.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return 1
-          } else {
-            return -1
-          }
-        });
+        const announcements = response.data
         await this.setState({
           announcements
         });
@@ -34,13 +28,7 @@ class GroupMessages extends React.Component {
     axios
       .get("/groups/" + this.props.groupId + "/announcements")
       .then(response => {
-        const announcements = response.data.sort((a, b) => {
-          if (a.createdAt < b.createdAt) {
-            return 1
-          } else {
-            return -1
-          }
-        });
+        const announcements = response.data
         this.setState({
           fetchedAnnouncements: true,
           announcements: announcements

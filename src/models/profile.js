@@ -15,6 +15,7 @@ const profileSchema = new mongoose.Schema({
     visible: Boolean,
 }, {timestamps: true, toJSON: { virtuals: true }});
 
+profileSchema.index({ given_name: 1, family_name: 1}); 
 
 profileSchema.virtual('image', {
     ref: 'Image',

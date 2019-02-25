@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 
 const ratingSchema = new mongoose.Schema({
-    user_id: String,
+    user_id: {
+			type: String,
+			unique: true,
+		},
     rating: Number,
 },{timestamps: true});
 

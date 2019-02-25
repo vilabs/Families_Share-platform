@@ -751,7 +751,7 @@ router.get('/:id/notifications', (req,res) => {
 		const id = req.params.id
 		User.findOne({ user_id: id}, (err, user)=> {
 			if(err) res.status(400).send("Something went wrong");
-			Notification.find( { owner_id: id, owner_type: "user" }).lean().exec( async ( error, notifications ) => {
+			Notification.find( { owner_type: "user", owner_id: id }).sort({'createdAt': -1}).lean().exec( async ( error, notifications ) => {
         if (error) res.status(400).send("Something went wrong");
         if (notifications.length>0) {
 						for( const notification of notifications){
@@ -763,14 +763,13 @@ router.get('/:id/notifications', (req,res) => {
             res.status(404).send("User has no notifications")
         }
     })
-		})
-    
+		})   
 });
 
 router.patch('/:id/notifications', (req,res) => {
 	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
 	const id = req.params.id
-	Notification.updateMany( { owner_id: id, owner_type: "user", read: false},{ read: true }, ( error, raw ) => {
+	Notification.updateMany( { owner_type: "user", owner_id: id, read: false},{ read: true }, ( error, raw ) => {
 			if (error) {
 					res.status(400).send("Something went wrong");
 			}

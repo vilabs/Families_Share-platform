@@ -8,6 +8,8 @@ const deviceSchema = new mongoose.Schema({
 	user_id: String,
 },{timestamps: true})
 
+deviceSchema.index({ user_id: 1}); 
+
 mongoose.pluralize(null);
 const model = mongoose.model('Device',deviceSchema);
 

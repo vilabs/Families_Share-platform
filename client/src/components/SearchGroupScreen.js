@@ -20,13 +20,8 @@ class SearchGroupScreen extends React.Component {
     componentDidMount() {
         axios.get('/groups?searchBy=visibility&visible=true',)
         .then(res => {
-            const groups = res.data.sort( (a,b)=> {
-                if(a.name.toLowerCase() > b.name.toLowerCase()){
-                    return 1
-                } else {
-                    return -1
-                }} )
-            this.setState({ fetchedGroups: true, groups: groups })
+            const groups = res.data
+            this.setState({ fetchedGroups: true, groups})
             this.handleSearch('')
         })
         .catch( error => {

@@ -12,6 +12,8 @@ const replySchema =  new mongoose.Schema({
     body: String,
 },{timestamps: true})
 
+replySchema.index({ announcement_id: 1}); 
+
 mongoose.pluralize(null);
 const model = mongoose.model('Reply',replySchema);
 

@@ -9,6 +9,8 @@ const memberSchema = new mongoose.Schema({
 		acl_rule_id: String,
 },{timestamps: true});
 
+memberSchema.index({ group_id: 1, user_id: 1}); 
+
 mongoose.pluralize(null);
 const model = mongoose.model('Member', memberSchema);
 

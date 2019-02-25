@@ -25,7 +25,8 @@ router.get('/', (req, res)=>{
         case "visibility": 
             const visible = req.query.visible
             Profile.find({ visible: visible })
-            .populate('image', 'path')
+						.populate('image', 'path')
+						.sort({ given_name: 1, family_name: 1})
             .lean().exec( (error, profiles) =>{
                 if (error){
                     res.status(400).send("Something went wrong");

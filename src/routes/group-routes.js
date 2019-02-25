@@ -95,7 +95,9 @@ router.get('/', (req, res) => {
 					if (visibleGroups.length > 0) {
 						const groupIds = [];
 						visibleGroups.forEach(group => groupIds.push(group.group_id));
-						Group.find({ group_id: { $in: groupIds } }, (groupsError, groups) => {
+						Group.find({ group_id: { $in: groupIds } })
+						.sort({'name':1})
+						.exec( (groupsError, groups) => {
 							if (groupsError) {
 								res.status(400).send("Something went wrong");
 							}
@@ -114,7 +116,8 @@ router.get('/', (req, res) => {
 				const groupIds = req.query.ids;
 				console.log(groupIds)
 				Group.find({ group_id: { $in: groupIds } })
-				.populate('image').exec( (groupsError, groups) => {
+				.populate('image')
+				.exec( (groupsError, groups) => {
 					if (groupsError) {
 						res.status(400).send("Something went wrong");
 					}
@@ -627,12 +630,13 @@ router.get("/:id/activities", (req, res) => {
 	const group_id = req.params.id
 	Activity.find({ group_id: group_id })
 		.populate('dates')
+		.sort({'createdAt':-1})
 		.lean().exec((error, activities) => {
 			if (error) res.status(400).send("Something went wrong")
 			res.json(activities);
 		})
-
 });
+
 router.patch("/:id/activities/:activityId", (req, res) => {
 	const activity_id = req.params.activityId;
 	if (!req.user_id) return res.status(401).send('Not authenticated')
@@ -765,6 +769,7 @@ router.get("/:id/announcements", (req, res) => {
 	const id = req.params.id;
 	Announcement.find({ group_id: id })
 		.populate('images')
+		.sort({createdAt: -1})
 		.lean().exec((error, announcements) => {
 			if (error) {
 				res.status(400).send("Something went wrong");

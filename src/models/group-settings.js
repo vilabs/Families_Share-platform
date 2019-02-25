@@ -12,6 +12,8 @@ const groupSettingsSchema = new mongoose.Schema({
     visible: Boolean,
 },{timestamps: true});
 
+groupSettingsSchema.index({ group_id: 1 }); 
+
 mongoose.pluralize(null);
 const model = mongoose.model('Group_Settings', groupSettingsSchema);
 

@@ -12,8 +12,8 @@ const config = require('config');
 const dbHost= config.get('dbConfig.host')
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
-mongoose.connect(process.env[dbHost], { family: 4 })
-mongoose.Promise = global.Promise;
+mongoose.connect(process.env[dbHost], { family: 4 }) //{ autoIndex: false } set this to false in production to disable auto creating indexes
+mongoose.Promise = global.Promise; 
 
 const app = express();
 

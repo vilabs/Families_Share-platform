@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const objectid = require('objectid');
-
 
 const childSchema = new mongoose.Schema({
     child_id: {

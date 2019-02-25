@@ -22,7 +22,7 @@ class GroupActivities extends React.Component {
 		const groupId = this.state.group.group_id
 		axios.get(`/groups/${groupId}/activities`)
 		.then(response=>{
-			const sortedActivities  = response.data.sort( (a, b) => a.createdAt < b.createdAt )
+			const sortedActivities  = response.data
 			this.setState({fetchedActivities: true, activities: sortedActivities})
 		})
 		.catch( error=>{
