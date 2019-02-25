@@ -129,6 +129,7 @@ router.get('/', (req, res) => {
 				});
 				break;
 			default:
+				res.status(400).send("Something went wrong")
 		}
 	} else {
 		Group.find(query, (error, groups) => {
@@ -142,63 +143,67 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
-	const group_id = objectid();
-	const image_id = objectid();
-	const settings_id = objectid();
-	const newCal = {
-		summary: req.body.name,
-		description: req.body.description,
-		location: req.body.location,
-	};
-	const group = {
-		group_id: group_id,
-		name: req.body.name,
-		description: req.body.description,
-		background: "#00838F",
-		location: req.body.location,
-		owner_id: req.body.owner_id,
-		settings_id: settings_id,
-		image_id: image_id,
-	};
-	const image = {
-		image_id: image_id,
-		owner_type: "group",
-		owner_id: group_id,
-		path: "/images/groups/group_default_photo.png",
-		thumbnail_path: "/images/groups/group_default_photo.png"
-	};
-	const settings = {
-		settings_id: settings_id,
-		group_id: group_id,
-		visible: req.body.visible,
-		open: true,
-	};
-	const members = [{
-		group_id: group_id,
-		user_id: req.body.owner_id,
-		admin: true,
-		group_accepted: true,
-		user_accepted: true,
-	}];
-	const invite_ids = req.body.invite_ids;
-	invite_ids.forEach(invite_id => {
-		members.push({
+	const { invite_ids, description, location, name, visible, owner_id } = req.body
+	if ((invite_ids && description && location && name && visible!==undefined && owner_id)) {
+		const group_id = objectid();
+		const image_id = objectid();
+		const settings_id = objectid();
+		const newCal = {
+			summary: name,
+			description: description,
+			location: location,
+		};
+		const group = {
 			group_id: group_id,
-			user_id: invite_id,
-			admin: false,
+			name: name,
+			description: description,
+			background: "#00838F",
+			location: location,
+			owner_id: owner_id,
+			settings_id: settings_id,
+			image_id: image_id,
+		};
+		const image = {
+			image_id: image_id,
+			owner_type: "group",
+			owner_id: group_id,
+			path: "/images/groups/group_default_photo.png",
+			thumbnail_path: "/images/groups/group_default_photo.png"
+		};
+		const settings = {
+			settings_id: settings_id,
+			group_id: group_id,
+			visible: visible,
+			open: true,
+		};
+		const members = [{
+			group_id: group_id,
+			user_id: owner_id,
+			admin: true,
 			group_accepted: true,
 			user_accepted: true,
-		});
-	})
+		}];
+		invite_ids.forEach(invite_id => {
+			members.push({
+				group_id: group_id,
+				user_id: invite_id,
+				admin: false,
+				group_accepted: true,
+				user_accepted: true,
+			});
+		})
 
-	calendar.calendars.insert({ resource: newCal }, async (error, response) => {
-		group.calendar_id = response.data.id;
-		await Member.create(members);
-		await Group.create(group);
-		await Image.create(image);
-		await Group_Settings.create(settings);
-		res.status(200).send("Group Created");
-	})
+		calendar.calendars.insert({ resource: newCal }, async (error, response) => {
+			group.calendar_id = response.data.id;
+			await Member.create(members);
+			await Group.create(group);
+			await Image.create(image);
+			await Group_Settings.create(settings);
+			res.status(200).send("Group Created");
+		})
+	} else {
+		res.status(400).send("Something went wrong")
+	}
 });
 
 router.get('/suggestions', (req, res) => {
@@ -242,18 +247,27 @@ router.get('/:id', (req, res) => {
 router.delete('/:id', async (req, res) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const id = req.params.id;
-	console.log(id)
-	try {
-		await Group.findOne({ group_id: id }, (err, group) => {
-			calendar.calendars.delete({ calendarId: group.calendar_id })
-		})
-		await Group.deleteOne({ group_id: id });
-		await Member.deleteMany({ group_id: id });
-		await Group_Settings.deleteOne({ group_id: id });
-		await Image.deleteMany({ owner_type: "group", owner_id: id })
-		res.status(200).send("Group was deleted");
-	} catch (error) {
-		res.status(400).send("Something went wrong")
+	const edittingUser = await Member.findOne({ group_id: req.params.id, user_id: req.user_id })
+	if (edittingUser) {
+		if (edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin) {
+			try {
+				await Group.findOne({ group_id: id }, (err, group) => {
+					calendar.calendars.delete({ calendarId: group.calendar_id })
+				})
+				await Group.deleteOne({ group_id: id });
+				await Member.deleteMany({ group_id: id });
+				await Group_Settings.deleteOne({ group_id: id });
+				await Image.deleteMany({ owner_type: "group", owner_id: id })
+				res.status(200).send("Group was deleted");
+			} catch (error) {
+				res.status(400).send("Something went wrong")
+			}
+		} else {
+			res.status(401).send('Unauthorized')
+		}
+	}
+	else {
+		res.status(401).send('Unauthorized')
 	}
 })
 
@@ -261,37 +275,52 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const file = req.file
 	const id = req.params.id;
-	const settingsPatch = { visible: req.body.visible };
-	const groupPatch = {
-		name: req.body.name,
-		description: req.body.description,
-		background: req.body.background,
-		location: req.body.location,
-	};
-	try {
-		await Group.updateOne({ group_id: id }, groupPatch)
-		await Group_Settings.updateOne({ group_id: id }, settingsPatch);
-		if (file) {
-			const fileName = file.filename.split('.')
-			const imagePatch = {
-				path: `/images/groups/${file.filename}`,
-				thumbnail_path: `/images/groups/${fileName[0]}_t.${fileName[1]}`,
-			};
-			sharp(path.join(__dirname, `../../images/groups/${file.filename}`))
-				.resize({
-					height: 200,
-					fit: sharp.fit.cover,
-				})
-				.toFile(path.join(__dirname, `../../images/groups/${fileName[0]}_t.${fileName[1]}`), async(err)=>{
-					if(err) res.status(400).send(err);
-					await Image.updateOne({ owner_type: "group", owner_id: id }, imagePatch);
-					res.status(200).send("Group Updated");
-				})
-		}  else {
-			res.status(200).send("Group Updated");
+	const { visible, name, description, location, background } = req.body;
+	if (visible !== undefined && name && description && location && background) {
+		const settingsPatch = { visible };
+		const groupPatch = {
+			name,
+			description,
+			background,
+			location,
+		};
+		try {
+			const edittingUser = await Member.findOne({ group_id: req.params.id, user_id: req.user_id })
+			if (edittingUser) {
+				if (edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin) {
+					await Group.updateOne({ group_id: id }, groupPatch)
+					await Group_Settings.updateOne({ group_id: id }, settingsPatch);
+					if (file) {
+						const fileName = file.filename.split('.')
+						const imagePatch = {
+							path: `/images/groups/${file.filename}`,
+							thumbnail_path: `/images/groups/${fileName[0]}_t.${fileName[1]}`,
+						};
+						sharp(path.join(__dirname, `../../images/groups/${file.filename}`))
+							.resize({
+								height: 200,
+								fit: sharp.fit.cover,
+							})
+							.toFile(path.join(__dirname, `../../images/groups/${fileName[0]}_t.${fileName[1]}`), async (err) => {
+								if (err) res.status(400).send(err);
+								await Image.updateOne({ owner_type: "group", owner_id: id }, imagePatch);
+								res.status(200).send("Group Updated");
+							})
+					} else {
+						res.status(200).send("Group Updated");
+					}
+				} else {
+					res.status(401).send("Unauthorized")
+				}
+			} else {
+				res.status(401).send("Unauthorized")
+			}
+		} catch (err) {
+			console.log(err)
+			res.status(400).send(err);
 		}
-	} catch (err) {
-		res.status(400).send(err);
+	} else {
+		res.status(400).send("Something went wrong")
 	}
 });
 
@@ -320,7 +349,7 @@ router.get('/:id/settings', (req, res) => {
 		if (settings) {
 			res.json(settings);
 		} else {
-			res.status(400).send("Group Settings not found")
+			res.status(404).send("Group Settings not found")
 		}
 	})
 });

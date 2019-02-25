@@ -130,7 +130,7 @@ const Rating = require('../models/rating');
 
 router.post('/', (req, res) => {
 	const { given_name, family_name, number, email, password, visible, language } = req.body;
-	if (given_name && family_name && email && password && visible && language) {
+	if (given_name && family_name && email && password && visible!==undefined && language) {
 		User.findOne({ email: email }, async (error, user) => {
 			if (error) {
 				res.status(400).send("Something went wrong");
