@@ -16,7 +16,7 @@ const activitySchema = new mongoose.Schema({
 	different_timeslots: Boolean,
 },{timestamps: true,toJSON: { virtuals: true }})
 
-activitySchema.index({ group_id: 1, createdAt: 1}); 
+activitySchema.index({ group_id: 1, createdAt: -1}); 
 
 activitySchema.virtual('dates', {
 	ref: 'Day',

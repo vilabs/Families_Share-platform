@@ -10,7 +10,7 @@ const announcementSchema =  new mongoose.Schema({
     body: String,
 },{timestamps: true, toJSON: { virtuals: true }})
 
-announcementSchema.index({ group_id: 1, createdAt: 1}); 
+announcementSchema.index({ group_id: 1, createdAt: -1}); 
 
 announcementSchema.virtual('images', {
     ref: 'Image',

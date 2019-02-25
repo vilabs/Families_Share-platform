@@ -16,7 +16,7 @@ const notificationSchema = new mongoose.Schema({
 		read: Boolean,
 },{timestamps: true});
 
-notificationSchema.index({ owner_type: 1, owner_id: 1, createdAt: 1}); 
+notificationSchema.index({ owner_type: 1, owner_id: 1, createdAt: -1}); 
 
 mongoose.pluralize(null);
 const model = mongoose.model('Notification', notificationSchema);
