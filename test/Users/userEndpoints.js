@@ -32,7 +32,7 @@ describe('/Post/users', () => {
 	});
 });
 describe('/Post/users', () => {
-	it('it should not sign up a user with no parameters', (done) => {
+	it('it should not sign up a user with incorrect parameters', (done) => {
 		const user = {
 		}
 		chai.request(server)
@@ -40,6 +40,26 @@ describe('/Post/users', () => {
 			.send(user)
 			.end((err, res) => {
 				res.should.have.status(400);
+				done();
+			});
+	});
+});
+describe('/Post/users', () => {
+	it('it should not sign up a user with an already existing email', (done) => {
+		const user = {
+			given_name: "Testo",
+			family_name: "Usero",
+			number: "0123546879",
+			email: "test@email.com",
+			password: "password",
+			visible: false,
+			language: "en",
+		}
+		chai.request(server)
+			.post('/users')
+			.send(user)
+			.end((err, res) => {
+				res.should.have.status(409);
 				done();
 			});
 	});
@@ -70,7 +90,7 @@ describe('/Post/users/authenticate/email', () => {
 	it('it should not log in a user with wrong credentials', (done) => {
 		const credentials = {
 			email: 'test@emil.com',
-			password: 'passwword'
+			password: 'pawword'
 		}
 		chai.request(server)
 			.post('/users/authenticate/email')
@@ -90,6 +110,68 @@ describe('/Post/users/authenticate/email', () => {
 			.send(credentials)
 			.end((err, res) => {
 				res.should.have.status(401);
+				done();
+			});
+	});
+});
+describe('/Post/users/authenticate/google', () => {
+	it('it should log in a user with his google account', (done) => {
+		const data = {
+			deviceToken: "deviceToken",
+			language: "en",
+			origin: "native",
+			response: {
+				user: {
+					email: "test@email.com"
+				},
+				idToken: "googletoken"
+			}
+		}
+		chai.request(server)
+			.post('/users/authenticate/google')
+			.send(data)
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.should.have.property('id');
+				res.body.should.have.property('email');
+				res.body.should.have.property('name');
+				res.body.should.have.property('image');
+				res.body.should.have.property('token');
+				res.body.should.have.property('google_token');
+				res.body.should.have.property('origin').eql('native');
+				done();
+			});
+	});
+});
+describe('/Post/users/authenticate/google', () => {
+	it('it should sign up a user with his google account', (done) => {
+		const data = {
+			language: "en",
+			origin: "native",
+			response: {
+				user: {
+					email: "test4@email.com",
+					givenName: "Test",
+					familyName: "User4",
+					photo: "/images/groups/group_default_photo.png",
+				},
+				idToken: "googletoken"
+			}
+		}
+		chai.request(server)
+			.post('/users/authenticate/google')
+			.send(data)
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.should.have.property('id');
+				res.body.should.have.property('email');
+				res.body.should.have.property('name');
+				res.body.should.have.property('image');
+				res.body.should.have.property('token');
+				res.body.should.have.property('google_token');
+				res.body.should.have.property('origin').eql('native');
 				done();
 			});
 	});
@@ -118,8 +200,46 @@ describe('/Post/users/forgotpassword', () => {
 			});
 	});
 });
+describe('/Get/users/changepassword', () => {
+	it('it should fetch a users profile given a valid reset token', async () => {
+		reset = await Password_Reset.findOne({})
+		chai.request(server)
+			.get('/users/changepassword')
+			.set('Authorization', reset.token)
+			.end((err, res) => {
+				res.should.have.status(200);
+				res.body.should.be.a('object');
+				res.body.should.have.property('user_id').eql(reset.user_id)
+				res.body.should.have.property('image')
+				res.body.should.have.property('given_name')
+				res.body.should.have.property('family_name')
+			});
+	});
+});
+describe('/Get/users/changepassword', () => {
+	it('it should not fetch a users profile given a invalid reset token', async () => {
+		reset = await Password_Reset.findOne({})
+		chai.request(server)
+			.get('/users/changepassword')
+			.set('Authorization', 'invalidtoken')
+			.end((err, res) => {
+				res.should.have.status(401);
+			});
+	});
+});
+describe('/Get/users/changepassword', () => {
+	it('it should not fetch a users profile given a valid authentication token', async () => {
+		user = await User.findOne({})
+		chai.request(server)
+			.get('/users/changepassword')
+			.set('Authorization', user.token)
+			.end((err, res) => {
+				res.should.have.status(404);
+			});
+	});
+});
 describe('/Post/users/changepassword', () => {
-	it('it should change the password of the user  when a valid token is provided', async () => {
+	it('it should change the password of the user  when a valid reset token is provided', async () => {
 		const data = { password: "password" }
 		reset = await Password_Reset.findOne({})
 		chai.request(server)
@@ -150,8 +270,23 @@ describe('/Post/users/changepassword', () => {
 			});
 	});
 });
+describe('/Post/users/changepassword', () => {
+	it('it should not change the password of the user when a valid authentication token is provided', (done) => {
+		let data = { password: "password" }
+		User.findOne({}, (err, user) => {
+			chai.request(server)
+				.post('/users/changepassword')
+				.set('Authorization', user.token)
+				.send(data)
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+	});
+});
 describe('/Get/users/id', () => {
-	it('it should fetch a user by the given id', (done) => {
+	it('it should fetch a user by the given id when user is authenticated', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
 				.get(`/users/${user.user_id}`)
@@ -164,6 +299,19 @@ describe('/Get/users/id', () => {
 					res.body.should.have.property('token')
 					res.body.should.have.property('language')
 					res.body.should.have.property('user_id').eql(user.user_id)
+					done();
+				});
+		})
+	});
+});
+describe('/Get/users/id', () => {
+	it('it should not fetch a user by the given id when user is not authenticated', (done) => {
+		User.findOne({}, (err, user) => {
+			chai.request(server)
+				.get(`/users/${user.user_id}`)
+				.set('Authorization', 'invalidtoken')
+				.end((err, res) => {
+					res.should.have.status(401);
 					done();
 				});
 		})
@@ -183,7 +331,7 @@ describe('/Get/users/id', () => {
 	});
 });
 describe('/Delete/users/id', () => {
-	it('it should delete a user by the given id', (done) => {
+	it('it should delete a user by the given id when token user_id matched request user_id', (done) => {
 		User.findOne({ email: 'test2@email.com' }, (err, user) => {
 			chai.request(server)
 				.delete(`/users/${user.user_id}`)
@@ -206,6 +354,157 @@ describe('/Delete/users/id', () => {
 					done();
 				});
 		})
+	});
+});
+describe("/Get/users/id/rating", () => {
+  it("it should get a users rating by the given id when user is authenticated", done => {
+    User.findOne({}, (err, user) => {
+      chai
+        .request(server)
+        .get(`/users/${user.user_id}/rating`)
+        .set("Authorization", user.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+					res.body.should.be.a("object");
+					res.body.should.have.property('user_id').eql(user.user_id);
+					res.body.should.have.property('rating');
+          done();
+        });
+    });
+  });
+});
+describe("/Get/users/id/rating", () => {
+  it("it should not get a users rating by the given id when user is not authenticated", done => {
+    User.findOne({}, (err, user) => {
+      chai
+        .request(server)
+        .get(`/users/${user.user_id}/rating`)
+        .set("Authorization", 'invalidtoken')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+});
+describe("/Patch/users/id/rating", () => {
+  it("it should update a users rating by the given id when user is authenticated", done => {
+    User.findOne({}, (err, user) => {
+			const data = {
+				rating: 5,
+			};
+      chai
+        .request(server)
+				.patch(`/users/${user.user_id}/rating`)
+				.send(data)
+        .set("Authorization", user.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+});
+describe("/Patch/users/id/rating", () => {
+  it("it should update a users rating by the given id when user is not authenticated", done => {
+    User.findOne({}, (err, user) => {
+			const data = {
+				rating: 5,
+			};
+      chai
+        .request(server)
+				.patch(`/users/${user.user_id}/rating`)
+				.send(data)
+        .set("Authorization", 'invalid token')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+});
+describe("/Patch/users/id/rating", () => {
+  it("it should not update a users rating by the given id when rating is not provided", done => {
+    User.findOne({}, (err, user) => {
+			const data = {
+			};
+      chai
+        .request(server)
+				.patch(`/users/${user.user_id}/rating`)
+				.send(data)
+        .set("Authorization", user.token)
+        .end((err, res) => {
+          res.should.have.status(400);
+          done();
+        });
+    });
+  });
+});
+describe("/Post/users/id/walkthrough", () => {
+  it("it should send a walkthrough of the platform to a user by a given id when he is authenticated", done => {
+    User.findOne({}, (err, user) => {
+      chai
+        .request(server)
+				.post(`/users/${user.user_id}/walkthrough`)
+        .set("Authorization", user.token)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+  });
+});
+describe("/Post/users/id/walkthrough", () => {
+  it("it should not send a walkthrough of the platform to a user by a given id when he is not authenticated", done => {
+    User.findOne({}, (err, user) => {
+      chai
+        .request(server)
+				.post(`/users/${user.user_id}/walkthrough`)
+        .set("Authorization", 'invalid token')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+  });
+});
+describe("/Post/users/id/export", () => {
+	it('it should a export a users data by a given id when request user_id matches token user_id', (done) => {
+		User.findOne({}, (err, user) => {
+			chai.request(server)
+				.post(`/users/${user.user_id}/export`)
+				.set('Authorization', user.token)
+				.end((req, res) => {
+					res.should.have.status(200);
+					done();
+				})
+		});
+	});
+});
+describe("/Post/users/id/export", () => {
+	it('it should not a export a users data by a given id when request user_id doesnt match token user_id', (done) => {
+		User.find({}, (err, users) => {
+			chai.request(server)
+				.post(`/users/${users[0].user_id}/export`)
+				.set('Authorization', users[1].token)
+				.end((req, res) => {
+					res.should.have.status(401);
+					done();
+				})
+		});
+	});
+});
+describe("/Post/users/id/export", () => {
+	it('it should not a export a users data by a given id when an invalid token is provided', (done) => {
+		User.find({}, (err, users) => {
+			chai.request(server)
+				.post(`/users/${users[0].user_id}/export`)
+				.set('Authorization', 'invalid token')
+				.end((req, res) => {
+					res.should.have.status(401);
+					done();
+				})
+		});
 	});
 });
 

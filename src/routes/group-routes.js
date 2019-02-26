@@ -189,10 +189,9 @@ router.post('/', (req, res) => {
 				user_id: invite_id,
 				admin: false,
 				group_accepted: true,
-				user_accepted: true,
+				user_accepted: false,
 			});
 		})
-
 		calendar.calendars.insert({ resource: newCal }, async (error, response) => {
 			group.calendar_id = response.data.id;
 			await Member.create(members);

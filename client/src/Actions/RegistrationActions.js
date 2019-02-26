@@ -6,11 +6,11 @@ const registrationActions = {
     signup,
 };
 
-function signup( given_name, family_name, number, email, password, visible, history) {
+function signup( given_name, family_name, number, email, password, visible, deviceToken, history) {
     return dispatch => {
         dispatch(request());
         setTimeout(()=> {
-            registrationServices.signup(given_name, family_name, number, email, password, visible)
+            registrationServices.signup(given_name, family_name, number, email, password, visible, deviceToken)
             .then(
                 user => { 
                     dispatch(success(user));  

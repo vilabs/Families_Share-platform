@@ -128,15 +128,14 @@ const Rating = require('../models/rating');
 
 
 
-router.post('/', (req, res) => {
-	const { given_name, family_name, number, email, password, visible, language } = req.body;
-	if (given_name && family_name && email && password && visible!==undefined && language) {
-		User.findOne({ email: email }, async (error, user) => {
-			if (error) {
-				res.status(400).send("Something went wrong");
-			}
+router.post('/', async (req, res, next) => {
+	const { given_name, family_name, number, email, password, visible, language, deviceToken } = req.body;
+	if (given_name && family_name && email && password && visible !== undefined && language) {
+		try {
+			const user = await User.findOne({ email: email });
+			const device = await Device.findOne({ device_id: deviceToken });
 			if (user) {
-				res.status(400).send("User already exists")
+				res.status(409).send("User already exists")
 			} else {
 				const user_id = objectid();
 				const address_id = objectid();
@@ -179,128 +178,135 @@ router.post('/', (req, res) => {
 					user_id,
 					rating: 0
 				};
-				try {
-					await User.create(user);
-					await Profile.create(profile);
-					await Image.create(image);
-					await Address.create(address);
-					await Rating.create(rating);
-					const response = {
-						id: user_id,
-						email: email,
-						name: `${given_name} ${family_name}`,
-						image: "/images/profiles/user_default_photo.png",
-						token: token,
-					};
-					res.json(response);
-				} catch (err) {
-					res.status(400).send("Something went wrong");
+				if (deviceToken !== undefined) {
+					if (device) {
+						device.user_id = user_id ; 
+						device.save();
+					} else {
+						await Device.create({
+							user_id,
+							device_id: deviceToken
+						});
+					}
 				}
-
-
+				await User.create(user);
+				await Profile.create(profile);
+				await Image.create(image);
+				await Address.create(address);
+				await Rating.create(rating);
+				const response = {
+					id: user_id,
+					email: email,
+					name: `${given_name} ${family_name}`,
+					image: "/images/profiles/user_default_photo.png",
+					token: token,
+				};
+				res.json(response);
 			}
-		})
+		} catch (err) {
+			next(err)
+		}
 	} else {
 		res.status(400).send("Incorrect parameters");
 	}
 });
 
-router.post('/authenticate/email', (req, res) => {
-	const email = req.body.email;
-	const password = req.body.password;
-	const deviceToken = req.body.deviceToken;
-	const language = req.body.language;
-	User.findOne({ email: email, password: password }, (error, user) => {
-		if (error) res.status(400).send("Something went wrong");
+router.post("/authenticate/email", async (req, res, next) => {
+  const { email, password, deviceToken, language } = req.body;
+  try {
+    const user = await User.findOne({ email: email, password: password });
 		if (user) {
+			const device = await Device.findOne({ device_id: deviceToken });
 			if (deviceToken !== undefined) {
-				Device.findOne({ user_id: user.user_id, device_id: deviceToken }, (er, device) => {
-					if (device) {
-
-					} else {
-						Device.create({
-							user_id: user.user_id,
-							device_id: deviceToken
-						})
-					}
-				})
+				if (device) {
+					device.user_id = user.user_id ; 
+					device.save();
+				} else {
+					await Device.create({
+						user_id: user.user_id,
+						device_id: deviceToken
+					});
+				}
 			}
-			Profile.findOne({ user_id: user.user_id })
-				.populate('image')
-				.lean().exec((err, profile) => {
-					if (err) res.status(400).send("Something went wrong");
-					const token = jwt.sign({ user_id: user.user_id, email: email }, process.env.SERVER_SECRET);
-					const response = {
-						id: user.user_id,
-						email: email,
-						name: `${profile.given_name} ${profile.family_name}`,
-						image: profile.image.path,
-						token: token,
-					};
-					user.last_login = new Date();
-					user.language = language;
-					user.save();
-					res.json(response);
-				})
-
-		} else {
-			res.status(401).send("Authentication failure");
-		}
-	});
+      const profile = await Profile.findOne({ user_id: user.user_id })
+        .populate("image")
+        .lean()
+        .exec();
+      const token = jwt.sign(
+        { user_id: user.user_id, email: email },
+        process.env.SERVER_SECRET
+      );
+      const response = {
+        id: user.user_id,
+        email,
+        name: `${profile.given_name} ${profile.family_name}`,
+        image: profile.image.path,
+        token
+      };
+      user.last_login = new Date();
+      user.language = language;
+      user.save();
+      res.json(response);
+    } else {
+      res.status(401).send("Authentication failure");
+    }
+  } catch (error) {
+    next(error);
+  }
 });
 
-router.post('/authenticate/google', (req, res) => {
-	//verify google token
-	const deviceToken = req.body.deviceToken;
-	const language = req.body.language;
+router.post('/authenticate/google', async (req, res, next) => {
+	const { deviceToken, language, origin } = req.body;
 	let googleProfile, googleToken;
-	if (req.body.origin === 'native') {
+	if (origin === 'native') {
 		googleProfile = req.body.response.user
 		googleToken = req.body.response.idToken
 	} else {
 		googleProfile = req.body.response.profileObj
 		googleToken = req.body.response.tokenObj.id_token
 	}
-	User.findOne({ email: googleProfile.email }, async (error, user) => {
-		if (error) res.status(400).send("Something went wrong");
+	try {
+		const user = await User.findOne({ email: googleProfile.email })
+		const device = await Device.findOne({ device_id: deviceToken })
 		if (user) {
-			if (deviceToken !== null) {
-				Device.findOne({ user_id: user.user_id, device_id: deviceToken }, (er, device) => {
-					if (device) {
-
-					} else {
-						Device.create({
-							user_id: user.user_id,
-							device_id: deviceToken
-						})
-					}
-				})
+			if (deviceToken !== undefined) {
+				if (device) {
+					device.user_id = user.user_id ; 
+					await device.save();
+				} else {
+					await Device.create({
+						user_id: user.user_id,
+						device_id: deviceToken
+					});
+				}
 			}
-			Profile.findOne({ user_id: user.user_id })
-				.populate('image')
-				.lean().exec((err, profile) => {
-					const token = jwt.sign({ user_id: user.user_id, email: googleProfile.email }, process.env.SERVER_SECRET);
-					const response = {
-						id: user.user_id,
-						email: googleProfile.email,
-						name: `${profile.given_name} ${profile.family_name}`,
-						image: profile.image.path,
-						token: token,
-						google_token: googleToken,
-						origin: req.body.origin,
-					};
-					user.last_login = new Date();
-					user.language = language;
-					user.save();
-					res.json(response);
-				})
+			const profile = await Profile.findOne({ user_id: user.user_id }).populate('image').lean().exec()
+			const token = jwt.sign({ user_id: user.user_id, email: googleProfile.email }, process.env.SERVER_SECRET);
+			const response = {
+				id: profile.user_id,
+				email: profile.email,
+				name: `${profile.given_name} ${profile.family_name}`,
+				image: profile.image.path,
+				token,
+				google_token: googleToken,
+				origin: req.body.origin,
+			};
+			user.last_login = new Date();
+			user.language = language;
+			user.save();
+			res.json(response);
 		} else {
 			const user_id = objectid();
-			if (deviceToken !== null) {
-				Device.create({
-					user_id,
-					device_id: deviceToken
-				})
+			if (deviceToken !== undefined) {
+				if (device) {
+					device.user_id = user_id ; 
+					await device.save();
+				} else {
+					await Device.create({
+						user_id,
+						device_id: deviceToken
+					});
+				}
 			}
 			const address_id = objectid();
 			const image_id = objectid();
@@ -329,8 +335,8 @@ router.post('/authenticate/google', (req, res) => {
 				image_id: image_id,
 				owner_type: "user",
 				owner_id: user_id,
-                path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
-                thumbnail_path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
+				path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
+				thumbnail_path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
 			};
 			const address = {
 				address_id: address_id,
@@ -342,134 +348,124 @@ router.post('/authenticate/google', (req, res) => {
 				user_id,
 				rating: 0,
 			}
-			try {
-				await User.create(user);
-				await Profile.create(profile);
-				await Image.create(image);
-				await Address.create(address);
-				await Rating.create(rating);
-				res.json({
-					id: user_id,
-					token,
-					google_token: googleToken,
-					origin: req.body.origin,
-					email: googleProfile.email,
-					name: `${googleProfile.givenName} ${googleProfile.familyName}`,
-					image: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
-				});
-			} catch (err) {
-				res.status(500).send("Something went wrong")
-			}
+			await User.create(user);
+			await Profile.create(profile);
+			await Image.create(image);
+			await Address.create(address);
+			await Rating.create(rating);
+			res.json({
+				id: user_id,
+				token,
+				google_token: googleToken,
+				origin: req.body.origin,
+				email: googleProfile.email,
+				name: `${googleProfile.givenName} ${googleProfile.familyName}`,
+				image: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
+			});
 		}
-	})
+	} catch (err) {
+		next(err)
+	}
 });
 
 router.get("/changepasswordredirect/:token", (req, res)=>{
   res.redirect(`families-share://changepsw/${req.params.token}`)
 })
 
-router.post('/forgotpassword', (req, res) => {
+router.post('/forgotpassword', (req, res, next) => {
     const email = req.body.email;
     User.findOne({ email: email }, (error, user) => {
-        if(error) res.status(400).send("Something went wrong");
+        if(error) next(error);
         if(user){
             const token = jwt.sign({ user_id: user.user_id, email: email }, process.env.SERVER_SECRET, { expiresIn: 60*60*24 });
-            const mailOptions = {
-                from: process.env.SERVER_MAIL,
-                to: email,
-                subject: 'Forgot Password',
-                html: hf.newForgotPasswordEmail(token)
-            };
-            transporter.sendMail(mailOptions, function (err, info) {
-                if (err) {
-                    res.status(400).send("Something went wrong");
-                } else {
-                    Password_Reset.findOne({ user_id: user.user_id, email: email}, (er, reset)=>{
-                        if (er) res.status(400).send("Something went wrong");
-                        if(reset){
-                            reset.token = token;
-                            reset.save();
-                        } else {
-                            Password_Reset.create({
-                                user_id: user.user_id,
-                                email: user.email,
-                                token: token,
-                            })
-                        }
-                    })
-                    res.status(200).send("Forgot password email was sent");
-                }
-            }); 
+					const mailOptions = {
+						from: process.env.SERVER_MAIL,
+						to: email,
+						subject: 'Forgot Password',
+						html: hf.newForgotPasswordEmail(token)
+					};
+					transporter.sendMail(mailOptions, function (err, info) {
+						if (err) next(err)
+						Password_Reset.findOne({ user_id: user.user_id, email: email }, (er, reset) => {
+							if (er) res.status(400).send("Something went wrong");
+							if (reset) {
+								reset.token = token;
+								reset.save();
+							} else {
+								Password_Reset.create({
+									user_id: user.user_id,
+									email: user.email,
+									token: token,
+								})
+							}
+						})
+						res.status(200).send("Forgot password email was sent");
+
+					});
+				} else {
+					res.status(404).send("User doesn't exist");
+				}
+    });
+});
+
+router.get('/changepassword', async (req, res, next) => {
+	if (!req.user_id) return res.status(401).send('Invalid token');
+	try {
+		const user_id = req.user_id
+		const reset = await Password_Reset.findOne({ user_id: user_id })
+		if (reset) {
+			const profile = await Profile.findOne({ user_id: user_id }).populate('image').lean().exec()
+			res.json(profile);
+		} else {
+			res.status(404).send("Bad Request")
+		}
+	} catch (error) {
+		next(error)
+	}
+});
+
+router.post('/changepassword', async (req, res, next) => {
+	if (!req.user_id) return res.status(401).send('Not authorized')
+	try {
+		const { user_id, email } = req;
+		const reset = await Password_Reset.findOneAndDelete({ user_id: user_id });
+		if (reset) {
+			const profile = await Profile.findOne({ user_id: user_id }).populate('image').exec()
+			const user = await User.findOne({ user_id: user_id })
+			const token = await jwt.sign({ user_id, email }, process.env.SERVER_SECRET);
+			const response = {
+				id: user_id,
+				email,
+				name: `${profile.given_name} ${profile.family_name}`,
+				image: profile.image.path,
+				token,
+			};
+			user.last_login = new Date();
+			user.password = req.body.password;
+			user.save();
+			res.json(response)
+		} else {
+			res.status(404).send("Reset not found")
+		}
+	} catch (error) {
+		next(error);
+	}
+});
+
+router.get('/:id', (req, res, next) =>{
+		if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+    const id = req.params.id;
+    User.findOne( { user_id : id }, (error, user) => {
+        if(error) next(error);
+        if(user){
+            res.json(user);
         } else {
             res.status(404).send("User doesn't exist");
         }
     });
 });
 
-router.get('/changepassword', (req, res) => {
-    if (!req.user_id) return res.status(401).send('Invalid token');
-    const user_id = req.user_id
-    Password_Reset.findOne({ user_id: user_id }, (error, reset) => {
-        if (error) res.status(400).send("Something went wrong")
-        if (reset) {
-            Profile.findOne({ user_id: user_id })
-                .populate('image')
-                .lean().exec((err, profile) => {
-                    if (err) res.status(400).send("Something went wrong");
-                    if (profile) {
-                        res.json(profile);
-                    }
-                });
-        } else {
-            res.status(400).send("Bad Request")
-        }
-    })
-});
-
-router.post('/changepassword', (req, res) =>{
-    if (!req.user_id) return res.status(401).send('Not authenticated')
-		const user_id = req.user_id;
-		const email = req.email
-    Password_Reset.deleteOne({ user_id: user_id }, (error) => {
-        if (error) {
-            res.status(404).send("Reset not found");
-        } else {
-						Profile.findOne({ user_id: user_id}).populate('image').exec((er, profile)=>{
-							User.findOne({ user_id: user_id }, (err,user) => {
-								if (err) res.status(400).send("Something went wrong")
-								const token = jwt.sign({ user_id, email }, process.env.SERVER_SECRET);
-								const response = {
-									id: user_id,
-									email,
-									name: `${profile.given_name} ${profile.family_name}`,
-									image: profile.image.path,
-									token,
-								};
-								user.last_login = new Date ();
-								user.password = req.body.password;
-								user.save();
-                res.json(response)
-            });
-						});
-        }
-    });
-
-});
-
-router.get('/:id', (req, res) =>{
-		if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-    const id = req.params.id;
-    User.findOne( { user_id : id }, (error, user) => {
-        if(error) res.status(400).send("Something went wrong");
-        if(user){
-            res.json(user);
-        } else {
-            res.status(400).send("Something went wrong");
-        }
-    });
-});
-
-router.delete('/:id', async(req, res)=>{
+router.delete('/:id', async(req, res, next)=>{
 		if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
     const userId = req.params.id;
     try {
@@ -540,26 +536,29 @@ router.delete('/:id', async(req, res)=>{
         await Member.deleteMany({ user_id: userId})
         res.status(200).send("account deleted")   
     } catch (error) {
-        console.log(error)
-        res.status(400).send("Something went wrong")
+        next(error)
     }
 })
 
-router.get('/:id/rating', (req, res)=>{
+router.get('/:id/rating', (req, res, next)=>{
 	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
 	Rating.findOne({ user_id: req.params.id}, (err,rating)=>{
-		if(err) res.status(400).send("Something went wrong")
-        res.json(rating)
+		if(err) next(err)
+    res.json(rating)
 	})
 })
 
-router.patch('/:id/rating', (req, res)=>{
+router.patch('/:id/rating', (req, res, next) => {
 	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-	Rating.updateOne({ user_id: req.params.id },{rating: req.body.rating},(err,raw)=>{
-		if(err) res.status(400).send("Something went wrong")
-		res.status(200).send("Rating updated")
-	})
-})
+	if (req.body.rating) {
+		Rating.updateOne({ user_id: req.params.id }, { rating: req.body.rating }, (err, raw) => {
+			if (err) next(err)
+			res.status(200).send("Rating updated")
+		})
+	} else {
+		res.status(400).send("Something went wrong")
+	}
+});
 
 router.get('/:id/groups', (req,res) => {
   	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
@@ -576,32 +575,35 @@ router.get('/:id/groups', (req,res) => {
     })
 });
 
-router.post('/:id/walkthrough', (req, res) => {
+router.post('/:id/walkthrough', async (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
-	User.findOne({ user_id: req.user_id }, (error, user) => {
-		Profile.findOne({ user_id: req.user_id }, (e, profile) => {
-			if (error || e) res.status(400).send("Something went wrong");
-			if (user) {
-				const mailOptions = {
-					from: process.env.SERVER_MAIL,
-					to: user.email,
-					subject: 'Platform walkthrough',
-					html: wt.newWalkthroughEmail(profile.given_name),
-					attachments: [
-						{
-							filename: `Families_Share_Walkthrough.pdf`,
-							path: path.join(__dirname, `../../Families_Share_Walkthrough.pdf`)
-						}
+	try {
+		const user = await User.findOne({ user_id: req.user_id })
+		const profile = await Profile.findOne({ user_id: req.user_id })
+		if (user && profile) {
+			const mailOptions = {
+				from: process.env.SERVER_MAIL,
+				to: user.email,
+				subject: 'Platform walkthrough',
+				html: wt.newWalkthroughEmail(profile.given_name),
+				attachments: [
+					{
+						filename: `Families_Share_Walkthrough.pdf`,
+						path: path.join(__dirname, `../../Families_Share_Walkthrough.pdf`)
+					}
 
-					]
-				};
-				transporter.sendMail(mailOptions, function (err, info) {
-					if (err) res.status(400).send("Something went wrong");
-					res.status(200).send("Walkthrough was sent successfully")
-				});
-			}
-		});
-	});
+				]
+			};
+			transporter.sendMail(mailOptions, function (err, info) {
+				if (err) next(err)
+				res.status(200).send("Walkthrough was sent successfully")
+			});
+		} else {
+			res.status(404).send("User not found")
+		}
+	} catch (error) {
+		next(error)
+	}
 });
 
 router.post("/:id/groups", (req, res) =>{
@@ -625,42 +627,45 @@ router.patch('/:id/groups', (req, res) => {
 	});
 });
 
-router.post('/:id/export', async (req, res)=>{
+router.post('/:id/export', async (req, res, next) => {
 	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
 	const id = req.params.id;
-	const profile = await Profile.findOne({ user_id: id}).populate('address').populate('image').lean().exec();
-	const usersGroups = await Member.find({ user_id: id, user_accepted: true, group_accepted: true})
-	let groups = [];
-	if(usersGroups.length>0){
-			groups = await Group.find({ group_id: {$in: usersGroups.map(group=> group.group_id) }})
+	try {
+		const profile = await Profile.findOne({ user_id: id }).populate('address').populate('image').lean().exec();
+		const usersGroups = await Member.find({ user_id: id, user_accepted: true, group_accepted: true })
+		let groups = [];
+		if (usersGroups.length > 0) {
+			groups = await Group.find({ group_id: { $in: usersGroups.map(group => group.group_id) } })
+		}
+		const usersChildren = await Parent.find({ parent_id: id });
+		let children = [];
+		const childIds = usersChildren.map(child => child.child_id)
+		if (usersChildren.length > 0) {
+			children = await Child.find({ child_id: { $in: childIds } }).populate('image').lean().exec();
+		}
+		const responses = await Promise.all(groups.map(group => getUsersGroupEvents(group.calendar_id, id, childIds)))
+		const events = [].concat(...responses)
+		exportData.createPdf(profile, groups, children, events, function () {
+			const mailOptions = {
+				from: process.env.SERVER_MAIL,
+				to: req.email,
+				subject: `${profile.given_name} ${profile.family_name} Families Share Data`,
+				html: exportData.newExportEmail(profile.given_name),
+				attachments: [
+					{
+						filename: `${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`,
+						path: path.join(__dirname, `../../${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`)
+					}
+				]
+			};
+			transporter.sendMail(mailOptions, function (err, info) {
+				fr('../', { files: `${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf` })
+			});
+			res.status(200).send("Exported data successfully")
+		})
+	} catch (error) {
+		next(error);
 	}
-	const usersChildren = await Parent.find({ parent_id: id });
-	let children = [];
-	const childIds =  usersChildren.map( child=> child.child_id)
-	if(usersChildren.length>0){
-		children = await Child.find({ child_id: {$in: childIds}}).populate('image').lean().exec();
-	}
-	const responses = await Promise.all( groups.map( group => getUsersGroupEvents(group.calendar_id,id,childIds)))
-    const events = [].concat( ... responses )
-    console.log(events)
-    exportData.createPdf(profile, groups, children, events, function () {
-        const mailOptions = {
-            from: process.env.SERVER_MAIL,
-            to: req.email,
-            subject: `${profile.given_name} ${profile.family_name} Families Share Data`,
-            html: exportData.newExportEmail(profile.given_name),
-            attachments: [
-                {
-                    filename: `${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`,
-                    path: path.join(__dirname, `../../${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`)
-                }
-            ]
-        };
-        transporter.sendMail(mailOptions, function (err, info) {
-            fr('../', { files:  `${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`})
-        });
-        res.status(200).send("Exported data successfully")
-    })
 });
 
 router.get('/:id/events', async (req,res)=>{

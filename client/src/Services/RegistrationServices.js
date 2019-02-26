@@ -5,13 +5,21 @@ const registrationServices = {
     signup,
 };
 
-function signup( given_name, family_name, number, email, password, visible) {
+function signup( given_name, family_name, number, email, password, visible, deviceToken) {
 		const language = localStorage.getItem("language")
     return axios({
         url: '/users',
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: JSON.stringify({ given_name, family_name, number, email, password, visible, language})
+        data: JSON.stringify({ 
+					given_name,
+					family_name, 
+					number, email, 
+					password, 
+					visible, 
+					language, 
+					deviceToken
+				})
     }) 
     .then( response => {
         const user = response.data;

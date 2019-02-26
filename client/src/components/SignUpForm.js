@@ -81,6 +81,7 @@ class SignUpForm extends React.Component {
     }
   }
   submit = () => {
+		const deviceToken = JSON.parse(localStorage.getItem("deviceToken"))
     const given_name = this.state.givenName;
     const family_name = this.state.familyName;
     const number = this.state.phoneNumber;
@@ -94,8 +95,9 @@ class SignUpForm extends React.Component {
         number,
         email,
         password,
-        visible,
-        this.props.history
+				visible,
+				deviceToken,
+				this.props.history,
       )
     );
   }
