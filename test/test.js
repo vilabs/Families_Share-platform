@@ -10,8 +10,9 @@ const Rating = require('../src/models/rating');
 const Device = require('../src/models/device');
 const Group  = require('../src/models/group');
 const Group_Settings  = require('../src/models/group-settings');
-const Password_Reset = require('../src/models/password-reset')
-const Member = require('../src/models/member')
+const Password_Reset = require('../src/models/password-reset');
+const Member = require('../src/models/member');
+const Notification = require('../src/models/notification');
 
 const importTest = (name, path) => {
 	describe(name, () => {
@@ -62,13 +63,15 @@ const initializeDB = async () => {
 }
 
 describe("Test", function () {
-	before( async () =>{
+	before( 'Initializing DB',async function() {
 		await initializeDB();
 	});
 	importTest("User Endpoints Test", './Users/userEndpoints');
+	importTest("User Endpoints Test", './Users/variousEndpoints');
 	importTest("Group Endpoints Test", './Groups/groupEndpoints');
 	importTest("User's Groups Endpoints Test", './Users/groupEndpoints');
-	after(async () => {
+	importTest("User Endpoints Test", './Users/profileEndpoints');
+	after('Cleaning up',async function() {
 		await User.deleteMany({});
 		await Profile.deleteMany({});
 		await Image.deleteMany({});
@@ -79,5 +82,6 @@ describe("Test", function () {
 		await Group.deleteMany({});
 		await Group_Settings.deleteMany({});
 		await Member.deleteMany({});
+		await Notification.deleteMany({});
 	});
 });

@@ -212,14 +212,15 @@ router.post('/', async (req, res, next) => {
 });
 
 router.post("/authenticate/email", async (req, res, next) => {
-  const { email, password, deviceToken, language } = req.body;
-  try {
-    const user = await User.findOne({ email: email, password: password });
+	const { email, password, deviceToken, language } = req.body;
+	try {
+		const user = await User.findOne({ email: email, password: password });
 		if (user) {
+			//const passwordMatch = await user.comparePassword(password);
 			const device = await Device.findOne({ device_id: deviceToken });
 			if (deviceToken !== undefined) {
 				if (device) {
-					device.user_id = user.user_id ; 
+					device.user_id = user.user_id;
 					device.save();
 				} else {
 					await Device.create({
@@ -228,31 +229,32 @@ router.post("/authenticate/email", async (req, res, next) => {
 					});
 				}
 			}
-      const profile = await Profile.findOne({ user_id: user.user_id })
-        .populate("image")
-        .lean()
-        .exec();
-      const token = jwt.sign(
-        { user_id: user.user_id, email: email },
-        process.env.SERVER_SECRET
-      );
-      const response = {
-        id: user.user_id,
-        email,
-        name: `${profile.given_name} ${profile.family_name}`,
-        image: profile.image.path,
-        token
-      };
-      user.last_login = new Date();
-      user.language = language;
-      user.save();
-      res.json(response);
-    } else {
-      res.status(401).send("Authentication failure");
-    }
-  } catch (error) {
-    next(error);
-  }
+			const profile = await Profile.findOne({ user_id: user.user_id })
+				.populate("image")
+				.lean()
+				.exec();
+			const token = jwt.sign(
+				{ user_id: user.user_id, email: email },
+				process.env.SERVER_SECRET
+			);
+			const response = {
+				id: user.user_id,
+				email,
+				name: `${profile.given_name} ${profile.family_name}`,
+				image: profile.image.path,
+				token
+			};
+			user.last_login = new Date();
+			user.language = language;
+			user.save();
+			res.json(response);
+		} else {
+			res.status(401).send("Authentication failure");
+		}
+	} catch (error) {
+		console.log(error)
+		next(error);
+	}
 });
 
 router.post('/authenticate/google', async (req, res, next) => {
@@ -560,13 +562,11 @@ router.patch('/:id/rating', (req, res, next) => {
 	}
 });
 
-router.get('/:id/groups', (req,res) => {
+router.get('/:id/groups', (req, res, next) => {
   	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
     const id = req.params.id
     Member.find( { user_id: id  }, ( error, groups ) => {
-        if (error) {
-					res.status(404).send("Something went wrong")
-        }
+        if (error) next(error)
         if (groups.length>0) {
             res.json(groups);
         } else {
@@ -606,25 +606,70 @@ router.post('/:id/walkthrough', async (req, res, next) => {
 	}
 });
 
-router.post("/:id/groups", (req, res) =>{
-	  if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-    const member = req.body;
-    Member.create( member, ( error, member ) => {
-        if(error) res.status(400).send("Something went wrong");
-        res.status(200).send("joined succesfully");
-    })
+router.post("/:id/groups", (req, res, next) => {
+	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+	const member = req.body;
+	if (member.user_id && member.group_id && member.group_accepted !== undefined && member.user_accepted !== undefined) {
+		Member.create(member, (error, member) => {
+			if (error) next(error)
+			res.status(200).send("joined succesfully");
+		})
+	} else {
+		res.status(400).send("Something went wrong")
+	}
 });
 
-router.patch('/:id/groups', (req, res) => {
-	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-	const group_id = req.body.id;
-	const user_id = req.params.id;
+router.patch('/:userId/groups/:groupId', (req, res, next) => {
+	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized');
+	const group_id = req.params.groupId;
+	const user_id = req.params.userId;
 	const patch = req.body.patch;
-	Member.updateOne({ user_id: user_id, group_id: group_id }, patch, (err, raw) => {
-		if (err) res.status(400).send("Something went wrong")
-        nh.newMemberNotification(group_id, user_id);
-        res.status(200).send("User joined")
-	});
+	if (user_id && group_id && patch.user_accepted !== undefined) {
+		Member.updateOne({ user_id: user_id, group_id: group_id }, patch, async (err, raw) => {
+			if (err) next(err)
+			await nh.newMemberNotification(group_id, user_id);
+			res.status(200).send("User joined")
+		});
+	} else {
+		res.status(400).send("Something went wrong")
+	}
+});
+
+router.delete('/:userId/groups/:groupId', async (req, res) => {
+	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
+	try{
+	const user_id = req.params.userId;
+	const group_id = req.params.groupId;
+	const children = await Parent.find({ parent_id: user_id});
+	const usersChildrenIds = children.map( child => child.child_id )
+	const group = await Group.findOne({ group_id: group_id });
+	await calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
+		if (err) res.status(400).send("Something went wrong");
+		const events = resp.data.items.filter(event => event.extendedProperties.shared.status !== "completed")
+		events.forEach( event => {
+			const parentIds = JSON.parse(event.extendedProperties.shared.parents);
+			event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id!==user_id))
+			const childrenIds = JSON.parse(event.extendedProperties.shared.children);
+			event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id)===-1))
+		})
+		await Promise.all(events.map((event) => {
+			const timeslotPatch = {
+				extendedProperties: {
+					shared: {
+						parents: event.extendedProperties.shared.parents,
+						children: event.extendedProperties.shared.children,
+					}
+				}
+			}
+			calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
+		}))
+		await Member.deleteOne({ user_id: user_id, group_id: group_id })
+		res.status(200).send("User left group")
+	})
+	} catch (error) {
+		console.log(error)
+		res.status(400).send("Something went wrong")
+	}
 });
 
 router.post('/:id/export', async (req, res, next) => {
@@ -686,16 +731,14 @@ router.get('/:id/events', async (req,res)=>{
     }       
 })
 
-router.get('/:id/profile', (req, res)=>{
+router.get('/:id/profile', (req, res, next)=>{
 	  if (!req.user_id ) return res.status(401).send('Unauthorized')
     const id = req.params.id;
     Profile.findOne({ user_id: id })
     .populate('image')
     .populate('address')
     .lean().exec( (error, profile) =>{
-        if (error){
-            res.status(400).send("Something went wrong");
-        }
+        if (error) next(error);
         if(profile){
             res.json(profile);
         } else {
@@ -704,82 +747,123 @@ router.get('/:id/profile', (req, res)=>{
     });
 });
 
-router.patch('/:id/profile', profileUpload.single('photo'), async (req, res)=> {
-  	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-    const user_id = req.params.id;
-    const family_name = req.body.family_name;
-    const file = req.file;
-    const given_name = req.body.given_name;
-    const profilePatch = {
-        given_name: given_name,
-        family_name: family_name,
-        email: req.body.email,
-        phone: req.body.phone,
-        phone_type: req.body.phone_type,
-        visible: req.body.visible,
-    };
-    const addressPatch = {
-        street: req.body.street,
-				number: req.body.number,
-				city: req.body.city,
-    }
-    try {
-				await Address.updateOne({ address_id: req.body.address_id }, addressPatch)
-        await Profile.updateOne({ user_id: user_id }, profilePatch);
-        if (file) {
-					const fileName = file.filename.split('.')
-					const imagePatch = {
-                        path: `/images/profiles/${file.filename}`,
-                        thumbnail_path: `/images/profiles/${fileName[0]}_t.${fileName[1]}`,
-					};
-					await sharp(path.join(__dirname, `../../images/profiles/${file.filename}`))
-						.resize({
-							height: 200,
-							fit: sharp.fit.cover,
-						})
-						.toFile(path.join(__dirname, `../../images/profiles/${fileName[0]}_t.${fileName[1]}`), async (err)=>{
-							if(err) res.status(400).send(err);
-							await Image.updateOne({ owner_type: "user", owner_id: user_id }, imagePatch);
-							res.status(200).send("Profile Updated");
-						})
-        } else {
-					res.status(200).send("Profile Updated");
-				}
-    } catch (err) {
-				console.log(err)
-        res.status(400).send(err);
-    }
+router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, next) => {
+	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+	const user_id = req.params.id;
+	const file = req.file;
+	const { given_name, family_name, email, phone, phone_type, visible, street, number, city } = req.body
+	if (given_name || family_name || email || phone || phone_type || visible || street || number || city) {
+		const profilePatch = {
+			given_name,
+			family_name,
+			email,
+			phone,
+			phone_type,
+			visible,
+		};
+		const addressPatch = {
+			street,
+			number,
+			city,
+		}
+		try {
+			await Address.updateOne({ address_id: req.body.address_id }, addressPatch)
+			await Profile.updateOne({ user_id: user_id }, profilePatch);
+			if (file) {
+				const fileName = file.filename.split('.')
+				const imagePatch = {
+					path: `/images/profiles/${file.filename}`,
+					thumbnail_path: `/images/profiles/${fileName[0]}_t.${fileName[1]}`,
+				};
+				await sharp(path.join(__dirname, `../../images/profiles/${file.filename}`))
+					.resize({
+						height: 200,
+						fit: sharp.fit.cover,
+					})
+					.toFile(path.join(__dirname, `../../images/profiles/${fileName[0]}_t.${fileName[1]}`), async (err) => {
+						if (err) res.status(400).send(err);
+						await Image.updateOne({ owner_type: "user", owner_id: user_id }, imagePatch);
+						res.status(200).send("Profile Updated");
+					})
+			} else {
+				res.status(200).send("Profile Updated");
+			}
+		} catch (err) {
+			next(error);
+		}
+	}
+	else {
+		res.status(400).send("Something went wrong")
+	}
 });
 
-router.get('/:id/notifications', (req,res) => {
-	  if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-		const id = req.params.id
-		User.findOne({ user_id: id}, (err, user)=> {
-			if(err) res.status(400).send("Something went wrong");
-			Notification.find( { owner_type: "user", owner_id: id }).sort({'createdAt': -1}).lean().exec( async ( error, notifications ) => {
-        if (error) res.status(400).send("Something went wrong");
-        if (notifications.length>0) {
-						for( const notification of notifications){
-								notification.header = texts[user.language][notification.type][notification.code].header;
-								notification.description = await getNotificationDescription(notification, user.language);
-						}
-            return res.json(notifications);
-        } else {
-            res.status(404).send("User has no notifications")
-        }
-    })
-		})   
+router.get('/:id/notifications', async (req, res, next) => {
+	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+	const id = req.params.id
+	try {
+		const user = await User.findOne({ user_id: id })
+		const notifications = await Notification.find({ owner_type: "user", owner_id: id }).sort({ 'createdAt': -1 }).lean().exec()
+		if (notifications.length > 0) {
+			for (const notification of notifications) {
+				notification.header = texts[user.language][notification.type][notification.code].header;
+				notification.description = await getNotificationDescription(notification, user.language);
+			}
+			return res.json(notifications);
+		} else {
+			res.status(404).send("User has no notifications")
+		}
+	} catch (error) {
+		next(error)
+	}
 });
 
-router.patch('/:id/notifications', (req,res) => {
+router.patch('/:id/notifications', (req,res, next) => {
 	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
 	const id = req.params.id
 	Notification.updateMany( { owner_type: "user", owner_id: id, read: false},{ read: true }, ( error, raw ) => {
-			if (error) {
-					res.status(400).send("Something went wrong");
-			}
+			if (error) next(error)
 			res.status(200).send("Notifications updated")
 	})
+});
+
+router.get('/:id/framily', (req, res) => {
+	// if (!req.user_id ) return res.status(401).send('Unauthorized')
+	// const id = req.params.id
+	// Framily.find( {user_id: id} , (error, framily) => {
+	//     if (error) {
+	//         res.status(400).send("Something went wrong")
+	//     }
+	//     if (framily.length>0) {
+	//         return res.json(framily);
+	//     } else {
+	//         res.status(404).send("User has no framily members");
+	//     }
+	// })
+});
+
+router.post('/:id/framily', (req, res) => {
+	// if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+	// const user_id = req.params.id;
+	// const inviteIds = req.body.inviteIds;
+	// const framilyMembers = [];
+	// Framily.find({ user_id: user_id }, (error, members) => {
+	//     if (error) res.status(400).send("Something went wrong");
+	//     inviteIds.forEach(inviteId => {
+	//         if (members.filter(member => member.framily_id === inviteId).length === 0) {
+	//             framilyMembers.push({
+	//                 framily_id: inviteId,
+	//                 user_id: user_id
+	//             })
+	//             framilyMembers.push({
+	//                 framily_id: user_id,
+	//                 user_id: inviteId,
+	//             })
+							
+	//         }
+	//     })
+	//     Framily.create(framilyMembers)
+	//     res.status(200).send("Framily members added")
+	// })
 });
 
 router.get('/:id/children', (req, res) => {
@@ -794,46 +878,6 @@ router.get('/:id/children', (req, res) => {
         } else {
             res.status(404).send("User has no children");
         }
-    })
-});
-
-router.get('/:id/framily', (req, res) => {
-  	if (!req.user_id ) return res.status(401).send('Unauthorized')
-    const id = req.params.id
-    Framily.find( {user_id: id} , (error, framily) => {
-        if (error) {
-            res.status(400).send("Something went wrong")
-        }
-        if (framily.length>0) {
-            return res.json(framily);
-        } else {
-            res.status(404).send("User has no framily members");
-        }
-    })
-});
-
-router.post('/:id/framily', (req, res) => {
-	  if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-    const user_id = req.params.id;
-    const inviteIds = req.body.inviteIds;
-    const framilyMembers = [];
-    Framily.find({ user_id: user_id }, (error, members) => {
-        if (error) res.status(400).send("Something went wrong");
-        inviteIds.forEach(inviteId => {
-            if (members.filter(member => member.framily_id === inviteId).length === 0) {
-                framilyMembers.push({
-                    framily_id: inviteId,
-                    user_id: user_id
-                })
-                framilyMembers.push({
-                    framily_id: user_id,
-                    user_id: inviteId,
-                })
-                
-            }
-        })
-        Framily.create(framilyMembers)
-        res.status(200).send("Framily members added")
     })
 });
 
@@ -865,43 +909,6 @@ router.post('/:id/children', async (req, res) =>{
         console.log(error);
         res.status(400).send("Something went wrong");
     }
-});
-
-router.delete('/:userId/groups/:groupId', async (req, res) => {
-	  if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
-		try{
-    const user_id = req.params.userId;
-		const group_id = req.params.groupId;
-		const children = await Parent.find({ parent_id: user_id});
-		const usersChildrenIds = children.map( child => child.child_id )
-		const group = await Group.findOne({ group_id: group_id });
-		await calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
-			if (err) res.status(400).send("Something went wrong");
-			const events = resp.data.items.filter(event => event.extendedProperties.shared.status !== "completed")
-			events.forEach( event => {
-				const parentIds = JSON.parse(event.extendedProperties.shared.parents);
-				event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id!==user_id))
-				const childrenIds = JSON.parse(event.extendedProperties.shared.children);
-				event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id)===-1))
-			})
-			await Promise.all(events.map((event) => {
-				const timeslotPatch = {
-					extendedProperties: {
-						shared: {
-							parents: event.extendedProperties.shared.parents,
-							children: event.extendedProperties.shared.children,
-						}
-					}
-				}
-				calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
-			}))
-			await Member.deleteOne({ user_id: user_id, group_id: group_id })
-			res.status(200).send("User left group")
-		})
-		} catch (error) {
-			console.log(error)
-			res.status(400).send("Something went wrong")
-		}
 });
 
 router.get("/:userId/children/:childId", (req, res) => {

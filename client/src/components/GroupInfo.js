@@ -46,10 +46,10 @@ class GroupInfo extends React.Component {
       });
   }
   handleAcceptInvite = () => {
-    const userId = JSON.parse(localStorage.getItem("user")).id;
+		const userId = JSON.parse(localStorage.getItem("user")).id;
+		const groupId = this.state.group.group_id;
     axios
-    .patch("/users/" + userId + "/groups", {
-      id: this.state.group.group_id,
+    .patch(`/users/${userId}/groups/${groupId}`, {
       patch:{ user_accepted: true}
     })
     .then(response => {

@@ -95,7 +95,8 @@ router.get('/', (req, res) => {
 					if (visibleGroups.length > 0) {
 						const groupIds = [];
 						visibleGroups.forEach(group => groupIds.push(group.group_id));
-						Group.find({ group_id: { $in: groupIds } })
+						Group.find({ group_id: { $in: groupIds }})
+						.collation({locale:'en'})
 						.sort({'name':1})
 						.exec( (groupsError, groups) => {
 							if (groupsError) {

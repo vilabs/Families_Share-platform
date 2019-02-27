@@ -17,7 +17,7 @@ const groupSchema = new mongoose.Schema({
     background: String,
     owner_id: String,
     
-},{timestamps: true, toJSON: { virtuals: true } });
+},{timestamps: true, toJSON: { virtuals: true }});
 
 groupSchema.index({ name: 1}); 
 

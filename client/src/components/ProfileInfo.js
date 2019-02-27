@@ -16,7 +16,7 @@ class ProfileInfo extends React.Component{
                     <div className="col-8-10">
                         <div className="verticalCenter">
                             <h1>{profile.phone}</h1>
-                            <h2>{this.props.profile.phone_type}</h2>
+                            <h2>{texts[this.props.profile.phone_type]}</h2>
                         </div>
                     </div>
                 </div>
