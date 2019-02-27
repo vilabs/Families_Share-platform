@@ -635,40 +635,42 @@ router.patch('/:userId/groups/:groupId', (req, res, next) => {
 	}
 });
 
-router.delete('/:userId/groups/:groupId', async (req, res) => {
+router.delete('/:userId/groups/:groupId', async (req, res, next) => {
 	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
-	try{
-	const user_id = req.params.userId;
-	const group_id = req.params.groupId;
-	const children = await Parent.find({ parent_id: user_id});
-	const usersChildrenIds = children.map( child => child.child_id )
-	const group = await Group.findOne({ group_id: group_id });
-	await calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
-		if (err) res.status(400).send("Something went wrong");
-		const events = resp.data.items.filter(event => event.extendedProperties.shared.status !== "completed")
-		events.forEach( event => {
-			const parentIds = JSON.parse(event.extendedProperties.shared.parents);
-			event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id!==user_id))
-			const childrenIds = JSON.parse(event.extendedProperties.shared.children);
-			event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id)===-1))
-		})
-		await Promise.all(events.map((event) => {
-			const timeslotPatch = {
-				extendedProperties: {
-					shared: {
-						parents: event.extendedProperties.shared.parents,
-						children: event.extendedProperties.shared.children,
+	try {
+		const user_id = req.params.userId;
+		const group_id = req.params.groupId;
+		const children = await Parent.find({ parent_id: user_id });
+		const usersChildrenIds = children.map(child => child.child_id)
+		const group = await Group.findOne({ group_id: group_id });
+		await calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
+			try {
+				const events = resp.data.items.filter(event => event.extendedProperties.shared.status !== "completed")
+				events.forEach(event => {
+					const parentIds = JSON.parse(event.extendedProperties.shared.parents);
+					event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id !== user_id))
+					const childrenIds = JSON.parse(event.extendedProperties.shared.children);
+					event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1))
+				})
+				await Promise.all(events.map((event) => {
+					const timeslotPatch = {
+						extendedProperties: {
+							shared: {
+								parents: event.extendedProperties.shared.parents,
+								children: event.extendedProperties.shared.children,
+							}
+						}
 					}
-				}
+					calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
+				}))
+				await Member.deleteOne({ user_id: user_id, group_id: group_id })
+				res.status(200).send("User left group")
+			} catch (error) {
+				res.status(500).send("Something went wrong")
 			}
-			calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
-		}))
-		await Member.deleteOne({ user_id: user_id, group_id: group_id })
-		res.status(200).send("User left group")
-	})
+		})
 	} catch (error) {
-		console.log(error)
-		res.status(400).send("Something went wrong")
+		res.status(500).send("Something went wrong")
 	}
 });
 
@@ -881,34 +883,47 @@ router.get('/:id/children', (req, res) => {
     })
 });
 
-router.post('/:id/children', async (req, res) =>{
-  	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
-    const parent_id = req.params.id;
-    const child = req.body;
-    const image_id = objectid();
-    const child_id = objectid();
-    const image = {
-        image_id: image_id,
-        owner_type: "child",
-        owner_id: child_id,
-        path: "/images/profiles/child_default_photo.jpg",
-    };
-    child.child_id = child_id;
-    child.background = "#00838F";
-    child.image_id = image_id;
-    const parent = {
-        parent_id: parent_id,
-        child_id: child_id,
-    }
-    try {
-        await Image.create(image);
-        await Child.create(child);
-        await Parent.create(parent);
-        res.status(200).send("Child created");
-    } catch (error) {
-        console.log(error);
-        res.status(400).send("Something went wrong");
-    }
+router.post('/:id/children', async (req, res, next) => {
+	if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized')
+	const { birthdate, given_name, family_name, gender, allergies, other_info, special_needs } = req.body;
+	if (birthdate && given_name && family_name && gender) {
+		const parent_id = req.params.id;
+		const child = {
+				birthdate,
+				given_name,
+				family_name,
+				gender,
+				allergies,
+				other_info,
+				special_needs,
+		};
+		const image_id = objectid();
+		const child_id = objectid();
+		const image = {
+			image_id,
+			owner_type: "child",
+			owner_id: child_id,
+			path: "/images/profiles/child_default_photo.jpg",
+		};
+		child.child_id = child_id;
+		child.background = "#00838F";
+		child.image_id = image_id;
+		const parent = {
+			parent_id,
+			child_id,
+		}
+		try {
+			await Image.create(image);
+			await Child.create(child);
+			await Parent.create(parent);
+			res.status(200).send("Child created");
+		} catch (error) {
+			res.status(500).send("Something went wrong");
+		}
+	}
+	else {
+		res.status(400).send("Something went wrong")
+	}
 });
 
 router.get("/:userId/children/:childId", (req, res) => {

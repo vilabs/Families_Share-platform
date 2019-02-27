@@ -96,29 +96,36 @@ class ProfileHeader extends React.Component {
           id="profileHeaderContainer"
         >
           <div className="row no-gutters" id="profileHeaderOptions">
+					<div className="col-2-10">
             <button
-              className="transparentButton"
+              className="transparentButton center"
               onClick={() => this.props.history.goBack()}
             >
               <i className="fas fa-arrow-left" />
             </button>
+						</div>
+						<div className="col-6-10"/>
             {this.props.match.params.profileId ===
             JSON.parse(localStorage.getItem("user")).id ? (
-              <div id="profileOptionsContainer" className="verticalCenter">
-                <button className="transparentButton" onClick={this.handleEdit}>
-                  <i className="fas fa-pencil-alt" />
-                </button>
-                <button
-                  className="transparentButton"
-                  onClick={this.handleOptions}
-                >
-                  <i className="fas fa-ellipsis-v" />
-                </button>
-              </div>
-            ) : (
-              <div />
-            )}
-          </div>
+							<React.Fragment>
+								<div className="col-1-10">
+									<button className="transparentButton center" onClick={this.handleEdit}>
+										<i className="fas fa-pencil-alt" />
+									</button>
+								</div>
+								<div className="col-1-10">
+									<button
+										className="transparentButton center"
+										onClick={this.handleOptions}
+									>
+										<i className="fas fa-ellipsis-v" />
+									</button>
+								</div>
+							</React.Fragment>
+						) : (
+							<div />
+						)}
+					</div>
           <img
             className="profilePhoto horizontalCenter"
             alt="user's profile"

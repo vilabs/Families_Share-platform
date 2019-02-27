@@ -71,6 +71,7 @@ describe("Test", function () {
 	importTest("Group Endpoints Test", './Groups/groupEndpoints');
 	importTest("User's Groups Endpoints Test", './Users/groupEndpoints');
 	importTest("User Endpoints Test", './Users/profileEndpoints');
+	importTest("Group Endpoints Test", './Users/childrenEndpoints');
 	after('Cleaning up',async function() {
 		await User.deleteMany({});
 		await Profile.deleteMany({});

@@ -5,7 +5,6 @@ const childSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
-    user_id: String,
     given_name: String,
     family_name: String,
     gender: String,

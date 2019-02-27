@@ -182,7 +182,7 @@ class EditChildProfileScreen extends React.Component {
                 className="transparentButton center"
                 onClick={this.handleSave}
               >
-                 <i className="fas fa-check" />
+                  <i className="fas fa-check" />
               </button>
             </div>
           </div>

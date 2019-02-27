@@ -141,7 +141,7 @@ class EditProfileScreen extends React.Component {
 						</div>
 						<div className="col-2-10">
 							<button
-								className="transparentButton verticalCenter"
+								className="transparentButton center"
 								onClick={this.handleSave}
 							>
 								<i className="fas fa-check" />

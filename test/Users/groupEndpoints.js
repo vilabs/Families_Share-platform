@@ -174,14 +174,34 @@ describe('/Patch/users/id/groups', () => {
 		});
 	});
 });
-describe('/Delete/users/id/groups/groupId', ()=>{
-	it('it should remove a user from a group when token user_id matches request user_id', (done)=>{
-		chai.request(server)
-		.delete(`/users/${user.user_id}/groups/${group.group_id}`)
-		.set('Authorization', user.token)
-		.end((err,res)=>{
-
-		})
-	})
-})
+describe('/Delete/users/id/groups/groupId', () => {
+	it('it should remove a user from a group when token user_id matches request user_id', (done) => {
+		User.findOne({ email: "test3@email.com" }, (err, user) => {
+			Group.findOne({ name: "Test Group Edit" }, (err, group) => {
+				chai.request(server)
+					.delete(`/users/${user.user_id}/groups/${group.group_id}`)
+					.set('Authorization', user.token)
+					.end((err, res) => {
+						res.should.have.status(200)
+						done()
+					});
+			});
+		});
+	});
+});
+describe('/Delete/users/id/groups/groupId', () => {
+	it('it should not remove a user from a group when token user_id doesnt match request user_id', (done) => {
+		User.find({}, (err, users) => {
+			Group.findOne({ name: "Test Group Edit" }, (err, group) => {
+				chai.request(server)
+					.delete(`/users/${users[0].user_id}/groups/${group.group_id}`)
+					.set('Authorization', users[1].token)
+					.end((err, res) => {
+						res.should.have.status(401)
+						done()
+					});
+			});
+		});
+	});
+});
 
