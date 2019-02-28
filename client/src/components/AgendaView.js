@@ -141,7 +141,7 @@ class AgendaView extends React.Component {
                     const requiredParents = extendedProperties.requiredParents;
                     return(
                     this.filterTimeslot(timeslot) ? 
-                        <li key={timeslotIndex}>
+                        <li key={timeslotIndex} style={{margin: "1rem 0"}}>
                             <div id="timeslotBubble" onClick={()=>this.handleExpandedTimeslotOpen(timeslot)}>
                                 <div className="row no-gutters">
                                     <div className="col-6-10" style={{ borderRight: "1px solid rgba(0,0,0,0.1)" }}>

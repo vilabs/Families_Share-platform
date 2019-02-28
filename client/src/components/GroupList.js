@@ -21,7 +21,7 @@ class GroupList extends React.Component {
             return(
             <LazyLoad height={350} once offset={100}>
               {indexes.map((index) => 
-                  <li key={index}>
+                  <li key={index} style={{margin: "1rem 0"}}>
                     <GroupListItem groupId={this.props.groupIds[index]} />
                   </li>
               )}

@@ -102,6 +102,7 @@ class EditProfileScreen extends React.Component {
 		const value = event.target.value;
 		const address = this.state.address;
 		address[name] = value;
+		console.log(value)
 		this.setState({ address: address });
 	};
 	handleChange = event => {

@@ -171,7 +171,7 @@ router.post('/', async (req, res, next) => {
 				const address = {
 					address_id,
 					street: "",
-					number: 0,
+					number: "",
 					city: ""
 				};
 				const rating = {
@@ -343,7 +343,7 @@ router.post('/authenticate/google', async (req, res, next) => {
 			const address = {
 				address_id: address_id,
 				street: "",
-				number: 0,
+				number: "",
 				city: ""
 			};
 			const rating = {
