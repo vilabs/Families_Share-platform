@@ -13,6 +13,8 @@ const Group_Settings  = require('../src/models/group-settings');
 const Password_Reset = require('../src/models/password-reset');
 const Member = require('../src/models/member');
 const Notification = require('../src/models/notification');
+const Parent = require('../src/models/parent');
+const Child = require('../src/models/child')
 
 const importTest = (name, path) => {
 	describe(name, () => {
@@ -58,8 +60,18 @@ const initializeDB = async () => {
 		owner_id: user.user_id,
 		invite_ids: [],
 	};
+	const child = {
+		given_name: "Test",
+		family_name: "Child",
+		gender: "girl",
+		birthdate: new Date(),
+		allergies: "allergic to peanuts",
+		special_needs: "no",
+		other_info: "no"
+	};
 	await chai.request(server).post('/groups').send(group2).set('Authorization', user.token);
 	await chai.request(server).post('/groups').send(group3).set('Authorization', user.token);
+	await chai.request(server).post(`/users/${user.user_id}/children`).send(child).set('Authorization',user.token);
 }
 
 describe("Test", function () {
@@ -84,5 +96,7 @@ describe("Test", function () {
 		await Group_Settings.deleteMany({});
 		await Member.deleteMany({});
 		await Notification.deleteMany({});
+		await Parent.deleteMany({});
+		await Child.deleteMany({});
 	});
 });

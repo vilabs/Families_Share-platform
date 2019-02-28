@@ -32,7 +32,7 @@ class ChildProfileInfo extends React.Component {
 		deleteParent = (index) => {
 			const profileId = this.props.match.params.profileId;
 			const childId = this.props.match.params.childId;
-			axios.delete(`/users/${profileId}/children/${childId}/parents`, { params: {parentId: this.props.parents[index].user_id }})
+			axios.delete(`/users/${profileId}/children/${childId}/parents/${this.props.parents[index].user_id}`)
         .then( response => {
 					this.props.handleDeleteParent(index);
         })

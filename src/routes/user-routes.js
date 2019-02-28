@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const fr = require('find-remove');
 const nodemailer = require('nodemailer');
 const nh = require('../helper-functions/notification-helpers');
+const uh = require('../helper-functions/user-helpers');
 const hf = require('../helper-functions/forgot-password-email');
 const wt = require('../helper-functions/walthrough-email');
 const exportData = require('../helper-functions/export-user-data.js');
@@ -31,8 +32,6 @@ if (!fbadmin.apps.length) {
 }
 const sharp = require('sharp');
 
-
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -43,50 +42,6 @@ const transporter = nodemailer.createTransport({
         rejectUnauthorized: false
     }
 });
-
-const getUsersGroupEvents = (calId,userId,usersChildrenIds) =>{
-    return new Promise( (resolve,reject) => {
-        calendar.events.list({calendarId: calId}, (err,response)=>{
-            if(err) {
-                reject([])
-            } else {
-                const usersEvents = response.data.items.filter( event => {
-										const parentIds = JSON.parse(event.extendedProperties.shared.parents)
-										const childrenIds = JSON.parse(event.extendedProperties.shared.children)
-										const fixedFlag = event.extendedProperties.shared.status==="fixed";
-										const userFlag = parentIds.indexOf(userId)!==-1
-										const childFlag = usersChildrenIds.filter( childId => childrenIds.indexOf(childId)!==-1).length>0;
-                    if( fixedFlag && ( userFlag || childFlag )){
-                        return true
-                    } else {
-                        return false
-                    }
-                })
-                resolve(usersEvents);  
-            }
-
-        })
-    })
-}
-
-const getNotificationDescription = (notification,language) => {
-	const { type, code, subject, object } = notification;
-	const description = texts[language][type][code].description
-	
-	switch( type ){
-		case 'group':
-			switch(code){
-				case 0:	
-					return `${subject}${description}${object}`
-				case 1:
-					return 	`${description}${object}`
-				default: 
-					return ''
-			}
-		default: 
-			return ''
-	}
-}
 
 const profileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -690,7 +645,7 @@ router.post('/:id/export', async (req, res, next) => {
 		if (usersChildren.length > 0) {
 			children = await Child.find({ child_id: { $in: childIds } }).populate('image').lean().exec();
 		}
-		const responses = await Promise.all(groups.map(group => getUsersGroupEvents(group.calendar_id, id, childIds)))
+		const responses = await Promise.all(groups.map(group => uh.getUsersGroupEvents(group.calendar_id, id, childIds)))
 		const events = [].concat(...responses)
 		exportData.createPdf(profile, groups, children, events, function () {
 			const mailOptions = {
@@ -724,7 +679,7 @@ router.get('/:id/events', async (req,res)=>{
 				const groups = await Group.find( {group_id: { $in: groupIds}});
 				const children = await Parent.find({parent_id: user_id })
 				const childIds = children.map( parent => parent.child_id);
-        const responses = await Promise.all( groups.map( group => getUsersGroupEvents(group.calendar_id,user_id,childIds)))
+        const responses = await Promise.all( groups.map( group => uh.getUsersGroupEvents(group.calendar_id,user_id,childIds)))
 				const events = [].concat( ... responses )
         res.status(200).json(events)
     } catch ( error) {
@@ -808,7 +763,7 @@ router.get('/:id/notifications', async (req, res, next) => {
 		if (notifications.length > 0) {
 			for (const notification of notifications) {
 				notification.header = texts[user.language][notification.type][notification.code].header;
-				notification.description = await getNotificationDescription(notification, user.language);
+				notification.description = await uh.getNotificationDescription(notification, user.language);
 			}
 			return res.json(notifications);
 		} else {
@@ -868,13 +823,11 @@ router.post('/:id/framily', (req, res) => {
 	// })
 });
 
-router.get('/:id/children', (req, res) => {
+router.get('/:id/children', (req, res, next) => {
   	if (!req.user_id ) return res.status(401).send('Unauthorized')
     const id = req.params.id
     Parent.find( { parent_id: id }, ( error, children ) => {
-        if (error) {
-            res.status(400).send("Something went wrong")
-        }
+        if (error) next(error)
         if (children.length>0) {
             return res.json(children);
         } else {
@@ -926,112 +879,122 @@ router.post('/:id/children', async (req, res, next) => {
 	}
 });
 
-router.get("/:userId/children/:childId", (req, res) => {
+router.get("/:userId/children/:childId", (req, res, next) => {
 		if (!req.user_id ) return res.status(401).send('Unauthorized')
     Child.findOne({ child_id: req.params.childId})
     .populate('image')
     .lean().exec( (error, child) =>{
-        if(error) res.status(400).send("Something went wrong");
+        if(error) next(error);
         if(child){
             res.json(child);
         } else {
-            res.status(400).send("No child found");
+            res.status(404).send("No child found");
         }
     });
 });
 
-router.patch("/:userId/children/:childId", childProfileUpload.single('photo'), async (req, res) =>{
-		if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
-    const file = req.file;
-    const child_id = req.params.childId;
-    const childPatch = {
-        ...req.body
-		};
-    try {
-        await Child.updateOne({ child_id: child_id }, childPatch)
-        if (file) {
-					const fileName = file.filename.split('.')
-					const imagePatch = {
-                        path: `/images/profiles/${file.filename}`,
-                        thumbnail_path: `/images/profiles/${fileName[0]}_t.${fileName[1]}`,
-					};
-					await sharp(path.join(__dirname, `../../images/profiles/${file.filename}`))
-						.resize({
-							height: 200,
-							fit: sharp.fit.cover,
-						})
-						.toFile(path.join(__dirname, `../../images/profiles/${fileName[0]}_t.${fileName[1]}`), async (err)=>{
-							if(err) res.status(400).send(err);
-							await Image.updateOne({ owner_type: "child", owner_id: child_id }, imagePatch);
-							res.status(200).send(" Child Profile Updated");
-						})
-            
-        }  else {
-					res.status(200).send("Child Profile Updated");
-				}
-    } catch (error) {
-        res.status(400).send("Something went wrong")
-    }
+router.patch("/:userId/children/:childId", childProfileUpload.single('photo'), async (req, res, next) => {
+	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
+	const file = req.file;
+	const child_id = req.params.childId;
+	const { given_name, family_name, gender, birthdate, background, allergies, other_info, special_needs} = req.body;
+	const childPatch = {
+		given_name,
+		family_name,
+		gender,
+		birthdate,
+		background,
+		allergies,
+		other_info,
+		special_needs,
+	};
+	if (given_name || family_name || gender || birthdate || background || allergies || other_info || special_needs) {
+		try {
+			await Child.updateOne({ child_id: child_id }, childPatch)
+			if (file) {
+				const fileName = file.filename.split('.')
+				const imagePatch = {
+					path: `/images/profiles/${file.filename}`,
+					thumbnail_path: `/images/profiles/${fileName[0]}_t.${fileName[1]}`,
+				};
+				await sharp(path.join(__dirname, `../../images/profiles/${file.filename}`))
+					.resize({
+						height: 200,
+						fit: sharp.fit.cover,
+					})
+					.toFile(path.join(__dirname, `../../images/profiles/${fileName[0]}_t.${fileName[1]}`));
+				await Image.updateOne({ owner_type: "child", owner_id: child_id }, imagePatch);
+			}
+			res.status(200).send(" Child Profile Updated");
+		} catch (error) {
+			next(error)
+		}
+	} else {
+		res.status(400).send("Something went wrong")
+	}
 });
 
-router.delete("/:userId/children/:childId", async (req, res) => {
+router.delete("/:userId/children/:childId", async (req, res, next) => {
 		if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
     const child_id = req.params.childId;
     try{
+				const memberships = await Member.find({user_id: req.params.userId});
+				const groupIds = memberships.map( membership => membership.group_id);
+				const userGroups = await Group.find({group_id: {$in: groupIds}});
+				await Promise.all(userGroups.map((group) => {uh.unsubcribeChildFromGroupEvents(group.calendar_id,child_id)}));
         await Child.deleteOne({ child_id: child_id});
         await Parent.deleteMany({ child_id: child_id });
         await Image.deleteOne({owner_type: "child", owner_id: child_id });
         res.status(200).send("Child deleted");
     } catch (error) {
-        res.status(400).send("Something went wrong")
+        next(error);
     }
 });
 
-router.get("/:userId/children/:childId/parents", (req, res) => {
-		if (!req.user_id ) return res.status(401).send('Unauthorized')
-    Parent.find({ child_id: req.params.childId }, (error, parents) =>{
-        if(error) res.status(400).send("Something went wrong");
-        if(parents){
-            const parentIds = [];
-            parents.forEach( parent => parentIds.push(parent.parent_id));
-            Profile.find({ user_id: { $in: parentIds }}, (err, parentProfiles) =>{
-                if(err) res.status(400).send("Something went wrong");
-                if(parentProfiles){
-                    res.json(parentProfiles)
-                }
-            });
-        } else {
-            res.status(400).send("Something went wrong");
-        }
-    });
+router.get("/:userId/children/:childId/parents", (req, res, next) => {
+	if (!req.user_id) return res.status(401).send('Unauthorized')
+	Parent.find({ child_id: req.params.childId }, (error, parents) => {
+		if (error) next(error);
+		if (parents.length > 0) {
+			const parentIds = [];
+			parents.forEach(parent => parentIds.push(parent.parent_id));
+			Profile.find({ user_id: { $in: parentIds } }, (err, parentProfiles) => {
+				if (err) next(err)
+				res.json(parentProfiles)
+			})
+		} else {
+			res.status(404).send("Child has no parents");
+		}
+	});
 });
 
-router.post("/:userId/children/:childId/parents", (req, res) => {
-		if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
-    const parentId = req.body.parentId
-    Parent.find({ child_id: req.params.childId }, (error, parents) =>{
-        if(error) res.status(400).send("Something went wrong");
-        Parent.create({
-            parent_id: parentId,
-            child_id:   req.params.childId,
-				})
-				res.status(200).send("Parent added");
-    });
-});
-
-router.delete("/:userId/children/:childId/parents", (req, res) => {
+router.post("/:userId/children/:childId/parents", (req, res, next) => {
 	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
-	const parentId = req.query.parentId
+	const parentId = req.body.parentId
+	Parent.find({ child_id: req.params.childId }, (error, parents) => {
+		if (error) next(error);
+		if (parents.length < 2 && parentId) {
+			Parent.create({
+				parent_id: parentId,
+				child_id: req.params.childId,
+			})
+			res.status(200).send("Parent added");
+		} else {
+			res.status(400).send("Something went wrong");
+		}
+	});
+});
+
+router.delete("/:userId/children/:childId/parents/:parentId", (req, res, next) => {
+	if (req.user_id !== req.params.userId) return res.status(401).send('Unauthorized')
+	const parentId = req.params.parentId
 	Parent.deleteOne({ child_id: req.params.childId, parent_id: parentId}, (error) =>{
-			if(error) res.status(400).send("Something went wrong");
+			if(error) next(error);
 			res.status(200).send("Parent deleted");
 	});
 });
 
 module.exports = router;
-
-
-
 
 router.post("/:userId/sendmenotification", (req,res)=> {
 	Device.find({ user_id: req.params.userId}, (err,devices)=>{

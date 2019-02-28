@@ -82,16 +82,14 @@ const Day = require('../models/day');
 const Child = require('../models/child');
 const Profile = require('../models/profile')
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const query = req.query;
 	if (query.searchBy !== undefined) {
 		switch (query.searchBy) {
 			case "visibility":
 				Group_Settings.find({ visible: query.visible }, (settingsError, visibleGroups) => {
-					if (settingsError) {
-						res.status(400).send("Something went wrong");
-					}
+					if (settingsError) next(settingsError)
 					if (visibleGroups.length > 0) {
 						const groupIds = [];
 						visibleGroups.forEach(group => groupIds.push(group.group_id));
@@ -109,23 +107,20 @@ router.get('/', (req, res) => {
 							}
 						});
 					} else {
-						res.status(400).send("No visible groups found")
+						res.status(404).send("No visible groups found")
 					}
 				})
 				break;
 			case "ids":
 				const groupIds = req.query.ids;
-				console.log(groupIds)
 				Group.find({ group_id: { $in: groupIds } })
 				.populate('image')
 				.exec( (groupsError, groups) => {
-					if (groupsError) {
-						res.status(400).send("Something went wrong");
-					}
-					if (groups) {
+					if (groupsError) next(groupsError)
+					if (groups.length>0) {
 						res.json(groups);
 					} else {
-						res.status(400).send("Something went wrong")
+						res.status(404).send("Something went wrong")
 					}
 				});
 				break;
@@ -134,15 +129,13 @@ router.get('/', (req, res) => {
 		}
 	} else {
 		Group.find(query, (error, groups) => {
-			if (error) {
-				res.status(400).send("Something went wrong");
-			}
+			if (error) next(error)
 			return res.json(groups);
 		})
 	}
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const { invite_ids, description, location, name, visible, owner_id } = req.body
 	if ((invite_ids && description && location && name && visible!==undefined && owner_id)) {
@@ -194,23 +187,26 @@ router.post('/', (req, res) => {
 			});
 		})
 		calendar.calendars.insert({ resource: newCal }, async (error, response) => {
+			if(error) next(error);
+			try{
 			group.calendar_id = response.data.id;
 			await Member.create(members);
 			await Group.create(group);
 			await Image.create(image);
 			await Group_Settings.create(settings);
 			res.status(200).send("Group Created");
+			} catch (err) {
+				next(err)
+			}
 		})
 	} else {
 		res.status(400).send("Something went wrong")
 	}
 });
 
-router.get('/suggestions', (req, res) => {
+router.get('/suggestions', (req, res, next) => {
 	Group_Settings.find({ visible: true }, (error, groups) => {
-		if (error) {
-			res.status(400).send("Something went wrong");
-		}
+		if (error) next(error);
 		if (groups.length > 0) {
 			const noOfSuggestions = groups.length > 2 ? 3 : groups.length;
 			const suggestions = [];
@@ -223,19 +219,17 @@ router.get('/suggestions', (req, res) => {
 			}
 			res.json(suggestions);
 		} else {
-			return res.status(400).send("no suggestions found")
+			return res.status(404).send("no suggestions found")
 		}
 	})
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
 	const id = req.params.id;
 	Group.findOne({ group_id: id })
 		.populate('image')
 		.lean().exec((error, group) => {
-			if (error) {
-				res.status(400).send("Something went wrong");
-			}
+			if (error) next(error)
 			if (group) {
 				res.json(group);
 			} else {
@@ -271,7 +265,7 @@ router.delete('/:id', async (req, res) => {
 	}
 })
 
-router.patch('/:id', groupUpload.single('photo'), async (req, res) => {
+router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const file = req.file
 	const id = req.params.id;
@@ -316,36 +310,38 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res) => {
 				res.status(401).send("Unauthorized")
 			}
 		} catch (err) {
-			console.log(err)
-			res.status(400).send(err);
+			next(err);
 		}
 	} else {
 		res.status(400).send("Something went wrong")
 	}
 });
 
-router.patch('/:id/settings', (req, res) => {
+router.patch('/:id/settings', async (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const id = req.params.id;
 	const settingsPatch = req.body;
-	Group_Settings.updateOne({ group_id: id }, settingsPatch, (error, settings) => {
-		if (error) {
-			res.status(400).send("Something went wrong");
-		}
-		if (settings) {
-			res.status(200).send("Settings Updated")
+	try {
+		const edittingUser = await Member.findOne({ group_id: req.params.id, user_id: req.user_id })
+		if (edittingUser) {
+			if (edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin) {
+				await Group_Settings.updateOne({ group_id: id }, settingsPatch);
+				res.status(200).send("Settings Updated");
+			} else {
+				res.status(401).send("Unauthorized")
+			}
 		} else {
-			res.status(400).send("Something went wrong")
+			res.status(401).send("Unauthorized")
 		}
-	})
+	} catch (error) {
+		next(error);
+	}
 });
 
-router.get('/:id/settings', (req, res) => {
+router.get('/:id/settings', (req, res, next) => {
 	const id = req.params.id;
 	Group_Settings.findOne({ group_id: id }, (error, settings) => {
-		if (error) {
-			res.status(400).send("Something went wrong");
-		}
+		if (error) next(error);
 		if (settings) {
 			res.json(settings);
 		} else {

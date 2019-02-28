@@ -4,10 +4,10 @@ const chai = common.chai;
 
 const User = require('../../src/models/user');
 const Group = require('../../src/models/group');
-
+const Group_Settings = require('../../src/models/group-settings');
 
 describe("/Post/groups", () => {
-	it("it should create a group given correct parameters", (done) => {
+	it("it should create a group given correct parameters when user is authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const group = {
 				name: "Test Group",
@@ -24,6 +24,29 @@ describe("/Post/groups", () => {
 				.send(group)
 				.end((err, res) => {
 					res.should.have.status(200);
+					done();
+				});
+		});
+	});
+});
+describe("/Post/groups", () => {
+	it("it should not create a group when user isnt authenticated", (done) => {
+		User.findOne({ email: "test@email.com" }, (err, user) => {
+			const group = {
+				name: "Test Group",
+				description: "An awesome group",
+				visible: true,
+				location: "Kuala lumpur",
+				owner_id: user.user_id,
+				invite_ids: [],
+			};
+			chai
+				.request(server)
+				.post("/groups")
+				.set('Authorization', 'invalidtoken')
+				.send(group)
+				.end((err, res) => {
+					res.should.have.status(401);
 					done();
 				});
 		});
@@ -62,7 +85,7 @@ describe("/Get/groups/suggestions", () => {
 	});
 });
 describe("/Get/groups", () => {
-	it("it should fetch all visible groups", (done) => {
+	it("it should fetch all visible groups when user is authenticated", (done) => {
 		User.findOne({}, (err, user) => {
 			chai
 				.request(server)
@@ -75,6 +98,72 @@ describe("/Get/groups", () => {
 					res.body.length.should.be.eql(3);
 					done();
 				});
+		});
+	});
+});
+describe("/Get/groups", () => {
+	it("it should fetch groups from a list of ids", (done) => {
+		User.findOne({}, (err, user) => {
+			Group.find({}, (err, groups) => {
+				chai
+					.request(server)
+					.get("/groups")
+					.set('Authorization', user.token)
+					.query({ "searchBy": "ids", ids: [groups.map(group=>group.group_id)]})
+					.end((err, res) => {
+						res.should.have.status(200);
+						res.body.should.be.a('array');
+						res.body.length.should.be.eql(3);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Get/groups", () => {
+	it("it should not fetch groups from a list of invalid ids", (done) => {
+		User.findOne({}, (err, user) => {
+			chai
+				.request(server)
+				.get("/groups")
+				.set('Authorization', user.token)
+				.query({ "searchBy": "ids", ids: ['invalidid'] })
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+	});
+});
+describe("/Get/groups", () => {
+	it("it should not fetch all visible groups when user isnt authenticated", (done) => {
+		User.findOne({}, (err, user) => {
+			chai
+				.request(server)
+				.get("/groups")
+				.set('Authorization', 'invalidtoken')
+				.query({ "searchBy": "visibility",visible: true })
+				.end((err, res) => {
+					res.should.have.status(401);
+					done();
+				});
+		});
+	});
+});
+describe("/Get/groups", () => {
+	it("it should not fetch anything when there are no visible groups", (done) => {
+		User.findOne({}, (err, user) => {
+			Group_Settings.updateMany({}, { visible: false }, (err) => {
+				chai
+					.request(server)
+					.get("/groups")
+					.set('Authorization', user.token)
+					.query({ "searchBy": "visibility", visible: true })
+					.end((err, res) => {
+						res.should.have.status(404);
+						done();
+					});
+			});
 		});
 	});
 });
@@ -130,7 +219,7 @@ describe("/Get/groups/id", () => {
 	});
 });
 describe("/Patch/groups/id", () => {
-	it("it should edit a group when given correct parameters and user is admin", (done) => {
+	it("it should edit a group when given correct parameters and user is admin and authenticated", (done) => {
 		const patch = {
 			name: "Test Group Edit",
 			description: "An awesome group Edit",
@@ -147,6 +236,54 @@ describe("/Patch/groups/id", () => {
 					.send(patch)
 					.end((err, res) => {
 						res.should.have.status(200);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Patch/groups/id", () => {
+	it("it should not edit a group when user isnt authenticated", (done) => {
+		const patch = {
+			name: "Test Group Edit",
+			description: "An awesome group Edit",
+			background: "#ffffff",
+			location: "Kuala Lumpur Edit",
+			visible: true,
+		}
+		User.findOne({ email: "test@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				chai
+					.request(server)
+					.patch(`/groups/${group.group_id}`)
+					.set('Authorization', 'invalidtoken')
+					.send(patch)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Patch/groups/id", () => {
+	it("it should not edit a group when user isnt a group member", (done) => {
+		const patch = {
+			name: "Test Group Edit",
+			description: "An awesome group Edit",
+			background: "#ffffff",
+			location: "Kuala Lumpur Edit",
+			visible: true,
+		}
+		User.findOne({ email: "test4@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				chai
+					.request(server)
+					.patch(`/groups/${group.group_id}`)
+					.set('Authorization', user.token)
+					.send(patch)
+					.end((err, res) => {
+						res.should.have.status(401);
 						done();
 					});
 			});
@@ -199,7 +336,7 @@ describe("/Patch/groups/id", () => {
 	});
 });
 describe("/Get/groups/id/settings", () => {
-	it("it should get a group's settings by a given id", (done) => {
+	it("it should get a group's settings by a given id ", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Group.findOne({}, (err, group) => {
 				chai
@@ -233,9 +370,9 @@ describe("/Get/groups/id/settings", () => {
 	});
 });
 describe("/Patch/groups/id/settings", () => {
-	it("it should update a group's settings by a given id", (done) => {
+	it("it should update a group's settings by a given id when user is authenticated and admin", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
-			Group.findOne({}, (err, group) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				const patch = {
 					open: false,
 				}
@@ -252,7 +389,67 @@ describe("/Patch/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Delete/groups/id/settings", () => {
+describe("/Patch/groups/id/settings", () => {
+	it("it should not update a group's settings by a given id when user isnt authenticated", (done) => {
+		User.findOne({ email: "test@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				const patch = {
+					open: false,
+				}
+				chai
+					.request(server)
+					.patch(`/groups/${group.group_id}/settings`)
+					.set('Authorization', 'invalidtoken')
+					.send(patch)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Patch/groups/id/settings", () => {
+	it("it should not update a group's settings by a given id when user is not a group member", (done) => {
+		User.findOne({ email: "test4@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				const patch = {
+					open: false,
+				}
+				chai
+					.request(server)
+					.patch(`/groups/${group.group_id}/settings`)
+					.set('Authorization', user.token)
+					.send(patch)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Patch/groups/id/settings", () => {
+	it("it should not update a group's settings by a given id when user is not admin", (done) => {
+		User.findOne({ email: "test3@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				const patch = {
+					open: false,
+				}
+				chai
+					.request(server)
+					.patch(`/groups/${group.group_id}/settings`)
+					.set('Authorization', user.token)
+					.send(patch)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Delete/groups/id", () => {
 	it("it should delete a group by a given id when user is admin", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group 3"}, (err, group) => {
@@ -268,10 +465,42 @@ describe("/Delete/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Delete/groups/id/settings", () => {
+describe("/Delete/groups/id", () => {
+	it("it should not delete a group by a given id when user isnt authenticated", (done) => {
+		User.findOne({ email: "test3@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				chai
+					.request(server)
+					.delete(`/groups/${group.group_id}`)
+					.set('Authorization', 'invalidtoken')
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Delete/groups/id", () => {
+	it("it should not delete a group by a given id when user isnt a group member", (done) => {
+		User.findOne({ email: "test4@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
+				chai
+					.request(server)
+					.delete(`/groups/${group.group_id}`)
+					.set('Authorization', user.token)
+					.end((err, res) => {
+						res.should.have.status(401);
+						done();
+					});
+			});
+		});
+	});
+});
+describe("/Delete/groups/id", () => {
 	it("it should not delete a group by a given id when user is not admin", (done) => {
-		User.findOne({ email: "test@email.com" }, (error, user) => {
-			Group.findOne({name: "Test Group 2"}, (err, group) => {
+		User.findOne({ email: "test3@email.com" }, (error, user) => {
+			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
 					.delete(`/groups/${group.group_id}`)
