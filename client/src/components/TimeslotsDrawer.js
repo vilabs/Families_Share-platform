@@ -160,7 +160,7 @@ class TimeslotsDrawer extends React.Component {
                     const requiredChildren = extendedProperties.requiredChildren;
                     return(
                     this.filterTimeslot(timeslot) ?
-                        <li key={timeslotIndex}>
+                        <li key={timeslotIndex} style={{margin: "1rem 0"}}>
                             <div id="timeslotBubble" onClick={() => this.handleExpandedTimeslotOpen(timeslot)}>
                                 {extendedProperties.status==="fixed"?<i className="fas fa-thumbtack fixedIcon"/>:<div/>}
                                 <div className="row no-gutters">

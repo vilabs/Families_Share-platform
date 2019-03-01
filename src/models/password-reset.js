@@ -1,9 +1,19 @@
 const mongoose = require('mongoose');
 
 const passwordResetSchema = new mongoose.Schema({
-    email: String,
-    user_id: String,
-    token: String,
+    email: {
+			type: String,
+			required: true
+		},
+    user_id: {
+			type: String,
+			unique: true,
+			required: true,
+		},
+    token: {
+			type: String,
+			required: true
+		},
 }, {timestamps:true });
 
 passwordResetSchema.index({createdAt: 1},{expireAfterSeconds: 60*60*24});

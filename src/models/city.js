@@ -9,12 +9,11 @@ const citySchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        unique: true
+				unique: true,
+				required: true
     },
     zipcode: String,
 }, { timestamps: true });
-
-
 
 mongoose.pluralize(null);
 const model = mongoose.model('City',citySchema);

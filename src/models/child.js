@@ -3,14 +3,33 @@ const mongoose = require('mongoose');
 const childSchema = new mongoose.Schema({
     child_id: {
         type: String,
-        unique: true,
+				unique: true,
+				required: true,
     },
-    given_name: String,
-    family_name: String,
-    gender: String,
-    birthdate: Date,
-    image_id: String,
-    background: String,
+    given_name: {
+			type: String,
+			required: true
+		},
+    family_name: {
+			type: String,
+			required: true
+		},
+    gender: {
+			type: String,
+			required: true
+		},
+    birthdate: {
+			type: Date,
+			required: true
+		},
+    image_id: {
+			type: String,
+			required: true
+		},
+    background: {
+			type: String,
+			required: true
+		},
     allergies: String,
     special_needs: String,
     other_info: String,

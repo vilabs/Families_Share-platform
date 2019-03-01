@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 
-
 const ratingSchema = new mongoose.Schema({
     user_id: {
 			type: String,
+			required: true,
 			unique: true,
 		},
-    rating: Number,
+    rating: {
+			type: Number,
+			required: true
+		},
 },{timestamps: true});
 
 mongoose.pluralize(null);

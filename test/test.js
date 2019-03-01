@@ -79,11 +79,12 @@ describe("Test", function () {
 		await initializeDB();
 	});
 	importTest("User Endpoints Test", './Users/userEndpoints');
-	importTest("User Endpoints Test", './Users/variousEndpoints');
+	importTest("User Various Endpoints Test", './Users/variousEndpoints');
 	importTest("Group Endpoints Test", './Groups/groupEndpoints');
-	importTest("User's Groups Endpoints Test", './Users/groupEndpoints');
-	importTest("User Endpoints Test", './Users/profileEndpoints');
-	importTest("Group Endpoints Test", './Users/childrenEndpoints');
+	importTest("Users Groups Endpoints Test", './Users/groupEndpoints');
+	importTest("Users Profile Endpoints Test", './Users/profileEndpoints');
+	importTest("Users Children Endpoints Test", './Users/childrenEndpoints');
+	importTest("Group Members Endpoints Test", './Groups/memberEndpoints');
 	after('Cleaning up',async function() {
 		await User.deleteMany({});
 		await Profile.deleteMany({});

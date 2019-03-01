@@ -7,9 +7,18 @@ const replySchema =  new mongoose.Schema({
         unique: true,
         default: objectid
     },
-    announcement_id: String,
-    user_id: String,
-    body: String,
+    announcement_id: {
+			type: String,
+			required: true
+		},
+    user_id: {
+			type: String,
+			required: true
+		},
+    body: {
+			type: String,
+			required: true
+		},
 },{timestamps: true})
 
 replySchema.index({ announcement_id: 1}); 

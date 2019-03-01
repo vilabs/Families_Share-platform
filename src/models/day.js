@@ -4,6 +4,7 @@ const daySchema = new mongoose.Schema({
 	day_id: {
 		unique: true,
 		type: String,
+		requird: true
 	},
 	date: Date,
 	activity_id: String,

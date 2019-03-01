@@ -7,10 +7,22 @@ const notificationSchema = new mongoose.Schema({
         unique: true,
         default: objectid,
     },
-    owner_id: String,
-    owner_type: String,
-		type: String,
-		code: Number,
+    owner_id: {
+			type: String,
+			required: true
+		},
+    owner_type: {
+			type: String,
+			required: true
+		},
+		type:{
+			type: String,
+			required: true
+		},
+		code: {
+			type: Number,
+			required: true
+		},
 		subject: String,
 		object: String,
 		read: Boolean,

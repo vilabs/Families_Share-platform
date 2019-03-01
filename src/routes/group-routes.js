@@ -425,31 +425,43 @@ router.delete('/:id/members', async (req, res) => {
 		}
 });
 
-router.post('/:id/members', (req, res) => {
+router.post('/:id/members', async (req, res, next) => {
 	if (!req.user_id) return res.status(401).send('Not authenticated')
 	const group_id = req.params.id;
 	const userIds = req.body.inviteIds;
-	Member.find({ group_id: group_id, user_id: { $in: userIds }, group_accepted: false }, (error, members) => {
-		if (error) res.status(400).send("Something went wrong");
-		members.forEach(member => {
-			userIds.splice(userIds.indexOf(member.used_id), 1)
-			member.group_accepted = true;
-			member.save();
-		})
-		Member.create(
-			userIds.map(id => {
-				return {
-					user_id: id,
-					group_id: group_id,
-					admin: false,
-					group_accepted: true,
-					user_accepted: false,
-				}
-			}), (err) => {
-				if (err) res.status(400).send("Something went wrong")
-				res.status(200).send("Members invited")
-			})
-	});
+	try {
+		const edittingUser = await Member.findOne({ group_id: group_id, user_id: req.user_id });
+		if (edittingUser) {
+			if (edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin) {
+				const members = await Member.find({ group_id: group_id, user_id: { $in: userIds }});
+				for (const member of members){
+						userIds.splice(userIds.indexOf(member.used_id), 1)
+						if(!member.group_accepted){
+							member.group_accepted = true;
+							await member.save();
+						}
+					}
+				await Member.create(
+					userIds.map(id => {
+						return {
+							user_id: id,
+							group_id,
+							admin: false,
+							group_accepted: true,
+							user_accepted: false,
+						}
+					})
+			  );
+				res.status(200).send("Members invited");
+			} else {
+				return res.status(401).send('Not authenticated')
+			}
+		} else {
+			return res.status(401).send('Not authenticated')
+		}
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.get('/:id/kids', (req, res) => {

@@ -38,7 +38,7 @@ const muiTheme = createMuiTheme({
       root: {
         fontSize: "1.2rem",
         fontFamily: "Roboto",
-        float: "right"
+        float: "left"
       }
     }
   }
@@ -49,11 +49,11 @@ const styles = theme => ({
     width: "100%"
   },
   continueButton: {
-    backgroundColor: "#ff6f00",
+    backgroundColor: "#00838F",
     marginTop: theme.spacing.unit,
     marginRight: theme.spacing.unit,
     "&:hover": {
-      backgroundColor: "#ff6f00"
+      backgroundColor: "#00838F"
     },
     boxShadow: "0 6px 6px 0 rgba(0,0,0,0.24)",
     height: "4.2rem",

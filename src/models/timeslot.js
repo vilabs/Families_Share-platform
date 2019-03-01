@@ -3,9 +3,13 @@ const mongoose = require('mongoose');
 const timeslotSchema = new mongoose.Schema({
 	timeslot_id: {
 		type: String,
-		unique: true
+		unique: true,
+		required: true
 	},
-	activity_id: String,
+	activity_id: {
+		type: String,
+		required: true,
+	}
 },{timestamps: true})
 
 mongoose.pluralize(null);

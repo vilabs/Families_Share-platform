@@ -4,15 +4,30 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
     user_id: {
         type: String,
-        unique: true,
+				unique: true,
+				required: true,
 		},
 		token: String,
-    provider: String,
-    email: String,
-    password: String,
+    provider: {
+			type: String,
+			required: true,
+		},
+    email: {
+			type: String,
+			unique: true,
+			required: true,
+			match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		},
+    password: {
+			type: String,
+			minLength: 8
+		},
 		auth0_token: String,
 		last_login: Date,
-		language: String,
+		language: {
+			type: String,
+			required: true,
+		},
 },{timestamps: true});
 
 // userSchema.pre('save', function (next) {
@@ -31,6 +46,7 @@ const userSchema = new mongoose.Schema({
 // userSchema.methods.comparePassword = function(candidatePassword) {
 // 	return bcrypt.compare(candidatePassword, this.password)
 // };
+
 
 userSchema.index({ email: 1, password: 1}); 
 

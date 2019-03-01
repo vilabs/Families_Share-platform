@@ -12,6 +12,7 @@ const addressSchema = new mongoose.Schema({
     city: String,
 },{timestamps: true, toJSON: { virtuals: true }});
 
+
 mongoose.pluralize(null);
 const model = mongoose.model('Address',addressSchema);
 

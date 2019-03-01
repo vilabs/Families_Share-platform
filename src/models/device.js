@@ -4,8 +4,12 @@ const deviceSchema = new mongoose.Schema({
 	device_id: {
 		type: String,
 		unique: true,
+		required: true,
 	},
-	user_id: String,
+	user_id: {
+		type: String,
+		required: true,
+	},
 },{timestamps: true})
 
 deviceSchema.index({ user_id: 1}); 

@@ -88,7 +88,6 @@ router.post('/', async (req, res, next) => {
 	if (given_name && family_name && email && password && visible !== undefined && language) {
 		try {
 			const user = await User.findOne({ email: email });
-			const device = await Device.findOne({ device_id: deviceToken });
 			if (user) {
 				res.status(409).send("User already exists")
 			} else {
@@ -133,7 +132,8 @@ router.post('/', async (req, res, next) => {
 					user_id,
 					rating: 0
 				};
-				if (deviceToken !== undefined) {
+				if (deviceToken!==undefined && deviceToken !== null) {
+					const device = await Device.findOne({ device_id: deviceToken });
 					if (device) {
 						device.user_id = user_id ; 
 						device.save();
@@ -169,11 +169,12 @@ router.post('/', async (req, res, next) => {
 router.post("/authenticate/email", async (req, res, next) => {
 	const { email, password, deviceToken, language } = req.body;
 	try {
-		const user = await User.findOne({ email: email, password: password });
+		const user = await User.findOne({ email: email, password: password});
 		if (user) {
 			//const passwordMatch = await user.comparePassword(password);
+			//if(passwordMatch){
+			if (deviceToken!==undefined && deviceToken !== null) {
 			const device = await Device.findOne({ device_id: deviceToken });
-			if (deviceToken !== undefined) {
 				if (device) {
 					device.user_id = user.user_id;
 					device.save();
@@ -206,6 +207,9 @@ router.post("/authenticate/email", async (req, res, next) => {
 		} else {
 			res.status(401).send("Authentication failure");
 		}
+		//} else {
+			//res.status(401).send("Authentication failure");
+		//}
 	} catch (error) {
 		console.log(error)
 		next(error);
@@ -224,9 +228,9 @@ router.post('/authenticate/google', async (req, res, next) => {
 	}
 	try {
 		const user = await User.findOne({ email: googleProfile.email })
-		const device = await Device.findOne({ device_id: deviceToken })
 		if (user) {
-			if (deviceToken !== undefined) {
+			if (deviceToken!==undefined && deviceToken !== null) {
+				const device = await Device.findOne({ device_id: deviceToken })
 				if (device) {
 					device.user_id = user.user_id ; 
 					await device.save();
@@ -254,7 +258,8 @@ router.post('/authenticate/google', async (req, res, next) => {
 			res.json(response);
 		} else {
 			const user_id = objectid();
-			if (deviceToken !== undefined) {
+			if (deviceToken!==undefined && deviceToken !== null) {
+				const device = await Device.findOne({ device_id: deviceToken })
 				if (device) {
 					device.user_id = user_id ; 
 					await device.save();
@@ -871,7 +876,7 @@ router.post('/:id/children', async (req, res, next) => {
 			await Parent.create(parent);
 			res.status(200).send("Child created");
 		} catch (error) {
-			res.status(500).send("Something went wrong");
+			next(error)
 		}
 	}
 	else {

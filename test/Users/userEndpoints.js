@@ -90,7 +90,8 @@ describe('/Post/users/authenticate/email', () =>{
 	it('it should not log in a user with wrong credentials', (done) => {
 		const credentials = {
 			email: 'test@email.com',
-			password: 'pawword'
+			password: 'pawword',
+			language: "en",
 		}
 		chai.request(server)
 			.post('/users/authenticate/email')

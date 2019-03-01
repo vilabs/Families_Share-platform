@@ -3,10 +3,17 @@ const mongoose = require('mongoose');
 const announcementSchema =  new mongoose.Schema({
     announcement_id: {
         type: String,
-        unique: true,
+				unique: true,
+				required: true,
     },
-    group_id: String,
-    user_id: String,
+    group_id: { 
+			type: String,
+			required: true
+		},
+		user_id: {
+			type: String,
+			required: true
+		},
     body: String,
 },{timestamps: true, toJSON: { virtuals: true }})
 
@@ -18,6 +25,7 @@ announcementSchema.virtual('images', {
     foreignField: 'owner_id',
     justOne: false,
 });
+
 
 mongoose.pluralize(null);
 const model = mongoose.model('Announcement', announcementSchema);

@@ -3,16 +3,36 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     user_id: {
         type: String,
-        unique: true,
+				unique: true,
+				required: true,
     },
-    address_id: String,
-    email: String,
+    address_id: {
+			type: String,
+			required: true
+		},
+    email:  {
+			type: String,
+			required: true,
+			match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+		},
     phone: String,
     phone_type: String,
-    image_id: String,
-    given_name: String,
-    family_name: String,
-    visible: Boolean,
+    image_id:  {
+			type: String,
+			required: true
+		},
+    given_name:  {
+			type: String,
+			required: true
+		},
+    family_name:  {
+			type: String,
+			required: true
+		},
+    visible:  {
+			type: Boolean,
+			required: true
+		},
 }, {timestamps: true, toJSON: { virtuals: true }});
 
 profileSchema.index({ given_name: 1, family_name: 1}); 

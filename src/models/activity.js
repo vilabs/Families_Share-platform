@@ -3,17 +3,39 @@ const mongoose = require('mongoose');
 const activitySchema = new mongoose.Schema({
 	activity_id: {
 		type: String,
-		unique: true
+		unique: true,
+		required: true,
 	},
-	group_id: String,
-	name: String,
-	group_name: String,
+	group_id: { 
+		type: String,
+		required: true
+	},
+	name: {
+		type: String,
+		required: true
+	},
+	group_name: {
+		type: String,
+		required: true
+	},
 	description: String,
-	color: String,
+	color: {
+		type: String,
+		required: true
+	},
 	creator_id: String,
-	repetition: Boolean,
-	repetition_type: String,
-	different_timeslots: Boolean,
+	repetition: {
+		type: Boolean,
+		required: true
+	},
+	repetition_type: {
+		type: String,
+		required: true 
+	},
+	different_timeslots: {
+		type: Boolean,
+		required: true
+	}
 },{timestamps: true,toJSON: { virtuals: true }})
 
 activitySchema.index({ group_id: 1, createdAt: -1}); 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts.js";
 import autosize from "autosize";
-
+import { CirclePicker } from 'react-color';
 
 
 class CreateActivityInformation extends React.Component {
@@ -84,12 +84,18 @@ class CreateActivityInformation extends React.Component {
             <h1 className="verticalCenter" style={{ color: this.state.color }}>
               {texts.color}
             </h1>
-          </div>
-        </div>
-        <div className="row no-gutters" style={{ marginBottom: "2rem" }}>
-						<div className="col-2-10"/>
-						<div className="col-8-10"/>
-        </div>
+					</div>
+				</div>
+				<div className="row no-gutters" style={{ marginBottom: "2rem" }}>
+					<div className="col-2-10" />
+					<div className="col-8-10">
+						<CirclePicker
+							width={"100%"}
+							color={this.state.color}
+							onChange={this.handleColorChange}
+						/>
+					</div>
+				</div>
       </div>
     );
   }

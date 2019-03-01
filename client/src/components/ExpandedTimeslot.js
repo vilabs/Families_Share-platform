@@ -193,7 +193,7 @@ class ExpandedTimeslot extends React.Component {
                 <div className="row no-gutters" id="expandedTimeslotHeaderContainer">
                     <div className="col-1-10">
                         <button className="transparentButton center" onClick={this.handleClose}>
-                            <i className="fas fa-times" />
+                            <i className="fas fa-arrow-left" />
                         </button>
                     </div>
                     <div className="col-8-10" />

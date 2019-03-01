@@ -2,15 +2,25 @@ const mongoose = require('mongoose');
 const objectid = require('objectid');
 
 const groupSettingsSchema = new mongoose.Schema({
-    settings_id: {
-        type: String,
-        unique: true,
-        default: objectid,
-    },
-    group_id: String,
-    open: Boolean,
-    visible: Boolean,
-},{timestamps: true});
+	settings_id: {
+		type: String,
+		unique: true,
+		default: objectid,
+	},
+	group_id: {
+		type: String,
+		unique: true,
+		required: true,
+	},
+	open: {
+		type: Boolean,
+		required: true,
+	},
+	visible: {
+		type: Boolean,
+		required: true,
+	},
+}, { timestamps: true });
 
 groupSettingsSchema.index({ group_id: 1 }); 
 
