@@ -904,12 +904,5 @@ router.delete("/:groupId/announcements/:announcementId/replies/:replyId", (req, 
 });
 
 
-Group.find({},(err, groups)=>{
-	groups.forEach( group => {
-		group.background = "#afdddd"
-		group.save()
-	})
-})
-
 module.exports = router;
 
