@@ -56,7 +56,7 @@ class ActivityListItem extends React.Component {
 								</div>
 								<div className="row no-gutters">
 									<h2>
-										{this.state.timeslots.length +
+										{this.state.timeslots.length + " " +
 											(this.state.timeslots.length > 1
 												? texts.timeslots
 												: texts.timeslot)}

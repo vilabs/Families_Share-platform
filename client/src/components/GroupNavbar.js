@@ -41,7 +41,7 @@ class GroupNavbar extends React.Component {
 						<div className="col-1-4">
 							<li key="info" id="groupNavbarTab">
 								<button id="info" className="transparentButton" onClick={this.handleClick}>
-									{flags[0]?<i className='fas fa-info-circle'/>:<img src={Images.infoCircleRegular} className="userFriendsRegular" alt="info circle regular" style={disabled? { opacity: 0.1 }:{}} />}
+									{flags[0]?<i className='fas fa-info-circle'/>:<img src={Images.infoCircleRegular} className="infoCircleRegular" alt="info circle regular" style={disabled? { opacity: 0.1 }:{}} />}
 									<h1>{texts.infoTab}</h1>
 								</button>
 							</li>

@@ -99,11 +99,11 @@ class TimeslotsContainer extends React.Component {
 											<div className="col-8-10" style={{ borderRight: "1px solid #00838f" }}>
 												<div className="verticalCenter" >
 													<h1 >{timeslot.startTime + " : " + timeslot.endTime}</h1>
-													<h1 >{timeslot.name}</h1>
+													<h1 >{timeslot.name.length>25?timeslot.name.substr(0,25)+"...":timeslot.name}</h1>
 												</div>
 											</div>
 											<div className="col-2-10">
-												<i className="fas fa-info-circle center"/>
+												<i className="fas fa-plus-circle center"/>
 											</div>
 										</div>
 									</div>

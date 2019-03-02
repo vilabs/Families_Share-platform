@@ -224,7 +224,7 @@ class ExpandedTimeslot extends React.Component {
                         </div>
                         <div className="col-7-10">
                             <h4 className="center">
-                                {parents.length+(parents.length===1?texts.parent:texts.parents)}
+                                {parents.length+" "+(parents.length===1?texts.parent:texts.parents)}
                             </h4>
                         </div>
                         <div className="col-1-10">
@@ -242,7 +242,7 @@ class ExpandedTimeslot extends React.Component {
                         </div>
                         <div className="col-7-10">
                             <h4 className="center">
-                                {children.length+(children.length===1?texts.child:texts.children)
+                                {children.length+" "+(children.length===1?texts.child:texts.children)
                             }</h4>
                         </div>
                         <div className="col-1-10">

@@ -123,9 +123,9 @@ class TimeslotsDrawer extends React.Component {
 						default:
 					}
 				})
-				const fixedText = `${fixedNumber} fixed ${fixedNumber===1?texts.timeslot:texts.timeslots}`
-				const proposedText = `${proposedNumber} proposed ${proposedNumber===1?texts.timeslot:texts.timeslots}`
-				const completedText = `${completedNumber} completed ${completedNumber===1?texts.timeslot:texts.timeslots}`
+				const fixedText = `${fixedNumber} ${texts.fixed} ${fixedNumber===1?texts.timeslot:texts.timeslots}`
+				const proposedText = `${proposedNumber} ${texts.proposed} ${proposedNumber===1?texts.timeslot:texts.timeslots}`
+				const completedText = `${completedNumber} ${texts.completed} ${completedNumber===1?texts.timeslot:texts.timeslots}`
 				return `${proposedText}, ${fixedText}, ${completedText}`;
     }
     filterTimeslot = (timeslot) => {
@@ -169,7 +169,7 @@ class TimeslotsDrawer extends React.Component {
                                             <h1 className="verticalCenter" >{ startTime + " - " + endTime}</h1>
                                         </div>
                                         <div className="row no-gutters" style={rowStyle}>
-                                            <h1 className="verticalCenter" >{timeslot.summary}</h1>
+                                            <h1 className="verticalCenter" >{timeslot.summary.length>25?timeslot.summary.substr(0,25)+"...":timeslot.summary}</h1>
                                         </div>
                                         <div className="row no-gutters" style={rowStyle}>
                                             <h1 className="verticalCenter">{parentsLength}</h1>
@@ -188,7 +188,7 @@ class TimeslotsDrawer extends React.Component {
                                         </div>
                                     </div>
                                     <div className="col-2-10">
-                                      <i className="fas fa-info-circle center"/>
+                                      <i className="fas fa-plus-circle center"/>
                                     </div>
                                 </div>
                             </div>

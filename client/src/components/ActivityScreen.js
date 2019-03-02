@@ -227,7 +227,7 @@ class ActivityScreen extends React.Component {
 									<i className="center fas fa-palette" />
 								</div>
 								<div className="col-8-10">
-									<h1 style={{ color: activity.color }} className="center">{texts.color + "  " + activity.color}</h1>
+									<h1 style={{ color: activity.color }} className="center">{texts.color}</h1>
 								</div>
 							</div>
 						</div>

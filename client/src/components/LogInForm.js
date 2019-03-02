@@ -117,6 +117,7 @@ class LogInForm extends React.Component {
         <div className="row no-gutters">
           <input
             type="submit"
+            style={this.state.email&& this.state.password?{backgroundColor: "#00838F",color: "#ffffff"}:{}}
             className="logInConfirmButton horizontalCenter"
             value={texts.confirm}
           />

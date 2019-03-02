@@ -1,6 +1,5 @@
 import React from "react";
 import withLanguage from "./LanguageContext";
-import { HuePicker } from "react-color";
 import Texts from "../Constants/Texts.js";
 import autosize from "autosize";
 import axios from "axios";
@@ -31,7 +30,7 @@ const getGroup = groupId => {
         group_id: "",
         image: { path: "" },
         description: "",
-			  location: "",
+        location: "",
       };
     });
 };
@@ -196,7 +195,7 @@ class EditGroupScreen extends React.Component {
                     className="transparentButton center"
                     onClick={this.handleSave}
                   >
-                    <i className="fas fa-check"/>
+                    <i className="fas fa-check" />
                   </button>
                 </div>
               </div>
@@ -259,22 +258,25 @@ class EditGroupScreen extends React.Component {
                     <input
                       id="uploadLogoInput"
                       type="file"
-											name="photo"
-											accept="image/*"
+                      name="photo"
+                      accept="image/*"
                       onChange={this.handlePhotoChange}
                     />
                   </div>
                 </div>
                 <div className="col-2-10">
-                  <i className="fas fa-fill-drip center" />
+                  <i className="fas fa-eye center" />
                 </div>
                 <div className="col-3-10">
-                  <HuePicker
-                    width={"90%"}
-                    className="center"
-                    color={this.state.background}
-                    onChange={this.handleColorChange}
-                  />
+                  <select
+                    value={this.state.visible ? "visible" : "invisible"}
+                    onChange={this.handleVisibility}
+                    className="editGroupInputField center"
+                    name="visible"
+                  >
+                    <option value={"visible"}>{texts.visible}</option>
+                    <option value={"invisible"}>{texts.invisible}</option>
+                  </select>
                 </div>
               </div>
               <div
@@ -297,30 +299,11 @@ class EditGroupScreen extends React.Component {
                   <span className="invalid-feedback" id="locationErr" />
                 </div>
               </div>
-              <div
-                className="row no-gutters"
-                style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
-              >
-                <div className="col-2-10">
-                  <i className="fas fa-eye center" />
-                </div>
-                <div className="col-8-10">
-                  <select
-                    value={this.state.visible ? "visible" : "invisible"}
-                    onChange={this.handleVisibility}
-                    className="editGroupInputField center"
-                    name="visible"
-                  >
-                    <option value={"visible"}>{texts.visible}</option>
-                    <option value={"invisible"}>{texts.invisible}</option>
-                  </select>
-                </div>
-              </div>
             </div>
           </form>
         ) : (
-          <LoadingSpinner />
-        )}
+            <LoadingSpinner />
+          )}
       </div>
     );
   }
