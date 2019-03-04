@@ -169,10 +169,10 @@ router.post('/', async (req, res, next) => {
 router.post("/authenticate/email", async (req, res, next) => {
 	const { email, password, deviceToken, language } = req.body;
 	try {
-		const user = await User.findOne({ email: email, password: password});
+		const user = await User.findOne({ email: email });
 		if (user) {
-			//const passwordMatch = await user.comparePassword(password);
-			//if(passwordMatch){
+			const passwordMatch = await user.comparePassword(password);
+			if(passwordMatch){
 			if (deviceToken!==undefined && deviceToken !== null) {
 			const device = await Device.findOne({ device_id: deviceToken });
 				if (device) {
@@ -207,9 +207,9 @@ router.post("/authenticate/email", async (req, res, next) => {
 		} else {
 			res.status(401).send("Authentication failure");
 		}
-		//} else {
-		  //res.status(401).send("Authentication failure");
-		//}
+		} else {
+		  res.status(401).send("Authentication failure");
+		}
 	} catch (error) {
 		console.log(error)
 		next(error);
@@ -1001,26 +1001,40 @@ router.delete("/:userId/children/:childId/parents/:parentId", (req, res, next) =
 
 module.exports = router;
 
-router.post("/:userId/sendmenotification", (req,res)=> {
-	Device.find({ user_id: req.params.userId}, (err,devices)=>{
-		if(devices){
-			devices.forEach( device=>{
-				const message = {
-					notification:{title: "Welcome", body:"Families Share welcomes you to our community"},
-					token: device.device_id
-				}
-				fbadmin.messaging().send(message)
-				.then((response) => {
-                    console.log('Successfully sent message:', response);
-				})
-				.catch((error) => {
-                    if(error.code==='messaging/registration-token-not-registered'){
-                        Device.deleteOne({ user_id: req.params.id, device_id: device.device_id})
-                    }
+const bcrypt = require('bcrypt');
+
+router.post("/:userId/sendmenotification", (req, res) => {
+	// Device.find({ user_id: req.params.userId}, (err,devices)=>{
+	// 	if(devices){
+	// 		devices.forEach( device=>{
+	// 			const message = {
+	// 				notification:{title: "Welcome", body:"Families Share welcomes you to our community"},
+	// 				token: device.device_id
+	// 			}
+	// 			fbadmin.messaging().send(message)
+	// 			.then((response) => {
+	//                   console.log('Successfully sent message:', response);
+	// 			})
+	// 			.catch((error) => {
+	//                   if(error.code==='messaging/registration-token-not-registered'){
+	//                       Device.deleteOne({ user_id: req.params.id, device_id: device.device_id})
+	//                   }
+	// 			});
+	// 		})
+	// 	}
+	//   })
+	//   res.status(200).send("Push notification sent")
+
+	User.find({}, (err, users) => {
+		users.forEach(user => {
+			bcrypt.genSalt(10, function (err, salt) {
+				bcrypt.hash(user.password, salt, function (err, hash) {
+					user.password = hash;
+					user.save()
 				});
-			})
-		}
-    })
-    res.status(200).send("Push notification sent")
+			});
+		});
+	});
+
 })
 
