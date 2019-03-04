@@ -30,7 +30,6 @@ const activitySchema = new mongoose.Schema({
 	},
 	repetition_type: {
 		type: String,
-		required: true 
 	},
 	different_timeslots: {
 		type: Boolean,

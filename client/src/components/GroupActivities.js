@@ -7,6 +7,7 @@ import Texts from "../Constants/Texts.js";
 import ActivityOptionsModal from './OptionsModal';
 import axios from 'axios';
 import ActivityListItem from './ActivityListItem';
+import moment from 'moment';
 
 class GroupActivities extends React.Component {
   constructor(props) {
@@ -22,7 +23,22 @@ class GroupActivities extends React.Component {
 		const groupId = this.state.group.group_id
 		axios.get(`/groups/${groupId}/activities`)
 		.then(response=>{
-			const sortedActivities  = response.data
+			const now = moment().hours(0).unix();
+			const activities  = response.data
+			activities.forEach( activity => {
+				activity.sortField = Number.POSITIVE_INFINITY;
+				activity.dates.forEach( date => {
+					const d = moment(date.date).unix()
+					if( d - now > 0 && d < activity.sortField) activity.sortField = d;
+				})
+			})
+			const sortedActivities = activities.sort( (a,b) => {
+				if( a.sortField <= b.sortField ){
+					return -1
+				} else {
+					return 1
+				}
+			})
 			this.setState({fetchedActivities: true, activities: sortedActivities})
 		})
 		.catch( error=>{
