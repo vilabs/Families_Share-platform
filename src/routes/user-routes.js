@@ -169,10 +169,10 @@ router.post('/', async (req, res, next) => {
 router.post("/authenticate/email", async (req, res, next) => {
 	const { email, password, deviceToken, language } = req.body;
 	try {
-		const user = await User.findOne({ email: email});
+		const user = await User.findOne({ email: email, password: password});
 		if (user) {
-			const passwordMatch = await user.comparePassword(password);
-			if(passwordMatch){
+			//const passwordMatch = await user.comparePassword(password);
+			//if(passwordMatch){
 			if (deviceToken!==undefined && deviceToken !== null) {
 			const device = await Device.findOne({ device_id: deviceToken });
 				if (device) {
@@ -207,9 +207,9 @@ router.post("/authenticate/email", async (req, res, next) => {
 		} else {
 			res.status(401).send("Authentication failure");
 		}
-		} else {
-		  res.status(401).send("Authentication failure");
-		}
+		//} else {
+		  //res.status(401).send("Authentication failure");
+		//}
 	} catch (error) {
 		console.log(error)
 		next(error);
