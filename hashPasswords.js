@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt')
-const User = require('./src/models/User');
+const User = require('./src/models/user');
 
 User.find({}, (err, users) => {
 	users.forEach(user => {
