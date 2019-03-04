@@ -80,58 +80,46 @@ const Parent = require('../models/parent');
 const Activity = require('../models/activity');
 const Day = require('../models/day');
 const Child = require('../models/child');
-const Profile = require('../models/profile')
+const Profile = require('../models/profile');
 
 router.get('/', (req, res, next) => {
-	if (!req.user_id) return res.status(401).send('Not authenticated')
+	if (!req.user_id) return res.status(401).send('Not authenticated');
 	const query = req.query;
-	if (query.searchBy !== undefined) {
-		switch (query.searchBy) {
-			case "visibility":
-				Group_Settings.find({ visible: query.visible }, (settingsError, visibleGroups) => {
-					if (settingsError) next(settingsError)
-					if (visibleGroups.length > 0) {
-						const groupIds = [];
-						visibleGroups.forEach(group => groupIds.push(group.group_id));
-						Group.find({ group_id: { $in: groupIds }})
-						.collation({locale:'en'})
-						.sort({'name':1})
-						.exec( (groupsError, groups) => {
-							if (groupsError) {
-								res.status(400).send("Something went wrong");
-							}
-							if (groups) {
-								res.json(groups);
-							} else {
-								res.status(400).send("Something went wrong")
-							}
-						});
-					} else {
-						res.status(404).send("No visible groups found")
+	if (query.searchBy === undefined) {
+		return res.sendStatus(400)
+	}
+	switch (query.searchBy) {
+		case "visibility":
+			Group_Settings.find({ visible: query.visible })
+				.then(visibleGroups => {
+					if (visibleGroups.length === 0) {
+						return res.sendStatus(404);
 					}
-				})
-				break;
-			case "ids":
-				const groupIds = req.query.ids;
-				Group.find({ group_id: { $in: groupIds } })
-				.populate('image')
-				.exec( (groupsError, groups) => {
-					if (groupsError) next(groupsError)
-					if (groups.length>0) {
-						res.json(groups);
-					} else {
-						res.status(404).send("Something went wrong")
+					const groupIds = [];
+					visibleGroups.forEach(group => groupIds.push(group.group_id));
+					return Group.find({ group_id: { $in: groupIds } })
+						.collation({ locale: 'en' })
+						.sort({ 'name': 1 })
+						.then(groups => {
+							if (groups.length === 0) {
+								return res.sendStatus(400);
+							}
+							res.json(groups);
+						})
+				}).catch(next)
+			break;
+		case "ids":
+			const groupIds = req.query.ids;
+			Group.find({ group_id: { $in: groupIds } })
+				.then(groups => {
+					if (groups.length === 0) {
+						return res.sendStatus(404);
 					}
-				});
-				break;
-			default:
-				res.status(400).send("Something went wrong")
-		}
-	} else {
-		Group.find(query, (error, groups) => {
-			if (error) next(error)
-			return res.json(groups);
-		})
+					res.json(groups);
+				}).catch(next)
+			break;
+		default:
+			res.sendStatus(400);
 	}
 });
 
@@ -238,31 +226,26 @@ router.get('/:id', (req, res, next) => {
 		})
 });
 
-router.delete('/:id', async (req, res) => {
-	if (!req.user_id) return res.status(401).send('Not authenticated')
+router.delete('/:id', async (req, res, next) => {
+	if (!req.user_id) return res.status(401).send('Not authenticated');
 	const id = req.params.id;
-	const edittingUser = await Member.findOne({ group_id: req.params.id, user_id: req.user_id })
-	if (edittingUser) {
-		if (edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin) {
-			try {
-				await Group.findOne({ group_id: id }, (err, group) => {
-					calendar.calendars.delete({ calendarId: group.calendar_id })
-				})
-				await Group.deleteOne({ group_id: id });
-				await Member.deleteMany({ group_id: id });
-				await Group_Settings.deleteOne({ group_id: id });
-				await Image.deleteMany({ owner_type: "group", owner_id: id })
-				res.status(200).send("Group was deleted");
-			} catch (error) {
-				res.status(400).send("Something went wrong")
-			}
-		} else {
-			res.status(401).send('Unauthorized')
-		}
+	const edittingUser = await Member.findOne({ group_id: req.params.id, user_id: req.user_id });
+	if (!edittingUser) {
+		return res.status(401).send('Unauthorized');
 	}
-	else {
-		res.status(401).send('Unauthorized')
+	if (!(edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin)) {
+		return res.status(401).send('Unauthorized');
 	}
+	try {
+		await Group.findOne({ group_id: id }, (err, group) => {
+			calendar.calendars.delete({ calendarId: group.calendar_id })
+		})
+		await Group.deleteOne({ group_id: id });
+		await Member.deleteMany({ group_id: id });
+		await Group_Settings.deleteOne({ group_id: id });
+		await Image.deleteMany({ owner_type: "group", owner_id: id })
+		res.status(200).send("Group was deleted");
+	} catch (error) { next(error)}
 })
 
 router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
@@ -350,41 +333,52 @@ router.get('/:id/settings', (req, res, next) => {
 	})
 });
 
-router.get('/:id/members', (req, res) => {
+router.get('/:id/members', (req, res, next) => {
 	const id = req.params.id;
 	Member.find({ "group_id": id }, (error, members) => {
-		if (error) {
-			res.status(400).send("Something went wrong");
-		}
+		if (error) next(error);
 		if (members.length > 0) {
 			res.send(members);
 		} else {
-			res.status(404).send("Group has no members")
+			res.status(404).send("Group has no members");
 		}
 	})
 });
 
-router.patch('/:id/members', (req, res) => {
-	if (!req.user_id) return res.status(401).send('Not authenticated')
+router.patch('/:id/members', (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
 	const group_id = req.params.id;
-	const user_id = req.body.id;
-	const patch = req.body.patch;
-	Member.updateOne({ user_id: user_id, group_id: group_id }, patch, (err, raw) => {
-		if (err) res.status(400).send("Something went wrong")
-		if (patch.group_accepted !== undefined) {
-			if (patch.group_accepted) {
-				nh.newMemberNotification(group_id, user_id);
-				res.status(200).send("Request confirmed")
-			} else {
-				res.status(200).send("Request deleted")
-			}
-		} else {
-			if (patch.admin) {
-				res.status(200).send("Admin added");
-			} else {
-				res.status(200).send("Admin removed");
-			}
+	const { user_id, patch } = req.body
+	Member.findOne({ group_id: group_id, user_id: req.user_id }, (err,edittingUser) => {
+		if(err) return next(err);
+		if (!edittingUser) {
+			return res.sendStatus(401)
 		}
+		if (!(edittingUser.group_accepted && edittingUser.user_accepted && edittingUser.admin)) {
+			return res.sendStatus(401)
+		}
+		if (!(patch.group_accepted || patch.admin)) {
+			return res.sendStatus(400)
+		}
+		Member.updateOne({ user_id: user_id, group_id: group_id }, patch ,( err, raw )=>{
+			if(err) return next(err)
+			let message = ""
+			if (patch.group_accepted !== undefined) {
+				if (patch.group_accepted) {
+					nh.newMemberNotification(group_id, user_id);
+					message = "Request confirmed"
+				} else {
+					message = "Request deleted"
+				}
+			} else {
+				if (patch.admin) {
+					message = "Admin added";
+				} else {
+					message = "Admin removed";
+				}
+			}
+			res.status(200).send(message);
+		});
 	});
 });
 

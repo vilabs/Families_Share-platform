@@ -52,6 +52,14 @@ groupSchema.virtual('image', {
 	foreignField: 'image_id',
 	justOne: true,
 });
+// groupSchema.virtual('settings', {
+// 	ref: 'Group_Settings',
+// 	localField: 'settings_id',
+// 	foreignField: 'settings_id',
+// 	justOne: true,
+// });
+
+
 
 mongoose.pluralize(null);
 const model = mongoose.model('Group', groupSchema);
