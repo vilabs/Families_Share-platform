@@ -1,6 +1,7 @@
 const common = require('./common');
-const chai = common.chai;
-const server = common.server;
+
+const { chai } = common;
+const { server } = common;
 
 const Profile = require('../src/models/profile');
 const Address = require('../src/models/address');
@@ -8,96 +9,96 @@ const Image = require('../src/models/image');
 const User = require('../src/models/user');
 const Rating = require('../src/models/rating');
 const Device = require('../src/models/device');
-const Group  = require('../src/models/group');
-const Group_Settings  = require('../src/models/group-settings');
+const Group = require('../src/models/group');
+const Group_Settings = require('../src/models/group-settings');
 const Password_Reset = require('../src/models/password-reset');
 const Member = require('../src/models/member');
 const Notification = require('../src/models/notification');
 const Parent = require('../src/models/parent');
-const Child = require('../src/models/child')
+const Child = require('../src/models/child');
 
 const importTest = (name, path) => {
-	describe(name, () => {
-			require(path);
-	});
-}
+  describe(name, () => {
+    require(path);
+  });
+};
 
 const initializeDB = async () => {
-	const user2 = {
-		given_name: "Test",
-		family_name: "User2",
-		number: "0123546879",
-		email: "test2@email.com",
-		password: "password",
-		visible: true,
-		language: "en",
-	};
-	const user3 = {
-		given_name: "Test",
-		family_name: "User3",
-		number: "0123546879",
-		email: "test3@email.com",
-		password: "password",
-		visible: true,
-		language: "en",
-	};
-	await chai.request(server).post('/users').send(user2);
-	await chai.request(server).post('/users').send(user3);
-	const user = await User.findOne({email:"test3@email.com"});
-	const group2= {
-		name: "Test Group 2",
-		description: "Also awesome group",
-		visible: true,
-		location: "Kuala lumpur",
-		owner_id: user.user_id,
-		invite_ids: [],
-	};
-	const group3 = {
-		name: "Test Group 3",
-		description: "Again an awesome group",
-		visible: true,
-		location: "Kuala lumpur",
-		owner_id: user.user_id,
-		invite_ids: [],
-	};
-	const child = {
-		given_name: "Test",
-		family_name: "Child",
-		gender: "girl",
-		birthdate: new Date(),
-		allergies: "allergic to peanuts",
-		special_needs: "no",
-		other_info: "no"
-	};
-	await chai.request(server).post('/groups').send(group2).set('Authorization', user.token);
-	await chai.request(server).post('/groups').send(group3).set('Authorization', user.token);
-	await chai.request(server).post(`/users/${user.user_id}/children`).send(child).set('Authorization',user.token);
-}
-
-describe("Test", function () {
-	before( 'Initializing DB',async function() {
-		await initializeDB();
-	});
-	importTest("User Endpoints Test", './Users/userEndpoints');
-	importTest("User Various Endpoints Test", './Users/variousEndpoints');
-	importTest("Group Endpoints Test", './Groups/groupEndpoints');
-	importTest("Users Groups Endpoints Test", './Users/groupEndpoints');
-	importTest("Users Profile Endpoints Test", './Users/profileEndpoints');
-	importTest("Users Children Endpoints Test", './Users/childrenEndpoints');
-	importTest("Group Members Endpoints Test", './Groups/memberEndpoints');
-	after('Cleaning up',async function() {
-		await User.deleteMany({});
-		await Profile.deleteMany({});
-		await Image.deleteMany({});
-		await Rating.deleteMany({});
-		await Address.deleteMany({});
-		await Device.deleteMany({});
-		await Password_Reset.deleteMany({});
-		await Group.deleteMany({});
-		await Group_Settings.deleteMany({});
-		await Member.deleteMany({});
-		await Notification.deleteMany({});
-		await Parent.deleteMany({});
-		await Child.deleteMany({});
-	});
+  const user2 = {
+    given_name: 'Test',
+    family_name: 'User2',
+    number: '0123546879',
+    email: 'test2@email.com',
+    password: 'password',
+    visible: true,
+    language: 'en',
+  };
+  const user3 = {
+    given_name: 'Test',
+    family_name: 'User3',
+    number: '0123546879',
+    email: 'test3@email.com',
+    password: 'password',
+    visible: true,
+    language: 'en',
+  };
+  await chai.request(server).post('/users').send(user2);
+  await chai.request(server).post('/users').send(user3);
+  const user = await User.findOne({ email: 'test3@email.com' });
+  const group2 = {
+    name: 'Test Group 2',
+    description: 'Also awesome group',
+    visible: true,
+    location: 'Kuala lumpur',
+    owner_id: user.user_id,
+    invite_ids: [],
+  };
+  const group3 = {
+    name: 'Test Group 3',
+    description: 'Again an awesome group',
+    visible: true,
+    location: 'Kuala lumpur',
+    owner_id: user.user_id,
+    invite_ids: [],
+  };
+  const child = {
+    given_name: 'Test',
+    family_name: 'Child',
+    gender: 'girl',
+    birthdate: new Date(),
+    allergies: 'allergic to peanuts',
+    special_needs: 'no',
+    other_info: 'no',
+  };
+  await chai.request(server).post('/groups').send(group2).set('Authorization', user.token);
+  await chai.request(server).post('/groups').send(group3).set('Authorization', user.token);
+  await chai.request(server).post(`/users/${user.user_id}/children`).send(child).set('Authorization', user.token);
+};
+describe('Test', () => {
+  before('Initializing DB', async () => {
+    await initializeDB();
+  });
+  importTest('User Endpoints Test', './Users/userEndpoints');
+  importTest('User Various Endpoints Test', './Users/variousEndpoints');
+  importTest('Group Endpoints Test', './Groups/groupEndpoints');
+  importTest('Users Groups Endpoints Test', './Users/groupEndpoints');
+  importTest('Users Profile Endpoints Test', './Users/profileEndpoints');
+  importTest('Users Children Endpoints Test', './Users/childrenEndpoints');
+  importTest('Group Members Endpoints Test', './Groups/memberEndpoints');
+  importTest('Group Various Endpoints Test', './Groups/variousEndpoints');
+  after('Cleaning up', async () => {
+    await User.deleteMany({});
+    await Profile.deleteMany({});
+    await Image.deleteMany({});
+    await Rating.deleteMany({});
+    await Address.deleteMany({});
+    await Device.deleteMany({});
+    await Password_Reset.deleteMany({});
+    await Group.deleteMany({});
+    await Group_Settings.deleteMany({});
+    await Member.deleteMany({});
+    await Notification.deleteMany({});
+    await Parent.deleteMany({});
+    await Child.deleteMany({});
+  });
 });
