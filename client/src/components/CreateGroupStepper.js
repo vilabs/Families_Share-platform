@@ -124,7 +124,7 @@ class CreateGroupStepper extends React.Component {
 	};
   componentDidMount() {
     axios
-      .get("/groups")
+      .get("/groups",{params: {searchBy: 'all'}})
       .then(response => {
         const groups = response.data;
         const groupNames = [];

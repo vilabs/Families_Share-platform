@@ -83,34 +83,47 @@ router.get('/', (req, res, next) => {
     case 'visibility':
       Group_Settings.find({ visible: query.visible })
         .then((visibleGroups) => {
-          if (visibleGroups.length === 0) {
-            return res.status(404).send('No visible groups were found');
-          }
-          const groupIds = [];
-          visibleGroups.forEach(group => groupIds.push(group.group_id));
-          return Group.find({ group_id: { $in: groupIds } })
-            .collation({ locale: 'en' })
-            .sort({ name: 1 })
-            .then((groups) => {
-              if (groups.length === 0) {
-                return res.status(400).send('No groups were found');
-              }
-              return res.json(groups);
-            });
-        }).catch(next);
-      break;
-    case 'ids':
-      const groupIds = req.query.ids;
-      Group.find({ group_id: { $in: groupIds } })
-        .then((groups) => {
-          if (groups.length === 0) {
-            return res.status(404).send('No groups were found');
-          }
-          return res.json(groups);
-        }).catch(next);
-      break;
-    default:
-      res.status(400).send('Bad Request');
+					if (visibleGroups.length === 0) {
+						return res.status(404).send('No visible groups were found');
+					}
+					const groupIds = [];
+					visibleGroups.forEach(group => groupIds.push(group.group_id));
+					return Group.find({ group_id: { $in: groupIds } })
+						.populate('image')
+						.collation({ locale: 'en' })
+						.sort({ name: 1 })
+						.then((groups) => {
+							if (groups.length === 0) {
+								return res.status(400).send('No groups were found');
+							}
+							return res.json(groups);
+						});
+				}).catch(next);
+			break;
+		case 'ids':
+			const groupIds = req.query.ids;
+			Group.find({ group_id: { $in: groupIds } })
+				.populate('image')
+				.lean()
+				.exec()
+				.then((groups) => {
+					if (groups.length === 0) {
+						return res.status(404).send('No groups were found');
+					}
+					return res.json(groups);
+				}).catch(next);
+			break;
+		case 'all':
+			Group.find({}).select('name')
+				.then((groups) => {
+					if (groups.length === 0) {
+						return res.status(404).send('No groups were found');
+					}
+					return res.json(groups);
+				}).catch(next)
+			break;
+		default:
+
   }
 });
 
@@ -450,7 +463,7 @@ router.post('/:id/members', async (req, res, next) => {
 });
 
 router.get('/:id/kids', (req, res, next) => {
-  const { id } = req.params;
+	const { id } = req.params;
   Member.find({ group_id: id, group_accepted: true, user_accepted: true }).then((members) => {
     if (members.length === 0) {
       return res.status(404).send('Group has no members');
@@ -473,28 +486,28 @@ router.get('/:id/kids', (req, res, next) => {
 });
 
 router.get('/:id/notifications', async (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Not authenticated'); }
-  const { id } = req.params;
-  try {
-    const member = await Member.findOne({
-      group_id: id, user_id: req.user_id, group_accepted: true, user_accepted: true,
-    });
-    if (!member) {
-      return res.status(401).send('Unauthorized');
-    }
-    const user = await User.findOne({ user_id: req.user_id });
-    const notifications = await Notification.find({ owner_type: 'group', owner_id: id });
-    if (notifications.length === 0) {
-      return res.status(404).send('Group has no notifications');
-    }
-    for (const notification of notifications) {
-      notification.header = texts[user.language][notification.type][notification.code].header;
-      notification.description = await uh.getNotificationDescription(notification, user.language);
-    }
-    res.json(notifications);
-  } catch (error) {
-    next(error);
-  }
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const { id } = req.params;
+	try {
+		const member = await Member.findOne({
+			group_id: id, user_id: req.user_id, group_accepted: true, user_accepted: true,
+		});
+		if (!member) {
+			return res.status(401).send('Unauthorized');
+		}
+		const user = await User.findOne({user_id: req.user_id});
+		const notifications = await Notification.find({ owner_type: 'group', owner_id: id });
+		if (notifications.length === 0) {
+			return res.status(404).send('Group has no notifications');
+		}
+		for (const notification of notifications) {
+			notification.header = texts[user.language][notification.type][notification.code].header;
+			notification.description = await uh.getNotificationDescription(notification, user.language);
+		}
+		res.json([{}]);
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.get('/:groupId/notifications/:notificationId', (req, res) => {
@@ -566,9 +579,16 @@ router.post('/:id/agenda/export', (req, res) => {
 });
 
 router.post('/:id/activities', async (req, res, next) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
+  if (!req.user_id) { return res.status(401).send('Not authenticated'); }
   try {
-    const { information, dates, timeslots } = req.body;
+		const { information, dates, timeslots } = req.body;
+		const member = await Member.findOne({group_id: req.params.id, user_id: req.user_id, group_accepted: true, user_accepted: true });
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		if(!(information && dates && timeslots)){
+			return res.status(400).send("Bad Request");
+		}
     const activity_id = objectid();
     const activity = {
       group_id: req.params.id,
@@ -593,8 +613,7 @@ router.post('/:id/activities', async (req, res, next) => {
       const dstart = moment(day.date);
       const dend = moment(day.date);
       timeslots.activityTimeslots[index].forEach((timeslot) => {
-        const { startTime } = timeslot;
-        const { endTime } = timeslot;
+        const { startTime, endTime } = timeslot;
         dstart.hours(startTime.substr(0, startTime.indexOf(':')));
         dstart.minutes(startTime.substr(startTime.indexOf(':') + 1, startTime.length - 1));
         dend.hours(endTime.substr(0, endTime.indexOf(':')));
@@ -634,30 +653,36 @@ router.post('/:id/activities', async (req, res, next) => {
         events.push(event);
       });
     });
-    Promise.all(events.map(event => calendar.events.insert({ calendarId: group.calendar_id, resource: event }))).then((responses) => {
-      Activity.create(activity);
-      Day.create(days);
-      res.status(200).send('Activity was created');
-    }).catch((err) => {
-      next(err);
-    });
+    await Promise.all(events.map(event => calendar.events.insert({ calendarId: group.calendar_id, resource: event })))
+    await Activity.create(activity);
+    await Day.create(days);
+    res.status(200).send('Activity was created');
   } catch (error) {
-    console.log(error);
-    res.status(500).send('Something went wrong');
+		next(error)
   }
 });
 
-router.get('/:id/activities', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.id;
-  Activity.find({ group_id })
-    .populate('dates')
-    .sort({ createdAt: -1 })
-    .lean()
-    .exec((error, activities) => {
-      if (error) res.status(400).send('Something went wrong');
-      res.json(activities);
-    });
+router.get('/:id/activities', (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.id;
+	const user_id = req.user_id
+	Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
+		.then(member => {
+			if (!member) {
+				return res.status(401).send("Unauthorized")
+			}
+			return Activity.find({ group_id })
+				.populate('dates')
+				.sort({ createdAt: -1 })
+				.lean()
+				.exec()
+				.then(activities => {
+					if (activities.length === 0) {
+						return res.status(404).send("Group has no activities");
+					}
+					res.json(activities);
+				})
+		}).catch(next);
 });
 
 router.patch('/:id/activities/:activityId', (req, res) => {
@@ -694,15 +719,25 @@ router.delete('/:groupId/activities/:activityId', (req, res) => {
   });
 });
 
-router.get('/:groupId/activities/:activityId', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const { activityId } = req.params;
-  Activity.findOne({ activity_id: activityId })
-    .populate('dates')
-    .lean().exec((error, activity) => {
-      if (error) res.status(400).send('Something went wrong');
-      res.json(activity);
-    });
+router.get('/:groupId/activities/:activityId', (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const { activityId } = req.params;
+	Member.findOne({ group_id: req.params.groupId, user_id: req.user_id, group_accepted: true, user_accepted: true })
+		.then(member => {
+			if (!member) {
+				return res.status(401).send("Unauthorized");
+			}
+			return Activity.findOne({ activity_id: activityId })
+				.populate('dates')
+				.lean()
+				.exec()
+				.then(activity => {
+					if (!activity) {
+						return res.status(404).send("Activity not found");
+					}
+					res.json(activity);
+				})
+		}).catch(next)
 });
 
 router.post('/:groupId/activities/:activityId/export', (req, res) => {

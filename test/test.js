@@ -16,6 +16,8 @@ const Member = require('../src/models/member');
 const Notification = require('../src/models/notification');
 const Parent = require('../src/models/parent');
 const Child = require('../src/models/child');
+const Activity = require('../src/models/activity');
+const Day = require('../src/models/day');
 
 const importTest = (name, path) => {
   describe(name, () => {
@@ -77,7 +79,8 @@ const initializeDB = async () => {
 describe('Test', () => {
   before('Initializing DB', async () => {
     await initializeDB();
-  });
+	});
+	
   importTest('User Endpoints Test', './Users/userEndpoints');
   importTest('User Various Endpoints Test', './Users/variousEndpoints');
   importTest('Group Endpoints Test', './Groups/groupEndpoints');
@@ -85,7 +88,9 @@ describe('Test', () => {
   importTest('Users Profile Endpoints Test', './Users/profileEndpoints');
   importTest('Users Children Endpoints Test', './Users/childrenEndpoints');
   importTest('Group Members Endpoints Test', './Groups/memberEndpoints');
-  importTest('Group Various Endpoints Test', './Groups/variousEndpoints');
+	importTest('Group Various Endpoints Test', './Groups/variousEndpoints');
+	importTest('Group Various Endpoints Test', './Groups/activityEndpoints');
+
   after('Cleaning up', async () => {
     await User.deleteMany({});
     await Profile.deleteMany({});
@@ -99,6 +104,8 @@ describe('Test', () => {
     await Member.deleteMany({});
     await Notification.deleteMany({});
     await Parent.deleteMany({});
-    await Child.deleteMany({});
+		await Child.deleteMany({});
+		await Activity.deleteMany({});
+		await Day.deleteMany({});
   });
 });
