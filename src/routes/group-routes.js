@@ -396,31 +396,30 @@ router.delete('/:id/members', async (req, res, next) => {
     const children = await Parent.find({ parent_id: user_id });
     const usersChildrenIds = children.map(child => child.child_id);
     const group = await Group.findOne({ group_id });
-    await calendar.events.list({ calendarId: group.calendar_id }, (err, response) => {
-      const events = response.data.items.filter(event => event.extendedProperties.shared.status !== 'completed');
-      events.forEach((event) => {
-        const parentIds = JSON.parse(event.extendedProperties.shared.parents);
-        event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id !== user_id));
-        const childrenIds = JSON.parse(event.extendedProperties.shared.children);
-        event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1));
-      });
-      Promise.all(events.map((event) => {
-        const timeslotPatch = {
-          extendedProperties: {
-            shared: {
-              parents: event.extendedProperties.shared.parents,
-              children: event.extendedProperties.shared.children,
-            },
-          },
-        };
-        calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch });
-      }));
-    });
-    await Member.deleteOne({ group_id, user_id });
-    res.status(200).send('User removed from group');
-  } catch (error) {
-    next(error);
-  }
+		const response = await calendar.events.list({ calendarId: group.calendar_id });
+		const events = response.data.items.filter(event => event.extendedProperties.shared.status !== 'completed');
+		events.forEach((event) => {
+			const parentIds = JSON.parse(event.extendedProperties.shared.parents);
+			event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id !== user_id));
+			const childrenIds = JSON.parse(event.extendedProperties.shared.children);
+			event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1));
+		});
+		Promise.all(events.map((event) => {
+			const timeslotPatch = {
+				extendedProperties: {
+					shared: {
+						parents: event.extendedProperties.shared.parents,
+						children: event.extendedProperties.shared.children,
+					},
+				},
+			};
+			calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch });
+		}));
+		await Member.deleteOne({ group_id, user_id });
+		res.status(200).send('User removed from group');
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.post('/:id/members', async (req, res, next) => {
@@ -512,18 +511,18 @@ router.get('/:id/notifications', async (req, res, next) => {
 });
 
 router.get('/:groupId/notifications/:notificationId', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const { notificationId } = req.params;
-  Notification.findOne({ notification_id: notificationId }, (error, notification) => {
-    if (error) {
-      res.status(400).send('Something went wrong');
-    }
-    if (notification) {
-      res.json(notification);
-    } else {
-      res.status(400).send('Something went wrong');
-    }
-  });
+  // if (!req.user_id) return res.status(401).send('Not authenticated');
+  // const { notificationId } = req.params;
+  // Notification.findOne({ notification_id: notificationId }, (error, notification) => {
+  //   if (error) {
+  //     res.status(400).send('Something went wrong');
+  //   }
+  //   if (notification) {
+  //     res.json(notification);
+  //   } else {
+  //     res.status(400).send('Something went wrong');
+  //   }
+	// });
 });
 
 router.get('/:id/events', (req, res) => {
@@ -704,34 +703,34 @@ router.patch('/:id/activities/:activityId', async (req, res, next) => {
 		}
 		await Activity.updateOne({ activity_id }, activityPatch);
 		res.status(200).send("Activity was updated");
-
 	} catch (error) {
 		next(error)
 	};
 });
 
-router.delete('/:groupId/activities/:activityId', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.groupId;
-  Group.findOne({ group_id }, (error, group) => {
-    const activity_id = req.params.activityId;
-    calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send('Something went wrong');
-      }
-			  try {
-        const activityTimeslots = resp.data.items.filter(event => event.extendedProperties.shared.activityId === activity_id);
-        await Promise.all(activityTimeslots.map(event => calendar.events.delete({ eventId: event.id, calendarId: group.calendar_id })));
-        await Activity.deleteOne({ activity_id });
-        await Day.deleteMany({ activity_id });
-        res.status(200).send('Activity Deleted');
-      } catch (error) {
-        console.log(error);
-        res.status(400).send('Something went wrong');
-      }
-    });
-  });
+router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	try{
+		const group_id = req.params.groupId;
+		const user_id = req.user_id
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true});
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		if(!member.admin){
+			return res.status(401).send("Unauthorized");
+		}
+		const group = await Group.findOne({ group_id });
+		const activity_id = req.params.activityId;
+    const resp = await calendar.events.list({ calendarId: group.calendar_id });
+    const activityTimeslots = resp.data.items.filter(event => event.extendedProperties.shared.activityId === activity_id);
+		await Promise.all(activityTimeslots.map(event => calendar.events.delete({ eventId: event.id, calendarId: group.calendar_id })));
+		await Activity.deleteOne({ activity_id });
+		await Day.deleteMany({ activity_id });
+    res.status(200).send('Activity Deleted');
+} catch (error) {
+	next(error)
+}
 });
 
 router.get('/:groupId/activities/:activityId', (req, res, next) => {
@@ -755,40 +754,45 @@ router.get('/:groupId/activities/:activityId', (req, res, next) => {
 		}).catch(next)
 });
 
-router.post('/:groupId/activities/:activityId/export', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.groupId;
-  const activity_id = req.params.activityId;
-  Group.findOne({ group_id }, (error, group) => {
-    if (error) res.status(400).send('Something went wrong');
-    calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send('Something went wrong');
-      }
-      const activity = await Activity.findOne({ activity_id });
-      const calendarEvents = resp.data.items;
-      const activityTimeslots = calendarEvents.filter(event => event.extendedProperties.shared.activityId === activity_id);
-      exportActivity.createPdf(activity, activityTimeslots, () => {
-        const mailOptions = {
-          from: process.env.SERVER_MAIL,
-          to: req.email,
-          subject: `Activity: ${activity.name} `,
-          html: exportActivity.newExportEmail(activity.name),
-          attachments: [
-            {
-              filename: `${activity.name.toUpperCase()}.pdf`,
-              path: path.join(__dirname, `../../${activity.name.toUpperCase()}.pdf`),
-            },
-          ],
-        };
-        transporter.sendMail(mailOptions, (err, info) => {
-          fr('../', { files: `${activity.name.toUpperCase()}.pdf` });
-        });
-        res.status(200).send('Exported activity successfully');
-      });
-    });
-  });
+router.post('/:groupId/activities/:activityId/export', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.groupId;
+	const user_id = req.user_id;
+	const activity_id = req.params.activityId;
+	try {
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		const activity = await Activity.findOne({ activity_id });
+		if(!(member.admin || user_id === activity.creator_id )){
+			return res.status(401).send("Unauthorized");
+		}
+		const group = await Group.findOne({ group_id });
+		const resp = await calendar.events.list({ calendarId: group.calendar_id });
+		const calendarEvents = resp.data.items;
+		const activityTimeslots = calendarEvents.filter(event => event.extendedProperties.shared.activityId === activity_id);
+		exportActivity.createPdf(activity, activityTimeslots, () => {
+			const mailOptions = {
+				from: process.env.SERVER_MAIL,
+				to: req.email,
+				subject: `Activity: ${activity.name} `,
+				html: exportActivity.newExportEmail(activity.name),
+				attachments: [
+					{
+						filename: `${activity.name.toUpperCase()}.pdf`,
+						path: path.join(__dirname, `../../${activity.name.toUpperCase()}.pdf`),
+					},
+				],
+			};
+			transporter.sendMail(mailOptions, (err, info) => {
+				fr('../', { files: `${activity.name.toUpperCase()}.pdf` });
+			});
+			res.status(200).send('Exported activity successfully');
+		});
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.get('/:groupId/activities/:activityId/timeslots', (req, res) => {

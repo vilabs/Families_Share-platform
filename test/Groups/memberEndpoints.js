@@ -9,90 +9,102 @@ const Member = require('../../src/models/member');
 
 describe('/Post/groups/id/members', () => {
   it('it should invite new members to the group when user is authenticated and admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test4@email.com' });
-    const group = await Group.findOne({ name: 'Test Group Edit' });
-    const invitations = {
-      inviteIds: [user2.user_id],
-    };
-    chai
-      .request(server)
-      .post(`/groups/${group.group_id}/members`)
-      .set('Authorization', user.token)
-      .send(invitations)
-      .end((err, res) => {
-        res.should.have.status(200);
-      });
-  });
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const user2 = await User.findOne({ email: 'test4@email.com' });
+			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const invitations = {
+				inviteIds: [user2.user_id],
+			};
+			const res = await chai
+				.request(server)
+				.post(`/groups/${group.group_id}/members`)
+				.set('Authorization', user.token)
+				.send(invitations)
+			res.should.have.status(200);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Post/groups/id/members', () => {
-  it('it should not invite new members to the group when parameters are missing', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group Edit' });
-    const invitations = {
-    };
-    chai
-      .request(server)
-      .post(`/groups/${group.group_id}/members`)
-      .set('Authorization', user.token)
-      .send(invitations)
-      .end((err, res) => {
-        res.should.have.status(400);
-      });
-  });
+	it('it should not invite new members to the group when parameters are missing', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const invitations = {
+			};
+			const res = await chai
+				.request(server)
+				.post(`/groups/${group.group_id}/members`)
+				.set('Authorization', user.token)
+				.send(invitations)
+			res.should.have.status(400);
+		} catch (err) {
+			throw err
+		}
+
+	});
 });
 describe('/Post/groups/id/members', () => {
-  it('it should not invite new members to the group when user is authenticated but not admin', async () => {
-    const user = await User.findOne({ email: 'test3@email.com' });
-    const user2 = await User.findOne({ email: 'test4@email.com' });
-    const group = await Group.findOne({ name: 'Test Group Edit' });
-    const invitations = {
-      inviteIds: [user2.user_id],
-    };
-    chai
-      .request(server)
-      .post(`/groups/${group.group_id}/members`)
-      .set('Authorization', user.token)
-      .send(invitations)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
-  });
+	it('it should not invite new members to the group when user is authenticated but not admin', async () => {
+		try {
+			const user = await User.findOne({ email: 'test3@email.com' });
+			const user2 = await User.findOne({ email: 'test4@email.com' });
+			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const invitations = {
+				inviteIds: [user2.user_id],
+			};
+			const res = await chai
+				.request(server)
+				.post(`/groups/${group.group_id}/members`)
+				.set('Authorization', user.token)
+				.send(invitations)
+
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Post/groups/id/members', () => {
-  it('it should not invite new members to the group when user is authenticated but not admin', async () => {
-    const user = await User.findOne({ email: 'test4@email.com' });
-    const user2 = await User.findOne({ email: 'test4@email.com' });
-    const group = await Group.findOne({ name: 'Test Group Edit' });
-    const invitations = {
-      inviteIds: [user2.user_id],
-    };
-    chai
-      .request(server)
-      .post(`/groups/${group.group_id}/members`)
-      .set('Authorization', user.token)
-      .send(invitations)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
-  });
+	it('it should not invite new members to the group when user is authenticated but not admin', async () => {
+		try {
+			const user = await User.findOne({ email: 'test4@email.com' });
+			const user2 = await User.findOne({ email: 'test4@email.com' });
+			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const invitations = {
+				inviteIds: [user2.user_id],
+			};
+			const res = await chai
+				.request(server)
+				.post(`/groups/${group.group_id}/members`)
+				.set('Authorization', user.token)
+				.send(invitations)
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Post/groups/id/members', () => {
-  it('it should not invite new members to the group when user isnt authenticated', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group Edit' });
-    const invitations = {
-      inviteIds: [user.user_id],
-    };
-    chai
-      .request(server)
-      .post(`/groups/${group.group_id}/members`)
-      .set('Authorization', 'invalidtoken')
-      .send(invitations)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
-  });
+	it('it should not invite new members to the group when user isnt authenticated', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const invitations = {
+				inviteIds: [user.user_id],
+			};
+			const res = await chai
+				.request(server)
+				.post(`/groups/${group.group_id}/members`)
+				.set('Authorization', 'invalidtoken')
+				.send(invitations)
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Get/groups/id/members', () => {
   it('it should fetch the members of an existing group', (done) => {
@@ -120,235 +132,260 @@ describe('/Get/groups/id/members', () => {
   });
 });
 describe('/Patch/groups/id/members', () => {
-  it('it should accept a new member of a group when user is authenticated and admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    await Member.create({
-      user_id: user.user_id,
-      group_id: group.group_id,
-      admin: false,
-      group_accepted: false,
-      user_accepted: true,
-    });
-    const data = {
-      user_id: user.user_id,
-		  patch: {
-        group_accepted: true,
-      },
+	it('it should accept a new member of a group when user is authenticated and admin', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const user2 = await User.findOne({ email: 'test3@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			await Member.create({
+				user_id: user.user_id,
+				group_id: group.group_id,
+				admin: false,
+				group_accepted: false,
+				user_accepted: true,
+			});
+			const data = {
+				user_id: user.user_id,
+				patch: {
+					group_accepted: true,
+				},
 
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', user2.token)
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(200);
-      });
-  });
+			};
+			const res = await chai
+				.request(server)
+				.patch(`/groups/${group.group_id}/members`)
+				.set('Authorization', user2.token)
+				.send(data)
+			res.should.have.status(200);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Patch/groups/id/members', () => {
-  it('it should add a new admin to a group when user is authenticated and admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    const data = {
-      user_id: user.user_id,
-		  patch: {
-        admin: true,
-      },
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', user2.token)
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(200);
-      });
-  });
+	it('it should add a new admin to a group when user is authenticated and admin', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const user2 = await User.findOne({ email: 'test3@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const data = {
+				user_id: user.user_id,
+				patch: {
+					admin: true,
+				},
+			};
+			const res = await chai
+				.request(server)
+				.patch(`/groups/${group.group_id}/members`)
+				.set('Authorization', user2.token)
+				.send(data)
+			res.should.have.status(200);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Patch/groups/id/members', () => {
   it('it should not patch a group member when parameters are incorrect', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    const data = {
-      user_id: user.user_id,
-		  patch: {
-        foo: true,
-      },
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', user2.token)
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(400);
-      });
-  });
+    try{
+			const user = await User.findOne({ email: 'test@email.com' });
+			const user2 = await User.findOne({ email: 'test3@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const data = {
+				user_id: user.user_id,
+				patch: {
+					foo: true,
+				},
+			};
+			const res = await chai
+				.request(server)
+				.patch(`/groups/${group.group_id}/members`)
+				.set('Authorization', user2.token)
+				.send(data)
+
+			res.should.have.status(400);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Patch/groups/id/members', () => {
-  it('it should not add pach a group member when user is not authenticated', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    const data = {
-      user_id: user.user_id,
-		  patch: {
-        admin: true,
-      },
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', 'invalidtoken')
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
+	it('it should not add pach a group member when user is not authenticated', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const user2 = await User.findOne({ email: 'test3@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const data = {
+				user_id: user.user_id,
+				patch: {
+					admin: true,
+				},
+			};
+			const res = await chai
+				.request(server)
+				.patch(`/groups/${group.group_id}/members`)
+				.set('Authorization', 'invalidtoken')
+				.send(data)
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
+});
+describe("/Patch/groups/id/members", () => {
+  it("it should not add pach a group member when user is not group admin", async () => {
+    try {
+      const user = await User.findOne({ email: "test@email.com" });
+      const group = await Group.findOne({ name: "Test Group 2" });
+      await Member.updateOne(
+        { group_id: group.group_id, user_id: user.user_id },
+        { admin: false }
+      );
+      const data = {
+        user_id: user.user_id,
+        patch: {
+          admin: true
+        }
+      };
+      const res = await chai
+        .request(server)
+        .patch(`/groups/${group.group_id}/members`)
+        .set("Authorization", user.token)
+        .send(data);
+      res.should.have.status(401);
+    } catch (err) {
+      throw err;
+    }
   });
 });
-describe('/Patch/groups/id/members', () => {
-  it('it should not add pach a group member when user is not group admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    await Member.updateOne(
-      { group_id: group.group_id, user_id: user.user_id },
-      { admin: false },
-    );
-    const data = {
-      user_id: user.user_id,
-      patch: {
-        admin: true,
-      },
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', user.token)
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
+describe("/Patch/groups/id/members", () => {
+  it("it should not add pach a group member when user is not group member", async () => {
+    try {
+      const user = await User.findOne({ email: "test4@email.com" });
+      const group = await Group.findOne({ name: "Test Group 2" });
+      await Member.updateOne(
+        { group_id: group.group_id, user_id: user.user_id },
+        { admin: false }
+      );
+      const data = {
+        user_id: user.user_id,
+        patch: {
+          admin: true,
+          group_accepted: true,
+          user_accepted: true
+        }
+      };
+      const res = await chai
+        .request(server)
+        .patch(`/groups/${group.group_id}/members`)
+        .set("Authorization", "invalidtoken")
+        .send(data);
+      res.should.have.status(401);
+    } catch (err) {
+      throw err;
+    }
   });
 });
-describe('/Patch/groups/id/members', () => {
-  it('it should not add pach a group member when user is not group member', async () => {
-    const user = await User.findOne({ email: 'test4@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    await Member.updateOne(
-      { group_id: group.group_id, user_id: user.user_id },
-      { admin: false },
-    );
-    const data = {
-      user_id: user.user_id,
-      patch: {
-        admin: true,
-        group_accepted: true,
-        user_accepted: true,
-      },
-    };
-    chai
-      .request(server)
-      .patch(`/groups/${group.group_id}/members`)
-      .set('Authorization', 'invalidtoken')
-      .send(data)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
+describe("/Delete/groups/id/members", () => {
+  it("it should not remove a group member when user is not admin", async () => {
+    try {
+      const user = await User.findOne({ email: "test@email.com" });
+      const group = await Group.findOne({ name: "Test Group 2" });
+      await Member.updateOne({ user_id: user.user_id }, { admin: false });
+      const res = await chai
+        .request(server)
+        .delete(`/groups/${group.group_id}/members`)
+        .query({ id: user.user_id })
+        .set("Authorization", user.token);
+      res.should.have.status(401);
+    } catch (err) {
+      throw err;
+    }
   });
 });
-describe('/Delete/groups/id/members', () => {
-  it('it should not remove a group member when user is not admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    await Member.updateOne({ user_id: user.user_id }, { admin: false });
-    chai.request(server)
-      .delete(`/groups/${group.group_id}/members`)
-      .query({ id: user.user_id })
-      .set('Authorization', user.token)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
-  });
-});
-describe('/Delete/groups/id/members', () => {
-  it('it should remove a group member when user is authenticated and admin', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const user2 = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    chai.request(server)
-      .delete(`/groups/${group.group_id}/members`)
-      .query({ id: user.user_id })
-      .set('Authorization', user2.token)
-      .end((err, res) => {
-        res.should.have.status(200);
-      });
-  });
-});
-describe('/Delete/groups/id/members', () => {
-  it('it should not remove a group member when user isnt authenticated', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    chai.request(server)
-      .delete(`/groups/${group.group_id}/members`)
-      .query({ id: user.user_id })
-      .set('Authorization', 'invalidtoken')
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
-  });
-});
-describe('/Delete/groups/id/members', () => {
-  it('it should remove a group member when user is not group member', async () => {
-    const user = await User.findOne({ email: 'test@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    chai.request(server)
-      .delete(`/groups/${group.group_id}/members`)
-      .query({ id: user.user_id })
-      .set('Authorization', user.token)
-      .end((err, res) => {
-        res.should.have.status(401);
-      });
+describe("/Delete/groups/id/members", () => {
+  it("it should remove a group member when user is authenticated and admin", async () => {
+    try {
+      const user = await User.findOne({ email: "test@email.com" });
+      const user2 = await User.findOne({ email: "test3@email.com" });
+      const group = await Group.findOne({ name: "Test Group 2" });
+      const res = await chai
+        .request(server)
+        .delete(`/groups/${group.group_id}/members`)
+        .query({ id: user.user_id })
+        .set("Authorization", user2.token);
+      res.should.have.status(200);
+    } catch (err) {
+      throw err;
+    }
   });
 });
 describe('/Delete/groups/id/members', () => {
-  it('it should remove a group member when parameters are missing', async () => {
-    const user = await User.findOne({ email: 'test3@email.com' });
-    const group = await Group.findOne({ name: 'Test Group 2' });
-    chai.request(server)
-      .delete(`/groups/${group.group_id}/members`)
-      .query({})
-      .set('Authorization', user.token)
-      .end((err, res) => {
-        res.should.have.status(400);
-      });
-  });
+	it('it should not remove a group member when user isnt authenticated', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const res = await chai.request(server)
+				.delete(`/groups/${group.group_id}/members`)
+				.query({ id: user.user_id })
+				.set('Authorization', 'invalidtoken')
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
+});
+describe('/Delete/groups/id/members', () => {
+	it('it should remove a group member when user is not group member', async () => {
+		try {
+			const user = await User.findOne({ email: 'test@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const res = await chai.request(server)
+				.delete(`/groups/${group.group_id}/members`)
+				.query({ id: user.user_id })
+				.set('Authorization', user.token)
+			res.should.have.status(401);
+		} catch (err) {
+			throw err
+		}
+	});
+});
+describe('/Delete/groups/id/members', () => {
+	it('it should remove a group member when parameters are missing', async () => {
+		try {
+			const user = await User.findOne({ email: 'test3@email.com' });
+			const group = await Group.findOne({ name: 'Test Group 2' });
+			const res = await chai.request(server)
+				.delete(`/groups/${group.group_id}/members`)
+				.query({})
+				.set('Authorization', user.token)
+			res.should.have.status(400);
+		} catch (err) {
+			throw err
+		}
+	});
 });
 describe('/Get/groups/id/kids', () => {
-  it('it should fetch the kids of a group', (done) => {
-    Group.findOne({ name: 'Test Group Edit' }, (error, group) => {
-      chai.request(server)
-        .get(`/groups/${group.group_id}/kids`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          done();
-        });
-    });
-  });
+	it('it should fetch the kids of a group', (done) => {
+		Group.findOne({ name: 'Test Group Edit' }, (error, group) => {
+			chai.request(server)
+				.get(`/groups/${group.group_id}/kids`)
+				.end((err, res) => {
+					res.should.have.status(200);
+					done();
+				});
+		});
+	});
 });
 describe('/Get/groups/id/kids', () => {
-  it('it should not fetch the kids of a group when the group has none', (done) => {
-    Group.findOne({ name: 'Test Group 2' }, (error, group) => {
-      chai.request(server)
-        .get(`/groups/${group.group_id}/kids`)
-        .end((err, res) => {
-          res.should.have.status(404);
-          done();
-        });
-    });
-  });
+	it('it should not fetch the kids of a group when the group has none', (done) => {
+		Group.findOne({ name: 'Test Group 2' }, (error, group) => {
+			chai.request(server)
+				.get(`/groups/${group.group_id}/kids`)
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+	});
 });

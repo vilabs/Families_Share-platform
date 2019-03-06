@@ -24,8 +24,7 @@ class GroupNotifications extends React.Component{
                     <Card card={{ 
                         cardHeader: notification.header,
                         cardInfo: notification.description,
-                        learnMore: notification.expandable,
-                        link: "/groups/"+this.props.groupId+"/news/notifications/"+notification.notification_id
+                        learnMore: false,
                     }}/>
                 </li>
             )

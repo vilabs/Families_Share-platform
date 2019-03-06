@@ -63,7 +63,81 @@ const initializeDB = async () => {
     owner_id: user.user_id,
     invite_ids: [],
   };
-  const child = {
+  await chai.request(server).post('/groups').send(group2).set('Authorization', user.token);
+	await chai.request(server).post('/groups').send(group3).set('Authorization', user.token);
+	const group = await Group.findOne({name: "Test Group 2"});
+	const activity = {
+		information: {
+			name: "Test Activity 2",
+			color: "#00838F",
+			description: "test",
+		},
+		dates: {
+			selectedDays: [
+				'2019-03-06T22:00:00.000Z',
+				'2019-03-13T22:00:00.000Z',
+				'2019-03-20T22:00:00.000Z',
+				'2019-03-27T22:00:00.000Z',
+			],
+			repetition: true,
+			repetitionType: 'weekly'
+		},
+		timeslots: {
+			activityTimeslots: [
+				[
+					{
+						startTime: '20:00',
+						endTime: '22:00',
+						description: 'Test ',
+						name: 'Test Timeslot',
+						requiredParents: 4,
+						requiredChildren: 10,
+						cost: 10,
+						location: 'Kuala lumpur'
+					}
+				],
+				[
+					{
+						startTime: '20:00',
+						endTime: '22:00',
+						description: 'Test ',
+						name: 'Test Timeslot',
+						requiredParents: 4,
+						requiredChildren: 10,
+						cost: 10,
+						location: 'Kuala lumpur'
+					}
+				],
+				[
+					{
+						startTime: '20:00',
+						endTime: '22:00',
+						description: 'Test ',
+						name: 'Test Timeslot',
+						requiredParents: 4,
+						requiredChildren: 10,
+						cost: 10,
+						location: 'Kuala lumpur'
+					}
+				],
+				[
+					{
+						startTime: '20:00',
+						endTime: '22:00',
+						description: 'Test ',
+						name: 'Test Timeslot',
+						requiredParents: 4,
+						requiredChildren: 10,
+						cost: 10,
+						location: 'Kuala lumpur'
+					}
+				]
+			],
+			differentTimeslots: false,
+		}
+	};
+	await chai.request(server).post(`/groups/${group.group_id}/activities`).send(activity).set('Authorization', user.token);
+	const child = {
     given_name: 'Test',
     family_name: 'Child',
     gender: 'girl',
@@ -72,9 +146,8 @@ const initializeDB = async () => {
     special_needs: 'no',
     other_info: 'no',
   };
-  await chai.request(server).post('/groups').send(group2).set('Authorization', user.token);
-  await chai.request(server).post('/groups').send(group3).set('Authorization', user.token);
   await chai.request(server).post(`/users/${user.user_id}/children`).send(child).set('Authorization', user.token);
+	
 };
 describe('Test', () => {
   before('Initializing DB', async () => {

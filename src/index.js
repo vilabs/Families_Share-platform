@@ -14,7 +14,7 @@ const config = require('config');
 const dbHost = config.get('dbConfig.host');
 mongoose.set('useCreateIndex', true);
 mongoose.set('useNewUrlParser', true);
-mongoose.connect(process.env[dbHost], { family: 4 }); // { autoIndex: false } set this to false in production to disable auto creating indexes
+mongoose.connect(process.env[dbHost]); // { autoIndex: false } set this to false in production to disable auto creating indexes
 mongoose.Promise = global.Promise;
 
 const app = express();
@@ -31,7 +31,7 @@ app.use(async (req) => {
   }
 });
 app.use(compression());
-if (config.util.getEnv('NODE_ENV') === 'test') {
+if (config.util.getEnv('NODE_ENV') !== 'test') {
   app.use(morgan('dev'));
 }
 app.use(bodyParser.json());
