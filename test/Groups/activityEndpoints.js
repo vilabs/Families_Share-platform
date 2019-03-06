@@ -267,3 +267,77 @@ describe('/Get/groups/groupId/activities/activityId', () => {
 			})
 	});
 });
+describe('/Patch/groups/groupId/activities/activityId', () => {
+	it('it should patch a groups activity when user is authenticated and group admin', async () => {
+		const user = await User.findOne({ email: "test@email.com" });
+		const group = await Group.findOne({ name: "Test Group Edit" });
+		const activity = await Activity.findOne({ name: "Test Activity" });
+		const patch = { name: "Test Activity Edit"}
+		chai.request(server)
+			.patch(`/groups/${group.group_id}/activities/${activity.activity_id}`)
+			.set('Authorization', user.token)
+			.send(patch)
+			.end((err, res) => {
+				res.should.have.status(200);
+			})
+	});
+});
+describe('/Patch/groups/groupId/activities/activityId', () => {
+	it('it should not patch a groups activity when user isnt authenticated', async () => {
+		const group = await Group.findOne({ name: "Test Group Edit" });
+		const activity = await Activity.findOne({ name: "Test Activity Edit" });
+		const patch = { name: "Test Activity Edit"}
+		chai.request(server)
+			.patch(`/groups/${group.group_id}/activities/${activity.activity_id}`)
+			.set('Authorization', 'invalidtoken')
+			.send(patch)
+			.end((err, res) => {
+				res.should.have.status(401);
+			})
+	});
+});
+describe('/Patch/groups/groupId/activities/activityId', () => {
+	it('it should not patch a groups activity when user isnt group member', async () => {
+		const user = await User.findOne({ email: "test4@email.com" });
+		const group = await Group.findOne({ name: "Test Group Edit" });
+		const activity = await Activity.findOne({ name: "Test Activity Edit" });
+		const patch = { name: "Test Activity Edit"}
+		chai.request(server)
+			.patch(`/groups/${group.group_id}/activities/${activity.activity_id}`)
+			.set('Authorization', user.token)
+			.send(patch)
+			.end((err, res) => {
+				res.should.have.status(401);
+			})
+	});
+});
+describe('/Patch/groups/groupId/activities/activityId', () => {
+	it('it should not patch a groups activity when user isnt group admin or activity creator', async () => {
+		const user = await User.findOne({ email: "test3@email.com" });
+		const group = await Group.findOne({ name: "Test Group Edit" });
+		const activity = await Activity.findOne({ name: "Test Activity Edit" });
+		const patch = { name: "Test Activity"}
+		chai.request(server)
+			.patch(`/groups/${group.group_id}/activities/${activity.activity_id}`)
+			.set('Authorization', user.token)
+			.send(patch)
+			.end((err, res) => {
+				res.should.have.status(401);
+			})
+	});
+});
+describe('/Patch/groups/groupId/activities/activityId', () => {
+	it('it should not patch a groups activity when parameters are incorrect', async () => {
+		const user = await User.findOne({ email: "test4@email.com" });
+		const group = await Group.findOne({ name: "Test Group Edit" });
+		const activity = await Activity.findOne({ name: "Test Activity Edit" });
+		const patch = { foo: "bar"}
+		chai.request(server)
+			.patch(`/groups/${group.group_id}/activities/${activity.activity_id}`)
+			.set('Authorization', user.token)
+			.send(patch)
+			.end((err, res) => {
+				res.should.have.status(400);
+			})
+	});
+});

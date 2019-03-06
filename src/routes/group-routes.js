@@ -123,7 +123,7 @@ router.get('/', (req, res, next) => {
 				}).catch(next)
 			break;
 		default:
-
+			res.status(400).send("Bad Request")
   }
 });
 
@@ -342,7 +342,8 @@ router.get('/:id/members', (req, res, next) => {
 router.patch('/:id/members', (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated'); }
   const group_id = req.params.id;
-  const { user_id, patch } = req.body;
+	const  patch = req.body.patch;
+	const user_id = req.body.id
   Member.findOne({
     group_id, user_id: req.user_id, group_accepted: true, user_accepted: true,
   }).then((edittingUser) => {
@@ -354,8 +355,8 @@ router.patch('/:id/members', (req, res, next) => {
     }
     if (!(patch.group_accepted || patch.admin)) {
       return res.status(400).send('Bad Request');
-    }
-    return Member.updateOne({ user_id, group_id }, patch)
+		}
+    return Member.updateOne({ group_id, user_id }, patch)
       .then(() => {
         let message = '';
         if (patch.group_accepted !== undefined) {
@@ -685,14 +686,28 @@ router.get('/:id/activities', (req, res, next) => {
 		}).catch(next);
 });
 
-router.patch('/:id/activities/:activityId', (req, res) => {
-  const activity_id = req.params.activityId;
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const activityPatch = req.body;
-  Activity.updateOne({ activity_id }, activityPatch, (error) => {
-    if (error) res.status(400).send('Something went wrong');
-    res.status(200).send('Activity was updated');
-  });
+router.patch('/:id/activities/:activityId', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	try {
+		const activity_id = req.params.activityId;
+		const activityPatch = req.body;
+		const member = await Member.findOne({ group_id: req.params.id, user_id: req.user_id, group_accepted: true, user_accepted: true });
+		const activity = await Activity.findOne({ activity_id: req.params.activityId });
+		if (!member) {
+			return res.status(401).send("Unauthorized");
+		}
+		if(!(member.admin || activity.creator_id === req.user_id)){
+			return res.status(401).send("Unauthorized");
+		}
+		if (!(activityPatch.name || activityPatch.description || activityPatch.color)) {
+			return res.status(400).send("Bad Request")
+		}
+		await Activity.updateOne({ activity_id }, activityPatch);
+		res.status(200).send("Activity was updated");
+
+	} catch (error) {
+		next(error)
+	};
 });
 
 router.delete('/:groupId/activities/:activityId', (req, res) => {
@@ -792,10 +807,6 @@ router.get('/:groupId/activities/:activityId/timeslots', (req, res) => {
       res.json(activityTimeslots);
     });
   });
-});
-
-router.post('/:id/activities/:activityId/export', (req, res) => {
-
 });
 
 router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', (req, res) => {

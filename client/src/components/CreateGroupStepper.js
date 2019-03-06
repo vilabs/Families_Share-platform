@@ -132,7 +132,8 @@ class CreateGroupStepper extends React.Component {
         this.setState({ fetchedGroups: true, groupNames: groupNames });
       })
       .catch(error => {
-        console.log(error);
+				console.log(error);
+				this.setState({ fetchedGroups: true, groupNames: [] });
 			});
 			document.addEventListener('message', this.handleMessage, false)
 	}

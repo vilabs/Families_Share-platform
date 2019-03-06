@@ -31,7 +31,7 @@ app.use(async (req) => {
   }
 });
 app.use(compression());
-if (config.util.getEnv('NODE_ENV') !== 'test') {
+if (config.util.getEnv('NODE_ENV') === 'test') {
   app.use(morgan('dev'));
 }
 app.use(bodyParser.json());
