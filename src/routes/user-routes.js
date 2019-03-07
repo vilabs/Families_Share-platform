@@ -641,11 +641,10 @@ router.delete('/:userId/groups/:groupId', async (req, res, next) => {
 });
 
 router.post('/:id/export', async (req, res, next) => {
-  if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized');
+  if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized'); }
   const { id } = req.params;
   try {
-    const profile = await Profile.findOne({ user_id: id }).populate('address').populate('image').lean()
-      .exec();
+    const profile = await Profile.findOne({ user_id: id }).populate('address').populate('image').lean().exec();
     const usersGroups = await Member.find({ user_id: id, user_accepted: true, group_accepted: true });
     let groups = [];
     if (usersGroups.length > 0) {
@@ -682,8 +681,8 @@ router.post('/:id/export', async (req, res, next) => {
   }
 });
 
-router.get('/:id/events', async (req, res) => {
-	  if (req.user_id !== req.params.id) return res.status(401).send('Unauthorized');
+router.get('/:id/events', async (req, res, next) => {
+	  if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized'); }
   try {
     const user_id = req.params.id;
     const usersGroups = await Member.find({ user_id, user_accepted: true, group_accepted: true });
@@ -692,11 +691,13 @@ router.get('/:id/events', async (req, res) => {
     const children = await Parent.find({ parent_id: user_id });
     const childIds = children.map(parent => parent.child_id);
     const responses = await Promise.all(groups.map(group => uh.getUsersGroupEvents(group.calendar_id, user_id, childIds)));
-    const events = [].concat(...responses);
+		const events = [].concat(...responses);
+		if(events.length===0){
+			return res.status(404).send("User's calendar has no events")
+		}
     res.status(200).json(events);
   } catch (error) {
-    console.log(error);
-    res.status(400).send('Something went wrong');
+		next(error)
   }
 });
 

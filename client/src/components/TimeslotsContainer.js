@@ -157,7 +157,7 @@ class TimeslotsContainer extends React.Component {
 				<ConfirmDialog isOpen={this.state.confirmDialogIsOpen} title={texts.confirmDialogTitle} handleClose={this.handleConfirmDialogClose} />
 				<CreateTimeslotModal handleCancel={this.handleTimeslotModalCancel} handleClose={this.handleTimeslotModalClose}
 					handleSave={this.handleTimeslotModalSave} {...this.state.expandedTimeslot}
-					handleTimeRangeError={this.handleAlertModalOpen}
+
 				/>
 				{this.renderTimeslots()}
 				{this.renderAddTimeslot()}

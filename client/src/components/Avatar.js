@@ -17,7 +17,7 @@ class Avatar extends React.Component {
         return (     
             <div id="avatarContainer">
                 <img src={this.props.thumbnail} className={this.props.className} style={this.props.style} onClick={this.handleNav}
-                alt="avatar thumbnail" />
+								alt="avatar" />
             </div>
         );
     }

@@ -9,7 +9,7 @@ import registrationActions from "../Actions/RegistrationActions";
 import Images from '../Constants/Images';
 import AlertModal from './AlertModal';
 import PrivacyPolicyModal from './PrivacyPolicyModal';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+//import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 const styles = theme => ({
 	colorSwitchBase: {
@@ -128,13 +128,13 @@ class SignUpForm extends React.Component {
 		this.setState({ profileVisibility: !this.state.profileVisibility})
 	}
   handlePolicyOpen = () => {
-		const target = document.querySelector('.ReactModalPortal')
-		disableBodyScroll(target)
+		//const target = document.querySelector('.ReactModalPortal')
+		//disableBodyScroll(target)
     this.setState({policyModalIsOpen: true});
   }
   handlePolicyClose = () => {
-		const target = document.querySelector('.ReactModalPortal')
-		enableBodyScroll(target)
+		//const target = document.querySelector('.ReactModalPortal')
+		//enableBodyScroll(target)
     this.setState({policyModalIsOpen: false});
   }
   handleAccept = () => {

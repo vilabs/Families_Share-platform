@@ -116,3 +116,18 @@ describe("/Post/users/id/walkthrough", function(){
     });
   });
 });
+//event test when user has events
+describe('/Get/users/userId/events', () => {
+	it('it should not fetch a users events when he is attending none', (done) => {
+		User.findOne({ email: "test@email.com" }, (err, user) => {
+			chai.request(server)
+				.get(`/users/${user.user_id}/events`)
+				.set('Authorization', user.token)
+				.end((err, res) => {
+					res.should.have.status(200);
+					res.body.should.be.a('array').with.lengthOf(1);
+					done();
+				});
+		});
+	});
+});

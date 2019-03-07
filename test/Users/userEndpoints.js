@@ -403,4 +403,29 @@ describe("/Post/users/id/export", () => {
 		});
 	});
 });
-
+describe('/Get/users/userId/events', () => {
+	it('it should not fetch a users events when he isnt authenticated', (done) => {
+		User.findOne({ email: "test@email.com" }, (err, user) => {
+			chai.request(server)
+				.get(`/users/${user.user_id}/events`)
+				.set('Authorization', 'invalidtoken')
+				.end((err, res) => {
+					res.should.have.status(401);
+					done();
+				});
+		});
+	});
+});
+describe('/Get/users/userId/events', () => {
+	it('it should not fetch a users events when he is attending none', (done) => {
+		User.findOne({ email: "test@email.com" }, (err, user) => {
+			chai.request(server)
+				.get(`/users/${user.user_id}/events`)
+				.set('Authorization', user.token)
+				.end((err, res) => {
+					res.should.have.status(404);
+					done();
+				});
+		});
+	});
+});

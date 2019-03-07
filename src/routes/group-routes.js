@@ -525,57 +525,79 @@ router.get('/:groupId/notifications/:notificationId', (req, res) => {
 	// });
 });
 
-router.get('/:id/events', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.id;
-  Group.findOne({ group_id }, (error, group) => {
-    if (error) res.status(400).send('Something went wrong');
-    calendar.events.list({ calendarId: group.calendar_id }, (err, resp) => {
-      if (err) res.status(400).send('Something went wrong');
-      const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'fixed');
-      res.json(events);
-    });
-  });
+router.get('/:id/events', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.id;
+	const user_id = req.user_id;
+	try {
+		const group = await Group.findOne({ group_id })
+		if(!group){
+			return res.status(404).send("Non existing group");
+		}
+		const member = await 	Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		const resp = await calendar.events.list({ calendarId: group.calendar_id });
+		const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'fixed');
+		if(events.length===0){
+			return res.status(404).send("Group has no events");
+		}
+		res.json(events);
+	} catch (error) {
+		next(error);
+}
 });
 
-router.post('/:id/agenda/export', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.id;
-  Group.findOne({ group_id }, (error, group) => {
-    Activity.find({ group_id }, (er, activities) => {
-      if (error) res.status(400).send('Something went wrong');
-      calendar.events.list({ calendarId: group.calendar_id }, async (err, resp) => {
-        if (err) res.status(400).send('Something went wrong');
-        const events = resp.data.items;
-        for (const event of events) {
-          const parentIds = JSON.parse(event.extendedProperties.shared.parents);
-          const childIds = JSON.parse(event.extendedProperties.shared.children);
-          const parents = await Profile.find({ user_id: { $in: parentIds } });
-          const children = await Child.find({ child_id: { $in: childIds } });
-          event.extendedProperties.shared.parents = JSON.stringify(parents.map(parent => `${parent.given_name} ${parent.family_name}`));
-          event.extendedProperties.shared.children = JSON.stringify(children.map(child => `${child.given_name} ${child.family_name}`));
-        }
-        groupAgenda.createExcel(group, activities, events, () => {
-          const mailOptions = {
-            from: process.env.SERVER_MAIL,
-            to: req.email,
-            subject: `${group.name} group agenda`,
-            html: groupAgenda.newGroupAgendaEmail(group.name),
-            attachments: [
-              {
-                filename: `${group.name.toUpperCase()}.xlsx`,
-                path: path.join(__dirname, `../../${group.name}.xlsx`),
-              },
-            ],
-          };
-          transporter.sendMail(mailOptions, (err, info) => {
-            fr('../', { files: `${group.name}.xlsx` });
-          });
-          res.status(200).send('Group Agenda sent');
-        });
-      });
-    });
-  });
+router.post('/:id/agenda/export', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.id;
+	const user_id = req.user_id
+	try {
+		const group = await Group.findOne({ group_id });
+		if(!group){
+			return res.status(404).send("Non existing group");
+		}
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if (!member) {
+			return res.status(401).send("Unauthorized");
+		}
+		const activities = await Activity.find({ group_id });
+		if(activities.length===0){
+			return res.status(404).send("Group has no agenda");
+		}
+		const resp = await calendar.events.list({ calendarId: group.calendar_id });
+		const events = resp.data.items;
+		for (const event of events) {
+			const parentIds = JSON.parse(event.extendedProperties.shared.parents);
+			const childIds = JSON.parse(event.extendedProperties.shared.children);
+			const parents = await Profile.find({ user_id: { $in: parentIds } });
+			const children = await Child.find({ child_id: { $in: childIds } });
+			event.extendedProperties.shared.parents = JSON.stringify(parents.map(parent => `${parent.given_name} ${parent.family_name}`));
+			event.extendedProperties.shared.children = JSON.stringify(children.map(child => `${child.given_name} ${child.family_name}`));
+		}
+		groupAgenda.createExcel(group, activities, events, () => {
+			const mailOptions = {
+				from: process.env.SERVER_MAIL,
+				to: req.email,
+				subject: `${group.name} group agenda`,
+				html: groupAgenda.newGroupAgendaEmail(group.name),
+				attachments: [
+					{
+						filename: `${group.name.toUpperCase()}.xlsx`,
+						path: path.join(__dirname, `../../${group.name}.xlsx`),
+					},
+				],
+			};
+			transporter.sendMail(mailOptions, (err, info) => {
+				fr('../', { files: `${group.name}.xlsx` });
+			});
+			res.status(200).send('Group Agenda sent');
+		});
+
+	} catch (error) {
+		next(error);
+	}
 });
 
 router.post('/:id/activities', async (req, res, next) => {
@@ -795,80 +817,105 @@ router.post('/:groupId/activities/:activityId/export', async (req, res, next) =>
 	}
 });
 
-router.get('/:groupId/activities/:activityId/timeslots', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.groupId;
-  const activity_id = req.params.activityId;
-  Group.findOne({ group_id }, (error, group) => {
-    if (error) res.status(400).send('Something went wrong');
-    calendar.events.list({ calendarId: group.calendar_id }, (err, resp) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send('Something went wrong');
-      }
-      const calendarEvents = resp.data.items;
-      const activityTimeslots = calendarEvents.filter(event => event.extendedProperties.shared.activityId === activity_id);
-      res.json(activityTimeslots);
-    });
-  });
+router.get('/:groupId/activities/:activityId/timeslots', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.groupId;
+	const activity_id = req.params.activityId;
+	const user_id = req.user_id;
+	try {
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if (!member) {
+			return res.status(401).send("Unauthorized");
+		}
+		const group = await Group.findOne({ group_id });
+		const resp = await calendar.events.list({ calendarId: group.calendar_id });
+		const calendarEvents = resp.data.items;
+		const activityTimeslots = calendarEvents.filter(event => event.extendedProperties.shared.activityId === activity_id);
+		res.json(activityTimeslots);
+	} catch (error) {
+		next(error);
+	}
 });
 
-router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.groupId;
-  const timeslotPatch = {
-    summary: req.body.summary,
-    description: req.body.description,
-    location: req.body.location,
-    start: req.body.start,
-    end: req.body.end,
-    extendedProperties: req.body.extendedProperties,
-  };
-  Group.findOne({ group_id }, (error, group) => {
-    if (error) res.status(400).send('Something went wrong');
-    calendar.events.patch({ calendarId: group.calendar_id, eventId: req.body.id, resource: timeslotPatch }, (err, response) => {
-      if (err) {
-        console.log(err);
-        res.status(400).send('Something went wrong');
-      }
-      res.status(200).send('Timeslot was updated');
-    });
-  });
+router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.groupId;
+	const user_id = req.user_id;
+	const activity_id = req.params.activityId;
+	try {
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if (!member) {
+			return res.status(401).send("Unauthorized");
+		}
+		const activity = await Activity.findOne({ activity_id })
+		if (!(member.admin || user_id === activity.creator_id)) {
+			return res.status(401).send("Unauthorized");
+		}
+		const { summary, description, location, start, end, extendedProperties, id } = req.body
+		if (!(summary || description || location || start || end || extendedProperties)) {
+			return res.status(400).send("Bad Request");
+		}
+		const timeslotPatch = {
+			summary,
+			description,
+			location,
+			start,
+			end,
+			extendedProperties
+		};
+		const group = await Group.findOne({ group_id });
+		await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
+		res.status(200).send('Timeslot was updated');
+	} catch (error) {
+		next(error);
+	}
 });
 
-router.get('/:id/announcements', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const { id } = req.params;
-  Announcement.find({ group_id: id })
-    .populate('images')
-    .sort({ createdAt: -1 })
-    .lean()
-    .exec((error, announcements) => {
-      if (error) {
-        res.status(400).send('Something went wrong');
-      }
-      if (announcements) {
-        res.json(announcements);
-      } else {
-        res.status(400).send('No announcements found');
-      }
-    });
+router.get('/:id/announcements', (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const group_id = req.params.id;
+	const user_id = req.user_id;
+	Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
+		.then(member => {
+			if (!member) {
+				return res.status(401).send("Unauthorized");
+			}
+			return Announcement.find({ group_id })
+				.populate('images')
+				.sort({ createdAt: -1 })
+				.lean()
+				.exec()
+				.then(announcements => {
+					if (announcements.length === 0) {
+						return res.status(404).send('Group has no announcements');
+					}
+					res.json(announcements);
+				});
+		}).catch(next);
 });
 
-router.post('/:id/announcements', announcementUpload.array('photo', 5), async (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const group_id = req.params.id;
-  const { user_id } = req.body;
+router.post('/:id/announcements', announcementUpload.array('photo', 3), async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated'); } 
+	const group_id = req.params.id;
+	const user_id = req.user_id;
+  const { message } = req.body;
   const announcement_id = objectid();
   const { files } = req;
-  const announcement = {
-    announcement_id,
-    user_id,
-    group_id,
-    body: req.body.message,
-  };
   try {
-    if (files.length > 0) {
+		const member = await Member.findOne({group_id, user_id, group_accepted: true, user_accepted: true});
+		if(!member){
+			return res.status(401).send("Unauthorized")
+		}
+		if(!(files || message)){
+			return res.status(400).send("Bad Request");
+		}
+		const announcement = {
+			announcement_id,
+			user_id,
+			group_id,
+			body: message,
+		};
+    if (files) {
       const images = [];
       files.forEach((photo) => {
         images.push({
@@ -883,60 +930,97 @@ router.post('/:id/announcements', announcementUpload.array('photo', 5), async (r
     await Announcement.create(announcement);
     res.status(200).send('Announcement was posted');
   } catch (err) {
-    res.status(400).send('Something went wrong');
+    next(err);
   }
 });
 
-router.delete('/:groupId/announcements/:announcementId', async (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const announcement_id = req.params.announcementId;
+router.delete('/:groupId/announcements/:announcementId', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const announcement_id = req.params.announcementId;
+	const user_id = req.user_id;
+	const group_id = req.params.groupId;
   try {
-    await Announcement.deleteOne({ announcement_id });
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true});
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		if(!(member.admin || user_id=== announcement.user_id)){
+			return res.status(401).send("Unauthorized");
+		}
+		await Announcement.deleteOne({ announcement_id });
     await Image.deleteMany({ owner_type: 'announcement', owner_id: announcement_id });
     await Reply.deleteMany({ announcement_id });
     await fr('../images/announcements/', { prefix: req.params.announcementId });
     res.status(200).send('announcement was deleted');
   } catch (error) {
-    res.status(400).send('Something went wrong');
+    next(error);
   }
 });
 
-router.post('/:groupId/announcements/:announcementId/replies', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const announcement_id = req.params.announcementId;
-  const reply = {
-    announcement_id,
-    body: req.body.message,
-    user_id: req.body.user_id,
-  };
-  Reply.create(reply, (error, reply) => {
-    if (error) res.status(400).send('Something went wrong');
-    res.status(200).send('reply was posted');
-  });
+router.post('/:groupId/announcements/:announcementId/replies', (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const announcement_id = req.params.announcementId;
+	const group_id = req.params.groupId;
+	const user_id = req.user_id;
+	Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true})
+	.then( member => {
+		if(!member){
+			return res.status(401).send("Unauthorized");
+		}
+		if (!req.body.message) {
+			return res.status(400).send("Bad Request");
+		}
+		const reply = {
+			announcement_id,
+			body: req.body.message,
+			user_id,
+		};
+		return Reply.create(reply)
+			.then(() => {
+				res.status(200).send('Reply was posted');
+			});
+	}).catch(next);
 });
 
-router.get('/:groupId/announcements/:announcementId/replies', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const announcement_id = req.params.announcementId;
-  Reply.find({ announcement_id }, (error, replies) => {
-    if (error) {
-      res.status(400).send('Something went wrong');
-    }
-    if (replies) {
-      res.json(replies);
-    } else {
-      res.status(400).send('announcement has no replies');
-    }
-  });
+router.get('/:groupId/announcements/:announcementId/replies', (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const announcement_id = req.params.announcementId;
+	const user_id = req.user_id;
+	const group_id = req.params.groupId;
+	Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
+		.then(member => {
+			if (!member) {
+				return res.status(401).send("Unauthorized");
+			}
+			return Reply.find({ announcement_id })
+				.then(replies => {
+					if (replies.length === 0) {
+						return res.status(404).send("Announcement has no replies")
+					}
+					res.json(replies)
+				});
+		}).catch(next);
 });
 
-router.delete('/:groupId/announcements/:announcementId/replies/:replyId', (req, res) => {
-  if (!req.user_id) return res.status(401).send('Not authenticated');
-  const reply_id = req.params.replyId;
-  Reply.deleteOne({ reply_id }, (err) => {
-    if (err) res.status(400).send('Something went wrong');
-    res.status(200).send('reply was deleted');
-  });
+router.delete('/:groupId/announcements/:announcementId/replies/:replyId', async (req, res, next) => {
+	if (!req.user_id) { return res.status(401).send('Not authenticated'); }
+	const reply_id = req.params.replyId;
+	const group_id = req.params.groupId;
+	const user_id = req.user_id;
+	try {
+		const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true });
+		if (!member) {
+			return res.status(401).send('Unauthorized');
+		}
+		const reply = await Reply.findOne({ reply_id });
+		if (!(member.admin || user_id === reply.user_id)) {
+			return res.status(401).send('Unauthorized');
+		}
+		await Reply.deleteOne({ reply_id });
+		res.status(200).send('reply was deleted');
+	} catch (error) {
+		next(error);
+	}
 });
 
 

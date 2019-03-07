@@ -4,13 +4,14 @@ import withLanguage from './LanguageContext';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import PhotoPreviewBubble from './PhotoPreviewBubble';
+import Alert from './AlertModal';
 
 
 
 
 class AnnouncementBar extends React.Component{
     
-    state = { message: "", photos: [] };
+    state = { message: "", photos: [], alertIsOpen: false };
     handleEnter = (event) => {
         if(event.keyCode===13) this.handleSend()
     }
@@ -53,8 +54,8 @@ class AnnouncementBar extends React.Component{
     handlePhotoUpload = async (event) => {
 			if (event.target.files) {
 				const photos = [...event.target.files].map( file => {return { photo: file, preview: ""}})
-				if([photos].length>3){
-					alert("You can only upload a maximum of 3 files");
+				if(photos.length>3){
+					this.setState({alertIsOpen: true});
 				} else {
 					const  photosWithPreview = await Promise.all( photos.map( photo => this.getPhotoPreview(photo)))
 					this.setState({photos: photosWithPreview});
@@ -64,10 +65,19 @@ class AnnouncementBar extends React.Component{
 		handlePreviewDelete = (photo) => {
 			this.setState({ photos: this.state.photos.filter(p => p.preview!== photo.preview )})
 		}
+		handleAlertClose = () => {
+			this.setState({alertIsOpen: false})
+		}
     render(){
         const texts = Texts[this.props.language].replyBar;
         return(
 					<React.Fragment>
+						<Alert 
+							type="error" 
+							isOpen={this.state.alertIsOpen} 
+							handleClose={this.handleAlertClose} 
+							message="You can upload a maximum of 3 files" 
+						/>
 						<PhotoPreviewBubble photos={this.state.photos} handleDelete={this.handlePreviewDelete}/>
 						<div id="announcementBarContainer" className="row no-gutters">
 							<div id="announcementBubble" className="center">

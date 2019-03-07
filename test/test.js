@@ -18,6 +18,8 @@ const Parent = require('../src/models/parent');
 const Child = require('../src/models/child');
 const Activity = require('../src/models/activity');
 const Day = require('../src/models/day');
+const Announcement = require('../src/models/announcement');
+const Reply = require('../src/models/reply');
 
 const importTest = (name, path) => {
   describe(name, () => {
@@ -137,6 +139,10 @@ const initializeDB = async () => {
 		}
 	};
 	await chai.request(server).post(`/groups/${group.group_id}/activities`).send(activity).set('Authorization', user.token);
+	const announcement = {
+		message: "Test Announcement 2"
+	};
+	await chai.request(server).post(`/groups/${group.group_id}/announcements`).send(announcement).set('Authorization',user.token);
 	const child = {
     given_name: 'Test',
     family_name: 'Child',
@@ -155,7 +161,6 @@ describe('Test', () => {
 	});
 	
   importTest('User Endpoints Test', './Users/userEndpoints');
-  importTest('User Various Endpoints Test', './Users/variousEndpoints');
   importTest('Group Endpoints Test', './Groups/groupEndpoints');
   importTest('Users Groups Endpoints Test', './Users/groupEndpoints');
   importTest('Users Profile Endpoints Test', './Users/profileEndpoints');
@@ -163,6 +168,8 @@ describe('Test', () => {
   importTest('Group Members Endpoints Test', './Groups/memberEndpoints');
 	importTest('Group Various Endpoints Test', './Groups/variousEndpoints');
 	importTest('Group Various Endpoints Test', './Groups/activityEndpoints');
+	importTest('Group Announcement Endpoints Test', './Groups/announcementEndpoints');
+	importTest('User Various Endpoints Test', './Users/variousEndpoints');
 
   after('Cleaning up', async () => {
     await User.deleteMany({});
@@ -180,5 +187,7 @@ describe('Test', () => {
 		await Child.deleteMany({});
 		await Activity.deleteMany({});
 		await Day.deleteMany({});
+		await Reply.deleteMany({});
+		await Announcement.deleteMany({});
   });
 });
