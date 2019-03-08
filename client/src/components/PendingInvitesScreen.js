@@ -39,9 +39,7 @@ class PendingInvitesScreen extends React.Component {
       group => group.group_id !== acceptedGroup.group_id
     );
     axios
-      .patch(`/users/${userId}/groups/${acceptedGroup.group_id}`, {
-        patch: { user_accepted: true },
-      })
+      .patch(`/users/${userId}/groups/${acceptedGroup.group_id}`)
       .then(response => {
         console.log(response);
         this.setState({ groups });

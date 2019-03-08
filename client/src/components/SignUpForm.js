@@ -142,6 +142,10 @@ class SignUpForm extends React.Component {
     this.setState({ acceptTerms: true, policyModalIsOpen: false});
 
 	}
+	filledInput = () => {
+		const state = this.state
+		return state.givenName && state.familyName && state.phoneNumber && state.email && state.password && state.passwordConfirm
+	}
   render() {
 		const { classes } = this.props;
     const { error } = this.props;
@@ -251,7 +255,8 @@ class SignUpForm extends React.Component {
         </div>
         <div className="row no-gutters">
           <input
-            type="submit"
+						type="submit"
+						style={this.filledInput()?{backgroundColor: "#00838F",color: "#ffffff"}:{}}
             className="signUpConfirmButton horizontalCenter"
             value={texts.confirm}
           />

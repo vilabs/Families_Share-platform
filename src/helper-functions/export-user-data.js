@@ -1,6 +1,7 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const moment = require('moment');
+const path = require('path');
 
 function newExportEmail(given_name) {
   return (`<div
@@ -28,7 +29,7 @@ function createPdf(profile,groups,children,events,cb) {
   doc.font('Times-Roman').fontSize(18).text(`User's Profile`,{
     align: 'center',
   })
-  doc.image(`./${profile.image.path}`,{width: 150})
+  doc.image(path.join(__dirname, `../..${profile.image.path}`),{width: 150})
   doc.moveDown()
   doc.font('Times-Roman').fontSize(14).text(`Given name: ${profile.given_name}`,{
   align: 'left'})
@@ -53,7 +54,7 @@ function createPdf(profile,groups,children,events,cb) {
     align: 'center',
   })
   children.forEach( child => {
-    doc.image(`./${child.image.path}`,{width: 150, heigh: 150})
+    doc.image(path.join(__dirname, `../..${child.image.path}`),{width: 150, heigh: 150})
     doc.moveDown()
     doc.font('Times-Roman').fontSize(14).text(`Given name: ${child.given_name}`,{
     align: 'left'})

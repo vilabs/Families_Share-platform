@@ -65,11 +65,7 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .post("/users/" + userId + "/groups", {
-        user_id: userId,
         group_id: this.state.group.group_id,
-        admin: false,
-        group_accepted: false,
-        user_accepted: true,
       })
       .then(response => {
         console.log(response);

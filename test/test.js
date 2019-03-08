@@ -170,6 +170,9 @@ describe('Test', () => {
 	importTest('Group Various Endpoints Test', './Groups/activityEndpoints');
 	importTest('Group Announcement Endpoints Test', './Groups/announcementEndpoints');
 	importTest('User Various Endpoints Test', './Users/variousEndpoints');
+	importTest('Child Endpoints Test', './Children/childEndpoints');
+	importTest('Profile Endpoints Test', './Profiles/profileEndpoints');
+
 
   after('Cleaning up', async () => {
     await User.deleteMany({});

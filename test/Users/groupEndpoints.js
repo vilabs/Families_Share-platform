@@ -10,11 +10,7 @@ describe('/Post/users/id/groups', () => {
 		User.findOne({ email: "test3@email.com" }, (err, user) => {
 			Group.findOne({ name: "Test Group Edit" }, (error, group) => {
 				const member = {
-					group_accepted: true,
-					user_accepted: true,
-					admin: false,
 					group_id: group.group_id,
-					user_id: user.user_id,
 				};
 				chai.request(server)
 					.post(`/users/${user.user_id}/groups`)
@@ -33,8 +29,7 @@ describe('/Post/users/id/groups', () => {
 		User.findOne({ email: "test3@email.com" }, (err, user) => {
 			Group.findOne({ name: "Test Group Edit" }, (error, group) => {
 				const member = {
-					group_accepted: true,
-					user_id: user.user_id,
+					admin: true
 				}
 				chai.request(server)
 					.post(`/users/${user.user_id}/groups`)
@@ -52,12 +47,8 @@ describe('/Post/users/id/groups', () => {
 	it('it shoud not add a user as member of a group when user is not authenticated ', (done) => {
 		User.findOne({ email: "test4@email.com" }, (err, user) => {
 			Group.findOne({ name: "Test Group Edit" }, (error, group) => {
-				const member = {
-					group_accepted: true,
-					user_accepted: true,
-					admin: false,
+				const member = {			
 					group_id: group.group_id,
-					user_id: user.user_id,
 				}
 				chai.request(server)
 					.post(`/users/${user.user_id}/groups`)
@@ -114,16 +105,10 @@ describe('/Get/users/id/groups', () =>  {
 describe('/Patch/users/id/groups', () => {
 	it('it should patch a users membership when token user_id matches request user_id', (done) => {
 		User.findOne({ email: "test3@email.com" }, (err, user) => {
-			Group.findOne({ name: "Test Group Edit" }, (err, group) => {
-				const data = {
-					patch : {
-						user_accepted: true
-					},
-				};				
+			Group.findOne({ name: "Test Group Edit" }, (err, group) => {			
 				chai.request(server)
 					.patch(`/users/${user.user_id}/groups/${group.group_id}`)
 					.set('Authorization', user.token)
-					.send(data)
 					.end((err, res) => {
 						res.should.have.status(200);
 						done();
@@ -136,41 +121,14 @@ describe('/Patch/users/id/groups', () => {
 	it('it should not patch a users membership when token user_id doesnt match request user_id', (done) => {
 		Group.findOne({ name: "Test Group Edit" }, (err, group) => {
 			User.find({}, (err, users) => {
-				const data = {
-					patch : {
-						user_accepted: true
-					},
-				};
 				chai.request(server)
 					.patch(`/users/${users[0].user_id}/groups/${group.group_id}`)
 					.set('Authorization', users[1].token)
-					.send(data)
 					.end((err, res) => {
 						res.should.have.status(401);
 						done();
 					});
 			});
-		});
-	});
-});
-describe('/Patch/users/id/groups', () => {
-	it('it should not patch a users membership when parameters are incorrect', (done) => {
-		User.findOne({}, (err, user) => {
-			Group.findOne({ name: "Test Group Edit" }, (err, group) => {
-				const data = {
-					patch : {
-						admin: true
-					},
-				};
-				chai.request(server)
-					.patch(`/users/${user.user_id}/groups/${group.group_id}`)
-					.set('Authorization', user.token)
-					.send(data)
-					.end((err, res) => {
-						res.should.have.status(400);
-						done();
-					});
-			})
 		});
 	});
 });

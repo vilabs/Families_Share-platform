@@ -56,10 +56,14 @@ describe('/Get/users/id/profile', () => {
 });
 describe('/Patch/users/id/profile', () => {
 	it('it should patch a users profile when token user_id matches request user_id', (done) => {
-		User.findOne({}, (err, user) => {
+		User.findOne({email: "test3@email.com"}, (err, user) => {
 			const patch = {
 				given_name: "Dead",
 				family_name: "Pool",
+				visible: true,
+				email: "test3@email.com",
+				phone: "55588748545",
+				phone_type: "mobile"
 			};
 			chai.request(server)
 				.patch(`/users/${user.user_id}/profile`)
