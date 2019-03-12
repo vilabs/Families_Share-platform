@@ -147,7 +147,7 @@ router.post('/', async (req, res, next) => {
     group_id,
     name,
     description,
-    background: '#afdddd',
+    background: '#00838F',
     location,
     owner_id,
     settings_id,
