@@ -240,12 +240,20 @@ class PendingRequestsScreen extends React.Component {
 	};
   render() {
 		const texts = Texts[this.props.language].pendingRequestsScreen;
+		let backNavTitle;
+		if(this.state.requests_type==='user_groups'){
+				backNavTitle = texts.invites;
+		} else if(this.state.requests_type==='group_members'){
+			backNavTitle = texts.requests;
+		} else {
+			backNavTitle = texts.activities;
+		}
     const rowStyle = { height: "7rem" };
     const confirmStyle = { backgroundColor: "#00838F", color: "#ffffff" };
     return this.state.fetchedRequests ? (
       <React.Fragment>
         <BackNavigation
-          title={texts.backNavTitle}
+          title={backNavTitle}
           onClick={() => this.props.history.goBack()}
         />
         <ul id="groupMembersRequestsContainer">
