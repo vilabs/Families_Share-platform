@@ -23,7 +23,7 @@ const imageSchema = new mongoose.Schema({
 	},
 }, { timestamps: true })
 
-imageSchema.index({ owner_type: 1, owner_id: 1 });
+imageSchema.index({ owner_id: 1 });
 
 mongoose.pluralize(null);
 const model = mongoose.model('Image', imageSchema);

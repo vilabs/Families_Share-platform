@@ -114,14 +114,14 @@ export default class GroupMainScreen extends React.Component {
           <Route
             path={currentPath + "/members"}
             render={props => (
-              <GroupMembers {...props} group={this.state.group} />
+              <GroupMembers {...props} group={this.state.group}  userIsAdmin={this.state.userIsAdmin}/>
             )}
           />
           <Route
             exact
             path={currentPath + "/activities"}
             render={props => (
-              <GroupActivities {...props} group={this.state.group}/>
+              <GroupActivities {...props} group={this.state.group} userIsAdmin={this.state.userIsAdmin}/>
             )}
           />
         </Switch>		

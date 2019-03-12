@@ -52,13 +52,10 @@ class MemberContact extends React.Component {
     });
   };
   handleRemoveUser = () => {
-    const groupId = this.props.groupId;
+		const groupId = this.props.groupId;
+		const userId = this.props.member.user_id;
     axios
-      .delete("/groups/" + groupId + "/members", {
-        params: {
-          id: this.props.member.user_id
-        }
-      })
+      .delete(`/groups/${groupId}/members/${userId}`)
       .then(response => {
 				this.props.handleRemoveUser(this.props.member.user_id)
 				console.log(response);

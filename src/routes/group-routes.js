@@ -376,12 +376,13 @@ router.patch('/:id/members', (req, res, next) => {
   }).catch(next);
 });
 
-router.delete('/:id/members', async (req, res, next) => {
+router.delete('/:groupId/members/:memberId', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated'); }
-  const group_id = req.params.id;
-  const user_id = req.query.id;
+	const group_id = req.params.groupId;
+	const user_id = req.user_id;
+	const member_id = req.params.memberId;
   const edittingUser = await Member.findOne({
-    group_id, user_id: req.user_id, group_accepted: true, user_accepted: true,
+    group_id, user_id, group_accepted: true, user_accepted: true,
   });
   if (!edittingUser) {
     return res.status(401).send('Unauthorized');
@@ -389,18 +390,15 @@ router.delete('/:id/members', async (req, res, next) => {
   if (!edittingUser.admin) {
     return res.status(401).send('Unauthorized');
   }
-  if (!user_id) {
-    return res.status(400).send('Bad Request');
-  }
   try {
-    const children = await Parent.find({ parent_id: user_id });
+    const children = await Parent.find({ parent_id: member_id });
     const usersChildrenIds = children.map(child => child.child_id);
     const group = await Group.findOne({ group_id });
 		const response = await calendar.events.list({ calendarId: group.calendar_id });
 		const events = response.data.items.filter(event => event.extendedProperties.shared.status !== 'completed');
 		events.forEach((event) => {
 			const parentIds = JSON.parse(event.extendedProperties.shared.parents);
-			event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id !== user_id));
+			event.extendedProperties.shared.parents = JSON.stringify(parentIds.filter(id => id !== member_id));
 			const childrenIds = JSON.parse(event.extendedProperties.shared.children);
 			event.extendedProperties.shared.children = JSON.stringify(childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1));
 		});
@@ -415,7 +413,7 @@ router.delete('/:id/members', async (req, res, next) => {
 			};
 			calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch });
 		}));
-		await Member.deleteOne({ group_id, user_id });
+		await Member.deleteOne({ group_id, user_id: member_id });
 		res.status(200).send('User removed from group');
 	} catch (error) {
 		next(error);
@@ -621,7 +619,8 @@ router.post('/:id/activities', async (req, res, next) => {
       description: information.description,
       repetition: dates.repetition,
       repetition_type: dates.repetitionType,
-      different_timeslots: timeslots.differentTimeslots,
+			different_timeslots: timeslots.differentTimeslots,
+			status: 'pending',
     };
     const days = dates.selectedDays.map(day => ({
       day_id: objectid(),
@@ -720,7 +719,7 @@ router.patch('/:id/activities/:activityId', async (req, res, next) => {
 		if(!(member.admin || activity.creator_id === req.user_id)){
 			return res.status(401).send("Unauthorized");
 		}
-		if (!(activityPatch.name || activityPatch.description || activityPatch.color)) {
+		if (!(activityPatch.name || activityPatch.description || activityPatch.color || activityPatch.status)) {
 			return res.status(400).send("Bad Request")
 		}
 		await Activity.updateOne({ activity_id }, activityPatch);

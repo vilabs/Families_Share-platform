@@ -84,10 +84,6 @@ const PendingRequestsScreen = Loadable({
 	loader: () => import ('./components/PendingRequestsScreen'),
 	loading: ()=> <div/>,
 })
-const PendingInvitesScreen = Loadable({
-	loader: () => import ('./components/PendingInvitesScreen'),
-	loading: ()=> <div/>,
-})
 const ForgotPasswordScreen = Loadable({
 	loader: () => import ('./components/ForgotPasswordScreen'),
 	loading: ()=> <div/>,
@@ -171,7 +167,7 @@ class App extends React.Component {
             />
             <PrivateRoute
               path="/myfamiliesshare/invites"
-              component={PendingInvitesScreen}
+              component={PendingRequestsScreen}
             />
             <PrivateRoute
               exact
@@ -229,6 +225,10 @@ class App extends React.Component {
               exact
               path="/groups/:groupId/activities/create"
               component={CreateActivityScreen}
+            />
+						<PrivateRoute
+              exact path="/groups/:groupId/activities/pending"
+              component={PendingRequestsScreen}
             />
             <PrivateRoute
               exact

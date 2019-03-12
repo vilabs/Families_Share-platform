@@ -38,18 +38,16 @@ class GroupMembers extends React.Component {
 	}
   async componentDidMount() {
     const groupId = this.state.group.group_id;
-    const userId = JSON.parse(localStorage.getItem("user")).id;
     const members = await getGroupMembers(groupId);
     const acceptedMembers = [];
     let pendingRequests = 0;
-    let userIsAdmin = false;
+    let userIsAdmin = this.props.userIsAdmin;
     members.forEach(member => {
       if (member.user_accepted && member.group_accepted ) {
         acceptedMembers.push(member);
       } else if (member.user_accepted && !member.group_accepted) {
         pendingRequests++;
       }
-      if (member.user_id === userId && member.admin) userIsAdmin = true;
     });
     const settings = await getGroupSettings(groupId);
     this.setState({

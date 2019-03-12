@@ -286,7 +286,7 @@ describe("/Patch/groups/id/members", () => {
     }
   });
 });
-describe("/Delete/groups/id/members", () => {
+describe("/Delete/groups/groupId/members/memberId", () => {
   it("it should not remove a group member when user is not admin", async () => {
     try {
       const user = await User.findOne({ email: "test@email.com" });
@@ -294,8 +294,7 @@ describe("/Delete/groups/id/members", () => {
       await Member.updateOne({ user_id: user.user_id }, { admin: false });
       const res = await chai
         .request(server)
-        .delete(`/groups/${group.group_id}/members`)
-        .query({ id: user.user_id })
+        .delete(`/groups/${group.group_id}/members/${user.user_id}`)
         .set("Authorization", user.token);
       res.should.have.status(401);
     } catch (err) {
@@ -303,7 +302,7 @@ describe("/Delete/groups/id/members", () => {
     }
   });
 });
-describe("/Delete/groups/id/members", () => {
+describe("/Delete/groups/groupId/members/memberId", () => {
   it("it should remove a group member when user is authenticated and admin", async () => {
     try {
       const user = await User.findOne({ email: "test@email.com" });
@@ -311,8 +310,7 @@ describe("/Delete/groups/id/members", () => {
       const group = await Group.findOne({ name: "Test Group 2" });
       const res = await chai
         .request(server)
-        .delete(`/groups/${group.group_id}/members`)
-        .query({ id: user.user_id })
+        .delete(`/groups/${group.group_id}/members/${user.user_id}`)
         .set("Authorization", user2.token);
       res.should.have.status(200);
     } catch (err) {
@@ -320,14 +318,13 @@ describe("/Delete/groups/id/members", () => {
     }
   });
 });
-describe('/Delete/groups/id/members', () => {
+describe('/Delete/groups/groupId/members/memberId', () => {
 	it('it should not remove a group member when user isnt authenticated', async () => {
 		try {
 			const user = await User.findOne({ email: 'test@email.com' });
 			const group = await Group.findOne({ name: 'Test Group 2' });
 			const res = await chai.request(server)
-				.delete(`/groups/${group.group_id}/members`)
-				.query({ id: user.user_id })
+				.delete(`/groups/${group.group_id}/members/${user.user_id}`)
 				.set('Authorization', 'invalidtoken')
 			res.should.have.status(401);
 		} catch (err) {
@@ -335,31 +332,15 @@ describe('/Delete/groups/id/members', () => {
 		}
 	});
 });
-describe('/Delete/groups/id/members', () => {
+describe('/Delete/groups/groupId/members/memberId', () => {
 	it('it should remove a group member when user is not group member', async () => {
 		try {
 			const user = await User.findOne({ email: 'test@email.com' });
 			const group = await Group.findOne({ name: 'Test Group 2' });
 			const res = await chai.request(server)
-				.delete(`/groups/${group.group_id}/members`)
-				.query({ id: user.user_id })
+				.delete(`/groups/${group.group_id}/members/${user.user_id}`)
 				.set('Authorization', user.token)
 			res.should.have.status(401);
-		} catch (err) {
-			throw err
-		}
-	});
-});
-describe('/Delete/groups/id/members', () => {
-	it('it should remove a group member when parameters are missing', async () => {
-		try {
-			const user = await User.findOne({ email: 'test3@email.com' });
-			const group = await Group.findOne({ name: 'Test Group 2' });
-			const res = await chai.request(server)
-				.delete(`/groups/${group.group_id}/members`)
-				.query({})
-				.set('Authorization', user.token)
-			res.should.have.status(400);
 		} catch (err) {
 			throw err
 		}

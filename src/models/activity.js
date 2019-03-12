@@ -34,7 +34,11 @@ const activitySchema = new mongoose.Schema({
 	different_timeslots: {
 		type: Boolean,
 		required: true
-	}
+	},
+	status: {
+		type: String,
+		required: true,
+	},
 },{timestamps: true,toJSON: { virtuals: true }})
 
 activitySchema.index({ group_id: 1, createdAt: -1}); 

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import BackNavigation from "./BackNavigationWithBullets";
 import withLanguage from "./LanguageContext";
 import Calendar from "./Calendar";
 import Texts from "../Constants/Texts.js";
@@ -24,22 +23,23 @@ class GroupActivities extends React.Component {
 		axios.get(`/groups/${groupId}/activities`)
 		.then(response=>{
 			const now = moment().hours(0).unix();
-			const activities  = response.data
-			activities.forEach( activity => {
+			const acceptedActivities  = response.data.filter( activity => activity.status==="accepted");
+			const pendingActivities = response.data.length - acceptedActivities.length;
+			acceptedActivities.forEach( activity => {
 				activity.sortField = Number.POSITIVE_INFINITY;
 				activity.dates.forEach( date => {
 					const d = moment(date.date).unix()
 					if( d - now > 0 && d < activity.sortField) activity.sortField = d;
 				})
 			})
-			const sortedActivities = activities.sort( (a,b) => {
+			const sortedActivities = acceptedActivities.sort( (a,b) => {
 				if( a.sortField <= b.sortField ){
 					return -1
 				} else {
 					return 1
 				}
 			})
-			this.setState({fetchedActivities: true, activities: sortedActivities})
+			this.setState({fetchedActivities: true, activities: sortedActivities, pendingActivities})
 		})
 		.catch( error=>{
 			console.log(error);
@@ -80,7 +80,10 @@ class GroupActivities extends React.Component {
     .catch(error=>{
       console.log(error)
     })
-  }
+	}
+	handlePendingRequests = () => {
+		this.props.history.push(`/groups/${this.state.group.group_id}/activities/pending`)
+	}
   render() {
     const texts = Texts[this.props.language].groupActivities;
     const options = [
@@ -90,19 +93,54 @@ class GroupActivities extends React.Component {
           handle: this.handleExport,
       },
   ];
-    return (
-      <React.Fragment>
-        <ActivityOptionsModal isOpen={this.state.optionsModalIsOpen} 
-        options={options} handleClose={this.handleModalClose}
-        />
-        <BackNavigation
-          title={this.state.group.name} handleModal={this.handleModalOpen}
-          handleBackNav={() => this.props.history.goBack()}
-        />
-        <Calendar
-          handleChangeView={this.handleChangeView}
-          ownerType={"group"}
-          ownerId={this.props.group.group_id}
+		return (
+			<React.Fragment>
+				<ActivityOptionsModal isOpen={this.state.optionsModalIsOpen}
+					options={options} handleClose={this.handleModalClose}
+				/>
+				<div className="row no-gutters" id="groupMembersHeaderContainer">
+					<div className="col-2-10">
+						<button
+							className="transparentButton center"
+							onClick={() => this.props.history.goBack()}
+						>
+							<i className="fas fa-arrow-left" />
+						</button>
+					</div>
+					<div className="col-6-10 ">
+						<h1 className="verticalCenter">{this.state.group.name}</h1>
+					</div>
+					<div className="col-1-10 ">
+						{this.props.userIsAdmin?
+						<button
+							className="transparentButton center"
+							onClick={this.handlePendingRequests}
+						>
+							<i className="fas fa-certificate">
+								{this.state.pendingActivities > 0 ? (
+									<span className="badge">
+										{this.state.pendingActivities}
+									</span>
+								) : (
+										<div />
+									)}
+							</i>
+						</button>
+						:<div/>}
+					</div>
+					<div className="col-1-10 ">
+						<button
+							className="transparentButton center"
+							onClick={this.handleModalOpen}
+						>
+							<i className="fas fa-ellipsis-v" />
+						</button>
+					</div>
+				</div>
+			<Calendar
+				handleChangeView={this.handleChangeView}
+				ownerType={"group"}
+					ownerId={this.props.group.group_id}
         />
           <div style={this.state.activeView==='month'?{}:{display: "none"}}>
             <button id="addActivityThumbnail" onClick={this.addActivity}>
@@ -123,7 +161,8 @@ class GroupActivities extends React.Component {
 }
 
 GroupActivities.propTypes = {
-  group: PropTypes.object
+	group: PropTypes.object,
+	userIsAdmin: PropTypes.bool,
 };
 
 export default withLanguage(GroupActivities);
