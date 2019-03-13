@@ -620,8 +620,8 @@ router.post('/:id/activities', async (req, res, next) => {
       repetition: dates.repetition,
       repetition_type: dates.repetitionType,
       different_timeslots: timeslots.differentTimeslots,
-      status: 'pending'
-    }
+      status: member.admin?'accepted':'pending',
+		}
     const days = dates.selectedDays.map(day => ({
       day_id: objectid(),
       activity_id,
@@ -864,7 +864,15 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
       extendedProperties
     }
     const group = await Group.findOne({ group_id })
-    await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
+		await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
+		const parents = JSON.parse(extendedProperties.shared.parents);
+		const children = JSON.parse(extendedProperties.shared.children);
+		const parentsReq = parents.length >= extendedProperties.shared.requiredParents;
+		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
+		const fixedReq = extendedProperties.shared.status==='fixed';
+		if( parentsReq && childrenReq && fixedReq ){
+			await nh.timeslotRequirementsNotification(summary, group.name, parents)
+		}
     res.status(200).send('Timeslot was updated')
   } catch (error) {
     next(error)

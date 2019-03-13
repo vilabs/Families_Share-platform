@@ -1,4 +1,8 @@
 const en = {
+	ratingModal: {
+		rate: "Rate",
+		rateInstruction: 'Tap the number of stars you would like to give us on a scale from 1-5.',
+	},
   landingHeader: {
     communityName: 'De Stuyverij',
   },
@@ -328,7 +332,8 @@ const en = {
   editProfileScreen: {
     save: 'SAVE',
     header: 'Edit profile',
-    name: 'Name',
+		name: 'Name',
+		surname: 'Surname',
     phoneNumber: 'Phone number',
     phoneLabel: 'Label',
     street: 'Street',
@@ -359,7 +364,8 @@ const en = {
     export: 'Export',
     delete: 'Delete',
     signout: 'Sign out',
-    confirmDialogTitle: 'Are you sure you want to delete your profile and remove all your data?',
+		deleteDialogTitle: 'Are you sure you want to delete your profile and remove all your data?',
+		exportDialogTitle: 'Are you sure you want to export all your personal information?',
   },
   replyBar: {
     new: 'New message',
@@ -395,7 +401,8 @@ const en = {
     otherInfo: 'Other info',
     specialNeeds: 'Special needs',
     addAdditional: 'ADD',
-    addParent: 'ADD PARENT',
+		addParent: 'ADD PARENT',
+		confirmDialogTitle: 'Are you sure you want to delete this parent?'
   },
   editChildProfileScreen: {
     backNavTitle: 'Edit profile',
@@ -491,7 +498,12 @@ const en = {
   },
   activityScreen: {
     color: 'Color',
-    confirmDialogTitle: 'Are you sure you want to delete this activity?',
+		deleteDialogTitle: 'Are you sure you want to delete this activity?',
+		exportDialogTitle: 'Are you sure you want to export this activity?',
+		delete: 'Delete',
+		export: 'Export',
+		every: 'Every',
+		of: 'of',
   },
   timeslotsDrawer: {
     fixed: 'fixed',
@@ -537,7 +549,8 @@ const en = {
     status: 'Timeslot status',
     proposed: 'Proposed',
     fixed: 'Fixed',
-    completed: 'Completed',
+		completed: 'Completed',
+		timeError: 'Invalid start and end time combination'
   },
   editActivityScreen: {
     backNavTitle: 'Edit activity',
@@ -593,6 +606,10 @@ const en = {
 };
 
 const nl = {
+	ratingModal: {
+		rate: "Tarief",
+		rateInstruction: 'Tik op het aantal sterren dat u ons wilt geven op een schaal van 1-5.',
+	},
   landingHeader: {
     communityName: 'De Stuyverij',
   },
@@ -734,13 +751,13 @@ const nl = {
   },
   profileScreen: { privateProfile: 'Profiel is privé' },
   editProfileScreen: {
-    save: 'Opslaan', header: 'Profiel bewerken', name: 'Naam', phoneNumber: 'Telefoon', phoneLabel: 'Label', street: 'Straat', streetNumber: 'Nummer', country: 'Land', city: 'Stad', email: 'Email adres', mobile: 'Mobiel', home: 'Thuis', unspecified: 'Ongedefinieerd', visible: 'Zichtbaar profiel', invisible: 'Onzichtbaar profiel', cityError: 'Stad bestaat niet',
+    save: 'Opslaan', header: 'Profiel bewerken', name: 'Naam', surname: 'Achternaam', phoneNumber: 'Telefoon', phoneLabel: 'Label', street: 'Straat', streetNumber: 'Nummer', country: 'Land', city: 'Stad', email: 'Email adres', mobile: 'Mobiel', home: 'Thuis', unspecified: 'Ongedefinieerd', visible: 'Zichtbaar profiel', invisible: 'Onzichtbaar profiel', cityError: 'Stad bestaat niet',
   },
   editGroupScreen: {
     save: 'Opslaan', header: 'Groep bewerken', name: 'Naam', description: 'Beschrijving', file: 'Upload', city: 'Stad', nameError: 'Deze groepsnaam bestaat al', cityError: 'Deze stad bestaat niet', visible: 'Zichtbare group', invisible: 'Onzichtbare groep',
   },
   profileHeader: {
-    export: 'Exporteer', delete: 'Verwijder', signout: 'Afmelden', confirmDialogTitle: 'Ben je zeker dat je je account wilt verwijderen',
+    export: 'Exporteer', delete: 'Verwijder', signout: 'Afmelden', exportDialogTitle: 'Weet je zeker dat je al je persoonlijke informatie wilt exporteren?',deleteDialogTitle: 'Ben je zeker dat je je account wilt verwijderen',
   },
   replyBar: { new: 'Nieuw bericht' },
   announcementReplies: { new: 'Je bericht…' },
@@ -750,7 +767,7 @@ const nl = {
   childListItem: { boy: 'Jongen', girl: 'Meisje', age: 'jaar oud' },
   childProfileHeader: { delete: 'verwijder kind', confirmDialogTitle: 'Ben je zeker dat je je kind wilt verwijderen' },
   childProfileInfo: {
-    boy: 'Jongen', girl: 'Meisje', unspecified: 'Ongedefinieerd', age: ' jaar oud', additional: 'Extra info', allergies: 'Allergieën', otherInfo: 'Andere info', specialNeeds: 'Specialen noden', addAdditional: 'Voeg toe', addParent: 'Voeg ouder toe',
+    confirmDialogTitle: 'Weet je zeker dat je deze ouder wilt verwijderen?', boy: 'Jongen', girl: 'Meisje', unspecified: 'Ongedefinieerd', age: ' jaar oud', additional: 'Extra info', allergies: 'Allergieën', otherInfo: 'Andere info', specialNeeds: 'Specialen noden', addAdditional: 'Voeg toe', addParent: 'Voeg ouder toe',
   },
   editChildProfileScreen: {
     backNavTitle: 'Profiel bewerken', save: 'Opslaan', name: 'Voornaam', surname: 'Achternaam', birthday: 'Geboortedag', gender: 'Geslacht', additional: 'Voeg specifieke info toe', example: 'bv. voedingsintoleranties', boy: 'Jongen', girl: 'Meisje', date: 'Datum', add: 'Pas aan', month: 'Maand', year: 'Jaar', file: 'Kies een bestand', unspecified: 'Ongedefinieerd',
@@ -776,7 +793,7 @@ const nl = {
   clockModal: {
     am: 'AM', pm: 'PM', start: 'Start', end: 'Einde', confirm: 'OK', cancel: 'Annuleer',
   },
-  activityScreen: { color: 'Kleur', confirmDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen' },
+  activityScreen: { color: 'Kleur', confirmDialogTitle: 'Weet je zeker dat je deze activiteit wilt exporteren?', export: 'Exporteren', delete: 'Verwijder', every: 'Elk', of: 'van', deleteDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen' },
   timeslotsDrawer: {
     proposed: 'voorgestelde', fixed: 'vast', completed: 'voltooid', timeslot: 'Timeslot', timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weinig deelnemers', notEnoughParticipants: 'Tekort aantal deelnemers',
   },
@@ -787,7 +804,7 @@ const nl = {
     signup: 'Schrijf in:', parents: ' ouders ingeschrven', children: ' kinderen ingeschreven', parent: ' ouder ingeschreven', child: ' kind ingeschreven', proposed: 'Voorgesteld', fixed: 'Vastgelegd', completed: 'Voltooid',
   },
   expandedTimeslotEdit: {
-    details: 'Details', from: 'Van', to: 'Tot', parents: 'Benodigde ouders', children: 'Benodigde kinderen', footer: 'Aanpassingen worden enkel toegebracht binnen dit timeslot, niet voor de gehele activiteit', name: 'Titel', location: 'Locatie', description: 'Beschrijving (optioneel)', cost: 'Kost (optioneel)', status: 'Timeslot status', proposed: 'Voorgesteld', fixed: 'Vastgelegd', completed: 'Voltooid',
+    timeError: 'Ongeldige combinatie van begin- en eindtijd',details: 'Details', from: 'Van', to: 'Tot', parents: 'Benodigde ouders', children: 'Benodigde kinderen', footer: 'Aanpassingen worden enkel toegebracht binnen dit timeslot, niet voor de gehele activiteit', name: 'Titel', location: 'Locatie', description: 'Beschrijving (optioneel)', cost: 'Kost (optioneel)', status: 'Timeslot status', proposed: 'Voorgesteld', fixed: 'Vastgelegd', completed: 'Voltooid',
   },
   editActivityScreen: {
     backNavTitle: 'Bewerk activiteit', color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit', save: 'Sla op',
@@ -810,6 +827,10 @@ const nl = {
 };
 
 const it = {
+	ratingModal: {
+		rate: 'Vota',
+		rateInstruction: 'Tocca il numero di stelle che vorresti darci su una scala da 1 a 5.',
+	},
   landingHeader: { communityName: 'Venezia' },
   landingNavbar: { logIn: 'ACCEDI', signUp: 'REGISTRATI' },
   aboutScreen: {
@@ -873,13 +894,13 @@ const it = {
   },
   profileScreen: { privateProfile: 'Il profilo è privato' },
   editProfileScreen: {
-    save: 'SALVA', header: 'Modifica il profilo', name: 'Nome', phoneNumber: 'Numero di telefono', phoneLabel: 'Etichetta', street: 'Via/Piazza', streetNumber: 'Numero civico', country: 'Paese', city: 'Città', email: 'Indirizzo e-mail', mobile: 'Cellulare', home: 'Telefono', unspecified: 'Non specificato', visible: 'Profilo visibile', invisible: 'Profilo non visibile', cityError: 'Città non presente',
+    save: 'SALVA', header: 'Modifica il profilo', name: 'Nome', surname: 'Cognome', phoneNumber: 'Numero di telefono', phoneLabel: 'Etichetta', street: 'Via/Piazza', streetNumber: 'Numero civico', country: 'Paese', city: 'Città', email: 'Indirizzo e-mail', mobile: 'Cellulare', home: 'Telefono', unspecified: 'Non specificato', visible: 'Profilo visibile', invisible: 'Profilo non visibile', cityError: 'Città non presente',
   },
   editGroupScreen: {
     save: 'SALVA', header: 'Modifica gruppo ', name: 'Nome ', description: 'Descrizione', file: 'Carica', city: 'Città', nameError: 'Il nome scelto è già in uso da un altro gruppo', cityError: 'La città non è presente', visible: 'Gruppo visibile', invisible: 'Gruppo non visibile',
   },
   profileHeader: {
-    export: 'Esporta', delete: 'Elimina', signout: 'Esci', confirmDialogTitle: 'Confermi di voler eliminare il tuo account?',
+    export: 'Esporta', delete: 'Elimina', signout: 'Esci', exportDialogTitle: 'Sei sicuro di voler esportare tutte le tue informazioni personali?',deleteDialogTitle: 'Confermi di voler eliminare il tuo account?',
   },
   replyBar: { new: 'Nuovo messaggio' },
   announcementReplies: { new: 'Il tuo commento...' },
@@ -889,7 +910,7 @@ const it = {
   childListItem: { boy: 'Bambino', girl: 'Bambina', age: 'anni' },
   childProfileHeader: { delete: 'Cancella profilo bambino/a', confirmDialogTitle: 'Confermi di voler eliminare il profilo di questo bambino/a?' },
   childProfileInfo: {
-    boy: 'Maschio', girl: 'Femmina', unspecified: 'Non specificato', age: 'Età', additional: 'Informazioni aggiuntive', allergies: 'Allergie', otherInfo: 'Altre informzioni', specialNeeds: 'Bisogni speciali', addAdditional: 'AGGIUNGI', addParent: 'AGGIUNGI GENITORE',
+    confirmDialogTitle: 'Sei sicuro di voler eliminare questo genitore?', boy: 'Maschio', girl: 'Femmina', unspecified: 'Non specificato', age: 'Età', additional: 'Informazioni aggiuntive', allergies: 'Allergie', otherInfo: 'Altre informzioni', specialNeeds: 'Bisogni speciali', addAdditional: 'AGGIUNGI', addParent: 'AGGIUNGI GENITORE',
   },
   editChildProfileScreen: {
     backNavTitle: 'Modifica profilo', save: 'SALVA', name: 'Nome', surname: 'Cognome', birthday: 'Data di nascita', gender: 'Genere', additional: 'Aggiungi informazioni', example: 'es., intolleranze alimentari', boy: 'Bambino', girl: 'Bambina', date: 'Data', add: 'MODIFICA', month: 'Mese', year: 'Anno', file: 'Scegli file', unspecified: 'Non specificato',
@@ -915,7 +936,7 @@ const it = {
   clockModal: {
     am: 'AM', pm: 'PM', start: 'INIZIO', end: 'FINE', confirm: 'OK', cancel: 'CANCELLA',
   },
-  activityScreen: { color: 'Colore', confirmDialogTitle: 'Confermi di eliminare questa attività?' },
+  activityScreen: { color: 'Colore', exportDialogTitle: 'Sei sicuro di voler esportare questa attività?', delete: 'Elimina', export: 'Esportare', every: 'Ogni', of: 'di', deleteDialogTitle: 'Confermi di eliminare questa attività?' },
   timeslotsDrawer: {
     proposed: 'proposto', fixed: 'fisso', completed: 'completato', timeslot: 'Orario', timeslots: 'Orari', available: 'disponibile', all: 'Tutti gli orari', signed: 'Le mie adesioni', enough: 'Con abbastanza partecipanti', notEnough: 'Non ci sono abbastanza volontari', notEnoughParticipants: 'Non ci sono abbastanza partecipanti',
   },
@@ -926,7 +947,7 @@ const it = {
     signup: 'Adesioni:', parents: 'Genitori che partecipa', children: 'Bambini che partecipano', parent: 'Genitore che partecipa', child: 'Bambino/a che partecipa', proposed: 'Proposta', fixed: 'Confermata', completed: 'Completata',
   },
   expandedTimeslotEdit: {
-    details: 'Dettagli', from: 'Da', to: 'A', parents: 'Genitori richiesti', children: 'Bambini richiesti', footer: "Le modifiche saranno apportate solo a questo orario e non all'attività", name: 'Titolo', location: 'Luogo', description: 'Descritzione (facoltativo)', cost: 'Costo (facoltativo)', status: 'Stato di questa attività', proposed: 'Proposta', fixed: 'Confermata', completed: 'Completata',
+    timeError: 'Combinazione di inizio e fine ora non valida',details: 'Dettagli', from: 'Da', to: 'A', parents: 'Genitori richiesti', children: 'Bambini richiesti', footer: "Le modifiche saranno apportate solo a questo orario e non all'attività", name: 'Titolo', location: 'Luogo', description: 'Descritzione (facoltativo)', cost: 'Costo (facoltativo)', status: 'Stato di questa attività', proposed: 'Proposta', fixed: 'Confermata', completed: 'Completata',
   },
   editActivityScreen: {
     backNavTitle: 'Modifica attività', color: "Colore dell'attività", description: 'Descrizione (facoltativo)', name: "Nome dell'attività", save: 'SALVA',
@@ -949,6 +970,10 @@ const it = {
 };
 
 const el = {
+	ratingModal: {
+		rate: 'Αξιολόγηση',
+		rateInstruction: 'Επιλέξετε τον αριθμό αστεριών που θα θέλατε να δώσετε στην εφαρμογή με κλίμακα από 1 έως 5.',
+	},
   landingHeader: { communityName: 'εργάνη' },
   landingNavbar: { logIn: 'ΕΙΣΟΔΟΣ', signUp: 'ΕΓΓΡΑΦΗ' },
   aboutScreen: {
@@ -1012,13 +1037,13 @@ const el = {
   },
   profileScreen: { privateProfile: 'Το προφίλ είναι ιδιωτικό' },
   editProfileScreen: {
-    save: 'ΑΠΟΘΗΚΕΥΣΗ', header: 'Επεξεργασία προφίλ', name: 'Όνομα', phoneNumber: 'Αριθμός τηλεφώνου ', phoneLabel: 'Επιγραφή / Ετικέτα', street: 'Οδός', streetNumber: 'Αριθμός', country: 'Χώρα', city: 'Πόλη', email: 'Διεύθυνση ηλεκτρονικού ταχυδρομείου ', mobile: 'Κινητό (τηλέφωνο)', home: 'Σταθερό (τηλέφωνο)', unspecified: 'Απροσδιόριστο', visible: 'Ορατό προφίλ', invisible: 'Κρυφό προφίλ', cityError: 'Η πόλη δεν υπάρχει',
+    save: 'ΑΠΟΘΗΚΕΥΣΗ', header: 'Επεξεργασία προφίλ', name: 'Όνομα', surname: 'Επίθετο', phoneNumber: 'Αριθμός τηλεφώνου ', phoneLabel: 'Επιγραφή / Ετικέτα', street: 'Οδός', streetNumber: 'Αριθμός', country: 'Χώρα', city: 'Πόλη', email: 'Διεύθυνση ηλεκτρονικού ταχυδρομείου ', mobile: 'Κινητό (τηλέφωνο)', home: 'Σταθερό (τηλέφωνο)', unspecified: 'Απροσδιόριστο', visible: 'Ορατό προφίλ', invisible: 'Κρυφό προφίλ', cityError: 'Η πόλη δεν υπάρχει',
   },
   editGroupScreen: {
     save: 'ΑΠΟΘΗΚΕΥΣΗ', header: 'Επεξεργασία ομάδας', name: 'Όνομα', description: 'Περιγραφή', file: 'Ανεβάστε', city: 'Πόλη', nameError: 'Το όνομα της ομάδας υπάρχει ήδη', cityError: 'Η πόλη δεν υπάρχει', visible: 'Ορατή ομάδα', invisible: 'Κρυφή ομάδα',
   },
   profileHeader: {
-    export: 'Εξαγωγή', delete: 'Διαγραφή', signout: 'Αποσύνδεση', confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;',
+    export: 'Εξαγωγή', delete: 'Διαγραφή', signout: 'Αποσύνδεση', exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;',deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;',
   },
   replyBar: { new: 'Νέο μήνυμα' },
   announcementReplies: { new: 'Το σχόλιο σας…' },
@@ -1028,7 +1053,7 @@ const el = {
   childListItem: { boy: 'Αγόρι', girl: 'Κορίτσι', age: 'χρονών' },
   childProfileHeader: { delete: 'Διαγραφή παιδιού', confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το παιδί;' },
   childProfileInfo: {
-    boy: 'Αγόρι', girl: 'Κορίτσι', unspecified: 'Απροσδιόριστο', age: 'χρονών', additional: 'Επιπλέον πληροφορίες', allergies: 'Αλλεργίες', otherInfo: 'Άλλες πληροφορίες', specialNeeds: 'Ειδικές ανάγκες', addAdditional: 'ΠΡΟΣΘΗΚΗ', addParent: 'ΠΡΟΣΘΗΚΗ ΓΟΝΕΑ',
+    confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτό το γονέα;', boy: 'Αγόρι', girl: 'Κορίτσι', unspecified: 'Απροσδιόριστο', age: 'χρονών', additional: 'Επιπλέον πληροφορίες', allergies: 'Αλλεργίες', otherInfo: 'Άλλες πληροφορίες', specialNeeds: 'Ειδικές ανάγκες', addAdditional: 'ΠΡΟΣΘΗΚΗ', addParent: 'ΠΡΟΣΘΗΚΗ ΓΟΝΕΑ',
   },
   editChildProfileScreen: {
     backNavTitle: 'Επεξεργασία προφίλ', save: 'ΑΠΟΘΗΚΕΥΣΗ', name: 'Όνομα', surname: 'Επίθετο', birthday: 'Ημερομηνία Γέννησης', gender: 'Φύλο', additional: 'Προσθέστε συγκεκριμένες πληροφορίες', example: 'π.χ. δυσανεξία σε τρόφιμα', boy: 'Αγόρι', girl: 'Κορίτσι', date: 'Ημερομηνία', add: 'Επεξεργασία', month: 'Μηνών ', year: 'Ετών', file: 'Επιλέξτε αρχείο', unspecified: 'Απροσδιόριστο',
@@ -1054,7 +1079,7 @@ const el = {
   clockModal: {
     am: 'π.μ.', pm: 'μ.μ.', start: 'ΞΕΚΙΝΗΣΤΕ', end: 'ΤΕΛΟΣ', confirm: 'ΟΚ', cancel: 'ΑΚΥΡΩΣΗ',
   },
-  activityScreen: { color: 'Χρώμα δραστηριότητας', confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;' },
+  activityScreen: { color: 'Χρώμα δραστηριότητας', exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;', export: 'Εξαγωγή', delete: 'Διαγραφή', every: 'Κάθε', of: 'του', deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;' },
   timeslotsDrawer: {
     proposed: 'προτεινόμενη', fixed: 'καθορισμένη', completed: 'ολοκληρωμένη', timeslot: 'Χρονική περίοδος', timeslots: 'Χρονικές περίοδοι', available: 'Διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',
   },
@@ -1065,7 +1090,7 @@ const el = {
     signup: 'Εγραφή:', parents: 'Εγγραφή γονέων', children: 'Εγγραφή παιδιών', parent: 'Εγγραφή γονέα', child: 'Εγγραφή παιδιού', proposed: 'Προτεινόμενο', fixed: 'Σταθερό / Κανονισμένο', completed: 'Ολοκληρωμένο ',
   },
   expandedTimeslotEdit: {
-    details: 'Λεπτομέρειες', from: 'Από', to: 'Προς', parents: 'Απαιτούνται γονείς', children: 'Απαιτούνται παιδιά', footer: 'Οι αλλαγές θα γίνουν μόνο σε αυτήν την χρονική περίοδο και όχι στη δραστηριότητα', name: 'Τίτλος', location: 'Τοποθεσία', description: 'Περιγραφή (προαιρετική)', cost: 'Κόστος (προαιρετικό)', status: 'Κατάσταση χρονικής περιόδου', proposed: 'Προτεινόμενο', fixed: 'Κανονισμένο', completed: 'Ολοκληρωμένο ',
+    timeError: 'Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης',details: 'Λεπτομέρειες', from: 'Από', to: 'Προς', parents: 'Απαιτούνται γονείς', children: 'Απαιτούνται παιδιά', footer: 'Οι αλλαγές θα γίνουν μόνο σε αυτήν την χρονική περίοδο και όχι στη δραστηριότητα', name: 'Τίτλος', location: 'Τοποθεσία', description: 'Περιγραφή (προαιρετική)', cost: 'Κόστος (προαιρετικό)', status: 'Κατάσταση χρονικής περιόδου', proposed: 'Προτεινόμενο', fixed: 'Κανονισμένο', completed: 'Ολοκληρωμένο ',
   },
   editActivityScreen: {
     backNavTitle: 'Επεξεργασία δραστηριότητας', color: 'Χρώμα  δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας', save: 'ΑΠΟΘΗΚΕΥΣΗ',

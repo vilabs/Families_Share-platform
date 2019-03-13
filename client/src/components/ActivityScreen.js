@@ -80,12 +80,11 @@ class ActivityScreen extends React.Component {
 	getDatesString = () => {
 		const activity = this.state.activity;
 		const selectedDays = activity.dates;
-
+		const texts = Texts[this.props.language].activityScreen;
 		let datesString = "";
 		if (activity.repetition_type === "monthly") {
 			let selectedDay = moment(selectedDays[0].date);
-			datesString = "Every " + selectedDay.format('Do ') + " of " + selectedDay.format('MMMM')
-
+			datesString = `${texts.every} ${selectedDay.format('Do ')} ${texts.of} ${selectedDay.format('MMMM')}`;
 		} else {
 			selectedDays.forEach(selectedDay =>
 				datesString += (moment(selectedDay.date).format('D') + ", ")
@@ -147,22 +146,22 @@ class ActivityScreen extends React.Component {
 			})
 	}
 	render() {
+		const texts = Texts[this.props.language].activityScreen;
 		const options = [
 			{
-				label: 'Delete',
+				label: texts.delete,
 				style: "optionsModalButton",
 				handle: () => { this.handleConfirmDialogOpen('delete') },
 			},
 			{
-				label: 'Export',
+				label: texts.export,
 				style: "optionsModalButton",
 				handle: () => { this.handleConfirmDialogOpen('export') },
 			},
 		];
 		const activity = this.state.activity
-		const texts = Texts[this.props.language].activityScreen;
-		const confirmDialogTitle = this.state.action === 'delete' ? texts.confirmDialogTitle
-			: "Are you sure you want to export this activity?"
+		const confirmDialogTitle = this.state.action === 'delete' ? texts.deleteDialogTitle
+			: texts.exportDialogTitle;
 		const rowStyle = { minHeight: "7rem" };
 		return (
 			this.state.fetchedActivityData ?

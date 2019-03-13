@@ -60,7 +60,7 @@ class ChildProfileInfo extends React.Component {
         return(
             <React.Fragment>
 								<ConfirmDialog isOpen={this.state.confirmDialogIsOpen}
-								  title={"Are you sure you want to delete this parent?"} 
+								  title={texts.confirmDialogTitle} 
 								  handleClose={this.handleConfirmDialogClose}
 								/>
                 <AddParentModal isOpen={this.state.modalIsOpen} handleClose={this.handleClose} handleInvite={this.handleAdd}/>

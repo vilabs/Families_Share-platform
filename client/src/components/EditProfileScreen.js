@@ -165,7 +165,7 @@ class EditProfileScreen extends React.Component {
 						onChange={this.handleChange}
 					/>
 					<span className="invalid-feedback" id="nameErr" />
-					<label htmlFor="editFamilyNameInput" id="editFamilyNameLabel">{"Surname"}</label>
+					<label htmlFor="editFamilyNameInput" id="editFamilyNameLabel">{texts.surname}</label>
 					<input
 						type="text"
 						value={this.state.family_name}

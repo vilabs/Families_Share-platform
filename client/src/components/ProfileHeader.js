@@ -73,7 +73,7 @@ class ProfileHeader extends React.Component {
 	}
 	render() {
 		const texts = Texts[this.props.language].profileHeader;
-		const confirmDialogTitle = this.state.action === 'delete' ? texts.confirmDialogTitle : "Are you sure you want to export all your personal information?"
+		const confirmDialogTitle = this.state.action === 'delete' ? texts.deleteDialogTitle : texts.exportDialogTitle;
 		const options = [
 			{
 				label: texts.delete,

@@ -964,7 +964,7 @@ router.post('/:userId/sendmenotification', (req, res, next) => {
           })
           .catch((error) => {
             if (error.code === 'messaging/registration-token-not-registered') {
-              Device.deleteOne({ user_id: req.params.id, device_id: device.device_id })
+              Device.deleteOne({ device_id: device.device_id })
             }
           })
       })

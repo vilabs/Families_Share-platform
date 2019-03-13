@@ -3,6 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from 'axios';
 import Rating from 'react-rating'
+import Texts from '../Constants/Texts';
+import withLanguage from './LanguageContext';
 
 Modal.setAppElement("#root");
 
@@ -29,6 +31,7 @@ class RatingModal extends React.Component {
     })
   }
   render() {
+		const texts = Texts[this.props.language].ratingModal;
     const modalStyle = {
       overlay: {
         zIndex: 10,
@@ -72,10 +75,10 @@ class RatingModal extends React.Component {
 				</div>
 				<div className="ratingFooter">
 					<div className="ratingGuide ">
-						Tap the number of stars you would like to give us on a scale from 1-5.
+						{texts.rateInstruction}
 					</div>
 					<button className="ratingButton" onClick={this.handleRate}>
-						Rate
+						{texts.rate}
 					</button>
 				</div>
 			</Modal>
@@ -88,4 +91,4 @@ RatingModal.propTypes = {
 	handleClose: PropTypes.func,
 };
 
-export default RatingModal;
+export default withLanguage(RatingModal);

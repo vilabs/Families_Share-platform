@@ -27,6 +27,7 @@ class ExpandedTimeslotEdit extends React.Component {
 		this.setState({ [name]: value });
 	}
 	validate = () => {
+		const texts = Texts[this.props.language].expandedTimeslotEdit
 		const formLength = this.formEl.length;
 		if (this.formEl.checkValidity() === false) {
 			for (let i = 0; i < formLength; i++) {
@@ -36,7 +37,7 @@ class ExpandedTimeslotEdit extends React.Component {
 					const endTime = this.state.endTime;
 					const samePeriod = Math.floor(startTime.substr(0, startTime.indexOf(':')) / 12) === Math.floor(endTime.substr(0, endTime.indexOf(':')) / 12);
 					if (samePeriod && startTime >= endTime) {
-						elem.setCustomValidity('Invalid start and end time combination')
+						elem.setCustomValidity(texts.timeError)
 					} else {
 						elem.setCustomValidity("");
 					}

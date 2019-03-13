@@ -1,8 +1,9 @@
-const Profile = require('../models/profile')
-const Notification = require('../models/notification')
-const Member = require('../models/member')
-const Group = require('../models/group')
-var fbadmin = require('firebase-admin')
+const Profile = require('../models/profile');
+const Notification = require('../models/notification');
+const Member = require('../models/member');
+const Group = require('../models/group');
+const Device = require('../models/device');
+var fbadmin = require('firebase-admin');
 
 fbadmin.initializeApp({
   credential: fbadmin.credential.cert({
@@ -13,7 +14,6 @@ fbadmin.initializeApp({
 })
 
 async function newMemberNotification (group_id, user_id) {
-  try {
     const group = await Group.findOne({ group_id: group_id })
     const profile = await Profile.findOne({ user_id: user_id })
     const members = await Member.find({ group_accepted: true, user_accepted: true, group_id: group_id })
@@ -33,18 +33,34 @@ async function newMemberNotification (group_id, user_id) {
         } else {
           notification.code = 1
           notification.subject = ''
-          notification.object = group.name
-        }
-        notifications.push(notification)
-      })
-      await Notification.create(notifications)
-      console.log('New member notification created')
-    }
-  } catch (error) {
-    console.log(error)
-  }
+					notification.object = group.name
+				}
+				notifications.push(notification)
+			})
+			await Notification.create(notifications)
+			console.log('New member notification created')
+		}
 };
 
+async function timeslotRequirementsNotification(timeslotName, groupName, participants) {
+		const devices = await Device.find({ user_id: { $in: participants } });
+		const notification = `Timeslot '${timeslotName}' of group '${groupName} has met all its requirements.'`
+		devices.forEach((device) => {
+			const message = {
+				notification: { title: 'Timeslot Notification', body: notification },
+				token: device.device_id
+			}
+			fbadmin.messaging().send(message)
+				.then(() => {})
+				.catch((error) => {
+					if (error.code === 'messaging/registration-token-not-registered') {
+						Device.deleteOne({ device_id: device.device_id })
+					}
+				})
+		})
+}
+
 module.exports = {
-  newMemberNotification: newMemberNotification
+	newMemberNotification,
+	timeslotRequirementsNotification,
 }
