@@ -26,7 +26,7 @@ class ActivityListItem extends React.Component {
 				this.setState({fetchedTimeslots: true, timeslots: []})
 			})
 		}
-		handleActivityClick = event => {
+		handleActivityClick = (event) => {
 			const pathname = this.props.history.location.pathname;
 			this.props.history.push(pathname + "/" + event.currentTarget.id);
 		};

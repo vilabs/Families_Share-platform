@@ -52,14 +52,17 @@ const getGroupMembers = (groupId) => {
 }
 
 class ActivityScreen extends React.Component {
-	state = {
-		fetchedActivityData: false,
-		activity: {},
-		confirmDialogIsOpen: false,
-		userCanEdit: false,
-		optionsModalIsOpen: false,
-		action: ''
-	};
+	constructor(){
+		super();
+		this.state = {
+			fetchedActivityData: false,
+			activity: {},
+			confirmDialogIsOpen: false,
+			userCanEdit: false,
+			optionsModalIsOpen: false,
+			action: ''
+		};
+	}
 	async componentDidMount() {
 		const userId = JSON.parse(localStorage.getItem("user")).id
 		const activityId = this.props.match.params.activityId;
