@@ -8,15 +8,15 @@ moment.locale('en');
 
 
 class TimeAgo extends React.Component {
-    render(){
-        return(
-                <h2 className="timeAgo">{moment(this.props.date).fromNow()}</h2>
-        );
-    }
+  render() {
+    return (
+      <h2 className="timeAgo">{moment(this.props.date).fromNow()}</h2>
+    );
+  }
 }
 
 export default withLanguage(TimeAgo);
 
-TimeAgo.propTypes= {
-    date: PropTypes.string,
+TimeAgo.propTypes = {
+  date: PropTypes.string,
 };

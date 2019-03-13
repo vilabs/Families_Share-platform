@@ -1,23 +1,23 @@
 import registrationConstants from '../Constants/RegistrationConstants';
 
-const initialState = {signingUp: false};
+const initialState = { signingUp: false };
 
 function registration(state = initialState, action) {
-    switch (action.type) {
+  switch (action.type) {
     case registrationConstants.SIGNUP_REQUEST:
-        return {
+      return {
         signingUp: true,
-        };
+      };
     case registrationConstants.SIGNUP_SUCCESS:
-        return {
-        user: action.user
-        };
+      return {
+        user: action.user,
+      };
     case registrationConstants.SIGNUP_FAILURE:
-        return {
-            error: action.error,
-        };
+      return {
+        error: action.error,
+      };
     default:
-        return state
-    }
+      return state;
+  }
 }
 export default registration;

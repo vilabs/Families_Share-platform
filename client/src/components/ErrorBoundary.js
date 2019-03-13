@@ -1,5 +1,5 @@
-import React from "react";
-import * as Sentry from "@sentry/browser";
+import React from 'react';
+import * as Sentry from '@sentry/browser';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -10,8 +10,8 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, info) {
     // Display fallback UI
     this.setState({ hasError: true });
-    Sentry.withScope(scope => {
-      Object.keys(info).forEach(key => {
+    Sentry.withScope((scope) => {
+      Object.keys(info).forEach((key) => {
         scope.setExtra(key, info[key]);
       });
       Sentry.captureException(error);

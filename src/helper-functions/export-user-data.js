@@ -1,9 +1,9 @@
-const PDFDocument = require('pdfkit');
-const fs = require('fs');
-const moment = require('moment');
-const path = require('path');
+const PDFDocument = require('pdfkit')
+const fs = require('fs')
+const moment = require('moment')
+const path = require('path')
 
-function newExportEmail(given_name) {
+function newExportEmail (given_name) {
   return (`<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -19,71 +19,71 @@ function newExportEmail(given_name) {
     </div>
   </div>
 </div>`
-  );
+  )
 }
 
-function createPdf(profile,groups,children,events,cb) {
-  const doc = new PDFDocument({ autoFirstPage: false });
-  doc.pipe(fs.createWriteStream(`${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`));
-  doc.addPage({margin: 50});  
-  doc.font('Times-Roman').fontSize(18).text(`User's Profile`,{
-    align: 'center',
+function createPdf (profile, groups, children, events, cb) {
+  const doc = new PDFDocument({ autoFirstPage: false })
+  doc.pipe(fs.createWriteStream(`${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`))
+  doc.addPage({ margin: 50 })
+  doc.font('Times-Roman').fontSize(18).text(`User's Profile`, {
+    align: 'center'
   })
-  doc.image(path.join(__dirname, `../..${profile.image.path}`),{width: 150})
+  doc.image(path.join(__dirname, `../..${profile.image.path}`), { width: 150 })
   doc.moveDown()
-  doc.font('Times-Roman').fontSize(14).text(`Given name: ${profile.given_name}`,{
-  align: 'left'})
-  doc.font('Times-Roman').fontSize(14).text(`Family name: ${profile.family_name}`,{
-  align: 'left'})
-  doc.font('Times-Roman').fontSize(14).text(`Email: ${profile.email}`,{
-  align: 'left'})
-  doc.font('Times-Roman').fontSize(14).text(`Number: ${profile.phone}`,{
-  align: 'left'})
-  doc.font('Times-Roman').fontSize(14).text(`Address: ${profile.address.city}, ${profile.address.street} ${profile.address.number}`,{
-  align: 'left'})
+  doc.font('Times-Roman').fontSize(14).text(`Given name: ${profile.given_name}`, {
+    align: 'left' })
+  doc.font('Times-Roman').fontSize(14).text(`Family name: ${profile.family_name}`, {
+    align: 'left' })
+  doc.font('Times-Roman').fontSize(14).text(`Email: ${profile.email}`, {
+    align: 'left' })
+  doc.font('Times-Roman').fontSize(14).text(`Number: ${profile.phone}`, {
+    align: 'left' })
+  doc.font('Times-Roman').fontSize(14).text(`Address: ${profile.address.city}, ${profile.address.street} ${profile.address.number}`, {
+    align: 'left' })
   doc.moveDown()
-  doc.font('Times-Roman').fontSize(18).text(`User's Groups`,{
-    align: 'center',
+  doc.font('Times-Roman').fontSize(18).text(`User's Groups`, {
+    align: 'center'
   })
-  groups.forEach( (group,index)=>{
-    doc.font('Times-Roman').fontSize(14).text(`${index+1}. ${group.name}`,{
-      align: 'left'})
-  });
-  doc.moveDown()
-  doc.font('Times-Roman').fontSize(18).text(`User's Children`,{
-    align: 'center',
+  groups.forEach((group, index) => {
+    doc.font('Times-Roman').fontSize(14).text(`${index + 1}. ${group.name}`, {
+      align: 'left' })
   })
-  children.forEach( child => {
-    doc.image(path.join(__dirname, `../..${child.image.path}`),{width: 150, heigh: 150})
+  doc.moveDown()
+  doc.font('Times-Roman').fontSize(18).text(`User's Children`, {
+    align: 'center'
+  })
+  children.forEach(child => {
+    doc.image(path.join(__dirname, `../..${child.image.path}`), { width: 150, heigh: 150 })
     doc.moveDown()
-    doc.font('Times-Roman').fontSize(14).text(`Given name: ${child.given_name}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Family name: ${child.family_name}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Gender: ${child.gender}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Birthday: ${moment(child.birthdate).format('DD MMMM YYYY')}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Allergies: ${child.allergies}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Special needs: ${child.special_needs}`,{
-    align: 'left'})
-    doc.font('Times-Roman').fontSize(14).text(`Other info: ${child.other_info}`,{
-    align: 'left'})
-    doc.moveDown();
+    doc.font('Times-Roman').fontSize(14).text(`Given name: ${child.given_name}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Family name: ${child.family_name}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Gender: ${child.gender}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Birthday: ${moment(child.birthdate).format('DD MMMM YYYY')}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Allergies: ${child.allergies}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Special needs: ${child.special_needs}`, {
+      align: 'left' })
+    doc.font('Times-Roman').fontSize(14).text(`Other info: ${child.other_info}`, {
+      align: 'left' })
+    doc.moveDown()
   })
-  doc.font('Times-Roman').fontSize(18).text(`User's Events`,{
-    align: 'center',
+  doc.font('Times-Roman').fontSize(18).text(`User's Events`, {
+    align: 'center'
   })
-  events.forEach( (event,index) => {
-    doc.font('Times-Roman').fontSize(14).text(`${index+1}. ${event.summary}`,{
-      align: 'left'})
+  events.forEach((event, index) => {
+    doc.font('Times-Roman').fontSize(14).text(`${index + 1}. ${event.summary}`, {
+      align: 'left' })
   })
   doc.end()
-  cb();
+  cb()
 }
 
 module.exports = {
   newExportEmail: newExportEmail,
-  createPdf: createPdf,
-};
+  createPdf: createPdf
+}

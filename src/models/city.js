@@ -1,21 +1,21 @@
-const mongoose = require('mongoose');
-const objectid = require('objectid');
+const mongoose = require('mongoose')
+const objectid = require('objectid')
 
 const citySchema = new mongoose.Schema({
-    city_id : {
-        type: String,
-        unique: true,
-        default: objectid,
-    },
-    name: {
-        type: String,
-				unique: true,
-				required: true
-    },
-    zipcode: String,
-}, { timestamps: true });
+  city_id: {
+    type: String,
+    unique: true,
+    default: objectid
+  },
+  name: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  zipcode: String
+}, { timestamps: true })
 
-mongoose.pluralize(null);
-const model = mongoose.model('City',citySchema);
+mongoose.pluralize(null)
+const model = mongoose.model('City', citySchema)
 
-module.exports = model ;
+module.exports = model

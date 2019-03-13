@@ -1,5 +1,5 @@
 
-function newWalkthroughEmail(given_name) {
+function newWalkthroughEmail (given_name) {
   return (`<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -15,8 +15,8 @@ function newWalkthroughEmail(given_name) {
     </div>
   </div>
 </div>`
-  );
+  )
 }
 module.exports = {
-  newWalkthroughEmail : newWalkthroughEmail
-};
+  newWalkthroughEmail: newWalkthroughEmail
+}

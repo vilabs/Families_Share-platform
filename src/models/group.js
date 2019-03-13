@@ -1,57 +1,57 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const groupSchema = new mongoose.Schema({
   group_id: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
   name: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
   description: {
     type: String,
-    required: true,
+    required: true
   },
   location: {
     type: String,
-    required: true,
+    required: true
   },
   calendar_id: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
   settings_id: {
     type: String,
     unique: true,
-    required: true,
+    required: true
   },
   image_id: {
     type: String,
-    required: true,
+    required: true
   },
   background: {
     type: String,
-    required: true,
+    required: true
   },
   owner_id: {
     type: String,
-    required: true,
-  },
+    required: true
+  }
 
-}, { timestamps: true, toJSON: { virtuals: true } });
+}, { timestamps: true, toJSON: { virtuals: true } })
 
-groupSchema.index({ name: 1 });
+groupSchema.index({ name: 1 })
 
 groupSchema.virtual('image', {
   ref: 'Image',
   localField: 'image_id',
   foreignField: 'image_id',
-  justOne: true,
-});
+  justOne: true
+})
 // groupSchema.virtual('settings', {
 // 	ref: 'Group_Settings',
 // 	localField: 'settings_id',
@@ -59,8 +59,7 @@ groupSchema.virtual('image', {
 // 	justOne: true,
 // });
 
+mongoose.pluralize(null)
+const model = mongoose.model('Group', groupSchema)
 
-mongoose.pluralize(null);
-const model = mongoose.model('Group', groupSchema);
-
-module.exports = model;
+module.exports = model

@@ -1,15 +1,16 @@
-import  languageConstants  from '../Constants/LanguageConstants';
-let lang =localStorage.getItem('language');
-const initialState = lang ? lang : "en";
+import languageConstants from '../Constants/LanguageConstants';
+
+const lang = localStorage.getItem('language');
+const initialState = lang || 'en';
 
 function language(state = initialState, action) {
-    switch (action.type) {
+  switch (action.type) {
     case languageConstants.UPDATE_REQUEST:
-        return {
-        language: action.language
-        };
+      return {
+        language: action.language,
+      };
     default:
-        return state
-    }
-};
+      return state;
+  }
+}
 export default language;

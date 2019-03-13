@@ -7,13 +7,13 @@ import registration from '../Reducers/RegistrationReducer';
 
 const loggerMiddleware = createLogger();
 
-const rootReducer = combineReducers({language: language, authentication: authentication, registration: registration})
+const rootReducer = combineReducers({ language, authentication, registration });
 const store = createStore(
-    rootReducer,
-    applyMiddleware(
-        thunkMiddleware,
-        loggerMiddleware
-    )
+  rootReducer,
+  applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware,
+  ),
 );
 
 export default store;

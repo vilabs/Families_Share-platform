@@ -1,23 +1,23 @@
-import authenticationConstants from "../Constants/AuthenticationConstants";
-import authenticationServices from "../Services/AuthenticationServices";
+import authenticationConstants from '../Constants/AuthenticationConstants';
+import authenticationServices from '../Services/AuthenticationServices';
 
 const authenticationActions = {
   login,
   logout,
-  googleLogin
+  googleLogin,
 };
 
-function googleLogin(response, history,origin, deviceToken) {
-  return dispatch => {
+function googleLogin(response, history, origin, deviceToken) {
+  return (dispatch) => {
     dispatch(request());
-    authenticationServices.googleLogin(response,origin, deviceToken).then(
-      user => {
+    authenticationServices.googleLogin(response, origin, deviceToken).then(
+      (user) => {
         dispatch(success(user));
-        history.push("/myfamiliesshare");
+        history.push('/myfamiliesshare');
       },
-      error => {
+      (error) => {
         dispatch(failure(error));
-      }
+      },
     );
   };
   function request() {
@@ -32,16 +32,16 @@ function googleLogin(response, history,origin, deviceToken) {
 }
 
 function login(email, password, history, deviceToken) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(request());
     authenticationServices.login(email, password, deviceToken).then(
-      user => {
+      (user) => {
         dispatch(success(user));
-        history.push("/myfamiliesshare");
+        history.push('/myfamiliesshare');
       },
-      error => {
+      (error) => {
         dispatch(failure(error));
-      }
+      },
     );
   };
 
@@ -58,7 +58,7 @@ function login(email, password, history, deviceToken) {
 
 function logout(history) {
   authenticationServices.logout();
-  history.push("/");
+  history.push('/');
   return { type: authenticationConstants.LOGOUT };
 }
 

@@ -1,8 +1,8 @@
-import React from "react";
-import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
-import BackNavigation from "./BackNavigation";
-import CreateActivityStepper from "./CreateActivityStepper";
+import React from 'react';
+import withLanguage from './LanguageContext';
+import Texts from '../Constants/Texts.js';
+import BackNavigation from './BackNavigation';
+import CreateActivityStepper from './CreateActivityStepper';
 
 class CreateActivityScreen extends React.Component {
   render() {

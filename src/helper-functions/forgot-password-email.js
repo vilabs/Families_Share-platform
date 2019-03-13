@@ -1,4 +1,4 @@
-function newForgotPasswordEmail(token) {
+function newForgotPasswordEmail (token) {
   return (`<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -29,9 +29,9 @@ function newForgotPasswordEmail(token) {
     </div>
   </div>
 </div>`
-  );
+  )
 }
 
 module.exports = {
   newForgotPasswordEmail: newForgotPasswordEmail
-};
+}
