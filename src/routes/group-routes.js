@@ -259,7 +259,7 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
   if (!(visible !== undefined && name && description && location && background)) {
     return res.status(400).send('Bad Request')
   }
-  const settingsPatch = { visible }
+	const settingsPatch = { visible }
   const groupPatch = {
     name,
     description,
@@ -275,7 +275,8 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
     }
     if (!edittingUser.admin) {
       return res.status(401).send('Unauthorized')
-    }
+		}
+		await nh.editGroupNotification(id, req.user_id, {...groupPatch, visible, file})
     await Group.updateOne({ group_id: id }, groupPatch)
     await Group_Settings.updateOne({ group_id: id }, settingsPatch)
     if (file) {
@@ -413,7 +414,8 @@ router.delete('/:groupId/members/:memberId', async (req, res, next) => {
       }
       calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
     }))
-    await Member.deleteOne({ group_id, user_id: member_id })
+		await Member.deleteOne({ group_id, user_id: member_id })
+		await nh.removeMemberNotification( user_id, member_id, group_id);
     res.status(200).send('User removed from group')
   } catch (error) {
     next(error)
@@ -494,15 +496,15 @@ router.get('/:id/notifications', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const user = await User.findOne({ user_id: req.user_id })
-    const notifications = await Notification.find({ owner_type: 'group', owner_id: id })
+    const notifications = await Notification.find({ owner_type: 'group', owner_id: id }).lean().exec()
     if (notifications.length === 0) {
       return res.status(404).send('Group has no notifications')
     }
-    for (const notification of notifications) {
-      notification.header = texts[user.language][notification.type][notification.code].header
-      notification.description = await uh.getNotificationDescription(notification, user.language)
-    }
-    res.json([{}])
+    notifications.forEach( notification => {
+      notification.header = texts[user.language][notification.type][notification.code].header;
+			notification.description = nh.getNotificationDescription(notification, user.language);
+		})
+    res.json(notifications)
   } catch (error) {
     next(error)
   }

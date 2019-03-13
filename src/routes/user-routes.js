@@ -8,7 +8,7 @@ const fr = require('find-remove')
 const nodemailer = require('nodemailer')
 const path = require('path')
 const nh = require('../helper-functions/notification-helpers')
-const uh = require('../helper-functions/user-helpers')
+const uh = require('../helper-functions/user-helpers');
 const hf = require('../helper-functions/forgot-password-email')
 const wt = require('../helper-functions/walthrough-email')
 const exportData = require('../helper-functions/export-user-data.js')
@@ -721,10 +721,10 @@ router.get('/:id/notifications', async (req, res, next) => {
     if (notifications.length === 0) {
       return res.status(404).send('User has no notifications')
     }
-    for (const notification of notifications) {
+    notifications.forEach( notification => {
       notification.header = texts[user.language][notification.type][notification.code].header
-      notification.description = await uh.getNotificationDescription(notification, user.language)
-    }
+      notification.description =  nh.getNotificationDescription(notification, user.language)
+    })
     return res.json(notifications)
   } catch (error) {
     next(error)
@@ -733,7 +733,7 @@ router.get('/:id/notifications', async (req, res, next) => {
 
 router.patch('/:id/notifications', (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
-  const user_id = req.param.id
+  const user_id = req.params.id
   Notification.updateMany({ owner_type: 'user', owner_id: user_id, read: false }, { read: true }).then(() => {
     res.status(200).send('Notifications updated')
   }).catch(next)

@@ -6,7 +6,6 @@ const calendar = google.calendar({
   version: 'v3',
   auth: googleToken
 })
-const texts = require('../constants/notification-texts')
 
 const getUsersGroupEvents = (calId, userId, usersChildrenIds) => new Promise((resolve, reject) => {
   calendar.events.list({ calendarId: calId }, (err, response) => {
@@ -30,26 +29,6 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) => new Promise((re
   })
 })
 
-const getNotificationDescription = (notification, language) => {
-  const {
-    type, code, subject, object
-  } = notification
-  const { description } = texts[language][type][code]
-
-  switch (type) {
-    case 'group':
-      switch (code) {
-        case 0:
-          return `${subject}${description}${object}`
-        case 1:
-          return `${description}${object}`
-        default:
-          return ''
-      }
-    default:
-      return ''
-  }
-}
 const unsubcribeChildFromGroupEvents = (calendar_id, child_id) => new Promise(async (resolve, reject) => {
   try {
     const resp = await calendar.events.list({ calendarId: calendar_id })
@@ -76,6 +55,5 @@ const unsubcribeChildFromGroupEvents = (calendar_id, child_id) => new Promise(as
 
 module.exports = {
   unsubcribeChildFromGroupEvents,
-  getNotificationDescription,
   getUsersGroupEvents
 }

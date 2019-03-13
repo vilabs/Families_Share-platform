@@ -9,8 +9,8 @@ class GroupNotifications extends React.Component{
     componentDidMount() {
         axios.get("/groups/"+this.props.groupId+"/notifications")
         .then( response => {
-            const notifications = response.data;
-            this.setState({ fetchedGroupNotifications: true, notifications: notifications });
+						const notifications = response.data;
+            this.setState({ fetchedGroupNotifications: true, notifications });
         })
         .catch( error =>{
             console.log(error);
