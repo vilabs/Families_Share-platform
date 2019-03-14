@@ -199,7 +199,7 @@ async function timeslotRequirementsNotification(timeslotName, participants) {
 	devices.forEach((device,index) => {
 		const language = users.filter( user => user.user_id === device.user_id )[0].language;
 		const message = {
-			notification: { title: texts[language]['activities'][1]['header'], body: texts[language]['activities'][1]['description'] },
+			notification: { title: texts[language]['activities'][1]['header'], body: `${timeslotName} ${texts[language]['activities'][1]['description']}` },
 			token: device.device_id
 		}
 		fbadmin.messaging().send(message)
