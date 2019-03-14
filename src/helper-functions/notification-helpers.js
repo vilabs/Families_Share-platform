@@ -100,7 +100,7 @@ async function editGroupNotification(group_id, user_id, changes) {
 				owner_type: 'group',
 				owner_id: group_id,
 				type: 'group',
-				code: 1,
+				code: 0,
 				read: false,
 				subject: `${profile.given_name} ${profile.family_name}`,
 			})
@@ -110,7 +110,7 @@ async function editGroupNotification(group_id, user_id, changes) {
 				owner_type: 'group',
 				owner_id: group_id,
 				type: 'group',
-				code: 2,
+				code: 1,
 				read: false,
 				subject: `${profile.given_name} ${profile.family_name}`,
 			})
@@ -122,7 +122,7 @@ async function editGroupNotification(group_id, user_id, changes) {
 					owner_type: 'group',
 					owner_id: group_id,
 					type: 'group',
-					code: 4,
+					code: 3,
 					read: false,
 					subject: `${profile.given_name} ${profile.family_name}`,
 				})
@@ -131,7 +131,7 @@ async function editGroupNotification(group_id, user_id, changes) {
 					owner_type: 'group',
 					owner_id: group_id,
 					type: 'group',
-					code: 3,
+					code: 2,
 					read: false,
 					subject: `${profile.given_name} ${profile.family_name}`,
 				})
@@ -142,7 +142,7 @@ async function editGroupNotification(group_id, user_id, changes) {
 				owner_type: 'group',
 				owner_id: group_id,
 				type: 'group',
-				code: 5,
+				code: 4,
 				read: false,
 				subject: `${profile.given_name} ${profile.family_name}`,
 			})
@@ -196,7 +196,7 @@ async function timeslotRequirementsNotification(timeslotName, participants) {
 		})
 	})
 	await Notification.create(notifications);
-	devices.forEach((device,index) => {
+	devices.forEach( device => {
 		const language = users.filter( user => user.user_id === device.user_id )[0].language;
 		const message = {
 			notification: { title: texts[language]['activities'][1]['header'], body: `${timeslotName} ${texts[language]['activities'][1]['description']}` },
@@ -222,7 +222,7 @@ const getNotificationDescription = (notification, language) => {
 		case 'group':
 			switch (code) {
 				case 0:
-					return description;
+					return `${subject} ${description}`
 				case 1:
 					return `${subject} ${description}`
 				case 2:
@@ -230,8 +230,6 @@ const getNotificationDescription = (notification, language) => {
 				case 3:
 					return `${subject} ${description}`
 				case 4:
-					return `${subject} ${description}`
-				case 5:
 					return `${subject} ${description}`
 				default: 
 					return ''
@@ -241,7 +239,7 @@ const getNotificationDescription = (notification, language) => {
 				case 0:
 					return `${subject} ${description} ${object}.`
 				case 1:
-					return `${subject} ${description}.`
+					return `${subject} ${description}`
 				case 2:
 					return `${subject} ${description} ${object}.`
 				case 3:
@@ -254,7 +252,7 @@ const getNotificationDescription = (notification, language) => {
 				case 0:
 					return `${subject} ${description} ${object}.`
 				case 1:
-					return `${subject} ${description}.`
+					return `${subject} ${description}`
 				default: 
 					return ''
 			}

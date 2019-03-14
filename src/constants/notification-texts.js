@@ -1,9 +1,5 @@
 const en = {
   group: [  
-    {
-      header: 'Welcome',
-      description: 'Welcome into our group!'
-		},
 		{
 			header: 'Group Settings',
 			description: " changed the photo of the group."
@@ -14,16 +10,16 @@ const en = {
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group invisible"
+			description: " made the group invisible."
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group visible"
+			description: " made the group visible."
 		},
 		
 		{
 			header: 'Group Settings',
-			description: " changed the description of the group"
+			description: " changed the description of the group."
 		},
 	],
 	members: [
@@ -63,10 +59,6 @@ const en = {
 }
 const it = {
   group: [  
-    {
-      header: 'Welcome',
-      description: 'Welcome into our group!'
-		},
 		{
 			header: 'Group Settings',
 			description: " changed the photo of the group."
@@ -77,16 +69,16 @@ const it = {
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group invisible"
+			description: " made the group invisible."
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group visible"
+			description: " made the group visible."
 		},
 		
 		{
 			header: 'Group Settings',
-			description: " changed the description of the group"
+			description: " changed the description of the group."
 		},
 	],
 	members: [
@@ -126,10 +118,6 @@ const it = {
 }
 const nl = {
   group: [  
-    {
-      header: 'Welcome',
-      description: 'Welcome into our group!'
-		},
 		{
 			header: 'Group Settings',
 			description: " changed the photo of the group."
@@ -140,16 +128,16 @@ const nl = {
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group invisible"
+			description: " made the group invisible."
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group visible"
+			description: " made the group visible."
 		},
 		
 		{
 			header: 'Group Settings',
-			description: " changed the description of the group"
+			description: " changed the description of the group."
 		},
 	],
 	members: [
@@ -189,10 +177,6 @@ const nl = {
 }
 const el = {
   group: [  
-    {
-      header: 'Welcome',
-      description: 'Welcome into our group!'
-		},
 		{
 			header: 'Group Settings',
 			description: " changed the photo of the group."
@@ -203,50 +187,50 @@ const el = {
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group invisible"
+			description: " made the group invisible."
 		},
 		{
 			header: 'Group Settings',
-			description: " made the group visible"
+			description: " made the group visible."
 		},
 		
 		{
 			header: 'Group Settings',
-			description: " changed the description of the group"
+			description: " changed the description of the group."
 		},
 	],
 	members: [
 		{
-      header: 'New Member',
-      description: ' entered group '
+      header: 'Μέλη Ομάδας',
+      description: ' έγινε μέλος της ομάδας '
     },
     {
-      header: 'Join Request',
-      description: 'You were accepted into '
+      header: 'Μέλη Ομάδας',
+      description: 'Έγινες μέλος της ομάδας '
 		},
 		{
-			header: 'Group Members',
-			description: " was removed from the group "
+			header: 'Μέλη ομάδας',
+			description: " αφαιρέθηκε από μέλος της ομάδας "
 		},
 		{
-			header: 'Group Members',
-			description: "You were removed from the group "
+			header: 'Μέλη ομάδας',
+			description: "Αφαιρεθήκατε από μέλος της ομάδας "
 		},
 	],
 	activities: [
 		{
-			header: 'Group Activities',
-			description: " created a new activity in group "
+			header: 'Δραστηριότητες Ομάδας',
+			description: " δημιούργησε μια νέα δραστηριότητα στην ομάδα "
 		},
 		{
-			header: 'Group Activities',
-			description: " has met all its requirements."
+			header: 'Δραστηριότητες Ομάδας',
+			description: " ικανοποιεί πλέον όλες τις απαιτήσεις."
 		}
 	],
 	announcements: [
 		{
-			header: 'Group Announcements',
-			description: ' posted a new announcement in group ',
+			header: 'Ανακοινώσεις Ομάδας',
+			description: ' δημιούργησε μια νέα ανακοίνωση στην ομάδα ',
 		},
 	],
 }
