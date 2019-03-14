@@ -12,7 +12,6 @@ const jwt = new google.auth.JWT(process.env.GOOGLE_CLIENT_EMAIL, null, process.e
 const path = require('path')
 const sharp = require('sharp')
 const nodemailer = require('nodemailer')
-const uh = require('../helper-functions/user-helpers')
 const texts = require('../constants/notification-texts')
 const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')

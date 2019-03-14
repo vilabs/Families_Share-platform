@@ -27,7 +27,7 @@ describe("/Get/groups/id/notifications", () => {
 				.get(`/groups/${group.group_id}/notifications`)
 				.set("Authorization", user.token)
 			res.should.have.status(200);
-			res.body.should.be.a("array").with.lengthOf(1);
+			res.body.should.be.a("array").with.lengthOf(3);
 		} catch (err) {
 			throw err
 		}

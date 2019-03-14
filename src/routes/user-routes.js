@@ -99,7 +99,7 @@ router.post('/', async (req, res, next) => {
     const user_id = objectid()
     const address_id = objectid()
     const image_id = objectid()
-    const token = jwt.sign({ user_id }, process.env.SERVER_SECRET)
+    const token = jwt.sign({ user_id, email }, process.env.SERVER_SECRET)
     const newUser = {
       user_id,
       provider: 'families_share',
@@ -207,8 +207,9 @@ router.post('/authenticate/email', async (req, res, next) => {
       image: profile.image.path,
       token
     }
-    user.last_login = new Date()
-    user.language = language
+    user.last_login = new Date();
+		user.language = language;
+		user.token = token;
     await user.save()
     res.json(response)
   } catch (error) {
@@ -253,7 +254,9 @@ router.post('/authenticate/google', async (req, res, next) => {
         origin: req.body.origin
       }
       user.last_login = new Date()
-      user.language = language
+			user.language = language
+			user.token = token;
+			user.auth0_token = googleToken;
       await user.save()
       res.json(response)
     } else {
@@ -510,11 +513,11 @@ router.get('/:id/groups', (req, res, next) => {
 router.post('/:id/walkthrough', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   try {
-    const user = await User.findOne({ user_id: req.user_id })
-    const profile = await Profile.findOne({ user_id: req.user_id })
+    const { user_id, email } = req;
+    const profile = await Profile.findOne({ user_id })
     const mailOptions = {
       from: process.env.SERVER_MAIL,
-      to: user.email,
+      to: email,
       subject: 'Platform walkthrough',
       html: wt.newWalkthroughEmail(profile.given_name),
       attachments: [
@@ -597,7 +600,7 @@ router.delete('/:userId/groups/:groupId', async (req, res, next) => {
 
 router.post('/:id/export', async (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
-  const { user_id } = req
+  const { user_id, email } = req
   try {
     const profile = await Profile.findOne({ user_id }).populate('address').populate('image').lean().exec()
     const usersGroups = await Member.find({ user_id, user_accepted: true, group_accepted: true })
@@ -610,7 +613,7 @@ router.post('/:id/export', async (req, res, next) => {
     exportData.createPdf(profile, groups, children, events, () => {
       const mailOptions = {
         from: process.env.SERVER_MAIL,
-        to: req.email,
+        to: email,
         subject: `${profile.given_name} ${profile.family_name} Families Share Data`,
         html: exportData.newExportEmail(profile.given_name),
         attachments: [
@@ -909,34 +912,34 @@ router.delete('/:userId/children/:childId', async (req, res, next) => {
 })
 
 router.get('/:userId/children/:childId/parents', (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Unauthorized') }
-  const child_id = req.params.childId
-  Parent.find({ child_id }).then(parents => {
-    if (parents.length === 0) {
-      res.status(404).send('Parents not found')
-    }
-    const parentIds = parents.map(parent => parent.parent_id)
-    return Profile.find({ user_id: { $in: parentIds } })
-  }).then(parentProfiles => {
-    res.json(parentProfiles)
-  }).catch(next)
+	if (!req.user_id) { return res.status(401).send('Unauthorized') }
+	const child_id = req.params.childId
+	Parent.find({ child_id }).then(parents => {
+		if (parents.length === 0) {
+			res.status(404).send('Parents not found')
+		}
+		const parentIds = parents.map(parent => parent.parent_id)
+		return Profile.find({ user_id: { $in: parentIds } })
+	}).then(parentProfiles => {
+		res.json(parentProfiles)
+	}).catch(next)
 })
 
 router.post('/:userId/children/:childId/parents', (req, res, next) => {
-  if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized') }
-  const { parentId } = req.body
-  const child_id = req.params.childId
-  Parent.find({ child_id }).then(parents => {
-    if (parents.length >= 2 || !parentId) {
-      return res.status(400).send('Bad Request')
-    }
-    return Parent.create({
-      parent_id: parentId,
-      child_id
-    })
-  }).then(() => {
-    res.status(200).send('Parent added')
-  }).catch(next)
+	if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized'); }
+	const { parentId } = req.body
+	const child_id = req.params.childId
+	Parent.find({ child_id }).then(parents => {
+		if (parents.length >= 2 || !parentId) {
+			return res.status(400).send('Bad Request');
+		}
+		return Parent.create({
+			parent_id: parentId,
+			child_id
+		}).then(() => {
+			res.status(200).send('Parent added')
+		})
+	}).catch(next)
 })
 
 router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) => {
