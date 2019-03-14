@@ -946,7 +946,8 @@ router.post('/:id/announcements', announcementUpload.array('photo', 3), async (r
       })
       await Image.create(images)
     }
-    await Announcement.create(announcement)
+    await Announcement.create(announcement);
+    await nh.newAnnouncementNotification(group_id, user_id);
     res.status(200).send('Announcement was posted')
   } catch (err) {
     next(err)

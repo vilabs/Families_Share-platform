@@ -55,7 +55,10 @@ const en = {
 		}
 	],
 	announcements: [
-
+		{
+			header: 'Group Announcements',
+			description: ' posted a new announcement in group ',
+		},
 	],
 }
 const it = {
@@ -115,7 +118,10 @@ const it = {
 		}
 	],
 	announcements: [
-
+		{
+			header: 'Group Announcements',
+			description: ' posted a new announcement in group ',
+		},
 	],
 }
 const nl = {
@@ -175,7 +181,10 @@ const nl = {
 		}
 	],
 	announcements: [
-
+		{
+			header: 'Group Announcements',
+			description: ' posted a new announcement in group ',
+		},
 	],
 }
 const el = {
@@ -235,7 +244,10 @@ const el = {
 		}
 	],
 	announcements: [
-
+		{
+			header: 'Group Announcements',
+			description: ' posted a new announcement in group ',
+		},
 	],
 }
 

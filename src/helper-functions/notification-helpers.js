@@ -67,6 +67,28 @@ async function newActivityNotification(group_id, user_id) {
 	}
 };
 
+async function newAnnouncementNotification(group_id, user_id) {
+	const object = await Group.findOne({ group_id });
+	const subject = await Profile.findOne({ user_id });
+	const members = await Member.find({ group_id, user_id: { $ne: user_id } ,group_accepted: true, user_accepted: true })
+	if (subject && object) {
+		const notifications = []
+		members.forEach( member => {
+			notifications.push({
+				owner_type: 'user',
+				owner_id: member.user_id,
+				type: 'announcements',
+				code: 0,
+				read: false,
+				subject: `${subject.given_name} ${subject.family_name}`,
+				object: `${object.name}`
+			})
+		})
+		await Notification.create(notifications)
+		console.log('New member notification created')
+	}
+};
+
 async function editGroupNotification(group_id, user_id, changes) {
 	const group = await Group.findOne({ group_id });
 	const settings = await Settings.findOne({ group_id });
@@ -237,6 +259,8 @@ const getNotificationDescription = (notification, language) => {
 			}
 		case 'announcements': 
 			switch (code){
+				case 0: 
+					return `${subject} ${description} ${object}.`
 				default: 
 					return ''
 			}
@@ -252,4 +276,5 @@ module.exports = {
 	getNotificationDescription,
 	removeMemberNotification,
 	newActivityNotification,
+	newAnnouncementNotification
 }
