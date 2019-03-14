@@ -51,7 +51,7 @@ const en = {
 		},
 		{
 			header: 'Group Activities',
-			description: " has me all its requirements."
+			description: " has met all its requirements."
 		}
 	],
 	announcements: [
@@ -114,7 +114,7 @@ const it = {
 		},
 		{
 			header: 'Group Activities',
-			description: " has me all its requirements."
+			description: " has met all its requirements."
 		}
 	],
 	announcements: [
@@ -177,7 +177,7 @@ const nl = {
 		},
 		{
 			header: 'Group Activities',
-			description: " has me all its requirements."
+			description: " has met all its requirements."
 		}
 	],
 	announcements: [
@@ -240,7 +240,7 @@ const el = {
 		},
 		{
 			header: 'Group Activities',
-			description: " has me all its requirements."
+			description: " has met all its requirements."
 		}
 	],
 	announcements: [
