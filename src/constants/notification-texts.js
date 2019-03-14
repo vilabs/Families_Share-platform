@@ -1,13 +1,5 @@
 const en = {
-  group: [
-    {
-      header: 'New Member',
-      description: ' entered group '
-    },
-    {
-      header: 'Join Request',
-      description: 'You were accepted into '
-    },
+  group: [  
     {
       header: 'Welcome',
       description: 'Welcome into our group!'
@@ -21,32 +13,56 @@ const en = {
 			description: " changed the name of the group."
 		},
 		{
-			header: 'Group Members',
-			description: " removed from the group "
-		},
-		{
 			header: 'Group Settings',
 			description: " made the group invisible"
 		},
 		{
 			header: 'Group Settings',
 			description: " made the group visible"
+		},
+		
+		{
+			header: 'Group Settings',
+			description: " changed the description of the group"
+		},
+	],
+	members: [
+		{
+      header: 'New Member',
+      description: ' entered group '
+    },
+    {
+      header: 'Join Request',
+      description: 'You were accepted into '
+		},
+		{
+			header: 'Group Members',
+			description: " was removed from the group "
+		},
+		{
+			header: 'Group Members',
+			description: "You were removed from the group "
+		},
+	],
+	activities: [
+		{
+			header: 'Group Activities',
+			description: " created a new activity in group "
+		},
+		{
+			header: 'Group Activities',
+			description: " has me all its requirements."
 		}
-  ]
+	],
+	announcements: [
+
+	],
 }
 const it = {
-  group: [
+  group: [  
     {
-      header: 'Nuovo Membro',
-      description: ' inserito gruppo '
-    },
-    {
-      header: 'Join Request',
-      description: 'You were accepted into '
-    },
-    {
-      header: 'Benvenuto',
-      description: 'Benvenuto nel nostro gruppo!'
+      header: 'Welcome',
+      description: 'Welcome into our group!'
 		},
 		{
 			header: 'Group Settings',
@@ -57,32 +73,56 @@ const it = {
 			description: " changed the name of the group."
 		},
 		{
-			header: 'Group Members',
-			description: " removed from the group "
-		},
-		{
 			header: 'Group Settings',
 			description: " made the group invisible"
 		},
 		{
 			header: 'Group Settings',
 			description: " made the group visible"
+		},
+		
+		{
+			header: 'Group Settings',
+			description: " changed the description of the group"
+		},
+	],
+	members: [
+		{
+      header: 'New Member',
+      description: ' entered group '
+    },
+    {
+      header: 'Join Request',
+      description: 'You were accepted into '
+		},
+		{
+			header: 'Group Members',
+			description: " was removed from the group "
+		},
+		{
+			header: 'Group Members',
+			description: "You were removed from the group "
+		},
+	],
+	activities: [
+		{
+			header: 'Group Activities',
+			description: " created a new activity in group "
+		},
+		{
+			header: 'Group Activities',
+			description: " has me all its requirements."
 		}
-  ]
+	],
+	announcements: [
+
+	],
 }
 const nl = {
-  group: [
+  group: [  
     {
-      header: 'Nieuw Lid',
-      description: ' ingevoerde groep '
-    },
-    {
-      header: 'Join Request',
-      description: 'You were accepted into '
-    },
-    {
-      header: 'Welkom',
-      description: 'Welkom in onze groep!'
+      header: 'Welcome',
+      description: 'Welcome into our group!'
 		},
 		{
 			header: 'Group Settings',
@@ -93,33 +133,56 @@ const nl = {
 			description: " changed the name of the group."
 		},
 		{
-			header: 'Group Members',
-			description: " removed from the group "
-		},
-		{
 			header: 'Group Settings',
 			description: " made the group invisible"
 		},
 		{
 			header: 'Group Settings',
 			description: " made the group visible"
+		},
+		
+		{
+			header: 'Group Settings',
+			description: " changed the description of the group"
+		},
+	],
+	members: [
+		{
+      header: 'New Member',
+      description: ' entered group '
+    },
+    {
+      header: 'Join Request',
+      description: 'You were accepted into '
+		},
+		{
+			header: 'Group Members',
+			description: " was removed from the group "
+		},
+		{
+			header: 'Group Members',
+			description: "You were removed from the group "
+		},
+	],
+	activities: [
+		{
+			header: 'Group Activities',
+			description: " created a new activity in group "
+		},
+		{
+			header: 'Group Activities',
+			description: " has me all its requirements."
 		}
-  ]
-}
+	],
+	announcements: [
 
+	],
+}
 const el = {
-  group: [
+  group: [  
     {
-      header: 'Νέο Μέλος',
-      description: ' έγινε μέλος της ομάδας '
-    },
-    {
-      header: 'Join Request',
-      description: 'You were accepted into '
-    },
-    {
-      header: 'Καλωσόρισμα',
-      description: 'Καλως ήρθατε στην ομάδα μας!'
+      header: 'Welcome',
+      description: 'Welcome into our group!'
 		},
 		{
 			header: 'Group Settings',
@@ -130,18 +193,50 @@ const el = {
 			description: " changed the name of the group."
 		},
 		{
-			header: 'Group Members',
-			description: " removed from the group "
-		},
-		{
 			header: 'Group Settings',
 			description: " made the group invisible"
 		},
 		{
 			header: 'Group Settings',
 			description: " made the group visible"
+		},
+		
+		{
+			header: 'Group Settings',
+			description: " changed the description of the group"
+		},
+	],
+	members: [
+		{
+      header: 'New Member',
+      description: ' entered group '
+    },
+    {
+      header: 'Join Request',
+      description: 'You were accepted into '
+		},
+		{
+			header: 'Group Members',
+			description: " was removed from the group "
+		},
+		{
+			header: 'Group Members',
+			description: "You were removed from the group "
+		},
+	],
+	activities: [
+		{
+			header: 'Group Activities',
+			description: " created a new activity in group "
+		},
+		{
+			header: 'Group Activities',
+			description: " has me all its requirements."
 		}
-  ]
+	],
+	announcements: [
+
+	],
 }
 
 module.exports = {

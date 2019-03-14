@@ -415,7 +415,7 @@ router.delete('/:groupId/members/:memberId', async (req, res, next) => {
       calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
     }))
 		await Member.deleteOne({ group_id, user_id: member_id })
-		await nh.removeMemberNotification( user_id, member_id, group_id);
+		await nh.removeMemberNotification( member_id, group_id);
     res.status(200).send('User removed from group')
   } catch (error) {
     next(error)
@@ -601,10 +601,12 @@ router.post('/:id/agenda/export', async (req, res, next) => {
 })
 
 router.post('/:id/activities', async (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+	if (!req.user_id) { return res.status(401).send('Not authenticated') }
+	const user_id = req.user_id;
+	const group_id = req.params.id;
   try {
     const { information, dates, timeslots } = req.body
-    const member = await Member.findOne({ group_id: req.params.id, user_id: req.user_id, group_accepted: true, user_accepted: true })
+    const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
@@ -613,9 +615,9 @@ router.post('/:id/activities', async (req, res, next) => {
     }
     const activity_id = objectid()
     const activity = {
-      group_id: req.params.id,
+      group_id,
       activity_id,
-      creator_id: req.user_id,
+      creator_id: user_id,
       name: information.name,
       color: information.color,
       description: information.description,
@@ -629,7 +631,7 @@ router.post('/:id/activities', async (req, res, next) => {
       activity_id,
       date: day
     }))
-    const group = await Group.findOne({ group_id: req.params.id })
+    const group = await Group.findOne({ group_id })
     const events = []
     activity.group_name = group.name
     days.forEach((day, index) => {
@@ -678,7 +680,10 @@ router.post('/:id/activities', async (req, res, next) => {
     })
     await Promise.all(events.map(event => calendar.events.insert({ calendarId: group.calendar_id, resource: event })))
     await Activity.create(activity)
-    await Day.create(days)
+		await Day.create(days)
+		if(member.admin){
+			await nh.newActivityNotification( group_id, user_id);
+		}
     res.status(200).send('Activity was created')
   } catch (error) {
     next(error)
@@ -709,22 +714,27 @@ router.get('/:id/activities', (req, res, next) => {
 })
 
 router.patch('/:id/activities/:activityId', async (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+	if (!req.user_id) { return res.status(401).send('Not authenticated') }
+	const group_id = req.params.id;
+	const user_id = req.user_id;
   try {
     const activity_id = req.params.activityId
     const activityPatch = req.body
-    const member = await Member.findOne({ group_id: req.params.id, user_id: req.user_id, group_accepted: true, user_accepted: true })
+    const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
     const activity = await Activity.findOne({ activity_id: req.params.activityId })
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(member.admin || activity.creator_id === req.user_id)) {
+    if (!(member.admin || activity.creator_id === user_id)) {
       return res.status(401).send('Unauthorized')
     }
     if (!(activityPatch.name || activityPatch.description || activityPatch.color || activityPatch.status)) {
       return res.status(400).send('Bad Request')
     }
-    await Activity.updateOne({ activity_id }, activityPatch)
+    await Activity.updateOne({ activity_id }, activityPatch);
+    if (activityPatch.status === 'accepted') {
+      await nh.newActivityNotification(group_id, activity.creator_id);
+    }
     res.status(200).send('Activity was updated')
   } catch (error) {
     next(error)
@@ -873,7 +883,7 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
 		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
 		const fixedReq = extendedProperties.shared.status==='fixed';
 		if( parentsReq && childrenReq && fixedReq ){
-			await nh.timeslotRequirementsNotification(summary, group.name, parents)
+			await nh.timeslotRequirementsNotification(summary, parents)
 		}
     res.status(200).send('Timeslot was updated')
   } catch (error) {
