@@ -32,11 +32,11 @@ class ForgotPasswordScreen extends React.Component {
         .catch(error => {
           if (error.response.status === 404) {
             const alertMessage =
-              Texts[this.props.language].forgotPasswordScreen.notExistError;
+              Texts[this.props.language].forgotPasswordScreen.notExistErr;
 						this.setState({ alertType: "error", alertMessage, alertModalIsOpen: true, sendingEmail: false });
           } else {
             const alertMessage =
-              Texts[this.props.language].forgotPasswordScreen.error;
+              Texts[this.props.language].forgotPasswordScreen.err;
 						this.setState({ alertType: "error", alertMessage, alertModalIsOpen: true,sendingEmail: false });
           }
         });
@@ -47,11 +47,14 @@ class ForgotPasswordScreen extends React.Component {
     this.setState({ alertModalIsOpen: false})
   }
   validate = () => {
+		const texts = Texts[this.props.language].forgotPasswordScreen;
     if (this.formEl.checkValidity() === false) {
       const elem = this.formEl[0];
       const errorLabel = document.getElementById(elem.name + "Err");
       if (!elem.validity.valid) {
-        errorLabel.textContent = elem.validationMessage;
+				if(elem.validity.valueMissing){
+					errorLabel.textContent = texts.requiredErr;
+				}
       } else {
         errorLabel.textContent = "";
       }

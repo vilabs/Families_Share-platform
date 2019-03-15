@@ -88,7 +88,7 @@ class GroupHeader extends React.Component {
               )}
             </div>
           </div>
-          <h1>{groupName.toUpperCase()}</h1>
+          <h1>{groupName}</h1>
           <img src={groupLogo} alt="Group Logo" className="groupImage" />
         </div>
       </React.Fragment>

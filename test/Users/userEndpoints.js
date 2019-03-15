@@ -233,7 +233,6 @@ describe('/Get/users/changepassword', () => {
 describe('/Get/users/changepassword', () => {
 	it('it should not fetch a users profile given a valid authentication token', (done) => {
 		User.findOne({}, (err, user) => {
-
 			chai.request(server)
 				.get('/users/changepassword')
 				.set('Authorization', user.token)

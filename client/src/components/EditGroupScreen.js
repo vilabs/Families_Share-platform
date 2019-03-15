@@ -7,7 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const getGroups = () => {
   return axios
-    .get("/groups")
+		.get("/groups",{params: {'searchBy': 'all'}})
     .then(response => {
       return response.data;
     })
@@ -57,7 +57,7 @@ class EditGroupScreen extends React.Component {
     const groups = await getGroups();
     const group = await getGroup(groupId);
     const settings = await getGroupSettings(groupId);
-    groups.forEach(group => groupNames.push(group.name));
+		groups.forEach(group => groupNames.push(group.name));
     groupNames.splice(groupNames.indexOf(group.name), 1);
     this.setState({
       fetchedGroupData: true,
@@ -67,6 +67,7 @@ class EditGroupScreen extends React.Component {
     });
   }
   validate = () => {
+		const texts = Texts[this.props.language].editGroupScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
       for (let i = 0; i < formLength; i++) {
@@ -74,7 +75,9 @@ class EditGroupScreen extends React.Component {
         const errorLabel = document.getElementById(elem.name + "Err");
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
           if (!elem.validity.valid) {
-            errorLabel.textContent = elem.validationMessage;
+						if(elem.validity.valueMissing){
+							errorLabel.textContent = texts.requiredErr;
+						}
           } else {
             errorLabel.textContent = "";
           }
@@ -148,7 +151,7 @@ class EditGroupScreen extends React.Component {
         ).length > 0;
       if (nameExists) {
         event.target.setCustomValidity(
-          Texts[this.props.language].editGroupScreen.nameError
+          Texts[this.props.language].editGroupScreen.nameErr
         );
       } else {
         event.target.setCustomValidity("");
@@ -233,7 +236,7 @@ class EditGroupScreen extends React.Component {
                   <textarea
                     rows="3"
                     name="description"
-                    className="editGroupInputField form-control center"
+                    className="editGroupInputField form-control "
                     placeholder={texts.description}
                     onChange={event => {
                       this.handleChange(event);
@@ -290,7 +293,7 @@ class EditGroupScreen extends React.Component {
                   <input
                     type="text"
                     value={this.state.location}
-                    className="form-control editGroupInputField center"
+                    className="form-control editGroupInputField"
                     required={true}
                     name="location"
                     placeholder={texts.city}

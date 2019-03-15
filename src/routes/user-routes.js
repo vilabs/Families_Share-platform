@@ -370,23 +370,23 @@ router.post('/forgotpassword', async (req, res, next) => {
 })
 
 router.get('/changepassword', (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Invalid token') }
-  const { user_id } = req
-  Password_Reset.findOne({ user_id }).then(reset => {
-    if (!reset) {
-      return res.status(404).send('Bad Request')
-    }
-    return Profile.findOne({ user_id }).populate('image')
-      .lean()
-      .exec()
-      .then(profile => {
-        res.json(profile)
-      })
-  }).catch(next)
+	if (!req.user_id) { return res.status(401).send('Invalid token') }
+	const { user_id } = req
+	Password_Reset.findOne({ token: req.headers.authorization }).then(reset => {
+		if (!reset) {
+			return res.status(404).send('Bad Request')
+		}
+		return Profile.findOne({ user_id }).populate('image')
+			.lean()
+			.exec()
+			.then(profile => {
+				res.json(profile)
+			})
+	}).catch(next)
 })
 
 router.post('/changepassword', async (req, res, next) => {
-  if (!req.user_id) { return res.status(401).send('Not authorized') }
+	if (!req.user_id) { return res.status(401).send('Not authorized') }
   try {
     const { user_id, email } = req
     const reset = await Password_Reset.findOneAndDelete({ user_id })
