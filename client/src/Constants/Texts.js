@@ -1,5 +1,6 @@
 const en = {
 	ratingModal: {
+		title: 'How would you like to rate Families Share?',
 		rate: "Rate",
 		rateInstruction: 'Tap the number of stars you would like to give us on a scale from 1-5.',
 	},
@@ -607,6 +608,7 @@ const en = {
 
 const nl = {
 	ratingModal: {
+		title: 'Hoe zou je willen beoordelen Families Share?',
 		rate: "Tarief",
 		rateInstruction: 'Tik op het aantal sterren dat u ons wilt geven op een schaal van 1-5.',
 	},
@@ -828,6 +830,7 @@ const nl = {
 
 const it = {
 	ratingModal: {
+		title: 'Come vorresti valutare Families Share?',
 		rate: 'Vota',
 		rateInstruction: 'Tocca il numero di stelle che vorresti darci su una scala da 1 a 5.',
 	},
@@ -971,6 +974,7 @@ const it = {
 
 const el = {
 	ratingModal: {
+		title: 'Πόσο θα θέλατε να βαθμολογήσετε τη πλατφόρμα Families Share;',
 		rate: 'Αξιολόγηση',
 		rateInstruction: 'Επιλέξετε τον αριθμό αστεριών που θα θέλατε να δώσετε στην εφαρμογή με κλίμακα από 1 έως 5.',
 	},

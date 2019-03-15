@@ -404,25 +404,40 @@
   font-size: 1.4rem;
   opacity: 0.54;
 }
-.childProfileInfoSection {
+.childProfileInfoSection .row{
   min-height: 8.5rem;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  align-items: center;
 }
-.childAdditionalInfoSection {
-  min-height: 8.5rem;
+.childProfileInfoSection .col-2-10{
+  display: flex;
+  justify-content: center;;
+}
+.childProfileInfoSection .col-3-10{
+  display: flex;
+  justify-content: center;;
+}
+.childAdditionalInfoSection{ 
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem 5%;
 }
+.childAdditionalInfoSection .row{ 
+  min-height: 4rem;
+  align-items: center;
+}
 .childAdditionalInfoSection h3 {
+  margin: 0;
   color: #000000;
   font-size: 1.6rem;
   font-weight: 200;
 }
 .childAdditionalInfoSection h4 {
+  margin: 0;
   color: #000000;
   font-size: 1.4rem;
 }
 .childAdditionalInfoSection p {
+  margin: 0;
   font-size: 1.4rem;
   color: rgba(0, 0, 0, 0.8);
 }
@@ -2667,6 +2682,7 @@ a:active {
   height: 28rem;
   background-color: #00838f;
   position: relative;
+  overflow: hidden;
 }
 .profilePhoto {
   width: 17rem;
@@ -2690,10 +2706,11 @@ a:active {
 .ratingHeader {
   padding: 0;
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
+  text-align: left;
   font-family: "Roboto", sans-serif;
   font-weight: 700;
-  height: 20%;
+  height: 30%;
   display: flex;
   align-items: center;
 }
@@ -2708,7 +2725,7 @@ a:active {
 .ratingMain {
   display: flex;
   justify-content: center;
-  height: 35%;
+  height: 30%;
   align-items: center;
 }
 .ratingFooter {
@@ -2726,7 +2743,7 @@ a:active {
   cursor: pointer;
   margin-top: 2rem;
   border-radius: 5px;
-  width: 8rem;
+  width: 10rem;
   height: 4rem;
   background-color: #00838f;
   color: #ffffff;

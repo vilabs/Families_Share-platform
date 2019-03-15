@@ -177,9 +177,7 @@ input:focus {
   top: 50%;
   position: relative;
   transform: translateY(-50%);
-  -webkit-transform: translateY(-50%);
-  -moz-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
+
 }
 .horizontalCenter {
   left: 50%;

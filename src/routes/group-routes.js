@@ -353,7 +353,7 @@ router.patch('/:id/members', (req, res, next) => {
     if (!edittingUser.admin) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(patch.group_accepted || patch.admin)) {
+    if (!(patch.group_accepted || patch.admin!==undefined)) {
       return res.status(400).send('Bad Request')
     }
     return Member.updateOne({ group_id, user_id }, patch)
