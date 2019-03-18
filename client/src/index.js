@@ -13,10 +13,10 @@ import ReactGA from 'react-ga';
 const history = createBrowserHistory();
 
 Sentry.init({
-  dsn: "https://00abbe8a132a4814acb9f11acd52c5e7@sentry.io/1355917"
+  dsn: process.env.REACT_APP_SENTRY_DSN
 });
 
-ReactGA.initialize('UA-136448459-1'); 
+ReactGA.initialize(process.env.REACT_APP_GA_ID);
 
 history.listen((location, action) => {
 	ReactGA.pageview(location.pathname)
