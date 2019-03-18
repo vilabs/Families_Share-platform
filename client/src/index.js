@@ -9,7 +9,7 @@ import store from "./Store/Store";
 import { createBrowserHistory } from "history";
 import ErrorBoundary from "./components/ErrorBoundary";
 import * as Sentry from "@sentry/browser";
-//import ReactGA from 'react-ga';
+import ReactGA from 'react-ga';
 const history = createBrowserHistory();
 
 Sentry.init({
@@ -19,7 +19,7 @@ Sentry.init({
 ReactGA.initialize('UA-136448459-1'); 
 
 history.listen((location, action) => {
-	ReactGA.pageview(location.pathname));
+	ReactGA.pageview(location.pathname)
   if(location.pathname==='/' || location.pathname==='/myfamiliesshare'){
     window.postMessage(JSON.stringify({action:"cannotGoBack", value: location.pathname}),'*')
 	} else if ( location.pathname.indexOf('/activities/create')!==-1 || location.pathname.indexOf('/groups/create')!==-1) {
