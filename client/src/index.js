@@ -16,11 +16,10 @@ Sentry.init({
   dsn: "https://00abbe8a132a4814acb9f11acd52c5e7@sentry.io/1355917"
 });
 
-//ReactGA.initialize(''); 
-// and use ReacGA.set({userId}) when user logs in
+ReactGA.initialize('UA-136448459-1'); 
 
 history.listen((location, action) => {
-	//ReactGA.pageview(location.pathname));
+	ReactGA.pageview(location.pathname));
   if(location.pathname==='/' || location.pathname==='/myfamiliesshare'){
     window.postMessage(JSON.stringify({action:"cannotGoBack", value: location.pathname}),'*')
 	} else if ( location.pathname.indexOf('/activities/create')!==-1 || location.pathname.indexOf('/groups/create')!==-1) {
