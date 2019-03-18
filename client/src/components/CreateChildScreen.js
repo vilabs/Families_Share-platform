@@ -35,7 +35,9 @@ class CreateChildScreen extends React.Component {
 		const name = event.target.name;
 		const value = event.target.value;
 		if (name === "acceptTerms") {
-			document.getElementById("acceptTermsCheckbox").checked = !this.state.acceptTerms;
+			const elem  = document.getElementById("acceptTermsCheckbox")
+			elem.checked = !this.state.acceptTerms;
+			if(!this.state.acceptTerms) event.target.setCustomValidity('')
 			this.setState({ acceptTerms: !this.state.acceptTerms });
 		}
 		else {
@@ -44,6 +46,7 @@ class CreateChildScreen extends React.Component {
 
 	}
 	validate = () => {
+		const texts = Texts[this.props.language].createChildScreen;
 		const formLength = this.formEl.length;
 		if (this.formEl.checkValidity() === false) {
 			for (let i = 0; i < formLength; i++) {
@@ -51,7 +54,11 @@ class CreateChildScreen extends React.Component {
 				const errorLabel = document.getElementById(elem.name + 'Err');
 				if (errorLabel && elem.nodeName.toLowerCase() !== 'button') {
 					if (!elem.validity.valid) {
-						errorLabel.textContent = elem.validationMessage;
+						if(elem.validity.valueMissing){
+							errorLabel.textContent = texts.requiredErr
+						} else if(elem.validity.customError){
+							errorLabel.textContent = texts.acceptTermsErr
+						}
 					} else {
 						errorLabel.textContent = '';
 					}
@@ -119,6 +126,7 @@ class CreateChildScreen extends React.Component {
 		if (this.state.formIsValidated) {
 			formClass.push('was-validated');
 		}
+		const bottomBorder = { borderBottom: "1px solid rgba(0,0,0,0.1)" } ;
 		return (
 			<div>
 
@@ -138,27 +146,27 @@ class CreateChildScreen extends React.Component {
 					</div>
 
 				</div>
-				<div id="createChildProfileInfoContainer" className="horizontalCenter">
+				<div id="createChildProfileInfoContainer">
 					<form ref={form => this.formEl = form} onSubmit={this.handleSubmit} className={formClass} noValidate>
-						<div className="row no-gutters" style={{ minHeight: "7.6rem", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+						<div className="row no-gutters" style={bottomBorder}>
 							<div className="col-5-10">
 								<input
-									type="text" name="name" className="createChildProfileInputField center form-control" placeholder={texts.name}
+									type="text" name="name" className="createChildProfileInputField form-control" placeholder={texts.name}
 									onChange={this.handleChange} required={true} value={this.state.name}
 								/>
-								<span style={{ marginTop: "4rem" }} className="invalid-feedback" id="nameErr"></span>
+								<span className="invalid-feedback" id="nameErr"></span>
 							</div>
 							<div className="col-5-10">
 								<input
-									type="text" name="surname" className="createChildProfileInputField center form-control" placeholder={texts.surname}
+									type="text" name="surname" className="createChildProfileInputField form-control" placeholder={texts.surname}
 									onChange={this.handleChange} required={true} value={this.state.surname}
 								/>
-								<span style={{ marginTop: "4rem" }} className="invalid-feedback" id="surnameErr"></span>
+								<span className="invalid-feedback" id="surnameErr"></span>
 							</div>
 						</div>
-						<div className="row no-gutters" style={{ height: "7.6rem", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+						<div className="row no-gutters" style={bottomBorder}>
 							<div className="col-1-3">
-								<div className="fullInput editChildProfileInputField center">
+								<div className="fullInput editChildProfileInputField">
 									<label htmlFor="date">{texts.date}</label>
 									<select
 										value={this.state.date}
@@ -174,7 +182,7 @@ class CreateChildScreen extends React.Component {
 								</div>
 							</div>
 							<div className="col-1-3">
-								<div className="fullInput editChildProfileInputField center">
+								<div className="fullInput editChildProfileInputField">
 									<label htmlFor="month">{texts.month}</label>
 									<select
 										value={this.state.month}
@@ -190,7 +198,7 @@ class CreateChildScreen extends React.Component {
 								</div>
 							</div>
 							<div className="col-1-3">
-								<div className="fullInput editChildProfileInputField center">
+								<div className="fullInput editChildProfileInputField">
 									<label htmlFor="year">{texts.year}</label>
 									<select
 										value={this.state.year}
@@ -206,9 +214,9 @@ class CreateChildScreen extends React.Component {
 								</div>
 							</div>
 						</div>
-						<div className="row no-gutters" style={{ height: "7.6rem", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+						<div className="row no-gutters" style={bottomBorder}>
 							<div className="col-10-10">
-								<div className="fullInput editChildProfileInputField center">
+								<div className="fullInput editChildProfileInputField">
 									<label htmlFor="gender">{texts.gender}</label>
 									<select
 										value={this.state.gender}
@@ -222,7 +230,7 @@ class CreateChildScreen extends React.Component {
 								</div>
 							</div>
 						</div>
-						<div id="additionalInformationContainer" className="row no-gutters" style={{ paddingBottom: "1rem", minHeight: "7.6rem", borderBottom: "1px solid rgba(0,0,0,0.1)" }}>
+						<div id="additionalInformationContainer" className="row no-gutters" style={bottomBorder}>
 							<div className="col-7-10">
 								<div className="center">
 									<h1>{texts.additional}</h1>
@@ -235,7 +243,7 @@ class CreateChildScreen extends React.Component {
 								</button>
 							</div>
 						</div>
-						<div className="acceptTermsContainer row no-gutters" style={{ minHeight: "7.6rem" }}>
+						<div className="acceptTermsContainer row no-gutters">
 							<div className="col-2-10">
 								<input
 									type="checkbox" name="acceptTerms" className="checkbox center "

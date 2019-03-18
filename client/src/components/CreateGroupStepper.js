@@ -126,10 +126,8 @@ class CreateGroupStepper extends React.Component {
     axios
       .get("/groups",{params: {searchBy: 'all'}})
       .then(response => {
-        const groups = response.data;
-        const groupNames = [];
-        groups.forEach(group => groupNames.push(group.name));
-        this.setState({ fetchedGroups: true, groupNames: groupNames });
+				const groups = response.data;
+        this.setState({ fetchedGroups: true, groupNames: groups.map( group => group.name )});
       })
       .catch(error => {
 				console.log(error);
@@ -199,7 +197,7 @@ class CreateGroupStepper extends React.Component {
         ).length > 0;
       if (nameExists) {
         event.target.setCustomValidity(
-          Texts[this.props.language].createGroupStepper.nameError
+          Texts[this.props.language].createGroupStepper.nameErr
         );
       } else {
         event.target.setCustomValidity("");
@@ -211,13 +209,18 @@ class CreateGroupStepper extends React.Component {
 	};
 
   validate = () => {
+		const texts = Texts[this.props.language].createGroupStepper;
     if (this.formEl.checkValidity() === false) {
       for (let i = 0; i < this.formEl.length; i++) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(elem.name + "Err");
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
           if (!elem.validity.valid) {
-            errorLabel.textContent = elem.validationMessage;
+						if(elem.validity.valueMissing){
+							errorLabel.textContent = texts.requiredErr;
+						} else if( elem.validity.customError){
+							errorLabel.textContent = texts.nameErr
+						}
           } else {
             errorLabel.textContent = "";
           }

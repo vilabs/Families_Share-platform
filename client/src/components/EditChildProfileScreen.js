@@ -61,6 +61,7 @@ class EditChildProfileScreen extends React.Component {
     this.setState({ [name]: value });
   };
   validate = () => {
+		const texts = Texts[this.props.language].editChildProfileScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
       for (let i = 0; i < formLength; i++) {
@@ -68,7 +69,9 @@ class EditChildProfileScreen extends React.Component {
         const errorLabel = document.getElementById(elem.name + "Err");
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
           if (!elem.validity.valid) {
-            errorLabel.textContent = elem.validationMessage;
+						if(elem.validity.valueMissing){
+							errorLabel.textContent = texts.requiredErr;
+						}
           } else {
             errorLabel.textContent = "";
           }

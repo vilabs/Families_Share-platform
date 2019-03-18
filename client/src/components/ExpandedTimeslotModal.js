@@ -72,7 +72,6 @@ class ExpandedTimeslotModal extends React.Component {
 	}
 	static getDerivedStateFromProps(nextProps, prevState) {
 		if (nextProps.expanded !== prevState.expanded) {
-			console.log(nextProps.timeslot.recurrence)
 			return {
 				edit: false,
 				expanded: nextProps.expanded,

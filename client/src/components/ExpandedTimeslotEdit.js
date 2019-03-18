@@ -27,7 +27,7 @@ class ExpandedTimeslotEdit extends React.Component {
 		this.setState({ [name]: value });
 	}
 	validate = () => {
-		const texts = Texts[this.props.language].expandedTimeslotEdit
+		const texts = Texts[this.props.language].expandedTimeslotEdit;
 		const formLength = this.formEl.length;
 		if (this.formEl.checkValidity() === false) {
 			for (let i = 0; i < formLength; i++) {
@@ -46,7 +46,13 @@ class ExpandedTimeslotEdit extends React.Component {
 					const errorLabel = document.getElementById(`${elem.name}Err`);
 					if (errorLabel) {
 						if (!elem.validity.valid) {
-							errorLabel.textContent = elem.validationMessage;
+							if(elem.validity.valueMissing){
+								errorLabel.textContent = texts.requiredErr;
+							} else if(elem.validity.customError){
+								errorLabel.textContent = texts.timeErr;
+							} else if(elem.validity.rangeUnderflow){
+								errorLabel.textContent = texts.rangeErr;
+							}
 							errorLabel.style.display = "block"
 						} else {
 							errorLabel.textContent = "";
@@ -79,8 +85,6 @@ class ExpandedTimeslotEdit extends React.Component {
 		}
 	}
 	render() {
-		console.log(this.state.startTime)
-		console.log(this.state.endTime);
 		const formClass = [];
 		if (this.state.formIsValidated) {
 			formClass.push("was-validated");
@@ -147,9 +151,10 @@ class ExpandedTimeslotEdit extends React.Component {
 							</div>
 							<div className="col-8-10">
 								<input
-									type="text" name="summary" value={state.summary} className="expandedTimeslotInput"
-									onChange={this.handleChange} placeholder={texts.name}
+									type="text" name="summary" value={state.summary} className="expandedTimeslotInput form-control"
+									onChange={this.handleChange} placeholder={texts.name} required={true}
 								/>
+									<span className="invalid-feedback" id="summaryErr" />
 							</div>
 						</div>
 						<div className="row no-gutters" style={rowStyle}>

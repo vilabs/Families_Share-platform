@@ -22,6 +22,7 @@ class EditProfileScreen extends React.Component {
 			});
 	}
 	validate = () => {
+		const texts = Texts[this.props.language].editProfileScreen;
 		const formLength = this.formEl.length;
 		if (this.formEl.checkValidity() === false) {
 			for (let i = 0; i < formLength; i++) {
@@ -29,7 +30,9 @@ class EditProfileScreen extends React.Component {
 				const errorLabel = document.getElementById(elem.name + "Err");
 				if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
 					if (!elem.validity.valid) {
-						errorLabel.textContent = elem.validationMessage;
+						if(elem.validity.valueMissing){
+							errorLabel.textContent = texts.requiredErr;
+						}
 					} else {
 						errorLabel.textContent = "";
 					}
@@ -115,6 +118,7 @@ class EditProfileScreen extends React.Component {
 		this.setState({ visible });
 	};
 	render() {
+		const bottomBorder = {borderBottom: "1px solid rgba(0,0,0,0.5)"};
 		const texts = Texts[this.props.language].editProfileScreen;
 		const formClass = [];
 		if (this.state.formIsValidated) {
@@ -192,7 +196,7 @@ class EditProfileScreen extends React.Component {
 				<div id="editProfileInfoContainer">
 					<div
 						className="row no-gutters"
-						style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
+						style={bottomBorder}
 					>
 						<div className="col-2-10">
 							<i className="fas fa-phone center" />
@@ -202,7 +206,7 @@ class EditProfileScreen extends React.Component {
 								type="text"
 								placeholder={texts.phoneNumber}
 								name="phone"
-								className="editProfileInputField form-control center"
+								className="editProfileInputField form-control"
 								onChange={this.handleChange}
 								value={this.state.phone}
 							/>
@@ -212,7 +216,7 @@ class EditProfileScreen extends React.Component {
 							<select
 								value={this.state.phone_type}
 								onChange={this.handleChange}
-								className="editProfileInputField center"
+								className="editProfileInputField"
 								name="phone_type"
 							>
 								<option value={"mobile"}>{texts.mobile}</option>
@@ -230,7 +234,7 @@ class EditProfileScreen extends React.Component {
 								type="text"
 								placeholder={texts.city}
 								name="city"
-								className="editProfileInputField form-control center"
+								className="editProfileInputField form-control"
 								onChange={this.handleAddressChange}
 								value={this.state.address.city}
 							/>
@@ -239,7 +243,7 @@ class EditProfileScreen extends React.Component {
 					</div>
 					<div
 						className="row no-gutters"
-						style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
+						style={bottomBorder}
 					>
 						<div className="col-2-10" />
 						<div className="col-5-10">
@@ -247,7 +251,7 @@ class EditProfileScreen extends React.Component {
 								type="text"
 								placeholder={texts.street}
 								name="street"
-								className="editProfileInputField form-control center"
+								className="editProfileInputField form-control"
 								onChange={this.handleAddressChange}
 								value={this.state.address.street}
 							/>
@@ -258,7 +262,7 @@ class EditProfileScreen extends React.Component {
 								type="number"
 								placeholder={texts.streetNumber}
 								name="number"
-								className="editProfileInputField form-control center"
+								className="editProfileInputField form-control"
 								onChange={this.handleAddressChange}
 								value={this.state.address.number}
 							/>
@@ -267,7 +271,7 @@ class EditProfileScreen extends React.Component {
 					</div>
 					<div
 						className="row no-gutters"
-						style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
+						style={bottomBorder}
 					>
 						<div className="col-2-10">
 							<i className="fas fa-envelope center" />
@@ -277,7 +281,7 @@ class EditProfileScreen extends React.Component {
 								type="email"
 								placeholder={texts.email}
 								name="email"
-								className="editProfileInputField form-control center"
+								className="editProfileInputField form-control"
 								onChange={this.handleChange}
 								required={true}
 								value={this.state.email}
@@ -293,7 +297,7 @@ class EditProfileScreen extends React.Component {
 							<select
 								value={this.state.visible ? "visible" : "invisible"}
 								onChange={this.handleVisibility}
-								className="editProfileInputField center"
+								className="editProfileInputField"
 								name="visible"
 							>
 								<option value={"visible"}>{texts.visible}</option>

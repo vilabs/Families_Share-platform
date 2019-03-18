@@ -722,28 +722,31 @@
   box-shadow: none;
 }
 #createChildProfileInfoContainer .col-5-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-10-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-1-3 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-7-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-3-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-8-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer .col-2-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #createChildProfileInfoContainer {
   margin-bottom: 1rem;
+}
+#createChildProfileInfoContainer span {
+  margin-top : 2rem;
 }
 #createChildProfileInfoContainer select {
   display: block;
@@ -1079,6 +1082,11 @@
   text-align: center;
   border-bottom: none;
 }
+#editGroupHeaderContainer span {
+  bottom: 2%;
+  left: 10%;
+  position: absolute;
+}
 #editGroupHeaderContainer label {
   font-size: 1.2rem;
   color: #ffffff;
@@ -1221,31 +1229,27 @@
   margin-bottom: 2rem;
 }
 #editProfileInfoContainer .col-5-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #editProfileInfoContainer .col-6-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #editProfileInfoContainer .col-3-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #editProfileInfoContainer .col-8-10 {
-  padding: 0 1rem;
+  padding: 1rem;
 }
 #editProfileInfoContainer .col-2-10 {
-  padding: 0 1rem;
-}
-#editProfileInfoContainer .row {
-  min-height: 7.6rem;
+  padding: 1rem;
 }
 #editProfileInfoContainer span {
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
-#profileHeaderContainer #nameErr {
+#profileHeaderContainer span{
   position: absolute;
-  bottom: 1%;
-  z-index: 1000;
-  left: 10%;
+  bottom: 2%;
+  left: 5%;
 }
 
 /*EDIT PROFILE SCREEN END*/

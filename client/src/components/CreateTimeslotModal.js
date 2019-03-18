@@ -51,7 +51,13 @@ class CreateTimeslotModal extends React.Component {
 					const errorLabel = document.getElementById(`${elem.name}Err`);
 					if (errorLabel) {
 						if (!elem.validity.valid) {
-							errorLabel.textContent = elem.validationMessage;
+							if(elem.validity.valueMissing){
+								errorLabel.textContent = texts.requiredErr;
+							} else if(elem.validity.customError){
+								errorLabel.textContent = texts.timeErr;
+							} else if(elem.validity.rangeUnderflow){
+								errorLabel.textContent = texts.rangeErr;
+							}
 							errorLabel.style.display = "block"
 						} else {
 							errorLabel.textContent = "";
@@ -199,9 +205,10 @@ class CreateTimeslotModal extends React.Component {
 								</div>
 								<div className="col-8-10">
 									<input
-										type="text" name="name" value={state.name} className="expandedTimeslotInput"
-										onChange={this.handleChange} placeholder={texts.name}
+										type="text" name="name" value={state.name} className="expandedTimeslotInput form-control"
+										onChange={this.handleChange} placeholder={texts.name} required={true}
 									/>
+										<span className="invalid-feedback" id="nameErr" />
 								</div>
 							</div>
 							<div className="row no-gutters" style={rowStyle}>

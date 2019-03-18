@@ -77,6 +77,8 @@ class EditGroupScreen extends React.Component {
           if (!elem.validity.valid) {
 						if(elem.validity.valueMissing){
 							errorLabel.textContent = texts.requiredErr;
+						} else if (elem.validity.customError){
+							errorLabel.textContent = texts.nameErr;
 						}
           } else {
             errorLabel.textContent = "";
@@ -221,7 +223,6 @@ class EditGroupScreen extends React.Component {
               <span
                 className="invalid-feedback"
                 id="nameErr"
-                style={{ position: "absolute", bottom: "2%", left: "10%" }}
               />
             </div>
             <div id="editGroupInfoContainer">
