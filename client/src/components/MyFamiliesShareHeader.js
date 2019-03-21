@@ -146,7 +146,6 @@ class MyFamiliesShareHeader extends React.Component {
 				<NotificationsModal 
 					isOpen={this.state.notificationModalIsOpen}
 					handleClose={this.handleNotificationsClose}
-					notifications={this.props.notifications} 
 				/>
 				<RatingModal isOpen={this.state.ratingModalIsOpen} handleClose={this.handleRatingClose} />
         <Drawer
@@ -346,9 +345,9 @@ class MyFamiliesShareHeader extends React.Component {
 							onClick={this.handleNotificationsOpen}
             >
               <i className="fas fa-bell">
-                {this.props.notifications.filter( notification => !notification.read ).length > 0 &&!this.state.readNotifications? (
+                {this.props.pendingNotifications > 0 && !this.state.readNotifications? (
                   <span className="notifications-badge">
-                    {this.props.notifications.filter( notification => !notification.read ).length}
+                    {this.props.pendingNotifications}
                   </span>
                 ) : (
                     <div />
@@ -363,7 +362,8 @@ class MyFamiliesShareHeader extends React.Component {
 }
 
 MyFamiliesShareHeader.propTypes = {
-  pendingInvites: PropTypes.number,
+	pendingInvites: PropTypes.number,
+	pendingNotifications: PropTypes.number,
 };
 
 const connectedMyFamiliesShareHeader = connect()(

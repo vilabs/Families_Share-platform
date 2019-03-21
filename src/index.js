@@ -45,9 +45,9 @@ app.use('/users', require('./routes/user-routes'));
 app.use('/profiles', require('./routes/profile-routes'));
 app.use('/children', require('./routes/child-routes'));
 
-app.get('/*', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../client/build') });
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile('index.html', { root: path.join(__dirname, '../client/build') });
+// });
 
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'));
 

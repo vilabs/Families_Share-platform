@@ -18,15 +18,15 @@ const getMyGroups = userId => {
 			return [];
 		});
 };
-const getMyNotifications = userId => {
+const getMyUnreadNotifications = userId => {
 	return axios
-		.get("/users/" + userId + "/notifications")
+		.get("/users/" + userId + "/notifications/unread")
 		.then(response => {
-			return response.data;
+			return response.data.unreadNotifications;
 		})
 		.catch(error => {
 			console.log(error);
-			return [];
+			return 0;
 		});
 };
 class MyFamiliesShareScreen extends React.Component {
@@ -46,10 +46,10 @@ class MyFamiliesShareScreen extends React.Component {
 		const groups = await getMyGroups(userId);
 		const myGroups = groups.filter(group => group.user_accepted && group.group_accepted).map(group => group.group_id);
 		const pendingInvites = groups.filter(group => group.group_accepted && !group.user_accepted).length
-		const myNotifications = await getMyNotifications(userId);
+		const unreadNotifications = await getMyUnreadNotifications(userId);
 		this.setState({
 			fetchedUserInfo: true,
-			myNotifications,
+			unreadNotifications,
 			myGroups,
 			pendingInvites
 		});
@@ -73,7 +73,7 @@ class MyFamiliesShareScreen extends React.Component {
 		return (
 			<div id="drawerContainer">
 				<MyFamiliesShareHeader pendingInvites={this.state.pendingInvites}
-					notifications={this.state.myNotifications} />
+					pendingNotifications={this.state.unreadNotifications} />
 				<Calendar
 					ownerType={"user"}
 					ownerId={JSON.parse(localStorage.getItem("user")).id}

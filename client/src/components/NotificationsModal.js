@@ -3,14 +3,45 @@ import React from "react";
 import PropTypes from "prop-types";
 import Texts from '../Constants/Texts';
 import withLanguage from './LanguageContext';
+import axios from 'axios';
+import { Waypoint } from 'react-waypoint';
 
 Modal.setAppElement("#root");
 
+const getMyNotifications = (userId, page) => {
+	return axios
+		.get("/users/" + userId + "/notifications", { params: { page }})
+		.then(response => {
+			return response.data;
+		})
+		.catch(error => {
+			console.log(error);
+			return [];
+		});
+};
+
 class NotificationsModal extends React.Component {
+	constructor(){
+		super()
+		this.state = {
+			notifications: [],
+			user_id: JSON.parse(localStorage.getItem("user")).id,
+			fetchedAll: false,
+		};
+	}
   closeModal = ()  => {
     this.props.handleClose();
   }
-  afterOpenModal = () => {}
+	afterOpenModal = () => {}
+	async componentDidMount(){
+		const notifications = await getMyNotifications(this.state.user_id, 0)
+		this.setState({ notifications})
+	}
+	loadMoreNotifications = async () => {
+		const page = Math.floor(this.state.notifications.length / 10)
+		const newNotifications = await getMyNotifications(this.state.user_id, page)
+		this.setState({notifications: this.state.notifications.concat(newNotifications), fetchedAll: newNotifications.length<10})
+	}
   render() {
 		const texts = Texts[this.props.language].myFamiliesShareScreen
     const modalStyle = {
@@ -24,15 +55,14 @@ class NotificationsModal extends React.Component {
       },
       content: {
 				top: "4rem",
-				left: "50%",
-				transform: "translateX(-50%)",
+				left: "36%",
 				position: "absolute",
         backgroundColor: "#ffffff",
-        width: "95%",
-				height: "90%",
+        width: "60%",
+				height: "80%",
 				borderRadius: "5px"
       }
-    };
+		};
     return (
       <Modal
         className="modal-container"
@@ -48,7 +78,7 @@ class NotificationsModal extends React.Component {
 						<i className="fas fa-times"/>
 					</button>
 					<ul>
-						{this.props.notifications.map((notification, index) => (
+						{this.state.notifications.map((notification, index) => (
 							<li key={index} >
 								<div id="myNotification" style={!notification.read?{backgroundColor: "#F7F7F7"}:{}}>
 									<h1>{notification.header}</h1>
@@ -56,7 +86,9 @@ class NotificationsModal extends React.Component {
 								</div>
 							</li>
 						))}
+						{!this.state.fetchedAll && 	<Waypoint onEnter={this.loadMoreNotifications}/>}
 					</ul>
+				
 				</div>
 			</Modal>
     );

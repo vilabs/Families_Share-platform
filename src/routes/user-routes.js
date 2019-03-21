@@ -717,10 +717,15 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
 
 router.get('/:id/notifications', async (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
-  const user_id = req.params.id
+	const user_id = req.params.id;
+	const page = req.query.page;
   try {
-    const user = await User.findOne({ user_id })
-    const notifications = await Notification.find({ owner_type: 'user', owner_id: user_id }).sort({ createdAt: -1 }).lean().exec()
+		const user = await User.findOne({ user_id })
+		const notifications = await Notification.find({ owner_id: user_id })
+		.sort({ createdAt: -1 })
+		.skip(page*10)
+		.limit(10)
+		.lean()
     if (notifications.length === 0) {
       return res.status(404).send('User has no notifications')
     }
@@ -732,6 +737,17 @@ router.get('/:id/notifications', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.get('/:id/notifications/unread', async (req, res, next) => {
+  if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
+  const user_id = req.params.id
+	Notification.find({ owner_id: user_id, read: false}).then( unreadNotifications => {
+    if (unreadNotifications.length === 0) {
+      return res.status(404).send('User has no notifications')
+		}
+    return res.status(200).send({unreadNotifications: unreadNotifications.length})
+  }).catch(next)
 })
 
 router.patch('/:id/notifications', (req, res, next) => {
