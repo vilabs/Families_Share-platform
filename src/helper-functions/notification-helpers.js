@@ -63,7 +63,7 @@ async function newActivityNotification(group_id, user_id) {
 			})
 		})
 		await Notification.create(notifications)
-		console.log('New member notification created')
+		console.log('New activity notification created')
 	}
 };
 
@@ -85,7 +85,7 @@ async function newAnnouncementNotification(group_id, user_id) {
 			})
 		})
 		await Notification.create(notifications)
-		console.log('New member notification created')
+		console.log('New announcement notification created')
 	}
 };
 

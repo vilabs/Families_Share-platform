@@ -342,7 +342,8 @@ class MyFamiliesShareHeader extends React.Component {
           <div className="col-1-10">
             <button
 							className="transparentButton center"
-							onClick={this.handleNotificationsOpen}
+							onClick={this.state.notificationModalIsOpen?this.handleNotificationsClose: this.handleNotificationsOpen}
+							style={this.state.notificationModalIsOpen?{zIndex: 10000000}:{}}
             >
               <i className="fas fa-bell">
                 {this.props.pendingNotifications > 0 && !this.state.readNotifications? (

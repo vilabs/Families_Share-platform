@@ -753,7 +753,7 @@ router.get('/:id/notifications/unread', async (req, res, next) => {
 router.patch('/:id/notifications', (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
   const user_id = req.params.id
-  Notification.updateMany({ owner_type: 'user', owner_id: user_id, read: false }, { read: true }).then(() => {
+  Notification.updateMany({ owner_id: user_id, read: false }, { read: true }).then(() => {
     res.status(200).send('Notifications updated')
   }).catch(next)
 })

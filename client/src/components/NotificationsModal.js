@@ -54,12 +54,13 @@ class NotificationsModal extends React.Component {
         backgroundColor: "rgba(0, 0, 0, 0.8)"
       },
       content: {
-				top: "4rem",
-				left: "36%",
+				top: "5rem",
+				left: "50%",
+				transform: 'translateX(-50%)',
 				position: "absolute",
         backgroundColor: "#ffffff",
-        width: "60%",
-				height: "80%",
+        width: "90%",
+				height: "85%",
 				borderRadius: "5px"
       }
 		};
@@ -74,30 +75,36 @@ class NotificationsModal extends React.Component {
       >
         <div id="myNotificationsContainer">
 					<h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
-					<button className="transparentButton" onClick={this.props.handleClose}>
+					{/* <button className="transparentButton" onClick={this.props.handleClose}>
 						<i className="fas fa-times"/>
-					</button>
+					</button> */}
 					<ul>
 						{this.state.notifications.map((notification, index) => (
 							<li key={index} >
-								<div id="myNotification" style={!notification.read?{backgroundColor: "#F7F7F7"}:{}}>
-									<h1>{notification.header}</h1>
-									<p>{notification.description}</p>
-								</div>
+								{index === this.state.notifications.length - 4 && !this.state.fetchedAll ?
+									<Waypoint onEnter={this.loadMoreNotifications}>
+										<div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
+											<h1>{notification.header}</h1>
+											<p>{notification.description}</p>
+										</div>
+									</Waypoint>
+									: <div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
+										<h1>{notification.header}</h1>
+										<p>{notification.description}</p>
+									</div>
+								}
 							</li>
 						))}
-						{!this.state.fetchedAll && 	<Waypoint onEnter={this.loadMoreNotifications}/>}
 					</ul>
-				
 				</div>
 			</Modal>
-    );
-  }
+		);
+	}
 }
 NotificationsModal.propTypes = {
-  isOpen: PropTypes.bool,
-  handleClose: PropTypes.func,
-  notifications: PropTypes.array,
+	isOpen: PropTypes.bool,
+	handleClose: PropTypes.func,
+	notifications: PropTypes.array,
 };
 
 export default withLanguage(NotificationsModal);
