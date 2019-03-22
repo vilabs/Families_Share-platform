@@ -24,7 +24,10 @@ input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
+::-webkit-scrollbar {
+  width: 0px; 
+  background: transparent;  
+}
 input[type="number"] {
   -moz-appearance: textfield;
 }
