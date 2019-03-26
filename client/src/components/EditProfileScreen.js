@@ -259,7 +259,7 @@ class EditProfileScreen extends React.Component {
 						</div>
 						<div className="col-3-10">
 							<input
-								type="number"
+								type="text"
 								placeholder={texts.streetNumber}
 								name="number"
 								className="editProfileInputField form-control"

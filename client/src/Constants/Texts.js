@@ -453,7 +453,7 @@ const en = {
 			+ 'and use of my data.',
 		acceptTermsErr: 'Please accept the terms',
 		unspecified: 'Unspecified',
-		requiredErrr: 'Please fill out this field.'
+		requiredErr: 'Please fill out this field.'
 	},
 	additionalInfoScreen: {
 		backNavTitle: 'Information',

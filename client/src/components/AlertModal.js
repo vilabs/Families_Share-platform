@@ -28,11 +28,11 @@ class AlertModal extends React.Component {
       content: {
         borderRadius: "5px",
 				position: "fixed",
-				left: "38%",
-        top: "2%",
+				left: "48%",
+        top: "84%",
         backgroundColor: this.props.type==="success"?"green":"red",
-        width: "60%",
-				height: "5rem",
+        width: "50%",
+				height: "6.5rem",
         opacity: 0.8,
       }
     };

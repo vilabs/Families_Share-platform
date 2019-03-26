@@ -3,6 +3,19 @@ import Texts from '../Constants/Texts.js';
 import withLanguage from './LanguageContext';
 import moment from 'moment';
 import axios from 'axios';
+import Checkbox from '@material-ui/core/Checkbox';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+	checkbox: {
+		'&$checked': {
+			color: '#00838F'
+		}
+	},
+	checked: {}
+});
+
+
 
 class CreateChildScreen extends React.Component {
 	constructor(props) {
@@ -27,6 +40,9 @@ class CreateChildScreen extends React.Component {
 			};
 		}
 	}
+	componentDidMount() {
+		document.getElementById("acceptTermsCheckbox").setCustomValidity(Texts[this.props.language].createChildScreen.acceptTermsErr)
+	}
 	handleCancel = () => {
 		this.props.history.goBack();
 	}
@@ -34,16 +50,7 @@ class CreateChildScreen extends React.Component {
 	handleChange = (event) => {
 		const name = event.target.name;
 		const value = event.target.value;
-		if (name === "acceptTerms") {
-			const elem  = document.getElementById("acceptTermsCheckbox")
-			elem.checked = !this.state.acceptTerms;
-			if(!this.state.acceptTerms) event.target.setCustomValidity('')
-			this.setState({ acceptTerms: !this.state.acceptTerms });
-		}
-		else {
-			this.setState({ [name]: value });
-		}
-
+		this.setState({ [name]: value });
 	}
 	validate = () => {
 		const texts = Texts[this.props.language].createChildScreen;
@@ -54,10 +61,10 @@ class CreateChildScreen extends React.Component {
 				const errorLabel = document.getElementById(elem.name + 'Err');
 				if (errorLabel && elem.nodeName.toLowerCase() !== 'button') {
 					if (!elem.validity.valid) {
-						if(elem.validity.valueMissing){
-							errorLabel.textContent = texts.requiredErr
-						} else if(elem.validity.customError){
+						if (elem.validity.customError) {
 							errorLabel.textContent = texts.acceptTermsErr
+						} else if (elem.validity.valueMissing) {
+							errorLabel.textContent = texts.requiredErr
 						}
 					} else {
 						errorLabel.textContent = '';
@@ -117,7 +124,14 @@ class CreateChildScreen extends React.Component {
 		});
 		return false;
 	}
+	handleAcceptTerms = () =>  {
+			const elem  = document.getElementById("acceptTermsCheckbox")
+			elem.checked = !this.state.acceptTerms;
+			!this.state.acceptTerms ? elem.setCustomValidity(''): elem.setCustomValidity(Texts[this.props.language].createChildScreen.acceptTermsErr)
+			this.setState({ acceptTerms: !this.state.acceptTerms });
+	}
 	render() {
+		const { classes } = this.props;
 		const texts = Texts[this.props.language].createChildScreen;
 		const formClass = [];
 		const dates = [...Array(moment(`${this.state.year}-${this.state.month}`).daysInMonth()).keys()].map(x => ++x);
@@ -243,11 +257,12 @@ class CreateChildScreen extends React.Component {
 								</button>
 							</div>
 						</div>
-						<div className="acceptTermsContainer row no-gutters">
+						<div className="row no-gutters">
 							<div className="col-2-10">
-								<input
-									type="checkbox" name="acceptTerms" className="checkbox center "
-									defaultChecked={this.state.acceptTerms} onChange={this.handleChange}
+								<Checkbox
+									classes={{ root: classes.checkbox, checked: classes.checked }} className="center"
+									checked={this.state.acceptTerms}
+									onClick={this.handleAcceptTerms}
 								/>
 							</div>
 							<div className="col-8-10">
@@ -256,7 +271,8 @@ class CreateChildScreen extends React.Component {
 						</div>
 						<div style={{ paddingLeft: "3%" }} className="row no-gutters">
 							<input
-								type="checkbox" style={{ display: "none" }} id="acceptTermsCheckbox" name="acceptTerms" className="form-control" required={true}
+								type="checkbox" style={{ display: "none" }} id="acceptTermsCheckbox" 
+								name="acceptTerms" className="form-control" required={true}
 								defaultChecked={this.state.acceptTerms}
 							/>
 							<span className="invalid-feedback" id="acceptTermsErr" ></span>
@@ -269,4 +285,5 @@ class CreateChildScreen extends React.Component {
 }
 
 
-export default withLanguage(CreateChildScreen);
+
+export default withLanguage(withStyles(styles)(CreateChildScreen));
