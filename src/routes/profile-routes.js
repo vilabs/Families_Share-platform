@@ -13,7 +13,6 @@ router.get('/', (req, res, next) => {
         return res.status(400).send('Bad Request')
       }
       Profile.find({ user_id: { $in: ids } })
-        .select('given_name family_name user_id image_id')
         .populate('image')
         .lean()
         .exec()
@@ -30,7 +29,6 @@ router.get('/', (req, res, next) => {
         return res.status(400).send('Bad Request')
       }
       Profile.find({ visible })
-        .select('given_name family_name user_id image_id')
         .populate('image', 'path')
         .sort({ given_name: 1, family_name: 1 })
         .lean()

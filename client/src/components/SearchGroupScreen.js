@@ -14,7 +14,8 @@ class SearchGroupScreen extends React.Component {
             searchedForInput: false,
             matchingGroups: [],
             groups: [],
-            fetchedGroups: false
+						fetchedGroups: false,
+						searchBarIsVisible: false
         };
     }
     componentDidMount() {
@@ -49,7 +50,11 @@ class SearchGroupScreen extends React.Component {
     onInputChange = (event) => {
         this.setState({ searchInput: event.target.value, searchedForInput: false });
         if(event.target.value === "") this.handleSearch("")
-    }
+		}
+		handleSearchVisibility = async () => {
+			await this.setState({ searchBarIsVisible: !this.state.searchBarIsVisible})
+			document.getElementById('searchGroupInput').focus();
+		}
     render() {
         const texts = Texts[this.props.language].searchGroupModal;
         return (
@@ -61,15 +66,30 @@ class SearchGroupScreen extends React.Component {
                             <i className="fas fa-arrow-left" />
                         </button>
                     </div>
-                    <div className="col-7-10 ">
-                        <input type="search" value={this.state.searchInput} placeholder={texts.search} onChange={this.onInputChange} onKeyPress={this.handleKeyPress} />
-                    </div>
-                </div>
-                {!this.state.searchedForInput ?
-                    <div id="searchGroupSuggestionsContainer">
-                        <AutoComplete searchInput={this.state.searchInput} entities={this.state.groups} handleSearch={this.handleSearch} />
-                    </div>
-                    :
+								<div className="col-7-10 " style={{display: 'flex',alignItems: 'center'}}>
+									
+										<input 
+										type="search" 
+										id="searchGroupInput" 
+										value={this.state.searchInput} 
+										placeholder={texts.example}
+										onChange={this.onInputChange} 
+										onKeyPress={this.handleKeyPress}
+										style={this.state.searchBarIsVisible?{}:{display:'none'}}
+										/>
+									  <h1 	style={this.state.searchBarIsVisible?{display:'none'}:{}}>{texts.search}</h1>
+								</div>
+								<div className="col-1-10">
+									<button className="transparentButton center" onClick={this.handleSearchVisibility}>
+										<i className="fas fa-search" />
+									</button>
+								</div>
+							</div>
+							{!this.state.searchedForInput ?
+								<div id="searchGroupSuggestionsContainer">
+									<AutoComplete searchInput={this.state.searchInput} entities={this.state.groups} handleSearch={this.handleSearch} />
+								</div>
+								:
                     <div>
                         <div className="row no-gutters" id="searchGroupResultsContainer">
                             <h1>{texts.results}</h1>

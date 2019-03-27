@@ -16,7 +16,8 @@ class ProfileChildren extends React.Component {
     };
     render() {
         return (
-            <div id="childrenContainer">
+            <React.Fragment>
+							{this.state.children.length>0?
                 <ul>
                     {this.state.children.map((child, index) =>       
                         <li key={index} >
@@ -24,13 +25,13 @@ class ProfileChildren extends React.Component {
                         </li>
                     )}
                 </ul>
-                {this.state.myProfile?
+								:<div className="addChildPrompt">{"You haven't added any children yet. Click the child icon to add a new child"}</div>}
+                {this.state.myProfile &&
                 <button id="addChildThumbnail" onClick={this.addChild} >
                     <i className="fas fa-child" />
-                </button>
-                :<div/>}
-            </div>
-        );
+                </button>}
+            </React.Fragment>
+				);
     }
 }
 
