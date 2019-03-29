@@ -116,9 +116,11 @@ const en = {
 		confirmPasswordErr: "Passwords don't match",
 		signupErr: 'Another account is using ',
 		acceptTermsErr: 'Please accept the terms and policy',
+		passwordPrompt: 'Password must have at least 8 characters',
 		requiredErr: 'Please fill out this field',
 		tooShortErr: 'Please use at least 8 characters.',
-		typeMismatchErr: 'Please enter an email address.'
+		typeMismatchErr: 'Please enter an email address.',
+		visibilityPrompt: 'Users will be able to search for my profile inside the app'
 	},
 	privacyPolicyModal: {
 		terms: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
@@ -298,6 +300,7 @@ const en = {
 	},
 	searchGroupModal: {
 		search: 'Search group',
+		example: 'e.g. After school activities',
 		results: 'Results',
 	},
 	createGroup: {
@@ -398,7 +401,7 @@ const en = {
 	},
 	childProfileHeader: {
 		delete: 'Delete child',
-		confirmDialogTitle: 'Are you sure you want to delete the child?',
+		confirmDialogTitle: 'Are you sure you want to delete the child and remove all its data?',
 	},
 	childProfileInfo: {
 		boy: 'Boy',
@@ -685,10 +688,12 @@ const nl = {
 		phoneNumber: 'Telefoon (optioneel)',
 		confirmPasswordErr: 'Wachtwoorden komen niet overeen',
 		signupErr: 'Een ander account gebruikt',
+		passwordPrompt: 'Wachtwoord moet uit minimaal 8 tekens bestaan',
 		acceptTermsErr: 'Gelieve de gebruiksvoorwaarden en het privacybeleid goed te keuren',
 		requiredErr: 'Vul alstublieft dit veld in.',
 		tooShortErr: 'Gebruik ten minste 8 tekens.',
-		typeMismatchErr: 'Vul een geldig e-mailadres in.'
+		typeMismatchErr: 'Vul een geldig e-mailadres in.',
+		visibilityPrompt: 'Gebruikers kunnen in de app naar mijn profiel zoeken'
 	},
 	privacyPolicyModal: {
 		terms: null,
@@ -763,7 +768,7 @@ const nl = {
 	},
 	myFamiliesShareScreen: { myGroups: 'Mijn groepen', myNotifications: 'Mijn notificaties' },
 	faqsScreen: { backNavTitle: "FAQ's", faqs: [{ question: 'Hoe gaat een groep praktisch te werk', dropdowns: [{ title: 'Welke overeenkomsten zijn van toepassing op een groep?', paragraph: null }, { title: 'Wat als ik onverwacht mijn beurt niet kan invullen.?', paragraph: null }, { title: 'What als ik geen ervaring heb met een groep kinderen?', paragraph: null }] }, { question: 'Info voor scholen en organisaties', dropdowns: [{ title: 'Organisatie specifieke info', paragraph: null }, { title: 'School specifieke info', paragraph: null }] }] },
-	searchGroupModal: { search: 'Zoek een groep', results: 'Resultaten' },
+	searchGroupModal: { search: 'Zoek een groep', results: 'Resultaten', example: '' },
 	createGroup: { backNavTitle: 'Start een groep' },
 	createGroupStepper: {
 		continue: 'Ga verder',
@@ -832,7 +837,10 @@ const nl = {
 	groupHeader: { confirmDialogTitle: 'Weet je zeker dat je de groep wilt verwijderen?' },
 	announcementHeader: { confirmDialogTitle: 'Weet je zeker dat je dit wilt verwijderen?' },
 	childListItem: { boy: 'Jongen', girl: 'Meisje', age: 'jaar oud' },
-	childProfileHeader: { delete: 'verwijder kind', confirmDialogTitle: 'Ben je zeker dat je je kind wilt verwijderen' },
+	childProfileHeader: { 
+		delete: 'verwijder kind',
+		confirmDialogTitle: 'Ben je zeker dat je je kind wilt verwijderen' 
+	},
 	childProfileInfo: {
 		confirmDialogTitle: 'Weet je zeker dat je deze ouder wilt verwijderen?', boy: 'Jongen', girl: 'Meisje', unspecified: 'Ongedefinieerd', age: ' jaar oud', additional: 'Extra info', allergies: 'Allergieën', otherInfo: 'Andere info', specialNeeds: 'Specialen noden', addAdditional: 'Voeg toe', addParent: 'Voeg ouder toe',
 	},
@@ -1020,10 +1028,12 @@ const it = {
 		phoneNumber: 'Numero di telefono (facoltativo)',
 		confirmPasswordErr: 'Le password non corrispondono ',
 		signupErr: 'Account già esistente ',
+		passwordPrompt: 'La password deve contenere almeno 8 caratteri',
 		acceptTermsErr: 'Per continuare, per favore accettare i termini e le condizioni',
 		requiredErr: 'Perfavore compila questo campo.',
 		typeMismatchErr: 'Si prega di inserire un indirizzo email valido.',
-		tooShortErr: 'Per favore usa almeno 8 caratteri.'
+		tooShortErr: 'Per favore usa almeno 8 caratteri.',
+		visibilityPrompt: "Gli utenti potranno cercare il mio profilo all'interno dell'app"
 	},
 	privacyPolicyModal: {
 		terms: null, privacy: null, privacyHeader: 'Informativa sulla privacy', termsHeader: "Condizioni d'uso", accept: 'ACCETTA',
@@ -1061,7 +1071,7 @@ const it = {
 	},
 	myFamiliesShareScreen: { myGroups: 'I miei gruppi', myNotifications: 'Le mie notifiche' },
 	faqsScreen: { backNavTitle: 'FAQs', faqs: [{ question: 'Come funziona un gruppo?', dropdowns: [{ title: 'Quali regole si applicano a un gruppo?', paragraph: null }, { title: 'Cosa succede se non riesco a rispettare il mio turno?', paragraph: null }, { title: 'Cosa succede se non ho esperienza nel gestire gruppi di bambini?', paragraph: null }] }, { question: 'Informazioni per scuole e organizzazioni', dropdowns: [{ title: 'Informazioni specifiche per le organizzazioni', paragraph: null }, { title: 'Informazioni specifiche per le scuole', paragraph: null }] }] },
-	searchGroupModal: { search: 'Cerca un gruppo', results: 'Risultati' },
+	searchGroupModal: { search: 'Cerca un gruppo', results: 'Risultati', example: '' },
 	createGroup: { backNavTitle: 'Crea un gruppo' },
 	createGroupStepper: {
 		continue: 'Continua',
@@ -1402,6 +1412,7 @@ const el = {
 	signUpScreen: { backNavTitle: 'Εγγραφή', accountQuestion: 'Έχετε ήδη λογαριασμό;', logIn: 'Είσοδος' },
 	signUpForm: {
 		email: 'Ηλεκτρονικό ταχυδρομείο',
+		visibilityPrompt: 'Οι χρήστες θα μπορούν να αναζητήσουν το προφίλ μου εντός της εφαρμογής',
 		givenName: 'Όνομα',
 		familyName: 'Επίθετο',
 		password: 'Κωδικός πρόσβασης',
@@ -1414,6 +1425,7 @@ const el = {
 		signupErr: 'Ένας άλλος λογαριασμός χρησιμοποιει το e-mail ',
 		acceptTermsErr: 'Παρακαλούμε να αποδεχτείτε τους όρους και την πολιτική',
 		requiredErr: 'Παρακαλούμε συμπληρώστε αυτό το πεδίο.',
+		passwordPrompt: 'Ο κωδικός πρέπει να περιλαμβάνει τουλάχιστον 8 χαρακτήρες',
 		typeMismatchErr: 'Παρακαλούμε εισάγετε μια έγκυρη διεύθυνση e-mail.',
 		tooShortErr: 'Παρακαλούμε χρησιμοποιήσετε τουλάχιστον 8 χαρακτήρες.'
 	},
@@ -1453,7 +1465,7 @@ const el = {
 	},
 	myFamiliesShareScreen: { myGroups: 'Οι ομάδες μου', myNotifications: 'Οι ειδοποιήσεις μου' },
 	faqsScreen: { backNavTitle: 'Συχνές ερωτήσεις', faqs: [{ question: 'Πώς λειτουργεί μια ομάδα;', dropdowns: [{ title: 'Ποιες συμφωνίες ισχύουν για μια ομάδα;', paragraph: 'Πρέπει να δημιουργηθεί' }, { title: 'Τι θα συμβεί αν απσοδόκητα δεν μπορώ να "καλύψω" τη σειρά μου;', paragraph: 'Πρέπει να δημιουργηθεί' }, { title: 'Τι γίνεται αν δεν έχω εμπειρία με μια ομάδα παιδιών;', paragraph: null }] }, { question: 'Πληροφορίες για τα σχολεία και την οργάνωση', dropdowns: [{ title: 'Πληροφορίες για την οργάνωση', paragraph: 'Πρέπει να δημιουργηθεί' }, { title: 'Πληροφορίες για το σχολείο', paragraph: 'Πρέπει να δημιουργηθεί' }] }] },
-	searchGroupModal: { search: 'Αναζήτηση ομάδας', results: 'Αποτελέσματα' },
+	searchGroupModal: { search: 'Αναζήτηση ομάδας', results: 'Αποτελέσματα', example: '' },
 	createGroup: { backNavTitle: 'Δημιουργία ομάδας' },
 	createGroupStepper: {
 		continue: 'Συνέχεια',
@@ -1511,7 +1523,11 @@ const el = {
 		requiredErr: 'Παρακαλούμε συμπληρώσετε αυτό το πεδίο.'
 	},
 	profileHeader: {
-		export: 'Εξαγωγή', delete: 'Διαγραφή', signout: 'Αποσύνδεση', exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;', deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;',
+		export: 'Εξαγωγή',
+		delete: 'Διαγραφή',
+		signout: 'Αποσύνδεση',
+		exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;',
+		deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;',
 	},
 	replyBar: { new: 'Νέο μήνυμα' },
 	announcementReplies: { new: 'Το σχόλιο σας…' },

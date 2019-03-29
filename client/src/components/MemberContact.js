@@ -5,6 +5,8 @@ import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
 import axios from "axios";
 import MemberOptionsModal from "./OptionsModal";
+import { withRouter } from 'react-router-dom';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class MemberContact extends React.Component {
   state = { modalIsOpen: false, top: "", right: "", clickTime: "" };
@@ -92,7 +94,8 @@ class MemberContact extends React.Component {
         style: "optionsModalButton",
         handle: this.handleRemoveUser
       }
-    ];
+		];
+		console.log(profile)
     return (
       <React.Fragment>
         <MemberOptionsModal
@@ -112,31 +115,46 @@ class MemberContact extends React.Component {
             />
           </div>
           <div className="col-5-10">
-            <div id="contactInfoContainer" className="center">
-              <h1>{profile.given_name + " " + profile.family_name}</h1>
-              <h2>{profile.admin ? texts.administrator : ""}</h2>
-            </div>
-          </div>
-          <div id="contactIconsContainer" className="col-3-10">
-							<button onClick={()=> profile.phone?this.handlePhoneCall(profile.phone):null}
-								className="transparentButton verticalCenter"
-								style={profile.phone?{}:{opacity: 0}}
+						<div 
+						id="contactInfoContainer" 
+						className="center" 
+						onClick={()=>{this.props.history.push("/profiles/" + profile.user_id + "/info")}}
+						>
+							<h1>{profile.given_name + " " + profile.family_name}</h1>
+							<h2>{profile.admin ? texts.administrator : ""}</h2>
+						</div>
+					</div>
+					<div id="contactIconsContainer" className="col-1-10">
+						{profile.phone &&
+							<Tooltip title={profile.phone} aria-label="phone">
+								<button onClick={() => this.handlePhoneCall(profile.phone)}
+									className="transparentButton verticalCenter"
+								>
+									<i className="fas fa-phone" />
+								</button>
+							</Tooltip>
+						}
+					</div>
+					<div id="contactIconsContainer" className="col-1-10">
+						{profile.email &&
+							<Tooltip title={profile.email} aria-label="email">
+								<button onClick={() => this.handleEmail(profile.email)}
+									className="transparentButton verticalCenter"
+								>
+									<i className="fas fa-envelope" />
+								</button>
+							</Tooltip>
+						}
+					</div>
+					<div id="contactIconsContainer" className="col-1-10">
+						{this.props.userIsAdmin &&
+							<button
+								className="transparentButton verticalCenter memberOptions"
+								onClick={this.handleClick}
 							>
-								<i className="fas fa-phone" />
+								<i className="fas fa-ellipsis-v" />
 							</button>
-							<button onClick={()=> profile.email? this.handleEmail(profile.email):null}
-								className="transparentButton verticalCenter" 
-								style={profile.email?{}:{opacity: 0}}
-							>
-								<i className="fas fa-envelope" />
-							</button>
-							<button 
-								className="transparentButton verticalCenter " 
-								style={this.props.userIsAdmin?{}:{opacity:0}}
-								onClick={this.props.userIsAdmin?this.handleClick:null}
-							>
-								  <i className="fas fa-ellipsis-v memberOptions" />
-							</button>
+							}
           </div>
         </div>
       </React.Fragment>
@@ -144,7 +162,7 @@ class MemberContact extends React.Component {
   }
 }
 
-export default withLanguage(MemberContact);
+export default withRouter(withLanguage(MemberContact));
 
 MemberContact.propTypes = {
   member: PropTypes.object,

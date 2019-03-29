@@ -234,6 +234,7 @@ class SignUpForm extends React.Component {
 					required={true}
 					value={this.state.passwordConfirm}
 				/>
+				<span>{texts.passwordPrompt}</span>
 				<span className="invalid-feedback" id="passwordConfirmErr" />
 				<div className="line horizontalCenter" />
 				<div className="row no-gutters" style={{ alignItems: "center" }}>
@@ -247,6 +248,7 @@ class SignUpForm extends React.Component {
 							bar: classes.colorBar,
 						}}
 					/>
+					<span>{'(Users will be able to search for my profile inside the app)'}</span>
 				</div>
 				<div className="acceptTermsContainer row no-gutters">
 					<div className="col-2-10">
