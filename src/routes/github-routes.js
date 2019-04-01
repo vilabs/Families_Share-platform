@@ -10,7 +10,6 @@ router.post('/pushevent', (req, res, next) => {
 			console.log(`stderr:  ${stderr}`);
 			next(err)
 		}
-		
 	console.log(`stdout: ${stdout}`);
 	res.sendStatus(200)
 	})
