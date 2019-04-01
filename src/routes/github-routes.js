@@ -9,7 +9,7 @@ router.post('/pushevent', (req, res, next) => {
 		if(err){
 			next(err)
 		}
-			res.sendStatus(200)
+		res.sendStatus(200)
 		});
 });
 
