@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import GroupMembersList from "./GroupMembersList";
-import BackNavigation from "./BackNavigation";
 import GroupMembersAdminOptions from "./GroupMembersAdminOptions";
 import LoadingSpinner from "./LoadingSpinner";
 import axios from "axios";

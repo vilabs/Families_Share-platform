@@ -495,7 +495,7 @@ router.get('/:id/notifications', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const user = await User.findOne({ user_id: req.user_id })
-    const notifications = await Notification.find({ owner_type: 'group', owner_id: id }).lean().exec()
+		const notifications = await Notification.find({ owner_type: 'group', owner_id: id }).lean().exec()
     if (notifications.length === 0) {
       return res.status(404).send('Group has no notifications')
     }

@@ -155,6 +155,7 @@ class GroupInfo extends React.Component {
           groupBackground={this.state.group.background}
           userIsAdmin={this.state.userIsAdmin}
         />
+				<div id="groupInfoMainContainer">
         <GroupAbout groupInfo={this.state.group.description} hasJoined={this.state.group_accepted&&this.state.user_accepted}/>
         {this.state.user_accepted && this.state.group_accepted &&   
             <Card
@@ -173,6 +174,7 @@ class GroupInfo extends React.Component {
           title={texts.confirm}
           handleClose={this.handleConfirmClose}
         />
+				</div>
       </div>
     ) : (
       <LoadingSpinner />

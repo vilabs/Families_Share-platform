@@ -155,6 +155,7 @@ input:focus {
 }
 #backNavContainer {
   height: 5.6rem;
+  z-index: 100;
   background-color: #00838f;
   align-items: center;
   width: 100%;

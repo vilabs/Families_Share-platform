@@ -1541,7 +1541,11 @@
   text-align: left;
   line-height: 1.71;
 }
-#groupInfoContainer {
+
+#groupInfoMainContainer {
+  position: relative;
+  top: 12.5rem;
+  padding-top: 1rem;
   padding-bottom: 8rem;
 }
 .joinGroupButton {
@@ -1775,7 +1779,7 @@
   padding-bottom: 11.2rem;
   overflow-y: auto;
   position: relative;
-  top: 5.6rem;
+  top: 9.1rem;
 }
 
 #announcementContainer {
@@ -1958,11 +1962,11 @@
 /*GROUP NEWS*/
 
 #groupNewsNavContainer {
-  position: fixed;
   top: 5.6rem;
   height: 3.5rem;
   background-color: #00838f;
-  position: relative;
+  position: fixed;
+  z-index: 100;
   width: 100%;
   box-shadow: 0px 3px 10px grey;
 }
@@ -1980,8 +1984,10 @@
 
 #notificationsContainer {
   background-color: #afdddd;
-  min-height: calc(100vh - 8rem);
+  min-height: calc(100vh - 14.7rem);
   padding-bottom: 5.6rem;
+  position: relative;
+  top: 9.1rem;
 }
 #notificationContainer p {
   margin-top: 2rem;
