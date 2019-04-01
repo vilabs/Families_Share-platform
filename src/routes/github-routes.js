@@ -8,6 +8,7 @@ router.post('/pushevent', (req, res, next) => {
 	exec('git pull origin master', (err, stdout, stderr) => {
 		if (err) {
 			console.log(`stderr:  ${stderr}`);
+			next(err)
 		}
 	console.log(`stdout: ${stdout}`);
 	res.sendStatus(200)
