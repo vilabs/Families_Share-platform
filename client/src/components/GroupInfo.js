@@ -156,8 +156,7 @@ class GroupInfo extends React.Component {
           userIsAdmin={this.state.userIsAdmin}
         />
         <GroupAbout groupInfo={this.state.group.description} hasJoined={this.state.group_accepted&&this.state.user_accepted}/>
-        {this.state.user_accepted && this.state.group_accepted? (
-          <React.Fragment>
+        {this.state.user_accepted && this.state.group_accepted &&   
             <Card
               card={{
                 cardHeader: texts.startGuideHeader,
@@ -165,11 +164,9 @@ class GroupInfo extends React.Component {
                 learnMore: true,
                 link: this.props.match.url + "/start-up-guide"
               }}
-            />
-          </React.Fragment>
-        ) : (
-          <div />
-        )}
+            />       
+        
+        }
         {this.renderJoinButton()}
         <ConfirmDialog
           isOpen={this.state.confirmIsOpen}

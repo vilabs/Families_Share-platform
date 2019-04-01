@@ -66,8 +66,6 @@ class GroupMembers extends React.Component {
   render() {
     return this.state.fetchedGroupMembers ? (
       <div id="groupMembersContainer">
-        {this.state.userIsAdmin ? (
-          <React.Fragment>
             <div className="row no-gutters" id="groupMembersHeaderContainer">
               <div className="col-2-10">
                 <button
@@ -81,7 +79,7 @@ class GroupMembers extends React.Component {
                 <h1 className="verticalCenter">{this.state.group.name}</h1>
               </div>
               <div className="col-3-10 ">
-                <button
+                {this.state.userIsAdmin && <button
                   className="transparentButton center"
                   onClick={this.handlePendingRequests}
                 >
@@ -94,22 +92,14 @@ class GroupMembers extends React.Component {
                       <div />
                     )}
                   </i>
-                </button>
+                </button>}
               </div>
             </div>
-            <GroupMembersAdminOptions
+            {this.state.userIsAdmin && 
+						<GroupMembersAdminOptions
               groupIsOpen={this.state.settings.open}
 							groupId={this.state.group.group_id}
-            />
-          </React.Fragment>
-        ) : (
-          <div>
-            <BackNavigation
-              title={this.state.group.name}
-              onClick={() => this.props.history.push("/myfamiliesshare")}
-            />
-          </div>
-        )}
+            />}
         <GroupMembersList
           members={this.state.members}
           groupId={this.state.group.group_id}

@@ -137,11 +137,13 @@ class GroupActivities extends React.Component {
 						</button>
 					</div>
 				</div>
+			<div style={{position: 'relative', top: '5.6rem'}}>
 			<Calendar
 				handleChangeView={this.handleChangeView}
 				ownerType={"group"}
 					ownerId={this.props.group.group_id}
         />
+			</div>
           <div style={this.state.activeView==='month'?{}:{display: "none"}}>
             <button id="addActivityThumbnail" onClick={this.addActivity}>
               <i className="fas fa-plus" />

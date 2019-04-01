@@ -53,11 +53,11 @@ class CreateTimeslotModal extends React.Component {
 						if (!elem.validity.valid) {
 							if(elem.validity.valueMissing){
 								errorLabel.textContent = texts.requiredErr;
-							} else if(elem.validity.customError){
+							}	else if(elem.validity.customError){
 								errorLabel.textContent = texts.timeErr;
 							} else if(elem.validity.rangeUnderflow){
 								errorLabel.textContent = texts.rangeErr;
-							}
+							} 
 							errorLabel.style.display = "block"
 						} else {
 							errorLabel.textContent = "";
@@ -237,7 +237,7 @@ class CreateTimeslotModal extends React.Component {
 								</div>
 								<div className="col-2-10">
 									<input
-										type="number" name="requiredParents" value={state.requiredParents} min={1}
+										type="number" name="requiredParents" value={state.requiredParents} min={1} required={true}
 										className="expandedTimeslotInput form-control" onChange={this.handleChange} />
 								</div>
 							</div>
@@ -258,6 +258,7 @@ class CreateTimeslotModal extends React.Component {
 									<input
 										type="number" name="requiredChildren" value={state.requiredChildren} min={1}
 										className="expandedTimeslotInput form-control" onChange={this.handleChange}
+										required={true}
 									/>
 								</div>
 							</div>

@@ -565,8 +565,8 @@ const en = {
 		fixed: 'Fixed',
 		completed: 'Completed',
 		timeErr: 'Invalid start and end time combination',
-		requiredErrr: 'Please fill out this field.',
-		rangeErr: 'Please select a value greater than zero.'
+		requiredErr: 'Please fill out this field.',
+		rangeErr: 'Please select a value greater than zero.',
 	},
 	editActivityScreen: {
 		backNavTitle: 'Edit activity',
@@ -929,7 +929,7 @@ const nl = {
 		fixed: 'Vastgelegd',
 		completed: 'Voltooid',
 		requiredErr: 'Vul alstublieft dit veld in.',
-		rangeErr:'Selecteer een waarde groter dan nul.'
+		rangeErr:'Selecteer een waarde groter dan nul.',
 	},
 	editActivityScreen: {
 		backNavTitle: 'Bewerk activiteit', color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit', save: 'Sla op',
@@ -1333,7 +1333,7 @@ const it = {
 		fixed: 'Confermata',
 		completed: 'Completata',
 		requiredErr: 'Perfavore compila questo campo.',
-		rangeErr: 'Perfavore seleziona un valore maggiore di zero'
+		rangeErr: 'Perfavore seleziona un valore maggiore di zero',
 	},
 	editActivityScreen: {
 		backNavTitle: 'Modifica attività',
@@ -1624,7 +1624,7 @@ const el = {
 		fixed: 'Κανονισμένο',
 		completed: 'Ολοκληρωμένο ',
 		requiredErr: 'Παρακαλούμε συμπληρώσετε αυτό το πεδίο.',
-		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.'
+		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.',
 	},
 	editActivityScreen: {
 		backNavTitle: 'Επεξεργασία δραστηριότητας', color: 'Χρώμα  δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας', save: 'ΑΠΟΘΗΚΕΥΣΗ',

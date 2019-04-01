@@ -95,7 +95,8 @@ class EditChildProfileScreen extends React.Component {
     this.props.history.push({
       pathname: pathname + "/additional",
       state: {
-        ...this.state
+				...this.state,
+				editChild: true,
       }
     });
     return false;

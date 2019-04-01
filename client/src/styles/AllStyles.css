@@ -1477,7 +1477,10 @@
 
 /*GROUP INFO*/
 #groupHeaderContainer {
-  position: relative;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  width: 100%;
   height: 12.5rem;
 }
 #groupHeaderContainer img {
@@ -1486,8 +1489,9 @@
   height: 11.5rem;
   border-radius: 50%;
   right: 5%;
-  position: absolute;
+  position: relative;
   bottom: 5%;
+  top: 5%;
   border: none;
   object-fit: cover;
 }
@@ -1636,7 +1640,11 @@
 /*GROUP MEMBERS*/
 #groupMembersHeaderContainer {
   height: 5.6rem;
+  position: fixed;
+  top: 0;
+  width: 100%;
   background-color: #00838f;
+  z-index: 100;
 }
 #groupMembersHeaderContainer i {
   font-size: 2rem;
@@ -1677,6 +1685,14 @@
 }
 #groupMembersContainer {
   padding-bottom: 8rem;
+}
+#groupMembersAdminOptionsContainer{
+  position: relative;
+  top: 5.6rem;
+}
+.membersContainer{
+  top: 5.6rem;
+  position: relative;
 }
 #groupMembersAdminOptionsContainer .row {
   border-bottom: 1px solid #e0e0e0;
@@ -1758,9 +1774,12 @@
   min-height: calc(100vh - 20.3rem);
   padding-bottom: 11.2rem;
   overflow-y: auto;
+  position: relative;
+  top: 5.6rem;
 }
 
 #announcementContainer {
+  position: relative;
   background-color: #ffffff;
   height: auto;
   width: 96%;
@@ -1939,6 +1958,8 @@
 /*GROUP NEWS*/
 
 #groupNewsNavContainer {
+  position: fixed;
+  top: 5.6rem;
   height: 3.5rem;
   background-color: #00838f;
   position: relative;
@@ -1959,7 +1980,7 @@
 
 #notificationsContainer {
   background-color: #afdddd;
-  min-height: calc(100vh - 14.7rem);
+  min-height: calc(100vh - 8rem);
   padding-bottom: 5.6rem;
 }
 #notificationContainer p {

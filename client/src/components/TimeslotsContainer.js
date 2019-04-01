@@ -34,8 +34,8 @@ class TimeslotsContainer extends React.Component {
 				data : {
 					startTime: "00:00",
 					endTime: "00:00",
-					requiredChildren: 0,
-					requiredParents: 0,
+					requiredChildren: 2,
+					requiredParents: 2,
 					description: "",
 					name: this.props.activityName,
 					cost: "",

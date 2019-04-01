@@ -157,6 +157,7 @@ input:focus {
   height: 5.6rem;
   background-color: #00838f;
   align-items: center;
+  width: 100%;
 }
 #backNavContainer i {
   font-size: 2rem;

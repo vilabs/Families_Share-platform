@@ -3,6 +3,7 @@ import Texts from '../Constants/Texts.js';
 import withLanguage from './LanguageContext';
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 const styles = theme => ({
 	checkbox: {
@@ -49,17 +50,39 @@ class AdditionalInfoScreen extends React.Component {
 		this.setState({ [name]: event.target.checked });
 	}
 	handleSave = () => {
+		const userId = this.props.match.params.profileId;
+		const childId = this.props.match.params.childId;
+		if (this.state.acceptAdditionalTerms) {
+			if(this.state.editChild){
+				axios
+				.patch("/users/" + userId + "/children/" + childId, {
+					allergies: this.state.allergies,
+					special_needs: this.state.special_needs,
+					other_info: this.state.other_info,
+				})
+				.then(response => {
+					console.log(response);
+					this.goBack()
+				})
+					.catch(error => {
+						console.log(error);
+					});
+			} else {
+				this.goBack()
+			}
+			
+		}
+	}
+	goBack = () => {
 		const pathname = this.props.history.location.pathname;
 		const parentpath = pathname.slice(0, pathname.lastIndexOf("/"))
-		if (this.state.acceptAdditionalTerms) {
-			this.props.history.goBack();
+		this.props.history.goBack();
 			this.props.history.replace({
 				pathname: parentpath,
 				state: {
 					...this.state,
 				},
 			})
-		}
 	}
 	render() {
 		const texts = Texts[this.props.language].additionalInfoScreen;
