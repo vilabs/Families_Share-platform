@@ -4,14 +4,14 @@ const exec = require('child_process').exec;
 
 
 router.post('/pushevent', (req, res, next) => {
-	console.log(req.head_commit.message)
-	console.log(req)
 	exec('git pull origin master', (err, stdout, stderr) => {
 		if (err) {
 			console.log(`stderr:  ${stderr}`);
 			next(err)
 		}
 	console.log(`stdout: ${stdout}`);
+	console.log(req.head_commit.message)
+	console.log(req)
 	res.sendStatus(200)
 	})
 })
