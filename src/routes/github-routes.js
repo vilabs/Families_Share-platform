@@ -8,12 +8,11 @@ router.post('/pushevent', (req, res, next) => {
 		if(err){
 			next(err)
 		}
-		console.log(stdout)
+		console.log(req.body.payload.commits[0].message)
 		exec('pm2 restart Families_Share', (err2, stdout2, stderr2) => {
 			if (err2) {
 				next
 			}
-			
 			console.log(sdout2)
 			res.sendStatus(200)
 		});
