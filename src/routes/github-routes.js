@@ -7,7 +7,7 @@ router.post('/pushevent', async (req, res, next) => {
 	await exec('cd ../../ | git pull origin master', (err, stdout, stderr) => {
 
 		if (err) {
-			console.log(`stderr: ${stderr}`);
+			console.log(`stderr:  ${stderr}`);
 		}
 
 	console.log(`stdout: ${stdout}`);
