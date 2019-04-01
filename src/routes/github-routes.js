@@ -7,6 +7,7 @@ router.post('/pushevent', (req, res, next) => {
 	exec('git pull origin master', (err, stdout, stderr) => {
 		console.log(req)
 		console.log(stdout)
+		
 		exec('pm2 restart Families_Share', (err2, stdout2, stderr2) => {
 			res.sendStatus(200)
 		});
