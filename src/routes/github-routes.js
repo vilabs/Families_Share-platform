@@ -9,6 +9,7 @@ router.post('/pushevent', (req, res, next) => {
 		if(err){
 			next(err)
 		}
+		
 		console.log(stdout)
 		exec('pm2 restart Families_Share', (err2, stdout2, stderr2) => {
 			if (err2) {
