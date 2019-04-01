@@ -13,7 +13,6 @@ router.post('/pushevent', (req, res, next) => {
 			if (err2) {
 				next
 			}
-			console.log(sdout2)
 			res.sendStatus(200)
 		});
 	})
