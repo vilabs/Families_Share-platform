@@ -10,7 +10,6 @@ router.post('/pushevent', (req, res, next) => {
 			next(err)
 		}
 	console.log(`stdout: ${stdout}`);
-	console.log(req.head_commit.message)
 	console.log(req)
 	res.sendStatus(200)
 	})
