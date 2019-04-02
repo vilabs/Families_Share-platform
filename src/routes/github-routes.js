@@ -2,7 +2,6 @@ const express = require('express')
 const router = new express.Router()
 const exec = require('child_process').exec;
 
-
 router.post('/pushevent', (req, res, next) => {
 	exec('git pull origin master', (err, stdout, stderr) => {
 		exec('cd client | npm run build', (err, stdout, stderr) => {
