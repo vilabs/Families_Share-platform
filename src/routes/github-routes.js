@@ -4,6 +4,8 @@ const exec = require('child_process').exec;
 
 router.post('/pushevent', (req, res, next) => {
 	exec('sh sync.sh', (err, stdout, stderr) => {
+		console.log(stdout)
+		console.log(stderr)
 	});
 	res.sendStatus(200)
 })
