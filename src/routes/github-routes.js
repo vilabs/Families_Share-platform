@@ -5,8 +5,10 @@ const exec = require('child_process').exec;
 
 router.post('/pushevent', (req, res, next) => {
 	exec('git pull origin master', (err, stdout, stderr) => {
-		exec('pm2 restart Families_Share', (err2, stdout2, stderr2) => {
-			res.sendStatus(200)
+		exec('cd client | npm run build', (err, stdout, stderr) => {
+			exec('pm2 restart Families_Share', (err2, stdout2, stderr2) => {
+				res.sendStatus(200)
+			});
 		});
 	})
 })
