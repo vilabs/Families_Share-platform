@@ -7,8 +7,8 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import registrationActions from "../Actions/RegistrationActions";
 import Images from '../Constants/Images';
-import AlertModal from './AlertModal';
 import PrivacyPolicyModal from './PrivacyPolicyModal';
+import { withSnackbar } from 'notistack';
 //import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 const styles = theme => ({
@@ -40,15 +40,10 @@ class SignUpForm extends React.Component {
 			email: "",
 			password: "",
 			passwordConfirm: "",
-			alertModalIsOpen: false,
 		};
 	}
 	componentDidMount() {
 		document.getElementById("termsAndPolicy").setCustomValidity(Texts[this.props.language].signUpForm.acceptTermsError)
-	}
-
-	handleAlertClose = () => {
-		this.setState({ alertModalIsOpen: false })
 	}
 	validate = () => {
 		const texts = Texts[this.props.language].signUpForm;
@@ -119,7 +114,7 @@ class SignUpForm extends React.Component {
 		if (this.validate()) {
 			this.submit();
 		}
-		this.setState({ formIsValidated: true, alertModalIsOpen: true });
+		this.setState({ formIsValidated: true});
 	}
 	handleChange = (event) => {
 		const name = event.target.name;
@@ -153,7 +148,6 @@ class SignUpForm extends React.Component {
 	handleAccept = () => {
 		document.getElementById("termsAndPolicy").setCustomValidity("")
 		this.setState({ acceptTerms: true, policyModalIsOpen: false });
-
 	}
 	filledInput = () => {
 		const state = this.state
@@ -163,6 +157,9 @@ class SignUpForm extends React.Component {
 		const { classes } = this.props;
 		const { error } = this.props;
 		const texts = Texts[this.props.language].signUpForm;
+		if(error){
+			this.props.enqueueSnackbar(`${texts.signupErr} ${this.state.email}`,{variant: 'error'})
+		}
 		const formClass = [];
 		if (this.state.formIsValidated) {
 			formClass.push("was-validated");
@@ -277,8 +274,6 @@ class SignUpForm extends React.Component {
 					/>
 				</div>
 				<PrivacyPolicyModal isOpen={this.state.policyModalIsOpen} handleClose={this.handlePolicyClose} handleAccept={this.handleAccept} />
-				<AlertModal isOpen={error && this.state.alertModalIsOpen} message={`${texts.signupErr} ${this.state.email}`}
-					handleClose={this.handleAlertClose} type={"error"} />
 			</form>
 		);
 	}
@@ -292,6 +287,6 @@ function mapStateToProps(state) {
 }
 
 const connectedSignUpForm = connect(mapStateToProps)(
-	withRouter(withLanguage(withStyles(styles)(SignUpForm)))
+	withRouter(withSnackbar(withLanguage(withStyles(styles)(SignUpForm))))
 );
 export { connectedSignUpForm as SignUpForm };

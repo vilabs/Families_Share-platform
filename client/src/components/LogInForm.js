@@ -3,8 +3,8 @@ import Texts from "../Constants/Texts.js";
 import withLanguage from "./LanguageContext";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import AlertModal from './AlertModal';
 import authenticationActions from "../Actions/AuthenticationActions";
+import { withSnackbar } from 'notistack';
 
 class LogInForm extends React.Component {
 	constructor(props) {
@@ -13,7 +13,6 @@ class LogInForm extends React.Component {
 			formIsValidated: false,
 			email: "",
 			password: "",
-			alertModalIsOpen: false
 		};
 	}
 	validate = () => {
@@ -69,27 +68,25 @@ class LogInForm extends React.Component {
 		if (this.validate()) {
 			this.submit();
 		}
-		this.setState({ formIsValidated: true, alertModalIsOpen: true });
+		this.setState({ formIsValidated: true});
 	};
 	handleChange = event => {
 		const name = event.target.name;
 		const value = event.target.value;
 		this.setState({ [name]: value });
 	};
-	handleAlertClose = () => {
-		this.setState({ alertModalIsOpen: false })
-	}
 	render() {
 		const { error } = this.props;
 		const texts = Texts[this.props.language].logInForm;
+		if(error){
+			this.props.enqueueSnackbar(texts.authenticationErr,{variant: 'error'})
+		}
 		const formClass = [];
 		if (this.state.formIsValidated) {
 			formClass.push("was-validated");
 		}
 		return (
 			<React.Fragment>
-				<AlertModal isOpen={error && this.state.alertModalIsOpen} type={"error"}
-					handleClose={this.handleAlertClose} message={texts.authenticationErr} />
 				<form
 					ref={form => (this.formEl = form)}
 					onSubmit={this.handleSubmit}
@@ -144,6 +141,6 @@ function mapStateToProps(state) {
 }
 
 const connectedLoginForm = connect(mapStateToProps)(
-	withRouter(withLanguage(LogInForm))
+	withSnackbar(withRouter(withLanguage(LogInForm)))
 );
 export { connectedLoginForm as LogInForm };

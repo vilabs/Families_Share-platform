@@ -4,20 +4,20 @@ import withLanguage from "./LanguageContext";
 import Images from "../Constants/Images";
 import BackNavigation from "./BackNavigation";
 import LoadingSpinner from "./LoadingSpinner";
-import AlertModal from './AlertModal'
 import axios from "axios";
+import { withSnackbar } from 'notistack';
 
 class ForgotPasswordScreen extends React.Component {
   state = {
     email: ``,
     formIsValidated: false,
-    alertModalIsOpen: false,
     sendingEmail: false
   };
   handleInputChange = event => {
     this.setState({ email: event.target.value });
   };
   handleSubmit = event => {
+		let snackMessage;
     event.preventDefault();
     if (this.validate()) {
       this.setState({ sendingEmail: true });
@@ -25,27 +25,21 @@ class ForgotPasswordScreen extends React.Component {
         .post("/users/forgotpassword", { email: this.state.email })
         .then(response => {
 					console.log(response);
-					const alertMessage =  Texts[this.props.language].forgotPasswordScreen.success;
-					this.setState({ alertType: "success", alertMessage, alertModalIsOpen: true, sendingEmail: false})
-          setTimeout(()=>{this.props.history.goBack()},1000);
+					snackMessage =  Texts[this.props.language].forgotPasswordScreen.success;
+					this.props.enqueueSnackbar(snackMessage,{ variant: 'success'})
         })
-        .catch(error => {
-          if (error.response.status === 404) {
-            const alertMessage =
-              Texts[this.props.language].forgotPasswordScreen.notExistErr;
-						this.setState({ alertType: "error", alertMessage, alertModalIsOpen: true, sendingEmail: false });
-          } else {
-            const alertMessage =
-              Texts[this.props.language].forgotPasswordScreen.err;
-						this.setState({ alertType: "error", alertMessage, alertModalIsOpen: true,sendingEmail: false });
-          }
-        });
+				.catch(error => {
+					error.response.status === 404 ?
+						snackMessage = Texts[this.props.language].forgotPasswordScreen.notExistErr
+						: snackMessage = Texts[this.props.language].forgotPasswordScreen.err;
+					this.props.enqueueSnackbar(snackMessage,{variant: 'error'});
+				})
+				.then( ()=> {
+					this.setState({sendingEmail: false });
+				})
     }
     this.setState({ formIsValidated: true });
   };
-  handleAlertClose = () => {
-    this.setState({ alertModalIsOpen: false})
-  }
   validate = () => {
 		const texts = Texts[this.props.language].forgotPasswordScreen;
     if (this.formEl.checkValidity() === false) {
@@ -109,10 +103,9 @@ class ForgotPasswordScreen extends React.Component {
             </form>
           </div>
         </div>
-			<AlertModal message={this.state.alertMessage} isOpen={this.state.alertModalIsOpen} handleClose={this.handleAlertClose} type={this.state.alertType} />
       </React.Fragment>
     );
   }
 }
 
-export default withLanguage(ForgotPasswordScreen);
+export default withSnackbar(withLanguage(ForgotPasswordScreen));

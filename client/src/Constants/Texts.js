@@ -381,6 +381,7 @@ const en = {
 	},
 	replyBar: {
 		new: 'New message',
+		maxFilesError: 'You can upload a maximum of 3 files.'
 	},
 	announcementReplies: {
 		new: 'Your comment...',
@@ -831,7 +832,7 @@ const nl = {
 	profileHeader: {
 		export: 'Exporteer', delete: 'Verwijder', signout: 'Afmelden', exportDialogTitle: 'Weet je zeker dat je al je persoonlijke informatie wilt exporteren?', deleteDialogTitle: 'Ben je zeker dat je je account wilt verwijderen',
 	},
-	replyBar: { new: 'Nieuw bericht' },
+	replyBar: { new: 'Nieuw bericht', maxFilesError: 'U kunt maximaal 3 bestanden uploaden.' },
 	announcementReplies: { new: 'Je bericht…' },
 	reply: { confirmDialogTitle: 'Weet je zeker dat je je bericht wilt verwijderen?' },
 	groupHeader: { confirmDialogTitle: 'Weet je zeker dat je de groep wilt verwijderen?' },
@@ -1148,7 +1149,8 @@ const it = {
 		deleteDialogTitle: 'Confermi di voler eliminare il tuo account?',
 	},
 	replyBar: {
-		new: 'Nuovo messaggio'
+		new: 'Nuovo messaggio', 
+		maxFilesError: 'Puoi caricare un massimo di 3 file.'
 	},
 	announcementReplies: {
 		new: 'Il tuo commento...'
@@ -1529,7 +1531,10 @@ const el = {
 		exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;',
 		deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;',
 	},
-	replyBar: { new: 'Νέο μήνυμα' },
+	replyBar: {
+		 new: 'Νέο μήνυμα',
+		 maxFilesError: 'Παρακαλούμε επιλέξετε μέχρι 3 αρχεία.'
+  },
 	announcementReplies: { new: 'Το σχόλιο σας…' },
 	reply: { confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε την απάντησή σας;' },
 	groupHeader: { confirmDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε την ομάδα σας;' },

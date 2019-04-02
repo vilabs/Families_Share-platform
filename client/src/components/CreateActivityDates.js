@@ -8,8 +8,7 @@ import moment from "moment";
 import "../styles/DayPicker.css";
 import Switch from "@material-ui/core/Switch";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import AlertModal from './AlertModal';
-
+import { withSnackbar } from 'notistack';
 
 
 const muiTheme = createMuiTheme({
@@ -55,7 +54,6 @@ class CreateActivityDates extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-			alertModalIsOpen: false,
       selectedDays: this.props.selectedDays,
       repetition: this.props.repetition,
       repetitionType: this.props.repetitionType,
@@ -103,9 +101,12 @@ class CreateActivityDates extends React.Component {
 		}
   };
 	handleSwitch = async () => {
+		const snackMessage = Texts[this.props.language].createActivityDates.datesError;
 		if (!this.state.repetition) {
 			if (this.state.selectedDays.length > 1) {
-				this.setState({ alertModalIsOpen: true })
+				this.props.enqueueSnackbar(snackMessage, { 
+					variant: 'error',
+			});
 			} else {
 				await this.setState({
 					repetition: !this.state.repetition,
@@ -157,10 +158,6 @@ class CreateActivityDates extends React.Component {
       : { color: "rgba(0,0,0,0.5)" };
     return (
       <div id="createActivityDatesContainer">
-				<AlertModal 
-				  isOpen={this.state.alertModalIsOpen} message={texts.datesError}
-				  handleClose={()=>this.setState({alertModalIsOpen: false})} type={"error"} 
-				/>
         <h1>{texts.header}</h1>
         <div style={{ width: "100%", fontSize: "1.5rem" }}>
           <DayPicker
@@ -240,4 +237,4 @@ CreateActivityDates.propTypes = {
   lastSelect: PropTypes.instanceOf(Date)
 };
 
-export default withLanguage(CreateActivityDates);
+export default withSnackbar(withLanguage(CreateActivityDates));
