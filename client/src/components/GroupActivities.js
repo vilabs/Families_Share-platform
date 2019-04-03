@@ -7,6 +7,24 @@ import ActivityOptionsModal from './OptionsModal';
 import axios from 'axios';
 import ActivityListItem from './ActivityListItem';
 import moment from 'moment';
+import Fab from '@material-ui/core/Fab';
+import { withStyles } from '@material-ui/core/styles';
+
+
+const styles = theme => ({
+	add: {
+		position: 'fixed',
+		bottom: '8rem',
+		right: '5%',
+		height: '5rem',
+		width: '5rem',
+		borderRadius: '50%',
+		border: 'solid 0.5px #999',
+		backgroundColor: '#ff6f00',
+		zIndex: 100,
+		fontSize: '2rem'
+	}
+});
 
 class GroupActivities extends React.Component {
   constructor(props) {
@@ -85,6 +103,7 @@ class GroupActivities extends React.Component {
 		this.props.history.push(`/groups/${this.state.group.group_id}/activities/pending`)
 	}
   render() {
+		const { classes } = this.props;
     const texts = Texts[this.props.language].groupActivities;
     const options = [
       {
@@ -143,19 +162,19 @@ class GroupActivities extends React.Component {
 				ownerType={"group"}
 					ownerId={this.props.group.group_id}
         />
-			</div>
-          <div style={this.state.activeView==='month'?{}:{display: "none"}}>
-            <button id="addActivityThumbnail" onClick={this.addActivity}>
-              <i className="fas fa-plus" />
-            </button>
-            <div id="groupActivitiesContainer" className="horizontalCenter">
-              <div className="row no-gutters">
-                <h1>{texts.header}</h1>
-              </div>
-							{this.state.fetchedActivities? 
+				</div>
+				<div style={this.state.activeView === 'month' ? {} : { display: "none" }}>
+					<Fab color="primary" aria-label="Add" className={classes.add} onClick={this.addActivity}>
+						<i className="fas fa-plus" />
+					</Fab>
+					<div id="groupActivitiesContainer" className="horizontalCenter">
+						<div className="row no-gutters">
+							<h1>{texts.header}</h1>
+						</div>
+						{this.state.fetchedActivities ?
 							this.renderActivities()
-							:<div/>}
-            </div>
+							: <div />}
+					</div>
           </div>
       </React.Fragment>
     );
@@ -167,4 +186,4 @@ GroupActivities.propTypes = {
 	userIsAdmin: PropTypes.bool,
 };
 
-export default withLanguage(GroupActivities);
+export default withStyles(styles)(withLanguage(GroupActivities));

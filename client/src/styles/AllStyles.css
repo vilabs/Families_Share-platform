@@ -1427,31 +1427,6 @@
 /*FORGOT PASSWORD SCREEN END*/
 
 /*GROUP ACTIVITIES*/
-#addActivityThumbnail {
-  padding: 0 0;
-  cursor: pointer;
-  z-index: 100;
-  position: fixed;
-  bottom: 8rem;
-  right: 5%;
-  height: 5rem;
-  width: 5rem;
-  border-radius: 50%;
-  border: solid 0.5px #999;
-  background-color: #ff6f00;
-}
-#addActivityThumbnail i {
-  font-size: 2rem;
-  color: #ffffff;
-}
-#addActivityThumbnail img {
-  width: 2rem;
-  height: 2rem;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 #groupActivitiesContainer {
   width: 94%;
   margin-top: 3rem;
@@ -2605,19 +2580,6 @@ a:active {
   color: #ffffff;
   font-size: 2rem;
 }
-#addChildThumbnail {
-  padding: 0 0;
-  cursor: pointer;
-  z-index: 100;
-  position: fixed;
-  bottom: 5%;
-  right: 5%;
-  height: 5rem;
-  width: 5rem;
-  border-radius: 50%;
-  border: solid 0.5px #999;
-  background-color: #ff6f00;
-}
 .addChildPrompt{
   width: 100vw;
   height: 8rem;
@@ -2627,10 +2589,6 @@ a:active {
   font-family:'Roboto', sans-serif;
   font-size: 1.6rem;
 }
-#addChildThumbnail i {
-  color: #ffffff;
-  font-size: 2rem;
-}
 #addFramilyThumbnail img {
   width: 2rem;
   height: 2rem;
@@ -2638,14 +2596,6 @@ a:active {
   top: 40%;
   left: 40%;
   transform: translate(-40%, -40%);
-}
-#addChildThumbnail img {
-  width: 3rem;
-  height: 3rem;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 #framilyMemberContainer {
   padding: 1rem 0;
