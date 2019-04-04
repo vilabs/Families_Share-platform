@@ -61,6 +61,7 @@ class CreateActivityTimeslots extends React.Component {
       return (
         <TimeslotsContainer
 					activityName={this.props.activityName}
+					activityLocation={this.props.activityLocation}
           timeslots={this.state.activityTimeslots[0]}
           dateIndex={0}
           header={header}
@@ -140,6 +141,7 @@ export default withLanguage(CreateActivityTimeslots);
 
 CreateActivityTimeslots.propTypes = {
 	activityName: PropTypes.string,
+	activityLocation: PropTypes.string,
   dates: PropTypes.array,
   handleSubmit: PropTypes.func,
   activityTimesltos: PropTypes.array,

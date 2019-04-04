@@ -138,7 +138,8 @@ class CreateActivityStepper extends React.Component {
       information: {
         name: "",
         color: colors[Math.floor(Math.random()*colors.length)],
-        description: ""
+				description: "",
+				location: "",
       },
       dates: {
         selectedDays: [],
@@ -229,6 +230,7 @@ class CreateActivityStepper extends React.Component {
         return (
           <CreateActivityTimeslots
 						activityName={this.state.information.name}
+						activityLocation={this.state.information.location}
             dates={this.state.dates.selectedDays}
             {...timeslots}
             handleSubmit={this.handleTimeslotsSubmit}

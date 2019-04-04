@@ -1,4 +1,11 @@
 const en = {
+	timeslotPreview: {
+		confirmed: 'Confirmed',
+		pending: 'Waiting for confirmation',
+		participating: 'You and your children will participate',
+		parentParticipating: 'You will participate',
+		notParticipating: 'Available for new inscriptions'
+	},
 	ratingModal: {
 		title: 'How would you like to rate Families Share?',
 		rate: "Rate",
@@ -160,6 +167,7 @@ const en = {
 		activitiesTab: 'Activities',
 		membersTab: 'Members',
 		infoTab: 'About',
+		calendarTab: 'Calendar'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Invite people',
@@ -483,6 +491,7 @@ const en = {
 		color: 'Color of the activity',
 		description: 'Description (optional)',
 		name: 'Name of the activity',
+		location: 'Location (optional)'
 	},
 	createActivityDates: {
 		header: 'Select one or more days',
@@ -519,8 +528,9 @@ const en = {
 		export: 'Export',
 		every: 'Every',
 		of: 'of',
+		infoHeader: 'Activity Info:'
 	},
-	timeslotsDrawer: {
+	timeslotsList: {
 		fixed: 'fixed',
 		completed: 'completed',
 		proposed: 'proposed',
@@ -626,6 +636,13 @@ const en = {
 };
 
 const nl = {
+	timeslotPreview: {
+		confirmed: 'Bevestigd',
+		pending: 'Wachten op bevestiging',
+		participating: 'Jij en je kinderen zullen deelnemen',
+		parentParticipating: 'Je zult deelnemen',
+		notParticipating: 'Beschikbaar voor nieuwe inscripties'
+	},
 	ratingModal: {
 		title: 'Hoe zou je willen beoordelen Families Share?',
 		rate: "Tarief",
@@ -734,6 +751,7 @@ const nl = {
 		activitiesTab: 'Activiteiten',
 		membersTab: 'Leden',
 		infoTab: 'Over',
+		calendar: 'Kalender'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Nodig mensen uit',
@@ -892,7 +910,12 @@ const nl = {
 	createActivityStepper: {
 		continue: 'Ga verder', cancel: 'Annuleer', finish: 'Maak aan', save: 'Opslaan', stepLabels: ['Informatie', 'Datums', 'Timeslots'],
 	},
-	createActivityInformation: { color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit' },
+	createActivityInformation: {
+		color: 'Kleur van de activiteit',
+		description: 'Beschrijving (optioneel)',
+		name: 'Naam van de activiteit',
+		location: 'Plaats Location (optioneel)'
+	},
 	createActivityDates: {
 		header: 'Selecteer 1 of meerdere dagen', repetition: 'Herhaling', weekly: 'Wekelijk', monthly: 'Maandelijks', datesError: 'Herhaling is niet mogelijk wanneer meerdere dagen geselecteerd zijn',
 	},
@@ -903,8 +926,17 @@ const nl = {
 	clockModal: {
 		am: 'AM', pm: 'PM', start: 'Start', end: 'Einde', confirm: 'OK', cancel: 'Annuleer',
 	},
-	activityScreen: { color: 'Kleur', confirmDialogTitle: 'Weet je zeker dat je deze activiteit wilt exporteren?', export: 'Exporteren', delete: 'Verwijder', every: 'Elk', of: 'van', deleteDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen' },
-	timeslotsDrawer: {
+	activityScreen: {
+		color: 'Kleur',
+		confirmDialogTitle: 'Weet je zeker dat je deze activiteit wilt exporteren?',
+		export: 'Exporteren',
+		delete: 'Verwijder',
+		every: 'Elk',
+		of: 'van',
+		deleteDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen',
+		infoHeader: 'Activiteit informatie'
+	},
+	timeslotsList: {
 		proposed: 'voorgestelde', fixed: 'vast', completed: 'voltooid', timeslot: 'Timeslot', timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weinig deelnemers', notEnoughParticipants: 'Tekort aantal deelnemers',
 	},
 	filterTimeslotsDrawer: {
@@ -967,6 +999,13 @@ const nl = {
 };
 
 const it = {
+	timeslotPreview: {
+		confirmed: 'Confermato',
+		pending: 'In attesa di conferma',
+		participating: 'Parteciperai tu e i tuoi figli',
+		parentParticipating: 'Parteciperai',
+		notParticipating: 'Disponibile per nuove iscrizioni'
+	},
 	ratingModal: {
 		title: 'Come vorresti valutare Families Share?',
 		rate: 'Vota',
@@ -1049,7 +1088,7 @@ const it = {
 		startGuideHeader: 'Non sai da dove iniziare?', startGuideInfo: 'Segui i sette passi per avviare al meglio il gruppo', join: 'UNISCITI AL GRUPPO', leave: 'ABBANDONA IL GRUPPO', pending: 'CANCELLA LA RICHIESTA', confirm: 'Sei sicuro/a di voler abbandonare il gruppo?',
 	},
 	groupNavbar: {
-		newsTab: 'Messaggi', activitiesTab: 'Attività  ', membersTab: 'Membri', infoTab: 'Info',
+		newsTab: 'Messaggi', activitiesTab: 'Attività  ', membersTab: 'Membri', infoTab: 'Info', calendarTab: 'Calendario'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Invita altre persone', groupIsOpen: 'Il gruppo è aperto', groupIsClosed: 'Il gruppo è chiuso', requestsOpen: 'Le iscrizioni al gruppo sono aperte', requestsClosed: 'Il gruppo ha raggiunto il numero massimo di membri',
@@ -1250,7 +1289,8 @@ const it = {
 	createActivityInformation: {
 		color: "Colore dell'attività",
 		description: 'Descrizione (facoltativo)',
-		name: "Titolo dell'attività" 
+		name: "Titolo dell'attività",
+		location: 'Posizione (facoltativo',
 	},
 	createActivityDates: {
 		header: 'Seleziona uno o più giorni',
@@ -1286,9 +1326,10 @@ const it = {
 		export: 'Esportare',
 		every: 'Ogni',
 		of: 'di',
-		deleteDialogTitle: 'Confermi di eliminare questa attività?'
+		deleteDialogTitle: 'Confermi di eliminare questa attività?',
+		infoHeader: 'Attività informative'
 	},
-	timeslotsDrawer: {
+	timeslotsList: {
 		proposed: 'proposto',
 		fixed: 'fisso',
 		completed: 'completato',
@@ -1394,6 +1435,13 @@ const it = {
 };
 
 const el = {
+	timeslotPreview: {
+		confirmed: 'Επιβεβαιωμένο',
+		pending: 'Αναμένει επιβεβαίωση',
+		participating: 'Εσείς και τα παιδιά σας συμμετέχετε',
+		parentParticipating: 'Συμμετέχετε',
+		notParticipating: 'Διαθέσιμο για νέες εγγραφές'
+	},
 	ratingModal: {
 		title: 'Πόσο θα θέλατε να βαθμολογήσετε τη πλατφόρμα Families Share;',
 		rate: 'Αξιολόγηση',
@@ -1444,7 +1492,7 @@ const el = {
 		startGuideHeader: 'Δεν ξέρετε από πού να ξεκινήσετε;', startGuideInfo: 'Αναζητήστε τον οδηγό έναρξης 7 βημάτων', join: 'Συμμετοχή στην ομάδα', leave: 'Αποχώρηση από την ομάδα', pending: 'Ακύρωση αιτήματος', confirm: 'Είστε βέβαιοι ότι θέλετε να αποχωρήσετε από την ομάδα;',
 	},
 	groupNavbar: {
-		newsTab: 'Νέα', activitiesTab: 'Δραστηριότητες', membersTab: 'Μέλη', infoTab: 'Σχετικά με',
+		newsTab: 'Νέα', activitiesTab: 'Δραστηριότητες', membersTab: 'Μέλη', infoTab: 'Σχετικά με', calendarTab: 'Ημερολόγιο'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Προσκαλέστε άτομα', groupIsOpen: 'Η ομάδα είναι ανοιχτή', groupIsClosed: 'Η ομάδα είναι κλειστή', requestsOpen: 'Αιτήματα συμμετοχής είναι ευπρόσδεκτα', requestsClosed: 'Έχει επιτευχθεί μέγιστη χωρητικότητα',
@@ -1591,7 +1639,12 @@ const el = {
 	createActivityStepper: {
 		continue: 'Συνέχεια', cancel: 'Ακύρωση', finish: 'Δημιουργία', save: 'Αποθήκευση', stepLabels: ['Πληροφορίες', 'Ημερομηνίες', 'Χρονική περίοδος'],
 	},
-	createActivityInformation: { color: 'Χρώμα δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας' },
+	createActivityInformation: {
+		color: 'Χρώμα δραστηριότητας',
+		description: 'Περιγραφή (προαιρετική)',
+		name: 'Όνομα δραστηριότητας' ,
+		location: 'Τοποθεσία (προαιρετική)'
+	},
 	createActivityDates: {
 		header: 'Επιλέξτε μία ή περισσότερες ημέρες', repetition: 'Επανάληψη', weekly: 'Εβδομαδιαία', monthly: 'Μηνιαία', datesError: 'Η επανάληψη δεν είναι διαθέσιμη όταν έχετε επιλέξει πολλές ημέρες',
 	},
@@ -1602,8 +1655,17 @@ const el = {
 	clockModal: {
 		am: 'π.μ.', pm: 'μ.μ.', start: 'ΞΕΚΙΝΗΣΤΕ', end: 'ΤΕΛΟΣ', confirm: 'ΟΚ', cancel: 'ΑΚΥΡΩΣΗ',
 	},
-	activityScreen: { color: 'Χρώμα δραστηριότητας', exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;', export: 'Εξαγωγή', delete: 'Διαγραφή', every: 'Κάθε', of: 'του', deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;' },
-	timeslotsDrawer: {
+	activityScreen: {
+		color: 'Χρώμα δραστηριότητας',
+		exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;',
+		export: 'Εξαγωγή',
+		delete: 'Διαγραφή',
+		every: 'Κάθε',
+		of: 'του',
+		deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;',
+		infoHeader: 'Πληροφορίες Δραστηριότητας'
+	},
+	timeslotsList: {
 		proposed: 'προτεινόμενη', fixed: 'καθορισμένη', completed: 'ολοκληρωμένη', timeslot: 'Χρονική περίοδος', timeslots: 'Χρονικές περίοδοι', available: 'Διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',
 	},
 	filterTimeslotsDrawer: {

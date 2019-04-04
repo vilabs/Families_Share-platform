@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
-import Calendar from "./Calendar";
 import Texts from "../Constants/Texts.js";
 import ActivityOptionsModal from './OptionsModal';
 import axios from 'axios';
@@ -27,91 +26,87 @@ const styles = theme => ({
 });
 
 class GroupActivities extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { 
-      group: this.props.group,
-      activeView: 'month',
-      fetchedActivities: false,
-      optionsModalIsOpen: false
-    };
+	constructor(props) {
+		super(props);
+		this.state = {
+			group: this.props.group,
+			fetchedActivities: false,
+			optionsModalIsOpen: false
+		};
 	}
-	componentDidMount(){
+	componentDidMount() {
 		const groupId = this.state.group.group_id
 		axios.get(`/groups/${groupId}/activities`)
-		.then(response=>{
-			const now = moment().hours(0).unix();
-			const acceptedActivities  = response.data.filter( activity => activity.status==="accepted");
-			const pendingActivities = response.data.length - acceptedActivities.length;
-			acceptedActivities.forEach( activity => {
-				activity.sortField = Number.POSITIVE_INFINITY;
-				activity.dates.forEach( date => {
-					const d = moment(date.date).unix()
-					if( d - now > 0 && d < activity.sortField) activity.sortField = d;
+			.then(response => {
+				const now = moment().hours(0).unix();
+				const acceptedActivities = response.data.filter(activity => activity.status === "accepted");
+				const pendingActivities = response.data.length - acceptedActivities.length;
+				acceptedActivities.forEach(activity => {
+					activity.sortField = Number.POSITIVE_INFINITY;
+					activity.dates.forEach(date => {
+						const d = moment(date.date).unix()
+						if (d - now > 0 && d < activity.sortField) activity.sortField = d;
+					})
 				})
+				const sortedActivities = acceptedActivities.sort((a, b) => {
+					if (a.sortField <= b.sortField) {
+						return -1
+					} else {
+						return 1
+					}
+				})
+				this.setState({ fetchedActivities: true, activities: sortedActivities, pendingActivities })
 			})
-			const sortedActivities = acceptedActivities.sort( (a,b) => {
-				if( a.sortField <= b.sortField ){
-					return -1
-				} else {
-					return 1
-				}
+			.catch(error => {
+				console.log(error);
+				this.setState({ fetchedActivities: true, activities: [] })
 			})
-			this.setState({fetchedActivities: true, activities: sortedActivities, pendingActivities})
-		})
-		.catch( error=>{
-			console.log(error);
-			this.setState({fetchedActivities: true, activities: []})
-		})
 	}
-  addActivity = () => {
-    this.props.history.push(this.props.history.location.pathname + "/create");
+	addActivity = () => {
+		this.props.history.push(this.props.history.location.pathname + "/create");
 	};
 	renderActivities = () => {
 		const activities = this.state.activities;
 		return (
 			<ul>
-				{activities.map((activity,index) => 
-						<li key={index}>
+				{activities.map((activity, index) =>
+					<li key={index}>
 						<ActivityListItem activity={activity} groupId={this.state.group.group_id} />
-						</li>
+					</li>
 				)}
-      </ul>
-    );
-  };
-  handleChangeView = (view) => {
-    this.setState({ activeView: view });
-  };
-  handleModalOpen = () => {
-    this.setState({ optionsModalIsOpen: true})
-  }
-  handleModalClose = () => {
-    this.setState({ optionsModalIsOpen: false });
-  }
-  handleExport = () => {
-    this.setState({ optionsModalIsOpen: false })
-    const groupId = this.state.group.group_id;
-    axios.post(`/groups/${groupId}/agenda/export`)
-    .then(response=>{
-      console.log(response)
-    })
-    .catch(error=>{
-      console.log(error)
-    })
+			</ul>
+		);
+	};
+	handleModalOpen = () => {
+		this.setState({ optionsModalIsOpen: true })
+	}
+	handleModalClose = () => {
+		this.setState({ optionsModalIsOpen: false });
+	}
+	handleExport = () => {
+		this.setState({ optionsModalIsOpen: false })
+		const groupId = this.state.group.group_id;
+		axios.post(`/groups/${groupId}/agenda/export`)
+			.then(response => {
+				console.log(response)
+			})
+			.catch(error => {
+				console.log(error)
+			})
 	}
 	handlePendingRequests = () => {
 		this.props.history.push(`/groups/${this.state.group.group_id}/activities/pending`)
 	}
-  render() {
+	render() {
 		const { classes } = this.props;
-    const texts = Texts[this.props.language].groupActivities;
-    const options = [
-      {
-          label: texts.export,
-          style: "optionsModalButton",
-          handle: this.handleExport,
-      },
-  ];
+		const texts = Texts[this.props.language].groupActivities;
+		const options = [
+			{
+				label: texts.export,
+				style: "optionsModalButton",
+				handle: this.handleExport,
+			},
+		];
 		return (
 			<React.Fragment>
 				<ActivityOptionsModal isOpen={this.state.optionsModalIsOpen}
@@ -130,22 +125,22 @@ class GroupActivities extends React.Component {
 						<h1 className="verticalCenter">{this.state.group.name}</h1>
 					</div>
 					<div className="col-1-10 ">
-						{this.props.userIsAdmin?
-						<button
-							className="transparentButton center"
-							onClick={this.handlePendingRequests}
-						>
-							<i className="fas fa-certificate">
-								{this.state.pendingActivities > 0 ? (
-									<span className="badge">
-										{this.state.pendingActivities}
-									</span>
-								) : (
-										<div />
-									)}
-							</i>
-						</button>
-						:<div/>}
+						{this.props.userIsAdmin ?
+							<button
+								className="transparentButton center"
+								onClick={this.handlePendingRequests}
+							>
+								<i className="fas fa-certificate">
+									{this.state.pendingActivities > 0 ? (
+										<span className="badge">
+											{this.state.pendingActivities}
+										</span>
+									) : (
+											<div />
+										)}
+								</i>
+							</button>
+							: <div />}
 					</div>
 					<div className="col-1-10 ">
 						<button
@@ -156,29 +151,22 @@ class GroupActivities extends React.Component {
 						</button>
 					</div>
 				</div>
-			<div style={{position: 'relative', top: '5.6rem'}}>
-			<Calendar
-				handleChangeView={this.handleChangeView}
-				ownerType={"group"}
-					ownerId={this.props.group.group_id}
-        />
+				<div style={{ position: 'relative', top: '5.6rem' }}>
 				</div>
-				<div style={this.state.activeView === 'month' ? {} : { display: "none" }}>
-					<Fab color="primary" aria-label="Add" className={classes.add} onClick={this.addActivity}>
-						<i className="fas fa-plus" />
-					</Fab>
-					<div id="groupActivitiesContainer" className="horizontalCenter">
-						<div className="row no-gutters">
-							<h1>{texts.header}</h1>
-						</div>
-						{this.state.fetchedActivities ?
-							this.renderActivities()
-							: <div />}
+				<Fab color="primary" aria-label="Add" className={classes.add} onClick={this.addActivity}>
+					<i className="fas fa-plus" />
+				</Fab>
+				<div id="groupActivitiesContainer" className="horizontalCenter">
+					<div className="row no-gutters">
+						<h1>{texts.header}</h1>
 					</div>
-          </div>
-      </React.Fragment>
-    );
-  }
+					{this.state.fetchedActivities ?
+						this.renderActivities()
+						: <div />}
+				</div>
+			</React.Fragment>
+		);
+	}
 }
 
 GroupActivities.propTypes = {

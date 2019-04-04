@@ -1,7 +1,7 @@
 import React from 'react';
 import Texts from '../Constants/Texts.js';
 import withLanguage from './LanguageContext';
-import TimeslotsDrawer from './TimeslotsDrawer';
+import TimeslotsList from './TimeslotsList';
 import axios from 'axios';
 import moment from 'moment';
 import ConfirmDialog from './ConfirmDialog';
@@ -28,17 +28,6 @@ const getActivity = (activityId, groupId) => {
 			};
 		});
 }
-const getActivityTimeslots = (activityId, groupId) => {
-	return axios
-		.get(`/groups/${groupId}/activities/${activityId}/timeslots`)
-		.then(response => {
-			return response.data;
-		})
-		.catch(error => {
-			console.log(error);
-			return [];
-		});
-}
 const getGroupMembers = (groupId) => {
 	return axios
 		.get(`/groups/${groupId}/members`)
@@ -52,29 +41,28 @@ const getGroupMembers = (groupId) => {
 }
 
 class ActivityScreen extends React.Component {
-	constructor(){
-		super();
+	constructor(props){
+		super(props);
 		this.state = {
 			fetchedActivityData: false,
 			activity: {},
 			confirmDialogIsOpen: false,
 			userCanEdit: false,
 			optionsModalIsOpen: false,
-			action: ''
+			action: '',
+			groupId: this.props.match.params.groupId,
+			activityId: this.props.match.params.activityId,
 		};
 	}
 	async componentDidMount() {
+		const { groupId, activityId } = this.state;
 		const userId = JSON.parse(localStorage.getItem("user")).id
-		const activityId = this.props.match.params.activityId;
-		const groupId = this.props.match.params.groupId;
 		const activity = await getActivity(activityId, groupId);
 		activity.dates = activity.dates.sort((a, b) => moment(a.date).format('DD') > moment(b.date).format('DD'))
 		const groupMembers = await getGroupMembers(groupId)
 		const userIsAdmin = groupMembers.filter(member => member.user_id === userId && member.group_accepted && member.user_accepted)[0].admin;
 		const userIsCreator = userId === activity.creator_id
 		const userCanEdit = (userIsAdmin || userIsCreator)
-		const timeslots = await getActivityTimeslots(activityId, groupId);
-		activity.timeslots = timeslots;
 		this.setState({ activity, fetchedActivityData: true, userCanEdit });
 	}
 	getDatesString = () => {
@@ -162,7 +150,7 @@ class ActivityScreen extends React.Component {
 		const activity = this.state.activity
 		const confirmDialogTitle = this.state.action === 'delete' ? texts.deleteDialogTitle
 			: texts.exportDialogTitle;
-		const rowStyle = { minHeight: "7rem" };
+		const rowStyle = { minHeight: "5rem" };
 		return (
 			this.state.fetchedActivityData ?
 				<React.Fragment>
@@ -200,41 +188,36 @@ class ActivityScreen extends React.Component {
 							</div>
 						</div>
 						<div id="activityMainContainer">
+						<div className="row no-gutters" style={rowStyle}>
+								<div className="activityInfoHeader">{texts.infoHeader}</div>
+							</div>
 							<div className="row no-gutters" style={rowStyle}>
 								<div className="col-2-10">
-									<i className="center fas fa-calendar-alt" />
+									<i className="far fa-file-alt activityInfoIcon" />
 								</div>
 								<div className="col-8-10">
-									<h1 className="center">{this.getDatesString()}</h1>
+									<div className="activityInfoDescription">{activity.description}</div>
 								</div>
 							</div>
 							<div className="row no-gutters" style={rowStyle}>
 								<div className="col-2-10">
-									<i className="center fas fa-user-friends" />
+									<i className="fas fa-map-marker-alt activityInfoIcon" />
 								</div>
 								<div className="col-8-10">
-									<h1 className="center">{activity.group_name}</h1>
+									<div className="activityInfoDescription">{activity.location}</div>
 								</div>
 							</div>
 							<div className="row no-gutters" style={rowStyle}>
 								<div className="col-2-10">
-									<i className="center fas fa-align-left" />
+									<i className="far fa-calendar activityInfoIcon" />
 								</div>
 								<div className="col-8-10">
-									<h1 className="center">{activity.description}</h1>
-								</div>
-							</div>
-							<div className="row no-gutters" style={rowStyle}>
-								<div className="col-2-10">
-									<i className="center fas fa-palette" />
-								</div>
-								<div className="col-8-10">
-									<h1 style={{ color: activity.color }} className="center">{texts.color}</h1>
+									<div className="activityInfoDescription">{this.getDatesString()}</div>
 								</div>
 							</div>
 						</div>
 					</div>
-					<TimeslotsDrawer activity={this.state.activity} userCanEdit={this.state.userCanEdit} />
+					<TimeslotsList dates={this.state.activity.dates} groupId={this.state.groupId} activityId={this.state.activityId} />
 				</React.Fragment>
 				: <LoadingSpinner />
 		);

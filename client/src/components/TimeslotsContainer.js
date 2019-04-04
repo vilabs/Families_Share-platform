@@ -39,7 +39,7 @@ class TimeslotsContainer extends React.Component {
 					description: "",
 					name: this.props.activityName,
 					cost: "",
-					location: "",
+					location: this.props.activityLocation,
 				}
 			}
 		});

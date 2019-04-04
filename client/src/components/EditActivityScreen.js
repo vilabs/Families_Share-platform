@@ -31,7 +31,7 @@ class EditActivityScreen extends React.Component {
         let value = event.target.value;
         state[name] = value;
         state.validated = false;
-        if (state.description && state.name) {
+        if (state.color && state.name) {
             state.validated = true;
         }
         this.setState(state);
@@ -48,7 +48,8 @@ class EditActivityScreen extends React.Component {
             this.setState({ fetchedActivity: false })
             const patch = {
                 name: this.state.name,
-                color: this.state.color,
+								color: this.state.color,
+								location: this.state.location,
                 description: this.state.description,
             }
             axios.patch(`/groups/${groupId}/activities/${activityId}`, patch)
@@ -94,6 +95,21 @@ class EditActivityScreen extends React.Component {
                                         name="name"
                                         placeholder={texts.name}
                                         value={this.state.name}
+                                        className="verticalCenter"
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
+                            </div>
+														<div className="row no-gutters">
+                                <div className="col-2-10">
+                                    <i className="fas fa-map-marker-alt center" />
+                                </div>
+                                <div className="col-8-10">
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        placeholder={texts.location}
+                                        value={this.state.location}
                                         className="verticalCenter"
                                         onChange={this.handleChange}
                                     />

@@ -257,7 +257,9 @@ class Calendar extends React.Component {
 		}
 		handleChangeView = (view) => {
 			this.setState({ activeView: view})
-			this.props.handleChangeView(view);
+			if(this.props.ownerType==='user'){
+				this.props.handleChangeView(view);
+			}
 		}
     render() {
 				const texts = Texts[this.props.language].calendar;

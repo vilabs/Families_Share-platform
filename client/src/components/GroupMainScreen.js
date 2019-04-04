@@ -17,6 +17,10 @@ const GroupActivities = Loadable({
 	loader: () => import ('./GroupActivities'),
 	loading: ()=> <div/>,
 })
+const GroupCalendar = Loadable({
+	loader: () => import ('./GroupCalendar'),
+	loading: ()=> <div/>,
+})
 const GroupNews = Loadable({
 	loader: () => import ('./GroupNews'),
 	loading: ()=> <div/>,
@@ -122,6 +126,13 @@ export default class GroupMainScreen extends React.Component {
             path={currentPath + "/activities"}
             render={props => (
               <GroupActivities {...props} group={this.state.group} userIsAdmin={this.state.userIsAdmin}/>
+            )}
+          />
+					<Route
+            exact
+            path={currentPath + "/calendar"}
+            render={props => (
+              <GroupCalendar {...props} group={this.state.group} userIsAdmin={this.state.userIsAdmin}/>
             )}
           />
         </Switch>		

@@ -63,6 +63,7 @@ const GroupNavbar = (props) => {
 		const disabled = !props.allowNavigation;
 		const flags = [
 			activeTab==='info',
+			activeTab==='calendar',
 			activeTab==='activities',
 			activeTab==='members',
 			activeTab==='news'
@@ -74,10 +75,11 @@ const GroupNavbar = (props) => {
 				onChange={handleChange}
 				showLabels
 			>
-				<BottomNavigationAction value="info" label={texts.infoTab} icon={flags[0] ? <i className="fas fa-info-circle groupNavbarIcon" /> : <img src={Images.infoCircleRegular} className="infoCircleRegular" />} />
-				<BottomNavigationAction value="activities" disabled={disabled} label={texts.activitiesTab} icon={<i className={flags[1] ? "fas fa-heart groupNavbarIcon" : "far fa-heart groupNavbarIcon"} />} />
-				<BottomNavigationAction value="members" disabled={disabled} label={texts.membersTab} icon={flags[2] ? <i className="fas fa-user-friends groupNavbarIcon" /> : <img src={Images.userFriendsRegular} className="userFriendsRegular" />} />
-				<BottomNavigationAction value="news" disabled={disabled} label={texts.newsTab} icon={<i className={flags[3] ? "fas fa-envelope groupNavbarIcon" : "far fa-envelope groupNavbarIcon"} />} />
+				<BottomNavigationAction value="info" label={texts.infoTab} icon={flags[0] ? <i className="fas fa-info-circle groupNavbarIcon" /> : <img src={Images.infoCircleRegular} alt="" className="infoCircleRegular" />} />
+				<BottomNavigationAction value="calendar" disabled={disabled} label={texts.calendarTab} icon={<i className={flags[1] ? "fas fa-calendar groupNavbarIcon" : "far fa-calendar groupNavbarIcon"} />} />
+				<BottomNavigationAction value="activities" disabled={disabled} label={texts.activitiesTab} icon={<i className={flags[2] ? "fas fa-heart groupNavbarIcon" : "far fa-heart groupNavbarIcon"} />} />
+				<BottomNavigationAction value="members" disabled={disabled} label={texts.membersTab} icon={flags[3] ? <i className="fas fa-user-friends groupNavbarIcon" /> : <img alt="" src={Images.userFriendsRegular} className="userFriendsRegular" />} />
+				<BottomNavigationAction value="news" disabled={disabled} label={texts.newsTab} icon={<i className={flags[4] ? "fas fa-envelope groupNavbarIcon" : "far fa-envelope groupNavbarIcon"} />} />
 			</BottomNavigation>
 		</MuiThemeProvider>
 	);

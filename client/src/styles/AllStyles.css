@@ -96,28 +96,13 @@
 /*ABOUT SCREEN END*/
 
 /*ACTIVITY SCREEN*/
-#activityContainer {
-  background-color: #00838f;
-  overflow-x: hidden;
-  height: 100vh;
-  width: 100vw;
+#activityContainer{
+  overflow: hidden;
 }
-
 #activityHeaderContainer {
   font-size: 2rem;
-  color: #ffffff;
-  height: 10vh;
-}
-#activityMainContainer i {
-  font-size: 2rem;
-  color: #ffffff;
-}
-#activityMainContainer img {
-  width: 2rem;
-  height: 2rem;
-}
-#activityMainContainer h1 {
-  font-size: 1.6rem;
+  background-color: #00838F;
+  height: 5.6rem;
   color: #ffffff;
 }
 #activityHeaderContainer button {
@@ -128,40 +113,37 @@
   font-size: 2rem;
   color: #ffffff;
 }
-#timeslotsDrawerContainer {
-  width: 100%;
-  height: 90vh;
-  overflow: auto;
-  position: fixed;
-  border-top-left-radius: 1.5rem;
-  border-top-right-radius: 1.5rem;
-  background-color: #ffffff;
+#activityMainContainer{
+  padding: 0 5%;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
-.fixedIcon {
-  position: absolute;
-  top: -1rem;
-  font-size: 2rem !important;
-  color: #00838f !important;
-  right: 1rem;
+#activityMainContainer .row{
+  padding: 0 5%;
+  align-items: center;
 }
-#timeslotsDrawerContainer i {
+.activityInfoHeader{
   font-size: 2rem;
+  color: #000000;
+  font-weight: 700;
 }
-#timeslotsDrawerContainer h1 {
+.activityInfoIcon{
+  font-size: 2rem;
+  color: rgba(0, 0, 0, 0.87)
+}
+.activityInfoDescription{
   font-size: 1.6rem;
-  color: rgba(0, 0, 0, 0.9);
+  color: #000000;
 }
-#timeslotsDrawerContainer h2 {
-  font-size: 1.4rem;
-  color: rgba(0, 0, 0, 0.54);
-  font-weight: 500;
+#timeslotsListContainer {
+  width: 96%;
+  padding: 0 3%; 
 }
-#filterLabel h2 {
-  display: inline-block;
-  margin-right: 1rem;
-}
-#filterLabel {
-  float: right;
+.filterLabel{
+  width: 100%;
+  right: 10%;
+  margin-top: 2rem;
+  font-size: 1.6rem;
+  color: rgba(0, 0, 0, 0.87);
 }
 #filterTimeslotsDrawer h1 {
   font-size: 1.4rem;
@@ -180,50 +162,51 @@
   padding: 2% 2%;
   padding-bottom: 5rem;
 }
-#timeslotDayContainer {
-  margin-top: 5rem;
+#timeslotDayContainer{
+  display: block;
+  margin-top: 2rem;
 }
-#timeslotDayContainer h1 {
+.timeslotDay{
   font-size: 2.4rem;
   line-height: 0.83;
   text-align: center;
-  color: rgba(0, 0, 0, 0.9);
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 1rem;
 }
-#timeslotDayContainer h2 {
-  font-size: 1.6rem;
-  line-height: 0.83;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.54);
-}
-#timeslotBubble i {
-  font-size: 2rem;
-  color: rgba(0, 0, 0, 0.5);
-}
-#timeslotBubble img {
-  width: 1.7rem;
-  height: 1.7rem;
-  opacity: 0.6;
-  margin: 0 1rem;
-}
-#timeslotBubble h1 {
-  font-size: 1.6rem;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.9);
-}
-#timeslotBubble h2 {
-  font-size: 1.4rem;
-  text-align: left;
-  color: rgba(0, 0, 0, 0.54);
-}
-#timeslotBubble {
+.timeslotPreview {
   cursor: pointer;
-  width: 90%;
-  border-radius: 4px;
+  width: 98%;
   background-color: #ffffff;
-  border: solid 1px #00838f;
+  border: solid 1px #000000;
   margin: 0 1rem;
   padding: 1rem;
   position: relative;
+  color: #000000;
+}
+.timeslotPreviewWarning {
+  font-weight: 900;
+  color: #ffffff;
+  background-color: #ff6f00
+}
+.timeslotPreviewSuccess {
+  font-weight: 700;
+  color: #ffffff;
+  background-color: #00838F;
+}
+.timeslotPreviewIcon{
+  font-size: 1.6rem;
+}
+.timeslotPreview .row{
+  padding: 0.2rem 0;
+  align-items: center;
+}
+.timeslotPreview .col-2-10{
+ display: flex;
+ justify-content: center;
+}
+.timeslotPreviewText{
+  margin-left: 1rem;
+  font-size: 1.6rem
 }
 /*ACTIVITY SCREEN END*/
 
