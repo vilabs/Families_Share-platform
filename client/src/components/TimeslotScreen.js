@@ -180,7 +180,7 @@ class TimeslotScreen extends React.Component {
 			} else {
 				confirmDialogTitle = texts.userUnsubscribeConfirm
 			}
-		} else if(type==='children'){
+		} else if(type==='child'){
 			const childName = this.state.childrenProfiles.filter( profile => profile.id===id)[0].given_name
 			if(action==='subscribe'){
 				confirmDialogTitle = `${texts.childSubscribeConfirm1} ${childName} ${texts.childSubscribeConfirm2}`
