@@ -114,8 +114,11 @@
   color: #ffffff;
 }
 #activityMainContainer{
-  padding: 0 5%;
+  padding: 5% 5%;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+#activityMainContainer i{
+  color: rgba(0, 0, 0, 0.87);
 }
 #activityMainContainer .row{
   padding: 0 5%;
@@ -125,6 +128,8 @@
   font-size: 2rem;
   color: #000000;
   font-weight: 700;
+  margin-bottom: 1rem;
+  width: 100%;
 }
 .activityInfoIcon{
   font-size: 2rem;
@@ -1271,32 +1276,46 @@
 }
 #expandedTimeslotMainContainer h3 {
   font-size: 1rem;
-
   color: rgba(0, 0, 0, 0.54);
   text-align: left;
 }
-#signupBubble {
-  display: inline-block;
+.subscribeBubble {
+  margin: 0.5rem;
+  display: flex;
   height: 4rem;
+  align-items: center;
   padding: 0 0.5rem;
-  margin: 0 0.5rem;
+  background-color: #E0E0E0;
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 2rem;
 }
-#signupThumbnail img {
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 0.5rem;
+.subscribeText{
+  font-size: 1.4rem;
+  padding-left: 1rem;
 }
-#signupThumbnail {
+.subscribeIcon{
+  font-size: 1.4rem;
+  padding: 0 1rem;
+}
+.participantsHeader {
   display: inline-block;
+  margin-right: 1rem;
+  font-size: 2rem;
+  color: #000000;
 }
-#signupThumbnail i {
-  font-size: 2.4rem;
-  color: #ffffff;
-  position: absolute;
+.participantsText{
+  font-size: 1.4rem;
+  padding-left: 1rem;
+  color: #000000;
 }
-
+.participantsMinimum{
+  font-size: 1.6rem;
+  color: #000000;
+}
+.participantsContainer{
+  width: 100%;
+  margin-top: 1rem;
+}
 #expandedTimeslotMainContainer i {
   font-size: 2.5rem;
   color: rgba(0, 0, 0, 0.54);

@@ -18,7 +18,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 	} else {
 		participationMessage = texts.notParticipating;
 	}
-	if (timeslot.userSubcribed || timeslot.childrenSubscribed ){
+	if (timeslot.userSubscribed || timeslot.childrenSubscribed ){
 		if(timeslot.status==='confirmed'){
 			previewStyle = 'timeslotPreviewSuccess';
 		} else if( timeslot.status==='pending') {
@@ -31,7 +31,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 				<div className="col-8-10">
 					<div className="row no-gutters">
 						<div className="col-2-10">
-							<i className="far fa-clock horizon timeslotPreviewIcon"/>
+							<i className="fa fa-clock timeslotPreviewIcon"/>
 						</div>
 						<div className="col-8-10">
 							<div className="timeslotPreviewText">{startTime + " - " + endTime}</div>
@@ -39,7 +39,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 					</div>
 					<div className="row no-gutters" >
 					<div className="col-2-10">
-							<i className="fa fa-file-alt timeslotPreviewIcon"/>
+							<i className="fa fa-bookmark timeslotPreviewIcon"/>
 						</div>
 						<div className="col-8-10">
 							<div className="timeslotPreviewText">{timeslot.summary.length > 25 ? timeslot.summary.substr(0, 25) + "..." : timeslot.summary}</div>

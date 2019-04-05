@@ -1,4 +1,28 @@
 const en = {
+	timeslotScreen: {
+		minimum: 'minimum number',
+		userAvailability: 'Add your availability:',
+		childrenAvailability: 'Add your children availability:',
+		volunteer: 'volunteer',
+		volunteers: 'volunteers',
+		child: 'child',
+		children: 'children',
+		signup: 'signed up',
+		userSubscribe: 'You have added yourself to the activity',
+		userUnsubscribe: 'You have removed yourself from the activity',
+		childSubscribe1: 'You have added',
+		childSubscribe2: 'to the activity',
+		childUnsubscribe1: 'You have removed',
+		childUnsubscribe2: 'from the activity',
+		childSubscribeConfirm1: 'Are you sure you want to add',
+		childSubscribeConfirm2: 'to the activity?',
+		childUnsubscribeConfirm1: 'Are you sure you want to remove',
+		childUnsubscribeConfirm2: 'from the activity?',
+		editConfirm: 'Confirm edits?',
+		you: 'You',
+		userSubscribeConfirm: 'Are you sure you want to add yourself to the activity?',
+		userUnsubscribeConfirm: 'Are you sure you want to remove yourself from the activity?'
+	},
 	timeslotPreview: {
 		confirmed: 'Confirmed',
 		pending: 'Waiting for confirmation',
@@ -585,6 +609,7 @@ const en = {
 		description: 'Description (optional)',
 		name: 'Name of the activity',
 		save: 'SAVE',
+		location: 'Location (optional)'
 	},
 	agendaView: {
 		timeslots: 'Timeslots',
@@ -636,6 +661,30 @@ const en = {
 };
 
 const nl = {
+	timeslotScreen: {
+		minimum: 'minimum antaal',
+		userAvailability: 'Voeg uw beschikbaarheid toe:',
+		childrenAvailability: 'Voeg uw kinderenbeschikbaarheid toe:',
+		volunteer: 'vrijwilligers',
+		volunteers: 'volunteers',
+		signup: 'aangemeld',
+		child: 'kind',
+		children: 'kinderen',
+		userSubscribe: 'Je hebt jezelf aan de activiteit toegevoegd',
+		userUnsubscribe: 'Je hebt jezelf van de activiteit verwijderd',
+		chilSubscribe1: 'Je hebt toegevoegd',
+		childSubscribe2: 'naar de activiteit',
+		childUnsubscribe1: 'Je hebt verwijderd',
+		childUnsubscribe2: 'van de activiteit',
+		childSubscribeConfirm1: 'Weet je zeker dat je wilt toevoegen',
+		childSubscribeConfirm2: 'naar de activiteit?',
+		childUnsubscribeConfirm1: 'Weet je zeker dat je wilt verwijderen',
+		childUnsubscribeConfirm2: 'van de activiteit?',
+		editConfirm: 'Bewerkingen bevestigen?',
+		you: 'Je',
+		userSubscribeConfirm: 'Weet je zeker dat je jezelf wilt toevoegen aan de activiteit?',
+		userUnsubscribeConfirm: 'Weet u zeker dat u uzelf uit de activiteit wilt verwijderen?'
+	},
 	timeslotPreview: {
 		confirmed: 'Bevestigd',
 		pending: 'Wachten op bevestiging',
@@ -914,7 +963,7 @@ const nl = {
 		color: 'Kleur van de activiteit',
 		description: 'Beschrijving (optioneel)',
 		name: 'Naam van de activiteit',
-		location: 'Plaats Location (optioneel)'
+		location: 'Plaats (optioneel)'
 	},
 	createActivityDates: {
 		header: 'Selecteer 1 of meerdere dagen', repetition: 'Herhaling', weekly: 'Wekelijk', monthly: 'Maandelijks', datesError: 'Herhaling is niet mogelijk wanneer meerdere dagen geselecteerd zijn',
@@ -965,7 +1014,12 @@ const nl = {
 		rangeErr:'Selecteer een waarde groter dan nul.',
 	},
 	editActivityScreen: {
-		backNavTitle: 'Bewerk activiteit', color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit', save: 'Sla op',
+		backNavTitle: 'Bewerk activiteit',
+		color: 'Kleur van de activiteit',
+		description: 'Beschrijving (optioneel)',
+		name: 'Naam van de activiteit',
+		save: 'Sla op',
+		location: 'Plaats (optioneel)'
 	},
 	agendaView: {
 		timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weining deelnemers', notEnoughParticipants: 'Tekort aan deelnemers',
@@ -999,6 +1053,30 @@ const nl = {
 };
 
 const it = {
+	timeslotScreen: {
+		minimum: 'numero minimo',
+		userAvailability: 'Aggiungi la tua disponibilità:',
+		childrenAvailability: 'Aggiungi la disponibilità dei tuoi bambini:',
+		volunteer: 'volontario',
+		volunteers: 'volontari',
+		signup: 'registrato',
+		child: 'bambino',
+		children: 'bambini',
+		userSubscribe: "Ti sei aggiunto all'attività",
+		userUnsubscribe: "Ti sei rimosso dall'attività",
+		childSubscribe1: 'JHai aggiunto',
+		childSubscribe2:  "all'attività",
+		childUnsubscribe1: 'Hai rimosso',
+		childUnsubscribe2: "dall'attività",
+		childSubscribeConfirm1: 'Sei sicuro di voler aggiungere',
+		childSubscribeConfirm2: "all'attività?",
+		childUnsubscribeConfirm1: 'Sei sicuro di voler rimuovere',
+		childUnsubscribeConfirm2: "dall'attività?",
+		editConfirm: 'Conferma modifiche?',
+		you: 'Tu',
+		userSubscribeConfirm: "Sei sicuro di voler aggiungerti all'attività?",
+		userUnsubscribeConfirm: "Sei sicuro di voler rimuovere te stesso dall'attività?"
+	},
 	timeslotPreview: {
 		confirmed: 'Confermato',
 		pending: 'In attesa di conferma',
@@ -1290,7 +1368,7 @@ const it = {
 		color: "Colore dell'attività",
 		description: 'Descrizione (facoltativo)',
 		name: "Titolo dell'attività",
-		location: 'Posizione (facoltativo',
+		location: 'Posizione (facoltativo)',
 	},
 	createActivityDates: {
 		header: 'Seleziona uno o più giorni',
@@ -1384,6 +1462,7 @@ const it = {
 		description: 'Descrizione (facoltativo)',
 		name: "Nome dell'attività",
 		save: 'SALVA',
+		location: 'Posizione (facoltativo)'
 	},
 	agendaView: {
 		timeslots: 'Orari',
@@ -1435,6 +1514,30 @@ const it = {
 };
 
 const el = {
+	timeslotScreen: {
+		minimum: 'ελάχιστος αριθμός',
+		userAvailability: 'Προσθέσετε τη διαθεσιμότητα σας:',
+		childrenAvailability: 'Προσθέσετε τη διαθεσιμότητα των παιδιών σας:',
+		volunteer: 'εθελοντής',
+		volunteers: 'εθελοντές',
+		child: 'παιδί',
+		children: 'παιδιά',
+		signup: '',
+		userSubscribe: 'Έχετε προσθέσει τον εαυτό σας στη δραστηριότητα',
+		userUnsubscribe: 'Έχετε αφαιρέσει τον εαυτό σας από τη δραστηριότητα',
+		childSubscribe1: 'Έχετε προσθέσει',
+		childSubscribe2: 'στη δραστηριότητα',
+		childUnsubscribe1: 'Έχετε αφαιρέσει',
+		childUnsubscribe2: 'από τη δραστηριότητα',
+		childSubscribeConfirm1: 'Είστε σίγουρος ότι θέλετε να προσθέσετε',
+		childSubscribeConfirm2: "στη δραστηριότητα;",
+		childUnsubscribeConfirm1: 'Είστε σίγρους ότι θέλετε να αφαιρέσετε',
+		childUnsubscribeConfirm2: "από τη δραστηριότητα;",
+		editConfirm: 'Επιβεβαίωση αλλαγών?',
+		you: 'Εσείς',
+		userSubscribeConfirm: "Είστε σίγουρος ότι θέλετε να προσθέσετε τον εαυτό σας στη δραστηριότητα;",
+		userUnsubscribeConfirm: "Είστε σίγουρος ότι θέλετε να αφαιρέσετε τον εαυτό σας από τη δραστηριότητα;"
+	},
 	timeslotPreview: {
 		confirmed: 'Επιβεβαιωμένο',
 		pending: 'Αναμένει επιβεβαίωση',
@@ -1694,7 +1797,12 @@ const el = {
 		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.',
 	},
 	editActivityScreen: {
-		backNavTitle: 'Επεξεργασία δραστηριότητας', color: 'Χρώμα  δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας', save: 'ΑΠΟΘΗΚΕΥΣΗ',
+		backNavTitle: 'Επεξεργασία δραστηριότητας',
+		color: 'Χρώμα  δραστηριότητας',
+		description: 'Περιγραφή (προαιρετική)',
+		name: 'Όνομα δραστηριότητας',
+		save: 'ΑΠΟΘΗΚΕΥΣΗ',
+		location: 'Τοποθεσία (προαιρετική)'
 	},
 	agendaView: {
 		timeslots: 'Χρονικές περίοδοι', available: 'διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Η εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',

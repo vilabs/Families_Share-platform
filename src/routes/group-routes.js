@@ -849,6 +849,30 @@ router.get('/:groupId/activities/:activityId/timeslots', async (req, res, next) 
   }
 })
 
+
+router.get('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  const group_id = req.params.groupId
+	const user_id = req.user_id
+	const activity_id = req.params.activityId
+  try {
+    const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+		}
+		const activity = await Activity.findOne({ activity_id })
+    const group = await Group.findOne({ group_id })
+		const response = await calendar.events.get({ calendarId: group.calendar_id, eventId: req.params.timeslotId })
+		response.data.userCanEdit = false;
+		if (member.admin || user_id === activity.creator_id) {
+      response.data.userCanEdit = true;
+    } 
+    res.json(response.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   const group_id = req.params.groupId

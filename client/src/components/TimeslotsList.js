@@ -51,7 +51,8 @@ class TimeslotsList extends React.Component {
 			const children = JSON.parse(timeslot.extendedProperties.shared.children);
 			timeslot.childrenSubscribed = false;
 			for(let i =0; i<usersChildren.length;i++){
-				if(children.includes(usersChildren[i.child_id])){
+				if(children.includes(usersChildren[i].child_id)){
+					timeslot.childrenSubscribed = true;
 					break;
 				}
 			}
