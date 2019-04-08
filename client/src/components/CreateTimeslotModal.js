@@ -285,7 +285,7 @@ class CreateTimeslotModal extends React.Component {
 								</div>
 								<div className="col-8-10">
 									<input
-										type="number" name="cost" value={state.cost} className="expandedTimeslotInput"
+										type="text" name="cost" value={state.cost} className="expandedTimeslotInput"
 										onChange={this.handleChange} placeholder={texts.cost}
 									/>
 								</div>

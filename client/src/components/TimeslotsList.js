@@ -18,17 +18,6 @@ const getUsersChildren = userId => {
 			return [];
 		});
 };
-const getActivityTimeslots = (activityId, groupId) => {
-	return axios
-		.get(`/groups/${groupId}/activities/${activityId}/timeslots`)
-		.then(response => {
-			return response.data;
-		})
-		.catch(error => {
-			console.log(error);
-			return [];
-		});
-}
 
 class TimeslotsList extends React.Component {
 	state = {
@@ -43,9 +32,10 @@ class TimeslotsList extends React.Component {
 	async componentDidMount() {
 		const userId = JSON.parse(localStorage.getItem('user')).id
 		const usersChildren = await getUsersChildren(userId);
-		const timeslots = await getActivityTimeslots(this.props.activityId,this.props.groupId,)
+		const timeslots = this.props.timeslots;
 		const sortedTimeslots = timeslots.sort((a, b) => { return moment.utc(a.start.dateTime).diff(moment.utc(b.start.dateTime)) })
 		sortedTimeslots.forEach( timeslot => {
+			console.log(timeslot.extendedProperties.shared.parents)
 			const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
 			timeslot.userSubscribed = parents.includes(userId)
 			const children = JSON.parse(timeslot.extendedProperties.shared.children);
@@ -97,11 +87,10 @@ class TimeslotsList extends React.Component {
 			<ul>
 				{dayTimeslots.map((timeslot, timeslotIndex) => {
 					return (
-						this.filterTimeslot(timeslot) ?
+						this.filterTimeslot(timeslot) &&
 							<li key={timeslotIndex} style={{ margin: "1rem 0" }}>
 								<TimeslotPreview timeslot={timeslot} />
 							</li>
-							: <div />
 					)
 				})}
 			</ul>
@@ -110,16 +99,16 @@ class TimeslotsList extends React.Component {
 	renderDays = () => {
 		return (
 			<ul id="timeslotDayContainer">
-				{this.state.dates.map((day, index) => {
+				{this.state.dates.map((date, index) => {
 					return (
 						<li key={index}>
 							<div className="row no-gutters">
 								<div className="col-2-10" style={{ paddingTop: "1.5rem" }}>
-									<div className="timeslotDay">{moment(day.date).format('D')}</div>
-									<div className="timeslotDay">{moment(day.date).format('MMM')}</div>
+									<div className="timeslotDay">{moment(date).format('D')}</div>
+									<div className="timeslotDay">{moment(date).format('MMM')}</div>
 								</div>
 								<div className="col-8-10">
-									{this.renderTimeslots(day.date)}
+									{this.renderTimeslots(date)}
 								</div>
 							</div>
 						</li>
@@ -160,4 +149,5 @@ TimeslotsList.propTypes = {
 	groupId: PropTypes.string,
 	activityId: PropTypes.string,
 	dates: PropTypes.array,
+	timeslots: PropTypes.array,
 };

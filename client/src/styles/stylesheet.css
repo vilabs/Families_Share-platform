@@ -21,16 +21,16 @@ ul {
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0; 
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-input[type=number] {
-    -moz-appearance:textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 ::-webkit-scrollbar {
-  width: 0px; 
-  background: transparent;  
+  width: 0px;
+  background: transparent;
 }
 input[type="number"] {
   -moz-appearance: textfield;
@@ -186,7 +186,6 @@ input:focus {
   top: 50%;
   position: relative;
   transform: translateY(-50%);
-
 }
 .horizontalCenter {
   left: 50%;

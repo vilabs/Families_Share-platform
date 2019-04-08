@@ -6,27 +6,35 @@ import withLanguage from './LanguageContext'
 import moment from 'moment';
 
 const TimeslotPreview = ({language, timeslot, history}) => {
+	const getPreviewStyle = () => {
+		let previewStyle= 'normalPreview';
+		if (timeslot.userSubscribed || timeslot.childrenSubscribed ){
+			if(timeslot.extendedProperties.shared.status==='confirmed'){
+				previewStyle = 'timeslotPreviewSuccess';
+			} else if( timeslot.extendedProperties.shared.status==='proposed') {
+				previewStyle = 'timeslotPreviewWarning';
+			}
+		}
+		return previewStyle
+	}
+	const getParticipationMessage = () => {
+		let participationMessage;
+		if(timeslot.userSubcribed && timeslot.childrenSubscribed){
+			participationMessage = texts.participating;
+		} else if (timeslot.userSubcribed){
+			participationMessage = texts.parentParticipating
+		} else {
+			participationMessage = texts.notParticipating;
+		}
+		return participationMessage
+	}
+
 	const texts = Texts[language].timeslotPreview;
 	const startTime = moment(timeslot.start.dateTime).format('HH:mm')
 	const endTime = moment(timeslot.end.dateTime).format('HH:mm')
-	let participationMessage;
-	let previewStyle= 'normalPreview';
-	if(timeslot.userSubcribed && timeslot.childrenSubscribed){
-		participationMessage = texts.participating;
-	} else if (timeslot.userSubcribed){
-		participationMessage = texts.parentParticipating
-	} else {
-		participationMessage = texts.notParticipating;
-	}
-	if (timeslot.userSubscribed || timeslot.childrenSubscribed ){
-		if(timeslot.status==='confirmed'){
-			previewStyle = 'timeslotPreviewSuccess';
-		} else if( timeslot.status==='pending') {
-			previewStyle = 'timeslotPreviewWarning';
-		}
-	}
+
 	return (
-		<div className={"timeslotPreview "+previewStyle} onClick={()=>history.push(`${history.location.pathname}/timeslots/${timeslot.id}`)}>
+		<div className={"timeslotPreview "+getPreviewStyle()} onClick={()=>history.push(`${history.location.pathname}/timeslots/${timeslot.id}`)}>
 			<div className="row no-gutters">
 				<div className="col-8-10">
 					<div className="row no-gutters">
@@ -50,7 +58,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 							<i className="fas fa-exclamation-triangle timeslotPreviewIcon"/>
 						</div>
 						<div className="col-8-10">
-						<div className="timeslotPreviewText">{timeslot.status='confirmed'?texts.confirmed:texts.pending}</div>
+						<div className="timeslotPreviewText">{timeslot.extendedProperties.shared.status==='confirmed'?texts.confirmed:texts.pending}</div>
 						</div>
 					</div>
 					<div className="row no-gutters" >
@@ -58,7 +66,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 							<i className="fas fa-clipboard-check timeslotPreviewIcon"/>
 						</div>
 						<div className="col-8-10">
-							<div className="timeslotPreviewText">{participationMessage}</div>
+							<div className="timeslotPreviewText">{getParticipationMessage()}</div>
 						</div>
 					</div>
 				</div>

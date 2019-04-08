@@ -104,6 +104,10 @@ const TimeslotScreen = Loadable({
 	loader: () => import('./components/TimeslotScreen'),
 	loading: () => <div />,
 })
+const EditTimeslotScreen = Loadable({
+	loader: () => import('./components/EditTimeslotScreen'),
+	loading: () => <div />,
+})
 const SignUpScreen = Loadable({
 	loader: () => import('./components/SignUpScreen').then(module => module.SignUpScreen),
 	loading: () => <div />,
@@ -234,6 +238,10 @@ class App extends React.Component {
 						<PrivateRoute
 							exact path="/groups/:groupId/activities/pending"
 							component={PendingRequestsScreen}
+						/>
+						<PrivateRoute
+							exact path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId/edit"
+							component={EditTimeslotScreen}
 						/>
 						<PrivateRoute
 							path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"

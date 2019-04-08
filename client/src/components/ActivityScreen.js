@@ -8,7 +8,17 @@ import ConfirmDialog from './ConfirmDialog';
 import OptionsModal from './OptionsModal';
 import LoadingSpinner from './LoadingSpinner';
 
-
+const getActivityTimeslots = (activityId, groupId) => {
+	return axios
+		.get(`/groups/${groupId}/activities/${activityId}/timeslots`)
+		.then(response => {
+			return response.data;
+		})
+		.catch(error => {
+			console.log(error);
+			return [];
+		});
+}
 
 const getActivity = (activityId, groupId) => {
 	return axios
@@ -59,7 +69,9 @@ class ActivityScreen extends React.Component {
 		const { groupId, activityId } = this.state;
 		const userId = JSON.parse(localStorage.getItem("user")).id
 		const activity = await getActivity(activityId, groupId);
-		activity.dates = activity.dates.sort((a, b) => moment(a.date).format('DD') > moment(b.date).format('DD'))
+		activity.timeslots = await getActivityTimeslots(activityId, groupId);
+		const dates = activity.timeslots.map( timeslot => timeslot.start.dateTime );
+		activity.dates = dates.sort((a, b) => {return new Date(a) - new Date(b)})
 		const groupMembers = await getGroupMembers(groupId)
 		const userIsAdmin = groupMembers.filter(member => member.user_id === userId && member.group_accepted && member.user_accepted)[0].admin;
 		const userIsCreator = userId === activity.creator_id
@@ -68,18 +80,18 @@ class ActivityScreen extends React.Component {
 	}
 	getDatesString = () => {
 		const activity = this.state.activity;
-		const selectedDays = activity.dates;
+		const selectedDates = activity.dates;
 		const texts = Texts[this.props.language].activityScreen;
 		let datesString = "";
 		if (activity.repetition_type === "monthly") {
-			let selectedDay = moment(selectedDays[0].date);
+			let selectedDay = moment(selectedDates[0]);
 			datesString = `${texts.every} ${selectedDay.format('Do ')} ${texts.of} ${selectedDay.format('MMMM')}`;
 		} else {
-			selectedDays.forEach(selectedDay =>
-				datesString += (moment(selectedDay.date).format('D') + ", ")
+			selectedDates.forEach(selectedDate =>
+				datesString += (moment(selectedDate).format('D') + ", ")
 			);
 			datesString = datesString.slice(0, datesString.lastIndexOf(','));
-			datesString += (" " + moment(selectedDays[0].date).format('MMMM YYYY'));
+			datesString += (" " + moment(selectedDates[0]).format('MMMM YYYY'));
 		}
 		return datesString;
 	}
@@ -218,7 +230,7 @@ class ActivityScreen extends React.Component {
 							</div>
 						</div>
 					</div>
-					<TimeslotsList dates={this.state.activity.dates} groupId={this.state.groupId} activityId={this.state.activityId} />
+					<TimeslotsList dates={this.state.activity.dates} timeslots={this.state.activity.timeslots} groupId={this.state.groupId} activityId={this.state.activityId} />
 				</React.Fragment>
 				: <LoadingSpinner />
 		);

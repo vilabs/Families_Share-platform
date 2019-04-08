@@ -1,4 +1,25 @@
 const en = {
+	editTimeslotScreen: {
+		from: 'From',
+		date: 'Date',
+		to: 'To',
+		details: 'Details',
+		parents: 'Required parents',
+		children: 'Required children',
+		name: 'Title',
+		location: 'Location',
+		description: 'Description(optional)',
+		cost: 'Cost(optional)',
+		status: 'Timeslot status',
+		proposed: 'Proposed',
+		confirmed: 'Confirmed',
+		completed: 'Completed',
+		timeErr: 'Invalid start and end time combination',
+		requiredErr: 'Please fill out this field.',
+		rangeErr: 'Please select a value greater than one.',
+		editConfirm: 'Confirm edits?',
+		changeConfirm: 'If you change this field all participants will be unsubscribed. Confirm change?'
+	},
 	timeslotScreen: {
 		minimum: 'minimum number',
 		userAvailability: 'Add your availability:',
@@ -661,6 +682,26 @@ const en = {
 };
 
 const nl = {
+	editTimeslotScreen: {
+		timeErr: 'Ongeldige combinatie van begin- en eindtijd',
+		from: 'Van',
+		to: 'Tot',
+		parents: 'Benodigde ouders',
+		children: 'Benodigde kinderen',
+		name: 'Titel',
+		location: 'Locatie',
+		description: 'Beschrijving (optioneel)',
+		cost: 'Kost (optioneel)',
+		status: 'Tijdslot status',
+		proposed: 'Voorgesteld',
+		confirmed: 'Bevestigd',
+		completed: 'Voltooid',
+		requiredErr: 'Vul alstublieft dit veld in.',
+		rangeErr:'Selecteer een waarde groter dan een.',
+		date: 'Datum',
+		editConfirm: 'Bewerkingen bevestigen?',
+		changeConfirm: 'Als u dit veld wijzigt, worden alle deelnemers afgemeld. Wijzigingen bevestigen?'
+	},
 	timeslotScreen: {
 		minimum: 'minimum antaal',
 		userAvailability: 'Voeg uw beschikbaarheid toe:',
@@ -1053,6 +1094,27 @@ const nl = {
 };
 
 const it = {
+	editTimeslotScreen: {
+		timeErr: 'Combinazione di inizio e fine ora non valida',
+		details: 'Dettagli',
+		from: 'Da',
+		to: 'A',
+		parents: 'Genitori richiesti',
+		children: 'Bambini richiesti',
+		name: 'Titolo',
+		location: 'Luogo',
+		description: 'Descritzione (facoltativo)',
+		cost: 'Costo (facoltativo)',
+		status: 'Stato di questa attività',
+		proposed: 'Proposta',
+		confirmed: 'Confermata',
+		completed: 'Completata',
+		requiredErr: 'Perfavore compila questo campo.',
+		rangeErr: 'Perfavore seleziona un valore maggiore di uno',
+		date: 'Data',
+		editConfirm: 'confermare le modifiche?',
+		changeConfirm: 'Se cambi questo campo, tutti i partecipanti verranno annullati. Conferma modifica?'
+	},
 	timeslotScreen: {
 		minimum: 'numero minimo',
 		userAvailability: 'Aggiungi la tua disponibilità:',
@@ -1514,6 +1576,27 @@ const it = {
 };
 
 const el = {
+	editTimeslotScreen: {
+		timeErr: 'Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης',
+		details: 'Λεπτομέρειες',
+		from: 'Από',
+		to: 'Προς',
+		parents: 'Απαιτούνται γονείς',
+		children: 'Απαιτούνται παιδιά',
+		name: 'Τίτλος',
+		location: 'Τοποθεσία',
+		description: 'Περιγραφή (προαιρετική)',
+		cost: 'Κόστος (προαιρετικό)',
+		status: 'Κατάσταση χρονικής περιόδου',
+		proposed: 'Προτεινόμενο',
+		confirmed: 'Επιβεβαιωμένο',
+		completed: 'Ολοκληρωμένο ',
+		requiredErr: 'Παρακαλούμε συμπληρώσετε αυτό το πεδίο.',
+		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη της μονάδας.',
+		date: 'Ημερομηνία',
+		editConfirm: 'Επιβεβαίωση αλλαγών;',
+		changeConfirm: 'Εάν αλλάξετε αυτό το πεδίο όλοι οι συμμετέχοντες θα διαγραφούν. Επιβεβαίωση αλλαγής;'
+	},
 	timeslotScreen: {
 		minimum: 'ελάχιστος αριθμός',
 		userAvailability: 'Προσθέσετε τη διαθεσιμότητα σας:',

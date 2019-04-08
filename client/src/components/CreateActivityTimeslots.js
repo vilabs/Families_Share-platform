@@ -35,6 +35,7 @@ class CreateActivityTimeslots extends React.Component {
                   <TimeslotsContainer
 										activityName={this.props.activityName}
                     timeslots={this.state.activityTimeslots[index]}
+                    activityLocation={this.props.activityLocation}
                     dateIndex={index}
                     header={header}
                     handleTimeslots={this.handleTimeslots}
@@ -50,6 +51,7 @@ class CreateActivityTimeslots extends React.Component {
           <TimeslotsContainer
 						activityName={this.props.activityName}
             timeslots={this.state.activityTimeslots[0]}
+            activityLocation={this.props.activityLocation}
             dateIndex={0}
             header={header}
             handleTimeslots={this.handleTimeslots}

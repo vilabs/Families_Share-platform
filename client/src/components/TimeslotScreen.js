@@ -141,7 +141,8 @@ class TimeslotScreen extends React.Component {
 		this.setState({ fetchedTimeslot: true, timeslot, parentProfiles, childrenProfiles, children })
 	}
 	handleEdit = () => {
-
+		const route = `${this.props.history.location.pathname}/edit`
+		this.props.history.push(route)
 	}
 	handleSave = () => {
 		axios.patch(this.props.location.pathname,{

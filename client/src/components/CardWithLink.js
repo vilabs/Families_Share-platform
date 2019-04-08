@@ -55,7 +55,6 @@ const Card = (props) => {
 		}
 		const { classes } = props;
 		const card = props.card;
-		console.log(card)
     const texts = Texts[props.language].cardWithLink;
     return(
 			<MCard className={classes.card}>
