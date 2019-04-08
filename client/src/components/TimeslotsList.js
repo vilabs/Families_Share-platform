@@ -19,35 +19,48 @@ const getUsersChildren = userId => {
 		});
 };
 
+const handleTimeslots = (timeslots,usersChildren) => {
+	const userId = JSON.parse(localStorage.getItem('user')).id
+	const sortedTimeslots = timeslots.sort((a, b) => { return moment.utc(a.start.dateTime).diff(moment.utc(b.start.dateTime)) })
+	sortedTimeslots.forEach( timeslot => {
+		const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
+		timeslot.userSubscribed = parents.includes(userId)
+		const children = JSON.parse(timeslot.extendedProperties.shared.children);
+		timeslot.childrenSubscribed = false;
+		for(let i =0; i<usersChildren.length;i++){
+			if(children.includes(usersChildren[i].child_id)){
+				timeslot.childrenSubscribed = true;
+				break;
+			}
+		}
+	})
+	return sortedTimeslots;
+}
+
 class TimeslotsList extends React.Component {
 	state = {
-		groupId: this.props.groupId,
-		activityId: this.props.activityId,
-		dates: this.props.dates,
+		dates: [],
 		fetchedData: false,
 		filter: "all",
 		filterDrawerVisible: false,
 		timeslots: [],
+		usersChildren: [],
 	};
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.timeslots.length !== prevState.timeslots.length) {
+				const timeslots = handleTimeslots(nextProps.timeslots, prevState.usersChildren)
+				return { 
+						timeslots,
+						dates: nextProps.dates
+				};
+		}
+		else return null;
+}
 	async componentDidMount() {
 		const userId = JSON.parse(localStorage.getItem('user')).id
 		const usersChildren = await getUsersChildren(userId);
 		const timeslots = this.props.timeslots;
-		const sortedTimeslots = timeslots.sort((a, b) => { return moment.utc(a.start.dateTime).diff(moment.utc(b.start.dateTime)) })
-		sortedTimeslots.forEach( timeslot => {
-			console.log(timeslot.extendedProperties.shared.parents)
-			const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
-			timeslot.userSubscribed = parents.includes(userId)
-			const children = JSON.parse(timeslot.extendedProperties.shared.children);
-			timeslot.childrenSubscribed = false;
-			for(let i =0; i<usersChildren.length;i++){
-				if(children.includes(usersChildren[i].child_id)){
-					timeslot.childrenSubscribed = true;
-					break;
-				}
-			}
-		})
-		this.setState({ fetchedData: true, timeslots: sortedTimeslots  })
+		this.setState({ usersChildren, fetchedData: true, timeslots: handleTimeslots(timeslots,usersChildren), dates: this.props.dates })
 	}
 	handleFilterDrawerVisibility = () => {
 		this.setState({ filterDrawerVisible: !this.state.filterDrawerVisible });
@@ -108,7 +121,7 @@ class TimeslotsList extends React.Component {
 									<div className="timeslotDay">{moment(date).format('MMM')}</div>
 								</div>
 								<div className="col-8-10">
-									{this.renderTimeslots(date)}
+									{this.renderTimeslots(date.dateTime)}
 								</div>
 							</div>
 						</li>
@@ -146,8 +159,6 @@ class TimeslotsList extends React.Component {
 export default withLanguage(TimeslotsList);
 
 TimeslotsList.propTypes = {
-	groupId: PropTypes.string,
-	activityId: PropTypes.string,
 	dates: PropTypes.array,
 	timeslots: PropTypes.array,
 };

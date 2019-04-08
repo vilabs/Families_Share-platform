@@ -17,6 +17,10 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 		}
 		return previewStyle
 	}
+	const navigateToTimeslot = () => {
+		const { activityId, groupId } = timeslot.extendedProperties.shared
+		history.push(`/groups/${groupId}/activities/${activityId}/timeslots/${timeslot.id}`)
+	}
 	const getParticipationMessage = () => {
 		let participationMessage;
 		if(timeslot.userSubcribed && timeslot.childrenSubscribed){
@@ -32,9 +36,8 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 	const texts = Texts[language].timeslotPreview;
 	const startTime = moment(timeslot.start.dateTime).format('HH:mm')
 	const endTime = moment(timeslot.end.dateTime).format('HH:mm')
-
 	return (
-		<div className={"timeslotPreview "+getPreviewStyle()} onClick={()=>history.push(`${history.location.pathname}/timeslots/${timeslot.id}`)}>
+		<div className={"timeslotPreview "+getPreviewStyle()} onClick={navigateToTimeslot}>
 			<div className="row no-gutters">
 				<div className="col-8-10">
 					<div className="row no-gutters">

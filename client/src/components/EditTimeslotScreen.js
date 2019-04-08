@@ -157,7 +157,7 @@ class EditTimeslotScreen extends React.Component {
       },
       end: {
         dateTime: moment(dateTime).set({
-          month: moment(date).format("MM"),
+          month: moment(date).format("MM")-1,
           year: moment(date).format("YYYY"),
           date: moment(date).format("DD"),
           hour: endTime.substr(0, endTime.indexOf(":")),

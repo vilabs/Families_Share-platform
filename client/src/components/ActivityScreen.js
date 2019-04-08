@@ -70,8 +70,18 @@ class ActivityScreen extends React.Component {
 		const userId = JSON.parse(localStorage.getItem("user")).id
 		const activity = await getActivity(activityId, groupId);
 		activity.timeslots = await getActivityTimeslots(activityId, groupId);
-		const dates = activity.timeslots.map( timeslot => timeslot.start.dateTime );
-		activity.dates = dates.sort((a, b) => {return new Date(a) - new Date(b)})
+		let dates = activity.timeslots.map( timeslot => timeslot.start.dateTime);
+		dates = dates.sort((a, b) => {return new Date(a) - new Date(b)})
+		const uniqueDates = [];
+		const temp = [];
+		dates.forEach( date => {
+				const t = moment(date).format('DD-MM-YYYY')
+				if(!temp.includes(t)){
+					temp.push(t);
+					uniqueDates.push(date);
+				}
+		})
+		activity.dates = uniqueDates;
 		const groupMembers = await getGroupMembers(groupId)
 		const userIsAdmin = groupMembers.filter(member => member.user_id === userId && member.group_accepted && member.user_accepted)[0].admin;
 		const userIsCreator = userId === activity.creator_id
@@ -230,7 +240,7 @@ class ActivityScreen extends React.Component {
 							</div>
 						</div>
 					</div>
-					<TimeslotsList dates={this.state.activity.dates} timeslots={this.state.activity.timeslots} groupId={this.state.groupId} activityId={this.state.activityId} />
+					<TimeslotsList dates={this.state.activity.dates} timeslots={this.state.activity.timeslots}/>
 				</React.Fragment>
 				: <LoadingSpinner />
 		);

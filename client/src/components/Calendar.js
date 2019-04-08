@@ -12,60 +12,69 @@ import Texts from '../Constants/Texts';
 
 
 
-const getGroupEvents = (groupId) => {
-    return axios.get(`/groups/${groupId}/events`)
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => {
-            console.log(error);
-            return [];
-        })
-}
+const getGroupEvents = groupId => {
+  return axios
+    .get(`/groups/${groupId}/events`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+};
 
-const getUserEvents = (userId) => {
-    return axios.get(`/users/${userId}/events`)
-        .then(response => {
-            return response.data;
-        })
-        .catch(error => {
-            console.log(error);
-            return [];
-        })
-}
-
+const getUserEvents = userId => {
+  return axios
+    .get(`/users/${userId}/events`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
+};
 
 class MyAgenda extends React.Component {
-    getCurrentMonthEvents = () => {
-				const events = JSON.parse(JSON.stringify(this.props.events))
-        const currentMonth = moment(this.props.date).format('MMMM');
-        const currentYear = moment(this.props.date).format('YYYY');
-        const filteredEvents = events.filter(event =>
-            moment(event.start).format('MMMM') === currentMonth && moment(event.start).format('YYYY') === currentYear
-        )
-        return filteredEvents;
-    }
-    render() {
-
-        return (
-            <AgendaView events={this.getCurrentMonthEvents()} activeMonth={moment(this.props.date).format('MMMM')} />
-        )
-    }
+  getCurrentMonthEvents = () => {
+    const events = JSON.parse(JSON.stringify(this.props.events));
+    const currentMonth = moment(this.props.date).format("MMMM");
+    const currentYear = moment(this.props.date).format("YYYY");
+    const filteredEvents = events.filter(
+      event =>
+        moment(event.start).format("MMMM") === currentMonth &&
+        moment(event.start).format("YYYY") === currentYear
+    );
+    return filteredEvents;
+  };
+  render() {
+    return (
+      <AgendaView
+        events={this.getCurrentMonthEvents()}
+        activeMonth={moment(this.props.date).format("MMMM")}
+      />
+    );
+  }
 }
 MyAgenda.title = date => {
-    return moment(date).format('MMMM YYYY');
-}
+  return moment(date).format("MMMM YYYY");
+};
 MyAgenda.navigate = (date, action) => {
-    switch (action) {
-        case BigCalendar.Navigate.PREVIOUS:
-            return moment(date).add(-1, 'M').toDate()
-        case BigCalendar.Navigate.NEXT:
-            return moment(date).add(1, 'M').toDate()
+  switch (action) {
+    case BigCalendar.Navigate.PREVIOUS:
+      return moment(date)
+        .add(-1, "M")
+        .toDate();
+    case BigCalendar.Navigate.NEXT:
+      return moment(date)
+        .add(1, "M")
+        .toDate();
 
-        default:
-            return date
-    }
-}
+    default:
+      return date;
+  }
+};
 
 class DayHeader extends React.Component {
 	render(){
