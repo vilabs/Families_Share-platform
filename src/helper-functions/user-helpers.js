@@ -23,7 +23,7 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
       );
       const usersEvents = response.data.items.filter(event => {
         if (
-          event.extendedProperties.shared.parents !== udnefined &&
+          event.extendedProperties.shared.parents !== undefined &&
           event.extendedProperties.shared.children !== undefined
         ) {
           const parentIds = JSON.parse(event.extendedProperties.shared.parents);
