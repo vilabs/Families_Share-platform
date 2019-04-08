@@ -18,9 +18,6 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
       if (err) {
         reject(err);
       }
-      response.data.items.forEach(item =>
-        console.log(item.extendedProperties.shared)
-      );
       const usersEvents = response.data.items.filter(event => {
         if (
           event.extendedProperties.shared.parents !== undefined &&
