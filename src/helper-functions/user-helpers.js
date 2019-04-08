@@ -28,6 +28,7 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) => new Promise( as
         return false;
       }
     });
+    console.log(usersEvents)
     resolve(usersEvents);
   } catch (error) {
     resolve([]);
