@@ -121,7 +121,7 @@ class TimeslotsList extends React.Component {
 									<div className="timeslotDay">{moment(date).format('MMM')}</div>
 								</div>
 								<div className="col-8-10">
-									{this.renderTimeslots(date.dateTime)}
+									{this.renderTimeslots(date)}
 								</div>
 							</div>
 						</li>

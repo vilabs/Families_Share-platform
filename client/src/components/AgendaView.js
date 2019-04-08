@@ -5,9 +5,10 @@ import { withRouter } from "react-router-dom";
 import TimeslotsList from "./TimeslotsList";
 import moment from 'moment';
 
-class AgendaView extends React.Component {
-  getDates = () => {
-    let dates = this.props.events.map(event => event.start);
+const AgendaView = ({events}) => {
+  const getDates = () => {
+    const timeslots = JSON.parse(JSON.stringify(events));
+    let dates = timeslots.map(event => event.start);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
     });
@@ -22,21 +23,19 @@ class AgendaView extends React.Component {
     })
     return uniqueDates;
   };
-  getEvents = () => {
-    const events = this.props.events
-    events.forEach(event => {
+  const getEvents = () => {
+    const timeslots = JSON.parse(JSON.stringify(events));
+    timeslots.forEach(event => {
       event.start = { dateTime: event.start };
       event.end = { dateTime: event.end };
     });
-    return events;
+    return timeslots;
   };
-  render() {
     return (
       <div id="agendaViewContainer">
-        <TimeslotsList timeslots={this.getEvents()} dates={this.getDates()} />
+        <TimeslotsList timeslots={getEvents()} dates={getDates()} />
       </div>
     );
-  }
 }
 
 export default withLanguage(withRouter(AgendaView));
