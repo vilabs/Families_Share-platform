@@ -10,6 +10,7 @@ const calendar = google.calendar({
 const getUsersGroupEvents = (calId, userId, usersChildrenIds) => new Promise( async (resolve, reject) => {
   try {
     const response = await calendar.events.list({ calendarId: calId });
+    console.log(response.data.items)
     const usersEvents = response.data.items.filter(event => {
       const parentIds = JSON.parse(event.extendedProperties.shared.parents);
       const childrenIds = JSON.parse(
