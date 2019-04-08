@@ -8,7 +8,6 @@ import { Provider } from "react-redux";
 import store from "./Store/Store";
 import { createBrowserHistory } from "history";
 import ErrorBoundary from "./components/ErrorBoundary";
-import { SnackbarProvider } from 'notistack';
 import * as Sentry from "@sentry/browser";
 import ReactGA from 'react-ga';
 const history = createBrowserHistory();
@@ -34,16 +33,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router history={history}>
 			<ErrorBoundary>
-				<SnackbarProvider
-					maxSnack={3}
-					anchorOrigin={{
-						vertical: 'bottom',
-						horizontal: 'left',
-					}}
-					hideIconVariant
-				>
 					<App />
-				</SnackbarProvider>
 			</ErrorBoundary>
 		</Router>
 	</Provider>,

@@ -7,6 +7,12 @@ import "./styles/stylesheet.css";
 import { LanguageProvider } from "./components/LanguageContext";
 import axios from "axios";
 import Loading from './components/LoadingSpinner';
+import { withStyles } from '@material-ui/core/styles';
+import { SnackbarProvider } from 'notistack';
+
+const styles = theme => ({
+	info: {backgroundColor: 'black'}
+});
 
 const GroupMainScreen = Loadable({
 	loader: () => import('./components/GroupMainScreen'),
@@ -151,8 +157,20 @@ class App extends React.Component {
 		document.removeEventListener("message", this.handleMessage, false);
 	}
 	render() {
+		const {classes} = this.props
 		return (
 			<LanguageProvider>
+					<SnackbarProvider
+					maxSnack={3}
+					anchorOrigin={{
+						vertical: 'bottom',
+						horizontal: 'left',
+					}}
+					classes={{
+						variantInfo: classes.info
+					}}
+					hideIconVariant
+				>
 				<div className="App">
 					<Switch>
 						<Route exact path="/" render={props => (
@@ -281,9 +299,10 @@ class App extends React.Component {
 						<Route component={NoMatchScreen} />
 					</Switch>
 				</div>
+				</SnackbarProvider>
 			</LanguageProvider>
 		);
 	}
 }
 
-export default App;
+export default withStyles(styles)(App);

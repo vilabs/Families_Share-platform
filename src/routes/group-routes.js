@@ -537,7 +537,7 @@ router.get('/:id/events', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const resp = await calendar.events.list({ calendarId: group.calendar_id })
-    const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'fixed')
+    const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'confirmed')
     if (events.length === 0) {
       return res.status(404).send('Group has no events')
     }
