@@ -17,8 +17,8 @@ class EditActivityScreen extends React.Component {
         const groupId = this.props.match.params.groupId;
         axios.get(`/groups/${groupId}/activities/${activityId}`)
             .then(response => {
-                const { name, description, color } = response.data;
-                this.setState({ fetchedActivity: true, name, color, description, validated: true })
+                const { name, description, color, location } = response.data;
+                this.setState({ fetchedActivity: true, name, color, description, location, validated: true })
             })
             .catch(error => {
                 console.log(error)

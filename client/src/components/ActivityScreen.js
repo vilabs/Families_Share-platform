@@ -23,6 +23,7 @@ const getActivity = (activityId, groupId) => {
 				description: "",
 				color: "#ffffff",
 				group_name: "",
+				location: '',
 				dates: [],
 				repetition_type: ""
 			};
@@ -193,7 +194,7 @@ class ActivityScreen extends React.Component {
 							</div>
 							<div className="row no-gutters" style={rowStyle}>
 								<div className="col-2-10">
-									<i className="far fa-file-alt activityInfoIcon" />
+									<i className="fas fa-file-alt activityInfoIcon" />
 								</div>
 								<div className="col-8-10">
 									<div className="activityInfoDescription">{activity.description}</div>
@@ -209,7 +210,7 @@ class ActivityScreen extends React.Component {
 							</div>
 							<div className="row no-gutters" style={rowStyle}>
 								<div className="col-2-10">
-									<i className="far fa-calendar activityInfoIcon" />
+									<i className="fas fa-calendar activityInfoIcon" />
 								</div>
 								<div className="col-8-10">
 									<div className="activityInfoDescription">{this.getDatesString()}</div>

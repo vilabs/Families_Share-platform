@@ -100,6 +100,10 @@ const AboutScreen = Loadable({
 	loader: () => import('./components/AboutScreen'),
 	loading: () => <div />,
 })
+const TimeslotScreen = Loadable({
+	loader: () => import('./components/TimeslotScreen'),
+	loading: () => <div />,
+})
 const SignUpScreen = Loadable({
 	loader: () => import('./components/SignUpScreen').then(module => module.SignUpScreen),
 	loading: () => <div />,
@@ -108,10 +112,7 @@ const LogInScreen = Loadable({
 	loader: () => import('./components/LogInScreen').then(module => module.LogInScreen),
 	loading: () => <div />,
 })
-const TimeslotScreen = Loadable({
-	loader: () => import('./components/TimeslotScreen').then(module => module.TimeslotScreen),
-	loading: () => <div />,
-})
+
 
 axios.interceptors.request.use(
 	config => {
@@ -235,6 +236,10 @@ class App extends React.Component {
 							component={PendingRequestsScreen}
 						/>
 						<PrivateRoute
+							path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"
+							component={TimeslotScreen}
+						/>
+						<PrivateRoute
 							exact
 							path="/groups/:groupId/activities/:activityId/edit"
 							component={EditActivityScreen}
@@ -242,10 +247,6 @@ class App extends React.Component {
 						<PrivateRoute
 							path="/groups/:groupId/activities/:activityId"
 							component={ActivityScreen}
-						/>
-						<PrivateRoute
-							path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"
-							component={TimeslotScreen}
 						/>
 						<PrivateRoute
 							exact
