@@ -867,7 +867,6 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   const group_id = req.params.groupId
   const user_id = req.user_id
-  const activity_id = req.params.activityId
   try {
     const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
     if (!member) {
