@@ -109,6 +109,9 @@ class TimeslotScreen extends React.Component {
 		showParents: false,
 		showChildren: false,
 		confirmDialogTitle: '',
+		children: [],
+		parentProfiles: [],
+		childrenProfiles: [],
 		confirm: {
 			id: '',
 			type: '',
@@ -129,15 +132,15 @@ class TimeslotScreen extends React.Component {
 		const timeslot = await getTimeslot(pathname);
 		timeslot.extendedProperties.shared.parents = JSON.parse(timeslot.extendedProperties.shared.parents);
 		timeslot.extendedProperties.shared.children = JSON.parse(timeslot.extendedProperties.shared.children);
-		const parentParticipants = [...timeslot.extendedProperties.shared.parents];
-		const childrenParticipants = [...timeslot.extendedProperties.shared.children];
+		const parentIds= [...timeslot.extendedProperties.shared.parents];
+		const childrenIds = [...timeslot.extendedProperties.shared.children];
 		const children = await getUsersChildren(userId);
 		children.forEach( child => {
-			childrenParticipants.unshift(child);
+			childrenIds.push(child);
 		});
-		parentParticipants.unshift(userId);
-		const parentProfiles = await getParentProfiles([...new Set(parentParticipants)]);
-		const childrenProfiles = await getChildrenProfiles([...new Set(childrenParticipants)]);
+		parentIds.push(userId);
+		const parentProfiles = await getParentProfiles([...new Set(parentIds)]);
+		const childrenProfiles = await getChildrenProfiles([...new Set(childrenIds)]);
 		this.setState({ fetchedTimeslot: true, timeslot, parentProfiles, childrenProfiles, children })
 	}
 	handleEdit = () => {
@@ -275,14 +278,40 @@ class TimeslotScreen extends React.Component {
 			
 		)
 	}
+	getUserSubscribe = () => {
+		const userId = JSON.parse(localStorage.get('user')).id;
+		const texts = Texts[this.props.language].timeslotScreen;
+		const parentParticipants = this.state.timeslot.extendedProperties.shared.parents;
+		const userProfile = this.state.parentProfiles.filter( profile => profile.user_id === userId)[0];
+		return <TimeslotSubcribe  
+		name={texts.you}
+		image={userProfile.image}
+		subscribed={parentParticipants.includes(userId)}
+		id={userId}
+		type={'parent'}
+		handleConfirmDialog={this.handleConfirmDialogOpen}
+		/>
+	}
+	getChildrenSubscribes = () => {
+		const childrenIds = this.state.children.map( child => child.child_id);
+		const childrenProfiles = this.state.childrenProfiles.filter( profile => childrenIds.includes(profile.child_id));
+		const childrenParticipants = this.state.timeslot.extendedProperties.shared.children;
+		return childrenProfiles.map( (child, index) => 
+			<TimeslotSubcribe 
+			key={index}
+			name={child.given_name}
+			image={child.image}
+			subscribed={childrenParticipants.includes(child.child_id)}
+			id={child.child_id}
+			type={'child'}
+			handleConfirmDialog={this.handleConfirmDialogOpen}
+			/>
+		)
+	}
 	render() {
 		const rowStyle = { minHeight: "5rem" };
 		const texts = Texts[this.props.language].timeslotScreen;
 		const timeslot = this.state.timeslot;
-		const parentProfiles = this.state.parentProfiles;
-		const childrenProfiles = this.state.childrenProfiles;
-		const parentParticipants = timeslot.extendedProperties.shared.parents;
-		const childrenParticipants = timeslot.extendedProperties.shared.children;
 		return (
 			this.state.fetchedTimeslot ?
 				<React.Fragment>
@@ -364,31 +393,14 @@ class TimeslotScreen extends React.Component {
 					<div id="activityMainContainer">
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.userAvailability}</div>
-							<TimeslotSubcribe  
-								name={texts.you}
-								image={parentProfiles[0].image}
-								subscribed={parentParticipants.includes(parentProfiles[0].id)}
-								id={parentProfiles[0].id}
-								type={'parent'}
-								handleConfirmDialog={this.handleConfirmDialogOpen}
-								/>
+								{this.getUserSubscribe()}
 								{this.renderParticipants('parents')}
 						</div>
 					</div>
 					<div id="activityMainContainer">
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.childrenAvailability}</div>
-							{this.state.children.map( (child, index) => 
-								<TimeslotSubcribe 
-								key={index}
-								name={childrenProfiles[index].given_name}
-								image={childrenProfiles[index].image}
-								subscribed={childrenParticipants.includes(childrenProfiles[index].id)}
-								id={childrenProfiles[index].id}
-								type={'child'}
-								handleConfirmDialog={this.handleConfirmDialogOpen}
-								/>
-							)}
+							{this.getChildrenSubscribes()}
 							{this.renderParticipants('children')}
 						</div>
 					</div>

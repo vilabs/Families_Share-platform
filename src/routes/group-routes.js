@@ -887,8 +887,8 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
 		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
 		const fixedReq = extendedProperties.shared.status==='confirmed';
     if(notifyUsers){
-      extendedProperties.shared.parents="[]";
-      extendedProperties.shared.children="[]";
+      extendedProperties.shared.parents=JSON.stringify([]);
+      extendedProperties.shared.children=JSON.stringify([]);
       await nh.timeslotChangedNotification(summary, parents)
     } else if (	parentsReq && childrenReq && fixedReq ){
 			await nh.timeslotRequirementsNotification(summary, parents)
