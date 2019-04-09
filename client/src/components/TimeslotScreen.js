@@ -279,7 +279,7 @@ class TimeslotScreen extends React.Component {
 		)
 	}
 	getUserSubscribe = () => {
-		const userId = JSON.parse(localStorage.get('user')).id;
+		const userId = JSON.parse(localStorage.getItem('user')).id;
 		const texts = Texts[this.props.language].timeslotScreen;
 		const parentParticipants = this.state.timeslot.extendedProperties.shared.parents;
 		const userProfile = this.state.parentProfiles.filter( profile => profile.user_id === userId)[0];
