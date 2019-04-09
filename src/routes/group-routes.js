@@ -873,10 +873,6 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    const activity = await Activity.findOne({ activity_id })
-    if (!(member.admin || user_id === activity.creator_id)) {
-      return res.status(401).send('Unauthorized')
-    }
     const { summary, description, location, start, end, extendedProperties, notifyUsers } = req.body
     if (!(summary || description || location || start || end || extendedProperties)) {
       return res.status(400).send('Bad Request')

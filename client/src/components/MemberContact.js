@@ -95,7 +95,6 @@ class MemberContact extends React.Component {
         handle: this.handleRemoveUser
       }
 		];
-		console.log(profile)
     return (
       <React.Fragment>
         <MemberOptionsModal

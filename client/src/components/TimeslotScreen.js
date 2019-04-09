@@ -62,7 +62,7 @@ const getChildrenProfiles = (ids) => {
 		.then(response => {
 			return response.data.map(child => {
 				return {
-					id: child.child_id,
+					child_id: child.child_id,
 					image: child.image.path,
 					name: `${child.given_name} ${child.family_name}`,
 					given_name: child.given_name
@@ -85,7 +85,7 @@ const getParentProfiles = (ids) => {
 		.then(response => {
 			return response.data.map(parent => {
 				return {
-					id: parent.user_id,
+					user_id: parent.user_id,
 					image: parent.image.path,
 					name: `${parent.given_name} ${parent.family_name}`
 				}
@@ -185,7 +185,7 @@ class TimeslotScreen extends React.Component {
 				confirmDialogTitle = texts.userUnsubscribeConfirm
 			}
 		} else if(type==='child'){
-			const childName = this.state.childrenProfiles.filter( profile => profile.id===id)[0].given_name
+			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
 			if(action==='subscribe'){
 				confirmDialogTitle = `${texts.childSubscribeConfirm1} ${childName} ${texts.childSubscribeConfirm2}`
 			} else {
@@ -204,7 +204,7 @@ class TimeslotScreen extends React.Component {
 			timeslot.extendedProperties.shared.parents.push(id);
 			snackMessage = texts.userSubscribe
 		} else {
-			const childName = this.state.childrenProfiles.filter( profile => profile.id===id)[0].given_name
+			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
 			timeslot.extendedProperties.shared.children.push(id);
 			snackMessage = `${texts.childSubscribe1} ${childName} ${texts.childSubscribe2}`
 		}
@@ -221,7 +221,7 @@ class TimeslotScreen extends React.Component {
 			timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(subId => subId!==id);
 			snackMessage = texts.userUnsubscribe
 		} else {
-			const childName = this.state.childrenProfiles.filter( profile => profile.id===id)[0].given_name
+			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
 			timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(subId => subId!==id);
 			snackMessage = `${texts.childUnsubscribe1} ${childName} ${texts.childUnsubscribe2}`
 		}
@@ -239,13 +239,13 @@ class TimeslotScreen extends React.Component {
 		let participants, profiles, showing, participantsHeader, minimum;
 		if(type==='parents'){
 			participants = this.state.timeslot.extendedProperties.shared.parents;
-			profiles = this.state.parentProfiles.filter( profile => participants.includes(profile.id ))
+			profiles = this.state.parentProfiles.filter( profile => participants.includes(profile.user_id ))
 			showing = this.state.showParents;
 			participantsHeader = `${participants.length} ${participants.length===1?texts.volunteer:texts.volunteers} ${texts.signup}`
 			minimum = this.state.timeslot.extendedProperties.shared.requiredParents;
 		} else {
 			participants = this.state.timeslot.extendedProperties.shared.children;
-			profiles = this.state.childrenProfiles.filter( profile => participants.includes(profile.id ))
+			profiles = this.state.childrenProfiles.filter( profile => participants.includes(profile.child_id ))
 			showing = this.state.showChildren;
 			participantsHeader = `${participants.length} ${participants.length===1?texts.child:texts.children} ${texts.signup}`
 			minimum = this.state.timeslot.extendedProperties.shared.requiredChildren;
@@ -293,8 +293,7 @@ class TimeslotScreen extends React.Component {
 		/>
 	}
 	getChildrenSubscribes = () => {
-		const childrenIds = this.state.children.map( child => child.child_id);
-		const childrenProfiles = this.state.childrenProfiles.filter( profile => childrenIds.includes(profile.child_id));
+		const childrenProfiles = this.state.childrenProfiles.filter( profile => this.state.children.includes(profile.child_id));
 		const childrenParticipants = this.state.timeslot.extendedProperties.shared.children;
 		return childrenProfiles.map( (child, index) => 
 			<TimeslotSubcribe 
