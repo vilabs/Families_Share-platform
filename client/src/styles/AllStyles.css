@@ -105,6 +105,7 @@
   height: 5.6rem;
   color: #ffffff;
   position: fixed;
+  z-index: 1000;
   top: 0;
   width: 100%;
 }
@@ -820,7 +821,6 @@
 }
 #editActivityHeaderContainer h1 {
   color: #ffffff;
-
   text-align: left;
   font-size: 2rem;
 }
