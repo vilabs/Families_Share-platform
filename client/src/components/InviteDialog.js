@@ -123,7 +123,8 @@ class InviteDialog extends React.Component {
 			open={this.props.isOpen}
 			fullWidth={true}
 		  >
-				<DialogTitle className={classes.title}>{texts.header}</DialogTitle>
+				<DialogTitle >
+				<div className="inviteDialogTitle">{texts.header}</div>
 				<input
 					className="inviteDialogInput"
 					type="search"
@@ -132,6 +133,7 @@ class InviteDialog extends React.Component {
 					onChange={this.onInputChange}
 					onKeyPress={this.handleKeyPress}
 				/>
+				</DialogTitle>
 				<DialogContent>
 					{!this.state.searchedForInput ? (
 						<AutoComplete

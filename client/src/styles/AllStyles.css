@@ -1971,15 +1971,19 @@
 
 /*INVITE DIALOG*/
 .inviteDialogInput {
-  height: 3rem;
+  min-height: 4rem;
   font-size: 1.6rem;
   background-color: #e0e0e0;
   border: none;
   border-radius: 2rem;
   padding-left: 2rem;
-  width: 90%;
-  margin: 5%;
+  width: 100%;
+  margin-top: 2rem;
   font-family: "Roboto", sans-serif;
+}
+.inviteDialogTitle {
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 .autoCompleteText{
   font-size: 1.4rem;
