@@ -118,7 +118,11 @@ class EditTimeslotScreen extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.validate()) {
-      this.handleConfirmDialogOpen("save")
+			if( this.state.notifyUsers){
+				this.handleConfirmDialogOpen("saveWarning")
+			} else {
+				this.handleConfirmDialogOpen("save")
+			}
     } else {
       this.setState({ formIsValidated: true });
     }
@@ -192,43 +196,24 @@ class EditTimeslotScreen extends React.Component {
       });
   };
   handleConfirmDialogClose = choice => {
-    if (choice === "agree") {
-      if(this.state.confirmDialogType==='save'){
-        this.handleSave()
-        this.setState({
-          confirmDialogIsOpen: false,
-          confirmDialogType: "",
-          confirmDialogTitle: "",
-          confirmDialogValue: "",
-        });
-      } else {
-        this.setState({
-          [this.state.confirmDialogType]: this.state.confirmDialogValue,
-          confirmDialogIsOpen: false,
-          confirmDialogType: "",
-          confirmDialogTitle: "",
-          confirmDialogValue: "",
-          notifyUsers: true,
-        });
-      }
-      } else {
-        this.setState({
-          confirmDialogIsOpen: false,
-          confirmDialogType: "",
-          confirmDialogTitle: "",
-          confirmDialogValue: "",
-        });
-    }
-  };
-  handleConfirmDialogOpen = (type,value) => {
+		if (choice === "agree") {
+			this.handleSave()
+		} 
+		this.setState({
+			confirmDialogIsOpen: false,
+			confirmDialogType: "",
+			confirmDialogTitle: "",
+		});
+	};
+  handleConfirmDialogOpen = (type) => {
     const texts = Texts[this.props.language].editTimeslotScreen;
     let confirmDialogTitle;
     if(type==='save'){
       confirmDialogTitle = texts.editConfirm;
     } else{
-      confirmDialogTitle = texts.changeConfirm;
+      confirmDialogTitle = texts.crucialChangeConfirm;
     }
-    this.setState({ confirmDialogTitle, confirmDialogIsOpen: true, confirmDialogType: type, confirmDialogValue: value });
+    this.setState({ confirmDialogTitle, confirmDialogIsOpen: true, confirmDialogType: type});
   };
   getBackNavTitle = () => {
     const { start, end } = this.state;
@@ -239,7 +224,7 @@ class EditTimeslotScreen extends React.Component {
   handleChange = event => {
     const { name, value } = event.target;
     if((name === 'startTime' || name==='endTime' || name==='date')&& !this.state.notifyUsers){
-      this.handleConfirmDialogOpen(name, value)
+			this.setState({ [name]: value, notifyUsers: true });
     } else {
       this.setState({ [name]: value });
     }

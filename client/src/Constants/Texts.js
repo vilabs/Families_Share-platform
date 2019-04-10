@@ -18,7 +18,7 @@ const en = {
 		requiredErr: 'Please fill out this field.',
 		rangeErr: 'Please select a value greater than one.',
 		editConfirm: 'Confirm edits?',
-		changeConfirm: 'If you change this field all participants will be unsubscribed. Confirm change?'
+	  crucialChangeConfirm: 'If you save these edits all participants will be unsubscribed. Confirm edits?'
 	},
 	timeslotScreen: {
 		minimum: 'minimum number',
@@ -700,7 +700,7 @@ const nl = {
 		rangeErr:'Selecteer een waarde groter dan een.',
 		date: 'Datum',
 		editConfirm: 'Bewerkingen bevestigen?',
-		changeConfirm: 'Als u dit veld wijzigt, worden alle deelnemers afgemeld. Wijzigingen bevestigen?'
+		crucialChangeConfirm: 'Als u deze bewerkingen opslaat, worden alle deelnemers afgemeld. Bevestig bewerkingen?'
 	},
 	timeslotScreen: {
 		minimum: 'minimum antaal',
@@ -1113,7 +1113,7 @@ const it = {
 		rangeErr: 'Perfavore seleziona un valore maggiore di uno',
 		date: 'Data',
 		editConfirm: 'confermare le modifiche?',
-		changeConfirm: 'Se cambi questo campo, tutti i partecipanti verranno annullati. Conferma modifica?'
+		crucialChangeConfirm: 'Se salvi queste modifiche, tutti i partecipanti verranno annullati. Conferma le modifiche?'
 	},
 	timeslotScreen: {
 		minimum: 'numero minimo',
@@ -1595,7 +1595,7 @@ const el = {
 		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη της μονάδας.',
 		date: 'Ημερομηνία',
 		editConfirm: 'Επιβεβαίωση αλλαγών;',
-		changeConfirm: 'Εάν αλλάξετε αυτό το πεδίο όλοι οι συμμετέχοντες θα διαγραφούν. Επιβεβαίωση αλλαγής;'
+		crucialChangeConfirm: 'Εάν αποθηκεύσετε αυτές τις αλλαγές όλοι οι συμμετέχοντες θα διαγραφούν. Αποθήκευση αλλαγών;'
 	},
 	timeslotScreen: {
 		minimum: 'ελάχιστος αριθμός',
