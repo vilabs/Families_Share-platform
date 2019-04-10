@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts.js";
-import InviteModal from "./InviteModal";
+import InviteDialog from "./InviteDialog";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
@@ -121,7 +121,7 @@ class GroupMembersAdminOptions extends React.Component {
             </div>
           </div>
         </div>
-        <InviteModal
+        <InviteDialog
           isOpen={this.state.inviteModalIsOpen}
           handleClose={this.handleInviteModalClose}
           handleInvite={this.handleInvite}

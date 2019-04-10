@@ -1969,51 +1969,24 @@
 }
 /*GROUP NEWS END*/
 
-/*INVITE MODAL*/
-#inviteModalContainer {
-  height: 100%;
-}
-#inviteModalContainer h1 {
-  font-size: 2rem;
-
-  font-weight: 500;
-  margin: 0;
-  height: 10%;
-}
-#inviteModalContainer li {
-  margin: 1rem 0;
-  cursor: pointer;
-}
-#inviteModalContainer h2 {
+/*INVITE DIALOG*/
+.inviteDialogInput {
+  height: 3rem;
   font-size: 1.6rem;
-
-  font-weight: 500;
+  background-color: #e0e0e0;
+  border: none;
+  border-radius: 2rem;
   padding-left: 2rem;
+  width: 90%;
+  margin: 5%;
+  font-family: "Roboto", sans-serif;
 }
-#inviteModalContainer input {
-  margin-top: 1rem;
-  width: 100% !important ;
-  height: 20% !important;
-  border: none !important;
-  background-color: #dcdcdc !important;
-  font-family: "Roboto", sans-serif !important;
-  font-size: 1.4rem !important;
-  padding-left: 1rem;
-}
-#inviteButtonsContainer button {
+.autoCompleteText{
   font-size: 1.4rem;
-  color: #009688;
-}
-#inviteButtonsContainer {
-  height: 10%;
-  position: relative;
-  float: right;
 }
 .inviteSelect {
-  height: 1.5rem;
-  width: 1.5rem;
-  border-radius: 50%;
-  border: 1px solid #00838f;
+  font-size: 1.4rem;
+  color: #00838f;
 }
 /*INVITE MODAL END*/
 

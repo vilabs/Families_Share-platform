@@ -13,7 +13,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import autosize from "autosize";
 import { withRouter } from 'react-router-dom';
-import InviteModal from "./InviteModal";
+import InviteDialog from "./InviteDialog";
 import axios from "axios";
 
 const muiTheme = createMuiTheme({
@@ -313,7 +313,7 @@ class CreateGroupStepper extends React.Component {
       case 3:
         return (
           <div className="row no-gutters" id="createGroupScreenInvites">
-            <InviteModal
+            <InviteDialog
               isOpen={this.state.inviteModalIsOpen}
               handleClose={this.handleInviteModalClose}
               handleInvite={this.handleInvite}

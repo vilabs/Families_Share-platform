@@ -20,14 +20,14 @@ class AutoComplete extends React.Component {
             <ul>
                 {this.getSuggestions(this.props.searchInput).map( (suggestion,index) =>
                     <li key={index}>
-                        <div className="row no-gutters" style={{cursor:'pointer'}} onClick={() => this.handleClick(suggestion.name)}>
+                        <div className="row no-gutters" style={{cursor:'pointer', margin: '0.5rem 0'}} onClick={() => this.handleClick(suggestion.name)}>
                                 <div className="col-2-10">
-                                    <i className="fas fa-search center" />
+                                    <i className="fas fa-search" />
                                 </div>
                                 <div className="col-8-10">
-                                    <h1>
+                                    <div className="autoCompleteText">
                                         <Highlighter text={suggestion.name} highlight={this.props.searchInput} />
-                                    </h1>
+                                    </div>
                                 </div>
                         </div>
                     </li>

@@ -164,7 +164,7 @@ class App extends React.Component {
 		return (
 			<LanguageProvider>
 					<SnackbarProvider
-					maxSnack="3"
+					maxSnack={3}
 					anchorOrigin={{
 						vertical: 'bottom',
 						horizontal: 'left',
