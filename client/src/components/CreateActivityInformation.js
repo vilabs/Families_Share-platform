@@ -72,6 +72,21 @@ class CreateActivityInformation extends React.Component {
             />
           </div>
         </div>
+				<div className="row no-gutters" style={rowStyle}>
+          <div className="col-2-10">
+            <i className="fas fa-map-marker-alt center" />
+          </div>
+          <div className="col-8-10">
+            <input
+              type="text"
+              name="location"
+              placeholder={texts.location}
+              value={this.state.location}
+              className="center"
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
         <div className="row no-gutters" style={rowStyle}>
           <div className="col-2-10">
             <i

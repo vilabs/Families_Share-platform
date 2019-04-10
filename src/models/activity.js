@@ -18,7 +18,8 @@ const activitySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  description: String,
+	description: String,
+	location: String,
   color: {
     type: String,
     required: true
@@ -42,13 +43,6 @@ const activitySchema = new mongoose.Schema({
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 activitySchema.index({ group_id: 1, createdAt: -1 })
-
-activitySchema.virtual('dates', {
-  ref: 'Day',
-  localField: 'activity_id',
-  foreignField: 'activity_id',
-  justOne: false
-})
 
 mongoose.pluralize(null)
 const model = mongoose.model('Activity', activitySchema)

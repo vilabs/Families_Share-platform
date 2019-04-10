@@ -79,7 +79,7 @@ class LogInForm extends React.Component {
 		const { error } = this.props;
 		const texts = Texts[this.props.language].logInForm;
 		if(error){
-			this.props.enqueueSnackbar(texts.authenticationErr,{variant: 'error'})
+			this.props.enqueueSnackbar(texts.authenticationErr,{variant: 'error', preventDuplicate: true})
 		}
 		const formClass = [];
 		if (this.state.formIsValidated) {

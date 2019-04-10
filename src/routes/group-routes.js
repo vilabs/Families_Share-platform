@@ -67,7 +67,6 @@ const Notification = require('../models/notification')
 const Announcement = require('../models/announcement')
 const Parent = require('../models/parent')
 const Activity = require('../models/activity')
-const Day = require('../models/day')
 const Child = require('../models/child')
 const Profile = require('../models/profile')
 const User = require('../models/user')
@@ -538,7 +537,7 @@ router.get('/:id/events', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const resp = await calendar.events.list({ calendarId: group.calendar_id })
-    const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'fixed')
+    const events = resp.data.items.filter(event => event.extendedProperties.shared.status === 'confirmed')
     if (events.length === 0) {
       return res.status(404).send('Group has no events')
     }
@@ -619,23 +618,19 @@ router.post('/:id/activities', async (req, res, next) => {
       creator_id: user_id,
       name: information.name,
       color: information.color,
-      description: information.description,
+			description: information.description,
+			location: information.location,
       repetition: dates.repetition,
       repetition_type: dates.repetitionType,
       different_timeslots: timeslots.differentTimeslots,
       status: member.admin?'accepted':'pending',
 		}
-    const days = dates.selectedDays.map(day => ({
-      day_id: objectid(),
-      activity_id,
-      date: day
-    }))
     const group = await Group.findOne({ group_id })
     const events = []
     activity.group_name = group.name
-    days.forEach((day, index) => {
-      const dstart = moment(day.date)
-      const dend = moment(day.date)
+    dates.selectedDays.forEach((date, index) => {
+      const dstart = moment(date)
+      const dend = moment(date)
       timeslots.activityTimeslots[index].forEach((timeslot) => {
         const { startTime, endTime } = timeslot
         dstart.hours(startTime.substr(0, startTime.indexOf(':')))
@@ -679,7 +674,6 @@ router.post('/:id/activities', async (req, res, next) => {
     })
     await Promise.all(events.map(event => calendar.events.insert({ calendarId: group.calendar_id, resource: event })))
     await Activity.create(activity)
-		await Day.create(days)
 		if(member.admin){
 			await nh.newActivityNotification( group_id, user_id);
 		}
@@ -699,7 +693,6 @@ router.get('/:id/activities', (req, res, next) => {
         return res.status(401).send('Unauthorized')
       }
       return Activity.find({ group_id })
-        .populate('dates')
         .sort({ createdAt: -1 })
         .lean()
         .exec()
@@ -758,7 +751,6 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
     const activityTimeslots = resp.data.items.filter(event => event.extendedProperties.shared.activityId === activity_id)
     await Promise.all(activityTimeslots.map(event => calendar.events.delete({ eventId: event.id, calendarId: group.calendar_id })))
     await Activity.deleteOne({ activity_id })
-    await Day.deleteMany({ activity_id })
     res.status(200).send('Activity Deleted')
   } catch (error) {
     next(error)
@@ -774,7 +766,6 @@ router.get('/:groupId/activities/:activityId', (req, res, next) => {
         return res.status(401).send('Unauthorized')
       }
       return Activity.findOne({ activity_id: activityId })
-        .populate('dates')
         .lean()
         .exec()
         .then(activity => {
@@ -848,23 +839,54 @@ router.get('/:groupId/activities/:activityId/timeslots', async (req, res, next) 
   }
 })
 
+
+router.get('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  const group_id = req.params.groupId
+	const user_id = req.user_id
+	const activity_id = req.params.activityId
+  try {
+    const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+		}
+		const activity = await Activity.findOne({ activity_id })
+    const group = await Group.findOne({ group_id })
+		const response = await calendar.events.get({ calendarId: group.calendar_id, eventId: req.params.timeslotId })
+    response.data.userCanEdit = false;
+    if (member.admin || user_id === activity.creator_id) {
+      response.data.userCanEdit = true;
+    } 
+    res.json(response.data)
+  } catch (error) {
+    next(error)
+  }
+})
+
 router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   const group_id = req.params.groupId
   const user_id = req.user_id
-  const activity_id = req.params.activityId
   try {
     const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    const activity = await Activity.findOne({ activity_id })
-    if (!(member.admin || user_id === activity.creator_id)) {
-      return res.status(401).send('Unauthorized')
-    }
-    const { summary, description, location, start, end, extendedProperties } = req.body
+    const { summary, description, location, start, end, extendedProperties, notifyUsers } = req.body
     if (!(summary || description || location || start || end || extendedProperties)) {
       return res.status(400).send('Bad Request')
+    }
+    const parents = JSON.parse(extendedProperties.shared.parents);
+		const children = JSON.parse(extendedProperties.shared.children);
+		const parentsReq = parents.length >= extendedProperties.shared.requiredParents;
+		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
+		const fixedReq = extendedProperties.shared.status==='confirmed';
+    if(notifyUsers){
+      extendedProperties.shared.parents=JSON.stringify([]);
+      extendedProperties.shared.children=JSON.stringify([]);
+      await nh.timeslotChangedNotification(summary, parents)
+    } else if (	parentsReq && childrenReq && fixedReq ){
+			await nh.timeslotRequirementsNotification(summary, parents)
     }
     const timeslotPatch = {
       summary,
@@ -876,14 +898,6 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
     }
     const group = await Group.findOne({ group_id })
 		await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
-		const parents = JSON.parse(extendedProperties.shared.parents);
-		const children = JSON.parse(extendedProperties.shared.children);
-		const parentsReq = parents.length >= extendedProperties.shared.requiredParents;
-		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
-		const fixedReq = extendedProperties.shared.status==='fixed';
-		if( parentsReq && childrenReq && fixedReq ){
-			await nh.timeslotRequirementsNotification(summary, parents)
-		}
     res.status(200).send('Timeslot was updated')
   } catch (error) {
     next(error)

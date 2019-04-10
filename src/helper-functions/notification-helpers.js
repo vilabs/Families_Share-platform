@@ -212,6 +212,37 @@ async function timeslotRequirementsNotification(timeslotName, participants) {
 	})
 }
 
+async function timeslotChangedNotification(timeslotName, participants) {
+	const devices = await Device.find({ user_id: { $in: participants } });
+	const users = await User.find({ user_id: {$in: participants }});
+	const notifications = [];
+	users.forEach( user => {
+		notifications.push({
+			owner_type: 'user',
+			owner_id: user.user_id,
+			type: 'activities',
+			code: 2,
+			read: false,
+			subject: `${timeslotName}`
+		})
+	})
+	await Notification.create(notifications);
+	devices.forEach( device => {
+		const language = users.filter( user => user.user_id === device.user_id )[0].language;
+		const message = {
+			notification: { title: texts[language]['activities'][2]['header'], body: `${timeslotName} ${texts[language]['activities'][2]['description']}` },
+			token: device.device_id
+		}
+		fbadmin.messaging().send(message)
+			.then(() => { })
+			.catch((error) => {
+				if (error.code === 'messaging/registration-token-not-registered') {
+					Device.deleteOne({ device_id: device.device_id })
+				}
+			})
+	})
+}
+
 const getNotificationDescription = (notification, language) => {
 	const {
 		type, code, subject, object
@@ -251,7 +282,9 @@ const getNotificationDescription = (notification, language) => {
 			switch (code) {
 				case 0:
 					return `${subject} ${description} ${object}.`
-				case 1:
+					case 1:
+					return `${subject} ${description}`
+				case 2:
 					return `${subject} ${description}`
 				default: 
 					return ''
@@ -275,5 +308,6 @@ module.exports = {
 	getNotificationDescription,
 	removeMemberNotification,
 	newActivityNotification,
-	newAnnouncementNotification
+	newAnnouncementNotification,
+	timeslotChangedNotification
 }

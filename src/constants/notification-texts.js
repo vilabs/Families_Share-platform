@@ -48,6 +48,10 @@ const en = {
 		{
 			header: 'Group Activities',
 			description: " has met all its requirements."
+		},
+		{
+			header: 'Group Activities',
+			description: " has changed date and time and participants were unsubscribed. Please, subscribe again."
 		}
 	],
 	announcements: [
@@ -107,6 +111,10 @@ const it = {
 		{
 			header: 'Group Activities',
 			description: " has met all its requirements."
+		},
+		{
+			header: 'Group Activities',
+			description: " has changed date and time and participants were unsubscribed. Please, subscribe again."
 		}
 	],
 	announcements: [
@@ -166,6 +174,10 @@ const nl = {
 		{
 			header: 'Group Activities',
 			description: " has met all its requirements."
+		},
+		{
+			header: 'Group Activities',
+			description: " has changed date and time and participants were unsubscribed. Please, subscribe again."
 		}
 	],
 	announcements: [
@@ -225,6 +237,10 @@ const el = {
 		{
 			header: 'Δραστηριότητες Ομάδας',
 			description: " ικανοποιεί πλέον όλες τις απαιτήσεις."
+		},
+		{
+			header: 'Group Activities',
+			description: " has changed date and time and participants were unsubscribed. Please, subscribe again."
 		}
 	],
 	announcements: [

@@ -1,4 +1,56 @@
 const en = {
+	editTimeslotScreen: {
+		from: 'From',
+		date: 'Date',
+		to: 'To',
+		details: 'Details',
+		parents: 'Required parents',
+		children: 'Required children',
+		name: 'Title',
+		location: 'Location',
+		description: 'Description(optional)',
+		cost: 'Cost(optional)',
+		status: 'Timeslot status',
+		proposed: 'Proposed',
+		confirmed: 'Confirmed',
+		completed: 'Completed',
+		timeErr: 'Invalid start and end time combination',
+		requiredErr: 'Please fill out this field.',
+		rangeErr: 'Please select a value greater than one.',
+		editConfirm: 'Confirm edits?',
+		changeConfirm: 'If you change this field all participants will be unsubscribed. Confirm change?'
+	},
+	timeslotScreen: {
+		minimum: 'minimum number',
+		userAvailability: 'Add your availability:',
+		childrenAvailability: 'Add your children availability:',
+		volunteer: 'volunteer',
+		volunteers: 'volunteers',
+		child: 'child',
+		children: 'children',
+		signup: 'signed up',
+		userSubscribe: 'You have added yourself to the activity',
+		userUnsubscribe: 'You have removed yourself from the activity',
+		childSubscribe1: 'You have added',
+		childSubscribe2: 'to the activity',
+		childUnsubscribe1: 'You have removed',
+		childUnsubscribe2: 'from the activity',
+		childSubscribeConfirm1: 'Are you sure you want to add',
+		childSubscribeConfirm2: 'to the activity?',
+		childUnsubscribeConfirm1: 'Are you sure you want to remove',
+		childUnsubscribeConfirm2: 'from the activity?',
+		editConfirm: 'Confirm edits?',
+		you: 'You',
+		userSubscribeConfirm: 'Are you sure you want to add yourself to the activity?',
+		userUnsubscribeConfirm: 'Are you sure you want to remove yourself from the activity?'
+	},
+	timeslotPreview: {
+		confirmed: 'Confirmed',
+		pending: 'Waiting for confirmation',
+		participating: 'You and your children will participate',
+		parentParticipating: 'You will participate',
+		notParticipating: 'Available for new inscriptions'
+	},
 	ratingModal: {
 		title: 'How would you like to rate Families Share?',
 		rate: "Rate",
@@ -160,6 +212,7 @@ const en = {
 		activitiesTab: 'Activities',
 		membersTab: 'Members',
 		infoTab: 'About',
+		calendarTab: 'Calendar'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Invite people',
@@ -483,6 +536,7 @@ const en = {
 		color: 'Color of the activity',
 		description: 'Description (optional)',
 		name: 'Name of the activity',
+		location: 'Location (optional)'
 	},
 	createActivityDates: {
 		header: 'Select one or more days',
@@ -519,8 +573,9 @@ const en = {
 		export: 'Export',
 		every: 'Every',
 		of: 'of',
+		infoHeader: 'Activity Info:'
 	},
-	timeslotsDrawer: {
+	timeslotsList: {
 		fixed: 'fixed',
 		completed: 'completed',
 		proposed: 'proposed',
@@ -575,6 +630,7 @@ const en = {
 		description: 'Description (optional)',
 		name: 'Name of the activity',
 		save: 'SAVE',
+		location: 'Location (optional)'
 	},
 	agendaView: {
 		timeslots: 'Timeslots',
@@ -626,6 +682,57 @@ const en = {
 };
 
 const nl = {
+	editTimeslotScreen: {
+		timeErr: 'Ongeldige combinatie van begin- en eindtijd',
+		from: 'Van',
+		to: 'Tot',
+		parents: 'Benodigde ouders',
+		children: 'Benodigde kinderen',
+		name: 'Titel',
+		location: 'Locatie',
+		description: 'Beschrijving (optioneel)',
+		cost: 'Kost (optioneel)',
+		status: 'Tijdslot status',
+		proposed: 'Voorgesteld',
+		confirmed: 'Bevestigd',
+		completed: 'Voltooid',
+		requiredErr: 'Vul alstublieft dit veld in.',
+		rangeErr:'Selecteer een waarde groter dan een.',
+		date: 'Datum',
+		editConfirm: 'Bewerkingen bevestigen?',
+		changeConfirm: 'Als u dit veld wijzigt, worden alle deelnemers afgemeld. Wijzigingen bevestigen?'
+	},
+	timeslotScreen: {
+		minimum: 'minimum antaal',
+		userAvailability: 'Voeg uw beschikbaarheid toe:',
+		childrenAvailability: 'Voeg uw kinderenbeschikbaarheid toe:',
+		volunteer: 'vrijwilligers',
+		volunteers: 'volunteers',
+		signup: 'aangemeld',
+		child: 'kind',
+		children: 'kinderen',
+		userSubscribe: 'Je hebt jezelf aan de activiteit toegevoegd',
+		userUnsubscribe: 'Je hebt jezelf van de activiteit verwijderd',
+		chilSubscribe1: 'Je hebt toegevoegd',
+		childSubscribe2: 'naar de activiteit',
+		childUnsubscribe1: 'Je hebt verwijderd',
+		childUnsubscribe2: 'van de activiteit',
+		childSubscribeConfirm1: 'Weet je zeker dat je wilt toevoegen',
+		childSubscribeConfirm2: 'naar de activiteit?',
+		childUnsubscribeConfirm1: 'Weet je zeker dat je wilt verwijderen',
+		childUnsubscribeConfirm2: 'van de activiteit?',
+		editConfirm: 'Bewerkingen bevestigen?',
+		you: 'Je',
+		userSubscribeConfirm: 'Weet je zeker dat je jezelf wilt toevoegen aan de activiteit?',
+		userUnsubscribeConfirm: 'Weet u zeker dat u uzelf uit de activiteit wilt verwijderen?'
+	},
+	timeslotPreview: {
+		confirmed: 'Bevestigd',
+		pending: 'Wachten op bevestiging',
+		participating: 'Jij en je kinderen zullen deelnemen',
+		parentParticipating: 'Je zult deelnemen',
+		notParticipating: 'Beschikbaar voor nieuwe inscripties'
+	},
 	ratingModal: {
 		title: 'Hoe zou je willen beoordelen Families Share?',
 		rate: "Tarief",
@@ -734,6 +841,7 @@ const nl = {
 		activitiesTab: 'Activiteiten',
 		membersTab: 'Leden',
 		infoTab: 'Over',
+		calendar: 'Kalender'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Nodig mensen uit',
@@ -892,7 +1000,12 @@ const nl = {
 	createActivityStepper: {
 		continue: 'Ga verder', cancel: 'Annuleer', finish: 'Maak aan', save: 'Opslaan', stepLabels: ['Informatie', 'Datums', 'Timeslots'],
 	},
-	createActivityInformation: { color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit' },
+	createActivityInformation: {
+		color: 'Kleur van de activiteit',
+		description: 'Beschrijving (optioneel)',
+		name: 'Naam van de activiteit',
+		location: 'Plaats (optioneel)'
+	},
 	createActivityDates: {
 		header: 'Selecteer 1 of meerdere dagen', repetition: 'Herhaling', weekly: 'Wekelijk', monthly: 'Maandelijks', datesError: 'Herhaling is niet mogelijk wanneer meerdere dagen geselecteerd zijn',
 	},
@@ -903,8 +1016,17 @@ const nl = {
 	clockModal: {
 		am: 'AM', pm: 'PM', start: 'Start', end: 'Einde', confirm: 'OK', cancel: 'Annuleer',
 	},
-	activityScreen: { color: 'Kleur', confirmDialogTitle: 'Weet je zeker dat je deze activiteit wilt exporteren?', export: 'Exporteren', delete: 'Verwijder', every: 'Elk', of: 'van', deleteDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen' },
-	timeslotsDrawer: {
+	activityScreen: {
+		color: 'Kleur',
+		confirmDialogTitle: 'Weet je zeker dat je deze activiteit wilt exporteren?',
+		export: 'Exporteren',
+		delete: 'Verwijder',
+		every: 'Elk',
+		of: 'van',
+		deleteDialogTitle: 'Ben je zeker dat je deze activiteit wilt verwijderen',
+		infoHeader: 'Activiteit informatie'
+	},
+	timeslotsList: {
 		proposed: 'voorgestelde', fixed: 'vast', completed: 'voltooid', timeslot: 'Timeslot', timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weinig deelnemers', notEnoughParticipants: 'Tekort aantal deelnemers',
 	},
 	filterTimeslotsDrawer: {
@@ -933,7 +1055,12 @@ const nl = {
 		rangeErr:'Selecteer een waarde groter dan nul.',
 	},
 	editActivityScreen: {
-		backNavTitle: 'Bewerk activiteit', color: 'Kleur van de activiteit', description: 'Beschrijving (optioneel)', name: 'Naam van de activiteit', save: 'Sla op',
+		backNavTitle: 'Bewerk activiteit',
+		color: 'Kleur van de activiteit',
+		description: 'Beschrijving (optioneel)',
+		name: 'Naam van de activiteit',
+		save: 'Sla op',
+		location: 'Plaats (optioneel)'
 	},
 	agendaView: {
 		timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weining deelnemers', notEnoughParticipants: 'Tekort aan deelnemers',
@@ -967,6 +1094,58 @@ const nl = {
 };
 
 const it = {
+	editTimeslotScreen: {
+		timeErr: 'Combinazione di inizio e fine ora non valida',
+		details: 'Dettagli',
+		from: 'Da',
+		to: 'A',
+		parents: 'Genitori richiesti',
+		children: 'Bambini richiesti',
+		name: 'Titolo',
+		location: 'Luogo',
+		description: 'Descritzione (facoltativo)',
+		cost: 'Costo (facoltativo)',
+		status: 'Stato di questa attività',
+		proposed: 'Proposta',
+		confirmed: 'Confermata',
+		completed: 'Completata',
+		requiredErr: 'Perfavore compila questo campo.',
+		rangeErr: 'Perfavore seleziona un valore maggiore di uno',
+		date: 'Data',
+		editConfirm: 'confermare le modifiche?',
+		changeConfirm: 'Se cambi questo campo, tutti i partecipanti verranno annullati. Conferma modifica?'
+	},
+	timeslotScreen: {
+		minimum: 'numero minimo',
+		userAvailability: 'Aggiungi la tua disponibilità:',
+		childrenAvailability: 'Aggiungi la disponibilità dei tuoi bambini:',
+		volunteer: 'volontario',
+		volunteers: 'volontari',
+		signup: 'registrato',
+		child: 'bambino',
+		children: 'bambini',
+		userSubscribe: "Ti sei aggiunto all'attività",
+		userUnsubscribe: "Ti sei rimosso dall'attività",
+		childSubscribe1: 'JHai aggiunto',
+		childSubscribe2:  "all'attività",
+		childUnsubscribe1: 'Hai rimosso',
+		childUnsubscribe2: "dall'attività",
+		childSubscribeConfirm1: 'Sei sicuro di voler aggiungere',
+		childSubscribeConfirm2: "all'attività?",
+		childUnsubscribeConfirm1: 'Sei sicuro di voler rimuovere',
+		childUnsubscribeConfirm2: "dall'attività?",
+		editConfirm: 'Conferma modifiche?',
+		you: 'Tu',
+		userSubscribeConfirm: "Sei sicuro di voler aggiungerti all'attività?",
+		userUnsubscribeConfirm: "Sei sicuro di voler rimuovere te stesso dall'attività?"
+	},
+	timeslotPreview: {
+		confirmed: 'Confermato',
+		pending: 'In attesa di conferma',
+		participating: 'Parteciperai tu e i tuoi figli',
+		parentParticipating: 'Parteciperai',
+		notParticipating: 'Disponibile per nuove iscrizioni'
+	},
 	ratingModal: {
 		title: 'Come vorresti valutare Families Share?',
 		rate: 'Vota',
@@ -1049,7 +1228,7 @@ const it = {
 		startGuideHeader: 'Non sai da dove iniziare?', startGuideInfo: 'Segui i sette passi per avviare al meglio il gruppo', join: 'UNISCITI AL GRUPPO', leave: 'ABBANDONA IL GRUPPO', pending: 'CANCELLA LA RICHIESTA', confirm: 'Sei sicuro/a di voler abbandonare il gruppo?',
 	},
 	groupNavbar: {
-		newsTab: 'Messaggi', activitiesTab: 'Attività  ', membersTab: 'Membri', infoTab: 'Info',
+		newsTab: 'Messaggi', activitiesTab: 'Attività  ', membersTab: 'Membri', infoTab: 'Info', calendarTab: 'Calendario'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Invita altre persone', groupIsOpen: 'Il gruppo è aperto', groupIsClosed: 'Il gruppo è chiuso', requestsOpen: 'Le iscrizioni al gruppo sono aperte', requestsClosed: 'Il gruppo ha raggiunto il numero massimo di membri',
@@ -1250,7 +1429,8 @@ const it = {
 	createActivityInformation: {
 		color: "Colore dell'attività",
 		description: 'Descrizione (facoltativo)',
-		name: "Titolo dell'attività" 
+		name: "Titolo dell'attività",
+		location: 'Posizione (facoltativo)',
 	},
 	createActivityDates: {
 		header: 'Seleziona uno o più giorni',
@@ -1286,9 +1466,10 @@ const it = {
 		export: 'Esportare',
 		every: 'Ogni',
 		of: 'di',
-		deleteDialogTitle: 'Confermi di eliminare questa attività?'
+		deleteDialogTitle: 'Confermi di eliminare questa attività?',
+		infoHeader: 'Attività informative'
 	},
-	timeslotsDrawer: {
+	timeslotsList: {
 		proposed: 'proposto',
 		fixed: 'fisso',
 		completed: 'completato',
@@ -1343,6 +1524,7 @@ const it = {
 		description: 'Descrizione (facoltativo)',
 		name: "Nome dell'attività",
 		save: 'SALVA',
+		location: 'Posizione (facoltativo)'
 	},
 	agendaView: {
 		timeslots: 'Orari',
@@ -1394,6 +1576,58 @@ const it = {
 };
 
 const el = {
+	editTimeslotScreen: {
+		timeErr: 'Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης',
+		details: 'Λεπτομέρειες',
+		from: 'Από',
+		to: 'Προς',
+		parents: 'Απαιτούνται γονείς',
+		children: 'Απαιτούνται παιδιά',
+		name: 'Τίτλος',
+		location: 'Τοποθεσία',
+		description: 'Περιγραφή (προαιρετική)',
+		cost: 'Κόστος (προαιρετικό)',
+		status: 'Κατάσταση χρονικής περιόδου',
+		proposed: 'Προτεινόμενο',
+		confirmed: 'Επιβεβαιωμένο',
+		completed: 'Ολοκληρωμένο ',
+		requiredErr: 'Παρακαλούμε συμπληρώσετε αυτό το πεδίο.',
+		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη της μονάδας.',
+		date: 'Ημερομηνία',
+		editConfirm: 'Επιβεβαίωση αλλαγών;',
+		changeConfirm: 'Εάν αλλάξετε αυτό το πεδίο όλοι οι συμμετέχοντες θα διαγραφούν. Επιβεβαίωση αλλαγής;'
+	},
+	timeslotScreen: {
+		minimum: 'ελάχιστος αριθμός',
+		userAvailability: 'Προσθέσετε τη διαθεσιμότητα σας:',
+		childrenAvailability: 'Προσθέσετε τη διαθεσιμότητα των παιδιών σας:',
+		volunteer: 'εθελοντής',
+		volunteers: 'εθελοντές',
+		child: 'παιδί',
+		children: 'παιδιά',
+		signup: '',
+		userSubscribe: 'Έχετε προσθέσει τον εαυτό σας στη δραστηριότητα',
+		userUnsubscribe: 'Έχετε αφαιρέσει τον εαυτό σας από τη δραστηριότητα',
+		childSubscribe1: 'Έχετε προσθέσει',
+		childSubscribe2: 'στη δραστηριότητα',
+		childUnsubscribe1: 'Έχετε αφαιρέσει',
+		childUnsubscribe2: 'από τη δραστηριότητα',
+		childSubscribeConfirm1: 'Είστε σίγουρος ότι θέλετε να προσθέσετε',
+		childSubscribeConfirm2: "στη δραστηριότητα;",
+		childUnsubscribeConfirm1: 'Είστε σίγρους ότι θέλετε να αφαιρέσετε',
+		childUnsubscribeConfirm2: "από τη δραστηριότητα;",
+		editConfirm: 'Επιβεβαίωση αλλαγών?',
+		you: 'Εσείς',
+		userSubscribeConfirm: "Είστε σίγουρος ότι θέλετε να προσθέσετε τον εαυτό σας στη δραστηριότητα;",
+		userUnsubscribeConfirm: "Είστε σίγουρος ότι θέλετε να αφαιρέσετε τον εαυτό σας από τη δραστηριότητα;"
+	},
+	timeslotPreview: {
+		confirmed: 'Επιβεβαιωμένο',
+		pending: 'Αναμένει επιβεβαίωση',
+		participating: 'Εσείς και τα παιδιά σας συμμετέχετε',
+		parentParticipating: 'Συμμετέχετε',
+		notParticipating: 'Διαθέσιμο για νέες εγγραφές'
+	},
 	ratingModal: {
 		title: 'Πόσο θα θέλατε να βαθμολογήσετε τη πλατφόρμα Families Share;',
 		rate: 'Αξιολόγηση',
@@ -1444,7 +1678,7 @@ const el = {
 		startGuideHeader: 'Δεν ξέρετε από πού να ξεκινήσετε;', startGuideInfo: 'Αναζητήστε τον οδηγό έναρξης 7 βημάτων', join: 'Συμμετοχή στην ομάδα', leave: 'Αποχώρηση από την ομάδα', pending: 'Ακύρωση αιτήματος', confirm: 'Είστε βέβαιοι ότι θέλετε να αποχωρήσετε από την ομάδα;',
 	},
 	groupNavbar: {
-		newsTab: 'Νέα', activitiesTab: 'Δραστηριότητες', membersTab: 'Μέλη', infoTab: 'Σχετικά με',
+		newsTab: 'Νέα', activitiesTab: 'Δραστηριότητες', membersTab: 'Μέλη', infoTab: 'Σχετικά με', calendarTab: 'Ημερολόγιο'
 	},
 	groupMembersAdminOptions: {
 		invite: 'Προσκαλέστε άτομα', groupIsOpen: 'Η ομάδα είναι ανοιχτή', groupIsClosed: 'Η ομάδα είναι κλειστή', requestsOpen: 'Αιτήματα συμμετοχής είναι ευπρόσδεκτα', requestsClosed: 'Έχει επιτευχθεί μέγιστη χωρητικότητα',
@@ -1591,7 +1825,12 @@ const el = {
 	createActivityStepper: {
 		continue: 'Συνέχεια', cancel: 'Ακύρωση', finish: 'Δημιουργία', save: 'Αποθήκευση', stepLabels: ['Πληροφορίες', 'Ημερομηνίες', 'Χρονική περίοδος'],
 	},
-	createActivityInformation: { color: 'Χρώμα δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας' },
+	createActivityInformation: {
+		color: 'Χρώμα δραστηριότητας',
+		description: 'Περιγραφή (προαιρετική)',
+		name: 'Όνομα δραστηριότητας' ,
+		location: 'Τοποθεσία (προαιρετική)'
+	},
 	createActivityDates: {
 		header: 'Επιλέξτε μία ή περισσότερες ημέρες', repetition: 'Επανάληψη', weekly: 'Εβδομαδιαία', monthly: 'Μηνιαία', datesError: 'Η επανάληψη δεν είναι διαθέσιμη όταν έχετε επιλέξει πολλές ημέρες',
 	},
@@ -1602,8 +1841,17 @@ const el = {
 	clockModal: {
 		am: 'π.μ.', pm: 'μ.μ.', start: 'ΞΕΚΙΝΗΣΤΕ', end: 'ΤΕΛΟΣ', confirm: 'ΟΚ', cancel: 'ΑΚΥΡΩΣΗ',
 	},
-	activityScreen: { color: 'Χρώμα δραστηριότητας', exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;', export: 'Εξαγωγή', delete: 'Διαγραφή', every: 'Κάθε', of: 'του', deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;' },
-	timeslotsDrawer: {
+	activityScreen: {
+		color: 'Χρώμα δραστηριότητας',
+		exportDialogTitle: 'Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;',
+		export: 'Εξαγωγή',
+		delete: 'Διαγραφή',
+		every: 'Κάθε',
+		of: 'του',
+		deleteDialogTitle: 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτήν τη δραστηριότητα;',
+		infoHeader: 'Πληροφορίες Δραστηριότητας'
+	},
+	timeslotsList: {
 		proposed: 'προτεινόμενη', fixed: 'καθορισμένη', completed: 'ολοκληρωμένη', timeslot: 'Χρονική περίοδος', timeslots: 'Χρονικές περίοδοι', available: 'Διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',
 	},
 	filterTimeslotsDrawer: {
@@ -1632,7 +1880,12 @@ const el = {
 		rangeErr: 'Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.',
 	},
 	editActivityScreen: {
-		backNavTitle: 'Επεξεργασία δραστηριότητας', color: 'Χρώμα  δραστηριότητας', description: 'Περιγραφή (προαιρετική)', name: 'Όνομα δραστηριότητας', save: 'ΑΠΟΘΗΚΕΥΣΗ',
+		backNavTitle: 'Επεξεργασία δραστηριότητας',
+		color: 'Χρώμα  δραστηριότητας',
+		description: 'Περιγραφή (προαιρετική)',
+		name: 'Όνομα δραστηριότητας',
+		save: 'ΑΠΟΘΗΚΕΥΣΗ',
+		location: 'Τοποθεσία (προαιρετική)'
 	},
 	agendaView: {
 		timeslots: 'Χρονικές περίοδοι', available: 'διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Η εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',
