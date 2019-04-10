@@ -13,7 +13,7 @@ import { SnackbarProvider } from 'notistack';
 const styles = theme => ({
 	info: {backgroundColor: '#202124'},
 	message: {
-		fontSize: '1.4rem'
+		fontSize: 14
 	}
 });
 
