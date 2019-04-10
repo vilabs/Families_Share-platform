@@ -1,8 +1,7 @@
 const {google} = require('googleapis');
-const key = require('./auth.json');
+require('dotenv').config();
 const scopes = 'https://www.googleapis.com/auth/calendar';
-const jwt = new google.auth.JWT(key.client_email, null, key.private_key, scopes)
-
+const jwt = new google.auth.JWT(process.env.GOOGLE_CLIENT_EMAIL, null, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), scopes)
 
 const calendar = google.calendar({ 
 	version: 'v3',
@@ -46,13 +45,24 @@ const calendar = google.calendar({
 // 	});
 // })
 
+
 //show calendar events
-// calendar.calendarList.list({ }, async (error, response) => {
-// 	if (error) console.log(error);
-// 	for (const cal of response.data.items) {
-// 		calendar.events.list({ calendarId: cal.id }, async (err, resp) => {
-// 			if (err) console.log(err)
-// 			console.log(resp.data.items)
-// 		})
-// 	}
-// })
+calendar.calendarList.list({ }, async (error, response) => {
+	if (error) console.log(error);
+	for (const cal of response.data.items) {
+		calendar.events.list({ calendarId: cal.id }, async (err, resp) => {
+			if (err) console.log(err)
+			resp.data.items.forEach( item => {
+				const timeslotPatch = {
+					extendedProperties: {
+						shared: {
+							parents: JSON.stringify([]),
+							children: JSON.stringify([])
+						}
+					}
+				}
+				calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
+			})
+		})
+	}
+})
