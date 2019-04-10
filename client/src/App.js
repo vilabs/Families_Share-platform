@@ -11,7 +11,10 @@ import { withStyles } from '@material-ui/core/styles';
 import { SnackbarProvider } from 'notistack';
 
 const styles = theme => ({
-	info: {backgroundColor: 'black'}
+	info: {backgroundColor: '#202124'},
+	message: {
+		fontSize: '1.4rem'
+	}
 });
 
 const GroupMainScreen = Loadable({
@@ -161,14 +164,16 @@ class App extends React.Component {
 		return (
 			<LanguageProvider>
 					<SnackbarProvider
-					maxSnack={3}
+					maxSnack="3"
 					anchorOrigin={{
 						vertical: 'bottom',
 						horizontal: 'left',
 					}}
 					classes={{
-						variantInfo: classes.info
+						variantInfo: classes.info,
+						message: classes.message
 					}}
+				
 					hideIconVariant
 				>
 				<div className="App">

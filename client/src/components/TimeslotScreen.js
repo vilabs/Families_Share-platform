@@ -389,14 +389,14 @@ class TimeslotScreen extends React.Component {
 							</div>
 						</div>
 					</div>
-					<div id="activityMainContainer">
+					<div id="activityMainContainer" style={{marginTop: 0}}>
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.userAvailability}</div>
 								{this.getUserSubscribe()}
 								{this.renderParticipants('parents')}
 						</div>
 					</div>
-					<div id="activityMainContainer">
+					<div id="activityMainContainer" style={{marginTop: 0}}>
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.childrenAvailability}</div>
 							{this.getChildrenSubscribes()}

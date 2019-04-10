@@ -74,7 +74,7 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 					</div>
 				</div>
 				<div className="col-2-10">
-					<i style={{fontSize: '2.5rem'}} className={timeslot.userSubcribed ||timeslot.childrenSubscribed?"fas fa-pencil-alt":"fas fa-plus-circle"} />
+					<i style={{fontSize: '2rem'}} className={timeslot.userSubcribed ||timeslot.childrenSubscribed?"fas fa-pencil-alt":"fas fa-plus-circle"} />
 				</div>
 			</div>
 		</div>

@@ -104,6 +104,9 @@
   background-color: #00838f;
   height: 5.6rem;
   color: #ffffff;
+  position: fixed;
+  top: 0;
+  width: 100%;
 }
 #activityHeaderContainer button {
   width: 5rem;
@@ -114,7 +117,8 @@
   color: #ffffff;
 }
 #activityMainContainer {
-  padding: 5% 5%;
+  margin-top: 5.6rem;
+  padding: 5%;
   border-bottom: 2px solid rgba(0, 0, 0, 0.1);
 }
 #activityMainContainer i {
@@ -125,34 +129,34 @@
   align-items: center;
 }
 .activityInfoHeader {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #000000;
   font-weight: 700;
-  margin-bottom: 1rem;
   width: 100%;
 }
 .activityInfoIcon {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: rgba(0, 0, 0, 0.87);
 }
 .activityInfoImage {
-  width: 2rem;
-  height: 2rem;
+  width: 1.6rem;
+  height: 1.6rem;
   opacity: 0.87;
 }
 .activityInfoDescription {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #000000;
 }
 #timeslotsListContainer {
+  top: 5.6rem;
   width: 96%;
   padding: 0 3%;
 }
 .filterLabel {
   width: 100%;
   right: 10%;
-  margin-top: 2rem;
-  font-size: 1.6rem;
+  margin-top: 1rem;
+  font-size: 1.4rem;
   color: rgba(0, 0, 0, 0.87);
 }
 #filterTimeslotsDrawer h1 {
@@ -177,7 +181,7 @@
   margin-top: 2rem;
 }
 .timeslotDay {
-  font-size: 2.4rem;
+  font-size: 1.6rem;
   line-height: 0.83;
   text-align: center;
   color: rgba(0, 0, 0, 0.87);
@@ -216,7 +220,7 @@
 }
 .timeslotPreviewText {
   margin-left: 1rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 /*ACTIVITY SCREEN END*/
 
@@ -1296,16 +1300,16 @@
 }
 .subscribeText {
   font-size: 1.4rem;
-  padding-left: 1rem;
+  padding-left: 0.5rem;
 }
 .subscribeIcon {
   font-size: 1.4rem;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 .participantsHeader {
   display: inline-block;
   margin-right: 1rem;
-  font-size: 2rem;
+  font-size: 1.4rem;
   color: #000000;
 }
 .participantsText {
@@ -1314,7 +1318,7 @@
   color: #000000;
 }
 .participantsMinimum {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   color: #000000;
 }
 .participantsContainer {

@@ -46,23 +46,23 @@ const calendar = google.calendar({
 // })
 
 
-//show calendar events
-calendar.calendarList.list({ }, async (error, response) => {
-	if (error) console.log(error);
-	for (const cal of response.data.items) {
-		calendar.events.list({ calendarId: cal.id }, async (err, resp) => {
-			if (err) console.log(err)
-			resp.data.items.forEach( item => {
-				const timeslotPatch = {
-					extendedProperties: {
-						shared: {
-							parents: JSON.stringify([]),
-							children: JSON.stringify([])
-						}
-					}
-				}
-				calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
-			})
-		})
-	}
-})
+//Patch All evens
+// calendar.calendarList.list({ }, async (error, response) => {
+// 	if (error) console.log(error);
+// 	for (const cal of response.data.items) {
+// 		calendar.events.list({ calendarId: cal.id }, async (err, resp) => {
+// 			if (err) console.log(err)
+// 			resp.data.items.forEach( item => {
+// 				const timeslotPatch = {
+// 					extendedProperties: {
+// 						shared: {
+// 							parents: JSON.stringify([]),
+// 							children: JSON.stringify([])
+// 						}
+// 					}
+// 				}
+// 				calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
+// 			})
+// 		})
+// 	}
+// })
