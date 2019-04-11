@@ -49,7 +49,7 @@ class ActivityListItem extends React.Component {
 								className="fas fa-certificate center"
 							/>
 						</div>
-						<div className="col-5-10">
+						<div className="col-6-10">
 							<div className="verticalCenter">
 								<div className="row no-gutters">
 									<h1>{activity.name}</h1>
@@ -64,7 +64,7 @@ class ActivityListItem extends React.Component {
 								</div>
 							</div>
 						</div>
-						<div className="col-3-10">
+						<div className="col-2-10">
 							<i
 								style={{ fontSize: "2rem" }}
 								className="fas fa-chevron-right center"

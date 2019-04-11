@@ -1451,7 +1451,7 @@
 /*GROUP ACTIVITIES*/
 #groupActivitiesContainer {
   width: 94%;
-  margin-top: 3rem;
+  margin-top: 6rem;
   margin-bottom: 7rem;
 }
 #groupActivitiesContainer h1 {
@@ -1459,6 +1459,9 @@
   color: rgba(0, 0, 0, 0.9);
   line-height: 1.5;
   display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #groupActivitiesContainer h2 {
   font-size: 1.4rem;
