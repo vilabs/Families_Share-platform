@@ -171,11 +171,11 @@ class EditTimeslotScreen extends React.Component {
           )
         })
       },
-      description,
+      description: description.trim(),
       location,
       extendedProperties: {
         shared: {
-          cost,
+          cost: cost.trim(),
           requiredParents,
           requiredChildren,
           status,

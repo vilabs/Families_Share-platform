@@ -39,41 +39,41 @@ const TimeslotPreview = ({language, timeslot, history}) => {
 	return (
 		<div className={"timeslotPreview "+getPreviewStyle()} onClick={navigateToTimeslot}>
 			<div className="row no-gutters">
-				<div className="col-8-10">
+				<div className="col-9-10">
 					<div className="row no-gutters">
-						<div className="col-2-10">
-							<i className="fa fa-clock timeslotPreviewIcon"/>
+						<div className="col-1-10">
+							<i className="far fa-clock timeslotPreviewIcon"/>
 						</div>
-						<div className="col-8-10">
+						<div className="col-9-10">
 							<div className="timeslotPreviewText">{startTime + " - " + endTime}</div>
 						</div>
 					</div>
 					<div className="row no-gutters" >
-					<div className="col-2-10">
+					<div className="col-1-10">
 							<i className="fa fa-bookmark timeslotPreviewIcon"/>
 						</div>
-						<div className="col-8-10">
-							<div className="timeslotPreviewText">{timeslot.summary.length > 25 ? timeslot.summary.substr(0, 25) + "..." : timeslot.summary}</div>
+						<div className="col-9-10">
+							<div className="timeslotPreviewText">{timeslot.summary}</div>
 						</div>
 					</div>
 					<div className="row no-gutters" >
-					<div className="col-2-10">
+					<div className="col-1-10">
 							<i className="fas fa-exclamation-triangle timeslotPreviewIcon"/>
 						</div>
-						<div className="col-8-10">
+						<div className="col-9-10">
 						<div className="timeslotPreviewText">{timeslot.extendedProperties.shared.status==='confirmed'?texts.confirmed:texts.pending}</div>
 						</div>
 					</div>
 					<div className="row no-gutters" >
-					<div className="col-2-10">
+					<div className="col-1-10">
 							<i className="fas fa-clipboard-check timeslotPreviewIcon"/>
 						</div>
-						<div className="col-8-10">
+						<div className="col-9-10">
 							<div className="timeslotPreviewText">{getParticipationMessage()}</div>
 						</div>
 					</div>
 				</div>
-				<div className="col-2-10">
+				<div className="col-1-10">
 					<i style={{fontSize: '2rem'}} className={timeslot.userSubcribed ||timeslot.childrenSubscribed?"fas fa-pencil-alt":"fas fa-plus-circle"} />
 				</div>
 			</div>

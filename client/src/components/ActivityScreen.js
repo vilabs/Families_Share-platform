@@ -214,27 +214,27 @@ class ActivityScreen extends React.Component {
 						<div className="row no-gutters" style={rowStyle}>
 								<div className="activityInfoHeader">{texts.infoHeader}</div>
 							</div>
-							<div className="row no-gutters" style={rowStyle}>
-								<div className="col-2-10">
-									<i className="fas fa-file-alt activityInfoIcon" />
+							{activity.description && <div className="row no-gutters" style={rowStyle}>
+								<div className="col-1-10">
+									<i className="far fa-file-alt activityInfoIcon" />
 								</div>
-								<div className="col-8-10">
+								<div className="col-9-10">
 									<div className="activityInfoDescription">{activity.description}</div>
 								</div>
-							</div>
-							<div className="row no-gutters" style={rowStyle}>
-								<div className="col-2-10">
-									<i className="fas fa-map-marker-alt activityInfoIcon" />
+							</div>}
+							{activity.location &&	<div className="row no-gutters" style={rowStyle}>
+								<div className="col-1-10">
+									<i className="far fa-map-marker-alt activityInfoIcon" />
 								</div>
-								<div className="col-8-10">
+								<div className="col-9-10">
 									<div className="activityInfoDescription">{activity.location}</div>
 								</div>
-							</div>
+							</div>}
 							<div className="row no-gutters" style={rowStyle}>
-								<div className="col-2-10">
-									<i className="fas fa-calendar activityInfoIcon" />
+								<div className="col-1-10">
+									<i className="far fa-calendar activityInfoIcon" />
 								</div>
-								<div className="col-8-10">
+								<div className="col-9-10">
 									<div className="activityInfoDescription">{this.getDatesString()}</div>
 								</div>
 							</div>

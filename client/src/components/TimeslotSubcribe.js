@@ -11,12 +11,12 @@ const styles = theme => ({
 	}
 });
 
-const TimeslotSubscribe = ({subscribed, name, image, handleConfirmDialog, id, classes, type}) =>{
+const TimeslotSubscribe = ({subscribed, name, image, handleSubscribe, handleUnsubscribe, id, classes, type}) =>{
 	const handleClick = () => {
 		if(subscribed){
-			handleConfirmDialog(id,type,'unsubscribe');
+			handleUnsubscribe(id,type);
 		} else {
-			handleConfirmDialog(id,type,'subscribe');
+			handleSubscribe(id,type);
 		}
 	}
 		return (
@@ -36,6 +36,7 @@ TimeslotSubscribe.propTypes = {
 	name: PropTypes.string,
 	subscribed: PropTypes.bool,
 	id: PropTypes.string,
-	handleConfirmDialog: PropTypes.func,
+	handleSubscribe: PropTypes.func,
+	handleUnsubscribe: PropTypes.func,
 	type: PropTypes.string,
 }

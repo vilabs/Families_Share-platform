@@ -105,18 +105,13 @@ const getParentProfiles = (ids) => {
 class TimeslotScreen extends React.Component {
 	state = {
 		fetchedTimeslot: false,
+		madeChanges: false,
 		confirmDialogIsOpen: false,
 		showParents: false,
 		showChildren: false,
-		confirmDialogTitle: '',
 		children: [],
 		parentProfiles: [],
 		childrenProfiles: [],
-		confirm: {
-			id: '',
-			type: '',
-			action: '',
-		},
 		timeslot: {
 			extendedProperties: {
 				shared: {
@@ -165,36 +160,17 @@ class TimeslotScreen extends React.Component {
 	}
 	handleConfirmDialogClose = (choice) => {
 		if(choice==='agree'){
-			if(this.state.confirm.action==='subscribe'){
-				this.handleSubscribe(this.state.confirm.id, this.state.confirm.type)
-			} else if(this.state.confirm.action==='unsubscribe'){
-				this.handleUnsubscribe(this.state.confirm.id, this.state.confirm.type)
-			} else {
-				this.handleSave()
-			}
-		} 
-		this.setState({ confirmDialogIsOpen: false, confirm: { id: '', type: '', action: ''}})
-	}
-	handleConfirmDialogOpen = (id,type,action) => {
-		const texts = Texts[this.props.language].timeslotScreen
-		let confirmDialogTitle;
-		if(type==='parent'){
-			if(action==='subscribe'){
-				confirmDialogTitle = texts.userSubscribeConfirm
-			} else {
-				confirmDialogTitle = texts.userUnsubscribeConfirm
-			}
-		} else if(type==='child'){
-			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
-			if(action==='subscribe'){
-				confirmDialogTitle = `${texts.childSubscribeConfirm1} ${childName} ${texts.childSubscribeConfirm2}`
-			} else {
-				confirmDialogTitle = `${texts.childUnsubscribeConfirm1} ${childName} ${texts.childUnsubscribeConfirm2}`
-			} 
+			this.handleSave()
 		} else {
-			confirmDialogTitle = texts.editConfirm;
+			if(this.state.confirmTrigger){
+				this.props.history.goBack()
+			}
 		}
-		this.setState({ confirmDialogTitle, confirmDialogIsOpen: true, confirm: {id,type,action}})
+		this.setState({ confirmDialogIsOpen: false, confirmTrigger: ''})
+		
+	}
+	handleConfirmDialogOpen = (confirmTrigger) => {
+		this.setState({ confirmDialogIsOpen: true, confirmTrigger })
 	}
 	handleSubscribe = (id, type) => {
 		const timeslot = this.state.timeslot;
@@ -208,7 +184,7 @@ class TimeslotScreen extends React.Component {
 			timeslot.extendedProperties.shared.children.push(id);
 			snackMessage = `${texts.childSubscribe1} ${childName} ${texts.childSubscribe2}`
 		}
-		this.setState({ timeslot })
+		this.setState({ timeslot, madeChanges: true })
 		this.props.enqueueSnackbar(snackMessage, { 
 			variant: 'info',
 	});
@@ -225,7 +201,7 @@ class TimeslotScreen extends React.Component {
 			timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(subId => subId!==id);
 			snackMessage = `${texts.childUnsubscribe1} ${childName} ${texts.childUnsubscribe2}`
 		}
-		this.setState({ timeslot })
+		this.setState({ timeslot, madeChanges: true })
 		this.props.enqueueSnackbar(snackMessage, { 
 			variant: 'info',
 	});
@@ -289,7 +265,8 @@ class TimeslotScreen extends React.Component {
 		subscribed={parentParticipants.includes(userId)}
 		id={userId}
 		type={'parent'}
-		handleConfirmDialog={this.handleConfirmDialogOpen}
+		handleSubscribe={this.handleSubscribe}
+		handleUnsubscribe={this.handleUnsubscribe}
 		/>
 	}
 	getChildrenSubscribes = () => {
@@ -303,7 +280,8 @@ class TimeslotScreen extends React.Component {
 			subscribed={childrenParticipants.includes(child.child_id)}
 			id={child.child_id}
 			type={'child'}
-			handleConfirmDialog={this.handleConfirmDialogOpen}
+			handleSubscribe={this.handleSubscribe}
+			handleUnsubscribe={this.handleUnsubscribe}
 			/>
 		)
 	}
@@ -315,14 +293,14 @@ class TimeslotScreen extends React.Component {
 			this.state.fetchedTimeslot ?
 				<React.Fragment>
 					<ConfirmDialog 
-						title={this.state.confirmDialogTitle}
+						title={texts.editConfirm}
 						isOpen={this.state.confirmDialogIsOpen}
 						handleClose={this.handleConfirmDialogClose}
 					/>
 					<div id="activityHeaderContainer" className="row no-gutters">
 						<div className="col-2-10">
 							<button className="transparentButton center"
-								onClick={() => this.props.history.goBack()}>
+								onClick={() => this.state.madeChanges?this.handleConfirmDialogOpen('back'):this.props.history.goBack()}>
 								<i className="fas fa-arrow-left"></i>
 							</button>
 						</div>
@@ -342,7 +320,7 @@ class TimeslotScreen extends React.Component {
 						<div className="col-1-10">
 							<button
 								className="transparentButton center"
-								onClick={()=>this.handleConfirmDialogOpen('','save','save')}>
+								onClick={()=>this.state.madeChanges?this.handleConfirmDialogOpen('save'):this.props.history.goBack()}>
 								<i className="fas fa-check"></i>
 							</button>
 						</div>
@@ -356,14 +334,14 @@ class TimeslotScreen extends React.Component {
 								<div className="activityInfoDescription">{timeslot.summary}</div>
 							</div>
 						</div>
-						<div className="row no-gutters" style={rowStyle}>
+						{timeslot.description && <div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
 								<i className="fas fa-file-alt activityInfoIcon" />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.description}</div>
 							</div>
-						</div>
+						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
 								<i className="fas fa-map-marker-alt activityInfoIcon" />
@@ -372,14 +350,14 @@ class TimeslotScreen extends React.Component {
 								<div className="activityInfoDescription">{timeslot.location}</div>
 							</div>
 						</div>
-						<div className="row no-gutters" style={rowStyle}>
+						{timeslot.extendedProperties.shared.cost &&<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
 								<i className="fas fa-euro-sign activityInfoIcon" />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.extendedProperties.shared.cost}</div>
 							</div>
-						</div>
+						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
 								<i className="fas fa-thumbtack activityInfoIcon" />

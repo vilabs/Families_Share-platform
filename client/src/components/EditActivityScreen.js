@@ -49,8 +49,8 @@ class EditActivityScreen extends React.Component {
             const patch = {
                 name: this.state.name,
 								color: this.state.color,
-								location: this.state.location,
-                description: this.state.description,
+								location: this.state.location.trim(),
+                description: this.state.description.trim(),
             }
             axios.patch(`/groups/${groupId}/activities/${activityId}`, patch)
                 .then(response => {

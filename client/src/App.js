@@ -13,7 +13,12 @@ import { SnackbarProvider } from 'notistack';
 const styles = theme => ({
 	info: {backgroundColor: '#202124'},
 	message: {
-		fontSize: 14
+		fontSize: 15
+	},
+	root: { 
+		width: '90vw',
+		left: '50%',
+		transform: 'translateX(-50%)'
 	}
 });
 
@@ -167,11 +172,13 @@ class App extends React.Component {
 					maxSnack={3}
 					anchorOrigin={{
 						vertical: 'bottom',
-						horizontal: 'left',
+						horizontal:'center',
 					}}
+					autoHideDuration={2000}
 					classes={{
 						variantInfo: classes.info,
-						message: classes.message
+						message: classes.message,
+						root: classes.root,
 					}}
 				
 					hideIconVariant
