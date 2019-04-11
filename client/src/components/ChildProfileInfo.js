@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import withLanguage from './LanguageContext';
-import AddParentModal from './AddParentModal';
+import InviteDialog from './InviteDialog';
 import Images from '../Constants/Images.js';
 import moment from 'moment'
 import Texts from '../Constants/Texts.js';
@@ -62,7 +62,12 @@ class ChildProfileInfo extends React.Component {
 					title={texts.confirmDialogTitle}
 					handleClose={this.handleConfirmDialogClose}
 				/>
-				<AddParentModal isOpen={this.state.modalIsOpen} handleClose={this.handleClose} handleInvite={this.handleAdd} />
+				<InviteDialog 
+					isOpen={this.state.modalIsOpen} 
+					handleClose={this.handleClose} 
+					handleInvite={this.handleAdd}
+					inviteType={"parent"} 
+					/>
 				<div className="childProfileInfoSection">
 				<div className="row no-gutters">
 					<div className="col-2-10">

@@ -316,7 +316,8 @@ class CreateGroupStepper extends React.Component {
             <InviteDialog
               isOpen={this.state.inviteModalIsOpen}
               handleClose={this.handleInviteModalClose}
-              handleInvite={this.handleInvite}
+							handleInvite={this.handleInvite}
+							inviteType={"member"}
             />
             <h1>{texts.invite}</h1>
             <i className="fas fa-plus" onClick={this.handleInviteModalOpen} />

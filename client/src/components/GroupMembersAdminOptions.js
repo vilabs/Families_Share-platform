@@ -124,7 +124,8 @@ class GroupMembersAdminOptions extends React.Component {
         <InviteDialog
           isOpen={this.state.inviteModalIsOpen}
           handleClose={this.handleInviteModalClose}
-          handleInvite={this.handleInvite}
+					handleInvite={this.handleInvite}
+					inviteTYpe={"member"}
         />
       </div>
     );

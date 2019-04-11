@@ -29,6 +29,9 @@ const styles = {
 	button: {
 		fonSize: 14,
 		color: '#009688',
+	},
+	container: {
+		maxHeight: 500,
 	}
 };
 
@@ -36,13 +39,14 @@ class InviteDialog extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			inviteType: this.props.inviteType,
 			searchInput: "",
 			history: [],
 			searchedForInput: false,
 			matchingUsers: [],
 			users: [],
 			inviteIds: [],
-			fetchedUsers: false
+			fetchedUsers: false,
 		};
 	}
 	componentDidMount() {
@@ -88,8 +92,13 @@ class InviteDialog extends React.Component {
 		if (event.target.value === "") this.handleSearch("");
 	};
 	handleInvite = () => {
+		const inviteIds = this.state.inviteIds;
 		if (this.state.inviteIds.length > 0) {
-			this.props.handleInvite(this.state.inviteIds);
+			if(this.state.inviteType==='member'){
+				this.props.handleInvite(inviteIds);
+			} else {
+				this.props.handleInvite(this.state.users.filter(user => user.user_id === inviteIds[0])[0]);
+			}
 		} else {
 			this.props.handleClose();
 		}
@@ -103,25 +112,35 @@ class InviteDialog extends React.Component {
 	handleSelect = id => {
 		const inviteIds = this.state.inviteIds;
 		const indexOf = inviteIds.indexOf(id);
-		if (indexOf === -1) {
-			inviteIds.push(id);
+		if (this.state.inviteType === 'member') {
+			if (indexOf === -1) {
+				inviteIds.push(id);
+			} else {
+				inviteIds.splice(indexOf, 1);
+			}
 		} else {
-			inviteIds.splice(indexOf, 1);
+			if( indexOf === -1){
+				inviteIds.push(id)
+			} else {
+				inviteIds.pop();
+			}
 		}
-		this.setState({ inviteIds: inviteIds });
+		this.setState({ inviteIds });
 	};
 	handleClose = () => {
 		this.props.handleClose()
 	}
 	render() {
-		const texts = Texts[this.props.language].inviteModal;
+		const texts = this.state.inviteType==='member'?Texts[this.props.language].inviteModal:Texts[this.props.language].addParentModal;
 		const { classes } = this.props;
 		return (
 			<Dialog 
 			onClose={this.handleClose}
 			aria-labelledby="invite user dialog"
 			open={this.props.isOpen}
+			className={classes.container}
 			fullWidth={true}
+			maxWidth={'xs'}
 		  >
 				<DialogTitle >
 				<div className="inviteDialogTitle">{texts.header}</div>
@@ -132,7 +151,8 @@ class InviteDialog extends React.Component {
 					placeholder={texts.search}
 					onChange={this.onInputChange}
 					onKeyPress={this.handleKeyPress}
-				/>
+					id='searchUserInput'
+				/> 
 				</DialogTitle>
 				<DialogContent>
 					{!this.state.searchedForInput ? (
@@ -174,7 +194,8 @@ class InviteDialog extends React.Component {
 InviteDialog.propTypes = {
 	isOpen: PropTypes.bool,
 	handleClose: PropTypes.func,
-	handleInvite: PropTypes.func
+	handleInvite: PropTypes.func,
+	inviteType: PropTypes.string
 };
 
 export default withLanguage(withStyles(styles)(InviteDialog));

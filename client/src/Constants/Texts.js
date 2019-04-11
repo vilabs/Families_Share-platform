@@ -229,7 +229,7 @@ const en = {
 	},
 	addParentModal: {
 		header: 'Add parent',
-		add: 'ADD',
+		invite: 'ADD',
 		cancel: 'CANCEL',
 		search: 'Search',
 	},
@@ -858,7 +858,7 @@ const nl = {
 	},
 	addParentModal: {
 		header: 'Voeg ouder toe',
-		add: 'Toevoegen',
+		invite: 'Toevoegen',
 		cancel: 'Annuleer',
 		search: 'Zoek',
 	},
@@ -1237,7 +1237,7 @@ const it = {
 		header: 'Invita altre persone', invite: 'INVITA   ', cancel: 'CANCELLA', search: 'Cerca',
 	},
 	addParentModal: {
-		header: 'Aggiungi un genitore', add: 'AGGIUNGI', cancel: 'CANCELLA', search: 'Cerca',
+		header: 'Aggiungi un genitore', invite: 'AGGIUNGI', cancel: 'CANCELLA', search: 'Cerca',
 	},
 	groupNewsNavbar: { notifications: 'NOTIFICHE', messages: 'MESSAGGI' },
 	cardWithLink: { learnMore: 'PER SAPERNE DI PIÙ' },
@@ -1687,7 +1687,7 @@ const el = {
 		header: 'Προσκαλέστε άτομα', invite: 'ΠΡΟΣΚΛΗΣΗ', cancel: 'ΑΚΥΡΩΣΗ', search: 'Αναζήτηση',
 	},
 	addParentModal: {
-		header: 'Προσθήκη γονέα', add: 'ΠΡΟΣΘΗΚΗ', cancel: 'ΑΚΥΡΩΣΗ', search: 'Αναζήτηση',
+		header: 'Προσθήκη γονέα', invite: 'ΠΡΟΣΘΗΚΗ', cancel: 'ΑΚΥΡΩΣΗ', search: 'Αναζήτηση',
 	},
 	groupNewsNavbar: { notifications: 'ΕΙΔΟΠΟΙΗΣΕΙΣ', messages: 'ΜΗΝΥΜΑΤΑ' },
 	cardWithLink: { learnMore: 'ΜΑΘΕΤΕ ΠΕΡΙΣΣΟΤΕΡΑ' },
