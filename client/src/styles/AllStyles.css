@@ -147,6 +147,11 @@
   height: 1.6rem;
   opacity: 0.87;
 }
+.activityInfoImage {
+  width: 1.6rem;
+  height: 1.6rem;
+  opacity: 0.87;
+}
 .activityInfoDescription {
   font-size: 1.6rem;
   color: #000000;

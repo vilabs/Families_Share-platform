@@ -7,6 +7,7 @@ import moment from 'moment';
 import ConfirmDialog from './ConfirmDialog';
 import OptionsModal from './OptionsModal';
 import LoadingSpinner from './LoadingSpinner';
+import Images from '../Constants/Images';
 
 const getActivityTimeslots = (activityId, groupId) => {
 	return axios
@@ -224,7 +225,7 @@ class ActivityScreen extends React.Component {
 							</div>}
 							{activity.location &&	<div className="row no-gutters" style={rowStyle}>
 								<div className="col-1-10">
-									<i className="fas fa-map-marker-alt activityInfoIcon" />
+									<img src={Images.mapMarkerAltRegular} className="activityInfoImage" />
 								</div>
 								<div className="col-9-10">
 									<div className="activityInfoDescription">{activity.location}</div>
