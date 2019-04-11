@@ -21,8 +21,6 @@ const muiTheme = createMuiTheme({
 				height: '5.6rem',
 				backgroundColor: '#00838F',
 				width: '100%',
-				paddingLeft: '5%',
-				paddingRight: '5%',
 			},
 		},
 		MuiBottomNavigationAction: {
