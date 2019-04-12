@@ -24,6 +24,10 @@ const muiTheme = createMuiTheme({
 			},
 		},
 		MuiBottomNavigationAction: {
+			root: {
+				minWidth: 0,
+				maxWidth: 100000
+			},
 			label: {
 				color: 'white',
 				fontSize: '1.2rem',
@@ -33,6 +37,9 @@ const muiTheme = createMuiTheme({
 			},
 		},
 		MuiButtonBase: {
+			root: {
+				width: '20%',
+			},
 			disabled: {
 				opacity: 0.1,
 			}
@@ -73,7 +80,7 @@ const GroupNavbar = (props) => {
 			<BottomNavigation
 				value={activeTab}
 				onChange={handleChange}
-				showLabels
+				showLabels={true}
 			>
 				<BottomNavigationAction value="info" label={texts.infoTab} icon={flags[0] ? <i className="fas fa-info-circle groupNavbarIcon" /> : <img src={Images.infoCircleRegular} alt="" className="infoCircleRegular" />} />
 				<BottomNavigationAction value="calendar" disabled={disabled} label={texts.calendarTab} icon={<i className={flags[1] ? "fas fa-calendar groupNavbarIcon" : "far fa-calendar groupNavbarIcon"} />} />
