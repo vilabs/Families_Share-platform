@@ -1318,19 +1318,28 @@
   font-size: 1.4rem;
   padding: 0 0.5rem;
 }
-.participantsHeader {
-  display: inline-block;
-  margin-right: 1rem;
-  font-size: 1.4rem;
+.participantsHeaderText {
+  font-size: 1.6rem;
   color: #000000;
 }
+.participantsHeaderButton{
+  padding: 0;
+  width: 4rem;
+  height: 4rem;
+  margin-left: auto;
+}
+.participantsHeaderContainer{
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
 .participantsText {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   padding-left: 1rem;
   color: #000000;
 }
 .participantsMinimum {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   color: #000000;
 }
 .participantsContainer {
@@ -1451,8 +1460,8 @@
 /*GROUP ACTIVITIES*/
 #groupActivitiesContainer {
   width: 94%;
-  margin-top: 6rem;
-  margin-bottom: 7rem;
+  top: 6rem;
+  padding-bottom: 7rem;
 }
 #groupActivitiesContainer h1 {
   font-size: 1.6rem;
@@ -1463,10 +1472,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.activityListItemIcon{
+  position: absolute;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-top: 4rem solid #00838f;
+  border-left: 4rem solid transparent;
+  color: #ffffff;
+  font-size: 1rem;
+}
 #groupActivitiesContainer h2 {
   font-size: 1.4rem;
   color: rgba(0, 0, 0, 0.54);
-  line-height: 1.5;
   display: inline-block;
 }
 #groupActivitiesContainer button {
@@ -1997,7 +2015,7 @@
   font-family: "Roboto", sans-serif;
 }
 .inviteDialogTitle {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 700;
 }
 .autoCompleteText{

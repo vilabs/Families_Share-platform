@@ -141,6 +141,7 @@ class GroupActivities extends React.Component {
 					<i className="fas fa-plus" />
 				</Fab>
 				<div id="groupActivitiesContainer" className="horizontalCenter">
+					<h1 className="">{texts.header}</h1>
 					{this.state.fetchedActivities ?
 						this.renderActivities()
 						: <div />}

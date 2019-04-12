@@ -34,6 +34,7 @@ const getTimeslot = pathname => {
 
 class EditTimeslotScreen extends React.Component {
   state = {
+		madeChanges: false,
     notifyUsers: false,
     fetchedTimeslot: false,
     confirmDialogIsOpen: false,
@@ -118,10 +119,10 @@ class EditTimeslotScreen extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.validate()) {
-			if( this.state.notifyUsers){
-				this.handleConfirmDialogOpen("saveWarning")
-			} else {
+			if(this.state.madeChanges){
 				this.handleConfirmDialogOpen("save")
+			} else {
+				this.props.history.goBack();
 			}
     } else {
       this.setState({ formIsValidated: true });
@@ -196,24 +197,24 @@ class EditTimeslotScreen extends React.Component {
       });
   };
   handleConfirmDialogClose = choice => {
-		if (choice === "agree") {
+		if(choice==='agree'){
 			this.handleSave()
-		} 
-		this.setState({
-			confirmDialogIsOpen: false,
-			confirmDialogType: "",
-			confirmDialogTitle: "",
-		});
+		} else {
+			if(this.state.confirmDialogTrigger==='back'){
+				this.props.history.goBack()
+			}
+		}
+		this.setState({ confirmDialogIsOpen: false, confirmDialogTitle: '',confirmDialogTrigger: ''})
 	};
-  handleConfirmDialogOpen = (type) => {
+  handleConfirmDialogOpen = (confirmDialogTrigger) => {
     const texts = Texts[this.props.language].editTimeslotScreen;
     let confirmDialogTitle;
-    if(type==='save'){
-      confirmDialogTitle = texts.editConfirm;
-    } else{
+    if(this.state.notifyUsers){
       confirmDialogTitle = texts.crucialChangeConfirm;
+    } else{
+      confirmDialogTitle = texts.editConfirm;
     }
-    this.setState({ confirmDialogTitle, confirmDialogIsOpen: true, confirmDialogType: type});
+    this.setState({ confirmDialogTitle, confirmDialogIsOpen: true, confirmDialogTrigger});
   };
   getBackNavTitle = () => {
     const { start, end } = this.state;
@@ -224,9 +225,9 @@ class EditTimeslotScreen extends React.Component {
   handleChange = event => {
     const { name, value } = event.target;
     if((name === 'startTime' || name==='endTime' || name==='date')&& !this.state.notifyUsers){
-			this.setState({ [name]: value, notifyUsers: true });
+			this.setState({ [name]: value, notifyUsers: true, madeChanges: true});
     } else {
-      this.setState({ [name]: value });
+      this.setState({ [name]: value, madeChanges: true });
     }
   };
   render() {
@@ -259,7 +260,7 @@ class EditTimeslotScreen extends React.Component {
           <div className="col-2-10">
             <button
               className="transparentButton center"
-              onClick={() => this.props.history.goBack()}
+              onClick={() => this.state.madeChanges?this.handleConfirmDialogOpen('back'):this.props.history.goBack()}
             >
               <i className="fas fa-arrow-left" />
             </button>

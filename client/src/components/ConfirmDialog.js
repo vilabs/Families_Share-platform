@@ -15,7 +15,11 @@ const styles = theme => ({
     button: {
         fontSize: "1.5rem",
         color: "#00838F",
-    },     
+		},
+		dialogTitle: {
+			fontSize: 20,
+			fontWeight: 700
+		}
 });
 
 const theme = createMuiTheme({
@@ -38,11 +42,17 @@ class ConfirmDialog extends React.Component {
                     open={this.props.isOpen}
                     onClose={()=>this.handleClose("disagree")}
                     aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description"
-                >
-                    <DialogTitle id="alert-dialog-title">{this.props.title}</DialogTitle>
-                    <DialogActions>
-                        <Button className={classes.button} onClick={()=>this.handleClose("disagree")} color="primary">
+										aria-describedby="alert-dialog-description"
+										disableBackdropClick={true}
+										fullWidth={true}
+						>
+							<DialogTitle classes={classes.dialogTitle} id="alert-dialog-title">
+								<div className="inviteDialogTitle">
+									{this.props.title}
+								</div>
+							</DialogTitle>
+							<DialogActions>
+								<Button className={classes.button} onClick={()=>this.handleClose("disagree")} color="primary">
                             {texts.disagree}
                         </Button>
                         <Button className={classes.button} onClick={()=>this.handleClose("agree")} color="primary" autoFocus>

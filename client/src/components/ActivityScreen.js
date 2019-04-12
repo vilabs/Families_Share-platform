@@ -95,8 +95,9 @@ class ActivityScreen extends React.Component {
 		const texts = Texts[this.props.language].activityScreen;
 		let datesString = "";
 		if (activity.repetition_type === "monthly") {
-			let selectedDay = moment(selectedDates[0]);
-			datesString = `${texts.every} ${selectedDay.format('Do ')} ${texts.of} ${selectedDay.format('MMMM')}`;
+			datesString = `${texts.every} ${moment(selectedDates[0]).format('Do')}`;
+		} else if (activity.repetition_type==="weekly"){
+			datesString = `${texts.every} ${moment(selectedDates[0]).format('dddd')} ${texts.of} ${moment(selectedDates[0]).format('MMMM')}`
 		} else {
 			selectedDates.forEach(selectedDate =>
 				datesString += (moment(selectedDate).format('D') + ", ")

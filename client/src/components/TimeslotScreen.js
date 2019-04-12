@@ -9,11 +9,11 @@ import { withSnackbar } from 'notistack';
 import TimeslotSubcribe from './TimeslotSubcribe';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
-
+import Images from '../Constants/Images';
 
 const styles = theme => ({
 	avatar: {
-		width:'3rem',
+		width: '3rem',
 		height: '3rem'
 	}
 });
@@ -44,7 +44,7 @@ const getTimeslot = (pathname) => {
 const getUsersChildren = (userId) => {
 	return axios.get(`/users/${userId}/children`)
 		.then(response => {
-			return response.data.map( child => 
+			return response.data.map(child =>
 				child.child_id
 			)
 		})
@@ -55,9 +55,9 @@ const getUsersChildren = (userId) => {
 
 const getChildrenProfiles = (ids) => {
 	return axios.get("/children", {
-			params: {
-					ids,
-			}
+		params: {
+			ids,
+		}
 	})
 		.then(response => {
 			return response.data.map(child => {
@@ -72,15 +72,15 @@ const getChildrenProfiles = (ids) => {
 		.catch(error => {
 			console.log(error)
 			return [];
-	})
+		})
 }
 
 const getParentProfiles = (ids) => {
 	return axios.get("/profiles", {
-			params: {
-					ids,
-					searchBy: 'ids'
-			}
+		params: {
+			ids,
+			searchBy: 'ids'
+		}
 	})
 		.then(response => {
 			return response.data.map(parent => {
@@ -98,7 +98,7 @@ const getParentProfiles = (ids) => {
 				name: '',
 				id: '',
 			}];
-	})
+		})
 }
 
 
@@ -127,10 +127,10 @@ class TimeslotScreen extends React.Component {
 		const timeslot = await getTimeslot(pathname);
 		timeslot.extendedProperties.shared.parents = JSON.parse(timeslot.extendedProperties.shared.parents);
 		timeslot.extendedProperties.shared.children = JSON.parse(timeslot.extendedProperties.shared.children);
-		const parentIds= [...timeslot.extendedProperties.shared.parents];
+		const parentIds = [...timeslot.extendedProperties.shared.parents];
 		const childrenIds = [...timeslot.extendedProperties.shared.children];
 		const children = await getUsersChildren(userId);
-		children.forEach( child => {
+		children.forEach(child => {
 			childrenIds.push(child);
 		});
 		parentIds.push(userId);
@@ -143,7 +143,7 @@ class TimeslotScreen extends React.Component {
 		this.props.history.push(route)
 	}
 	handleSave = () => {
-		axios.patch(this.props.location.pathname,{
+		axios.patch(this.props.location.pathname, {
 			extendedProperties: {
 				shared: {
 					parents: JSON.stringify(this.state.timeslot.extendedProperties.shared.parents),
@@ -151,23 +151,23 @@ class TimeslotScreen extends React.Component {
 				}
 			}
 		})
-		.then( response => {
-			this.props.history.goBack()
-		})
-		.catch( error => {
-			console.log(error)
-		})
+			.then(response => {
+				this.props.history.goBack()
+			})
+			.catch(error => {
+				console.log(error)
+			})
 	}
 	handleConfirmDialogClose = (choice) => {
-		if(choice==='agree'){
+		if (choice === 'agree') {
 			this.handleSave()
 		} else {
-			if(this.state.confirmTrigger){
+			if (this.state.confirmTrigger === 'back') {
 				this.props.history.goBack()
 			}
 		}
-		this.setState({ confirmDialogIsOpen: false, confirmTrigger: ''})
-		
+		this.setState({ confirmDialogIsOpen: false, confirmTrigger: '' })
+
 	}
 	handleConfirmDialogOpen = (confirmTrigger) => {
 		this.setState({ confirmDialogIsOpen: true, confirmTrigger })
@@ -176,35 +176,35 @@ class TimeslotScreen extends React.Component {
 		const timeslot = this.state.timeslot;
 		const texts = Texts[this.props.language].timeslotScreen;
 		let snackMessage;
-		if(type==='parent'){
+		if (type === 'parent') {
 			timeslot.extendedProperties.shared.parents.push(id);
 			snackMessage = texts.userSubscribe
 		} else {
-			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
+			const childName = this.state.childrenProfiles.filter(profile => profile.child_id === id)[0].given_name
 			timeslot.extendedProperties.shared.children.push(id);
 			snackMessage = `${texts.childSubscribe1} ${childName} ${texts.childSubscribe2}`
 		}
 		this.setState({ timeslot, madeChanges: true })
-		this.props.enqueueSnackbar(snackMessage, { 
+		this.props.enqueueSnackbar(snackMessage, {
 			variant: 'info',
-	});
+		});
 	}
 	handleUnsubscribe = (id, type) => {
 		const timeslot = this.state.timeslot;
 		const texts = Texts[this.props.language].timeslotScreen;
 		let snackMessage;
-		if(type==='parent'){
-			timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(subId => subId!==id);
+		if (type === 'parent') {
+			timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(subId => subId !== id);
 			snackMessage = texts.userUnsubscribe
 		} else {
-			const childName = this.state.childrenProfiles.filter( profile => profile.child_id===id)[0].given_name
-			timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(subId => subId!==id);
+			const childName = this.state.childrenProfiles.filter(profile => profile.child_id === id)[0].given_name
+			timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(subId => subId !== id);
 			snackMessage = `${texts.childUnsubscribe1} ${childName} ${texts.childUnsubscribe2}`
 		}
 		this.setState({ timeslot, madeChanges: true })
-		this.props.enqueueSnackbar(snackMessage, { 
+		this.props.enqueueSnackbar(snackMessage, {
 			variant: 'info',
-	});
+		});
 	}
 	getBackNavTitle = () => {
 		const { start, end } = this.state.timeslot
@@ -213,75 +213,75 @@ class TimeslotScreen extends React.Component {
 	renderParticipants = (type) => {
 		const texts = Texts[this.props.language].timeslotScreen;
 		let participants, profiles, showing, participantsHeader, minimum;
-		if(type==='parents'){
+		if (type === 'parents') {
 			participants = this.state.timeslot.extendedProperties.shared.parents;
-			profiles = this.state.parentProfiles.filter( profile => participants.includes(profile.user_id ))
+			profiles = this.state.parentProfiles.filter(profile => participants.includes(profile.user_id))
 			showing = this.state.showParents;
-			participantsHeader = `${participants.length} ${participants.length===1?texts.volunteer:texts.volunteers} ${texts.signup}`
+			participantsHeader = `${participants.length} ${participants.length === 1 ? texts.volunteer : texts.volunteers} ${texts.signup}`
 			minimum = this.state.timeslot.extendedProperties.shared.requiredParents;
 		} else {
 			participants = this.state.timeslot.extendedProperties.shared.children;
-			profiles = this.state.childrenProfiles.filter( profile => participants.includes(profile.child_id ))
+			profiles = this.state.childrenProfiles.filter(profile => participants.includes(profile.child_id))
 			showing = this.state.showChildren;
-			participantsHeader = `${participants.length} ${participants.length===1?texts.child:texts.children} ${texts.signup}`
+			participantsHeader = `${participants.length} ${participants.length === 1 ? texts.child : texts.children} ${texts.signup}`
 			minimum = this.state.timeslot.extendedProperties.shared.requiredChildren;
 		}
 		return (
 			<div className="participantsContainer">
-				<div className="row">
-					<div className="col-9-10">
-						<div className="participantsHeader">{participantsHeader}</div>
-					</div>
-					<div className="col-1-10">
-						<i 
-						className={showing?"fas fa-chevron-up":"fas fa-chevron-down"}
-						onClick={() => type==='parents'?this.setState({showParents: !this.state.showParents}):this.setState({showChildren: !this.state.showChildren})}
+				<div className="participantsHeaderContainer">
+					<div className="participantsHeaderText">{participantsHeader}</div>
+					<button
+						className="transparentButton participantsHeaderButton"
+						onClick={() => type === 'parents' ? this.setState({ showParents: !this.state.showParents }) : this.setState({ showChildren: !this.state.showChildren })}
+					>
+						<i
+							className={showing ? "fas fa-chevron-up" : "fas fa-chevron-down"}
 						/>
-					</div>
+					</button>
 				</div>
-				<ul style={showing?{}:{display:'none'}}>
-				<div className="participantsMinimum">{`${texts.minimum} ${minimum}`}</div>
-					{profiles.map( (profile,index) => 
-						<li key={index} style={{display: 'block'}}>
-							<div className="row" style={{margin: '1rem 0'}}>
-								<Avatar className={this.props.classes.avatar} src={profile.image}/>
+				<ul style={showing ? {} : { display: 'none' }}>
+					<div className="participantsMinimum">{`${texts.minimum} ${minimum}`}</div>
+					{profiles.map((profile, index) =>
+						<li key={index} style={{ display: 'block' }}>
+							<div className="row" style={{ margin: '1rem 0' }}>
+								<Avatar className={this.props.classes.avatar} src={profile.image} />
 								<div className="participantsText">{profile.name}</div>
 							</div>
 						</li>
 					)}
 				</ul>
 			</div>
-			
+
 		)
 	}
 	getUserSubscribe = () => {
 		const userId = JSON.parse(localStorage.getItem('user')).id;
 		const texts = Texts[this.props.language].timeslotScreen;
 		const parentParticipants = this.state.timeslot.extendedProperties.shared.parents;
-		const userProfile = this.state.parentProfiles.filter( profile => profile.user_id === userId)[0];
-		return <TimeslotSubcribe  
-		name={texts.you}
-		image={userProfile.image}
-		subscribed={parentParticipants.includes(userId)}
-		id={userId}
-		type={'parent'}
-		handleSubscribe={this.handleSubscribe}
-		handleUnsubscribe={this.handleUnsubscribe}
+		const userProfile = this.state.parentProfiles.filter(profile => profile.user_id === userId)[0];
+		return <TimeslotSubcribe
+			name={texts.you}
+			image={userProfile.image}
+			subscribed={parentParticipants.includes(userId)}
+			id={userId}
+			type={'parent'}
+			handleSubscribe={this.handleSubscribe}
+			handleUnsubscribe={this.handleUnsubscribe}
 		/>
 	}
 	getChildrenSubscribes = () => {
-		const childrenProfiles = this.state.childrenProfiles.filter( profile => this.state.children.includes(profile.child_id));
+		const childrenProfiles = this.state.childrenProfiles.filter(profile => this.state.children.includes(profile.child_id));
 		const childrenParticipants = this.state.timeslot.extendedProperties.shared.children;
-		return childrenProfiles.map( (child, index) => 
-			<TimeslotSubcribe 
-			key={index}
-			name={child.given_name}
-			image={child.image}
-			subscribed={childrenParticipants.includes(child.child_id)}
-			id={child.child_id}
-			type={'child'}
-			handleSubscribe={this.handleSubscribe}
-			handleUnsubscribe={this.handleUnsubscribe}
+		return childrenProfiles.map((child, index) =>
+			<TimeslotSubcribe
+				key={index}
+				name={child.given_name}
+				image={child.image}
+				subscribed={childrenParticipants.includes(child.child_id)}
+				id={child.child_id}
+				type={'child'}
+				handleSubscribe={this.handleSubscribe}
+				handleUnsubscribe={this.handleUnsubscribe}
 			/>
 		)
 	}
@@ -292,7 +292,7 @@ class TimeslotScreen extends React.Component {
 		return (
 			this.state.fetchedTimeslot ?
 				<React.Fragment>
-					<ConfirmDialog 
+					<ConfirmDialog
 						title={texts.editConfirm}
 						isOpen={this.state.confirmDialogIsOpen}
 						handleClose={this.handleConfirmDialogClose}
@@ -300,7 +300,7 @@ class TimeslotScreen extends React.Component {
 					<div id="activityHeaderContainer" className="row no-gutters">
 						<div className="col-2-10">
 							<button className="transparentButton center"
-								onClick={() => this.state.madeChanges?this.handleConfirmDialogOpen('back'):this.props.history.goBack()}>
+								onClick={() => this.state.madeChanges ? this.handleConfirmDialogOpen('back') : this.props.history.goBack()}>
 								<i className="fas fa-arrow-left"></i>
 							</button>
 						</div>
@@ -320,7 +320,7 @@ class TimeslotScreen extends React.Component {
 						<div className="col-1-10">
 							<button
 								className="transparentButton center"
-								onClick={()=>this.state.madeChanges?this.handleConfirmDialogOpen('save'):this.props.history.goBack()}>
+								onClick={() => this.state.madeChanges ? this.handleConfirmDialogOpen('save') : this.props.history.goBack()}>
 								<i className="fas fa-check"></i>
 							</button>
 						</div>
@@ -328,7 +328,7 @@ class TimeslotScreen extends React.Component {
 					<div id="activityMainContainer">
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<i className="fas fa-bookmark activityInfoIcon" />
+								<i className="far fa-bookmark activityInfoIcon" />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.summary}</div>
@@ -336,7 +336,7 @@ class TimeslotScreen extends React.Component {
 						</div>
 						{timeslot.description && <div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<i className="fas fa-file-alt activityInfoIcon" />
+								<i className="far fa-file-alt activityInfoIcon" />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.description}</div>
@@ -344,15 +344,15 @@ class TimeslotScreen extends React.Component {
 						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<i className="fas fa-map-marker-alt activityInfoIcon" />
+								<img className="activityInfoImage" src={Images.mapMarkerAltRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.location}</div>
 							</div>
 						</div>
-						{timeslot.extendedProperties.shared.cost &&<div className="row no-gutters" style={rowStyle}>
+						{timeslot.extendedProperties.shared.cost && <div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<i className="fas fa-euro-sign activityInfoIcon" />
+								<img className="activityInfoImage" src={Images.euroSignRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.extendedProperties.shared.cost}</div>
@@ -360,21 +360,21 @@ class TimeslotScreen extends React.Component {
 						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<i className="fas fa-thumbtack activityInfoIcon" />
+								<img className="activityInfoImage" src={Images.thumbtackRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.extendedProperties.shared.status}</div>
 							</div>
 						</div>
 					</div>
-					<div id="activityMainContainer" style={{marginTop: 0}}>
+					<div id="activityMainContainer" style={{ marginTop: 0 }}>
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.userAvailability}</div>
-								{this.getUserSubscribe()}
-								{this.renderParticipants('parents')}
+							{this.getUserSubscribe()}
+							{this.renderParticipants('parents')}
 						</div>
 					</div>
-					<div id="activityMainContainer" style={{marginTop: 0}}>
+					<div id="activityMainContainer" style={{ marginTop: 0 }}>
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="activityInfoHeader">{texts.childrenAvailability}</div>
 							{this.getChildrenSubscribes()}

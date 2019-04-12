@@ -20,10 +20,13 @@ const TimeslotSubscribe = ({subscribed, name, image, handleSubscribe, handleUnsu
 		}
 	}
 		return (
-			<div onClick={handleClick} className="subscribeBubble" style={subscribed ? { backgroundColor: "#00838F", color: '#FFFFFF' } : {}}>
+			<div onClick={handleClick} className="subscribeBubble" style={subscribed ? { backgroundColor: "#00838F", color: '#ffffff' } : {}}>
 					<Avatar src={image} alt="users thumbnail" className={classes.avatar}/>
 					<div className="subscribeText">{name}</div>
-					<i className={subscribed?"fas fa-times subscribeIcon":"fas fa-plus subscribeIcon"}/>
+					<i 
+						className={subscribed?"fas fa-times subscribeIcon":"fas fa-plus subscribeIcon"}
+						style={subscribed ? {color: '#ffffff' } : {color: '#808080'}}
+					/>
 	</div>
 		);
 };

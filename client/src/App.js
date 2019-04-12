@@ -169,12 +169,12 @@ class App extends React.Component {
 		return (
 			<LanguageProvider>
 					<SnackbarProvider
-					maxSnack={3}
+					maxSnack={1}
 					anchorOrigin={{
 						vertical: 'bottom',
 						horizontal:'center',
 					}}
-					autoHideDuration={2000}
+					autoHideDuration={4000}
 					classes={{
 						variantInfo: classes.info,
 						message: classes.message,

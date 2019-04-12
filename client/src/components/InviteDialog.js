@@ -18,10 +18,6 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
-	title: {
-		fontSize: 20,
-		fontWeight: 700,
-	},
 	avatar: {
 		width: 30,
 		height: 30,

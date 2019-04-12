@@ -94,13 +94,11 @@ class TimeslotsList extends React.Component {
 				return true;
 		}
 	}
-	renderTimeslots = (date) => {
-		const dayTimeslots = this.state.timeslots.filter(timeslot => moment(date).format('D') === moment(timeslot.start.dateTime).format('D'))
+	renderTimeslots = (timeslots) => {
 		return (
 			<ul>
-				{dayTimeslots.map((timeslot, timeslotIndex) => {
+				{timeslots.map((timeslot, timeslotIndex) => {
 					return (
-						this.filterTimeslot(timeslot) &&
 							<li key={timeslotIndex} style={{ margin: "1rem 0" }}>
 								<TimeslotPreview timeslot={timeslot} />
 							</li>
@@ -113,15 +111,16 @@ class TimeslotsList extends React.Component {
 		return (
 			<ul id="timeslotDayContainer">
 				{this.state.dates.map((date, index) => {
+					const dayTimeslots = this.state.timeslots.filter(timeslot => moment(date).format('D') === moment(timeslot.start.dateTime).format('D') && 	this.filterTimeslot(timeslot))
 					return (
-						<li key={index}>
+						dayTimeslots.length> 0 && <li key={index}>
 							<div className="row no-gutters">
 								<div className="col-2-10" style={{ paddingTop: "1.5rem" }}>
 									<div className="timeslotDay">{moment(date).format('D')}</div>
 									<div className="timeslotDay">{moment(date).format('MMM')}</div>
 								</div>
 								<div className="col-8-10">
-									{this.renderTimeslots(date)}
+									{this.renderTimeslots(dayTimeslots)}
 								</div>
 							</div>
 						</li>

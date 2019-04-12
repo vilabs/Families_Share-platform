@@ -190,8 +190,8 @@ const en = {
 		export: 'Export agenda',
 	},
 	activityListItem: {
-		timeslot: ' timeslot available',
-		timeslots: ' timeslots available',
+		every: 'Every',
+		of: 'of',
 	},
 	groupListItem: {
 		open: 'Participation to the group is open.',
@@ -642,8 +642,8 @@ const en = {
 		notEnoughParticipants: 'Not enough participants',
 	},
 	confirmDialog: {
-		agree: 'YES',
-		disagree: 'NO',
+		agree: 'Ok',
+		disagree: 'Cancel',
 	},
 	pendingRequestsScreen: {
 		requests: 'Pending Requests',
@@ -819,8 +819,8 @@ const nl = {
 		export: 'Exporteer agenda',
 	},
 	activityListItem: {
-		timeslot: 'Beschikbaar timeslot',
-		timeslots: 'Beschikbare timeslots',
+		every: 'Elk',
+		of: 'van',
 	},
 	groupListItem: {
 		open: 'Deelname aan de groep is gesloten',
@@ -1065,7 +1065,7 @@ const nl = {
 	agendaView: {
 		timeslots: 'Timeslots', available: ' beschikbaar', all: 'Alle timeslots', signed: 'Mijn ingeschreven timeslots', enough: 'Met genoeg deelnemers', notEnough: 'Met te weining deelnemers', notEnoughParticipants: 'Tekort aan deelnemers',
 	},
-	confirmDialog: { agree: 'Ja', disagree: 'nee' },
+	confirmDialog: { agree: 'Ok', disagree: 'Annuleren' },
 	pendingRequestsScreen: {
 		requests: 'Lopende verzoeken', invites: 'Lopende nodigt', activities: 'Lopende activiteiten', confirm: 'Bevestig', delete: 'Verwijder',
 	},
@@ -1220,7 +1220,10 @@ const it = {
 	},
 	groupAbout: { memberHeader: 'Informazioni', header: 'Informazioni sul gruppo' },
 	groupActivities: { header: 'Attività del gruppo', export: "Esporta l'agenda" },
-	activityListItem: { timeslot: 'Orario disponibile', timeslots: 'Orari disponibili ' },
+	activityListItem: { 	
+		every: 'Ogni',
+		of: 'di'
+	},
 	groupListItem: {
 		open: 'Gruppo aperto: tutti possono richiedere di partecipare al gruppo', closed: 'Gruppo chiuso: si può partecipare solo su invito', members: 'Membri', kids: 'Bambini',
 	},
@@ -1536,8 +1539,8 @@ const it = {
 		notEnoughParticipants: 'Non ci sono abbastanza partecipanti',
 	},
 	confirmDialog: {
-		agree: 'SI',
-		disagree: 'NO'
+		agree: 'Ok',
+		disagree: 'Annulla'
 	},
 	pendingRequestsScreen: {
 		requests: 'Richieste in sospeso',
@@ -1670,7 +1673,10 @@ const el = {
 	},
 	groupAbout: { memberHeader: 'Πληροφορίες', header: 'Σχετικά με την ομάδα' },
 	groupActivities: { header: 'Δραστηριότητες της ομάδας', export: 'Εξαγωγή Ημερολογίου' },
-	activityListItem: { timeslot: 'Χρονική περίοδος διαθέσιμη ', timeslots: 'Χρονικές περίοδοι διαθέσιμες' },
+	activityListItem: { 	
+		every: 'Κάθε',
+		of: 'του', 
+	},
 	groupListItem: {
 		open: 'Η συμμετοχή στην ομάδα είναι ανοιχτή.', closed: 'Η συμμετοχή στην ομάδα είναι κλειστή.', members: 'Μέλη', kids: 'Παιδιά',
 	},
@@ -1890,7 +1896,7 @@ const el = {
 	agendaView: {
 		timeslots: 'Χρονικές περίοδοι', available: 'διαθέσιμο', all: 'Όλες οι χρονικές περίοδοι', signed: 'Η εγγραφή μου', enough: 'Με αρκετούς συμμετέχοντες', notEnough: 'Χωρίς αρκετούς συμμετέχοντες', notEnoughParticipants: 'Δεν υπάρχουν αρκετοί συμμετέχοντες',
 	},
-	confirmDialog: { agree: 'ΝΑΙ', disagree: 'ΌΧΙ' },
+	confirmDialog: { agree: 'Οκ', disagree: 'Ακυρωση' },
 	pendingRequestsScreen: {
 		requests: 'Εκκρεμείς αιτήσεις', invites: 'Εκκρεμείς προσκλήσεις', activities: 'Εκκρεμείς δραστηριότητες', confirm: 'ΕΠΙΒΕΒΑΙΩΣΗ', delete: 'ΔΙΑΓΡΑΦΗ',
 	},
