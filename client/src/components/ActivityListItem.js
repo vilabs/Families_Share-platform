@@ -43,7 +43,7 @@ class ActivityListItem extends React.Component {
 		const userId = JSON.parse(localStorage.getItem('user')).id
 		const groupId = this.props.groupId;
 		const activityId = this.state.activity.activity_id;
-		const usersChildren = await getUsersChildren(userId);
+		//const usersChildren = await getUsersChildren(userId);
 		const timeslots = await getTimeslots(groupId, activityId);
 		const activity = this.state.activity;
 		let dates = timeslots.map(timeslot => timeslot.start.dateTime);
@@ -60,7 +60,7 @@ class ActivityListItem extends React.Component {
 		activity.subscribed = false;
 		for (const timeslot of timeslots){
 			const parents = JSON.parse(timeslot.extendedProperties.shared.parents)
-			const children = JSON.parse(timeslot.extendedProperties.shared.children)
+			//const children = JSON.parse(timeslot.extendedProperties.shared.children)
 			if(parents.includes(userId) ){
 				activity.subscribed = true;
 				break;

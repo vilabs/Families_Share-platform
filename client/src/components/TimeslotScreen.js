@@ -344,7 +344,7 @@ class TimeslotScreen extends React.Component {
 						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<img className="activityInfoImage" src={Images.mapMarkerAltRegular} />
+								<img className="activityInfoImage" alt="map marker icon" src={Images.mapMarkerAltRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.location}</div>
@@ -352,7 +352,7 @@ class TimeslotScreen extends React.Component {
 						</div>
 						{timeslot.extendedProperties.shared.cost && <div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<img className="activityInfoImage" src={Images.euroSignRegular} />
+								<img className="activityInfoImage" alt="euro sign icon" src={Images.euroSignRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.extendedProperties.shared.cost}</div>
@@ -360,7 +360,7 @@ class TimeslotScreen extends React.Component {
 						</div>}
 						<div className="row no-gutters" style={rowStyle}>
 							<div className="col-2-10">
-								<img className="activityInfoImage" src={Images.thumbtackRegular} />
+								<img className="activityInfoImage" alt="thumbtacack icon" src={Images.thumbtackRegular} />
 							</div>
 							<div className="col-8-10">
 								<div className="activityInfoDescription">{timeslot.extendedProperties.shared.status}</div>

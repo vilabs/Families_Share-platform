@@ -226,7 +226,7 @@ class ActivityScreen extends React.Component {
 							</div>}
 							{activity.location &&	<div className="row no-gutters" style={rowStyle}>
 								<div className="col-1-10">
-									<img src={Images.mapMarkerAltRegular} className="activityInfoImage" />
+									<img src={Images.mapMarkerAltRegular} alt="map marker icon" className="activityInfoImage" />
 								</div>
 								<div className="col-9-10">
 									<div className="activityInfoDescription">{activity.location}</div>
