@@ -1322,13 +1322,13 @@
   font-size: 1.6rem;
   color: #000000;
 }
-.participantsHeaderButton{
+.participantsHeaderButton {
   padding: 0;
   width: 4rem;
   height: 4rem;
   margin-left: auto;
 }
-.participantsHeaderContainer{
+.participantsHeaderContainer {
   display: flex;
   width: 100%;
   align-items: center;
@@ -1472,15 +1472,20 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.activityListItemIcon{
+.activityListItemIcon {
   position: absolute;
   right: 0;
   width: 0;
   height: 0;
   border-top: 4rem solid #00838f;
   border-left: 4rem solid transparent;
+}
+.activityListItemIcon i {
+  position: absolute;
+  top: -3.4rem;
+  left: -1.8rem;
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 1.3rem;
 }
 #groupActivitiesContainer h2 {
   font-size: 1.4rem;
@@ -2018,7 +2023,7 @@
   font-size: 1.8rem;
   font-weight: 700;
 }
-.autoCompleteText{
+.autoCompleteText {
   font-size: 1.4rem;
 }
 .inviteSelect {
@@ -2811,7 +2816,7 @@ a:active {
   margin-left: 5%;
   margin-top: 1rem;
 }
-#searchGroupResultsContainer{
+#searchGroupResultsContainer {
   margin-top: 6rem;
 }
 /*SEARCH GROUP SCREEN END*/
