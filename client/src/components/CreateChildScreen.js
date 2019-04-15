@@ -266,7 +266,7 @@ class CreateChildScreen extends React.Component {
 								/>
 							</div>
 							<div className="col-8-10">
-								<h1 className="center">{texts.acceptTerms}</h1>
+								<h1 className="verticalCenter">{texts.acceptTerms}</h1>
 							</div>
 						</div>
 						<div style={{ paddingLeft: "3%" }} className="row no-gutters">

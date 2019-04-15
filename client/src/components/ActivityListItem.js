@@ -75,7 +75,6 @@ class ActivityListItem extends React.Component {
 			}
 		}
 		activity.dates = uniqueDates;
-		activity.subscribed = true;
 		this.setState({ fetchedTimeslots: true, activity  })
 		}
 		handleActivityClick = (event) => {

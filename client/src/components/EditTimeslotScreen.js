@@ -34,6 +34,7 @@ const getTimeslot = pathname => {
 
 class EditTimeslotScreen extends React.Component {
   state = {
+    description: '',
 		madeChanges: false,
     notifyUsers: false,
     fetchedTimeslot: false,

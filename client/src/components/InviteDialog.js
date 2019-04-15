@@ -15,21 +15,41 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
+import { createMuiTheme } from "@material-ui/core/styles";
+import { MuiThemeProvider } from "@material-ui/core/styles";
 
-const styles = {
-	avatar: {
-		width: 30,
-		height: 30,
+
+const theme = createMuiTheme({
+	typography: {
+			useNextVariants: true
 	},
-	button: {
-		fonSize: 14,
-		color: '#009688',
-	},
-	container: {
-		maxHeight: 500,
-	}
-};
+	overrides: {
+    MuiListItemText: {
+      primary: {
+        fontSize: '1.6rem'
+      }
+		},
+		MuiButton: {
+			root: {
+				fontSize: '1.6rem',
+				color: '#009688',
+			}
+		},
+		MuiDialog: {
+			paperWidthSm: {
+				width: '80vw',
+				maxWidth: 400
+			},
+			paper: {
+				height: '80vh',
+			},
+			paperScrollPaper: {
+				maxHeight: 800
+			}
+		}
+  }
+});
+
 
 class InviteDialog extends React.Component {
 	constructor(props) {
@@ -128,16 +148,13 @@ class InviteDialog extends React.Component {
 	}
 	render() {
 		const texts = this.state.inviteType==='member'?Texts[this.props.language].inviteModal:Texts[this.props.language].addParentModal;
-		const { classes } = this.props;
 		return (
+			<MuiThemeProvider theme={theme}>
 			<Dialog 
 			onClose={this.handleClose}
 			aria-labelledby="invite user dialog"
 			open={this.props.isOpen}
-			className={classes.container}
-			fullWidth={true}
-			maxWidth={'xs'}
-		  >
+			>
 				<DialogTitle >
 				<div className="inviteDialogTitle">{texts.header}</div>
 				<input
@@ -163,7 +180,7 @@ class InviteDialog extends React.Component {
 							const selected = this.state.inviteIds.includes(user.user_id);
 							return <ListItem button onClick={() => this.handleSelect(user.user_id)} key={user.user_id} selected={selected}>
 								<ListItemAvatar>
-									<Avatar className={classes.avatar} src={user.image.path} sizes="small"/>
+									<Avatar src={user.image.path} sizes="small"/>
 								</ListItemAvatar>
 								<ListItemText primary={`${user.given_name} ${user.family_name}`} />
 								<ListItemIcon>
@@ -175,14 +192,15 @@ class InviteDialog extends React.Component {
 					}
 				</DialogContent>
 				<DialogActions>
-					<Button  onClick={this.handleClose} className={classes.button}>
+					<Button  fontSize={20} variant={'text'} onClick={this.handleClose}>
 						{texts.cancel} 
 					</Button>
-					<Button onClick={this.handleInvite} className={classes.button}>
+					<Button onClick={this.handleInvite} >
 						{texts.invite}
 					</Button>
 				</DialogActions>
 			</Dialog>
+			</MuiThemeProvider>
 		);
 	}
 }
@@ -194,4 +212,4 @@ InviteDialog.propTypes = {
 	inviteType: PropTypes.string
 };
 
-export default withLanguage(withStyles(styles)(InviteDialog));
+export default withLanguage(InviteDialog);

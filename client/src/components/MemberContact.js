@@ -79,15 +79,15 @@ class MemberContact extends React.Component {
     const texts = Texts[this.props.language].memberContact;
     const profile = this.props.member;
     const options = [
-      {
-        label: texts.addAdmin,
-        style: "optionsModalButton",
-        handle: this.handleAddAdmin
-      },
-      {
+      profile.admin?{
         label: texts.removeAdmin,
         style: "optionsModalButton",
         handle: this.handleRemoveAdmin
+      }
+      :{
+        label: texts.addAdmin,
+        style: "optionsModalButton",
+        handle: this.handleAddAdmin
       },
       {
         label: texts.removeUser,
