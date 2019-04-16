@@ -46,7 +46,7 @@ class ConfirmDialog extends React.Component {
 										disableBackdropClick={true}
 										fullWidth={true}
 						>
-							<DialogTitle classes={classes.dialogTitle} id="alert-dialog-title">
+							<DialogTitle className={classes.dialogTitle} id="alert-dialog-title">
 								<div className="inviteDialogTitle">
 									{this.props.title}
 								</div>

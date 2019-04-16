@@ -692,6 +692,7 @@
 #createChildProfileHeaderContainer {
   height: 6rem;
   background-color: #00838f;
+  overflow: hidden;
 }
 #createChildProfileHeaderContainer h1 {
   font-size: 2rem;
@@ -748,6 +749,7 @@
   justify-content: center;
 }
 #createChildProfileInfoContainer {
+  overflow: hidden;
   margin-bottom: 1rem;
 }
 #createChildProfileInfoContainer span {
