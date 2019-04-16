@@ -150,7 +150,7 @@ axios.interceptors.request.use(
 
 class App extends React.Component {
 	componentDidMount() {
-		document.addEventListener('message', this.handleMessage, false)
+		document.addEventListener('message', this.handleMessage, false);
 	}
 	handleMessage = (event) => {
 		const data = JSON.parse(event.data)

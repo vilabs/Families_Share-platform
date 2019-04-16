@@ -190,6 +190,7 @@ class EditProfileScreen extends React.Component {
 							accept="image/*"
 							name="photo"
 							onChange={this.handleImageChange}
+							capture="camera"
 						/>
 					</div>
 				</div>
