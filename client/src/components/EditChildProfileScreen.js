@@ -324,8 +324,7 @@ class EditChildProfileScreen extends React.Component {
                     className="editChildProfileInput"
 										type="file"
 										accept="image/*"
-										name="logo"
-										capture="camera"
+                    name="logo"
                     onChange={this.handleLogoChange}
                   />
                 </div>

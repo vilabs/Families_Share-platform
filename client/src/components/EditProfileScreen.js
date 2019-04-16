@@ -9,6 +9,7 @@ class EditProfileScreen extends React.Component {
 	state = { fetchedProfile: false };
 
 	componentDidMount() {
+		document.addEventListener('message', this.handleMessage, false)
 		const userId = JSON.parse(localStorage.getItem("user")).id;
 		axios
 			.get("/users/" + userId + "/profile")
@@ -20,6 +21,16 @@ class EditProfileScreen extends React.Component {
 				console.log(error);
 				this.setState({ name: "", image: { path: "" } });
 			});
+	}
+	componentWillUnmount(){
+		document.removeEventListener('message',this.handleMessage,false)
+	}
+	handleMessage = (event) => {
+		const data =  JSON.parse(event.data)
+		if(data.action==='fileUpload'){
+			const file = data.value.data
+			this.setState({ image: { path: file }, file });
+		} 
 	}
 	validate = () => {
 		const texts = Texts[this.props.language].editProfileScreen;
@@ -99,6 +110,9 @@ class EditProfileScreen extends React.Component {
 			};
 			reader.readAsDataURL(event.target.files[0]);
 		}
+	}
+	handleNativeImageChange = () => {
+		window.postMessage(JSON.stringify({action:'fileUpload'}),'*')
 	};
 	handleAddressChange = event => {
 		const name = event.target.name;
@@ -157,6 +171,7 @@ class EditProfileScreen extends React.Component {
 						className="profilePhoto horizontalCenter"
 						alt="user's profile"
 						src={this.state.image.path}
+						onClick={this.handleImageChange}
 					/>
 					<label htmlFor="editGivenNameInput" id="editGivenNameLabel">{texts.name} </label>
 					<input
@@ -182,16 +197,15 @@ class EditProfileScreen extends React.Component {
 					<span className="invalid-feedback" id="nameErr" />
 					<div id="uploadProfilePhotoContainer">
 						<label htmlFor="uploadPhotoInput">
-							<i className="fas fa-camera " />
+							<i className="fas fa-camera " onClick={true?this.handleNativeImageChange:()=>{}}/>
 						</label>
-						<input
+							{ false &&<input
 							id="uploadPhotoInput"
 							type="file"
 							accept="image/*"
 							name="photo"
 							onChange={this.handleImageChange}
-							capture="camera"
-						/>
+						/>}
 					</div>
 				</div>
 				<div id="editProfileInfoContainer">

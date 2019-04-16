@@ -263,8 +263,7 @@ class EditGroupScreen extends React.Component {
                       id="uploadLogoInput"
                       type="file"
                       name="photo"
-											accept="image/*"
-											capture="camera"
+                      accept="image/*"
                       onChange={this.handlePhotoChange}
                     />
                   </div>
