@@ -122,6 +122,7 @@ class TimeslotScreen extends React.Component {
 		}
 	}
 	async componentDidMount() {
+		document.addEventListener('message', this.handleMessage, false)
 		const userId = JSON.parse(localStorage.getItem('user')).id;
 		const pathname = this.props.history.location.pathname;
 		const timeslot = await getTimeslot(pathname);
@@ -137,6 +138,15 @@ class TimeslotScreen extends React.Component {
 		const parentProfiles = await getParentProfiles([...new Set(parentIds)]);
 		const childrenProfiles = await getChildrenProfiles([...new Set(childrenIds)]);
 		this.setState({ fetchedTimeslot: true, timeslot, parentProfiles, childrenProfiles, children })
+	}
+	componentWillUnmount() {
+		document.removeEventListener('message', this.handleMessage, false)
+	}
+	handleMessage = (event) => {
+		const data = JSON.parse(event.data)
+		if (data.action === 'confirmGoBack') {
+			this.state.madeChanges ? this.handleConfirmDialogOpen('back') : this.props.history.goBack()
+		}
 	}
 	handleEdit = () => {
 		const route = `${this.props.history.location.pathname}/edit`

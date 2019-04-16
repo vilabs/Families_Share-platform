@@ -26,12 +26,12 @@ const theme = createMuiTheme({
 	overrides: {
     MuiListItemText: {
       primary: {
-        fontSize: '1.6rem'
+        fontSize: '1.4rem'
       }
 		},
 		MuiButton: {
 			root: {
-				fontSize: '1.6rem',
+				fontSize: '1.4rem',
 				color: '#009688',
 			}
 		},
@@ -41,7 +41,7 @@ const theme = createMuiTheme({
 				maxWidth: 400
 			},
 			paper: {
-				height: '80vh',
+				height: '90vh',
 			},
 			paperScrollPaper: {
 				maxHeight: 800
