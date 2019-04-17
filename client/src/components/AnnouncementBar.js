@@ -6,9 +6,31 @@ import axios from 'axios';
 import PhotoPreviewBubble from './PhotoPreviewBubble';
 import { withSnackbar } from 'notistack';
 
+const dataURLtoFile = (dataurl, filename) => {
+	var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+		bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new File([u8arr], filename, { type: mime });
+}
+
 class AnnouncementBar extends React.Component{
     
-    state = { message: "", photos: []  };
+		state = { message: "", photos: []  };
+		componentDidMount() {
+			document.addEventListener('message', this.handleMessage, false)
+		}
+		componentWillUnmount() {
+			document.removeEventListener('message', this.handleMessage, false)
+		}
+		handleMessage = (event) => {
+			const data = JSON.parse(event.data)
+			if (data.action === 'fileUpload') {
+				const image = `data:image/png;base64, ${data.value.data}`;
+				this.setState({ photos: [{ photo: dataURLtoFile(image, 'photo.png'), preview: image}]  });
+			}
+		}
     handleEnter = (event) => {
         if(event.keyCode===13) this.handleSend()
     }
@@ -48,7 +70,7 @@ class AnnouncementBar extends React.Component{
 				reader.readAsDataURL(photo.photo);	
 			});	
 		}
-    handlePhotoUpload = async (event) => {
+    handleImageUpload = async (event) => {
 			const snackMessage = Texts[this.props.language].replyBar.maxFilesError;
 			if (event.target.files) {
 				const photos = [...event.target.files].map( file => {return { photo: file, preview: ""}})
@@ -62,6 +84,9 @@ class AnnouncementBar extends React.Component{
 				}
 			}
 		}
+		handleNativeImageChange = () => {
+			window.postMessage(JSON.stringify({ action: 'fileUpload' }), '*')
+		};
 		handlePreviewDelete = (photo) => {
 			this.setState({ photos: this.state.photos.filter(p => p.preview!== photo.preview )})
 		}
@@ -79,9 +104,9 @@ class AnnouncementBar extends React.Component{
 									</div>
 									<div className="col-3-10" id="announcementBubbleButtons">
 										<label className="verticalCenter" htmlFor="uploadPhotoInput">
-											<i className="fas fa-camera" />
+											<i className="fas fa-camera" onClick={window.isNative?this.handleNativeImageChange:()=>{}}/>
 										</label>
-										<input id="uploadPhotoInput" type="file" accept="image/*" name="photo" multiple onChange={this.handlePhotoUpload} />
+										{!window.isNative &&<input id="uploadPhotoInput" type="file" accept="image/*" name="photo" multiple onChange={this.handleImageUpload} />}
 										<i className="fas fa-paper-plane verticalCenter" onClick={this.handleSend} />
 									</div>
 								</div>

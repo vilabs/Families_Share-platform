@@ -55,7 +55,7 @@ const profileStorage = multer.diskStorage({
     cb(null, `${req.params.id}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const profileUpload = multer({ storage: profileStorage })
+const profileUpload = multer({ storage: profileStorage, limits:  {fieldSize: 52428800 } })
 
 const childProfileStorage = multer.diskStorage({
   destination (req, file, cb) {
@@ -66,7 +66,7 @@ const childProfileStorage = multer.diskStorage({
     cb(null, `${req.params.childId}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const childProfileUpload = multer({ storage: childProfileStorage })
+const childProfileUpload = multer({ storage: childProfileStorage, limits:  {fieldSize: 52428800 } })
 
 const Profile = require('../models/profile')
 const Address = require('../models/address')

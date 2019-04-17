@@ -43,7 +43,7 @@ const groupStorage = multer.diskStorage({
     cb(null, fileName)
   }
 })
-const groupUpload = multer({ storage: groupStorage })
+const groupUpload = multer({ storage: groupStorage , limits:  {fieldSize: 52428800 }})
 
 const announcementStorage = multer.diskStorage({
   destination (req, file, cb) {
@@ -56,7 +56,7 @@ const announcementStorage = multer.diskStorage({
     cb(null, `${req.params.announcement_id}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const announcementUpload = multer({ storage: announcementStorage })
+const announcementUpload = multer({ storage: announcementStorage, limits:  {fieldSize: 52428800 } })
 
 const Image = require('../models/image')
 const Reply = require('../models/reply')

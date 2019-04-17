@@ -4,6 +4,15 @@ import Texts from "../Constants/Texts.js";
 import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
 
+const dataURLtoFile = (dataurl, filename) => {
+	var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+			bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+	while(n--){
+			u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new File([u8arr], filename, {type:mime});
+}
+
 
 class EditProfileScreen extends React.Component {
 	state = { fetchedProfile: false };
@@ -28,9 +37,9 @@ class EditProfileScreen extends React.Component {
 	handleMessage = (event) => {
 		const data =  JSON.parse(event.data)
 		if(data.action==='fileUpload'){
-			const file = data.value.data
-			this.setState({ image: { path: file }, file });
-		} 
+			const image = `data:image/png;base64, ${data.value}`;
+			this.setState({ image: { path: image }, file: dataURLtoFile(image,'photo.png')  });
+		}
 	}
 	validate = () => {
 		const texts = Texts[this.props.language].editProfileScreen;
@@ -171,7 +180,6 @@ class EditProfileScreen extends React.Component {
 						className="profilePhoto horizontalCenter"
 						alt="user's profile"
 						src={this.state.image.path}
-						onClick={this.handleImageChange}
 					/>
 					<label htmlFor="editGivenNameInput" id="editGivenNameLabel">{texts.name} </label>
 					<input
@@ -197,9 +205,9 @@ class EditProfileScreen extends React.Component {
 					<span className="invalid-feedback" id="nameErr" />
 					<div id="uploadProfilePhotoContainer">
 						<label htmlFor="uploadPhotoInput">
-							<i className="fas fa-camera " onClick={true?this.handleNativeImageChange:()=>{}}/>
+							<i className="fas fa-camera " onClick={window.isNative?this.handleNativeImageChange:()=>{}}/>
 						</label>
-							{ false &&<input
+							{ !window.isNative &&<input
 							id="uploadPhotoInput"
 							type="file"
 							accept="image/*"
