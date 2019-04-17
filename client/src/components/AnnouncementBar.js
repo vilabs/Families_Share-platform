@@ -27,7 +27,7 @@ class AnnouncementBar extends React.Component{
 		handleMessage = (event) => {
 			const data = JSON.parse(event.data)
 			if (data.action === 'fileUpload') {
-				const image = `data:image/png;base64, ${data.value.data}`;
+				const image = `data:image/png;base64, ${data.value}`;
 				this.setState({ photos: [{ photo: dataURLtoFile(image, 'photo.png'), preview: image}]  });
 			}
 		}
