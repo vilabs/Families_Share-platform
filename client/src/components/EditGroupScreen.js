@@ -285,7 +285,7 @@ class EditGroupScreen extends React.Component {
 								<div className="col-3-10">
 									<div id="uploadGroupLogoContainer">
 										<label htmlFor="uploadLogoInput" className="horizontalCenter">{texts.file}</label>
-										{window.isNatve?<input
+										{window.isNative?<input
 											id="uploadLogoInput"
 											type={"button"}
 											name="photo"
