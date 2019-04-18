@@ -970,24 +970,38 @@ router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) =
 module.exports = router
 
 router.post('/:userId/sendmenotification', (req, res, next) => {
-  Device.find({ user_id: req.params.userId }).then(devices => {
-    if (devices) {
-      devices.forEach((device) => {
-        const message = {
-          notification: { title: 'Welcome', body: 'Families Share welcomes you to our community' },
-          token: device.device_id
-        }
-        fbadmin.messaging().send(message)
-          .then((response) => {
-            console.log('Successfully sent message:', response)
-          })
-          .catch((error) => {
-            if (error.code === 'messaging/registration-token-not-registered') {
-              Device.deleteOne({ device_id: device.device_id })
-            }
-          })
-      })
+  // Device.find({ user_id: req.params.userId }).then(devices => {
+  //   if (devices) {
+  //     devices.forEach((device) => {
+  //       const message = {
+  //         notification: { title: 'Welcome', body: 'Families Share welcomes you to our community' },
+  //         token: device.device_id
+  //       }
+  //       fbadmin.messaging().send(message)
+  //         .then((response) => {
+  //           console.log('Successfully sent message:', response)
+  //         })
+  //         .catch((error) => {
+  //           if (error.code === 'messaging/registration-token-not-registered') {
+  //             Device.deleteOne({ device_id: device.device_id })
+  //           }
+  //         })
+  //     })
+  //   }
+  //   res.status(200).send('Push notification sent')
+  // }).catch(next)
+  router.post('/fixCalendars', async (req, res)=>{
+    const groups = Group.find({})
+    for (const group of groups ){
+      const newCal = {
+        summary: group.name,
+        description: group.description,
+        location: group.location
+      }
+      const response = await calendar.calendars.insert({ resource: newCal })
+      group.calendar_id = response.data.id
+      await group.save();
     }
-    res.status(200).send('Push notification sent')
-  }).catch(next)
+    res.sendStatus(200);
+  })  
 })
