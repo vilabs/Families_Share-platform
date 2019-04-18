@@ -993,6 +993,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
   try{
     const groups = Group.find({})
     for (const group of groups ){
+      if(group.summary){
       const newCal = {
         summary: group.name,
         description: group.description,
@@ -1001,6 +1002,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       const response = await calendar.calendars.insert({ resource: newCal })
       group.calendar_id = response.data.id
       await group.save();
+    }
     }
     res.sendStatus(200);
   }catch(error){
