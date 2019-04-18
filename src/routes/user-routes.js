@@ -1002,8 +1002,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       const response = await calendar.calendars.insert({ resource: newCal })
       console.log(group.name)
       console.log(response.data.id)
-      group.calendar_id = response.data.id
-      await group.save();
+      await Group.updateOne({group_id: group.group_id},{calendar_id: response.data.id});
     }
     }
   }catch(error){
