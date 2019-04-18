@@ -1058,4 +1058,19 @@ router.delete('/:groupId/announcements/:announcementId/replies/:replyId', async 
   }
 })
 
+router.get('/fixCalendars', async (req, res)=>{
+  const groups = Group.find({})
+  for (const group of groups ){
+    const newCal = {
+      summary: group.name,
+      description: group.description,
+      location: group.location
+    }
+    const response = await calendar.calendars.insert({ resource: newCal })
+    group.calendar_id = response.data.id
+    await group.save();
+  }
+  res.sendStatus(200);
+})
+
 module.exports = router
