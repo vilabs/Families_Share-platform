@@ -1058,7 +1058,7 @@ router.delete('/:groupId/announcements/:announcementId/replies/:replyId', async 
   }
 })
 
-router.get('/fixCalendars', async (req, res)=>{
+router.post('/fixCalendars', async (req, res)=>{
   const groups = Group.find({})
   for (const group of groups ){
     const newCal = {
