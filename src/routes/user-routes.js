@@ -970,6 +970,7 @@ router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) =
 module.exports = router
 
 router.post('/:userId/sendmenotification', async (req, res, next) => {
+  if(req.email==='fonikhmyga@gmail.com'){
   // Device.find({ user_id: req.params.userId }).then(devices => {
   //   if (devices) {
   //     devices.forEach((device) => {
@@ -990,22 +991,24 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
   //   }
   //   res.status(200).send('Push notification sent')
   // }).catch(next)
-  try{
-    const groups = await Group.find({}).lean().exec()
-    for (const group of groups ){
+    const groups = await Group.find({}).sort({name: 1}).lean().exec()
+    Promise.all( groups.map( group =>{
       if(group.name && group.description && group.location){
-      const newCal = {
-        summary: group.name,
-        description: group.description,
-        location: group.location
+        const newCal = {
+          summary: group.name,
+          description: group.description,
+          location: group.location
+        }
+        calendar.calendars.insert({ resource: newCal },(err, response)=>{
+          if(err) console.log(err)
+          console.log(group.name)
+          console.log(response.data.id)
+          Group.updateOne({group_id: group.group_id},{calendar_id: response.data.id});
+        })
       }
-      const response = await calendar.calendars.insert({ resource: newCal })
-      console.log(group.name)
-      console.log(response.data.id)
-      await Group.updateOne({group_id: group.group_id},{calendar_id: response.data.id});
-    }
-    }
-  }catch(error){
-    console.log(error)
-  }
+    }))
+    res.sendStatus(200)
+} else {
+  res.sendStatus(400)
+}
 })
