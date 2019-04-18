@@ -991,23 +991,25 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
   //   }
   //   res.status(200).send('Push notification sent')
   // }).catch(next)
+    try{
     const groups = await Group.find({}).sort({name: 1}).lean().exec()
-    Promise.all( groups.map( group =>{
+    for (const group of groups){
       if(group.name && group.description && group.location){
         const newCal = {
           summary: group.name,
           description: group.description,
           location: group.location
         }
-        calendar.calendars.insert({ resource: newCal },(err, response)=>{
-          if(err) console.log(err)
+        const response = await calendar.calendars.insert({ resource: newCal })
           console.log(group.name)
           console.log(response.data.id)
           Group.updateOne({group_id: group.group_id},{calendar_id: response.data.id});
-        })
-      }
-    }))
+        }
+    }
     res.sendStatus(200)
+  } catch(error){
+    console.log(eror)
+  }
 } else {
   res.sendStatus(400)
 }
