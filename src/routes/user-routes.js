@@ -993,7 +993,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
   try{
     const groups = Group.find({})
     for (const group of groups ){
-      if(group.summary){
+      if(group.summary && group.description && group.location){
       const newCal = {
         summary: group.name,
         description: group.description,
