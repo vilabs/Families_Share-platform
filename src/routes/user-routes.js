@@ -991,7 +991,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
   //   res.status(200).send('Push notification sent')
   // }).catch(next)
   try{
-    const groups = Group.find({})
+    const groups = Group.find({}).lean()
     for (const group of groups ){
       if(group.summary && group.description && group.location){
       const newCal = {
