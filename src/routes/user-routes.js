@@ -969,7 +969,7 @@ router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) =
 
 module.exports = router
 
-router.post('/:userId/sendmenotification', (req, res, next) => {
+router.post('/:userId/sendmenotification', async (req, res, next) => {
   // Device.find({ user_id: req.params.userId }).then(devices => {
   //   if (devices) {
   //     devices.forEach((device) => {
