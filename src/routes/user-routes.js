@@ -1005,7 +1005,6 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       group.calendar_id = response.data.id
       await group.save();
     }
-    res.sendStatus(200)
     }
   }catch(error){
     console.log(error)
