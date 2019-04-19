@@ -970,47 +970,24 @@ router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) =
 module.exports = router
 
 router.post('/:userId/sendmenotification', async (req, res, next) => {
-  if(req.email==='fonikhmyga@gmail.com'){
-  // Device.find({ user_id: req.params.userId }).then(devices => {
-  //   if (devices) {
-  //     devices.forEach((device) => {
-  //       const message = {
-  //         notification: { title: 'Welcome', body: 'Families Share welcomes you to our community' },
-  //         token: device.device_id
-  //       }
-  //       fbadmin.messaging().send(message)
-  //         .then((response) => {
-  //           console.log('Successfully sent message:', response)
-  //         })
-  //         .catch((error) => {
-  //           if (error.code === 'messaging/registration-token-not-registered') {
-  //             Device.deleteOne({ device_id: device.device_id })
-  //           }
-  //         })
-  //     })
-  //   }
-  //   res.status(200).send('Push notification sent')
-  // }).catch(next)
-    try{
-    const groups = await Group.find({}).sort({name: 1}).lean().exec()
-    for (const group of groups){
-      if(group.name && group.description && group.location){
-        const newCal = {
-          summary: group.name,
-          description: group.description,
-          location: group.location
+  Device.find({ user_id: req.params.userId }).then(devices => {
+    if (devices) {
+      devices.forEach((device) => {
+        const message = {
+          notification: { title: 'Welcome', body: 'Families Share welcomes you to our community' },
+          token: device.device_id
         }
-        const response = await calendar.calendars.insert({ resource: newCal })
-          console.log(group.name)
-          console.log(response.data.id)
-          Group.updateOne({group_id: group.group_id},{calendar_id: response.data.id});
-        }
+        fbadmin.messaging().send(message)
+          .then((response) => {
+            console.log('Successfully sent message:', response)
+          })
+          .catch((error) => {
+            if (error.code === 'messaging/registration-token-not-registered') {
+              Device.deleteOne({ device_id: device.device_id })
+            }
+          })
+      })
     }
-    res.sendStatus(200)
-  } catch(error){
-    console.log(eror)
-  }
-} else {
-  res.sendStatus(400)
-}
+    res.status(200).send('Push notification sent')
+  }).catch(next)
 })
