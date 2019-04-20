@@ -2351,9 +2351,12 @@ a:active {
 }
 
 #myFamiliesShareHeaderContainer {
+  z-index: 100;
+  width: 100%;
+  top: 0;
   height: 6rem;
   width: 100%;
-  position: relative;
+  position: fixed;
   background-color: #000000;
   overflow: hidden;
 }
@@ -2418,7 +2421,6 @@ a:active {
 #drawerMenuContainer h1 {
   padding: 0;
   float: left;
-
   font-size: 1.4rem;
   color: #000000;
   opacity: 0.7;
@@ -2429,6 +2431,10 @@ a:active {
 }
 #drawerContainer {
   overflow: hidden;
+}
+#myFamiliesShareMainContainer {
+  top: 6rem;
+  position: relative;
 }
 /* MY FAMILIES SHARE SCREEN END*/
 
@@ -2751,7 +2757,7 @@ a:active {
 #searchGroupBarContainer {
   height: 6rem;
   position: fixed;
-  background-color: #ffffff;
+  background-color: #00838f;
   top: 0;
   z-index: 100;
   width: 100%;
@@ -2766,12 +2772,12 @@ a:active {
 }
 #searchGroupBarContainer i {
   font-size: 2rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
 }
 #searchGroupBarContainer input {
   height: 4rem;
   font-size: 1.6rem;
-  background-color: #e0e0e0;
+  background-color: #ffffff;
   border: none;
   border-radius: 2rem;
   width: 65vw;
@@ -2781,7 +2787,7 @@ a:active {
 #searchGroupBarContainer h1 {
   font-family: "Roboto", sans-serif;
   font-size: 2rem;
-  color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
   margin: 0;
   cursor: pointer;
 }

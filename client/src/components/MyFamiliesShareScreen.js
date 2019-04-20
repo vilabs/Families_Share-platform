@@ -74,6 +74,7 @@ class MyFamiliesShareScreen extends React.Component {
 			<div id="drawerContainer">
 				<MyFamiliesShareHeader pendingInvites={this.state.pendingInvites}
 					pendingNotifications={this.state.unreadNotifications} />
+				<div id="myFamiliesShareMainContainer">
 				<Calendar
 					ownerType={"user"}
 					ownerId={JSON.parse(localStorage.getItem("user")).id}
@@ -87,6 +88,7 @@ class MyFamiliesShareScreen extends React.Component {
 				) : (
 						this.renderSkeleton()
 					)}
+					</div>
 			</div>
 		);
 	}
