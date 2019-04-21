@@ -1,17 +1,21 @@
 import React from "react";
-import withLanguage from "./LanguageContext";
 import moment from "moment";
 import { HuePicker } from "react-color";
 import axios from "axios";
+import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts.js";
 import LoadingSpinner from "./LoadingSpinner";
 
 const dataURLtoFile = (dataurl, filename) => {
-  var arr = dataurl.split(","),
-    mime = arr[0].match(/:(.*?);/)[1],
-    bstr = atob(arr[1]),
-    n = bstr.length,
-    u8arr = new Uint8Array(n);
+  const arr = dataurl.split(",");
+
+  const mime = arr[0].match(/:(.*?);/)[1];
+
+  const bstr = atob(arr[1]);
+
+  let n = bstr.length;
+
+  const u8arr = new Uint8Array(n);
   while (n--) {
     u8arr[n] = bstr.charCodeAt(n);
   }
@@ -28,13 +32,13 @@ class EditChildProfileScreen extends React.Component {
   componentDidMount() {
     document.addEventListener("message", this.handleMessage, false);
     if (this.props.history.location.state !== undefined) {
-      const {state} = this.props.history.location;
+      const { state } = this.props.history.location;
       this.setState({ ...state });
     } else {
       const userId = this.props.match.params.profileId;
-      const {childId} = this.props.match.params;
+      const { childId } = this.props.match.params;
       axios
-        .get(`/users/${  userId  }/children/${  childId}`)
+        .get(`/users/${userId}/children/${childId}`)
         .then(response => {
           const child = response.data;
           child.date = new Date(child.birthdate).getDate();
@@ -78,51 +82,51 @@ class EditChildProfileScreen extends React.Component {
       });
     }
   };
+
   handleCancel = () => {
     this.props.history.goBack();
   };
 
   handleChange = event => {
-    const {name} = event.target;
-    const {value} = event.target;
+    const { name } = event.target;
+    const { value } = event.target;
     this.setState({ [name]: value });
   };
 
   validate = () => {
-		const texts = Texts[this.props.language].editChildProfileScreen;
-		const formLength = this.formEl.length;
-		if (this.formEl.checkValidity() === false) {
-			for (let i = 0; i < formLength; i++) {
-				const elem = this.formEl[i];
-				const errorLabel = document.getElementById(elem.name + "Err");
-				if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
-					if (!elem.validity.valid) {
-						if (elem.validity.valueMissing) {
-							errorLabel.textContent = texts.requiredErr;
-						}
-					} else {
-						errorLabel.textContent = "";
-					}
-				}
-			}
-			return false;
-		} 
-			for (let i = 0; i < formLength; i++) {
-				const elem = this.formEl[i];
-				const errorLabel = document.getElementById(elem.name + "Err");
-				if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
-					errorLabel.textContent = "";
-				}
-			}
-			return true;
-		
-	};
+    const texts = Texts[this.props.language].editChildProfileScreen;
+    const formLength = this.formEl.length;
+    if (this.formEl.checkValidity() === false) {
+      for (let i = 0; i < formLength; i++) {
+        const elem = this.formEl[i];
+        const errorLabel = document.getElementById(`${elem.name}Err`);
+        if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
+          if (!elem.validity.valid) {
+            if (elem.validity.valueMissing) {
+              errorLabel.textContent = texts.requiredErr;
+            }
+          } else {
+            errorLabel.textContent = "";
+          }
+        }
+      }
+      return false;
+    }
+    for (let i = 0; i < formLength; i++) {
+      const elem = this.formEl[i];
+      const errorLabel = document.getElementById(`${elem.name}Err`);
+      if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
+        errorLabel.textContent = "";
+      }
+    }
+    return true;
+  };
 
   handleAdd = event => {
     event.preventDefault();
-    const {pathname} = this.props.history.location;
+    const { pathname } = this.props.history.location;
     this.props.history.push({
-      pathname: `${pathname  }/additional`,
+      pathname: `${pathname}/additional`,
       state: {
         ...this.state,
         editChild: true
@@ -137,10 +141,10 @@ class EditChildProfileScreen extends React.Component {
 
   submitChanges = () => {
     const userId = this.props.match.params.profileId;
-    const {childId} = this.props.match.params;
+    const { childId } = this.props.match.params;
     const bodyFormData = new FormData();
     const birthdate = new Date(
-      this.state.year + "-" + this.state.month + "-" + this.state.date
+      `${this.state.year}-${this.state.month}-${this.state.date}`
     );
     if (this.state.file !== undefined) {
       bodyFormData.append("photo", this.state.file);
@@ -154,7 +158,7 @@ class EditChildProfileScreen extends React.Component {
     bodyFormData.append("allergies", this.state.allergies);
     bodyFormData.append("birthdate", birthdate);
     axios
-      .patch(`/users/${  userId  }/children/${  childId}`, bodyFormData, {
+      .patch(`/users/${userId}/children/${childId}`, bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
@@ -179,7 +183,7 @@ class EditChildProfileScreen extends React.Component {
 
   handleImageChange = event => {
     if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
+      const reader = new FileReader();
       const file = event.target.files[0];
       reader.onload = e => {
         this.setState({ image: { path: e.target.result }, file });
@@ -208,12 +212,13 @@ class EditChildProfileScreen extends React.Component {
     return this.state.fetchedChildData ? (
       <React.Fragment>
         <div
-  id="editChildProfileHeaderContainer"
+          id="editChildProfileHeaderContainer"
           style={{ backgroundColor: this.state.background }}
         >
           <div className="row no-gutters" id="profileHeaderOptions">
-  <div className="col-2-10">
+            <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={() => this.props.history.goBack()}
               >
@@ -225,17 +230,18 @@ class EditChildProfileScreen extends React.Component {
             </div>
             <div className="col-2-10">
               <button
-  className="transparentButton center"
+                type="button"
+                className="transparentButton center"
                 onClick={this.handleSave}
               >
-  <i className="fas fa-check" />
+                <i className="fas fa-check" />
               </button>
             </div>
           </div>
           <img
-  src={this.state.image.path}
+            src={this.state.image.path}
             alt="child profile logo"
-  className="horizontalCenter profilePhoto"
+            className="horizontalCenter profilePhoto"
           />
         </div>
         <div id="editChildProfileInfoContainer" className="horizontalCenter">
@@ -246,16 +252,16 @@ class EditChildProfileScreen extends React.Component {
             noValidate
           >
             <div className="row no-gutters">
-  <div className="col-5-10">
-  <div className="fullInput editChildProfileInputField center">
+              <div className="col-5-10">
+                <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="name">{texts.name}</label>
-  <input
+                  <input
                     type="text"
-  name="given_name"
-  className="form-control"
-  onChange={this.handleChange}
-  required
-  value={this.state.given_name}
+                    name="given_name"
+                    className="form-control"
+                    onChange={this.handleChange}
+                    required
+                    value={this.state.given_name}
                   />
                   <span className="invalid-feedback" id="given_nameErr" />
                 </div>
@@ -266,10 +272,10 @@ class EditChildProfileScreen extends React.Component {
                   <input
                     type="text"
                     name="family_name"
-  className="form-control"
+                    className="form-control"
                     onChange={this.handleChange}
-  required
-  value={this.state.family_name}
+                    required
+                    value={this.state.family_name}
                   />
                   <span className="invalid-feedback" id="family_nameErr" />
                 </div>
@@ -277,32 +283,32 @@ class EditChildProfileScreen extends React.Component {
             </div>
             <div className="row no-gutters">
               <div className="col-1-3">
-  <div className="fullInput editChildProfileInputField center">
+                <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="date">{texts.date}</label>
-  <select
-  value={this.state.date}
-  onChange={this.handleChange}
+                  <select
+                    value={this.state.date}
+                    onChange={this.handleChange}
                     name="date"
                   >
-  {dates.map(date => (
+                    {dates.map(date => (
                       <option key={date} value={date}>
-  {date}
+                        {date}
                       </option>
                     ))}
                   </select>
                 </div>
               </div>
               <div className="col-1-3">
-  <div className="fullInput editChildProfileInputField center">
+                <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="month">{texts.month}</label>
-  <select
+                  <select
                     value={this.state.month}
-  onChange={this.handleChange}
+                    onChange={this.handleChange}
                     name="month"
                   >
                     {months.map(month => (
                       <option key={month} value={month}>
-  {month}
+                        {month}
                       </option>
                     ))}
                   </select>
@@ -311,10 +317,10 @@ class EditChildProfileScreen extends React.Component {
               <div className="col-1-3">
                 <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="year">{texts.year}</label>
-  <select
-  value={this.state.year}
-  onChange={this.handleChange}
-  name="year"
+                  <select
+                    value={this.state.year}
+                    onChange={this.handleChange}
+                    name="year"
                   >
                     {years.map(year => (
                       <option key={year} value={year}>
@@ -325,56 +331,65 @@ class EditChildProfileScreen extends React.Component {
                 </div>
               </div>
             </div>
-  <div className="row no-gutters">
-  <div className="col-10-10">
+            <div className="row no-gutters">
+              <div className="col-10-10">
                 <div className="fullInput editChildProfileInputField center">
-  <label htmlFor="gender">{texts.gender}</label>
+                  <label htmlFor="gender">{texts.gender}</label>
                   <select
-  value={this.state.gender}
+                    value={this.state.gender}
                     onChange={this.handleChange}
                     name="gender"
                   >
-  <option value="boy">{texts.boy}</option>
-  <option value="girl">{texts.girl}</option>
+                    <option value="boy">{texts.boy}</option>
+                    <option value="girl">{texts.girl}</option>
                     <option value="unspecified">{texts.unspecified}</option>
                   </select>
                 </div>
               </div>
             </div>
             <div id="additionalInformationContainer" className="row no-gutters">
-  <div className="col-7-10">
+              <div className="col-7-10">
                 <div className="center">
-  <h1>{texts.additional}</h1>
+                  <h1>{texts.additional}</h1>
                   <h2>{texts.example}</h2>
                 </div>
               </div>
               <div className="col-3-10">
-  <button className="center" onClick={this.handleAdd}>
+                <button
+                  className="center"
+                  type="button"
+                  onClick={this.handleAdd}
+                >
                   {texts.add}
                 </button>
               </div>
             </div>
             <div className="row no-gutters">
-  <div className="col-2-10">
-  <i className="fas fa-camera center" />
+              <div className="col-2-10">
+                <i className="fas fa-camera center" />
               </div>
               <div className="col-3-10">
                 <div id="uploadGroupLogoContainer">
-  <label className="horizontalCenter " htmlFor="uploadLogoInput">{texts.file}</label>
-  {window.isNative?(
-<input
-										id="uploadLogoInput"
-										className="editChildProfileInput"
-										type={"button"}
-										accept="image/*"
-										name="logo"
-										onClick={this.handleNativeImageChange}
-									/>
-):
+                  <label
+                    className="horizontalCenter "
+                    htmlFor="uploadLogoInput"
+                  >
+                    {texts.file}
+                  </label>
+                  {window.isNative ? (
                     <input
-  id="uploadLogoInput"
-  className="editChildProfileInput"
-  type="file"
+                      id="uploadLogoInput"
+                      className="editChildProfileInput"
+                      type="button"
+                      accept="image/*"
+                      name="logo"
+                      onClick={this.handleNativeImageChange}
+                    />
+                  ) : (
+                    <input
+                      id="uploadLogoInput"
+                      className="editChildProfileInput"
+                      type="file"
                       accept="image/*"
                       name="logo"
                       onChange={this.handleImageChange}

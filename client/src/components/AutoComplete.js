@@ -22,22 +22,29 @@ class AutoComplete extends React.Component {
   renderSuggestions = () => {
     return (
       <ul>
-        {this.getSuggestions(this.props.searchInput).map( (suggestion,index) => (
+        {this.getSuggestions(this.props.searchInput).map(
+          (suggestion, index) => (
             <li key={index}>
-  <div className="row no-gutters" style={{cursor:'pointer', margin: '0.7rem 0'}} onClick={() => this.handleClick(suggestion.name)}>
-                          <div className="col-2-10">
-                                  <i className="fas fa-search" />
+              <div
+                className="row no-gutters"
+                style={{ cursor: "pointer", margin: "0.7rem 0" }}
+                onClick={() => this.handleClick(suggestion.name)}
+              >
+                <div className="col-2-10">
+                  <i className="fas fa-search" />
                 </div>
-                          <div className="col-8-10">
+                <div className="col-8-10">
                   <div className="autoCompleteText">
-                                      <Highlighter text={suggestion.name} highlight={this.props.searchInput} />
+                    <Highlighter
+                      text={suggestion.name}
+                      highlight={this.props.searchInput}
                     />
                   </div>
                 </div>
               </div>
             </li>
-</li>
-))}
+          )
+        )}
       </ul>
     );
   };

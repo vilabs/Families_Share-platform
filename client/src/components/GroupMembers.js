@@ -7,7 +7,7 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const getGroupMembers = groupId => {
   return axios
-    .get(`/groups/${  groupId  }/members`)
+    .get(`/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -18,7 +18,7 @@ const getGroupMembers = groupId => {
 };
 const getGroupSettings = groupId => {
   return axios
-    .get(`/groups/${  groupId  }/settings`)
+    .get(`/groups/${groupId}/settings`)
     .then(response => {
       return response.data;
     })
@@ -41,7 +41,7 @@ class GroupMembers extends React.Component {
     const members = await getGroupMembers(groupId);
     const acceptedMembers = [];
     let pendingRequests = 0;
-    const {userIsAdmin} = this.props;
+    const { userIsAdmin } = this.props;
     members.forEach(member => {
       if (member.user_accepted && member.group_accepted) {
         acceptedMembers.push(member);
@@ -61,7 +61,7 @@ class GroupMembers extends React.Component {
 
   handlePendingRequests = () => {
     this.props.history.push(
-      `/groups/${  this.state.group.group_id  }/members/pending`
+      `/groups/${this.state.group.group_id}/members/pending`
     );
   };
 
@@ -83,26 +83,24 @@ class GroupMembers extends React.Component {
           <div className="col-3-10 ">
             {this.state.userIsAdmin && (
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handlePendingRequests}
               >
-                <i className="fas fa-user-friends">
-                  {this.state.pendingRequests > 0 ? (
-                    <span className="badge">{this.state.pendingRequests}</span>
-                  ) : (
-                    <div />
-                  )}
-                </i>
-                                           </button>}
+                <i className="fas fa-user-friends" />
+                {this.state.pendingRequests > 0 && (
+                  <span className="badge">{this.state.pendingRequests}</span>
+                )}
+              </button>
             )}
           </div>
         </div>
         {this.state.userIsAdmin && (
-<GroupMembersAdminOptions
-              groupIsOpen={this.state.settings.open}
-							groupId={this.state.group.group_id}
-            />
-)}
+          <GroupMembersAdminOptions
+            groupIsOpen={this.state.settings.open}
+            groupId={this.state.group.group_id}
+          />
+        )}
         <GroupMembersList
           members={this.state.members}
           groupId={this.state.group.group_id}

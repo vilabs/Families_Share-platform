@@ -3,11 +3,11 @@ import Loadable from "react-loadable";
 import { Redirect, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/stylesheet.css";
-import { LanguageProvider } from "./components/LanguageContext";
 import axios from "axios";
-import Loading from './components/LoadingSpinner';
-import { withStyles } from '@material-ui/core/styles';
-import { SnackbarProvider } from 'notistack';
+import { withStyles } from "@material-ui/core/styles";
+import { SnackbarProvider } from "notistack";
+import Loading from "./components/LoadingSpinner";
+import { LanguageProvider } from "./components/LanguageContext";
 import { PrivateRoute } from "./components/PrivateRoute";
 
 const styles = theme => ({
@@ -154,6 +154,10 @@ class App extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   handleMessage = event => {
     const data = JSON.parse(event.data);
     if (data.action === "deviceToken") {
@@ -162,9 +166,6 @@ class App extends React.Component {
       localStorage.setItem("version", data.version);
     }
   };
-  componentWillUnmount() {
-    document.removeEventListener("message", this.handleMessage, false);
-  }
 
   render() {
     const { classes } = this.props;
@@ -172,22 +173,24 @@ class App extends React.Component {
       <LanguageProvider>
         <SnackbarProvider
           maxSnack={1}
-  anchorOrigin={{
+          anchorOrigin={{
             vertical: "bottom",
             horizontal: "center"
           }}
           autoHideDuration={4000}
-  classes={{
+          classes={{
             variantInfo: classes.info,
             message: classes.message,
             root: classes.root
           }}
           hideIconVariant
-					>
-  <div className="App">
+        >
+          <div className="App">
             <Switch>
-  <Route
-exact path="/" render={props => (
+              <Route
+                exact
+                path="/"
+                render={props =>
                   localStorage.getItem("user") ? (
                     <Redirect
                       to={{
@@ -203,68 +206,72 @@ exact path="/" render={props => (
               <Route exact path="/" component={LandingScreen} />
               <Route path="/about" component={AboutScreen} />
               <Route path="/signup" component={SignUpScreen} />
-  <Route path="/login" component={LogInScreen} />
-  <Route path="/faqs" component={FaqsScreen} />
+              <Route path="/login" component={LogInScreen} />
+              <Route path="/faqs" component={FaqsScreen} />
               <Route path="/forgotpsw" component={ForgotPasswordScreen} />
               <Route
-  path="/changepsw/:token"
-  component={ChangePasswordScreen}
+                path="/changepsw/:token"
+                component={ChangePasswordScreen}
               />
               <PrivateRoute
-  exact path="/myfamiliesshare"
+                exact
+                path="/myfamiliesshare"
                 component={MyFamiliesShareScreen}
               />
               <PrivateRoute
-  path="/myfamiliesshare/invites"
+                path="/myfamiliesshare/invites"
                 component={PendingRequestsScreen}
               />
-  <PrivateRoute
+              <PrivateRoute
                 exact
                 path="/profiles/:profileId/children/:childId/edit/additional"
-  component={AdditionalInfoScreen}
+                component={AdditionalInfoScreen}
               />
               <PrivateRoute
-  exact
+                exact
                 path="/profiles/:profileId/children/:childId/edit"
-  component={EditChildProfileScreen}
+                component={EditChildProfileScreen}
               />
               <PrivateRoute
-  exact
+                exact
                 path="/profiles/:profileId/children/create/additional"
-  component={AdditionalInfoScreen}
+                component={AdditionalInfoScreen}
               />
-  <PrivateRoute
+              <PrivateRoute
                 exact
                 path="/profiles/:profileId/children/create"
                 component={CreateChildScreen}
               />
               <PrivateRoute
                 path="/profiles/:profileId/children/:childId"
-  component={ChildProfileScreen}
+                component={ChildProfileScreen}
               />
 
               <PrivateRoute
-  path="/profiles/:profileId/edit"
+                path="/profiles/:profileId/edit"
                 component={EditProfileScreen}
               />
-  <Route
-  path="/profiles/:profileId"
+              <Route
+                path="/profiles/:profileId"
                 render={props =>
                   localStorage.getItem("user") ? (
                     <ProfileScreen
-  key={props.match.params.profileId}
+                      key={props.match.params.profileId}
                       {...props}
                     />
                   ) : (
-  <Redirect
-  to={{ pathname: "/login", state: { from: props.location } }}
+                    <Redirect
+                      to={{
+                        pathname: "/login",
+                        state: { from: props.location }
+                      }}
                     />
                   )
                 }
               />
               <PrivateRoute
                 path="/groups/:groupId/members/pending"
-  component={PendingRequestsScreen}
+                component={PendingRequestsScreen}
               />
               <PrivateRoute
                 path="/groups/:groupId/news/notifications/:notificationId"
@@ -272,20 +279,22 @@ exact path="/" render={props => (
               />
               <PrivateRoute
                 exact
-  path="/groups/:groupId/activities/create"
+                path="/groups/:groupId/activities/create"
                 component={CreateActivityScreen}
               />
-  <PrivateRoute
-  exact path="/groups/:groupId/activities/pending"
+              <PrivateRoute
+                exact
+                path="/groups/:groupId/activities/pending"
                 component={PendingRequestsScreen}
               />
               <PrivateRoute
-  exact path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId/edit"
+                exact
+                path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId/edit"
                 component={EditTimeslotScreen}
               />
-  <PrivateRoute
-  path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"
-  component={TimeslotScreen}
+              <PrivateRoute
+                path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"
+                component={TimeslotScreen}
               />
               <PrivateRoute
                 exact
@@ -298,25 +307,28 @@ exact path="/" render={props => (
               />
               <PrivateRoute
                 exact
-  path="/groups/:groupId/info/start-up-guide"
-  component={StartUpGuide}
+                path="/groups/:groupId/info/start-up-guide"
+                component={StartUpGuide}
               />
               <PrivateRoute
                 exact
-  path="/groups/:groupId/edit"
-  component={EditGroupScreen}
+                path="/groups/:groupId/edit"
+                component={EditGroupScreen}
               />
               <PrivateRoute
                 exact
                 path="/groups/create"
                 component={CreateGroupScreen}
               />
-  <PrivateRoute
+              <PrivateRoute
                 exact
-  path="/groups/search"
-  component={SearchGroupScreen}
+                path="/groups/search"
+                component={SearchGroupScreen}
               />
-  <PrivateRoute path="/groups/:groupId" component={GroupMainScreen} />
+              <PrivateRoute
+                path="/groups/:groupId"
+                component={GroupMainScreen}
+              />
 
               <Route component={NoMatchScreen} />
             </Switch>

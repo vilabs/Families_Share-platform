@@ -74,8 +74,12 @@ class AnnouncementReplies extends React.Component {
     return (
       <ul>
         {this.state.replies.map((reply, index) => (
-              <li key={index}>
-            <Reply reply={reply} handleRefresh={this.refresh} groupId={this.props.groupId} />
+          <li key={index}>
+            <Reply
+              reply={reply}
+              handleRefresh={this.refresh}
+              groupId={this.props.groupId}
+            />
           </li>
         ))}
       </ul>
@@ -94,31 +98,41 @@ class AnnouncementReplies extends React.Component {
     return (
       <React.Fragment>
         <div id="showRepliesContainer">
-          <button className="transparentButton" onClick={this.handleShow}>
-                  <i className={showRepliesIcon} />
-                </button>
+          <button
+            type="button"
+            className="transparentButton"
+            onClick={this.handleShow}
+          >
+            <i className={showRepliesIcon} />
+          </button>
         </div>
-        <div id="announcementRepliesContainer" style={this.state.showReplies ? {} : { display: "none" }}>
-              {this.state.fetchedReplies
-                        ? this.renderReplies()
-                        : <div />
-                    }
+        <div
+          id="announcementRepliesContainer"
+          style={this.state.showReplies ? {} : { display: "none" }}
+        >
+          {this.state.fetchedReplies ? this.renderReplies() : <div />}
           <div className="row no-gutters" id="newReplyContainer">
-                  <div className="col-8-10">
+            <div className="col-8-10">
               <input
-                          type="text" placeholder={texts.new} value={this.state.newReply}
-                          onChange={this.handleChange} className="verticalCenter" onKeyUp={this.handleEnter}
-                        />
+                type="text"
+                placeholder={texts.new}
+                value={this.state.newReply}
+                onChange={this.handleChange}
+                className="verticalCenter"
+                onKeyUp={this.handleEnter}
+              />
             </div>
-                  <div className="col-2-10">
+            <div className="col-2-10">
               <button
                 className="transparentButton center"
                 onClick={this.handleSend}
+                type="button"
+              >
                 <i className="fas fa-paper-plane" />
               </button>
             </div>
-                </div>
-            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

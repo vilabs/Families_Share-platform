@@ -1,12 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import moment from 'moment'
-import withLanguage from './LanguageContext';
-import InviteDialog from './InviteDialog';
-import Images from '../Constants/Images.js';
-import Texts from "../Constants/Texts.js";
+import moment from "moment";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import withLanguage from "./LanguageContext";
+import InviteDialog from "./InviteDialog";
+import Images from "../Constants/Images.js";
+import Texts from "../Constants/Texts.js";
 import ConfirmDialog from "./ConfirmDialog";
 
 class ChildProfileInfo extends React.Component {
@@ -26,12 +26,14 @@ class ChildProfileInfo extends React.Component {
   addParent = event => {
     this.setState({ modalIsOpen: true });
   };
+
   handleClose = () => {
     this.setState({ modalIsOpen: false });
   };
+
   deleteParent = index => {
-    const {profileId} = this.props.match.params;
-    const {childId} = this.props.match.params;
+    const { profileId } = this.props.match.params;
+    const { childId } = this.props.match.params;
     axios
       .delete(
         `/users/${profileId}/children/${childId}/parents/${
@@ -45,9 +47,10 @@ class ChildProfileInfo extends React.Component {
         console.log(error);
       });
   };
+
   handleAdd = parent => {
-    const {profileId} = this.props.match.params;
-    const {childId} = this.props.match.params;
+    const { profileId } = this.props.match.params;
+    const { childId } = this.props.match.params;
     axios
       .post(`/users/${profileId}/children/${childId}/parents`, {
         parentId: parent.user_id
@@ -60,6 +63,7 @@ class ChildProfileInfo extends React.Component {
       });
     this.setState({ modalIsOpen: false });
   };
+
   render() {
     const isParent =
       JSON.parse(localStorage.getItem("user")).id ===
@@ -75,118 +79,138 @@ class ChildProfileInfo extends React.Component {
     } = this.props;
     return (
       <React.Fragment>
-  <ConfirmDialog
-isOpen={this.state.confirmDialogIsOpen}
+        <ConfirmDialog
+          isOpen={this.state.confirmDialogIsOpen}
           title={texts.confirmDialogTitle}
-  handleClose={this.handleConfirmDialogClose}
+          handleClose={this.handleConfirmDialogClose}
         />
-  <InviteDialog 
-  isOpen={this.state.modalIsOpen} 
-  handleClose={this.handleClose} 
-  handleInvite={this.handleAdd}
-  inviteType="parent" 
+        <InviteDialog
+          isOpen={this.state.modalIsOpen}
+          handleClose={this.handleClose}
+          handleInvite={this.handleAdd}
+          inviteType="parent"
         />
         <div className="childProfileInfoSection">
-  <div className="row no-gutters">
+          <div className="row no-gutters">
             <div className="col-2-10">
               <i className="fas fa-birthday-cake" />
             </div>
             <div className="col-8-10">
               <div>
                 <h1>{moment(birthdate).format("MMMM Do YYYY")}</h1>
-  <h2>{`${moment().diff(birthdate, 'years')} ${texts.age}`}</h2>
+                <h2>{`${moment().diff(birthdate, "years")} ${texts.age}`}</h2>
               </div>
             </div>
           </div>
-  <div className="row no-gutters">
-  <div className="col-2-10">
+          <div className="row no-gutters">
+            <div className="col-2-10">
               <img src={Images.gender} alt="birthday icon" />
             </div>
             <div className="col-8-10">
-  <h1>{texts[gender]}</h1>
+              <h1>{texts[gender]}</h1>
             </div>
           </div>
-  <div className="row no-gutters">
-  <div className="col-2-10">
-  <img src={Images.couple} alt="birthday icon" />
+          <div className="row no-gutters">
+            <div className="col-2-10">
+              <img src={Images.couple} alt="birthday icon" />
             </div>
             <div className="col-3-10">
-  {parents[0] ? (
-<div>
-								<h1>{parents[0].given_name + " " + parents[0].family_name}</h1>
-							</div>
-):
-							isParent ? (
-<button className="addParent" onClick={this.addParent}>
-									{texts.addParent}
-								</button>
-): <div />
-              )}
-            </div>
-  <div className="col-1-10">
-  {parents[0] && isParent && parents.length > 1 ? (
-<button className="deleteParent" onClick={() => this.handleConfirmDialogOpen(0)}>
-								<i className="fas fa-times" />
-							</button>
-): null}
-            </div>
-  <div className="col-3-10">
-  {parents[1] ? (
-<div>
-								<h1>{parents[1].given_name + " " + parents[1].family_name}</h1>
-							</div>
-):
-							isParent ? (
-<button className="addParent" onClick={this.addParent}>
-									{texts.addParent}
-								</button>
-): <div />
+              {parents[0] ? (
+                <div>
+                  <h1>
+                    {`${parents[0].given_name} ${parents[0].family_name}`}
+                  </h1>
+                </div>
+              ) : (
+                isParent && (
+                  <button
+                    type="button"
+                    className="addParent"
+                    onClick={this.addParent}
+                  >
+                    {texts.addParent}
+                  </button>
+                )
               )}
             </div>
             <div className="col-1-10">
-  {parents[1] && isParent && parents.length > 1 ? (
-<button className="deleteParent" onClick={() => this.handleConfirmDialogOpen(1)}>
-								<i className="fas fa-times" />
-							</button>
-): null}
+              {parents[0] && isParent && parents.length > 1 && (
+                <button
+                  type="button"
+                  className="deleteParent"
+                  onClick={() => this.handleConfirmDialogOpen(0)}
+                >
+                  <i className="fas fa-times" />
+                </button>
+              )}
+            </div>
+            <div className="col-3-10">
+              {parents[1] ? (
+                <div>
+                  <h1>
+                    {`${parents[1].given_name} ${parents[1].family_name}`}
+                  </h1>
+                </div>
+              ) : (
+                isParent && (
+                  <button
+                    type="button"
+                    className="addParent"
+                    onClick={this.addParent}
+                  >
+                    {texts.addParent}
+                  </button>
+                )
+              )}
+            </div>
+            <div className="col-1-10">
+              {parents[1] && isParent && parents.length > 1 ? (
+                <button
+                  type="button"
+                  className="deleteParent"
+                  onClick={() => this.handleConfirmDialogOpen(1)}
+                >
+                  <i className="fas fa-times" />
+                </button>
+              ) : null}
             </div>
           </div>
         </div>
-  {this.props.showAdditional ? (
-<div className="childAdditionalInfoSection">
-						<h3>{texts.additional}</h3>
-						{allergies ?
-							<div className="row no-gutters">
-								<div className="col-3-10">
-									<h4>{texts.allergies + ":"}</h4>
-								</div>
-								<div className="col-7-10">
-									<p >{allergies}</p>
-								</div>
-							</div>
-							: <div />}
-						{specialNeeds ?
-							<div className="row no-gutters">
-								<div className="col-3-10">
-									<h4 >{texts.specialNeeds + ":"}</h4>
-								</div>
-								<div className="col-7-10">
-									<p >{specialNeeds}</p>
-								</div>
-							</div>
-							: <div />}
-						{otherInfo ?
-							<div className="row no-gutters">
-								<div className="col-3-10">
-									<h4>{texts.otherInfo + ":"}</h4>
-								</div>
-								<div className="col-7-10">
-									<p>{otherInfo}</p>
-								</div>
-							</div>
-							: <div />}
-					</div>
-): <div />}
+        {this.props.showAdditional && (
+          <div className="childAdditionalInfoSection">
+            <h3>{texts.additional}</h3>
+            {allergies && (
+              <div className="row no-gutters">
+                <div className="col-3-10">
+                  <h4>{`${texts.allergies}:`}</h4>
+                </div>
+                <div className="col-7-10">
+                  <p>{allergies}</p>
+                </div>
+              </div>
+            )}
+            {specialNeeds && (
+              <div className="row no-gutters">
+                <div className="col-3-10">
+                  <h4>{`${texts.specialNeeds}:`}</h4>
+                </div>
+                <div className="col-7-10">
+                  <p>{specialNeeds}</p>
+                </div>
+              </div>
+            )}
+            {otherInfo && (
+              <div className="row no-gutters">
+                <div className="col-3-10">
+                  <h4>{`${texts.otherInfo}:`}</h4>
+                </div>
+                <div className="col-7-10">
+                  <p>{otherInfo}</p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </React.Fragment>
     );
   }

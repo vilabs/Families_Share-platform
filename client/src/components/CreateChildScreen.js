@@ -1,10 +1,10 @@
 import React from "react";
-import withLanguage from './LanguageContext';
-import moment from 'moment';
-import axios from 'axios';
-import Checkbox from '@material-ui/core/Checkbox';
-import { withStyles } from '@material-ui/core/styles';
-import Texts from '../Constants/Texts.js';
+import moment from "moment";
+import axios from "axios";
+import Checkbox from "@material-ui/core/Checkbox";
+import { withStyles } from "@material-ui/core/styles";
+import withLanguage from "./LanguageContext";
+import Texts from "../Constants/Texts.js";
 
 const styles = theme => ({
   checkbox: {
@@ -52,45 +52,46 @@ class CreateChildScreen extends React.Component {
   };
 
   handleChange = event => {
-    const {name} = event.target;
-    const {value} = event.target;
+    const { name } = event.target;
+    const { value } = event.target;
     this.setState({ [name]: value });
   };
+
   validate = () => {
-		const texts = Texts[this.props.language].createChildScreen;
-		const formLength = this.formEl.length;
-		if (this.formEl.checkValidity() === false) {
-			for (let i = 0; i < formLength; i++) {
-				const elem = this.formEl[i];
-				const errorLabel = document.getElementById(elem.name + 'Err');
-				if (errorLabel && elem.nodeName.toLowerCase() !== 'button') {
-					if (!elem.validity.valid) {
-						if (elem.validity.customError) {
-							errorLabel.textContent = texts.acceptTermsErr
-						} else if (elem.validity.valueMissing) {
-							errorLabel.textContent = texts.requiredErr
-						}
-					} else {
-						errorLabel.textContent = '';
-					}
-				}
-			}
-			return false;
-		} 
-			for (let i = 0; i < formLength; i++) {
-				const elem = this.formEl[i];
-				const errorLabel = document.getElementById(elem.name + 'Err');
-				if (errorLabel && elem.nodeName.toLowerCase() !== 'button') {
-					errorLabel.textContent = '';
-				}
-			}
-			return true;
-		
-	}
+    const texts = Texts[this.props.language].createChildScreen;
+    const formLength = this.formEl.length;
+    if (this.formEl.checkValidity() === false) {
+      for (let i = 0; i < formLength; i++) {
+        const elem = this.formEl[i];
+        const errorLabel = document.getElementById(`${elem.name}Err`);
+        if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
+          if (!elem.validity.valid) {
+            if (elem.validity.customError) {
+              errorLabel.textContent = texts.acceptTermsErr;
+            } else if (elem.validity.valueMissing) {
+              errorLabel.textContent = texts.requiredErr;
+            }
+          } else {
+            errorLabel.textContent = "";
+          }
+        }
+      }
+      return false;
+    }
+    for (let i = 0; i < formLength; i++) {
+      const elem = this.formEl[i];
+      const errorLabel = document.getElementById(`${elem.name}Err`);
+      if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
+        errorLabel.textContent = "";
+      }
+    }
+    return true;
+  };
+
   submitChanges = () => {
     const userId = this.props.match.params.profileId;
     axios
-      .post(`/users/${  userId  }/children`, {
+      .post(`/users/${userId}/children`, {
         given_name: this.state.name,
         family_name: this.state.surname,
         birthdate: moment().set({
@@ -112,6 +113,7 @@ class CreateChildScreen extends React.Component {
         this.props.history.goBack();
       });
   };
+
   handleSave = event => {
     event.preventDefault();
     if (this.validate()) {
@@ -119,16 +121,18 @@ class CreateChildScreen extends React.Component {
     }
     this.setState({ formIsValidated: true });
   };
+
   handleAdd = () => {
-    const {pathname} = this.props.history.location;
+    const { pathname } = this.props.history.location;
     this.props.history.push({
-      pathname: `${pathname  }/additional`,
+      pathname: `${pathname}/additional`,
       state: {
         ...this.state
       }
     });
     return false;
   };
+
   handleAcceptTerms = () => {
     const elem = document.getElementById("acceptTermsCheckbox");
     elem.checked = !this.state.acceptTerms;
@@ -139,6 +143,7 @@ class CreateChildScreen extends React.Component {
         );
     this.setState({ acceptTerms: !this.state.acceptTerms });
   };
+
   render() {
     const { classes } = this.props;
     const texts = Texts[this.props.language].createChildScreen;
@@ -155,10 +160,14 @@ class CreateChildScreen extends React.Component {
     }
     const bottomBorder = { borderBottom: "1px solid rgba(0,0,0,0.1)" };
     return (
-      <div>
+      <React.Fragment>
         <div id="createChildProfileHeaderContainer" className="row no-gutters">
           <div className="col-2-10">
-  <button className="transparentButton center" onClick={() => this.props.history.goBack()}>
+            <button
+              type="button"
+              className="transparentButton center"
+              onClick={() => this.props.history.goBack()}
+            >
               <i className="fas fa-times" />
             </button>
           </div>
@@ -166,71 +175,93 @@ class CreateChildScreen extends React.Component {
             <h1 className="verticalCenter">{texts.backNavTitle}</h1>
           </div>
           <div className="col-2-10">
-  <button className="transparentButton verticalCenter" onClick={this.handleSave}>
-  <i className="fas fa-check" />
+            <button
+              type="button"
+              className="transparentButton verticalCenter"
+              onClick={this.handleSave}
+            >
+              <i className="fas fa-check" />
             </button>
           </div>
         </div>
         <div id="createChildProfileInfoContainer">
-  <form ref={form => this.formEl = form} onSubmit={this.handleSubmit} className={formClass} noValidate>
+          <form
+            ref={form => (this.formEl = form)}
+            onSubmit={this.handleSubmit}
+            className={formClass}
+            noValidate
+          >
             <div className="row no-gutters" style={bottomBorder}>
               <div className="col-5-10">
                 <input
-  type="text" name="name" className="createChildProfileInputField form-control" placeholder={texts.name}
-  onChange={this.handleChange} required value={this.state.name}
+                  type="text"
+                  name="name"
+                  className="createChildProfileInputField form-control"
+                  placeholder={texts.name}
+                  onChange={this.handleChange}
+                  required
+                  value={this.state.name}
                 />
-  <span className="invalid-feedback" id="nameErr" />
+                <span className="invalid-feedback" id="nameErr" />
               </div>
-  <div className="col-5-10">
+              <div className="col-5-10">
                 <input
-  type="text" name="surname" className="createChildProfileInputField form-control" placeholder={texts.surname}
-  onChange={this.handleChange} required value={this.state.surname}
+                  type="text"
+                  name="surname"
+                  className="createChildProfileInputField form-control"
+                  placeholder={texts.surname}
+                  onChange={this.handleChange}
+                  required
+                  value={this.state.surname}
                 />
-  <span className="invalid-feedback" id="surnameErr" />
+                <span className="invalid-feedback" id="surnameErr" />
               </div>
             </div>
             <div className="row no-gutters" style={bottomBorder}>
               <div className="col-1-3">
-  <div className="fullInput editChildProfileInputField">
+                <div className="fullInput editChildProfileInputField">
                   <label htmlFor="date">{texts.date}</label>
-  <select
+                  <select
                     value={this.state.date}
                     onChange={this.handleChange}
                     name="date"
                   >
-  {
-											dates.map(date =>
-  <option key={date} value={date}>{date}</option>
+                    {dates.map(date => (
+                      <option key={date} value={date}>
+                        {date}
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
               <div className="col-1-3">
-  <div className="fullInput editChildProfileInputField">
+                <div className="fullInput editChildProfileInputField">
                   <label htmlFor="month">{texts.month}</label>
-  <select
+                  <select
                     value={this.state.month}
                     onChange={this.handleChange}
                     name="month"
                   >
-  {
-											months.map(month =>
-  <option key={month} value={month}>{month}</option>
+                    {months.map(month => (
+                      <option key={month} value={month}>
+                        {month}
+                      </option>
                     ))}
                   </select>
                 </div>
               </div>
-  <div className="col-1-3">
-  <div className="fullInput editChildProfileInputField">
-  <label htmlFor="year">{texts.year}</label>
-  <select
+              <div className="col-1-3">
+                <div className="fullInput editChildProfileInputField">
+                  <label htmlFor="year">{texts.year}</label>
+                  <select
                     value={this.state.year}
                     onChange={this.handleChange}
                     name="year"
                   >
-  {
-											years.map(year =>
-  <option key={year} value={year}>{year}</option>
+                    {years.map(year => (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -238,39 +269,48 @@ class CreateChildScreen extends React.Component {
             </div>
             <div className="row no-gutters" style={bottomBorder}>
               <div className="col-10-10">
-  <div className="fullInput editChildProfileInputField">
+                <div className="fullInput editChildProfileInputField">
                   <label htmlFor="gender">{texts.gender}</label>
-  <select
+                  <select
                     value={this.state.gender}
                     onChange={this.handleChange}
                     name="gender"
                   >
-  <option value="boy">{texts.boy}</option>
-  <option value="girl">{texts.girl}</option>
-  <option value="unspecified">{texts.unspecified}</option>
+                    <option value="boy">{texts.boy}</option>
+                    <option value="girl">{texts.girl}</option>
+                    <option value="unspecified">{texts.unspecified}</option>
                   </select>
                 </div>
               </div>
             </div>
-  <div id="additionalInformationContainer" className="row no-gutters" style={bottomBorder}>
-  <div className="col-7-10">
+            <div
+              id="additionalInformationContainer"
+              className="row no-gutters"
+              style={bottomBorder}
+            >
+              <div className="col-7-10">
                 <div className="center">
                   <h1>{texts.additional}</h1>
                   <h2>{texts.example}</h2>
                 </div>
               </div>
               <div className="col-3-10">
-                <button className="center" onClick={this.handleAdd}>
+                <button
+                  className="center"
+                  type="button"
+                  onClick={this.handleAdd}
+                >
                   {this.state.acceptAdditionalTerms ? texts.edit : texts.add}
                 </button>
               </div>
             </div>
             <div className="row no-gutters">
-  <div className="col-2-10">
-  <Checkbox
-  classes={{ root: classes.checkbox, checked: classes.checked }} className="center"
+              <div className="col-2-10">
+                <Checkbox
+                  classes={{ root: classes.checkbox, checked: classes.checked }}
+                  className="center"
                   checked={this.state.acceptTerms}
-  onClick={this.handleAcceptTerms}
+                  onClick={this.handleAcceptTerms}
                 />
               </div>
               <div className="col-8-10">
@@ -279,15 +319,19 @@ class CreateChildScreen extends React.Component {
             </div>
             <div style={{ paddingLeft: "3%" }} className="row no-gutters">
               <input
-  type="checkbox" style={{ display: "none" }} id="acceptTermsCheckbox" 
-  name="acceptTerms" className="form-control" required
+                type="checkbox"
+                style={{ display: "none" }}
+                id="acceptTermsCheckbox"
+                name="acceptTerms"
+                className="form-control"
+                required
                 defaultChecked={this.state.acceptTerms}
               />
-  <span className="invalid-feedback" id="acceptTermsErr"></span>
+              <span className="invalid-feedback" id="acceptTermsErr" />
             </div>
           </form>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

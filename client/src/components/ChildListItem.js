@@ -45,24 +45,32 @@ class ChildListItem extends React.Component {
         id="childContainer"
         className="row no-gutters"
         style={{ borderBottom: "1px solid rgba(0,0,0,0.1" }}
+      >
         {this.state.fetchedChild ? (
           <React.Fragment>
-                  <div className="col-3-10">
-              <Avatar thumbnail={child.image.path} route={route} className="center" />
-
+            <div className="col-3-10">
+              <Avatar
+                thumbnail={child.image.path}
+                route={route}
+                className="center"
               />
-</div>
-                  <div className="col-7-10">
-              <div onClick={() => this.props.history.push(route)} id="childInfoContainer" className="verticalCenter">
-                            <h1>{`${child.given_name  } ${  child.family_name}`}</h1>
-                            <h1>{`${moment().diff(child.birthdate, 'years')  } ${  texts.age}`}</h1>
-                            <h2>{texts[child.gender]}</h2>
-                          </div>
             </div>
-                </React.Fragment>
+            <div className="col-7-10">
+              <div
+                onClick={() => this.props.history.push(route)}
+                id="childInfoContainer"
+                className="verticalCenter"
+              >
+                <h1>{`${child.given_name} ${child.family_name}`}</h1>
+                <h1>
+                  {`${moment().diff(child.birthdate, "years")} ${texts.age}`}
+                </h1>
+                <h2>{texts[child.gender]}</h2>
+              </div>
+            </div>
+          </React.Fragment>
         ) : (
           <Skeleton avatar active paragraph={{ rows: 1 }} />
-        )}
         )}
       </div>
     );

@@ -1,16 +1,16 @@
 import Modal from "react-modal";
 import React from "react";
 import PropTypes from "prop-types";
-import axios from 'axios';
-import Texts from '../Constants/Texts';
-import withLanguage from './LanguageContext';
+import axios from "axios";
 import { Waypoint } from "react-waypoint";
+import Texts from "../Constants/Texts";
+import withLanguage from "./LanguageContext";
 
 Modal.setAppElement("#root");
 
 const getMyNotifications = (userId, page) => {
   return axios
-    .get("/users/" + userId + "/notifications", { params: { page } })
+    .get(`/users/${userId}/notifications`, { params: { page } })
     .then(response => {
       return response.data;
     })
@@ -33,7 +33,9 @@ class NotificationsModal extends React.Component {
   closeModal = () => {
     this.props.handleClose();
   };
+
   afterOpenModal = () => {};
+
   async componentDidMount() {
     const notifications = await getMyNotifications(this.state.user_id, 0);
     this.setState({ notifications });
@@ -47,6 +49,7 @@ class NotificationsModal extends React.Component {
       fetchedAll: newNotifications.length < 10
     });
   };
+
   render() {
     const texts = Texts[this.props.language].myFamiliesShareScreen;
     const modalStyle = {
@@ -80,25 +83,32 @@ class NotificationsModal extends React.Component {
       >
         <div id="myNotificationsContainer">
           <h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
-          {/* <button className="transparentButton" onClick={this.props.handleClose}>
-						<i className="fas fa-times"/>
-					</button> */}
           <ul>
             {this.state.notifications.map((notification, index) => (
-  <li key={index}>
-  {index === this.state.notifications.length - 4 && !this.state.fetchedAll ? (
-<Waypoint onEnter={this.loadMoreNotifications}>
-										<div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
-											<h1>{notification.header}</h1>
-											<p>{notification.description}</p>
-										</div>
-									</Waypoint>
-): (
-<div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
-										<h1>{notification.header}</h1>
-										<p>{notification.description}</p>
-									</div>
-)
+              <li key={index}>
+                {index === this.state.notifications.length - 4 &&
+                !this.state.fetchedAll ? (
+                  <Waypoint onEnter={this.loadMoreNotifications}>
+                    <div
+                      id="myNotification"
+                      style={
+                        !notification.read ? { backgroundColor: "#F7F7F7" } : {}
+                      }
+                    >
+                      <h1>{notification.header}</h1>
+                      <p>{notification.description}</p>
+                    </div>
+                  </Waypoint>
+                ) : (
+                  <div
+                    id="myNotification"
+                    style={
+                      !notification.read ? { backgroundColor: "#F7F7F7" } : {}
+                    }
+                  >
+                    <h1>{notification.header}</h1>
+                    <p>{notification.description}</p>
+                  </div>
                 )}
               </li>
             ))}

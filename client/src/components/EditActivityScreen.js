@@ -83,111 +83,112 @@ class EditActivityScreen extends React.Component {
 
   render() {
     const texts = Texts[this.props.language].editActivityScreen;
-    return (
+    return this.state.fetchedActivity ? (
       <React.Fragment>
-        {this.state.fetchedActivity ? (
-          <React.Fragment>
-            <div className="row no-gutters" id="editActivityHeaderContainer">
-              <div className="col-2-10">
-                <button className="transparentButton center" onClick={() => this.props.history.goBack()}>
-                              <i className="fas fa-arrow-left" />
-                </button>
-              </div>
-              <div className="col-6-10">
-                <h1 className="verticalCenter">{texts.backNavTitle}</h1>
-              </div>
-              <div className="col-2-10">
-                <button
-                  className="transparentButton center"
-                  style={this.state.validated ? {} : { opacity: 0.5 }}
-                  onClick={this.handleSave}
-                  <i className="fas fa-check" />
-                </button>
-              </div>
+        <div className="row no-gutters" id="editActivityHeaderContainer">
+          <div className="col-2-10">
+            <button
+              className="transparentButton center"
+              type="button"
+              onClick={() => this.props.history.goBack()}
+            >
+              <i className="fas fa-arrow-left" />
+            </button>
+          </div>
+          <div className="col-6-10">
+            <h1 className="verticalCenter">{texts.backNavTitle}</h1>
+          </div>
+          <div className="col-2-10">
+            <button
+              type="button"
+              className="transparentButton center"
+              style={this.state.validated ? {} : { opacity: 0.5 }}
+              onClick={this.handleSave}
+            >
+              <i className="fas fa-check" />
+            </button>
+          </div>
+        </div>
+        <div id="editActivityMainContainer">
+          <div className="row no-gutters">
+            <div className="col-2-10">
+              <i className="fas fa-clipboard-check center" />
             </div>
-            <div id="editActivityMainContainer">
-              <div className="row no-gutters">
-                <div className="col-2-10">
-                              <i className="fas fa-clipboard-check center" />
-                            </div>
-                <div className="col-8-10">
-                  <input
-                                  type="text"
-                                  name="name"
-                                  placeholder={texts.name}
-                                  value={this.state.name}
-                                  className="verticalCenter"
-                                  onChange={this.handleChange}
-                                />
-                </div>
-              </div>
-              <div className="row no-gutters">
-                <div className="col-2-10">
-                  <i className="fas fa-map-marker-alt center" />
-                </div>
-                <div className="col-8-10">
-                  <input
-                    type="text"
-                    name="location"
-                    placeholder={texts.location}
-                    value={this.state.location}
-                    className="verticalCenter"
-                    onChange={this.handleChange}
-                  />
-                </div>
-              </div>
-              <div className="row no-gutters">
-                <div className="col-2-10">
-                  <i className="fas fa-align-left center" />
-                </div>
-                <div className="col-8-10">
-                              <textarea
-                    rows="1"
-                    name="description"
-                    className="verticalCenter"
-                    placeholder={texts.description}
-                    value={this.state.description}
-                    onChange={event => {
-                      this.handleChange(event);
-                      autosize(document.querySelectorAll("textarea"));
-                    }}
-                  />
-                            </div>
-              </div>
-              <div className="row no-gutters">
-                <div className="col-2-10">
-                  <i
-                    className="fas fa-palette center"
-                    style={{ color: this.state.color }}
-                    alt="palette icon"
-                  />
-                </div>
-                <div className="col-8-10">
-                  <h1
-                    className="verticalCenter"
-                    style={{ color: this.state.color }}
-                    {texts.color}
-                  </h1>
-                </div>
-              </div>
-              <div className="row no-gutters" style={{ marginBottom: "2rem" }}>
-                <div className="col-2-10" />
-                <div className="col-8-10">
-                  <CirclePicker
-                    width="100%"
-                    color={this.state.color}
-                    onChange={this.handleColorChange}
-                  />
-                </div>
-              </div>
+            <div className="col-8-10">
+              <input
+                type="text"
+                name="name"
+                placeholder={texts.name}
+                value={this.state.name}
+                className="verticalCenter"
+                onChange={this.handleChange}
+              />
             </div>
-          </React.Fragment>
-        ) : (
-          <LoadingSpinner />
-        )}
-
-        )}
-</React.Fragment>
+          </div>
+          <div className="row no-gutters">
+            <div className="col-2-10">
+              <i className="fas fa-map-marker-alt center" />
+            </div>
+            <div className="col-8-10">
+              <input
+                type="text"
+                name="location"
+                placeholder={texts.location}
+                value={this.state.location}
+                className="verticalCenter"
+                onChange={this.handleChange}
+              />
+            </div>
+          </div>
+          <div className="row no-gutters">
+            <div className="col-2-10">
+              <i className="fas fa-align-left center" />
+            </div>
+            <div className="col-8-10">
+              <textarea
+                rows="1"
+                name="description"
+                className="verticalCenter"
+                placeholder={texts.description}
+                value={this.state.description}
+                onChange={event => {
+                  this.handleChange(event);
+                  autosize(document.querySelectorAll("textarea"));
+                }}
+              />
+            </div>
+          </div>
+          <div className="row no-gutters">
+            <div className="col-2-10">
+              <i
+                className="fas fa-palette center"
+                style={{ color: this.state.color }}
+                alt="palette icon"
+              />
+            </div>
+            <div className="col-8-10">
+              <h1
+                className="verticalCenter"
+                style={{ color: this.state.color }}
+              >
+                {texts.color}
+              </h1>
+            </div>
+          </div>
+          <div className="row no-gutters" style={{ marginBottom: "2rem" }}>
+            <div className="col-2-10" />
+            <div className="col-8-10">
+              <CirclePicker
+                width="100%"
+                color={this.state.color}
+                onChange={this.handleColorChange}
+              />
+            </div>
+          </div>
+        </div>
+      </React.Fragment>
+    ) : (
+      <LoadingSpinner />
     );
   }
 }
