@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import withLanguage from './LanguageContext';
-import Texts from '../Constants/Texts.js';
+import React from "react";
+import PropTypes from "prop-types";
+import withLanguage from "./LanguageContext";
+import Texts from "../Constants/Texts.js";
 
 class ProfileInfo extends React.Component {
   render() {
@@ -50,5 +50,5 @@ class ProfileInfo extends React.Component {
 export default withLanguage(ProfileInfo);
 
 ProfileInfo.propTypes = {
-  profile: PropTypes.object,
+  profile: PropTypes.object
 };

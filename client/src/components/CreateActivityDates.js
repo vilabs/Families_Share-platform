@@ -1,15 +1,14 @@
 import React from "react";
 import DayPicker from "react-day-picker";
 import PropTypes from "prop-types";
-import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
 import MomentLocaleUtils from "react-day-picker/moment";
 import moment from "moment";
 import "../styles/DayPicker.css";
 import Switch from "@material-ui/core/Switch";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { withSnackbar } from 'notistack';
-
+import { withSnackbar } from "notistack";
+import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
 
 const muiTheme = createMuiTheme({
   palette: {
@@ -32,23 +31,28 @@ const modifiersStyles = {
   }
 };
 
-const Navbar = ({onPreviousClick, onNextClick, handleMonthChange}) => {
-	function handlePrevNav () {
-		handleMonthChange()
-		onPreviousClick()
-
-	}
-	function handleNextNav (){
-		handleMonthChange()
-		onNextClick()
-	}
-	return(
-	<div className="">
-		<span className="dayPickerNavButton dayPickerPrevNav" onClick={handlePrevNav}/>
-		<span className="dayPickerNavButton dayPickerNextNav" onClick={handleNextNav}/>
-	</div>
-	)
-}
+const Navbar = ({ onPreviousClick, onNextClick, handleMonthChange }) => {
+  function handlePrevNav() {
+    handleMonthChange();
+    onPreviousClick();
+  }
+  function handleNextNav() {
+    handleMonthChange();
+    onNextClick();
+  }
+  return (
+    <div className="">
+      <span
+        className="dayPickerNavButton dayPickerPrevNav"
+        onClick={handlePrevNav}
+      />
+      <span
+        className="dayPickerNavButton dayPickerNextNav"
+        onClick={handleNextNav}
+      />
+    </div>
+  );
+};
 
 class CreateActivityDates extends React.Component {
   constructor(props) {
@@ -61,78 +65,83 @@ class CreateActivityDates extends React.Component {
     };
     this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
   }
+
   handleDayClick = async (day, { selected }) => {
-		switch (this.state.repetitionType){
-			case "weekly":
-				const days = await this.handleRepetition(day);
-				await this.setState({
-					lastSelect: day,
-					selectedDays: days
-				});
-				this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
-			break;
+    switch (this.state.repetitionType) {
+      case "weekly":
+        const days = await this.handleRepetition(day);
+        await this.setState({
+          lastSelect: day,
+          selectedDays: days
+        });
+        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+        break;
       case "monthly":
-				await this.setState(
-					!selected
-						? { lastSelect: day, selectedDays: [day] }
-						: { lastSelect: undefined, selectedDays: [] }
-				);
-				this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
-				break;
-			default: 
-				let selectedDays = this.state.selectedDays;
-				let lastSelect;
-				if (!selected) {
-					selectedDays.push(day)
-					selectedDays.sort( (a,b) => {
-						if(moment(a).format('DD') > moment(b).format('DD')){
-							return 1
-						} else {
-							return -1
-						}
-					})
-					lastSelect = day;
-				} else {
-					selectedDays = selectedDays.filter( selectedDay => moment(selectedDay).format()!==moment(day).format())
-					lastSelect = undefined;
-				}
-				await this.setState({ lastSelect, selectedDays })
-				this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
-		}
+        await this.setState(
+          !selected
+            ? { lastSelect: day, selectedDays: [day] }
+            : { lastSelect: undefined, selectedDays: [] }
+        );
+        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+        break;
+      default:
+        let { selectedDays } = this.state;
+        let lastSelect;
+        if (!selected) {
+          selectedDays.push(day);
+          selectedDays.sort((a, b) => {
+            if (moment(a).format("DD") > moment(b).format("DD")) {
+              return 1;
+            }
+            return -1;
+          });
+          lastSelect = day;
+        } else {
+          selectedDays = selectedDays.filter(
+            selectedDay => moment(selectedDay).format() !== moment(day).format()
+          );
+          lastSelect = undefined;
+        }
+        await this.setState({ lastSelect, selectedDays });
+        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+    }
   };
-	handleSwitch = async () => {
-		const snackMessage = Texts[this.props.language].createActivityDates.datesError;
-		if (!this.state.repetition) {
-			if (this.state.selectedDays.length > 1) {
-				this.props.enqueueSnackbar(snackMessage, { 
-					variant: 'error',
-			});
-			} else {
-				await this.setState({
-					repetition: !this.state.repetition,
-					repetitionType: "",
-				});
-			}
-		} else {
-			await this.setState({
-				repetition: !this.state.repetition,
-				repetitionType: "",
-				selectedDays: [],
-			});
-			if (this.state.lastSelect) {
-				this.handleDayClick(this.state.lastSelect, {});
-			}
-		}
-	};
+
+  handleSwitch = async () => {
+    const snackMessage =
+      Texts[this.props.language].createActivityDates.datesError;
+    if (!this.state.repetition) {
+      if (this.state.selectedDays.length > 1) {
+        this.props.enqueueSnackbar(snackMessage, {
+          variant: "error"
+        });
+      } else {
+        await this.setState({
+          repetition: !this.state.repetition,
+          repetitionType: ""
+        });
+      }
+    } else {
+      await this.setState({
+        repetition: !this.state.repetition,
+        repetitionType: "",
+        selectedDays: []
+      });
+      if (this.state.lastSelect) {
+        this.handleDayClick(this.state.lastSelect, {});
+      }
+    }
+  };
+
   handleRepetition = day => {
     return new Promise(resolve => {
       const dates = [];
-			const weekdays = moment.weekdays();
-      var weekday = moment()
+      const weekdays = moment.weekdays();
+      let weekday = moment()
         .startOf("month")
-				.day(weekdays[day.getDay()]);
+        .day(weekdays[day.getDay()]);
       weekday = weekday.date() > 7 ? weekday.add(7, "d") : weekday;
-      var month = weekday.month();
+      const month = weekday.month();
       while (month === weekday.month()) {
         dates.push(weekday.toDate());
         weekday.add(7, "d");
@@ -142,15 +151,17 @@ class CreateActivityDates extends React.Component {
       }
     });
   };
+
   handleRepetitionClick = async event => {
-		const repetitionType = event.target.id==="monthly"? "monthly" : "weekly"
-    await this.setState({ repetitionType  });
+    const repetitionType = event.target.id === "monthly" ? "monthly" : "weekly";
+    await this.setState({ repetitionType });
     if (this.state.lastSelect) {
       this.handleDayClick(this.state.lastSelect, true);
-		} else {
-			this.handleDayClick(this.state.selectedDays[0], true);
-		}
+    } else {
+      this.handleDayClick(this.state.selectedDays[0], true);
+    }
   };
+
   render() {
     const texts = Texts[this.props.language].createActivityDates;
     const repetitionStyle = this.state.repetition
@@ -166,8 +177,14 @@ class CreateActivityDates extends React.Component {
             locale={this.props.language}
             selectedDays={this.state.selectedDays}
             onDayClick={this.handleDayClick}
-						modifiersStyles={modifiersStyles}
-						navbarElement={<Navbar handleMonthChange={()=>this.setState({selectedDays: [],lastSelect: undefined})}/>}
+            modifiersStyles={modifiersStyles}
+            navbarElement={
+              <Navbar
+                handleMonthChange={() =>
+                  this.setState({ selectedDays: [], lastSelect: undefined })
+                }
+              />
+            }
           />
         </div>
         <div id="createActivityRepetitionContainer">
@@ -184,7 +201,7 @@ class CreateActivityDates extends React.Component {
                     : { color: "#000000" }
                 }
               >
-                {texts.repetition + ": " + this.state.repetitionType}
+                {`${texts.repetition}: ${this.state.repetitionType}`}
               </h1>
             </div>
             <div className="col-2-10">

@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Texts from '../Constants/Texts.js';
-import withLanguage from './LanguageContext';
+import React from "react";
+import PropTypes from "prop-types";
+import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
 
 class GroupAbout extends React.Component {
   render() {
@@ -18,7 +18,7 @@ class GroupAbout extends React.Component {
 
 GroupAbout.propTypes = {
   groupInfo: PropTypes.string,
-  hasJoined: PropTypes.bool,
+  hasJoined: PropTypes.bool
 };
 
 export default withLanguage(GroupAbout);

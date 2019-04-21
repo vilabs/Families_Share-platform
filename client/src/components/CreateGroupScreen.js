@@ -1,8 +1,8 @@
-import React from 'react';
-import withLanguage from './LanguageContext';
-import BackNavigation from './BackNavigation';
-import Texts from '../Constants/Texts.js';
-import CreateGroupStepper from './CreateGroupStepper';
+import React from "react";
+import withLanguage from "./LanguageContext";
+import BackNavigation from "./BackNavigation";
+import Texts from "../Constants/Texts.js";
+import CreateGroupStepper from "./CreateGroupStepper";
 
 class CreateGroupScreen extends React.Component {
   render() {
@@ -11,7 +11,7 @@ class CreateGroupScreen extends React.Component {
       <div id="#createGroupContainer">
         <BackNavigation
           title={texts.backNavTitle}
-          onClick={() => this.props.history.replace('/myfamiliesshare')}
+          onClick={() => this.props.history.replace("/myfamiliesshare")}
         />
         <CreateGroupStepper {...this.props} />
       </div>

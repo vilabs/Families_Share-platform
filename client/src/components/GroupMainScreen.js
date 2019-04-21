@@ -1,35 +1,34 @@
 import React from "react";
-import GroupNavbar from "./GroupNavbar";
-import LoadingSpinner from "./LoadingSpinner";
 import { Route, Switch } from "react-router-dom";
-import Loadable from 'react-loadable';
+import Loadable from "react-loadable";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
+import GroupNavbar from "./GroupNavbar";
 
 const GroupInfo = Loadable({
-	loader: () => import ('./GroupInfo'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./GroupInfo"),
+  loading: () => <div />
+});
 const GroupMembers = Loadable({
-	loader: () => import ('./GroupMembers'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./GroupMembers"),
+  loading: () => <div />
+});
 const GroupActivities = Loadable({
-	loader: () => import ('./GroupActivities'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./GroupActivities"),
+  loading: () => <div />
+});
 const GroupCalendar = Loadable({
-	loader: () => import ('./GroupCalendar'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./GroupCalendar"),
+  loading: () => <div />
+});
 const GroupNews = Loadable({
-	loader: () => import ('./GroupNews'),
-	loading: ()=> <div/>,
-})
-
+  loader: () => import("./GroupNews"),
+  loading: () => <div />
+});
 
 const getGroupMembers = groupId => {
   return axios
-    .get("/groups/" + groupId + "/members")
+    .get(`/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -40,7 +39,7 @@ const getGroupMembers = groupId => {
 };
 const getGroup = groupId => {
   return axios
-    .get("/groups/" + groupId)
+    .get(`/groups/${groupId}`)
     .then(response => {
       return response.data;
     })
@@ -56,7 +55,7 @@ const getGroup = groupId => {
 export default class GroupMainScreen extends React.Component {
   constructor(props) {
     super(props);
-    const pathname = this.props.history.location.pathname;
+    const { pathname } = this.props.history.location;
     let activeTab = pathname.substr(
       pathname.lastIndexOf("/") + 1,
       pathname.length - 1
@@ -66,47 +65,58 @@ export default class GroupMainScreen extends React.Component {
     }
     this.state = {
       groupId: this.props.match.params.groupId,
-      activeTab: activeTab,
+      activeTab,
       allowNavigation: false,
       fetchedGroup: false
     };
   }
+
   async componentDidMount() {
-    const groupId = this.state.groupId;
+    const { groupId } = this.state;
     const group = await getGroup(groupId);
     group.members = await getGroupMembers(groupId);
     const user = group.members.filter(
       member =>
         member.user_id === JSON.parse(localStorage.getItem("user")).id &&
-        member.user_accepted && member.group_accepted
+        member.user_accepted &&
+        member.group_accepted
     );
     const allowNavigation = user.length > 0;
-    if( !allowNavigation) this.props.history.replace(`/groups/${groupId}/info`)
+    if (!allowNavigation) this.props.history.replace(`/groups/${groupId}/info`);
     const userIsAdmin = user.length > 0 ? user[0].admin : false;
     this.setState({
-      allowNavigation: allowNavigation,
-      userIsAdmin: userIsAdmin,
-      group: group,
+      allowNavigation,
+      userIsAdmin,
+      group,
       fetchedGroup: true
     });
   }
+
   enableNavigation = () => {
-    this.setState({ allowNavigation: true })
-  }
-    handleActiveTab = id => {
+    this.setState({ allowNavigation: true });
+  };
+
+  handleActiveTab = id => {
     this.setState({ activeTab: id });
   };
+
   render() {
     const currentPath = this.props.match.url;
     return this.state.fetchedGroup ? (
-			<div id="groupMainContainer">
+      <div id="groupMainContainer">
         <Switch>
           <Route
-            path={currentPath + "/info"}
-            render={props => <GroupInfo {...props} group={this.state.group} enableNavigation={this.enableNavigation}/>}
+            path={`${currentPath}/info`}
+            render={props => (
+              <GroupInfo
+                {...props}
+                group={this.state.group}
+                enableNavigation={this.enableNavigation}
+              />
+            )}
           />
           <Route
-            path={currentPath + "/news"}
+            path={`${currentPath}/news`}
             render={props => (
               <GroupNews
                 {...props}
@@ -116,26 +126,38 @@ export default class GroupMainScreen extends React.Component {
             )}
           />
           <Route
-            path={currentPath + "/members"}
+            path={`${currentPath}/members`}
             render={props => (
-              <GroupMembers {...props} group={this.state.group}  userIsAdmin={this.state.userIsAdmin}/>
+              <GroupMembers
+                {...props}
+                group={this.state.group}
+                userIsAdmin={this.state.userIsAdmin}
+              />
             )}
           />
           <Route
             exact
-            path={currentPath + "/activities"}
+            path={`${currentPath}/activities`}
             render={props => (
-              <GroupActivities {...props} group={this.state.group} userIsAdmin={this.state.userIsAdmin}/>
+              <GroupActivities
+                {...props}
+                group={this.state.group}
+                userIsAdmin={this.state.userIsAdmin}
+              />
             )}
           />
-					<Route
+          <Route
             exact
-            path={currentPath + "/calendar"}
+            path={`${currentPath}/calendar`}
             render={props => (
-              <GroupCalendar {...props} group={this.state.group} userIsAdmin={this.state.userIsAdmin}/>
+              <GroupCalendar
+                {...props}
+                group={this.state.group}
+                userIsAdmin={this.state.userIsAdmin}
+              />
             )}
           />
-        </Switch>		
+        </Switch>
         <GroupNavbar
           handleActiveTab={this.handleActiveTab}
           allowNavigation={this.state.allowNavigation}

@@ -1,8 +1,8 @@
 import React from "react";
+import { Menu, Dropdown } from "antd";
 import { languages } from "../Constants/GlobalVars.js";
 import LanguageIcon from "./LanguageIcon";
 import withLanguage from "./LanguageContext";
-import { Menu, Dropdown } from "antd";
 
 class SelectLanguage extends React.Component {
   state = { language: this.props.language };
@@ -10,6 +10,7 @@ class SelectLanguage extends React.Component {
   handleClick = e => {
     this.props.updateLanguage(e.key);
   };
+
   render() {
     const menuStyle = {
       width: "4rem",
@@ -41,7 +42,7 @@ class SelectLanguage extends React.Component {
     );
     return (
       <Dropdown trigger={["hover", "click"]} overlay={menu}>
-        <div className="ant-dropdown-link" >
+        <div className="ant-dropdown-link">
           <LanguageIcon style={menuItemStyle} language={this.props.language} />
         </div>
       </Dropdown>

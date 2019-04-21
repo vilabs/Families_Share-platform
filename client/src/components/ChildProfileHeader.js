@@ -1,30 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
+import axios from "axios";
 import OptionsModal from "./OptionsModal";
 import withLanguage from "./LanguageContext";
-import { withRouter } from "react-router-dom";
 import Texts from "../Constants/Texts.js";
-import axios from "axios";
 import ConfirmDialog from "./ConfirmDialog";
 
 class ChildProfileHeader extends React.Component {
   state = { optionsModalIsOpen: false, confirmDialogIsOpen: false };
+
   handleClose = () => {
     this.setState({ optionsModalIsOpen: false });
   };
+
   handleEdit = () => {
     const pathName = this.props.history.location.pathname;
-    const newPath = pathName + "/edit";
+    const newPath = `${pathName}/edit`;
     this.props.history.push(newPath);
   };
+
   handleOptions = () => {
     this.setState({ optionsModalIsOpen: true });
   };
+
   handleDelete = () => {
     const userId = this.props.match.params.profileId;
-    const childId = this.props.match.params.childId;
+    const { childId } = this.props.match.params;
     axios
-      .delete("/users/" + userId + "/children/" + childId)
+      .delete(`/users/${userId}/children/${childId}`)
       .then(response => {
         console.log(response);
         this.props.history.goBack();
@@ -34,15 +38,18 @@ class ChildProfileHeader extends React.Component {
         this.props.history.goBack();
       });
   };
+
   handleConfirmDialogOpen = () => {
     this.setState({ optionsModalIsOpen: false, confirmDialogIsOpen: true });
   };
+
   handleConfirmDialogClose = choice => {
     if (choice === "agree") {
       this.handleDelete();
     }
     this.setState({ confirmDialogIsOpen: false });
   };
+
   render() {
     const texts = Texts[this.props.language].childProfileHeader;
     const options = [
@@ -64,32 +71,35 @@ class ChildProfileHeader extends React.Component {
           style={{ background: this.props.background }}
         >
           <div className="row no-gutters" id="profileHeaderOptions">
-						<div className="col-2-10">
-            <button
-              className="transparentButton center"
-              onClick={() => this.props.history.goBack()}
-            >
-              <i className="fas fa-arrow-left" />
-            </button>
-						</div>
-						<div className="col-6-10"/>
+            <div className="col-2-10">
+              <button
+                className="transparentButton center"
+                onClick={() => this.props.history.goBack()}
+              >
+                <i className="fas fa-arrow-left" />
+              </button>
+            </div>
+            <div className="col-6-10" />
             {this.props.match.params.profileId ===
             JSON.parse(localStorage.getItem("user")).id ? (
-							<React.Fragment>
-							<div className="col-1-10">
-                <button className="transparentButton center" onClick={this.handleEdit}>
-                  <i className="fas fa-pencil-alt" />
-                </button>
-							</div>
-							<div className="col-1-10">
-                <button
-                  className="transparentButton center"
-                  onClick={this.handleOptions}
-                >
-                  <i className="fas fa-ellipsis-v" />
-                </button>
-							</div>
-							</React.Fragment>
+              <React.Fragment>
+                <div className="col-1-10">
+                  <button
+                    className="transparentButton center"
+                    onClick={this.handleEdit}
+                  >
+                    <i className="fas fa-pencil-alt" />
+                  </button>
+                </div>
+                <div className="col-1-10">
+                  <button
+                    className="transparentButton center"
+                    onClick={this.handleOptions}
+                  >
+                    <i className="fas fa-ellipsis-v" />
+                  </button>
+                </div>
+              </React.Fragment>
             ) : (
               <div />
             )}

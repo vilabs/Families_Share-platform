@@ -1,11 +1,11 @@
 import React from "react";
+import axios from "axios";
+import { withSnackbar } from "notistack";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Images from "../Constants/Images";
 import BackNavigation from "./BackNavigation";
 import LoadingSpinner from "./LoadingSpinner";
-import axios from "axios";
-import { withSnackbar } from 'notistack';
 
 class ForgotPasswordScreen extends React.Component {
   state = {
@@ -13,53 +13,59 @@ class ForgotPasswordScreen extends React.Component {
     formIsValidated: false,
     sendingEmail: false
   };
+
   handleInputChange = event => {
     this.setState({ email: event.target.value });
   };
+
   handleSubmit = event => {
-		let snackMessage;
+    let snackMessage;
     event.preventDefault();
     if (this.validate()) {
       this.setState({ sendingEmail: true });
       axios
         .post("/users/forgotpassword", { email: this.state.email })
         .then(response => {
-					console.log(response);
-					snackMessage =  Texts[this.props.language].forgotPasswordScreen.success;
-					this.props.enqueueSnackbar(snackMessage,{ variant: 'success'})
+          console.log(response);
+          snackMessage =
+            Texts[this.props.language].forgotPasswordScreen.success;
+          this.props.enqueueSnackbar(snackMessage, { variant: "success" });
         })
-				.catch(error => {
-					error.response.status === 404 ?
-						snackMessage = Texts[this.props.language].forgotPasswordScreen.notExistErr
-						: snackMessage = Texts[this.props.language].forgotPasswordScreen.err;
-					this.props.enqueueSnackbar(snackMessage,{variant: 'error'});
-				})
-				.then( ()=> {
-					this.setState({sendingEmail: false });
-				})
+        .catch(error => {
+          error.response.status === 404
+            ? (snackMessage =
+                Texts[this.props.language].forgotPasswordScreen.notExistErr)
+            : (snackMessage =
+                Texts[this.props.language].forgotPasswordScreen.err);
+          this.props.enqueueSnackbar(snackMessage, { variant: "error" });
+        })
+        .then(() => {
+          this.setState({ sendingEmail: false });
+        });
     }
     this.setState({ formIsValidated: true });
   };
+
   validate = () => {
-		const texts = Texts[this.props.language].forgotPasswordScreen;
+    const texts = Texts[this.props.language].forgotPasswordScreen;
     if (this.formEl.checkValidity() === false) {
       const elem = this.formEl[0];
-      const errorLabel = document.getElementById(elem.name + "Err");
+      const errorLabel = document.getElementById(`${elem.name}Err`);
       if (!elem.validity.valid) {
-				if(elem.validity.valueMissing){
-					errorLabel.textContent = texts.requiredErr;
-				}
+        if (elem.validity.valueMissing) {
+          errorLabel.textContent = texts.requiredErr;
+        }
       } else {
         errorLabel.textContent = "";
       }
       return false;
-    } else {
-      const elem = this.formEl[0];
-      const errorLabel = document.getElementById(elem.name + "Err");
-      errorLabel.textContent = "";
-      return true;
     }
+    const elem = this.formEl[0];
+    const errorLabel = document.getElementById(`${elem.name}Err`);
+    errorLabel.textContent = "";
+    return true;
   };
+
   render() {
     const formClass = [];
     if (this.state.formIsValidated) {
@@ -96,7 +102,7 @@ class ForgotPasswordScreen extends React.Component {
                 className="form-control"
                 onChange={this.handleInputChange}
                 name="email"
-                required={true}
+                required
               />
               <span className="invalid-feedback" id="emailErr" />
               <button onClick={this.handleSubmit}>{texts.send}</button>

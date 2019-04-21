@@ -1,26 +1,28 @@
 import React from "react";
+import axios from "axios";
 import LandingHeader from "./LandingHeader";
 import LandingNavbar from "./LandingNavbar";
 import GroupList from "./GroupList";
 import Texts from "../Constants/Texts.js";
 import CardWithLink from "./CardWithLink";
 import withLanguage from "./LanguageContext";
-import axios from "axios";
 
 class LandingScreen extends React.Component {
   state = { fetchedSuggestions: false, suggestions: [], error: false };
+
   componentDidMount() {
     axios
       .get("/groups/suggestions")
       .then(res => {
         const suggestions = res.data;
-        this.setState({ fetchedSuggestions: true, suggestions: suggestions });
+        this.setState({ fetchedSuggestions: true, suggestions });
       })
       .catch(error => {
         console.log(error);
         this.setState({ fetchedSuggestions: true, error: true });
       });
   }
+
   render() {
     const texts = Texts[this.props.language].landingScreen;
     return (

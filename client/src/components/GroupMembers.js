@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 import GroupMembersList from "./GroupMembersList";
 import GroupMembersAdminOptions from "./GroupMembersAdminOptions";
 import LoadingSpinner from "./LoadingSpinner";
-import axios from "axios";
 
 const getGroupMembers = groupId => {
   return axios
-    .get("/groups/" + groupId + "/members")
+    .get(`/groups/${  groupId  }/members`)
     .then(response => {
       return response.data;
     })
@@ -18,7 +18,7 @@ const getGroupMembers = groupId => {
 };
 const getGroupSettings = groupId => {
   return axios
-    .get("/groups/" + groupId + "/settings")
+    .get(`/groups/${  groupId  }/settings`)
     .then(response => {
       return response.data;
     })
@@ -34,15 +34,16 @@ class GroupMembers extends React.Component {
   constructor(props) {
     super(props);
     this.state = { fetchedGroupMembers: false, group: this.props.group };
-	}
+  }
+
   async componentDidMount() {
     const groupId = this.state.group.group_id;
     const members = await getGroupMembers(groupId);
     const acceptedMembers = [];
     let pendingRequests = 0;
-    let userIsAdmin = this.props.userIsAdmin;
+    const {userIsAdmin} = this.props;
     members.forEach(member => {
-      if (member.user_accepted && member.group_accepted ) {
+      if (member.user_accepted && member.group_accepted) {
         acceptedMembers.push(member);
       } else if (member.user_accepted && !member.group_accepted) {
         pendingRequests++;
@@ -51,58 +52,61 @@ class GroupMembers extends React.Component {
     const settings = await getGroupSettings(groupId);
     this.setState({
       members: acceptedMembers,
-      settings: settings,
-      userIsAdmin: userIsAdmin,
-      pendingRequests: pendingRequests,
+      settings,
+      userIsAdmin,
+      pendingRequests,
       fetchedGroupMembers: true
     });
   }
+
   handlePendingRequests = () => {
     this.props.history.push(
-      "/groups/" + this.state.group.group_id + "/members/pending"
+      `/groups/${  this.state.group.group_id  }/members/pending`
     );
   };
+
   render() {
     return this.state.fetchedGroupMembers ? (
       <div id="groupMembersContainer">
-            <div className="row no-gutters" id="groupMembersHeaderContainer">
-              <div className="col-2-10">
-                <button
-                  className="transparentButton center"
-                  onClick={() => this.props.history.goBack()}
-                >
-                  <i className="fas fa-arrow-left" />
-                </button>
-              </div>
-              <div className="col-5-10 ">
-                <h1 className="verticalCenter">{this.state.group.name}</h1>
-              </div>
-              <div className="col-3-10 ">
-                {this.state.userIsAdmin && <button
-                  className="transparentButton center"
-                  onClick={this.handlePendingRequests}
-                >
-                  <i className="fas fa-user-friends">
-                    {this.state.pendingRequests > 0 ? (
-                      <span className="badge">
-                        {this.state.pendingRequests}
-                      </span>
-                    ) : (
-                      <div />
-                    )}
-                  </i>
-                </button>}
-              </div>
-            </div>
-            {this.state.userIsAdmin && 
-						<GroupMembersAdminOptions
+        <div className="row no-gutters" id="groupMembersHeaderContainer">
+          <div className="col-2-10">
+            <button
+              className="transparentButton center"
+              onClick={() => this.props.history.goBack()}
+            >
+              <i className="fas fa-arrow-left" />
+            </button>
+          </div>
+          <div className="col-5-10 ">
+            <h1 className="verticalCenter">{this.state.group.name}</h1>
+          </div>
+          <div className="col-3-10 ">
+            {this.state.userIsAdmin && (
+              <button
+                className="transparentButton center"
+                onClick={this.handlePendingRequests}
+              >
+                <i className="fas fa-user-friends">
+                  {this.state.pendingRequests > 0 ? (
+                    <span className="badge">{this.state.pendingRequests}</span>
+                  ) : (
+                    <div />
+                  )}
+                </i>
+                                           </button>}
+            )}
+          </div>
+        </div>
+        {this.state.userIsAdmin && (
+<GroupMembersAdminOptions
               groupIsOpen={this.state.settings.open}
 							groupId={this.state.group.group_id}
-            />}
+            />
+)}
         <GroupMembersList
           members={this.state.members}
           groupId={this.state.group.group_id}
-					userIsAdmin={this.state.userIsAdmin}
+          userIsAdmin={this.state.userIsAdmin}
         />
       </div>
     ) : (

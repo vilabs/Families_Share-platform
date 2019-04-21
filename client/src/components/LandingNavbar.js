@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Texts from '../Constants/Texts.js';
-import withLanguage from './LanguageContext';
-import SelectLanguage from './SelectLanguage';
+import React from "react";
+import { Link } from "react-router-dom";
+import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
+import SelectLanguage from "./SelectLanguage";
 
 class LandingNavbar extends React.Component {
   render() {
@@ -13,8 +13,12 @@ class LandingNavbar extends React.Component {
           <SelectLanguage />
         </div>
         <div id="landingNavButtonsContainer">
-          <Link to="/login" className="loginButton">{texts.logIn}</Link>
-          <Link to="/signup" className="signupButton">{texts.signUp}</Link>
+          <Link to="/login" className="loginButton">
+            {texts.logIn}
+          </Link>
+          <Link to="/signup" className="signupButton">
+            {texts.signUp}
+          </Link>
         </div>
       </nav>
     );

@@ -1,49 +1,54 @@
 import Modal from "react-modal";
 import React from "react";
 import PropTypes from "prop-types";
+import axios from 'axios';
 import Texts from '../Constants/Texts';
 import withLanguage from './LanguageContext';
-import axios from 'axios';
-import { Waypoint } from 'react-waypoint';
+import { Waypoint } from "react-waypoint";
 
 Modal.setAppElement("#root");
 
 const getMyNotifications = (userId, page) => {
-	return axios
-		.get("/users/" + userId + "/notifications", { params: { page }})
-		.then(response => {
-			return response.data;
-		})
-		.catch(error => {
-			console.log(error);
-			return [];
-		});
+  return axios
+    .get("/users/" + userId + "/notifications", { params: { page } })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      return [];
+    });
 };
 
 class NotificationsModal extends React.Component {
-	constructor(){
-		super()
-		this.state = {
-			notifications: [],
-			user_id: JSON.parse(localStorage.getItem("user")).id,
-			fetchedAll: false,
-		};
-	}
-  closeModal = ()  => {
-    this.props.handleClose();
+  constructor() {
+    super();
+    this.state = {
+      notifications: [],
+      user_id: JSON.parse(localStorage.getItem("user")).id,
+      fetchedAll: false
+    };
   }
-	afterOpenModal = () => {}
-	async componentDidMount(){
-		const notifications = await getMyNotifications(this.state.user_id, 0)
-		this.setState({ notifications})
-	}
-	loadMoreNotifications = async () => {
-		const page = Math.floor(this.state.notifications.length / 10)
-		const newNotifications = await getMyNotifications(this.state.user_id, page)
-		this.setState({notifications: this.state.notifications.concat(newNotifications), fetchedAll: newNotifications.length<10})
-	}
+
+  closeModal = () => {
+    this.props.handleClose();
+  };
+  afterOpenModal = () => {};
+  async componentDidMount() {
+    const notifications = await getMyNotifications(this.state.user_id, 0);
+    this.setState({ notifications });
+  }
+
+  loadMoreNotifications = async () => {
+    const page = Math.floor(this.state.notifications.length / 10);
+    const newNotifications = await getMyNotifications(this.state.user_id, page);
+    this.setState({
+      notifications: this.state.notifications.concat(newNotifications),
+      fetchedAll: newNotifications.length < 10
+    });
+  };
   render() {
-		const texts = Texts[this.props.language].myFamiliesShareScreen
+    const texts = Texts[this.props.language].myFamiliesShareScreen;
     const modalStyle = {
       overlay: {
         position: "fixed",
@@ -54,16 +59,16 @@ class NotificationsModal extends React.Component {
         backgroundColor: "rgba(0, 0, 0, 0.8)"
       },
       content: {
-				top: "5rem",
-				left: "50%",
-				transform: 'translateX(-50%)',
-				position: "absolute",
+        top: "5rem",
+        left: "50%",
+        transform: "translateX(-50%)",
+        position: "absolute",
         backgroundColor: "#ffffff",
         width: "90%",
-				height: "85%",
-				borderRadius: "5px"
+        height: "85%",
+        borderRadius: "5px"
       }
-		};
+    };
     return (
       <Modal
         className="modal-container"
@@ -74,37 +79,39 @@ class NotificationsModal extends React.Component {
         contentLabel="Notifications Modal"
       >
         <div id="myNotificationsContainer">
-					<h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
-					{/* <button className="transparentButton" onClick={this.props.handleClose}>
+          <h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
+          {/* <button className="transparentButton" onClick={this.props.handleClose}>
 						<i className="fas fa-times"/>
 					</button> */}
-					<ul>
-						{this.state.notifications.map((notification, index) => (
-							<li key={index} >
-								{index === this.state.notifications.length - 4 && !this.state.fetchedAll ?
-									<Waypoint onEnter={this.loadMoreNotifications}>
+          <ul>
+            {this.state.notifications.map((notification, index) => (
+  <li key={index}>
+  {index === this.state.notifications.length - 4 && !this.state.fetchedAll ? (
+<Waypoint onEnter={this.loadMoreNotifications}>
 										<div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
 											<h1>{notification.header}</h1>
 											<p>{notification.description}</p>
 										</div>
 									</Waypoint>
-									: <div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
+): (
+<div id="myNotification" style={!notification.read ? { backgroundColor: "#F7F7F7" } : {}}>
 										<h1>{notification.header}</h1>
 										<p>{notification.description}</p>
 									</div>
-								}
-							</li>
-						))}
-					</ul>
-				</div>
-			</Modal>
-		);
-	}
+)
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Modal>
+    );
+  }
 }
 NotificationsModal.propTypes = {
-	isOpen: PropTypes.bool,
-	handleClose: PropTypes.func,
-	notifications: PropTypes.array,
+  isOpen: PropTypes.bool,
+  handleClose: PropTypes.func,
+  notifications: PropTypes.array
 };
 
 export default withLanguage(NotificationsModal);

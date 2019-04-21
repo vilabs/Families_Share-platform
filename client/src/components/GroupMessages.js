@@ -1,60 +1,73 @@
 import React from "react";
-import AnnouncementBar from "./AnnouncementBar";
 import PropTypes from "prop-types";
+import axios from "axios";
+import LazyLoad from "react-lazyload";
+import AnnouncementBar from "./AnnouncementBar";
 import AnnouncementHeader from "./AnnouncementHeader";
 import AnnouncementMain from "./AnnouncementMain";
 import AnnouncementReplies from "./AnnouncementReplies";
-import axios from "axios";
-import LazyLoad from 'react-lazyload';
 import LoadingSpinner from "./LoadingSpinner";
 
 class GroupMessages extends React.Component {
   state = { fetchedAnnouncements: false };
+
   refresh = () => {
     axios
-      .get("/groups/" + this.props.groupId + "/announcements")
+      .get(`/groups/${this.props.groupId}/announcements`)
       .then(async response => {
-        const announcements = response.data
+        const announcements = response.data;
         await this.setState({
           announcements
         });
-        await this.announcementsStart.scrollIntoView({ behavior: 'smooth' })
+        await this.announcementsStart.scrollIntoView({ behavior: "smooth" });
       })
       .catch(error => {
         console.log(error);
       });
   };
+
   componentDidMount() {
     axios
-      .get("/groups/" + this.props.groupId + "/announcements")
+      .get(`/groups/${this.props.groupId}/announcements`)
       .then(response => {
-        const announcements = response.data
+        const announcements = response.data;
         this.setState({
           fetchedAnnouncements: true,
-          announcements: announcements
+          announcements
         });
       })
       .catch(error => {
         this.setState({ fetchedAnnouncements: true, announcements: [] });
       });
   }
+
   renderAnnouncements = () => {
-    const announcements = this.state.announcements;
-    const length = announcements.length;
-    const blocks = [...Array(Math.ceil(length / 2)).keys()]
+    const { announcements } = this.state;
+    const { length } = announcements;
+    const blocks = [...Array(Math.ceil(length / 2)).keys()];
     return (
       <ul>
         {blocks.map(block => {
           let indexes;
           if (length <= 2) {
-            indexes = [...Array(length).keys()]
+            indexes = [...Array(length).keys()];
           } else {
-            indexes = [...Array((block+1) * 2 <= length ? 2 : length - block * 2).keys()].map(x => block * 2 + x)
+            indexes = [
+              ...Array(
+                (block + 1) * 2 <= length ? 2 : length - block * 2
+              ).keys()
+            ].map(x => block * 2 + x);
           }
           return (
             <LazyLoad height={450} once offset={100}>
-              {indexes.map((index) => 
-                <li style={{ padding: "2rem 0" }} key={index} ref={(ref) => index === 0 ? this.announcementsStart = ref : null}>
+              {indexes.map(index => (
+                <li
+                  style={{ padding: "2rem 0" }}
+                  key={index}
+                  ref={ref =>
+                    index === 0 ? (this.announcementsStart = ref) : null
+                  }
+                >
                   <div id="announcementContainer" className="horizontalCenter">
                     <AnnouncementHeader
                       userId={announcements[index].user_id}
@@ -73,21 +86,23 @@ class GroupMessages extends React.Component {
                       groupId={announcements[index].group_id}
                     />
                   </div>
-                </li>)}
+                </li>
+              ))}
             </LazyLoad>
-          )
+          );
         })}
       </ul>
     );
   };
+
   render() {
     return (
       <div id="announcementsContainer">
         {this.state.fetchedAnnouncements ? (
           this.renderAnnouncements()
         ) : (
-            <LoadingSpinner />
-          )}
+          <LoadingSpinner />
+        )}
         <AnnouncementBar
           groupId={this.props.groupId}
           handleRefresh={this.refresh}

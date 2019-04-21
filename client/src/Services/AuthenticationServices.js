@@ -1,25 +1,28 @@
-import axios from 'axios';
+import axios from "axios";
 
 const authenticationServices = {
   login,
   logout,
-  googleLogin,
+  googleLogin
 };
 
 function login(email, password, deviceToken) {
-  const language = localStorage.getItem('language');
+  const language = localStorage.getItem("language");
   return axios({
-    url: '/users/authenticate/email',
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    url: "/users/authenticate/email",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     data: JSON.stringify({
-      email, password, deviceToken, language,
-    }),
+      email,
+      password,
+      deviceToken,
+      language
+    })
   })
-    .then((response) => {
+    .then(response => {
       const user = response.data;
       if (user.token) {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         return user;
       }
     })
@@ -27,22 +30,22 @@ function login(email, password, deviceToken) {
 }
 
 function googleLogin(response, origin, deviceToken) {
-  const language = localStorage.getItem('language');
+  const language = localStorage.getItem("language");
   return axios({
-    url: '/users/authenticate/google',
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    url: "/users/authenticate/google",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     data: JSON.stringify({
       response,
       origin,
       deviceToken,
-      language,
-    }),
+      language
+    })
   })
-    .then((response) => {
+    .then(response => {
       const user = response.data;
       if (user.token) {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         return user;
       }
     })
@@ -50,7 +53,7 @@ function googleLogin(response, origin, deviceToken) {
 }
 
 function logout() {
-  localStorage.removeItem('user');
+  localStorage.removeItem("user");
 }
 
 export default authenticationServices;

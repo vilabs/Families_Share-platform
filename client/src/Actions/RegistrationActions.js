@@ -1,32 +1,54 @@
-import registrationConstants from '../Constants/RegistrationConstants';
-import registrationServices from '../Services/RegistrationServices';
-
+import registrationConstants from "../Constants/RegistrationConstants";
+import registrationServices from "../Services/RegistrationServices";
 
 const registrationActions = {
-  signup,
+  signup
 };
 
-function signup(given_name, family_name, number, email, password, visible, deviceToken, history) {
-  return (dispatch) => {
+function signup(
+  given_name,
+  family_name,
+  number,
+  email,
+  password,
+  visible,
+  deviceToken,
+  history
+) {
+  return dispatch => {
     dispatch(request());
     setTimeout(() => {
-      registrationServices.signup(given_name, family_name, number, email, password, visible, deviceToken)
+      registrationServices
+        .signup(
+          given_name,
+          family_name,
+          number,
+          email,
+          password,
+          visible,
+          deviceToken
+        )
         .then(
-          (user) => {
+          user => {
             dispatch(success(user));
-            history.push('/myfamiliesshare');
+            history.push("/myfamiliesshare");
           },
-          (error) => {
+          error => {
             dispatch(failure(error));
-          },
+          }
         );
     }, 1000);
   };
 
-  function request() { return { type: registrationConstants.SIGNUP_REQUEST }; }
-  function success(user) { return { type: registrationConstants.SIGNUP_SUCCESS, user }; }
-  function failure(error) { return { type: registrationConstants.SIGNUP_FAILURE, error }; }
+  function request() {
+    return { type: registrationConstants.SIGNUP_REQUEST };
+  }
+  function success(user) {
+    return { type: registrationConstants.SIGNUP_SUCCESS, user };
+  }
+  function failure(error) {
+    return { type: registrationConstants.SIGNUP_FAILURE, error };
+  }
 }
-
 
 export default registrationActions;

@@ -1,25 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import axios from "axios";
 import ConfirmDialog from "./ConfirmDialog";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
-import axios from "axios";
 
 class GroupHeader extends React.Component {
   state = { confirmDialogIsOpen: false };
+
   handleEdit = () => {
     const pathName = this.props.location.pathname;
     const parentPath = pathName.slice(0, pathName.lastIndexOf("/"));
-    const newPath = parentPath + "/edit";
+    const newPath = `${parentPath}/edit`;
     this.props.history.push(newPath);
   };
+
   handleBackNav = () => {
     this.props.history.goBack();
   };
+
   handleConfirmDialogOpen = () => {
     this.setState({ confirmDialogIsOpen: true });
   };
+
   handleConfirmDialogClose = choice => {
     if (choice === "agree") {
       this.handleDelete();
@@ -28,9 +32,10 @@ class GroupHeader extends React.Component {
       this.setState({ confirmDialogIsOpen: false });
     }
   };
+
   handleDelete = () => {
     axios
-      .delete("/groups/" + this.props.groupId)
+      .delete(`/groups/${this.props.groupId}`)
       .then(response => {
         console.log(response);
         this.props.history.push("/myfamiliesshare");
@@ -39,6 +44,7 @@ class GroupHeader extends React.Component {
         console.log(error);
       });
   };
+
   render() {
     const texts = Texts[this.props.language].groupHeader;
     const { groupLogo, groupName, groupBackground } = this.props;

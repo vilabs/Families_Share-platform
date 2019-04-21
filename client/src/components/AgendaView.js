@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import withLanguage from "./LanguageContext";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
+import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
-import moment from 'moment';
 
-const AgendaView = ({events}) => {
+const AgendaView = ({ events }) => {
   const getDates = () => {
     const timeslots = JSON.parse(JSON.stringify(events));
     let dates = timeslots.map(event => event.start);
@@ -14,13 +14,13 @@ const AgendaView = ({events}) => {
     });
     const uniqueDates = [];
     const temp = [];
-    dates.forEach( date => {
-        const t = moment(date).format('DD-MM-YYYY');
-        if(!temp.includes(t)){
-            temp.push(t);
-            uniqueDates.push(date)
-        }
-    })
+    dates.forEach(date => {
+      const t = moment(date).format("DD-MM-YYYY");
+      if (!temp.includes(t)) {
+        temp.push(t);
+        uniqueDates.push(date);
+      }
+    });
     return uniqueDates;
   };
   const getEvents = () => {
@@ -31,16 +31,16 @@ const AgendaView = ({events}) => {
     });
     return timeslots;
   };
-    return (
-      <div id="agendaViewContainer">
-        <TimeslotsList timeslots={getEvents()} dates={getDates()} />
-      </div>
-    );
-}
+  return (
+    <div id="agendaViewContainer">
+      <TimeslotsList timeslots={getEvents()} dates={getDates()} />
+    </div>
+  );
+};
 
 export default withLanguage(withRouter(AgendaView));
 
 AgendaView.propTypes = {
   events: PropTypes.array,
-  activeMonth: PropTypes.string,
+  activeMonth: PropTypes.string
 };

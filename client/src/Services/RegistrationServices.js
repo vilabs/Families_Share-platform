@@ -1,16 +1,23 @@
-import axios from 'axios';
-
+import axios from "axios";
 
 const registrationServices = {
-  signup,
+  signup
 };
 
-function signup(given_name, family_name, number, email, password, visible, deviceToken) {
-  const language = localStorage.getItem('language');
+function signup(
+  given_name,
+  family_name,
+  number,
+  email,
+  password,
+  visible,
+  deviceToken
+) {
+  const language = localStorage.getItem("language");
   return axios({
-    url: '/users',
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    url: "/users",
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     data: JSON.stringify({
       given_name,
       family_name,
@@ -19,18 +26,17 @@ function signup(given_name, family_name, number, email, password, visible, devic
       password,
       visible,
       language,
-      deviceToken,
-    }),
+      deviceToken
+    })
   })
-    .then((response) => {
+    .then(response => {
       const user = response.data;
       if (user.token) {
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         return user;
       }
     })
     .catch(error => Promise.reject(error));
 }
-
 
 export default registrationServices;

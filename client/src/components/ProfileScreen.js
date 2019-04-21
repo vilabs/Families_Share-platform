@@ -1,23 +1,23 @@
 import React from "react";
-import  ProfileHeader  from "./ProfileHeader";
-import ProfileNavbar from "./ProfileNavbar";
 import { Switch, Route } from "react-router-dom";
 import axios from "axios";
+import Loadable from "react-loadable";
+import ProfileHeader from "./ProfileHeader";
+import ProfileNavbar from "./ProfileNavbar";
 import LoadingSpinner from "./LoadingSpinner";
-import Loadable from 'react-loadable';
 
 const ProfileInfo = Loadable({
-	loader: () => import ('./ProfileInfo'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./ProfileInfo"),
+  loading: () => <div />
+});
 const ProfileChildren = Loadable({
-	loader: () => import ('./ProfileChildren'),
-	loading: ()=> <div/>,
-})
+  loader: () => import("./ProfileChildren"),
+  loading: () => <div />
+});
 
 const getMyChildren = userId => {
   return axios
-    .get("/users/" + userId + "/children")
+    .get(`/users/${userId}/children`)
     .then(response => {
       return response.data;
     })
@@ -28,7 +28,7 @@ const getMyChildren = userId => {
 };
 const getMyProfile = userId => {
   return axios
-    .get("/users/" + userId + "/profile")
+    .get(`/users/${userId}/profile`)
     .then(response => {
       return response.data;
     })
@@ -55,26 +55,29 @@ class ProfileScreen extends React.Component {
     activeTab: "",
     fetchedProfile: false
   };
+
   async componentDidMount() {
-    const profileId = this.props.match.params.profileId;
+    const { profileId } = this.props.match.params;
     const profile = await getMyProfile(profileId);
-		const children = await getMyChildren(profileId);
+    const children = await getMyChildren(profileId);
     this.setState({
       fetchedProfile: true,
-      children: children,
-      profile: profile
+      children,
+      profile
     });
   }
+
   handleActiveTab = activeTab => {
-    this.setState({ activeTab: activeTab });
+    this.setState({ activeTab });
   };
+
   render() {
     const currentPath = this.props.match.url;
-    const profile = this.state.profile;
+    const { profile } = this.state;
     return this.state.fetchedProfile ? (
       <React.Fragment>
         <ProfileHeader
-          name={profile.given_name + " " + profile.family_name}
+          name={`${profile.given_name} ${profile.family_name}`}
           photo={profile.image.path}
         />
         <React.Fragment>
@@ -82,12 +85,12 @@ class ProfileScreen extends React.Component {
           <Switch>
             <Route
               exact
-              path={currentPath + "/info"}
+              path={`${currentPath}/info`}
               render={props => <ProfileInfo {...props} profile={profile} />}
             />
             <Route
               exact
-              path={currentPath + "/children"}
+              path={`${currentPath}/children`}
               render={props => (
                 <ProfileChildren
                   {...props}

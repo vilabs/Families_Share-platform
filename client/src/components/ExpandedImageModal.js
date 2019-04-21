@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const getImageMeta = (image, cb) => {
-  var img = new Image();
+  const img = new Image();
   img.src = image;
   img.onload = function() {
     cb(this.width, this.height);
@@ -13,14 +13,17 @@ Modal.setAppElement("#root");
 
 class ExpandedImageModal extends React.Component {
   state = { height: "", width: "" };
+
   closeModal = () => {
     this.props.handleClose();
   };
+
   afterOpenModal = () => {
     getImageMeta(this.props.image, (width, height) => {
-      this.setState({ image: this.props.image, width: width, height: height });
+      this.setState({ image: this.props.image, width, height });
     });
   };
+
   render() {
     const modalStyle = {
       content: {

@@ -1,8 +1,8 @@
-import Modal from 'react-modal';
-import React from 'react';
-import PropTypes from 'prop-types';
+import Modal from "react-modal";
+import React from "react";
+import PropTypes from "prop-types";
 
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 class OptionsModal extends React.Component {
   constructor(props) {
@@ -15,35 +15,35 @@ class OptionsModal extends React.Component {
     this.props.handleClose();
   }
 
-  afterOpenModal() { }
+  afterOpenModal() {}
 
   render() {
-    let top = '4rem';
-    let right = '3rem';
+    let top = "4rem";
+    let right = "3rem";
     if (this.props.position !== undefined) {
       top = this.props.position.top;
       right = this.props.position.right;
     }
     const modalStyle = {
       overlay: {
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(f, f, f, 0)',
+        backgroundColor: "rgba(f, f, f, 0)"
       },
       content: {
         top,
         right,
-        position: 'absolute',
-        float: 'right',
-        border: '1px solid rgba(0, 0, 0, 0.1)',
-        backgroundColor: '#ffffff',
-        width: '13rem',
-        height: 'auto',
-        borderRadius: '2px',
-      },
+        position: "absolute",
+        float: "right",
+        border: "1px solid rgba(0, 0, 0, 0.1)",
+        backgroundColor: "#ffffff",
+        width: "13rem",
+        height: "auto",
+        borderRadius: "2px"
+      }
     };
     return (
       <Modal
@@ -71,7 +71,7 @@ OptionsModal.propTypes = {
   isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
   options: PropTypes.array,
-  position: PropTypes.object,
+  position: PropTypes.object
 };
 
 export default OptionsModal;

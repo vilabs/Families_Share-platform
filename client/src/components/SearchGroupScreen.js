@@ -1,9 +1,9 @@
 import React from "react";
+import axios from "axios";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts.js";
 import GroupList from "./GroupList";
 import AutoComplete from "./AutoComplete";
-import axios from "axios";
 
 class SearchGroupScreen extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class SearchGroupScreen extends React.Component {
       searchBarIsVisible: false
     };
   }
+
   componentDidMount() {
     axios
       .get("/groups?searchBy=visibility&visible=true")
@@ -31,14 +32,16 @@ class SearchGroupScreen extends React.Component {
         this.setState({ fetchedGroups: true });
       });
   }
+
   handleKeyPress = e => {
     if (e.key === "Enter") {
       this.handleSearch(this.state.searchInput);
     }
   };
+
   handleSearch = value => {
     value = value.toLowerCase().trim();
-    const groups = this.state.groups;
+    const { groups } = this.state;
     const matchingGroups = [];
     groups.forEach(group => {
       if (group.name.toLowerCase().includes(value)) {
@@ -48,17 +51,20 @@ class SearchGroupScreen extends React.Component {
     this.setState({
       searchedForInput: true,
       searchInput: value,
-      matchingGroups: matchingGroups
+      matchingGroups
     });
   };
+
   onInputChange = event => {
     this.setState({ searchInput: event.target.value, searchedForInput: false });
     if (event.target.value === "") this.handleSearch("");
   };
+
   handleSearchVisibility = async () => {
     await this.setState({ searchBarIsVisible: !this.state.searchBarIsVisible });
     document.getElementById("searchGroupInput").focus();
   };
+
   render() {
     const texts = Texts[this.props.language].searchGroupModal;
     return this.state.fetchedGroups ? (

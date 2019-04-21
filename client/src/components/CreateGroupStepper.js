@@ -1,20 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import {
+  withStyles,
+  MuiThemeProvider,
+  createMuiTheme
+} from "@material-ui/core/styles";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
-import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
 import Switch from "@material-ui/core/Switch";
-import LoadingSpinner from "./LoadingSpinner";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
 import autosize from "autosize";
-import { withRouter } from 'react-router-dom';
-import InviteDialog from "./InviteDialog";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
+import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
+import InviteDialog from "./InviteDialog";
 
 const muiTheme = createMuiTheme({
   typography: {
@@ -52,18 +56,18 @@ const muiTheme = createMuiTheme({
 const styles = theme => ({
   root: {
     width: "95%"
-	},
-	colorSwitchBase: {
+  },
+  colorSwitchBase: {
     color: "#c43e00",
-    '&$colorChecked': {
+    "&$colorChecked": {
       color: "#c43e00",
-      '& + $colorBar': {
-				backgroundColor: "#ffa040",
-				opacity: 1,
-      },
-    },
-	},
-	colorBar: {},
+      "& + $colorBar": {
+        backgroundColor: "#ffa040",
+        opacity: 1
+      }
+    }
+  },
+  colorBar: {},
   colorChecked: {},
   continueButton: {
     backgroundColor: "#00838f",
@@ -116,34 +120,43 @@ class CreateGroupStepper extends React.Component {
     formIsValidated: false,
     name: "",
     description: "",
-  	location: "",
+    location: "",
     inviteIds: [],
     groupNames: [],
     groupVisibility: false,
     creatingGroup: false
-	};
+  };
+
   componentDidMount() {
     axios
-      .get("/groups",{params: {searchBy: 'all'}})
+      .get("/groups", { params: { searchBy: "all" } })
       .then(response => {
-				const groups = response.data;
-        this.setState({ fetchedGroups: true, groupNames: groups.map( group => group.name )});
+        const groups = response.data;
+        this.setState({
+          fetchedGroups: true,
+          groupNames: groups.map(group => group.name)
+        });
       })
       .catch(error => {
-				console.log(error);
-				this.setState({ fetchedGroups: true, groupNames: [] });
-			});
-			document.addEventListener('message', this.handleMessage, false)
-	}
-	handleMessage = (event) => {
-		const data =  JSON.parse(event.data)
-		if(data.action==='stepperGoBack'){
-				this.state.activeStep-1>=0?this.setState({ activeStep: this.state.activeStep-1}):this.props.history.goBack()
-		} 
-	}
-	componentWillUnmount(){
-		document.removeEventListener('message',this.handleMessage,false)
-	}
+        console.log(error);
+        this.setState({ fetchedGroups: true, groupNames: [] });
+      });
+    document.addEventListener("message", this.handleMessage, false);
+  }
+
+  handleMessage = event => {
+    const data = JSON.parse(event.data);
+    if (data.action === "stepperGoBack") {
+      this.state.activeStep - 1 >= 0
+        ? this.setState({ activeStep: this.state.activeStep - 1 })
+        : this.props.history.goBack();
+    }
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   createGroup = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ creatingGroup: true });
@@ -182,14 +195,16 @@ class CreateGroupStepper extends React.Component {
       this.setState({ formIsValidated: true });
     }
   };
+
   handleCancel = () => {
     this.setState(state => ({
       activeStep: state.activeStep - 1
     }));
   };
+
   handleChange = event => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const { name } = event.target;
+    const { value } = event.target;
     if (name === "name") {
       const nameExists =
         this.state.groupNames.filter(
@@ -202,53 +217,56 @@ class CreateGroupStepper extends React.Component {
       } else {
         event.target.setCustomValidity("");
       }
-		}
-		name === "groupVisibility"
-		?this.setState({ groupVisibility: !this.state.groupVisibility })
-	  :this.setState({ [name] : value })
-	};
+    }
+    name === "groupVisibility"
+      ? this.setState({ groupVisibility: !this.state.groupVisibility })
+      : this.setState({ [name]: value });
+  };
 
   validate = () => {
-		const texts = Texts[this.props.language].createGroupStepper;
+    const texts = Texts[this.props.language].createGroupStepper;
     if (this.formEl.checkValidity() === false) {
       for (let i = 0; i < this.formEl.length; i++) {
         const elem = this.formEl[i];
-        const errorLabel = document.getElementById(elem.name + "Err");
+        const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
           if (!elem.validity.valid) {
-						if(elem.validity.valueMissing){
-							errorLabel.textContent = texts.requiredErr;
-						} else if( elem.validity.customError){
-							errorLabel.textContent = texts.nameErr
-						}
+            if (elem.validity.valueMissing) {
+              errorLabel.textContent = texts.requiredErr;
+            } else if (elem.validity.customError) {
+              errorLabel.textContent = texts.nameErr;
+            }
           } else {
             errorLabel.textContent = "";
           }
         }
       }
       return false;
-    } else {
-      for (let i = 0; i < this.formEl.length; i++) {
-        const elem = this.formEl[i];
-        const errorLabel = document.getElementById(elem.name + "Err");
-        if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
-          errorLabel.textContent = "";
-        }
-      }
-      return true;
     }
+    for (let i = 0; i < this.formEl.length; i++) {
+      const elem = this.formEl[i];
+      const errorLabel = document.getElementById(`${elem.name}Err`);
+      if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
+        errorLabel.textContent = "";
+      }
+    }
+    return true;
   };
+
   handleInviteModalOpen = () => {
     this.setState({ inviteModalIsOpen: true });
   };
+
   handleInviteModalClose = () => {
     this.setState({ inviteModalIsOpen: false });
   };
+
   handleInvite = inviteIds => {
-    this.setState({ inviteModalIsOpen: false, inviteIds: inviteIds });
+    this.setState({ inviteModalIsOpen: false, inviteIds });
   };
+
   getStepContent = () => {
-		const { classes } = this.props;
+    const { classes } = this.props;
     const texts = Texts[this.props.language].createGroupStepper;
     switch (this.state.activeStep) {
       case 0:
@@ -260,7 +278,7 @@ class CreateGroupStepper extends React.Component {
               className="createGroupInput form-control"
               placeholder={texts.name}
               onChange={this.handleChange}
-              required={true}
+              required
               value={this.state.name}
             />
             <span className="invalid-feedback" id="nameErr" />
@@ -274,7 +292,7 @@ class CreateGroupStepper extends React.Component {
                 this.handleChange(event);
                 autosize(document.querySelectorAll("textarea"));
               }}
-              required={true}
+              required
             />
             <span className="invalid-feedback" id="descriptionErr" />
           </div>
@@ -282,15 +300,23 @@ class CreateGroupStepper extends React.Component {
       case 1:
         return (
           <div className="row no-gutters">
-            <h1 className="groupVisibility">{this.state.groupVisibility?texts.visibleGroup:texts.invisibleGroup}</h1>
+            <h1 className="groupVisibility">
+              {this.state.groupVisibility
+                ? texts.visibleGroup
+                : texts.invisibleGroup}
+            </h1>
             <Switch
-							checked={this.state.groupVisibility}
-							onClick={() => this.handleChange({ target: {name: "groupVisibility", value: ""}})}
-							value="groupVisibility"
-							classes={{
+              checked={this.state.groupVisibility}
+              onClick={() =>
+                this.handleChange({
+                  target: { name: "groupVisibility", value: "" }
+                })
+              }
+              value="groupVisibility"
+              classes={{
                 switchBase: classes.colorSwitchBase,
                 checked: classes.colorChecked,
-                bar: classes.colorBar,
+                bar: classes.colorBar
               }}
             />
           </div>
@@ -304,7 +330,7 @@ class CreateGroupStepper extends React.Component {
               className="createGroupInput form-control"
               placeholder={texts.city}
               onChange={this.handleChange}
-              required={true}
+              required
               value={this.state.location}
             />
             <span className="invalid-feedback" id="locationErr" />
@@ -316,8 +342,8 @@ class CreateGroupStepper extends React.Component {
             <InviteDialog
               isOpen={this.state.inviteModalIsOpen}
               handleClose={this.handleInviteModalClose}
-							handleInvite={this.handleInvite}
-							inviteType={"member"}
+              handleInvite={this.handleInvite}
+              inviteType="member"
             />
             <h1>{texts.invite}</h1>
             <i className="fas fa-plus" onClick={this.handleInviteModalOpen} />
@@ -327,6 +353,7 @@ class CreateGroupStepper extends React.Component {
         return <div>Lorem Ipsum</div>;
     }
   };
+
   render() {
     const texts = Texts[this.props.language].createGroupStepper;
     const { classes } = this.props;

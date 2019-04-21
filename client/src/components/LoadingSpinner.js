@@ -1,5 +1,5 @@
-import React from 'react';
-import Images from '../Constants/Images.js';
+import React from "react";
+import Images from "../Constants/Images.js";
 
 const LoadingSpinner = () => {
   const loadingSpinner = Images.spinner;

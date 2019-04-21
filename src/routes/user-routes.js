@@ -8,7 +8,7 @@ const fr = require('find-remove')
 const nodemailer = require('nodemailer')
 const path = require('path')
 const nh = require('../helper-functions/notification-helpers')
-const uh = require('../helper-functions/user-helpers');
+const uh = require('../helper-functions/user-helpers')
 const hf = require('../helper-functions/forgot-password-email')
 const wt = require('../helper-functions/walthrough-email')
 const exportData = require('../helper-functions/export-user-data.js')
@@ -55,7 +55,7 @@ const profileStorage = multer.diskStorage({
     cb(null, `${req.params.id}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const profileUpload = multer({ storage: profileStorage, limits:  {fieldSize: 52428800 } })
+const profileUpload = multer({ storage: profileStorage, limits: { fieldSize: 52428800 } })
 
 const childProfileStorage = multer.diskStorage({
   destination (req, file, cb) {
@@ -66,7 +66,7 @@ const childProfileStorage = multer.diskStorage({
     cb(null, `${req.params.childId}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const childProfileUpload = multer({ storage: childProfileStorage, limits:  {fieldSize: 52428800 } })
+const childProfileUpload = multer({ storage: childProfileStorage, limits: { fieldSize: 52428800 } })
 
 const Profile = require('../models/profile')
 const Address = require('../models/address')
@@ -207,9 +207,9 @@ router.post('/authenticate/email', async (req, res, next) => {
       image: profile.image.path,
       token
     }
-    user.last_login = new Date();
-		user.language = language;
-		user.token = token;
+    user.last_login = new Date()
+    user.language = language
+    user.token = token
     await user.save()
     res.json(response)
   } catch (error) {
@@ -254,9 +254,9 @@ router.post('/authenticate/google', async (req, res, next) => {
         origin: req.body.origin
       }
       user.last_login = new Date()
-			user.language = language
-			user.token = token;
-			user.auth0_token = googleToken;
+      user.language = language
+      user.token = token
+      user.auth0_token = googleToken
       await user.save()
       res.json(response)
     } else {
@@ -370,23 +370,23 @@ router.post('/forgotpassword', async (req, res, next) => {
 })
 
 router.get('/changepassword', (req, res, next) => {
-	if (!req.user_id) { return res.status(401).send('Invalid token') }
-	const { user_id } = req
-	Password_Reset.findOne({ token: req.headers.authorization }).then(reset => {
-		if (!reset) {
-			return res.status(404).send('Bad Request')
-		}
-		return Profile.findOne({ user_id }).populate('image')
-			.lean()
-			.exec()
-			.then(profile => {
-				res.json(profile)
-			})
-	}).catch(next)
+  if (!req.user_id) { return res.status(401).send('Invalid token') }
+  const { user_id } = req
+  Password_Reset.findOne({ token: req.headers.authorization }).then(reset => {
+    if (!reset) {
+      return res.status(404).send('Bad Request')
+    }
+    return Profile.findOne({ user_id }).populate('image')
+      .lean()
+      .exec()
+      .then(profile => {
+        res.json(profile)
+      })
+  }).catch(next)
 })
 
 router.post('/changepassword', async (req, res, next) => {
-	if (!req.user_id) { return res.status(401).send('Not authorized') }
+  if (!req.user_id) { return res.status(401).send('Not authorized') }
   try {
     const { user_id, email } = req
     const reset = await Password_Reset.findOneAndDelete({ user_id })
@@ -513,7 +513,7 @@ router.get('/:id/groups', (req, res, next) => {
 router.post('/:id/walkthrough', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   try {
-    const { user_id, email } = req;
+    const { user_id, email } = req
     const profile = await Profile.findOne({ user_id })
     const mailOptions = {
       from: process.env.SERVER_MAIL,
@@ -717,21 +717,21 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
 
 router.get('/:id/notifications', async (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
-	const user_id = req.params.id;
-	const page = req.query.page;
+  const user_id = req.params.id
+  const page = req.query.page
   try {
-		const user = await User.findOne({ user_id })
-		const notifications = await Notification.find({ owner_id: user_id })
-		.sort({ createdAt: -1 })
-		.skip(page*10)
-		.limit(10)
-		.lean()
+    const user = await User.findOne({ user_id })
+    const notifications = await Notification.find({ owner_id: user_id })
+      .sort({ createdAt: -1 })
+      .skip(page * 10)
+      .limit(10)
+      .lean()
     if (notifications.length === 0) {
       return res.status(404).send('User has no notifications')
     }
-    notifications.forEach( notification => {
+    notifications.forEach(notification => {
       notification.header = texts[user.language][notification.type][notification.code].header
-      notification.description =  nh.getNotificationDescription(notification, user.language)
+      notification.description = nh.getNotificationDescription(notification, user.language)
     })
     return res.json(notifications)
   } catch (error) {
@@ -742,11 +742,11 @@ router.get('/:id/notifications', async (req, res, next) => {
 router.get('/:id/notifications/unread', async (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
   const user_id = req.params.id
-	Notification.find({ owner_id: user_id, read: false}).then( unreadNotifications => {
+  Notification.find({ owner_id: user_id, read: false }).then(unreadNotifications => {
     if (unreadNotifications.length === 0) {
       return res.status(404).send('User has no notifications')
-		}
-    return res.status(200).send({unreadNotifications: unreadNotifications.length})
+    }
+    return res.status(200).send({ unreadNotifications: unreadNotifications.length })
   }).catch(next)
 })
 
@@ -928,34 +928,34 @@ router.delete('/:userId/children/:childId', async (req, res, next) => {
 })
 
 router.get('/:userId/children/:childId/parents', (req, res, next) => {
-	if (!req.user_id) { return res.status(401).send('Unauthorized') }
-	const child_id = req.params.childId
-	Parent.find({ child_id }).then(parents => {
-		if (parents.length === 0) {
-			res.status(404).send('Parents not found')
-		}
-		const parentIds = parents.map(parent => parent.parent_id)
-		return Profile.find({ user_id: { $in: parentIds } })
-	}).then(parentProfiles => {
-		res.json(parentProfiles)
-	}).catch(next)
+  if (!req.user_id) { return res.status(401).send('Unauthorized') }
+  const child_id = req.params.childId
+  Parent.find({ child_id }).then(parents => {
+    if (parents.length === 0) {
+      res.status(404).send('Parents not found')
+    }
+    const parentIds = parents.map(parent => parent.parent_id)
+    return Profile.find({ user_id: { $in: parentIds } })
+  }).then(parentProfiles => {
+    res.json(parentProfiles)
+  }).catch(next)
 })
 
 router.post('/:userId/children/:childId/parents', (req, res, next) => {
-	if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized'); }
-	const { parentId } = req.body
-	const child_id = req.params.childId
-	Parent.find({ child_id }).then(parents => {
-		if (parents.length >= 2 || !parentId) {
-			return res.status(400).send('Bad Request');
-		}
-		return Parent.create({
-			parent_id: parentId,
-			child_id
-		}).then(() => {
-			res.status(200).send('Parent added')
-		})
-	}).catch(next)
+  if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized') }
+  const { parentId } = req.body
+  const child_id = req.params.childId
+  Parent.find({ child_id }).then(parents => {
+    if (parents.length >= 2 || !parentId) {
+      return res.status(400).send('Bad Request')
+    }
+    return Parent.create({
+      parent_id: parentId,
+      child_id
+    }).then(() => {
+      res.status(200).send('Parent added')
+    })
+  }).catch(next)
 })
 
 router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) => {

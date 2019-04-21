@@ -1,35 +1,37 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { GoogleLogin } from "react-google-login";
 import { LogInForm } from "./LogInForm";
 import BackNavigation from "./BackNavigation";
 import Texts from "../Constants/Texts.js";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
-import { GoogleLogin } from 'react-google-login';
-import authenticationActions from '../Actions/AuthenticationActions';
-
+import authenticationActions from "../Actions/AuthenticationActions";
 
 class LogInScreen extends React.Component {
-  componentDidMount(){
-    document.addEventListener('message',this.handleMessage, false)			
+  componentDidMount() {
+    document.addEventListener("message", this.handleMessage, false);
   }
-	handleMessage = (event) => {
-		const data =  JSON.parse(event.data)
-		if(data.action==='googleLogin'){
-			this.props.dispatch(
-				authenticationActions.googleLogin(
-					data.userInfo,
-					this.props.history,
-					'native',
-					JSON.parse(localStorage.getItem("deviceToken"))
-				)
-			)
-		}
-	}
-	componentWillUnmount(){
-		document.removeEventListener('message',this.handleMessage, false)
-	}
+
+  handleMessage = event => {
+    const data = JSON.parse(event.data);
+    if (data.action === "googleLogin") {
+      this.props.dispatch(
+        authenticationActions.googleLogin(
+          data.userInfo,
+          this.props.history,
+          "native",
+          JSON.parse(localStorage.getItem("deviceToken"))
+        )
+      );
+    }
+  };
+
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   render() {
     const { loggingIn } = this.props;
     const texts = Texts[this.props.language].logInScreen;
@@ -44,7 +46,7 @@ class LogInScreen extends React.Component {
           <LogInForm />
           <div className="row no-gutters">
             <div
-							onClick={()=>this.props.history.push('/forgotpsw')}
+              onClick={() => this.props.history.push("/forgotpsw")}
               className="horizontalCenter forgotPasswordButton"
             >
               {texts.forgotPassword}
@@ -60,14 +62,30 @@ class LogInScreen extends React.Component {
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={renderProps => (
                 <button
-                  onClick={()=>window.isNative?window.postMessage(JSON.stringify({action: "googleLogin"}),'*'):renderProps.onClick()}
+                  onClick={() =>
+                    window.isNative
+                      ? window.postMessage(
+                          JSON.stringify({ action: "googleLogin" }),
+                          "*"
+                        )
+                      : renderProps.onClick()
+                  }
                   className="logInButton googleColor horizontalCenter"
                 >
                   {texts.google}
                 </button>
               )}
               buttonText="Login"
-              onSuccess={(response) => this.props.dispatch(authenticationActions.googleLogin(response,this.props.history,'web',JSON.parse(localStorage.getItem("deviceToken"))))}
+              onSuccess={response =>
+                this.props.dispatch(
+                  authenticationActions.googleLogin(
+                    response,
+                    this.props.history,
+                    "web",
+                    JSON.parse(localStorage.getItem("deviceToken"))
+                  )
+                )
+              }
             />
           </div>
         </div>

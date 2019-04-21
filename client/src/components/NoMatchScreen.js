@@ -1,6 +1,5 @@
-import React from 'react';
-import Images from '../Constants/Images.js';
-
+import React from "react";
+import Images from "../Constants/Images.js";
 
 const NoMatchScreen = () => {
   const errorImage = Images.noMatchImage;

@@ -43,7 +43,7 @@ const groupStorage = multer.diskStorage({
     cb(null, fileName)
   }
 })
-const groupUpload = multer({ storage: groupStorage , limits:  {fieldSize: 52428800 }})
+const groupUpload = multer({ storage: groupStorage, limits: { fieldSize: 52428800 } })
 
 const announcementStorage = multer.diskStorage({
   destination (req, file, cb) {
@@ -56,7 +56,7 @@ const announcementStorage = multer.diskStorage({
     cb(null, `${req.params.announcement_id}-${Date.now()}.${file.mimetype.slice(file.mimetype.indexOf('/') + 1, file.mimetype.length)}`)
   }
 })
-const announcementUpload = multer({ storage: announcementStorage, limits:  {fieldSize: 52428800 } })
+const announcementUpload = multer({ storage: announcementStorage, limits: { fieldSize: 52428800 } })
 
 const Image = require('../models/image')
 const Reply = require('../models/reply')
@@ -257,7 +257,7 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
   if (!(visible !== undefined && name && description && location && background)) {
     return res.status(400).send('Bad Request')
   }
-	const settingsPatch = { visible }
+  const settingsPatch = { visible }
   const groupPatch = {
     name,
     description,
@@ -273,8 +273,8 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
     }
     if (!edittingUser.admin) {
       return res.status(401).send('Unauthorized')
-		}
-		await nh.editGroupNotification(id, req.user_id, {...groupPatch, visible, file})
+    }
+    await nh.editGroupNotification(id, req.user_id, { ...groupPatch, visible, file })
     await Group.updateOne({ group_id: id }, groupPatch)
     await Group_Settings.updateOne({ group_id: id }, settingsPatch)
     if (file) {
@@ -352,7 +352,7 @@ router.patch('/:id/members', (req, res, next) => {
     if (!edittingUser.admin) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(patch.group_accepted || patch.admin!==undefined)) {
+    if (!(patch.group_accepted || patch.admin !== undefined)) {
       return res.status(400).send('Bad Request')
     }
     return Member.updateOne({ group_id, user_id }, patch)
@@ -412,8 +412,8 @@ router.delete('/:groupId/members/:memberId', async (req, res, next) => {
       }
       calendar.events.patch({ calendarId: group.calendar_id, eventId: event.id, resource: timeslotPatch })
     }))
-		await Member.deleteOne({ group_id, user_id: member_id })
-		await nh.removeMemberNotification( member_id, group_id);
+    await Member.deleteOne({ group_id, user_id: member_id })
+    await nh.removeMemberNotification(member_id, group_id)
     res.status(200).send('User removed from group')
   } catch (error) {
     next(error)
@@ -494,14 +494,14 @@ router.get('/:id/notifications', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const user = await User.findOne({ user_id: req.user_id })
-		const notifications = await Notification.find({ owner_type: 'group', owner_id: id }).lean().exec()
+    const notifications = await Notification.find({ owner_type: 'group', owner_id: id }).lean().exec()
     if (notifications.length === 0) {
       return res.status(404).send('Group has no notifications')
     }
-    notifications.forEach( notification => {
-      notification.header = texts[user.language][notification.type][notification.code].header;
-			notification.description = nh.getNotificationDescription(notification, user.language);
-		})
+    notifications.forEach(notification => {
+      notification.header = texts[user.language][notification.type][notification.code].header
+      notification.description = nh.getNotificationDescription(notification, user.language)
+    })
     res.json(notifications)
   } catch (error) {
     next(error)
@@ -599,9 +599,9 @@ router.post('/:id/agenda/export', async (req, res, next) => {
 })
 
 router.post('/:id/activities', async (req, res, next) => {
-	if (!req.user_id) { return res.status(401).send('Not authenticated') }
-	const user_id = req.user_id;
-	const group_id = req.params.id;
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  const user_id = req.user_id
+  const group_id = req.params.id
   try {
     const { information, dates, timeslots } = req.body
     const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
@@ -618,13 +618,13 @@ router.post('/:id/activities', async (req, res, next) => {
       creator_id: user_id,
       name: information.name,
       color: information.color,
-			description: information.description,
-			location: information.location,
+      description: information.description,
+      location: information.location,
       repetition: dates.repetition,
       repetition_type: dates.repetitionType,
       different_timeslots: timeslots.differentTimeslots,
-      status: member.admin?'accepted':'pending',
-		}
+      status: member.admin ? 'accepted' : 'pending'
+    }
     const group = await Group.findOne({ group_id })
     const events = []
     activity.group_name = group.name
@@ -674,9 +674,9 @@ router.post('/:id/activities', async (req, res, next) => {
     })
     await Promise.all(events.map(event => calendar.events.insert({ calendarId: group.calendar_id, resource: event })))
     await Activity.create(activity)
-		if(member.admin){
-			await nh.newActivityNotification( group_id, user_id);
-		}
+    if (member.admin) {
+      await nh.newActivityNotification(group_id, user_id)
+    }
     res.status(200).send('Activity was created')
   } catch (error) {
     next(error)
@@ -706,9 +706,9 @@ router.get('/:id/activities', (req, res, next) => {
 })
 
 router.patch('/:id/activities/:activityId', async (req, res, next) => {
-	if (!req.user_id) { return res.status(401).send('Not authenticated') }
-	const group_id = req.params.id;
-	const user_id = req.user_id;
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  const group_id = req.params.id
+  const user_id = req.user_id
   try {
     const activity_id = req.params.activityId
     const activityPatch = req.body
@@ -723,9 +723,9 @@ router.patch('/:id/activities/:activityId', async (req, res, next) => {
     if (!(activityPatch.name || activityPatch.description || activityPatch.color || activityPatch.status)) {
       return res.status(400).send('Bad Request')
     }
-    await Activity.updateOne({ activity_id }, activityPatch);
+    await Activity.updateOne({ activity_id }, activityPatch)
     if (activityPatch.status === 'accepted') {
-      await nh.newActivityNotification(group_id, activity.creator_id);
+      await nh.newActivityNotification(group_id, activity.creator_id)
     }
     res.status(200).send('Activity was updated')
   } catch (error) {
@@ -839,24 +839,23 @@ router.get('/:groupId/activities/:activityId/timeslots', async (req, res, next) 
   }
 })
 
-
 router.get('/:groupId/activities/:activityId/timeslots/:timeslotId', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   const group_id = req.params.groupId
-	const user_id = req.user_id
-	const activity_id = req.params.activityId
+  const user_id = req.user_id
+  const activity_id = req.params.activityId
   try {
     const member = await Member.findOne({ group_id, user_id, group_accepted: true, user_accepted: true })
     if (!member) {
       return res.status(401).send('Unauthorized')
-		}
-		const activity = await Activity.findOne({ activity_id })
+    }
+    const activity = await Activity.findOne({ activity_id })
     const group = await Group.findOne({ group_id })
-		const response = await calendar.events.get({ calendarId: group.calendar_id, eventId: req.params.timeslotId })
-    response.data.userCanEdit = false;
+    const response = await calendar.events.get({ calendarId: group.calendar_id, eventId: req.params.timeslotId })
+    response.data.userCanEdit = false
     if (member.admin || user_id === activity.creator_id) {
-      response.data.userCanEdit = true;
-    } 
+      response.data.userCanEdit = true
+    }
     res.json(response.data)
   } catch (error) {
     next(error)
@@ -876,17 +875,17 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
     if (!(summary || description || location || start || end || extendedProperties)) {
       return res.status(400).send('Bad Request')
     }
-    const parents = JSON.parse(extendedProperties.shared.parents);
-		const children = JSON.parse(extendedProperties.shared.children);
-		const parentsReq = parents.length >= extendedProperties.shared.requiredParents;
-		const childrenReq = children.length >= extendedProperties.shared.requiredChildren;
-		const fixedReq = extendedProperties.shared.status==='confirmed';
-    if(notifyUsers){
-      extendedProperties.shared.parents=JSON.stringify([]);
-      extendedProperties.shared.children=JSON.stringify([]);
+    const parents = JSON.parse(extendedProperties.shared.parents)
+    const children = JSON.parse(extendedProperties.shared.children)
+    const parentsReq = parents.length >= extendedProperties.shared.requiredParents
+    const childrenReq = children.length >= extendedProperties.shared.requiredChildren
+    const fixedReq = extendedProperties.shared.status === 'confirmed'
+    if (notifyUsers) {
+      extendedProperties.shared.parents = JSON.stringify([])
+      extendedProperties.shared.children = JSON.stringify([])
       await nh.timeslotChangedNotification(summary, parents)
-    } else if (	parentsReq && childrenReq && fixedReq ){
-			await nh.timeslotRequirementsNotification(summary, parents)
+    } else if (parentsReq && childrenReq && fixedReq) {
+      await nh.timeslotRequirementsNotification(summary, parents)
     }
     const timeslotPatch = {
       summary,
@@ -897,7 +896,7 @@ router.patch('/:groupId/activities/:activityId/timeslots/:timeslotId', async (re
       extendedProperties
     }
     const group = await Group.findOne({ group_id })
-		await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
+    await calendar.events.patch({ calendarId: group.calendar_id, eventId: req.params.timeslotId, resource: timeslotPatch })
     res.status(200).send('Timeslot was updated')
   } catch (error) {
     next(error)
@@ -960,8 +959,8 @@ router.post('/:id/announcements', announcementUpload.array('photo', 3), async (r
       })
       await Image.create(images)
     }
-    await Announcement.create(announcement);
-    await nh.newAnnouncementNotification(group_id, user_id);
+    await Announcement.create(announcement)
+    await nh.newAnnouncementNotification(group_id, user_id)
     res.status(200).send('Announcement was posted')
   } catch (err) {
     next(err)
@@ -1057,7 +1056,5 @@ router.delete('/:groupId/announcements/:announcementId/replies/:replyId', async 
     next(error)
   }
 })
-
-
 
 module.exports = router

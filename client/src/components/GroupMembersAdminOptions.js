@@ -1,26 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
-import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
-import InviteDialog from "./InviteDialog";
 import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import withLanguage from "./LanguageContext";
+import Texts from "../Constants/Texts.js";
+import InviteDialog from "./InviteDialog";
 
 const styles = theme => ({
-	colorSwitchBase: {
+  colorSwitchBase: {
     color: "#c43e00",
-    '&$colorChecked': {
+    "&$colorChecked": {
       color: "#c43e00",
-      '& + $colorBar': {
-				backgroundColor: "#ffa040",
-				opacity: 1,
-      },
-    },
-	},
-	colorBar: {},
-  colorChecked: {},
-})
+      "& + $colorBar": {
+        backgroundColor: "#ffa040",
+        opacity: 1
+      }
+    }
+  },
+  colorBar: {},
+  colorChecked: {}
+});
 
 class GroupMembersAdminOptions extends React.Component {
   constructor(props) {
@@ -31,14 +31,16 @@ class GroupMembersAdminOptions extends React.Component {
       groupId: this.props.groupId
     };
   }
+
   handleInviteModalClose = () => {
-		const elem = document.getElementsByTagName("body")[0];
+    const elem = document.getElementsByTagName("body")[0];
     elem.style.overflow = "auto";
     this.setState({ inviteModalIsOpen: false });
   };
+
   handleSwitch = () => {
     axios
-      .patch("/groups/" + this.state.groupId + "/settings", {
+      .patch(`/groups/${this.state.groupId}/settings`, {
         open: !this.state.groupIsOpen
       })
       .then(response => {
@@ -49,17 +51,19 @@ class GroupMembersAdminOptions extends React.Component {
         console.log(error);
       });
   };
+
   handleInviteModalOpen = () => {
-		const elem = document.getElementsByTagName("body")[0];
+    const elem = document.getElementsByTagName("body")[0];
     elem.style.overflow = "hidden";
     this.setState({ inviteModalIsOpen: true });
   };
+
   handleInvite = inviteIds => {
-		const elem = document.getElementsByTagName("body")[0];
+    const elem = document.getElementsByTagName("body")[0];
     elem.style.overflow = "auto";
     this.setState({ inviteModalIsOpen: false });
     axios
-      .post("/groups/" + this.state.groupId + "/members", { inviteIds })
+      .post(`/groups/${this.state.groupId}/members`, { inviteIds })
       .then(response => {
         console.log(response);
       })
@@ -67,9 +71,10 @@ class GroupMembersAdminOptions extends React.Component {
         console.log(error);
       });
   };
+
   render() {
-		const texts = Texts[this.props.language].groupMembersAdminOptions;
-		const { classes } = this.props
+    const texts = Texts[this.props.language].groupMembersAdminOptions;
+    const { classes } = this.props;
     return (
       <div id="groupMembersAdminOptionsContainer">
         <div className="row no-gutters">
@@ -111,12 +116,12 @@ class GroupMembersAdminOptions extends React.Component {
             <div className="verticalCenter">
               <Switch
                 checked={this.state.groupIsOpen}
-								onClick={this.handleSwitch}
-								classes={{
-									switchBase: classes.colorSwitchBase,
-									checked: classes.colorChecked,
-									bar: classes.colorBar,
-								}}
+                onClick={this.handleSwitch}
+                classes={{
+                  switchBase: classes.colorSwitchBase,
+                  checked: classes.colorChecked,
+                  bar: classes.colorBar
+                }}
               />
             </div>
           </div>
@@ -124,8 +129,8 @@ class GroupMembersAdminOptions extends React.Component {
         <InviteDialog
           isOpen={this.state.inviteModalIsOpen}
           handleClose={this.handleInviteModalClose}
-					handleInvite={this.handleInvite}
-					inviteTYpe={"member"}
+          handleInvite={this.handleInvite}
+          inviteTYpe="member"
         />
       </div>
     );

@@ -1,11 +1,11 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import BackNavigation from './BackNavigation';
-import { SignUpForm } from './SignUpForm';
-import Texts from '../Constants/Texts.js';
-import withLanguage from './LanguageContext';
-import LoadingSpinner from './LoadingSpinner';
+import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import BackNavigation from "./BackNavigation";
+import { SignUpForm } from "./SignUpForm";
+import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
+import LoadingSpinner from "./LoadingSpinner";
 
 class SignUpScreen extends React.Component {
   render() {
@@ -37,11 +37,11 @@ class SignUpScreen extends React.Component {
 function mapStateToProps(state) {
   const { signingUp } = state.registration;
   return {
-    signingUp,
+    signingUp
   };
 }
 
 const connectedSignUpScreen = connect(mapStateToProps)(
-  withLanguage(SignUpScreen),
+  withLanguage(SignUpScreen)
 );
 export { connectedSignUpScreen as SignUpScreen };

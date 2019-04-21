@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import autosize from "autosize";
+import { CirclePicker } from "react-color";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts.js";
-import autosize from "autosize";
-import { CirclePicker } from 'react-color';
-
 
 class CreateActivityInformation extends React.Component {
   constructor(props) {
@@ -13,27 +12,30 @@ class CreateActivityInformation extends React.Component {
     this.props.handleSubmit(this.state, this.validate(this.state));
     autosize(document.querySelectorAll("textarea"));
   }
+
   validate = state => {
     if (state.color && state.name) {
       return true;
-    } else {
-      return false;
     }
+    return false;
   };
+
   handleChange = event => {
     const state = Object.assign({}, this.state);
-    const name = event.target.name;
-    let value = event.target.value;
+    const { name } = event.target;
+    const { value } = event.target;
     state[name] = value;
     this.props.handleSubmit(state, this.validate(state));
     this.setState(state);
   };
+
   handleColorChange = color => {
     const state = Object.assign({}, this.state);
-    state["color"] = color.hex;
+    state.color = color.hex;
     this.props.handleSubmit(state, this.validate(state));
     this.setState(state);
   };
+
   render() {
     const texts = Texts[this.props.language].createActivityInformation;
     const rowStyle = { minHeight: "7rem" };
@@ -72,7 +74,7 @@ class CreateActivityInformation extends React.Component {
             />
           </div>
         </div>
-				<div className="row no-gutters" style={rowStyle}>
+        <div className="row no-gutters" style={rowStyle}>
           <div className="col-2-10">
             <i className="fas fa-map-marker-alt center" />
           </div>
@@ -99,18 +101,18 @@ class CreateActivityInformation extends React.Component {
             <h1 className="verticalCenter" style={{ color: this.state.color }}>
               {texts.color}
             </h1>
-					</div>
-				</div>
-				<div className="row no-gutters" style={{ marginBottom: "2rem" }}>
-					<div className="col-2-10" />
-					<div className="col-8-10">
-						<CirclePicker
-							width={"100%"}
-							color={this.state.color}
-							onChange={this.handleColorChange}
-						/>
-					</div>
-				</div>
+          </div>
+        </div>
+        <div className="row no-gutters" style={{ marginBottom: "2rem" }}>
+          <div className="col-2-10" />
+          <div className="col-8-10">
+            <CirclePicker
+              width="100%"
+              color={this.state.color}
+              onChange={this.handleColorChange}
+            />
+          </div>
+        </div>
       </div>
     );
   }

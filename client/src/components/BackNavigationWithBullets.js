@@ -1,12 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 export default class BackNavigationWithBullets extends React.Component {
   render() {
     return (
       <div className="row no-gutters" id="backNavContainer">
         <div className="col-2-10">
-          <button className="transparentButton" onClick={this.props.handleBackNav}>
+          <button
+            className="transparentButton"
+            onClick={this.props.handleBackNav}
+          >
             <i className="fas fa-arrow-left" />
           </button>
         </div>
@@ -14,7 +17,11 @@ export default class BackNavigationWithBullets extends React.Component {
           <h1>{this.props.title}</h1>
         </div>
         <div className="col-2-10 ">
-          <button className="transparentButton" style={{ float: 'right' }} onClick={this.props.handleModal}>
+          <button
+            className="transparentButton"
+            style={{ float: "right" }}
+            onClick={this.props.handleModal}
+          >
             <i className="fas fa-ellipsis-v" />
           </button>
         </div>
@@ -23,9 +30,7 @@ export default class BackNavigationWithBullets extends React.Component {
   }
 }
 
-
 BackNavigationWithBullets.propTypes = {
-
   title: PropTypes.string,
-  handleModal: PropTypes.func,
+  handleModal: PropTypes.func
 };
