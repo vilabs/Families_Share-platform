@@ -1,4 +1,4 @@
-<a href="https://www.families-share.eu/"><img src="https://www.families-share.eu/uploads/news/id13/56402097_316113995629972_7224902859010080768_n.png" title="Families_Share" alt="Families Share Logo"></a>
+<a href="https://www.families-share.eu/"><img src="https://live.comune.venezia.it/sites/live.comune.venezia.it/files/styles/tb-wall-single-style/public/field/image/FamiliesShare-1200x672.jpg?itok=rcGCGBQW" title="Families_Share" alt="Families Share Logo"></a>
 
 # Families Share Platform
 
