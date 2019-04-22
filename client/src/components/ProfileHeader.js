@@ -3,10 +3,9 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import OptionsModal from "./OptionsModal";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
-// import { connect } from 'react-redux';
-// import authenticationActions from '../Actions/AuthenticationActions';
+import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
+import Log from "./Log";
 
 class ProfileHeader extends React.Component {
   state = { optionsModalIsOpen: false, confirmDialogIsOpen: false, action: "" };
@@ -31,10 +30,10 @@ class ProfileHeader extends React.Component {
     axios
       .post(`/users/${userId}/export`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -43,12 +42,12 @@ class ProfileHeader extends React.Component {
     axios
       .delete(`/users/${userId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
         localStorage.removeItem("user");
         this.props.history.push("/");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

@@ -7,6 +7,7 @@ import Texts from "../Constants/Texts.js";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
 import MemberOptionsModal from "./OptionsModal";
+import Log from "./Log";
 
 class MemberContact extends React.Component {
   state = { modalIsOpen: false, top: "", right: "", clickTime: "" };
@@ -33,9 +34,9 @@ class MemberContact extends React.Component {
       })
       .then(response => {
         this.props.handleAddAdmin(this.props.member.user_id);
-        console.log(response);
+        Log.info(response)
       })
-      .catch(error => console.log(error));
+      .catch(error => Log.error(error))
     this.setState({
       modalIsOpen: false
     });
@@ -51,9 +52,9 @@ class MemberContact extends React.Component {
       })
       .then(response => {
         this.props.handleRemoveAdmin(this.props.member.user_id);
-        console.log(response);
+        Log.info(response)
       })
-      .catch(error => console.log(error));
+      .catch(error => Log.error(error));
     this.setState({
       modalIsOpen: false
     });
@@ -66,10 +67,10 @@ class MemberContact extends React.Component {
       .delete(`/groups/${groupId}/members/${userId}`)
       .then(response => {
         this.props.handleRemoveUser(this.props.member.user_id);
-        console.log(response);
+        Log.info(response);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);;
       });
     this.setState({
       modalIsOpen: false

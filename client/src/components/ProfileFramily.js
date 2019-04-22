@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import FramilyListItem from "./FramilyListItem";
 import InviteModal from "./InviteModal";
+import Log from "./Log";
 
 class ProfileFramily extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class ProfileFramily extends React.Component {
         this.setState({ framily });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -37,7 +38,7 @@ class ProfileFramily extends React.Component {
         this.setState({ framily });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -46,11 +47,11 @@ class ProfileFramily extends React.Component {
     axios
       .post(`/users/${this.state.profileId}/framily`, { inviteIds })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.refresh();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -60,7 +61,7 @@ class ProfileFramily extends React.Component {
 
   handleClose = () => {
     this.setState({ modalIsOpen: false });
-    console.log("framily added");
+    Log.info("framily added");
   };
 
   render() {

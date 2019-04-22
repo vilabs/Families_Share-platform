@@ -4,8 +4,9 @@ import Switch from "@material-ui/core/Switch";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import InviteDialog from "./InviteDialog";
+import Log from "./Log";
 
 const styles = theme => ({
   colorSwitchBase: {
@@ -44,11 +45,11 @@ class GroupMembersAdminOptions extends React.Component {
         open: !this.state.groupIsOpen
       })
       .then(response => {
-        console.log(response);
+        Log.info(response)
         this.setState({ groupIsOpen: !this.state.groupIsOpen });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -65,10 +66,10 @@ class GroupMembersAdminOptions extends React.Component {
     axios
       .post(`/groups/${this.state.groupId}/members`, { inviteIds })
       .then(response => {
-        console.log(response);
+        Log.info(response)
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

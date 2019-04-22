@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import { Skeleton } from "antd";
 import axios from "axios";
-import withLanguage from "./LanguageContext.js";
-import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
+import Texts from "../Constants/Texts";
 import Avatar from "./Avatar";
+import Log from "./Log";
 
 const getGroup = groupId => {
   return axios
@@ -14,7 +15,7 @@ const getGroup = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         image: { path: "" },
         group_id: "",
@@ -28,7 +29,7 @@ const getGroup = groupId => {
 //       return response.data;
 //     })
 //     .catch(error => {
-//       console.log(error);
+//       Log.error(error);
 //       return [];
 //     })
 // }
@@ -39,7 +40,7 @@ const getGroupMembers = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -50,7 +51,7 @@ const getGroupSettings = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         open: ""
       };
@@ -95,8 +96,11 @@ class GroupListItem extends React.Component {
           <div id="suggestionInfoContainer">
             <h1>{group.name}</h1>
             <h2>
-              {texts.members}:
-{group.members.length}
+              {texts.members}
+
+
+:
+              {group.members.length}
             </h2>
             <h3>{group.settings.open ? texts.open : texts.closed}</h3>
           </div>

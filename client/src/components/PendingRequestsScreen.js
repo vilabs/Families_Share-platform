@@ -5,6 +5,7 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
 import Avatar from "./Avatar";
+import Log from "./Log";
 
 class PendingRequestsScreen extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class PendingRequestsScreen extends React.Component {
             this.setState({ fetchedRequests: true, requests: profiles });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
             this.setState({ fetchedRequests: true, requests: [] });
           });
         break;
@@ -72,7 +73,7 @@ class PendingRequestsScreen extends React.Component {
             this.setState({ fetchedRequests: true, requests: groups });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
             this.setState({ fetchedRequests: true, requests: [] });
           });
         break;
@@ -86,7 +87,7 @@ class PendingRequestsScreen extends React.Component {
             this.setState({ fetchedRequests: true, requests: activities });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
             this.setState({ fetchedRequests: true, requests: [] });
           });
         break;
@@ -106,11 +107,11 @@ class PendingRequestsScreen extends React.Component {
             id: request.user_id
           })
           .then(response => {
-            console.log(response);
+            Log.info(response)
             this.setState({ requests: filteredUsers });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       case "user_groups":
@@ -121,11 +122,11 @@ class PendingRequestsScreen extends React.Component {
         axios
           .patch(`/users/${userId}/groups/${request.group_id}`)
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.setState({ requests: filteredGroups });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       case "group_activities":
@@ -140,11 +141,11 @@ class PendingRequestsScreen extends React.Component {
             { status: "accepted" }
           )
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.setState({ requests: filteredActivities });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       default:
@@ -164,11 +165,11 @@ class PendingRequestsScreen extends React.Component {
             }`
           )
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.setState({ requests: filteredUsers });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       case "user_groups":
@@ -179,11 +180,11 @@ class PendingRequestsScreen extends React.Component {
         axios
           .delete(`/users/${userId}/groups/${request.group_id}`)
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.setState({ requests: filteredGroups });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       case "group_activities":
@@ -197,11 +198,11 @@ class PendingRequestsScreen extends React.Component {
             }`
           )
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.setState({ requests: filterdActivities });
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
         break;
       default:

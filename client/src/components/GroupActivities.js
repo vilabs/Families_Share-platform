@@ -4,9 +4,10 @@ import axios from "axios";
 import Fab from "@material-ui/core/Fab";
 import { withStyles } from "@material-ui/core/styles";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import ActivityOptionsModal from "./OptionsModal";
 import ActivityListItem from "./ActivityListItem";
+import Log from "./Log";
 
 const styles = theme => ({
   add: {
@@ -50,7 +51,7 @@ class GroupActivities extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedActivities: true, activities: [] });
       });
   }
@@ -89,10 +90,10 @@ class GroupActivities extends React.Component {
     axios
       .post(`/groups/${groupId}/agenda/export`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

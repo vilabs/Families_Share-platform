@@ -7,24 +7,10 @@ import AnnouncementHeader from "./AnnouncementHeader";
 import AnnouncementMain from "./AnnouncementMain";
 import AnnouncementReplies from "./AnnouncementReplies";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 class GroupMessages extends React.Component {
   state = { fetchedAnnouncements: false };
-
-  refresh = () => {
-    axios
-      .get(`/groups/${this.props.groupId}/announcements`)
-      .then(async response => {
-        const announcements = response.data;
-        await this.setState({
-          announcements
-        });
-        await this.announcementsStart.scrollIntoView({ behavior: "smooth" });
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
 
   componentDidMount() {
     axios
@@ -38,6 +24,21 @@ class GroupMessages extends React.Component {
       })
       .catch(error => {
         this.setState({ fetchedAnnouncements: true, announcements: [] });
+      });
+  }
+
+  refresh = () => {
+    axios
+      .get(`/groups/${this.props.groupId}/announcements`)
+      .then(async response => {
+        const announcements = response.data;
+        await this.setState({
+          announcements
+        });
+        await this.announcementsStart.scrollIntoView({ behavior: "smooth" });
+      })
+      .catch(error => {
+        Log.error(error);
       });
   }
 

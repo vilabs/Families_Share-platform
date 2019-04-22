@@ -5,6 +5,7 @@ import axios from "axios";
 import Rating from "react-rating";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 Modal.setAppElement("#root");
 
@@ -19,7 +20,7 @@ class RatingModal extends React.Component {
         this.setState({ rating: response.data.rating });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   }
 
@@ -31,7 +32,7 @@ class RatingModal extends React.Component {
         this.props.handleClose();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

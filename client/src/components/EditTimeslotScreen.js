@@ -7,6 +7,7 @@ import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
 import LoadingSpinner from "./LoadingSpinner";
 import Images from "../Constants/Images";
+import Log from "./Log";
 
 const getTimeslot = pathname => {
   return axios
@@ -208,7 +209,7 @@ class EditTimeslotScreen extends React.Component {
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

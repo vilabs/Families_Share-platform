@@ -3,7 +3,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 const styles = theme => ({
   checkbox: {
@@ -63,11 +64,11 @@ class AdditionalInfoScreen extends React.Component {
             other_info: this.state.other_info
           })
           .then(response => {
-            console.log(response);
+            Log.info(response);
             this.goBack();
           })
           .catch(error => {
-            console.log(error);
+            Log.error(error);
           });
       } else {
         this.goBack();
@@ -98,6 +99,7 @@ class AdditionalInfoScreen extends React.Component {
         >
           <div className="col-2-10">
             <button
+              type="button"
               className="center transparentButton"
               onClick={this.handleCancel}
             >
@@ -109,6 +111,7 @@ class AdditionalInfoScreen extends React.Component {
           </div>
           <div className="col-2-10">
             <button
+              type="button"
               className="center transparentButton"
               onClick={this.handleSave}
             >

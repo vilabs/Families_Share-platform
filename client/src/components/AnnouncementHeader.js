@@ -5,8 +5,9 @@ import { Skeleton } from "antd";
 import TimeAgo from "./TimeAgo";
 import Avatar from "./Avatar";
 import ConfirmDialog from "./ConfirmDialog";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class AnnouncementHeader extends React.Component {
   state = {
@@ -24,7 +25,7 @@ class AnnouncementHeader extends React.Component {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           fetchedProfile: true,
           profile: { image: { path: "" }, family_name: "", given_name: "" }
@@ -41,7 +42,7 @@ class AnnouncementHeader extends React.Component {
           this.setState({ fetchedProfile: true, profile: response.data });
         })
         .catch(error => {
-          console.log(error);
+          Log.error(error);
           this.setState({
             fetchedProfile: true,
             profile: { image: { path: "" }, family_name: "", given_name: "" }
@@ -56,11 +57,11 @@ class AnnouncementHeader extends React.Component {
         `/groups/${this.props.groupId}/announcements/${this.state.deleteId}`
       )
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.handleRefresh();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -105,14 +106,14 @@ class AnnouncementHeader extends React.Component {
             <div className="col-2-10">
               {JSON.parse(localStorage.getItem("user")).id ===
                 this.state.profile.user_id || this.props.userIsAdmin ? (
-                <button
-                    className="transparentButton center"
-                    onClick={() =>
+                  <button
+                  className="transparentButton center"
+                  onClick={() =>
                     this.handleConfirmDialogOpen(this.props.announcementId)
                   }
-                  >
-                    <i className="fas fa-times" />
-                  </button>
+                >
+                  <i className="fas fa-times" />
+                </button>
               ) : (
                 <div />
               )}

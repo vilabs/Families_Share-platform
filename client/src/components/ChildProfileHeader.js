@@ -4,8 +4,9 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import OptionsModal from "./OptionsModal";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
+import Log from "./Log";
 
 class ChildProfileHeader extends React.Component {
   state = { optionsModalIsOpen: false, confirmDialogIsOpen: false };
@@ -30,11 +31,11 @@ class ChildProfileHeader extends React.Component {
     axios
       .delete(`/users/${userId}/children/${childId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };

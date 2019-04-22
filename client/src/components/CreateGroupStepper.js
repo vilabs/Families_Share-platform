@@ -11,14 +11,14 @@ import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
-
 import autosize from "autosize";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import InviteDialog from "./InviteDialog";
+import Log from "./Log";
 
 const muiTheme = createMuiTheme({
   typography: {
@@ -138,7 +138,7 @@ class CreateGroupStepper extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedGroups: true, groupNames: [] });
       });
     document.addEventListener("message", this.handleMessage, false);
@@ -173,11 +173,11 @@ class CreateGroupStepper extends React.Component {
         invite_ids: this.state.inviteIds
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.push("/myfamiliesshare");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.push("/myfamiliesshare");
       });
   };

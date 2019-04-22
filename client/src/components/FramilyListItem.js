@@ -7,6 +7,7 @@ import Avatar from './Avatar';
 import FramilyOptionsModal from "./OptionsModal";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class FramilyListItem extends React.Component {
   state = {
@@ -27,7 +28,7 @@ class FramilyListItem extends React.Component {
         this.setState({ fetchedProfile: true, profile, myProfile });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           fetchedProfile: true,
           profile: {
@@ -62,7 +63,7 @@ class FramilyListItem extends React.Component {
     });
   };
   handleDeleteFramily = () => {
-    console.log("will be deleted");
+    Log.info("will be deleted");
   };
   handleModalClose = () => {
     this.setState({ modalIsOpen: false });

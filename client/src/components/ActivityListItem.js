@@ -6,6 +6,7 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 const getUsersChildren = userId => {
   return axios
@@ -14,7 +15,7 @@ const getUsersChildren = userId => {
       return response.data.map(child => child.child_id);
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -26,7 +27,7 @@ const getTimeslots = (groupId, activityId) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };

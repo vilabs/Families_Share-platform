@@ -4,6 +4,7 @@ import axios from "axios";
 import GroupMembersList from "./GroupMembersList";
 import GroupMembersAdminOptions from "./GroupMembersAdminOptions";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 const getGroupMembers = groupId => {
   return axios
@@ -12,7 +13,7 @@ const getGroupMembers = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -23,7 +24,7 @@ const getGroupSettings = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         open: ""
       };

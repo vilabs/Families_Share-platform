@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 const dataURLtoFile = (dataurl, filename) => {
   const arr = dataurl.split(",");
@@ -29,7 +30,7 @@ class EditProfileScreen extends React.Component {
         this.setState({ fetchedProfile: true, ...profile });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ name: "", image: { path: "" } });
       });
   }
@@ -101,11 +102,11 @@ class EditProfileScreen extends React.Component {
         }
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };
@@ -141,7 +142,6 @@ class EditProfileScreen extends React.Component {
     const { value } = event.target;
     const { address } = this.state;
     address[name] = value;
-    console.log(value);
     this.setState({ address });
   };
 

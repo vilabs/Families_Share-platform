@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
+import Log from "./Log";
 
 class ChildListItem extends React.Component {
   state = { fetchedChild: false, child: {} };
@@ -19,7 +20,7 @@ class ChildListItem extends React.Component {
         this.setState({ fetchedChild: true, child });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           fetchedChild: true,
           child: {

@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import GroupAbout from "./GroupAbout.js";
-import GroupHeader from "./GroupHeader.js";
-import Card from "./CardWithLink.js";
+import GroupAbout from "./GroupAbout";
+import GroupHeader from "./GroupHeader";
+import Card from "./CardWithLink";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 class GroupInfo extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ class GroupInfo extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   }
 
@@ -55,12 +56,12 @@ class GroupInfo extends React.Component {
         patch: { user_accepted: true }
       })
       .then(response => {
-        console.log(response);
+        Log.info(response)
         this.setState({ user_accepted: true });
         this.props.enableNavigation();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -71,11 +72,11 @@ class GroupInfo extends React.Component {
         group_id: this.state.group.group_id
       })
       .then(response => {
-        console.log(response);
+        Log.info(response)
         this.setState({ user_accepted: true });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -85,11 +86,11 @@ class GroupInfo extends React.Component {
     axios
       .delete(`/users/${userId}/groups/${groupId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response)
         this.props.history.replace("/myfamiliesshare");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);;
       });
   };
 
@@ -99,11 +100,11 @@ class GroupInfo extends React.Component {
     axios
       .delete(`/users/${userId}/groups/${groupId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response)
         this.setState({ user_accepted: false });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

@@ -5,6 +5,7 @@ import axios from "axios";
 import { Waypoint } from "react-waypoint";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 Modal.setAppElement("#root");
 
@@ -15,7 +16,7 @@ const getMyNotifications = (userId, page) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };

@@ -2,10 +2,11 @@ import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import moment from "moment";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import FilterTimeslotsDrawer from "./FilterTimeslotsDrawer";
 import TimeslotPreview from "./TimeslotPreview";
+import Log from "./Log";
 
 const getUsersChildren = userId => {
   return axios
@@ -14,7 +15,7 @@ const getUsersChildren = userId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };

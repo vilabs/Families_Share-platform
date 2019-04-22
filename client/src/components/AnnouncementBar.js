@@ -5,6 +5,7 @@ import { withSnackbar } from "notistack";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import PhotoPreviewBubble from "./PhotoPreviewBubble";
+import Log from "./Log";
 
 const dataURLtoFile = (dataurl, filename) => {
   const arr = dataurl.split(",");
@@ -63,11 +64,11 @@ class AnnouncementBar extends React.Component {
       axios
         .post(`/groups/${groupId}/announcements`, bodyFormData)
         .then(response => {
-          console.log(response);
+          Log.info(response);
           handleRefresh();
         })
         .catch(error => {
-          console.log(error);
+          Log.error(error);
         });
       this.setState({ message: "", photos: [], photoPreviews: [] });
     }

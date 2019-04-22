@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
 import MemberContact from "./MemberContact";
+import Log from "./Log"
 
 export default class GroupMembersList extends React.Component {
   state = { fetchedUsers: false };
@@ -27,7 +28,7 @@ export default class GroupMembersList extends React.Component {
         this.setState({ fetchedUsers: true, users });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedUsers: true, users: [] });
       });
   }

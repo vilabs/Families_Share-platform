@@ -5,7 +5,8 @@ import { MyFamiliesShareHeader } from "./MyFamiliesShareHeader";
 import withLanguage from "./LanguageContext";
 import Calendar from "./Calendar";
 import GroupList from "./GroupList";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 const getMyGroups = userId => {
   return axios
@@ -14,7 +15,7 @@ const getMyGroups = userId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -25,7 +26,7 @@ const getMyUnreadNotifications = userId => {
       return response.data.unreadNotifications;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return 0;
     });
 };
@@ -35,8 +36,6 @@ class MyFamiliesShareScreen extends React.Component {
     this.state = {
       fetchedUserInfo: false,
       activeView: "month",
-      error: false,
-      myNotifications: [],
       myGroups: [],
       pendingInvites: 0
     };

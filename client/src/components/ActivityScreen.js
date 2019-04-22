@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
 import ConfirmDialog from "./ConfirmDialog";
 import OptionsModal from "./OptionsModal";
 import LoadingSpinner from "./LoadingSpinner";
 import Images from "../Constants/Images";
+import Log from "./Log";
 
 const getActivityTimeslots = (activityId, groupId) => {
   return axios
@@ -16,7 +17,7 @@ const getActivityTimeslots = (activityId, groupId) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -28,7 +29,7 @@ const getActivity = (activityId, groupId) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         name: "",
         description: "",
@@ -47,7 +48,7 @@ const getGroupMembers = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -161,11 +162,11 @@ class ActivityScreen extends React.Component {
     axios
       .delete(`/groups/${groupId}/activities/${activityId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };
@@ -176,10 +177,10 @@ class ActivityScreen extends React.Component {
     axios
       .post(`/groups/${groupId}/activities/${activityId}/export`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

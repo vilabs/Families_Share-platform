@@ -1,16 +1,16 @@
 import React from "react";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import GroupList from "./GroupList";
 import AutoComplete from "./AutoComplete";
+import Log from "./Log";
 
 class SearchGroupScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       searchInput: "",
-      history: [],
       searchedForInput: false,
       matchingGroups: [],
       groups: [],
@@ -28,7 +28,7 @@ class SearchGroupScreen extends React.Component {
         this.handleSearch("");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedGroups: true });
       });
   }
@@ -72,6 +72,7 @@ class SearchGroupScreen extends React.Component {
         <div className="row no-gutters" id="searchGroupBarContainer">
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={() => this.props.history.replace("/myfamiliesshare")}
             >
@@ -99,6 +100,7 @@ class SearchGroupScreen extends React.Component {
           </div>
           <div className="col-1-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={this.handleSearchVisibility}
             >

@@ -6,6 +6,7 @@ import withLanguage from "./LanguageContext";
 import Images from "../Constants/Images";
 import BackNavigation from "./BackNavigation";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 class ForgotPasswordScreen extends React.Component {
   state = {
@@ -26,7 +27,7 @@ class ForgotPasswordScreen extends React.Component {
       axios
         .post("/users/forgotpassword", { email: this.state.email })
         .then(response => {
-          console.log(response);
+          Log.info(response);
           snackMessage =
             Texts[this.props.language].forgotPasswordScreen.success;
           this.props.enqueueSnackbar(snackMessage, { variant: "success" });

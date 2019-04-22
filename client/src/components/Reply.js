@@ -7,6 +7,7 @@ import Avatar from "./Avatar";
 import TimeAgo from "./TimeAgo";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 class Reply extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Reply extends React.Component {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           fetchedProfile: true,
           profile: { image: { path: "" }, family_name: "", given_name: "" }
@@ -45,11 +46,11 @@ class Reply extends React.Component {
         }/announcements/${announcementId}/replies/${replyId}`
       )
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.handleRefresh();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

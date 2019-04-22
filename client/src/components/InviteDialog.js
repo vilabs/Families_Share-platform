@@ -13,9 +13,9 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
-
+import Log from "./Log";
 import AutoComplete from "./AutoComplete";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 const theme = createMuiTheme({
@@ -77,7 +77,7 @@ class InviteDialog extends React.Component {
         this.handleSearch("");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedGroups: true });
       });
   }

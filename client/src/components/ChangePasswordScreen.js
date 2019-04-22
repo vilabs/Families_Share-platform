@@ -3,6 +3,7 @@ import axios from "axios";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 class ChangePasswordScreen extends React.Component {
   state = {
@@ -25,7 +26,7 @@ class ChangePasswordScreen extends React.Component {
         this.setState({ profile, fetchedProfile: true });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedProfile: true, error: true });
       });
   }
@@ -77,7 +78,7 @@ class ChangePasswordScreen extends React.Component {
           this.props.history.replace("/myfamiliesshare");
         })
         .catch(error => {
-          console.log(error);
+          Log.error(error);
           this.props.history.push("/");
         });
     }

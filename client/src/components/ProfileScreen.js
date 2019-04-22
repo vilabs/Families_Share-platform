@@ -5,6 +5,7 @@ import Loadable from "react-loadable";
 import ProfileHeader from "./ProfileHeader";
 import ProfileNavbar from "./ProfileNavbar";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 const ProfileInfo = Loadable({
   loader: () => import("./ProfileInfo"),
@@ -22,7 +23,7 @@ const getMyChildren = userId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -33,7 +34,7 @@ const getMyProfile = userId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         given_name: "",
         family_name: "",

@@ -2,32 +2,36 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
-class Avatar extends React.Component {
-  handleNav = () => {
-    if (!this.props.disabled) {
-      this.props.history.push({
-        pathname: this.props.route,
-        state: this.props.routeState
+const Avatar = ({
+  disabled,
+  history,
+  route,
+  routeState,
+  thumbnail,
+  className,
+  style
+}) => {
+  const handleNav = () => {
+    if (!disabled) {
+      history.push({
+        pathname: route,
+        state: routeState
       });
     }
   };
 
-  render() {
-    return (
-      <div id="avatarContainer">
-        <img
-          src={this.props.thumbnail}
-          className={this.props.className}
-          style={this.props.style}
-          onClick={this.handleNav}
-          alt="avatar"
-        />
-
-        />
-</div>
-    );
-  }
-}
+  return (
+    <div id="avatarContainer">
+      <img
+        src={thumbnail}
+        className={className}
+        style={style}
+        onClick={handleNav}
+        alt="avatar"
+      />
+    </div>
+  );
+};
 
 Avatar.propTypes = {
   thumbnail: PropTypes.string,

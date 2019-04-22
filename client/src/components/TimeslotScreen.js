@@ -4,12 +4,13 @@ import moment from "moment";
 import { withSnackbar } from "notistack";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
 import LoadingSpinner from "./LoadingSpinner";
 import TimeslotSubcribe from "./TimeslotSubcribe";
 import Images from "../Constants/Images";
+import Log from "./Log";
 
 const styles = theme => ({
   avatar: {
@@ -71,7 +72,7 @@ const getChildrenProfiles = ids => {
       });
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -94,7 +95,7 @@ const getParentProfiles = ids => {
       });
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [
         {
           image: "",
@@ -192,7 +193,7 @@ class TimeslotScreen extends React.Component {
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 

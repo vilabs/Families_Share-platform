@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
 import Reply from "./Reply";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 class AnnouncementReplies extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ class AnnouncementReplies extends React.Component {
         this.setState({ fetchedReplies: true, replies });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedReplies: true, replies: [] });
       });
   }
@@ -40,7 +41,7 @@ class AnnouncementReplies extends React.Component {
         this.setState({ replies });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -53,11 +54,11 @@ class AnnouncementReplies extends React.Component {
         message: this.state.newReply
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.refresh();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
     this.setState({ newReply: "" });
   };

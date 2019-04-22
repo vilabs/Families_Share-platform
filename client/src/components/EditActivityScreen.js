@@ -2,9 +2,10 @@ import React from "react";
 import autosize from "autosize";
 import axios from "axios";
 import { CirclePicker } from "react-color";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class EditActivityScreen extends React.Component {
   state = {
@@ -28,7 +29,7 @@ class EditActivityScreen extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           fetchedActivity: true,
           name: "",
@@ -71,19 +72,27 @@ class EditActivityScreen extends React.Component {
       axios
         .patch(`/groups/${groupId}/activities/${activityId}`, patch)
         .then(response => {
-          console.log(response);
+          Log.info(response);
           this.props.history.goBack();
         })
         .catch(error => {
-          console.log(error);
+          Log.error(error);
           this.props.history.goBack();
         });
     }
   };
 
   render() {
+    const {
+      fetchedActivity,
+      validated,
+      name,
+      description,
+      location,
+      color
+    } = this.state;
     const texts = Texts[this.props.language].editActivityScreen;
-    return this.state.fetchedActivity ? (
+    return fetchedActivity ? (
       <React.Fragment>
         <div className="row no-gutters" id="editActivityHeaderContainer">
           <div className="col-2-10">
@@ -102,7 +111,7 @@ class EditActivityScreen extends React.Component {
             <button
               type="button"
               className="transparentButton center"
-              style={this.state.validated ? {} : { opacity: 0.5 }}
+              style={validated ? {} : { opacity: 0.5 }}
               onClick={this.handleSave}
             >
               <i className="fas fa-check" />
@@ -119,7 +128,7 @@ class EditActivityScreen extends React.Component {
                 type="text"
                 name="name"
                 placeholder={texts.name}
-                value={this.state.name}
+                value={name}
                 className="verticalCenter"
                 onChange={this.handleChange}
               />
@@ -134,7 +143,7 @@ class EditActivityScreen extends React.Component {
                 type="text"
                 name="location"
                 placeholder={texts.location}
-                value={this.state.location}
+                value={location}
                 className="verticalCenter"
                 onChange={this.handleChange}
               />
@@ -150,7 +159,7 @@ class EditActivityScreen extends React.Component {
                 name="description"
                 className="verticalCenter"
                 placeholder={texts.description}
-                value={this.state.description}
+                value={description}
                 onChange={event => {
                   this.handleChange(event);
                   autosize(document.querySelectorAll("textarea"));
@@ -162,15 +171,12 @@ class EditActivityScreen extends React.Component {
             <div className="col-2-10">
               <i
                 className="fas fa-palette center"
-                style={{ color: this.state.color }}
+                style={{ color }}
                 alt="palette icon"
               />
             </div>
             <div className="col-8-10">
-              <h1
-                className="verticalCenter"
-                style={{ color: this.state.color }}
-              >
+              <h1 className="verticalCenter" style={{ color }}>
                 {texts.color}
               </h1>
             </div>
@@ -180,7 +186,7 @@ class EditActivityScreen extends React.Component {
             <div className="col-8-10">
               <CirclePicker
                 width="100%"
-                color={this.state.color}
+                color={color}
                 onChange={this.handleColorChange}
               />
             </div>

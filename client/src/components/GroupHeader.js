@@ -5,6 +5,7 @@ import axios from "axios";
 import ConfirmDialog from "./ConfirmDialog";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class GroupHeader extends React.Component {
   state = { confirmDialogIsOpen: false };
@@ -37,11 +38,11 @@ class GroupHeader extends React.Component {
     axios
       .delete(`/groups/${this.props.groupId}`)
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.push("/myfamiliesshare");
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -62,6 +63,7 @@ class GroupHeader extends React.Component {
           <div className="row no-gutters" id="groupHeaderOptions">
             <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handleBackNav}
               >
@@ -72,6 +74,7 @@ class GroupHeader extends React.Component {
             <div className="col-1-10">
               {this.props.userIsAdmin ? (
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleConfirmDialogOpen}
                 >
@@ -84,6 +87,7 @@ class GroupHeader extends React.Component {
             <div className="col-1-10">
               {this.props.userIsAdmin ? (
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleEdit}
                 >

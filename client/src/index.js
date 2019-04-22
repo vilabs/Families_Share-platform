@@ -19,7 +19,7 @@ Sentry.init({
 
 ReactGA.initialize(process.env.REACT_APP_GA_ID);
 
-history.listen((location, action) => {
+history.listen(location => {
   ReactGA.pageview(location.pathname);
   if (location.pathname === "/" || location.pathname === "/myfamiliesshare") {
     window.postMessage(
@@ -46,6 +46,10 @@ history.listen((location, action) => {
     );
   }
 });
+
+if (process.env.NODE_ENV !== "production") {
+  localStorage.setItem("debug", "families-share:*");
+}
 
 ReactDOM.render(
   <Provider store={store}>

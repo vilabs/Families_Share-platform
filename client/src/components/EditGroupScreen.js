@@ -2,8 +2,9 @@ import React from "react";
 import autosize from "autosize";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 const dataURLtoFile = (dataurl, filename) => {
   const arr = dataurl.split(",");
@@ -24,7 +25,7 @@ const getGroups = () => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -35,7 +36,7 @@ const getGroup = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         name: "",
         background: "",
@@ -53,7 +54,7 @@ const getGroupSettings = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         visible: ""
       };
@@ -143,11 +144,11 @@ class EditGroupScreen extends React.Component {
         }
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };

@@ -3,9 +3,10 @@ import axios from "axios";
 import LandingHeader from "./LandingHeader";
 import LandingNavbar from "./LandingNavbar";
 import GroupList from "./GroupList";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import CardWithLink from "./CardWithLink";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class LandingScreen extends React.Component {
   state = { fetchedSuggestions: false, suggestions: [], error: false };
@@ -18,7 +19,7 @@ class LandingScreen extends React.Component {
         this.setState({ fetchedSuggestions: true, suggestions });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedSuggestions: true, error: true });
       });
   }

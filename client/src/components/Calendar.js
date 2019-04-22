@@ -3,12 +3,13 @@ import * as moment from "moment";
 import { withRouter } from "react-router-dom";
 import BigCalendar from "react-big-calendar";
 import PropTypes from "prop-types";
+import axios from "axios";
+import Swipeable from "react-swipeable";
 import AgendaView from "./AgendaView";
 import "../styles/react-big-calendar.css";
 import withLanguage from "./LanguageContext";
-import axios from "axios";
-import Swipeable from "react-swipeable";
 import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 const getGroupEvents = groupId => {
   return axios
@@ -17,7 +18,7 @@ const getGroupEvents = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -29,7 +30,7 @@ const getUserEvents = userId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -92,6 +93,11 @@ class MyMonthEvent extends React.Component {
     );
   }
 }
+
+const DateCell = ({ range, value, children }) => {
+  return <div style={{ backgroundColor: "#00838f" }}>{children}</div>;
+};
+
 const DateHeader = handleDayClick => props => {
   if (!props.drilldownView) {
     return <span>{props.label}</span>;
@@ -106,18 +112,6 @@ const DateHeader = handleDayClick => props => {
       style={{ cursor: "pointer" }}
     >
       {props.label}
-    </div>
-  );
-};
-const DateCell = ({ range, value, children }) => {
-  return (
-    <div
-      style={{ backgroundColor: "#00838f" }}
-      onClick={() => {
-        console.log("oooo");
-      }}
-    >
-      {children}
     </div>
   );
 };
@@ -209,6 +203,7 @@ const CustomToolbar = (
       <div id="toolbarContainer">
         <div id="monthLabelContainer" className="horizontalCenter">
           <button
+            type="button"
             className="transparentButton"
             onClick={() => navigate("PREV")}
           >
@@ -216,6 +211,7 @@ const CustomToolbar = (
           </button>
           <span>{label}</span>
           <button
+            type="button"
             className="transparentButton"
             onClick={() => navigate("NEXT")}
           >
@@ -223,6 +219,7 @@ const CustomToolbar = (
           </button>
         </div>
         <button
+          type="button"
           className="transparentButton"
           id="toggleViewButton"
           onClick={changeView}
@@ -259,7 +256,7 @@ class Calendar extends React.Component {
         break;
       default:
         this.setState({ events: [] });
-        console.log("error");
+        Log.error("error");
     }
   }
 

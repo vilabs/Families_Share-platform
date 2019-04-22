@@ -4,6 +4,7 @@ import Loadable from "react-loadable";
 import axios from "axios";
 import LoadingSpinner from "./LoadingSpinner";
 import GroupNavbar from "./GroupNavbar";
+import Log from "./Log";
 
 const GroupInfo = Loadable({
   loader: () => import("./GroupInfo"),
@@ -33,7 +34,7 @@ const getGroupMembers = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };
@@ -44,7 +45,7 @@ const getGroup = groupId => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         name: "",
         group_id: ""

@@ -4,7 +4,8 @@ import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 const styles = theme => ({
   checkbox: {
@@ -105,11 +106,11 @@ class CreateChildScreen extends React.Component {
         special_needs: this.state.special_needs
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };

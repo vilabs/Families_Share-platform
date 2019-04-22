@@ -10,10 +10,11 @@ import axios from "axios";
 import NotificationsModal from "./NotificationsModal";
 import RatingModal from "./RatingModal";
 import authenticationActions from "../Actions/AuthenticationActions";
-import Texts from "../Constants/Texts.js";
-import Images from "../Constants/Images.js";
+import Texts from "../Constants/Texts";
+import Images from "../Constants/Images";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
+import Log from "./Log";
 
 class MyFamiliesShareHeader extends React.Component {
   state = {
@@ -71,7 +72,7 @@ class MyFamiliesShareHeader extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -137,9 +138,9 @@ class MyFamiliesShareHeader extends React.Component {
     if (choice === "agree") {
       axios
         .post(`/users/${userId}/walkthrough`)
-        .then(response => console.log(response))
+        .then(response => Log.info(response))
         .catch(error => {
-          console.log(error);
+          Log.error(error);
         });
     }
     this.setState({ confirmModalIsOpen: false });

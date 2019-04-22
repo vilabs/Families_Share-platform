@@ -3,8 +3,9 @@ import moment from "moment";
 import { HuePicker } from "react-color";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from './Log';
 
 const dataURLtoFile = (dataurl, filename) => {
   const arr = dataurl.split(",");
@@ -48,7 +49,7 @@ class EditChildProfileScreen extends React.Component {
           this.setState({ fetchedChildData: true, ...child });
         })
         .catch(error => {
-          console.log(error);
+          Log.error(error);
           this.setState({
             fetchedChildData: true,
             child_id: childId,
@@ -164,11 +165,11 @@ class EditChildProfileScreen extends React.Component {
         }
       })
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goBack();
       });
   };

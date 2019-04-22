@@ -3,6 +3,7 @@ import axios from "axios";
 import ChildProfileHeader from "./ChildProfileHeader";
 import ChildProfileInfo from "./ChildProfileInfo";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 const getChild = (userId, childId) => {
   return axios
@@ -11,7 +12,7 @@ const getChild = (userId, childId) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return {
         child_id: childId,
         image: { path: "" },
@@ -33,7 +34,7 @@ const getParents = (userId, childId) => {
       return response.data;
     })
     .catch(error => {
-      console.log(error);
+      Log.error(error);
       return [];
     });
 };

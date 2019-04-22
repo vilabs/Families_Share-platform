@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Skeleton } from "antd";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import BackNavigation from "./BackNavigation";
 import withLanguage from "./LanguageContext";
+import Log from "./Log";
 
 class NotificationScreen extends React.Component {
   state = { fetchedNotificationData: false };
@@ -27,7 +28,7 @@ class NotificationScreen extends React.Component {
         });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({
           notificationHeader: "",
           notificationMain: "",

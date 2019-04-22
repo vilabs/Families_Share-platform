@@ -17,7 +17,8 @@ import withLanguage from "./LanguageContext";
 import CreateActivityInformation from "./CreateActivityInformation";
 import CreateActivityDates from "./CreateActivityDates";
 import CreateActivityTimeslots from "./CreateActivityTimeslots";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
+import Log from "./Log";
 
 const muiTheme = createMuiTheme({
   typography: {
@@ -183,11 +184,11 @@ class CreateActivityStepper extends React.Component {
     axios
       .post(`/groups/${groupId}/activities`, activity)
       .then(response => {
-        console.log(response);
+        Log.info(response);
         this.props.history.goBack();
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.props.history.goback();
       });
   };

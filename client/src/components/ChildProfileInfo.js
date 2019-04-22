@@ -5,9 +5,10 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import withLanguage from "./LanguageContext";
 import InviteDialog from "./InviteDialog";
-import Images from "../Constants/Images.js";
-import Texts from "../Constants/Texts.js";
+import Images from "../Constants/Images";
+import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
+import Log from "./Log";
 
 class ChildProfileInfo extends React.Component {
   state = { modalIsOpen: false, confirmDialogIsOpen: false, deleteIndex: "" };
@@ -44,7 +45,7 @@ class ChildProfileInfo extends React.Component {
         this.props.handleDeleteParent(index);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
   };
 
@@ -59,7 +60,7 @@ class ChildProfileInfo extends React.Component {
         this.props.handleAddParent(parent);
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
       });
     this.setState({ modalIsOpen: false });
   };

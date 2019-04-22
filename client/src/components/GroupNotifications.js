@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Card from "./CardWithLink";
 import LoadingSpinner from "./LoadingSpinner";
+import Log from "./Log";
 
 class GroupNotifications extends React.Component {
   state = { fetchedGroupNotifications: false };
@@ -15,7 +16,7 @@ class GroupNotifications extends React.Component {
         this.setState({ fetchedGroupNotifications: true, notifications });
       })
       .catch(error => {
-        console.log(error);
+        Log.error(error);
         this.setState({ fetchedGroupNotifications: true, notifications: [] });
       });
   }
