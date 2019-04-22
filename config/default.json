@@ -1,5 +1,5 @@
 {
   "dbConfig": {
-    "host": "DB_MLAB_DEV_HOST"
+    "host": "DB_DEV_HOST"
   }
 }

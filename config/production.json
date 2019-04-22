@@ -1,5 +1,5 @@
 {
   "dbConfig": {
-    "host": "DB_LOCAL_PROD_HOST"
+    "host": "DB_PROD_HOST"
   }
 }
