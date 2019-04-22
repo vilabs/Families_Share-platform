@@ -31,13 +31,15 @@ app.use(async (req) => {
   }
 })
 app.use(compression())
-if (config.util.getEnv('NODE_ENV') === 'development') {
-  app.use(morgan('dev'))
-}
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../client/build')))
 app.use('/images', express.static(path.join(__dirname, '../images')))
+
+if (config.util.getEnv('NODE_ENV') === 'development') {
+  app.use(morgan('dev'))
+}
 
 app.use('/groups', require('./routes/group-routes'))
 app.use('/users', require('./routes/user-routes'))
