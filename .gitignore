@@ -2,4 +2,6 @@ node_modules/
 build/
 .env
 .nyc_output
-images/
+images/announcements
+images/groups
+images/profiles
