@@ -70,9 +70,9 @@ describe('/Post/groups/id/members', () => {
 describe('/Post/groups/id/members', () => {
 	it('it should not invite new members to the group when user is authenticated but not admin', async () => {
 		try {
-			const user = await User.findOne({ email: 'test4@email.com' });
-			const user2 = await User.findOne({ email: 'test4@email.com' });
-			const group = await Group.findOne({ name: 'Test Group Edit' });
+			const user = await User.findOne({ email: 'test4@email.com' })
+			const user2 = await User.findOne({ email: 'test4@email.com' })
+			const group = await Group.findOne({ name: 'Test Group Edit' })
 			const invitations = {
 				inviteIds: [user2.user_id],
 			};

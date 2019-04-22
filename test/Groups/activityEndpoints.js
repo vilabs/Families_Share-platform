@@ -207,8 +207,7 @@ describe('/Get/groups/groupId/activities/activityId', () => {
 				.set('Authorization', user.token)
 			res.should.have.status(200);
 			res.body.should.be.a('object');
-			res.body.should.have.property('dates');
-			res.body.should.have.property('name');
+			res.body.should.have.property('name');	
 			res.body.should.have.property('description');
 			res.body.should.have.property('color');
 			res.body.should.have.property('activity_id');
@@ -513,7 +512,7 @@ describe('/Get/groups/groupId/activities/activityId/timeslots', () => {
 	});
 });
 describe('/Patch/groups/groupId/activities/activityId/timeslots/timeslotId', () => {
-	it('it should edit a timeslot of an activity when user is authenticated and group admin or creator', async () => {
+	it('it should edit a timeslot of an activity when user is authenticated and group member', async () => {
 		const user = await User.findOne({ email: "test@email.com"});
 		const group = await Group.findOne({ name: "Test Group Edit"});
 		const activity = await Activity.findOne({ group_id: group.group_id });
@@ -523,7 +522,7 @@ describe('/Patch/groups/groupId/activities/activityId/timeslots/timeslotId', () 
 		.get(`/groups/${group.group_id}/activities/${activity.activity_id}/timeslots`)
 		.set('Authorization',user.token);
 		const timeslots = timeslotResp.body;
-		timeslots[0].extendedProperties.shared.status = "fixed";
+		timeslots[0].extendedProperties.shared.status = "confirmed";
 		const parents = JSON.parse(timeslots[0].extendedProperties.shared.parents);
 		const children = JSON.parse(timeslots[0].extendedProperties.shared.children);
 		parents.push(user.user_id);
@@ -559,23 +558,6 @@ describe('/Patch/groups/groupId/activities/activityId/timeslots/timeslotId', () 
 		const group = await Group.findOne({ name: "Test Group Edit"});
 		const user2 = await User.findOne({ email: "test4@email.com"})
 		const activity = await Activity.findOne({ group_id: group.group_id });
-		const timeslotResp = await chai.request(server)
-		.get(`/groups/${group.group_id}/activities/${activity.activity_id}/timeslots`)
-		.set('Authorization',user.token);
-		const timeslots = timeslotResp.body;
-		const res = await chai.request(server)
-		.patch(`/groups/${group.group_id}/activities/${activity.activity_id}/timeslots/${timeslots[0].id}`)
-		.set('Authorization',user2.token)
-		.send(timeslots[0])
-		res.should.have.status(401);
-	});
-});
-describe('/Patch/groups/groupId/activities/activityId/timeslots/timeslotId', () => {
-	it('it should not edit a timeslot of an activity when user isnt group admin or creator of the activity', async () => {
-		const user = await User.findOne({ email: "test@email.com"});
-		const group = await Group.findOne({ name: "Test Group Edit"});
-		const activity = await Activity.findOne({ group_id: group.group_id });
-		const user2 = await User.findOne({ email: "test3@email.com"})
 		const timeslotResp = await chai.request(server)
 		.get(`/groups/${group.group_id}/activities/${activity.activity_id}/timeslots`)
 		.set('Authorization',user.token);
