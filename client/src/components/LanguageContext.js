@@ -16,8 +16,11 @@ class LanguageProvider extends React.Component {
     if (localStorage.getItem("language")) {
       language = localStorage.getItem("language");
     } else {
-      localStorage.setItem("language", "en");
-      language = "en";
+      localStorage.setItem(
+        "language",
+        process.env.REACT_APP_CITYLAB_DEFAULT_LANG
+      );
+      language = process.env.REACT_APP_CITYLAB_DEFAULT_LANG;
     }
     this.state = {
       language
