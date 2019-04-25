@@ -43,9 +43,7 @@ class GroupNotifications extends React.Component {
         ) : (
           <LoadingSpinner />
         )}
-
-        )}
-</div>
+      </div>
     );
   }
 }

@@ -48,7 +48,7 @@ app.use('/children', require('./routes/child-routes'))
 app.use('/github', require('./routes/github-routes'))
 
 app.get('*', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../client/build') })
+  res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
 
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
