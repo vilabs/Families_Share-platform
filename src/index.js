@@ -34,8 +34,8 @@ app.use(compression())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(path.join(__dirname, '../client/build')))
 app.use('/images', express.static(path.join(__dirname, '../images')))
+app.use(express.static(path.join(__dirname, '../client/build')))
 
 if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
@@ -47,11 +47,11 @@ app.use('/profiles', require('./routes/profile-routes'))
 app.use('/children', require('./routes/child-routes'))
 app.use('/github', require('./routes/github-routes'))
 
-app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
-
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile('index.html', { root: path.join(__dirname, '../client/build') })
 })
+
+app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
 
 const server = app.listen(port, () => {
   console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
