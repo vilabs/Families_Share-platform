@@ -41,10 +41,6 @@ if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
 }
 
-app.get('/*', (req, res) => {
-  res.sendFile('index.html', { root: path.join(__dirname, '../client/build') })
-})
-
 app.use('/groups', require('./routes/group-routes'))
 app.use('/users', require('./routes/user-routes'))
 app.use('/profiles', require('./routes/profile-routes'))
@@ -52,6 +48,10 @@ app.use('/children', require('./routes/child-routes'))
 app.use('/github', require('./routes/github-routes'))
 
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
+
+app.get('/*', (req, res) => {
+  res.sendFile('index.html', { root: path.join(__dirname, '../client/build') })
+})
 
 const server = app.listen(port, () => {
   console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
