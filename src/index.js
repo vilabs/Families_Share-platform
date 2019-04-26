@@ -35,7 +35,6 @@ app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join(__dirname, '../images')))
-app.use(express.static(path.join(__dirname, '../client/build')))
 
 if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
@@ -47,9 +46,12 @@ app.use('/profiles', require('./routes/profile-routes'))
 app.use('/children', require('./routes/child-routes'))
 app.use('/github', require('./routes/github-routes'))
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'))
-})
+if (config.util.getEnv('NODE_ENV') === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
+  })
+}
 
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
 
