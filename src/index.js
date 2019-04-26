@@ -45,7 +45,7 @@ if (config.util.getEnv('NODE_ENV') === 'development') {
 // app.use('/users', require('./routes/user-routes'))
 // app.use('/profiles', require('./routes/profile-routes'))
 // app.use('/children', require('./routes/child-routes'))
-// app.use('/github', require('./routes/github-routes'))
+app.use('/github', require('./routes/github-routes'))
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'))
