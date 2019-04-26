@@ -92,7 +92,7 @@ class CreateChildScreen extends React.Component {
   submitChanges = () => {
     const userId = this.props.match.params.profileId;
     axios
-      .post(`/api/api/users/${userId}/children`, {
+      .post(`/api/users/${userId}/children`, {
         given_name: this.state.name,
         family_name: this.state.surname,
         birthdate: moment().set({

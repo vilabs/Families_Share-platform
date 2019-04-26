@@ -53,7 +53,7 @@ class ChildProfileInfo extends React.Component {
     const { profileId } = this.props.match.params;
     const { childId } = this.props.match.params;
     axios
-      .post(`/api/api/users/${profileId}/children/${childId}/parents`, {
+      .post(`/api/users/${profileId}/children/${childId}/parents`, {
         parentId: parent.user_id
       })
       .then(response => {

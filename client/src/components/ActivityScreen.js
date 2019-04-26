@@ -175,7 +175,7 @@ class ActivityScreen extends React.Component {
     const { activityId } = this.props.match.params;
     const { groupId } = this.props.match.params;
     axios
-      .post(`/api/api/groups/${groupId}/activities/${activityId}/export`)
+      .post(`/api/groups/${groupId}/activities/${activityId}/export`)
       .then(response => {
         Log.info(response);
       })

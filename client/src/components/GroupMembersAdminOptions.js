@@ -64,7 +64,7 @@ class GroupMembersAdminOptions extends React.Component {
     elem.style.overflow = "auto";
     this.setState({ inviteModalIsOpen: false });
     axios
-      .post(`/api/api/groups/${this.state.groupId}/members`, { inviteIds })
+      .post(`/api/groups/${this.state.groupId}/members`, { inviteIds })
       .then(response => {
         Log.info(response)
       })

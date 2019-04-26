@@ -28,7 +28,7 @@ class MyFamiliesShareHeader extends React.Component {
   sendMeNotification = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .post(`/api/api/users/${userId}/sendmenotification`)
+      .post(`/api/users/${userId}/sendmenotification`)
       .then(response => {})
       .catch(error => {});
   };
@@ -137,7 +137,7 @@ class MyFamiliesShareHeader extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     if (choice === "agree") {
       axios
-        .post(`/api/api/users/${userId}/walkthrough`)
+        .post(`/api/users/${userId}/walkthrough`)
         .then(response => Log.info(response))
         .catch(error => {
           Log.error(error);

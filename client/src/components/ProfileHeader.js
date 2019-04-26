@@ -28,7 +28,7 @@ class ProfileHeader extends React.Component {
   handleExport = () => {
     const userId = this.props.match.params.profileId;
     axios
-      .post(`/api/api/users/${userId}/export`)
+      .post(`/api/users/${userId}/export`)
       .then(response => {
         Log.info(response);
       })

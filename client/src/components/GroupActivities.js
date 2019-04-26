@@ -88,7 +88,7 @@ class GroupActivities extends React.Component {
     this.setState({ optionsModalIsOpen: false });
     const groupId = this.state.group.group_id;
     axios
-      .post(`/api/api/groups/${groupId}/agenda/export`)
+      .post(`/api/groups/${groupId}/agenda/export`)
       .then(response => {
         Log.info(response);
       })

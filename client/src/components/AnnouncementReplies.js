@@ -49,7 +49,7 @@ class AnnouncementReplies extends React.Component {
     const { groupId } = this.props;
     const { announcementId } = this.props;
     axios
-      .post(`/api/api/groups/${groupId}/announcements/${announcementId}/replies`, {
+      .post(`/api/groups/${groupId}/announcements/${announcementId}/replies`, {
         user_id: JSON.parse(localStorage.getItem("user")).id,
         message: this.state.newReply
       })

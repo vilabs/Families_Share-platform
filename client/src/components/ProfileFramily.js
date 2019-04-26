@@ -45,7 +45,7 @@ class ProfileFramily extends React.Component {
   handleAddFramily = inviteIds => {
     this.setState({ modalIsOpen: false });
     axios
-      .post(`/api/api/users/${this.state.profileId}/framily`, { inviteIds })
+      .post(`/api/users/${this.state.profileId}/framily`, { inviteIds })
       .then(response => {
         Log.info(response);
         this.refresh();

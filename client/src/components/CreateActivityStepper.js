@@ -182,7 +182,7 @@ class CreateActivityStepper extends React.Component {
       timeslots: this.state.timeslots
     };
     axios
-      .post(`/api/api/groups/${groupId}/activities`, activity)
+      .post(`/api/groups/${groupId}/activities`, activity)
       .then(response => {
         Log.info(response);
         this.props.history.goBack();

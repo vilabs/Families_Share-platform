@@ -68,7 +68,7 @@ class GroupInfo extends React.Component {
   handleJoin = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .post(`/api/api/users/${userId}/groups`, {
+      .post(`/api/users/${userId}/groups`, {
         group_id: this.state.group.group_id
       })
       .then(response => {
