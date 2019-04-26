@@ -58,7 +58,7 @@ class AdditionalInfoScreen extends React.Component {
     if (this.state.acceptAdditionalTerms) {
       if (this.state.editChild) {
         axios
-          .patch(`/users/${userId}/children/${childId}`, {
+          .patch(`/api/users/${userId}/children/${childId}`, {
             allergies: this.state.allergies,
             special_needs: this.state.special_needs,
             other_info: this.state.other_info

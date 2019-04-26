@@ -10,7 +10,7 @@ import Log from "./Log";
 
 const getMyGroups = userId => {
   return axios
-    .get(`/users/${userId}/groups`)
+    .get(`/api/users/${userId}/groups`)
     .then(response => {
       return response.data;
     })
@@ -21,7 +21,7 @@ const getMyGroups = userId => {
 };
 const getMyUnreadNotifications = userId => {
   return axios
-    .get(`/users/${userId}/notifications/unread`)
+    .get(`/api/users/${userId}/notifications/unread`)
     .then(response => {
       return response.data.unreadNotifications;
     })

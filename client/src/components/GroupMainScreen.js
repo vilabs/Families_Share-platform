@@ -29,7 +29,7 @@ const GroupNews = Loadable({
 
 const getGroupMembers = groupId => {
   return axios
-    .get(`/groups/${groupId}/members`)
+    .get(`/api/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -40,7 +40,7 @@ const getGroupMembers = groupId => {
 };
 const getGroup = groupId => {
   return axios
-    .get(`/groups/${groupId}`)
+    .get(`/api/groups/${groupId}`)
     .then(response => {
       return response.data;
     })

@@ -15,7 +15,7 @@ function signup(
 ) {
   const language = localStorage.getItem("language");
   return axios({
-    url: "/users",
+    url: "/api/users",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: JSON.stringify({

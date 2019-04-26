@@ -10,7 +10,7 @@ import Log from "./Log";
 
 const getUsersChildren = userId => {
   return axios
-    .get(`/users/${userId}/children`)
+    .get(`/api/users/${userId}/children`)
     .then(response => {
       return response.data;
     })

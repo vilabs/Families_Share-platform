@@ -9,7 +9,7 @@ const authenticationServices = {
 function login(email, password, deviceToken) {
   const language = localStorage.getItem("language");
   return axios({
-    url: "/users/authenticate/email",
+    url: "/api/users/authenticate/email",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: JSON.stringify({
@@ -32,7 +32,7 @@ function login(email, password, deviceToken) {
 function googleLogin(response, origin, deviceToken) {
   const language = localStorage.getItem("language");
   return axios({
-    url: "/users/authenticate/google",
+    url: "/api/users/authenticate/google",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: JSON.stringify({

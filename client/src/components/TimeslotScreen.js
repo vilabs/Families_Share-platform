@@ -45,7 +45,7 @@ const getTimeslot = pathname => {
 
 const getUsersChildren = userId => {
   return axios
-    .get(`/users/${userId}/children`)
+    .get(`/api/users/${userId}/children`)
     .then(response => {
       return response.data.map(child => child.child_id);
     })
@@ -56,7 +56,7 @@ const getUsersChildren = userId => {
 
 const getChildrenProfiles = ids => {
   return axios
-    .get("/children", {
+    .get("/api/children", {
       params: {
         ids
       }
@@ -79,7 +79,7 @@ const getChildrenProfiles = ids => {
 
 const getParentProfiles = ids => {
   return axios
-    .get("/profiles", {
+    .get("/api/profiles", {
       params: {
         ids,
         searchBy: "ids"
@@ -130,7 +130,7 @@ class TimeslotScreen extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const { pathname } = this.props.history.location;
-    const timeslot = await getTimeslot(pathname);
+    const timeslot = await getTimeslot(`/api${pathname}`);
     timeslot.extendedProperties.shared.parents = JSON.parse(
       timeslot.extendedProperties.shared.parents
     );
@@ -177,7 +177,7 @@ class TimeslotScreen extends React.Component {
 
   handleSave = () => {
     axios
-      .patch(this.props.location.pathname, {
+      .patch(`/api${this.props.location.pathname}`, {
         extendedProperties: {
           shared: {
             parents: JSON.stringify(

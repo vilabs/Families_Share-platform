@@ -28,7 +28,7 @@ class MyFamiliesShareHeader extends React.Component {
   sendMeNotification = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .post(`/users/${userId}/sendmenotification`)
+      .post(`/api/api/users/${userId}/sendmenotification`)
       .then(response => {})
       .catch(error => {});
   };
@@ -64,7 +64,7 @@ class MyFamiliesShareHeader extends React.Component {
     const target = document.querySelector(".ReactModalPortal");
     disableBodyScroll(target);
     axios
-      .patch(`/users/${userId}/notifications`)
+      .patch(`/api/users/${userId}/notifications`)
       .then(response => {
         this.setState({
           notificationModalIsOpen: true,
@@ -137,7 +137,7 @@ class MyFamiliesShareHeader extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     if (choice === "agree") {
       axios
-        .post(`/users/${userId}/walkthrough`)
+        .post(`/api/api/users/${userId}/walkthrough`)
         .then(response => Log.info(response))
         .catch(error => {
           Log.error(error);

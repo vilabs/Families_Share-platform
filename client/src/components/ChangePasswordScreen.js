@@ -16,7 +16,7 @@ class ChangePasswordScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/users/changepassword", {
+      .get("/api/users/changepassword", {
         headers: {
           Authorization: this.props.match.params.token
         }
@@ -62,7 +62,7 @@ class ChangePasswordScreen extends React.Component {
     if (this.validate()) {
       axios
         .post(
-          "/users/changepassword",
+          "/api/users/changepassword",
           {
             password: this.state.password
           },

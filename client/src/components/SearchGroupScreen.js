@@ -21,7 +21,7 @@ class SearchGroupScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/groups?searchBy=visibility&visible=true")
+      .get("/api/groups?searchBy=visibility&visible=true")
       .then(res => {
         const groups = res.data;
         this.setState({ fetchedGroups: true, groups });

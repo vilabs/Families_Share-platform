@@ -7,7 +7,7 @@ import Log from "./Log";
 
 const getChild = (userId, childId) => {
   return axios
-    .get(`/users/${userId}/children/${childId}`)
+    .get(`/api/users/${userId}/children/${childId}`)
     .then(response => {
       return response.data;
     })
@@ -29,7 +29,7 @@ const getChild = (userId, childId) => {
 };
 const getParents = (userId, childId) => {
   return axios
-    .get(`/users/${userId}/children/${childId}/parents`)
+    .get(`/api/users/${userId}/children/${childId}/parents`)
     .then(response => {
       return response.data;
     })

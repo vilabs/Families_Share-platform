@@ -20,7 +20,7 @@ class AnnouncementHeader extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/users/${this.props.userId}/profile`)
+      .get(`/api/users/${this.props.userId}/profile`)
       .then(response => {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
@@ -37,7 +37,7 @@ class AnnouncementHeader extends React.Component {
     if (this.props.userId !== props.userId) {
       this.setState({ fetchedProfile: false });
       axios
-        .get(`/users/${props.userId}/profile`)
+        .get(`/api/users/${props.userId}/profile`)
         .then(response => {
           this.setState({ fetchedProfile: true, profile: response.data });
         })
@@ -54,7 +54,7 @@ class AnnouncementHeader extends React.Component {
   handleDelete = () => {
     axios
       .delete(
-        `/groups/${this.props.groupId}/announcements/${this.state.deleteId}`
+        `/api/groups/${this.props.groupId}/announcements/${this.state.deleteId}`
       )
       .then(response => {
         Log.info(response);

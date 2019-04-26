@@ -14,7 +14,7 @@ class GroupMessages extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/groups/${this.props.groupId}/announcements`)
+      .get(`/api/groups/${this.props.groupId}/announcements`)
       .then(response => {
         const announcements = response.data;
         this.setState({
@@ -29,7 +29,7 @@ class GroupMessages extends React.Component {
 
   refresh = () => {
     axios
-      .get(`/groups/${this.props.groupId}/announcements`)
+      .get(`/api/groups/${this.props.groupId}/announcements`)
       .then(async response => {
         const announcements = response.data;
         await this.setState({

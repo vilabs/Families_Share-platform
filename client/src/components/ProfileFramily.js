@@ -20,7 +20,7 @@ class ProfileFramily extends React.Component {
 
   componentDidMount = () => {
     axios
-      .get(`/users/${this.state.profileId}/framily`)
+      .get(`/api/users/${this.state.profileId}/framily`)
       .then(response => {
         const framily = response.data;
         this.setState({ framily });
@@ -32,7 +32,7 @@ class ProfileFramily extends React.Component {
 
   refresh = () => {
     axios
-      .get(`/users/${this.state.profileId}/framily`)
+      .get(`/api/users/${this.state.profileId}/framily`)
       .then(response => {
         const framily = response.data;
         this.setState({ framily });
@@ -45,7 +45,7 @@ class ProfileFramily extends React.Component {
   handleAddFramily = inviteIds => {
     this.setState({ modalIsOpen: false });
     axios
-      .post(`/users/${this.state.profileId}/framily`, { inviteIds })
+      .post(`/api/api/users/${this.state.profileId}/framily`, { inviteIds })
       .then(response => {
         Log.info(response);
         this.refresh();

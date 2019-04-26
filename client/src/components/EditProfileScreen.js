@@ -24,7 +24,7 @@ class EditProfileScreen extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .get(`/users/${userId}/profile`)
+      .get(`/api/users/${userId}/profile`)
       .then(response => {
         const profile = response.data;
         this.setState({ fetchedProfile: true, ...profile });
@@ -96,7 +96,7 @@ class EditProfileScreen extends React.Component {
     bodyFormData.append("number", this.state.address.number);
     bodyFormData.append("address_id", this.state.address.address_id);
     axios
-      .patch(`/users/${userId}/profile`, bodyFormData, {
+      .patch(`/api/users/${userId}/profile`, bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

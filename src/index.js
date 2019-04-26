@@ -34,17 +34,17 @@ app.use(compression())
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/images', express.static(path.join(__dirname, '../images')))
+app.use('/api/images', express.static(path.join(__dirname, '../images')))
 
 if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
 }
 
-app.use('/groups', require('./routes/group-routes'))
-app.use('/users', require('./routes/user-routes'))
-app.use('/profiles', require('./routes/profile-routes'))
-app.use('/children', require('./routes/child-routes'))
-app.use('/github', require('./routes/github-routes'))
+app.use('/api/groups', require('./routes/group-routes'))
+app.use('/api/users', require('./routes/user-routes'))
+app.use('/api/profiles', require('./routes/profile-routes'))
+app.use('/api/children', require('./routes/child-routes'))
+app.use('/api/github', require('./routes/github-routes'))
 
 if (config.util.getEnv('NODE_ENV') === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')))

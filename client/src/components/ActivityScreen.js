@@ -12,7 +12,7 @@ import Log from "./Log";
 
 const getActivityTimeslots = (activityId, groupId) => {
   return axios
-    .get(`/groups/${groupId}/activities/${activityId}/timeslots`)
+    .get(`/api/groups/${groupId}/activities/${activityId}/timeslots`)
     .then(response => {
       return response.data;
     })
@@ -24,7 +24,7 @@ const getActivityTimeslots = (activityId, groupId) => {
 
 const getActivity = (activityId, groupId) => {
   return axios
-    .get(`/groups/${groupId}/activities/${activityId}`)
+    .get(`/api/groups/${groupId}/activities/${activityId}`)
     .then(response => {
       return response.data;
     })
@@ -43,7 +43,7 @@ const getActivity = (activityId, groupId) => {
 };
 const getGroupMembers = groupId => {
   return axios
-    .get(`/groups/${groupId}/members`)
+    .get(`/api/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -160,7 +160,7 @@ class ActivityScreen extends React.Component {
     const { activityId } = this.props.match.params;
     const { groupId } = this.props.match.params;
     axios
-      .delete(`/groups/${groupId}/activities/${activityId}`)
+      .delete(`/api/groups/${groupId}/activities/${activityId}`)
       .then(response => {
         Log.info(response);
         this.props.history.goBack();
@@ -175,7 +175,7 @@ class ActivityScreen extends React.Component {
     const { activityId } = this.props.match.params;
     const { groupId } = this.props.match.params;
     axios
-      .post(`/groups/${groupId}/activities/${activityId}/export`)
+      .post(`/api/api/groups/${groupId}/activities/${activityId}/export`)
       .then(response => {
         Log.info(response);
       })

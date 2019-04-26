@@ -36,7 +36,7 @@ class GroupHeader extends React.Component {
 
   handleDelete = () => {
     axios
-      .delete(`/groups/${this.props.groupId}`)
+      .delete(`/api/groups/${this.props.groupId}`)
       .then(response => {
         Log.info(response);
         this.props.history.push("/myfamiliesshare");

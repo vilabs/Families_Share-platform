@@ -18,7 +18,7 @@ const ProfileChildren = Loadable({
 
 const getMyChildren = userId => {
   return axios
-    .get(`/users/${userId}/children`)
+    .get(`/api/users/${userId}/children`)
     .then(response => {
       return response.data;
     })
@@ -29,7 +29,7 @@ const getMyChildren = userId => {
 };
 const getMyProfile = userId => {
   return axios
-    .get(`/users/${userId}/profile`)
+    .get(`/api/users/${userId}/profile`)
     .then(response => {
       return response.data;
     })

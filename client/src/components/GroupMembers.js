@@ -8,7 +8,7 @@ import Log from "./Log";
 
 const getGroupMembers = groupId => {
   return axios
-    .get(`/groups/${groupId}/members`)
+    .get(`/api/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -19,7 +19,7 @@ const getGroupMembers = groupId => {
 };
 const getGroupSettings = groupId => {
   return axios
-    .get(`/groups/${groupId}/settings`)
+    .get(`/api/groups/${groupId}/settings`)
     .then(response => {
       return response.data;
     })

@@ -37,7 +37,7 @@ class GroupActivities extends React.Component {
   componentDidMount() {
     const groupId = this.state.group.group_id;
     axios
-      .get(`/groups/${groupId}/activities`)
+      .get(`/api/groups/${groupId}/activities`)
       .then(response => {
         const acceptedActivities = response.data.filter(
           activity => activity.status === "accepted"
@@ -88,7 +88,7 @@ class GroupActivities extends React.Component {
     this.setState({ optionsModalIsOpen: false });
     const groupId = this.state.group.group_id;
     axios
-      .post(`/groups/${groupId}/agenda/export`)
+      .post(`/api/api/groups/${groupId}/agenda/export`)
       .then(response => {
         Log.info(response);
       })

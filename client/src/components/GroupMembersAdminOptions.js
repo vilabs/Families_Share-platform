@@ -41,7 +41,7 @@ class GroupMembersAdminOptions extends React.Component {
 
   handleSwitch = () => {
     axios
-      .patch(`/groups/${this.state.groupId}/settings`, {
+      .patch(`/api/groups/${this.state.groupId}/settings`, {
         open: !this.state.groupIsOpen
       })
       .then(response => {
@@ -64,7 +64,7 @@ class GroupMembersAdminOptions extends React.Component {
     elem.style.overflow = "auto";
     this.setState({ inviteModalIsOpen: false });
     axios
-      .post(`/groups/${this.state.groupId}/members`, { inviteIds })
+      .post(`/api/api/groups/${this.state.groupId}/members`, { inviteIds })
       .then(response => {
         Log.info(response)
       })

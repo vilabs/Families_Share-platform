@@ -13,7 +13,7 @@ class LandingScreen extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/groups/suggestions")
+      .get("/api/groups/suggestions")
       .then(res => {
         const suggestions = res.data;
         this.setState({ fetchedSuggestions: true, suggestions });

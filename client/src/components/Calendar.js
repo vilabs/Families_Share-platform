@@ -13,7 +13,7 @@ import Log from "./Log";
 
 const getGroupEvents = groupId => {
   return axios
-    .get(`/groups/${groupId}/events`)
+    .get(`/api/groups/${groupId}/events`)
     .then(response => {
       return response.data;
     })
@@ -25,7 +25,7 @@ const getGroupEvents = groupId => {
 
 const getUserEvents = userId => {
   return axios
-    .get(`/users/${userId}/events`)
+    .get(`/api/users/${userId}/events`)
     .then(response => {
       return response.data;
     })

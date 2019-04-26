@@ -25,7 +25,7 @@ class ForgotPasswordScreen extends React.Component {
     if (this.validate()) {
       this.setState({ sendingEmail: true });
       axios
-        .post("/users/forgotpassword", { email: this.state.email })
+        .post("/api/users/forgotpassword", { email: this.state.email })
         .then(response => {
           Log.info(response);
           snackMessage =

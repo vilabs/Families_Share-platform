@@ -11,7 +11,7 @@ Modal.setAppElement("#root");
 
 const getMyNotifications = (userId, page) => {
   return axios
-    .get(`/users/${userId}/notifications`, { params: { page } })
+    .get(`/api/users/${userId}/notifications`, { params: { page } })
     .then(response => {
       return response.data;
     })

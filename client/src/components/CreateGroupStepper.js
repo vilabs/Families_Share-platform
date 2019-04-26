@@ -129,7 +129,7 @@ class CreateGroupStepper extends React.Component {
 
   componentDidMount() {
     axios
-      .get("/groups", { params: { searchBy: "all" } })
+      .get("/api/groups", { params: { searchBy: "all" } })
       .then(response => {
         const groups = response.data;
         this.setState({
@@ -161,7 +161,7 @@ class CreateGroupStepper extends React.Component {
     const user = JSON.parse(localStorage.getItem("user"));
     this.setState({ creatingGroup: true });
     axios
-      .post("/groups", {
+      .post("/api/groups", {
         google_token: user.google_token,
         name: this.state.name,
         description: this.state.description,

@@ -14,7 +14,7 @@ class ChildListItem extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/users/${this.props.userId}/children/${this.props.childId}`)
+      .get(`/api/users/${this.props.userId}/children/${this.props.childId}`)
       .then(response => {
         const child = response.data;
         this.setState({ fetchedChild: true, child });

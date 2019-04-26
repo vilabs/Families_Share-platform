@@ -37,7 +37,7 @@ class ChildProfileInfo extends React.Component {
     const { childId } = this.props.match.params;
     axios
       .delete(
-        `/users/${profileId}/children/${childId}/parents/${
+        `/api/users/${profileId}/children/${childId}/parents/${
           this.props.parents[index].user_id
         }`
       )
@@ -53,7 +53,7 @@ class ChildProfileInfo extends React.Component {
     const { profileId } = this.props.match.params;
     const { childId } = this.props.match.params;
     axios
-      .post(`/users/${profileId}/children/${childId}/parents`, {
+      .post(`/api/api/users/${profileId}/children/${childId}/parents`, {
         parentId: parent.user_id
       })
       .then(response => {

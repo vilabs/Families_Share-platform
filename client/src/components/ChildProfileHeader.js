@@ -29,7 +29,7 @@ class ChildProfileHeader extends React.Component {
     const userId = this.props.match.params.profileId;
     const { childId } = this.props.match.params;
     axios
-      .delete(`/users/${userId}/children/${childId}`)
+      .delete(`/api/users/${userId}/children/${childId}`)
       .then(response => {
         Log.info(response);
         this.props.history.goBack();

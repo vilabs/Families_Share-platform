@@ -20,7 +20,7 @@ class FramilyListItem extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/users/${  this.props.framilyId  }/profile`)
+      .get(`/api/users/${  this.props.framilyId  }/profile`)
       .then(response => {
         const profile = response.data;
         const myProfile =

@@ -16,7 +16,7 @@ class EditActivityScreen extends React.Component {
     const { activityId } = this.props.match.params;
     const { groupId } = this.props.match.params;
     axios
-      .get(`/groups/${groupId}/activities/${activityId}`)
+      .get(`/api/groups/${groupId}/activities/${activityId}`)
       .then(response => {
         const { name, description, color, location } = response.data;
         this.setState({
@@ -70,7 +70,7 @@ class EditActivityScreen extends React.Component {
         description: this.state.description.trim()
       };
       axios
-        .patch(`/groups/${groupId}/activities/${activityId}`, patch)
+        .patch(`/api/groups/${groupId}/activities/${activityId}`, patch)
         .then(response => {
           Log.info(response);
           this.props.history.goBack();

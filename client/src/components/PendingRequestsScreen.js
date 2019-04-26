@@ -30,13 +30,13 @@ class PendingRequestsScreen extends React.Component {
     switch (requests_type) {
       case "group_members":
         axios
-          .get(`/groups/${this.props.match.params.groupId}/members`)
+          .get(`/api/groups/${this.props.match.params.groupId}/members`)
           .then(res => {
             const requests = res.data.filter(
               member => !member.group_accepted && member.user_accepted
             );
             const profileIds = requests.map(request => request.user_id);
-            return axios.get("/profiles", {
+            return axios.get("/api/profiles", {
               params: {
                 ids: profileIds,
                 searchBy: "ids"
@@ -55,13 +55,13 @@ class PendingRequestsScreen extends React.Component {
       case "user_groups":
         const userId = JSON.parse(localStorage.getItem("user")).id;
         axios
-          .get(`/users/${userId}/groups`)
+          .get(`/api/users/${userId}/groups`)
           .then(res => {
             const requests = res.data.filter(
               member => member.group_accepted && !member.user_accepted
             );
             const groupIds = requests.map(request => request.group_id);
-            return axios.get("/groups", {
+            return axios.get("/api/groups", {
               params: {
                 ids: groupIds,
                 searchBy: "ids"
@@ -79,7 +79,7 @@ class PendingRequestsScreen extends React.Component {
         break;
       case "group_activities":
         axios
-          .get(`/groups/${this.props.match.params.groupId}/activities`)
+          .get(`/api/groups/${this.props.match.params.groupId}/activities`)
           .then(res => {
             const activities = res.data.filter(
               activity => activity.status === "pending"
@@ -102,7 +102,7 @@ class PendingRequestsScreen extends React.Component {
           req => req.user_id !== request.user_id
         );
         axios
-          .patch(`/groups/${this.props.match.params.groupId}/members`, {
+          .patch(`/api/groups/${this.props.match.params.groupId}/members`, {
             patch: { group_accepted: true },
             id: request.user_id
           })
@@ -120,7 +120,7 @@ class PendingRequestsScreen extends React.Component {
           req => req.group_id !== request.group_id
         );
         axios
-          .patch(`/users/${userId}/groups/${request.group_id}`)
+          .patch(`/api/users/${userId}/groups/${request.group_id}`)
           .then(response => {
             Log.info(response);
             this.setState({ requests: filteredGroups });
@@ -135,7 +135,7 @@ class PendingRequestsScreen extends React.Component {
         );
         axios
           .patch(
-            `/groups/${this.props.match.params.groupId}/activities/${
+            `/api/groups/${this.props.match.params.groupId}/activities/${
               request.activity_id
             }`,
             { status: "accepted" }
@@ -160,7 +160,7 @@ class PendingRequestsScreen extends React.Component {
         );
         axios
           .delete(
-            `/groups/${this.props.match.params.groupId}/members/${
+            `/api/groups/${this.props.match.params.groupId}/members/${
               request.user_id
             }`
           )
@@ -178,7 +178,7 @@ class PendingRequestsScreen extends React.Component {
           req => req.group_id !== request.group_id
         );
         axios
-          .delete(`/users/${userId}/groups/${request.group_id}`)
+          .delete(`/api/users/${userId}/groups/${request.group_id}`)
           .then(response => {
             Log.info(response);
             this.setState({ requests: filteredGroups });
@@ -193,7 +193,7 @@ class PendingRequestsScreen extends React.Component {
         );
         axios
           .delete(
-            `/groups/${this.props.match.params.groupId}/activities/${
+            `/api/groups/${this.props.match.params.groupId}/activities/${
               request.activity_id
             }`
           )

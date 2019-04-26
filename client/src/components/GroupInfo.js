@@ -19,7 +19,7 @@ class GroupInfo extends React.Component {
   componentDidMount() {
     const groupId = this.state.group.group_id;
     axios
-      .get(`/groups/${groupId}/settings`)
+      .get(`/api/groups/${groupId}/settings`)
       .then(response => {
         const { group } = this.state;
         group.settings = response.data;
@@ -52,7 +52,7 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const groupId = this.state.group.group_id;
     axios
-      .patch(`/users/${userId}/groups/${groupId}`, {
+      .patch(`/api/users/${userId}/groups/${groupId}`, {
         patch: { user_accepted: true }
       })
       .then(response => {
@@ -68,7 +68,7 @@ class GroupInfo extends React.Component {
   handleJoin = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .post(`/users/${userId}/groups`, {
+      .post(`/api/api/users/${userId}/groups`, {
         group_id: this.state.group.group_id
       })
       .then(response => {
@@ -84,7 +84,7 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const groupId = this.state.group.group_id;
     axios
-      .delete(`/users/${userId}/groups/${groupId}`)
+      .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
         Log.info(response)
         this.props.history.replace("/myfamiliesshare");
@@ -98,7 +98,7 @@ class GroupInfo extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const groupId = this.state.group.group_id;
     axios
-      .delete(`/users/${userId}/groups/${groupId}`)
+      .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
         Log.info(response)
         this.setState({ user_accepted: false });

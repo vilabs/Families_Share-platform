@@ -10,7 +10,7 @@ import Log from "./Log";
 
 const getUsersChildren = userId => {
   return axios
-    .get(`/users/${userId}/children`)
+    .get(`/api/users/${userId}/children`)
     .then(response => {
       return response.data.map(child => child.child_id);
     })
@@ -22,7 +22,7 @@ const getUsersChildren = userId => {
 
 const getTimeslots = (groupId, activityId) => {
   return axios
-    .get(`/groups/${groupId}/activities/${activityId}/timeslots`)
+    .get(`/api/groups/${groupId}/activities/${activityId}/timeslots`)
     .then(response => {
       return response.data;
     })

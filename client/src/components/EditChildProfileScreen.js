@@ -39,7 +39,7 @@ class EditChildProfileScreen extends React.Component {
       const userId = this.props.match.params.profileId;
       const { childId } = this.props.match.params;
       axios
-        .get(`/users/${userId}/children/${childId}`)
+        .get(`/api/users/${userId}/children/${childId}`)
         .then(response => {
           const child = response.data;
           child.date = new Date(child.birthdate).getDate();
@@ -159,7 +159,7 @@ class EditChildProfileScreen extends React.Component {
     bodyFormData.append("allergies", this.state.allergies);
     bodyFormData.append("birthdate", birthdate);
     axios
-      .patch(`/users/${userId}/children/${childId}`, bodyFormData, {
+      .patch(`/api/users/${userId}/children/${childId}`, bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

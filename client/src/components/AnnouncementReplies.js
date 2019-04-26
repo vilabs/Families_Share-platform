@@ -20,7 +20,7 @@ class AnnouncementReplies extends React.Component {
     const { groupId } = this.props;
     const { announcementId } = this.props;
     axios
-      .get(`/groups/${groupId}/announcements/${announcementId}/replies`)
+      .get(`/api/groups/${groupId}/announcements/${announcementId}/replies`)
       .then(response => {
         const replies = response.data;
         this.setState({ fetchedReplies: true, replies });
@@ -35,7 +35,7 @@ class AnnouncementReplies extends React.Component {
     const { groupId } = this.props;
     const { announcementId } = this.props;
     axios
-      .get(`/groups/${groupId}/announcements/${announcementId}/replies`)
+      .get(`/api/groups/${groupId}/announcements/${announcementId}/replies`)
       .then(response => {
         const replies = response.data;
         this.setState({ replies });
@@ -49,7 +49,7 @@ class AnnouncementReplies extends React.Component {
     const { groupId } = this.props;
     const { announcementId } = this.props;
     axios
-      .post(`/groups/${groupId}/announcements/${announcementId}/replies`, {
+      .post(`/api/api/groups/${groupId}/announcements/${announcementId}/replies`, {
         user_id: JSON.parse(localStorage.getItem("user")).id,
         message: this.state.newReply
       })

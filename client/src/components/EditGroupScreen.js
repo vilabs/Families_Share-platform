@@ -20,7 +20,7 @@ const dataURLtoFile = (dataurl, filename) => {
 
 const getGroups = () => {
   return axios
-    .get("/groups", { params: { searchBy: "all" } })
+    .get("/api/groups", { params: { searchBy: "all" } })
     .then(response => {
       return response.data;
     })
@@ -31,7 +31,7 @@ const getGroups = () => {
 };
 const getGroup = groupId => {
   return axios
-    .get(`/groups/${groupId}`)
+    .get(`/api/groups/${groupId}`)
     .then(response => {
       return response.data;
     })
@@ -49,7 +49,7 @@ const getGroup = groupId => {
 };
 const getGroupSettings = groupId => {
   return axios
-    .get(`/groups/${groupId}/settings`)
+    .get(`/api/groups/${groupId}/settings`)
     .then(response => {
       return response.data;
     })
@@ -138,7 +138,7 @@ class EditGroupScreen extends React.Component {
     bodyFormData.append("background", this.state.background);
     bodyFormData.append("location", this.state.location);
     axios
-      .patch(`/groups/${this.state.group_id}`, bodyFormData, {
+      .patch(`/api/groups/${this.state.group_id}`, bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

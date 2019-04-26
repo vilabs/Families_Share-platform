@@ -11,7 +11,7 @@ export default class GroupMembersList extends React.Component {
   componentDidMount() {
     const memberIds = this.props.members.map(member => member.user_id);
     axios
-      .get("/profiles", {
+      .get("/api/profiles", {
         params: {
           ids: memberIds,
           searchBy: "ids"

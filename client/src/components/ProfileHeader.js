@@ -28,7 +28,7 @@ class ProfileHeader extends React.Component {
   handleExport = () => {
     const userId = this.props.match.params.profileId;
     axios
-      .post(`/users/${userId}/export`)
+      .post(`/api/api/users/${userId}/export`)
       .then(response => {
         Log.info(response);
       })
@@ -40,7 +40,7 @@ class ProfileHeader extends React.Component {
   handleDelete = () => {
     const userId = this.props.match.params.profileId;
     axios
-      .delete(`/users/${userId}`)
+      .delete(`/api/users/${userId}`)
       .then(response => {
         Log.info(response);
         localStorage.removeItem("user");

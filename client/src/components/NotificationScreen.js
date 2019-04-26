@@ -18,7 +18,7 @@ class NotificationScreen extends React.Component {
     const { groupId } = this.props.match.params;
     const { notificationId } = this.props.match.params;
     axios
-      .get(`/groups/${groupId}/notifications/${notificationId}`)
+      .get(`/api/groups/${groupId}/notifications/${notificationId}`)
       .then(response => {
         const notification = response.data;
         this.setState({

@@ -62,7 +62,7 @@ class AnnouncementBar extends React.Component {
       bodyFormData.append("message", message);
       bodyFormData.append("user_id", user_id);
       axios
-        .post(`/groups/${groupId}/announcements`, bodyFormData)
+        .post(`/api/api/groups/${groupId}/announcements`, bodyFormData)
         .then(response => {
           Log.info(response);
           handleRefresh();

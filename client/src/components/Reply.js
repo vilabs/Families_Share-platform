@@ -23,7 +23,7 @@ class Reply extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`/users/${this.state.reply.user_id}/profile`)
+      .get(`/api/users/${this.state.reply.user_id}/profile`)
       .then(response => {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
@@ -41,7 +41,7 @@ class Reply extends React.Component {
     const replyId = this.state.deleteId;
     axios
       .delete(
-        `/groups/${
+        `/api/groups/${
           this.props.groupId
         }/announcements/${announcementId}/replies/${replyId}`
       )

@@ -28,7 +28,7 @@ class MemberContact extends React.Component {
     const { groupId } = this.props;
     const patch = { admin: true };
     axios
-      .patch(`/groups/${groupId}/members`, {
+      .patch(`/api/groups/${groupId}/members`, {
         patch,
         id: this.props.member.user_id
       })
@@ -46,7 +46,7 @@ class MemberContact extends React.Component {
     const { groupId } = this.props;
     const patch = { admin: false };
     axios
-      .patch(`/groups/${groupId}/members`, {
+      .patch(`/api/groups/${groupId}/members`, {
         patch,
         id: this.props.member.user_id
       })
@@ -64,7 +64,7 @@ class MemberContact extends React.Component {
     const { groupId } = this.props;
     const userId = this.props.member.user_id;
     axios
-      .delete(`/groups/${groupId}/members/${userId}`)
+      .delete(`/api/groups/${groupId}/members/${userId}`)
       .then(response => {
         this.props.handleRemoveUser(this.props.member.user_id);
         Log.info(response);

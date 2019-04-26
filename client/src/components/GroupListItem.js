@@ -10,7 +10,7 @@ import Log from "./Log";
 
 const getGroup = groupId => {
   return axios
-    .get(`/groups/${groupId}`)
+    .get(`/api/groups/${groupId}`)
     .then(response => {
       return response.data;
     })
@@ -24,7 +24,7 @@ const getGroup = groupId => {
     });
 };
 // const getGroupKids = (groupId) => {
-//   return axios.get('/groups/' + groupId + '/kids')
+//   return axios.get('/api/groups/' + groupId + '/kids')
 //     .then(response => {
 //       return response.data;
 //     })
@@ -35,7 +35,7 @@ const getGroup = groupId => {
 // }
 const getGroupMembers = groupId => {
   return axios
-    .get(`/groups/${groupId}/members`)
+    .get(`/api/groups/${groupId}/members`)
     .then(response => {
       return response.data;
     })
@@ -46,7 +46,7 @@ const getGroupMembers = groupId => {
 };
 const getGroupSettings = groupId => {
   return axios
-    .get(`/groups/${groupId}/settings`)
+    .get(`/api/groups/${groupId}/settings`)
     .then(response => {
       return response.data;
     })

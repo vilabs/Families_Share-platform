@@ -56,7 +56,7 @@ class EditTimeslotScreen extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
     let { pathname } = this.props.history.location;
     pathname = pathname.substring(0, pathname.length - 5);
-    const timeslot = await getTimeslot(pathname);
+    const timeslot = await getTimeslot(`/api${pathname}`);
     timeslot.date = moment(timeslot.start.dateTime).format("YYYY-MM-DD");
     timeslot.startTime = moment(timeslot.start.dateTime).format("HH:mm");
     timeslot.endTime = moment(timeslot.end.dateTime).format("HH:mm");
@@ -202,7 +202,7 @@ class EditTimeslotScreen extends React.Component {
       }
     };
     let { pathname } = this.props.history.location;
-    pathname = pathname.substring(0, pathname.length - 5);
+    pathname = `$/api{pathname.substring(0, pathname.length - 5)}`;
     axios
       .patch(pathname, timeslot)
       .then(response => {

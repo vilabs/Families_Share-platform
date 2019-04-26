@@ -15,7 +15,7 @@ class RatingModal extends React.Component {
   componentDidMount() {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .get(`/users/${userId}/rating`)
+      .get(`/api/users/${userId}/rating`)
       .then(response => {
         this.setState({ rating: response.data.rating });
       })
@@ -27,7 +27,7 @@ class RatingModal extends React.Component {
   handleRate = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .patch(`/users/${userId}/rating`, { rating: this.state.rating })
+      .patch(`/api/users/${userId}/rating`, { rating: this.state.rating })
       .then(reponse => {
         this.props.handleClose();
       })

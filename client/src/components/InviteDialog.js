@@ -67,7 +67,7 @@ class InviteDialog extends React.Component {
   componentDidMount() {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .get("/profiles?searchBy=visibility&visible=true")
+      .get("/api/profiles?searchBy=visibility&visible=true")
       .then(res => {
         const users = res.data.filter(user => user.user_id !== userId);
         users.forEach(user => {
