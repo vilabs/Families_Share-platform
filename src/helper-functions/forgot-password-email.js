@@ -12,7 +12,7 @@ function newForgotPasswordEmail (token) {
         We got a request to change your password.
       </p>
       <a
-        href="http://83.212.107.194:4000/users/api/changepasswordredirect/${token}"
+        href="http://83.212.107.194:4000/api/users/changepasswordredirect/${token}"
         style="text-decoration:none"
       >
         <button
