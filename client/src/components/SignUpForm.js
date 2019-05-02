@@ -167,7 +167,6 @@ class SignUpForm extends React.Component {
     return (
       state.givenName &&
       state.familyName &&
-      state.phoneNumber &&
       state.email &&
       state.password &&
       state.passwordConfirm
@@ -270,8 +269,9 @@ class SignUpForm extends React.Component {
           />
           <span>
 
+
             (Users will be able to search for my profile inside the app)
-</span>
+                              </span>
         </div>
         <div className="acceptTermsContainer row no-gutters">
           <div className="col-2-10">

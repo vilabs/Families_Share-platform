@@ -27,9 +27,16 @@ class SelectLanguage extends React.Component {
       position: "relative",
       left: "0"
     };
+    const appLanguages =
+      process.env.REACT_APP_CITYLAB === "all"
+        ? languages
+        : [
+            process.env.REACT_APP_CITYLAB_DEFAULT_LANG,
+            process.env.REACT_APP_CITYLAB_ALTERNATIVE_LANG
+          ];
     const menu = (
       <Menu style={menuStyle} onClick={this.handleClick}>
-        {languages.map(language =>
+        {appLanguages.map(language =>
           language !== this.props.language ? (
             <Menu.Item key={language} style={menuItemStyle}>
               <LanguageIcon style={languageIconStyle} language={language} />

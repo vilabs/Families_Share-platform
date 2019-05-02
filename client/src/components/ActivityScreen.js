@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
+import PropTypes from "prop-types";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
@@ -56,6 +57,8 @@ const getGroupMembers = groupId => {
 class ActivityScreen extends React.Component {
   constructor(props) {
     super(props);
+    const { match } = this.props;
+    const { groupId, activityId } = match.params;
     this.state = {
       fetchedActivityData: false,
       activity: {},
@@ -63,8 +66,8 @@ class ActivityScreen extends React.Component {
       userCanEdit: false,
       optionsModalIsOpen: false,
       action: "",
-      groupId: this.props.match.params.groupId,
-      activityId: this.props.match.params.activityId
+      groupId,
+      activityId
     };
   }
 
@@ -100,9 +103,10 @@ class ActivityScreen extends React.Component {
   }
 
   getDatesString = () => {
+    const { language } = this.props;
     const { activity } = this.state;
     const selectedDates = activity.dates;
-    const texts = Texts[this.props.language].activityScreen;
+    const texts = Texts[language].activityScreen;
     let datesString = "";
     if (activity.repetition_type === "monthly") {
       datesString = `${texts.every} ${moment(selectedDates[0]).format("Do")}`;
@@ -111,9 +115,9 @@ class ActivityScreen extends React.Component {
         "dddd"
       )} ${texts.of} ${moment(selectedDates[0]).format("MMMM")}`;
     } else {
-      selectedDates.forEach(
-        selectedDate => (datesString += `${moment(selectedDate).format("D")}, `)
-      );
+      selectedDates.forEach(selectedDate => {
+        datesString += `${moment(selectedDate).format("D")}, `;
+      });
       datesString = datesString.slice(0, datesString.lastIndexOf(","));
       datesString += ` ${moment(selectedDates[0]).format("MMMM YYYY")}`;
     }
@@ -121,8 +125,10 @@ class ActivityScreen extends React.Component {
   };
 
   handleEdit = () => {
-    const pathname = `${this.props.history.location.pathname}/edit`;
-    this.props.history.push(pathname);
+    const { history } = this.props;
+    let { pathname } = history.location;
+    pathname = `${pathname}/edit`;
+    history.push(pathname);
   };
 
   handleConfirmDialogOpen = action => {
@@ -134,8 +140,9 @@ class ActivityScreen extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
+    const { action } = this.state;
     if (choice === "agree") {
-      switch (this.state.action) {
+      switch (action) {
         case "delete":
           this.handleDelete();
           break;
@@ -149,7 +156,8 @@ class ActivityScreen extends React.Component {
   };
 
   handleOptions = () => {
-    this.setState({ optionsModalIsOpen: !this.state.optionsModalIsOpen });
+    const { optionsModalIsOpen } = this.state;
+    this.setState({ optionsModalIsOpen: !optionsModalIsOpen });
   };
 
   handleOptionsClose = () => {
@@ -157,23 +165,23 @@ class ActivityScreen extends React.Component {
   };
 
   handleDelete = () => {
-    const { activityId } = this.props.match.params;
-    const { groupId } = this.props.match.params;
+    const { match, history } = this.props;
+    const { groupId, activityId } = match.params;
     axios
       .delete(`/api/groups/${groupId}/activities/${activityId}`)
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
   handleExport = () => {
-    const { activityId } = this.props.match.params;
-    const { groupId } = this.props.match.params;
+    const { match } = this.props;
+    const { activityId, groupId } = match.params;
     axios
       .post(`/api/groups/${groupId}/activities/${activityId}/export`)
       .then(response => {
@@ -185,7 +193,16 @@ class ActivityScreen extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].activityScreen;
+    const { history, language } = this.props;
+    const {
+      activity,
+      fetchedActivityData,
+      userCanEdit,
+      action,
+      confirmDialogIsOpen,
+      optionsModalIsOpen
+    } = this.state;
+    const texts = Texts[language].activityScreen;
     const options = [
       {
         label: texts.delete,
@@ -202,30 +219,28 @@ class ActivityScreen extends React.Component {
         }
       }
     ];
-    const { activity } = this.state;
     const confirmDialogTitle =
-      this.state.action === "delete"
-        ? texts.deleteDialogTitle
-        : texts.exportDialogTitle;
+      action === "delete" ? texts.deleteDialogTitle : texts.exportDialogTitle;
     const rowStyle = { minHeight: "5rem" };
-    return this.state.fetchedActivityData ? (
+    return fetchedActivityData ? (
       <React.Fragment>
         <div id="activityContainer">
           <ConfirmDialog
             title={confirmDialogTitle}
-            isOpen={this.state.confirmDialogIsOpen}
+            isOpen={confirmDialogIsOpen}
             handleClose={this.handleConfirmDialogClose}
           />
           <OptionsModal
-            isOpen={this.state.optionsModalIsOpen}
+            isOpen={optionsModalIsOpen}
             handleClose={this.handleOptionsClose}
             options={options}
           />
           <div id="activityHeaderContainer" className="row no-gutters">
             <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
-                onClick={() => this.props.history.goBack()}
+                onClick={() => history.goBack()}
               >
                 <i className="fas fa-arrow-left" />
               </button>
@@ -234,8 +249,9 @@ class ActivityScreen extends React.Component {
               <h1 className="center">{activity.name}</h1>
             </div>
             <div className="col-1-10">
-              {this.state.userCanEdit ? (
+              {userCanEdit ? (
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleEdit}
                 >
@@ -246,8 +262,9 @@ class ActivityScreen extends React.Component {
               )}
             </div>
             <div className="col-1-10">
-              {this.state.userCanEdit ? (
+              {userCanEdit ? (
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleOptions}
                 >
@@ -302,10 +319,7 @@ class ActivityScreen extends React.Component {
             </div>
           </div>
         </div>
-        <TimeslotsList
-          dates={this.state.activity.dates}
-          timeslots={this.state.activity.timeslots}
-        />
+        <TimeslotsList dates={activity.dates} timeslots={activity.timeslots} />
       </React.Fragment>
     ) : (
       <LoadingSpinner />
@@ -314,3 +328,9 @@ class ActivityScreen extends React.Component {
 }
 
 export default withLanguage(ActivityScreen);
+
+ActivityScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
+};

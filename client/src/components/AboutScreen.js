@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AboutHeader from "./AboutHeader";
 import BackNavigation from "./BackNavigation";
 import Texts from "../Constants/Texts";
@@ -164,3 +165,8 @@ class AboutScreen extends React.Component {
 }
 
 export default withLanguage(AboutScreen);
+
+AboutScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string
+};

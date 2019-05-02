@@ -35,16 +35,17 @@ const getTimeslots = (groupId, activityId) => {
 class ActivityListItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { fetchedTimeslots: false, activity: this.props.activity };
+    const { activity } = this.props;
+    this.state = { fetchedTimeslots: false, activity };
   }
 
   async componentDidMount() {
+    const { activity } = this.state;
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const { groupId } = this.props;
-    const activityId = this.state.activity.activity_id;
+    const activityId = activity.activity_id;
     const usersChildren = await getUsersChildren(userId);
     const timeslots = await getTimeslots(groupId, activityId);
-    const { activity } = this.state;
     let dates = timeslots.map(timeslot => timeslot.start.dateTime);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
@@ -59,13 +60,17 @@ class ActivityListItem extends React.Component {
       }
     });
     activity.subscribed = false;
-    for (const timeslot of timeslots) {
-      const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
-      const children = JSON.parse(timeslot.extendedProperties.shared.children);
+    for (let i = 0; i < timeslots.length; i += 1) {
+      const parents = JSON.parse(
+        timeslots[i].extendedProperties.shared.parents
+      );
+      const children = JSON.parse(
+        timeslots[i].extendedProperties.shared.children
+      );
       const userSubscribed = parents.includes(userId);
       let childrenSubscribed = false;
-      for (const child of usersChildren) {
-        if (children.includes(child)) {
+      for (let j = 0; j < usersChildren.length; j += 1) {
+        if (children.includes(usersChildren[j])) {
           childrenSubscribed = true;
           break;
         }
@@ -80,14 +85,16 @@ class ActivityListItem extends React.Component {
   }
 
   handleActivityClick = event => {
-    const { pathname } = this.props.history.location;
-    this.props.history.push(`${pathname}/${event.currentTarget.id}`);
+    const { history } = this.props;
+    const { pathname } = history.location;
+    history.push(`${pathname}/${event.currentTarget.id}`);
   };
 
   getDatesString = () => {
+    const { language } = this.props;
     const { activity } = this.state;
     const selectedDates = activity.dates;
-    const texts = Texts[this.props.language].activityListItem;
+    const texts = Texts[language].activityListItem;
     let datesString = "";
     if (activity.repetition_type === "monthly") {
       datesString = `${texts.every} ${moment(selectedDates[0]).format("Do")}`;
@@ -96,9 +103,9 @@ class ActivityListItem extends React.Component {
         "dddd"
       )} ${texts.of} ${moment(selectedDates[0]).format("MMMM")}`;
     } else {
-      selectedDates.forEach(
-        selectedDate => (datesString += `${moment(selectedDate).format("D")}, `)
-      );
+      selectedDates.forEach(selectedDate => {
+        datesString += `${moment(selectedDate).format("D")}, `;
+      });
       datesString = datesString.slice(0, datesString.lastIndexOf(","));
       datesString += ` ${moment(selectedDates[0]).format("MMMM YYYY")}`;
     }
@@ -106,8 +113,8 @@ class ActivityListItem extends React.Component {
   };
 
   render() {
-    const { activity } = this.state;
-    return this.state.fetchedTimeslots ? (
+    const { activity, fetchedTimeslots } = this.state;
+    return fetchedTimeslots ? (
       <React.Fragment>
         <div
           className="row no-gutters"
@@ -167,5 +174,7 @@ export default withRouter(withLanguage(ActivityListItem));
 
 ActivityListItem.propTypes = {
   activity: PropTypes.object,
-  groupId: PropTypes.string
+  groupId: PropTypes.string,
+  history: PropTypes.object,
+  language: PropTypes.string
 };
