@@ -62,6 +62,7 @@ class LogInScreen extends React.Component {
               clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
               render={renderProps => (
                 <button
+                  type="button"
                   onClick={() =>
                     window.isNative
                       ? window.postMessage(
@@ -85,6 +86,9 @@ class LogInScreen extends React.Component {
                     JSON.parse(localStorage.getItem("deviceToken"))
                   )
                 )
+              }
+              onFailure={response =>
+                window.alert(JSON.stringify(response.details))
               }
             />
           </div>
