@@ -1,10 +1,12 @@
 const { google } = require('googleapis')
-
+const config = require('config')
+const googleEmail = config.get('google.email')
+const googleKey = config.get('google.key')
 const scopes = 'https://www.googleapis.com/auth/calendar'
 const googleToken = new google.auth.JWT(
-  process.env.GOOGLE_CLIENT_EMAIL,
+  googleEmail,
   null,
-  process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+  googleKey.replace(/\\n/g, '\n'),
   scopes
 )
 const calendar = google.calendar({
