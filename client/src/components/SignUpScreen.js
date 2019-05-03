@@ -7,8 +7,8 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
 
-const SignUpScreen = ({ signingUp, history }) => {
-  const texts = Texts[this.props.language].signUpScreen;
+const SignUpScreen = ({ signingUp, history, language }) => {
+  const texts = Texts[language].signUpScreen;
   return (
     <React.Fragment>
       {signingUp ? <LoadingSpinner /> : <div />}

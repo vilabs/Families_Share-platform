@@ -188,7 +188,8 @@ class SignUpForm extends React.Component {
       password,
       passwordConfirm,
       profileVisibility,
-      policyModalIsOpen
+      policyModalIsOpen,
+      acceptTerms
     } = this.state;
     const texts = Texts[language].signUpForm;
     if (error) {
@@ -289,9 +290,7 @@ class SignUpForm extends React.Component {
               className="policyIcon center"
               alt="policy icon"
               onClick={this.handlePolicyOpen}
-              src={
-                this.state.acceptTerms ? Images.policyAccepted : Images.policy
-              }
+              src={acceptTerms ? Images.policyAccepted : Images.policy}
             />
           </div>
           <div className="col-8-10" onClick={this.handlePolicyOpen}>
