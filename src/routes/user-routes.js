@@ -1,5 +1,5 @@
 const express = require('express')
-
+const config = require('config')
 const router = new express.Router()
 const objectid = require('objectid')
 const multer = require('multer')
@@ -14,9 +14,10 @@ const wt = require('../helper-functions/walthrough-email')
 const exportData = require('../helper-functions/export-user-data.js')
 const texts = require('../constants/notification-texts')
 const { google } = require('googleapis')
-
+const googleEmail = config.get('google.email')
+const googleKey = config.get('google.key')
 const scopes = 'https://www.googleapis.com/auth/calendar'
-const googleToken = new google.auth.JWT(process.env.GOOGLE_CLIENT_EMAIL, null, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), scopes)
+const googleToken = new google.auth.JWT(googleEmail, null, googleKey.replace(/\\n/g, '\n'), scopes)
 const calendar = google.calendar({
   version: 'v3',
   auth: googleToken

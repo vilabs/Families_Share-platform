@@ -1,14 +1,15 @@
 const express = require('express')
-
+const config = require('config')
 const router = new express.Router()
 const multer = require('multer')
 const objectid = require('objectid')
 const fr = require('find-remove')
 const { google } = require('googleapis')
 const moment = require('moment')
-
+const googleEmail = config.get('google.email')
+const googleKey = config.get('google.key')
 const scopes = 'https://www.googleapis.com/auth/calendar'
-const jwt = new google.auth.JWT(process.env.GOOGLE_CLIENT_EMAIL, null, process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, '\n'), scopes)
+const jwt = new google.auth.JWT(googleEmail, null, googleKey.replace(/\\n/g, '\n'), scopes)
 const path = require('path')
 const sharp = require('sharp')
 const nodemailer = require('nodemailer')

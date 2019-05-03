@@ -1,5 +1,9 @@
 {
   "dbConfig": {
     "host": "DB_TEST_HOST"
+  },
+  "google": {
+    "email": "GOOGLE_DEV_CLIENT_EMAIL",
+    "key": "GOOGLE_DEV_PRIVATE_KEY"
   }
 }

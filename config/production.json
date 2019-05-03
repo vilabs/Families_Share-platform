@@ -1,5 +1,9 @@
 {
   "dbConfig": {
     "host": "DB_PROD_HOST"
+  },
+  "google": {
+    "email": "GOOGLE_PROD_CLIENT_EMAIL",
+    "key": "GOOGLE_PROD_PRIVATE_KEY"
   }
 }
