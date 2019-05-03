@@ -87,9 +87,7 @@ class LogInScreen extends React.Component {
                   )
                 )
               }
-              onFailure={response =>
-                window.alert(JSON.stringify(response.details))
-              }
+              onFailure={response => window.alert(JSON.stringify(response))}
             />
           </div>
         </div>
