@@ -202,7 +202,7 @@ class EditTimeslotScreen extends React.Component {
       }
     };
     let { pathname } = this.props.history.location;
-    pathname = `$/api{pathname.substring(0, pathname.length - 5)}`;
+    pathname = `/api${pathname.substring(0, pathname.length - 5)}`;
     axios
       .patch(pathname, timeslot)
       .then(response => {

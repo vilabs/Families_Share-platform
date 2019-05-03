@@ -161,6 +161,10 @@ class CreateActivityStepper extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   handleMessage = event => {
     const data = JSON.parse(event.data);
     if (data.action === "stepperGoBack") {
@@ -169,10 +173,6 @@ class CreateActivityStepper extends React.Component {
         : this.props.history.goBack();
     }
   };
-
-  componentWillUnmount() {
-    document.removeEventListener("message", this.handleMessage, false);
-  }
 
   createActivity = () => {
     const { groupId } = this.props.match.params;
