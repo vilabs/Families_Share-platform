@@ -8,8 +8,6 @@ const { google } = require('googleapis')
 const moment = require('moment')
 const googleEmail = config.get('google.email')
 const googleKey = config.get('google.key')
-console.log(googleEmail)
-console.log(googleKey)
 const scopes = 'https://www.googleapis.com/auth/calendar'
 const jwt = new google.auth.JWT(process.env[googleEmail], null, process.env[googleKey].replace(/\\n/g, '\n'), scopes)
 const path = require('path')
