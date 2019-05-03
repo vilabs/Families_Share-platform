@@ -4,12 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import registrationActions from "../Actions/RegistrationActions";
 import Images from "../Constants/Images";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
-// import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
 const styles = theme => ({
   colorSwitchBase: {
@@ -44,21 +43,19 @@ class SignUpForm extends React.Component {
   }
 
   componentDidMount() {
+    const { language } = this.props;
     document
       .getElementById("termsAndPolicy")
-      .setCustomValidity(
-        Texts[this.props.language].signUpForm.acceptTermsError
-      );
+      .setCustomValidity(Texts[language].signUpForm.acceptTermsError);
   }
 
   validate = () => {
-    const texts = Texts[this.props.language].signUpForm;
+    const { language } = this.props;
+    const { acceptTerms } = this.state;
+    const texts = Texts[language].signUpForm;
     const formLength = this.formEl.length;
-    if (
-      this.formEl.checkValidity() === false ||
-      this.state.acceptTerms === false
-    ) {
-      for (let i = 0; i < formLength; i++) {
+    if (this.formEl.checkValidity() === false || acceptTerms === false) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -83,7 +80,7 @@ class SignUpForm extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -96,13 +93,16 @@ class SignUpForm extends React.Component {
 
   submit = () => {
     const deviceToken = JSON.parse(localStorage.getItem("deviceToken"));
-    const given_name = this.state.givenName;
-    const family_name = this.state.familyName;
-    const number = this.state.phoneNumber;
-    const { email } = this.state;
-    const visible = this.state.profileVisibility;
-    const { password } = this.state;
-    this.props.dispatch(
+    const {
+      password,
+      email,
+      profileVisibility: visible,
+      givenName: given_name,
+      familyName: family_name,
+      phoneNumber: number
+    } = this.state;
+    const { history, dispatch } = this.props;
+    dispatch(
       registrationActions.signup(
         given_name,
         family_name,
@@ -111,7 +111,7 @@ class SignUpForm extends React.Component {
         password,
         visible,
         deviceToken,
-        this.props.history
+        history
       )
     );
   };
@@ -125,24 +125,28 @@ class SignUpForm extends React.Component {
   };
 
   handleChange = event => {
-    const { name } = event.target;
-    const { value } = event.target;
+    const { password } = this.state;
+    const { language } = this.props;
+    const { name, value } = event.target;
     if (name === "passwordConfirm") {
-      if (this.state.password !== event.target.value) {
+      if (password !== event.target.value) {
         event.target.setCustomValidity(
-          Texts[this.props.language].signUpForm.passwordError
+          Texts[language].signUpForm.passwordError
         );
       } else {
         event.target.setCustomValidity("");
       }
     }
-    name === "acceptTerms"
-      ? this.setState({ [name]: !this.state[name] })
-      : this.setState({ [name]: value });
+    if (name === "acceptTerms") {
+      this.setState({ [name]: !this.state[name] });
+    } else {
+      this.setState({ [name]: value });
+    }
   };
 
   handleSwitch = () => {
-    this.setState({ profileVisibility: !this.state.profileVisibility });
+    const { profileVisibility } = this.state;
+    this.setState({ profileVisibility: !profileVisibility });
   };
 
   handlePolicyOpen = () => {
@@ -174,16 +178,26 @@ class SignUpForm extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { error } = this.props;
-    const texts = Texts[this.props.language].signUpForm;
+    const { classes, error, language, enqueueSnackbar } = this.props;
+    const {
+      formIsValidated,
+      givenName,
+      familyName,
+      phoneNumber,
+      email,
+      password,
+      passwordConfirm,
+      profileVisibility,
+      policyModalIsOpen
+    } = this.state;
+    const texts = Texts[language].signUpForm;
     if (error) {
-      this.props.enqueueSnackbar(`${texts.signupErr} ${this.state.email}`, {
+      enqueueSnackbar(`${texts.signupErr} ${email}`, {
         variant: "error"
       });
     }
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
     return (
@@ -200,7 +214,7 @@ class SignUpForm extends React.Component {
           className="signUpInputField form-control horizontalCenter"
           onChange={this.handleChange}
           required
-          value={this.state.givenName}
+          value={givenName}
         />
         <span className="invalid-feedback" id="givenNameErr" />
         <input
@@ -210,7 +224,7 @@ class SignUpForm extends React.Component {
           className="signUpInputField form-control horizontalCenter"
           onChange={this.handleChange}
           required
-          value={this.state.familyName}
+          value={familyName}
         />
         <span className="invalid-feedback" id="familyNameErr" />
         <input
@@ -219,7 +233,7 @@ class SignUpForm extends React.Component {
           name="phoneNumber"
           className="signUpInputField form-control horizontalCenter"
           onChange={this.handleChange}
-          value={this.state.phoneNumber}
+          value={phoneNumber}
         />
         <div className="line horizontalCenter" />
         <input
@@ -229,7 +243,7 @@ class SignUpForm extends React.Component {
           className="signUpInputField form-control horizontalCenter horizontalCenter"
           onChange={this.handleChange}
           required
-          value={this.state.email}
+          value={email}
         />
         <span className="invalid-feedback" id="emailErr" />
         <input
@@ -240,7 +254,7 @@ class SignUpForm extends React.Component {
           onChange={this.handleChange}
           required
           minLength={8}
-          value={this.state.password}
+          value={password}
         />
         <span className="invalid-feedback" id="passwordErr" />
         <input
@@ -251,7 +265,7 @@ class SignUpForm extends React.Component {
           onChange={this.handleChange}
           minLength={8}
           required
-          value={this.state.passwordConfirm}
+          value={passwordConfirm}
         />
         <span>{texts.passwordPrompt}</span>
         <span className="invalid-feedback" id="passwordConfirmErr" />
@@ -259,7 +273,7 @@ class SignUpForm extends React.Component {
         <div className="row no-gutters" style={{ alignItems: "center" }}>
           <h1 className="profileToggleText">{texts.profileVisibility}</h1>
           <Switch
-            checked={this.state.profileVisibility}
+            checked={profileVisibility}
             onClick={this.handleSwitch}
             classes={{
               switchBase: classes.colorSwitchBase,
@@ -267,12 +281,7 @@ class SignUpForm extends React.Component {
               bar: classes.colorBar
             }}
           />
-          <span>
-
-
-
-            (Users will be able to search for my profile inside the app)
-</span>
+          <span>{texts.visibilityPrompt}</span>
         </div>
         <div className="acceptTermsContainer row no-gutters">
           <div className="col-2-10">
@@ -317,7 +326,7 @@ class SignUpForm extends React.Component {
           />
         </div>
         <PrivacyPolicyModal
-          isOpen={this.state.policyModalIsOpen}
+          isOpen={policyModalIsOpen}
           handleClose={this.handlePolicyClose}
           handleAccept={this.handleAccept}
         />
