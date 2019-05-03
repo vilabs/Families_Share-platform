@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { GoogleLogin } from "react-google-login";
-import { LogInForm } from "./LogInForm";
+import { withSnackbar } from "notistack";
+import LogInForm from "./LogInForm";
 import BackNavigation from "./BackNavigation";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
 import authenticationActions from "../Actions/AuthenticationActions";
@@ -87,7 +88,11 @@ class LogInScreen extends React.Component {
                   )
                 )
               }
-              onFailure={response => window.alert(JSON.stringify(response))}
+              onFailure={response => {
+                this.props.enqueueSnackbar(response.error, {
+                  variant: "error"
+                });
+              }}
             />
           </div>
         </div>
@@ -114,7 +119,6 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedLogInScreen = connect(mapStateToProps)(
-  withLanguage(LogInScreen)
+export default connect(mapStateToProps)(
+  withSnackbar(withLanguage(LogInScreen))
 );
-export { connectedLogInScreen as LogInScreen };

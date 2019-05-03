@@ -123,13 +123,11 @@ const EditTimeslotScreen = Loadable({
   loading: () => <div />
 });
 const SignUpScreen = Loadable({
-  loader: () =>
-    import("./components/SignUpScreen").then(module => module.SignUpScreen),
+  loader: () => import("./components/SignUpScreen"),
   loading: () => <div />
 });
 const LogInScreen = Loadable({
-  loader: () =>
-    import("./components/LogInScreen").then(module => module.LogInScreen),
+  loader: () => import("./components/LogInScreen"),
   loading: () => <div />
 });
 

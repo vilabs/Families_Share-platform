@@ -270,8 +270,9 @@ class SignUpForm extends React.Component {
           <span>
 
 
+
             (Users will be able to search for my profile inside the app)
-                              </span>
+</span>
         </div>
         <div className="acceptTermsContainer row no-gutters">
           <div className="col-2-10">
@@ -332,7 +333,6 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedSignUpForm = connect(mapStateToProps)(
+export default connect(mapStateToProps)(
   withRouter(withSnackbar(withLanguage(withStyles(styles)(SignUpForm))))
 );
-export { connectedSignUpForm as SignUpForm };

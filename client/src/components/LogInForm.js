@@ -150,7 +150,6 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedLoginForm = connect(mapStateToProps)(
+export default connect(mapStateToProps)(
   withSnackbar(withRouter(withLanguage(LogInForm)))
 );
-export { connectedLoginForm as LogInForm };

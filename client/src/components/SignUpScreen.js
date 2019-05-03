@@ -2,8 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import BackNavigation from "./BackNavigation";
-import { SignUpForm } from "./SignUpForm";
-import Texts from "../Constants/Texts.js";
+import SignUpForm from "./SignUpForm";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
 
@@ -41,7 +41,4 @@ function mapStateToProps(state) {
   };
 }
 
-const connectedSignUpScreen = connect(mapStateToProps)(
-  withLanguage(SignUpScreen)
-);
-export { connectedSignUpScreen as SignUpScreen };
+export default connect(mapStateToProps)(withLanguage(SignUpScreen));
