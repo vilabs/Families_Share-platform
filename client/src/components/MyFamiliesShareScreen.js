@@ -3,8 +3,8 @@ import { Skeleton } from "antd";
 import axios from "axios";
 import { MyFamiliesShareHeader } from "./MyFamiliesShareHeader";
 import withLanguage from "./LanguageContext";
-import Calendar from "./Calendar";
 import GroupList from "./GroupList";
+import ActivityList from './ActivityList';
 import Texts from "../Constants/Texts";
 import Log from "./Log";
 
@@ -35,7 +35,7 @@ class MyFamiliesShareScreen extends React.Component {
     super();
     this.state = {
       fetchedUserInfo: false,
-      activeView: "month",
+			myActivities: [],
       myGroups: [],
       pendingInvites: 0
     };
@@ -82,27 +82,22 @@ class MyFamiliesShareScreen extends React.Component {
         <MyFamiliesShareHeader
           pendingInvites={this.state.pendingInvites}
           pendingNotifications={this.state.unreadNotifications}
-        />
+				/>
+				{this.state.fetchedUserInfo ? (
         <div id="myFamiliesShareMainContainer">
-          <Calendar
-            ownerType="user"
-            ownerId={JSON.parse(localStorage.getItem("user")).id}
-            handleChangeView={this.handleChangeView}
-          />
-          {this.state.fetchedUserInfo ? (
-            <div
-              style={
-                this.state.activeView === "month" ? {} : { display: "none" }
-              }
-            >
+            <div>
               <h1 id="myGroupsContainerHeader">{texts.myGroups}</h1>
               <GroupList groupIds={this.state.myGroups} />
+						</div>
+						<div>
+              <h1 id="myGroupsContainerHeader">{texts.myActivities}</h1>
+              <ActivityList activities={this.state.myActivities} />
             </div>
-          ) : (
-            this.renderSkeleton()
-          )}
-        </div>
-      </div>
+				</div>
+				) : (
+					this.renderSkeleton()
+				)}
+			</div>	
     );
   }
 }
