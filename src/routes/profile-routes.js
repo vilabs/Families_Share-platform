@@ -28,7 +28,7 @@ router.get('/', (req, res, next) => {
       if (!visible) {
         return res.status(400).send('Bad Request')
       }
-      Profile.find({ visible })
+      Profile.find({ visible, suspended: false })
         .populate('image')
         .sort({ given_name: 1, family_name: 1 })
         .lean()
