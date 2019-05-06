@@ -2,9 +2,9 @@ node_modules/
 build/
 .env
 .nyc_output
-images/announcements
-images/groups
-images/profiles
-!group_default_photo.png
-!child_default_photo.png
-!user_default_photo.png
+images/announcements/*
+images/profiles/*
+images/groups/*
+!images/groups/group_default_photo.png
+!images/profiles/child_default_photo.png
+!images/profiles/user_default_photo.png
