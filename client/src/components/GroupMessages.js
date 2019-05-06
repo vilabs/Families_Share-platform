@@ -84,7 +84,8 @@ class GroupMessages extends React.Component {
                     />
                     <AnnouncementReplies
                       announcementId={announcements[index].announcement_id}
-                      groupId={announcements[index].group_id}
+											groupId={announcements[index].group_id}
+											userIsAdmin={this.props.userIsAdmin}
                     />
                   </div>
                 </li>

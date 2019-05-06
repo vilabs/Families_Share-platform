@@ -79,7 +79,8 @@ class AnnouncementReplies extends React.Component {
             <Reply
               reply={reply}
               handleRefresh={this.refresh}
-              groupId={this.props.groupId}
+							groupId={this.props.groupId}
+							userIsAdmin={this.props.userIsAdmin}
             />
           </li>
         ))}
@@ -141,7 +142,8 @@ class AnnouncementReplies extends React.Component {
 
 AnnouncementReplies.propTypes = {
   announcementId: PropTypes.string,
-  groupId: PropTypes.string
+	groupId: PropTypes.string,
+	userIsAdmin: PropTypes.bool,
 };
 
 export default withLanguage(AnnouncementReplies);

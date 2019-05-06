@@ -95,7 +95,8 @@ class AnnouncementHeader extends React.Component {
               <Avatar
                 thumbnail={profile.image.path}
                 route={`/profiles/${profile.user_id}/info`}
-                className="horizontalCenter"
+								className="horizontalCenter"
+								disabled={profile.suspended}
               />
             </div>
             <div className="col-6-10">

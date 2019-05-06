@@ -119,7 +119,8 @@ router.post('/', async (req, res, next) => {
       phone_type: 'unspecified',
       visible,
       image_id,
-      address_id
+			address_id,
+			suspended: false
     }
     const image = {
       image_id,
@@ -196,7 +197,14 @@ router.post('/authenticate/email', async (req, res, next) => {
     const profile = await Profile.findOne({ user_id: user.user_id })
       .populate('image')
       .lean()
-      .exec()
+			.exec()
+		if(profile.suspended){
+			await Profile.updateOne({ user_id: user.user_id }, {suspended: false})
+			const usersChildren = await Parent.find({ parent_id: user.user_id });
+			const childIds = usersChildren.map( usersChildren.child_id );
+			await Child.updateMany({ child_id: { $in: childIds}}, { suspended: false})
+
+		}
     const token = jwt.sign(
       { user_id: user.user_id, email },
       process.env.SERVER_SECRET
@@ -243,7 +251,13 @@ router.post('/authenticate/google', async (req, res, next) => {
           })
         }
       }
-      const profile = await Profile.findOne({ user_id: user.user_id }).populate('image').lean().exec()
+			const profile = await Profile.findOne({ user_id: user.user_id }).populate('image').lean().exec()
+			if(profile.suspended){
+				await Profile.updateOne({ user_id: user.user_id }, {suspended: false})
+				const usersChildren = await Parent.find({ parent_id: user.user_id });
+				const childIds = usersChildren.map( usersChildren.child_id );
+				await Child.updateMany({ child_id: { $in: childIds}}, { suspended: false})
+			}
       const token = jwt.sign({ user_id: user.user_id, email: googleProfile.email }, process.env.SERVER_SECRET)
       const response = {
         id: profile.user_id,
@@ -394,7 +408,13 @@ router.post('/changepassword', async (req, res, next) => {
     if (!reset) {
       return res.status(404).send('Reset not found')
     }
-    const profile = await Profile.findOne({ user_id }).populate('image').exec()
+		const profile = await Profile.findOne({ user_id }).populate('image').exec()
+		if(profile.suspended){
+			await Profile.updateOne({ user_id }, {suspended: false})
+			const usersChildren = await Parent.find({ parent_id: user_id });
+			const childIds = usersChildren.map( usersChildren.child_id );
+			await Child.updateMany({ child_id: { $in: childIds}}, { suspended: false})
+		}
     const user = await User.findOne({ user_id })
     const token = await jwt.sign({ user_id, email }, process.env.SERVER_SECRET)
     const response = {
@@ -840,7 +860,8 @@ router.post('/:id/children', async (req, res, next) => {
     gender,
     allergies,
     other_info,
-    special_needs
+		special_needs,
+		suspended: false
   }
   const image_id = objectid()
   const child_id = objectid()
@@ -1004,5 +1025,5 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       })
     }
     res.status(200).send('Push notification sent')
-  }).catch(next)
+	}).catch(next)
 })

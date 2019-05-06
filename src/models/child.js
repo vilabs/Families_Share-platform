@@ -29,14 +29,14 @@ const childSchema = new mongoose.Schema({
   background: {
     type: String,
     required: true
-  },
-  allergies: String,
-  special_needs: String,
-	other_info: String,
+	},
 	suspended: {
 		type: Boolean,
 		required: true,
-	}
+	},
+  allergies: String,
+  special_needs: String,
+	other_info: String,
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 childSchema.virtual('image', {
@@ -44,6 +44,24 @@ childSchema.virtual('image', {
   localField: 'image_id',
   foreignField: 'image_id',
   justOne: true
+})
+
+
+childSchema.post('find', (profiles, next) => {
+	for( let i = 0 ; i < profiles.length ; i++ ){
+		if( profiles[i].suspended ) {
+			profiles[i].image.path = '/images/profiles/user_default_photo.png';
+			profiles[i].image.thumbnail_path = '/images/profiles/user_default_photo.png'
+		}
+	}
+	next();
+})
+childSchema.post('findOne', (profile, next) => {
+	if( profile.suspended ) {
+		profile.image.path = '/images/profiles/user_default_photo.png';
+		profile.image.thumbnail_path = '/images/profiles/user_default_photo.png'
+	}
+	next();
 })
 
 mongoose.pluralize(null)
