@@ -5,6 +5,6 @@ build/
 images/announcements
 images/groups
 images/profiles
-!images/groups/group_default_photo.png
-!images/profiles/child_default_photo.png
-!images/profiles/user_default_photo.png
+!group_default_photo.png
+!child_default_photo.png
+!user_default_photo.png
