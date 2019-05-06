@@ -16,7 +16,7 @@ const en = {
     completed: "Completed",
     timeErr: "Invalid start and end time combination",
     requiredErr: "Please fill out this field.",
-    rangeErr: "Please select a value greater than one.",
+    rangeErr: "Please select a value greater than zero.",
     editConfirm: "Confirm edits?",
     crucialChangeConfirm:
       "If you save these edits all participants will be unsubscribed. Confirm edits?"
@@ -708,7 +708,7 @@ const nl = {
     confirmed: "Bevestigd",
     completed: "Voltooid",
     requiredErr: "Vul alstublieft dit veld in.",
-    rangeErr: "Selecteer een waarde groter dan een.",
+    rangeErr: "Selecteer een waarde groter dan nul.",
     date: "Datum",
     editConfirm: "Bewerkingen bevestigen?",
     crucialChangeConfirm:
@@ -1284,7 +1284,7 @@ const it = {
     confirmed: "Confermata",
     completed: "Completata",
     requiredErr: "Perfavore compila questo campo.",
-    rangeErr: "Perfavore seleziona un valore maggiore di uno",
+    rangeErr: "Perfavore seleziona un valore maggiore di zero",
     date: "Data",
     editConfirm: "confermare le modifiche?",
     crucialChangeConfirm:
@@ -1881,7 +1881,7 @@ const el = {
     confirmed: "Επιβεβαιωμένο",
     completed: "Ολοκληρωμένο ",
     requiredErr: "Παρακαλούμε συμπληρώσετε αυτό το πεδίο.",
-    rangeErr: "Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη της μονάδας.",
+    rangeErr: "Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.",
     date: "Ημερομηνία",
     editConfirm: "Επιβεβαίωση αλλαγών;",
     crucialChangeConfirm:

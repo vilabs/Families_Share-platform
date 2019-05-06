@@ -444,7 +444,7 @@ class EditTimeslotScreen extends React.Component {
                   type="number"
                   name="requiredParents"
                   value={requiredParents}
-                  min={2}
+                  min={1}
                   className="expandedTimeslotInput form-control"
                   onChange={this.handleChange}
                   required
@@ -473,7 +473,7 @@ class EditTimeslotScreen extends React.Component {
                   type="number"
                   name="requiredChildren"
                   value={requiredChildren}
-                  min={2}
+                  min={1}
                   className="expandedTimeslotInput form-control"
                   onChange={this.handleChange}
                   required
