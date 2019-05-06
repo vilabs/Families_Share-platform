@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
     return res.status(400).send('Bad Request')
   }
   Child.find({ child_id: { $in: ids } })
-    .select('given_name family_name image_id child_id')
+    .select('given_name family_name image_id child_id suspended')
     .populate('image')
     .lean()
     .exec()

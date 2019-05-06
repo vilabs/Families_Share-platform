@@ -54,6 +54,23 @@ profileSchema.virtual('address', {
   justOne: true
 })
 
+profileSchema.post('find', (profiles, next) => {
+	for( let i = 0 ; i < profiles.length ; i++ ){
+		if( profiles[i].suspended ) {
+			profiles[i].image.path = '/images/profiles/user_default_photo.png';
+			profiles[i].image.thumbnail_path = '/images/profiles/user_default_photo.png'
+		}
+	}
+	next();
+})
+profileSchema.post('findOne', (profile, next) => {
+	if( profile.suspended ) {
+		profile.image.path = '/images/profiles/user_default_photo.png';
+		profile.image.thumbnail_path = '/images/profiles/user_default_photo.png'
+	}
+	next();
+})
+
 mongoose.pluralize(null)
 const model = mongoose.model('Profile', profileSchema)
 

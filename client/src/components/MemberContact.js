@@ -11,7 +11,11 @@ import Log from "./Log";
 
 class MemberContact extends React.Component {
   state = { modalIsOpen: false, top: "", right: "", clickTime: "" };
-
+	handleRedirect = (suspended, user_id) => {
+		if(!suspended){
+			this.props.history.push(`/profiles/${user_id}/info`);
+		}
+	}
   handleClick = event => {
     this.setState({ modalIsOpen: true, right: "5%", top: event.clientY });
   };
@@ -124,23 +128,22 @@ class MemberContact extends React.Component {
           <div className="col-2-10">
             <Avatar
               thumbnail={profile.image.path}
-              route={`/profiles/${profile.user_id}/info`}
+							route={`/profiles/${profile.user_id}/info`}
+							disabled={profile.suspended}
             />
           </div>
           <div className="col-5-10">
             <div
               id="contactInfoContainer"
               className="center"
-              onClick={() => {
-                this.props.history.push(`/profiles/${profile.user_id}/info`);
-              }}
+              onClick={() => this.handleRedirect(profile.suspended, profile.user_id)}
             >
               <h1>{`${profile.given_name} ${profile.family_name}`}</h1>
               <h2>{profile.admin ? texts.administrator : ""}</h2>
             </div>
           </div>
           <div id="contactIconsContainer" className="col-1-10">
-            {profile.phone && (
+            {profile.phone && !profile.suspended && (
               <Tooltip title={profile.phone} aria-label="phone">
                 <button
                   onClick={() => this.handlePhoneCall(profile.phone)}
@@ -152,7 +155,7 @@ class MemberContact extends React.Component {
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
-            {profile.email && (
+            {profile.email && !profile.suspended && (
               <Tooltip title={profile.email} aria-label="email">
                 <button
                   onClick={() => this.handleEmail(profile.email)}
@@ -164,7 +167,7 @@ class MemberContact extends React.Component {
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
-            {this.props.userIsAdmin && (
+            {this.props.userIsAdmin && !profile.suspended && (
               <button
                 className="transparentButton verticalCenter memberOptions"
                 onClick={this.handleClick}

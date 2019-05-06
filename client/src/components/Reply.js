@@ -86,7 +86,8 @@ class Reply extends React.Component {
                 <Avatar
                   thumbnail={profile.image.path}
                   route={`/profiles/${profile.user_id}/info`}
-                  style={{ transform: "scale(0.8)" }}
+									style={{ transform: "scale(0.8)" }}
+									disabled={profile.suspended}
                 />
               </div>
               <div className="col-6-10">
@@ -95,8 +96,8 @@ class Reply extends React.Component {
                 </h1>
               </div>
               <div className="col-2-10">
-                {JSON.parse(localStorage.getItem("user")).id ===
-                  this.state.profile.user_id && (
+                {(JSON.parse(localStorage.getItem("user")).id ===
+                  this.state.profile.user_id  || this.props.userIsAdmin) && (
                   <button
                     type="button"
                     className="transparentButton center"
