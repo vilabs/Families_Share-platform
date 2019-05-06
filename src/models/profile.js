@@ -32,7 +32,11 @@ const profileSchema = new mongoose.Schema({
   visible: {
     type: Boolean,
     required: true
-  }
+	},
+	suspended: {
+		type: Boolean,
+		required: true,
+	}
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 profileSchema.index({ given_name: 1, family_name: 1 })

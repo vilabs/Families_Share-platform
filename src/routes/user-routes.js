@@ -483,6 +483,20 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+router.post('/:id/suspend', async (req, res, next) => {
+	if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
+	const user_id = req.params.id;
+	try {
+		const usersChildren = await Parent.find({ parent_id: user_id }).lean();
+		const childIds = usersChildren.map( child => child.child_id);
+		await Profile.updateOne({ user_id }, { suspended: true })
+		await Child.updateMany({ child_id: {$in: childIds} }, { suspended: true })
+		res.status(200).send("Profile suspended successfully")
+	} catch (error) {
+		next(error)
+	}
+})
+
 router.get('/:id/rating', (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
   Rating.findOne({ user_id: req.params.id }).then(rating => {

@@ -6,6 +6,7 @@ import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
 import Log from "./Log";
+import { withSnackbar } from "notistack";
 
 class ProfileHeader extends React.Component {
   state = { optionsModalIsOpen: false, confirmDialogIsOpen: false, action: "" };
@@ -50,15 +51,28 @@ class ProfileHeader extends React.Component {
         Log.error(error);
       });
   };
-
-  // handleSignOut = () => {
-  //     this.setState({optionsModalIsOpen: false})
-  //     this.props.dispatch(authenticationActions.logout(this.props.history));
-  // }
+	handleSuspend = () => {
+		const { match, language, enqueueSnackbar, history } = this.props;
+		const { profileId: userId } = match.params;
+		const texts = Texts[language].profileHeader
+    axios
+      .post(`/api/users/${userId}/suspend`)
+      .then(response => {
+				enqueueSnackbar( texts.suspendSuccess, {variant: "info"})
+        setTimeout(()=>{ 
+					Log.info(response);
+					localStorage.removeItem("user");
+					history.push("/");
+				}, 2000)
+      })
+      .catch(error => {
+				Log.error(error);
+				enqueueSnackbar( texts.error, {variant: "error"})
+      });
+	}
   handleBackNav = () => {
     this.props.history.goBack();
   };
-
   handleConfirmDialogOpen = action => {
     this.setState({
       confirmDialogIsOpen: true,
@@ -75,7 +89,10 @@ class ProfileHeader extends React.Component {
           break;
         case "export":
           this.handleExport();
-          break;
+					break;
+				case "suspend":
+					this.handleSuspend();
+					break;
         default:
       }
     }
@@ -83,11 +100,21 @@ class ProfileHeader extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].profileHeader;
-    const confirmDialogTitle =
-      this.state.action === "delete"
-        ? texts.deleteDialogTitle
-        : texts.exportDialogTitle;
+		const texts = Texts[this.props.language].profileHeader;
+		const { action } = this.state;
+		let confirmDialogTitle;
+		switch(action){
+			case "delete":
+				confirmDialogTitle = texts.deleteDialogTitle
+				break;
+			case "export":
+				confirmDialogTitle = texts.exportDialogTitle
+				break;
+			case "suspend":
+				confirmDialogTitle = texts.suspendDialogTitle
+				break;
+			default:
+		}
     const options = [
       {
         label: texts.delete,
@@ -95,19 +122,21 @@ class ProfileHeader extends React.Component {
         handle: () => {
           this.handleConfirmDialogOpen("delete");
         }
-      },
+			},
+			{
+				label: texts.suspend,
+				style: "optionsModalButton",
+				handle: () => {
+					this.handleConfirmDialogOpen("suspend");
+				}
+			},
       {
         label: texts.export,
         style: "optionsModalButton",
         handle: () => {
           this.handleConfirmDialogOpen("export");
         }
-      }
-      // {
-      //     label: texts.signout,
-      //     style: "optionsModalButton",
-      //     handle: this.handleSignOut,
-      // }
+			},
     ];
     return (
       <div id="profileHeaderContainer">
@@ -166,7 +195,4 @@ class ProfileHeader extends React.Component {
   }
 }
 
-export default withRouter(withLanguage(ProfileHeader));
-
-// const connectedProfileHeader = connect()(withRouter(withLanguage(ProfileHeader)));
-// export { connectedProfileHeader as ProfileHeader };
+export default withRouter(withLanguage(withSnackbar(ProfileHeader)));

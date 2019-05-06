@@ -32,7 +32,11 @@ const childSchema = new mongoose.Schema({
   },
   allergies: String,
   special_needs: String,
-  other_info: String
+	other_info: String,
+	suspended: {
+		type: Boolean,
+		required: true,
+	}
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 childSchema.virtual('image', {

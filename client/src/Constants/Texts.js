@@ -440,7 +440,13 @@ const en = {
     deleteDialogTitle:
       "Are you sure you want to delete your profile and remove all your data?",
     exportDialogTitle:
-      "Are you sure you want to export all your personal information?"
+			"Are you sure you want to export all your personal information?",
+		suspend: "Suspend",
+		suspendDialogTitle: 
+			"Are you sure you want to temporarily suspend  your account?",
+		suspendSuccess: 
+			"Your account has been suspended temporarily. Next time you log in your account will be reactivated.",
+		error: "Something went wrong."
   },
   replyBar: {
     new: "New message",
@@ -1031,7 +1037,14 @@ const nl = {
     signout: "Afmelden",
     exportDialogTitle:
       "Weet je zeker dat je al je persoonlijke informatie wilt exporteren?",
-    deleteDialogTitle: "Ben je zeker dat je je account wilt verwijderen"
+		deleteDialogTitle: 
+			"Ben je zeker dat je je account wilt verwijderen",
+		suspend: "Opschorten",
+		suspendDialogTitle: 
+			"Weet je zeker dat je je account tijdelijk wilt opschorten?",
+		suspendSuccess: 
+			"Uw account is tijdelijk opgeschort. De volgende keer dat u inlogt, wordt uw account opnieuw geactiveerd.",
+		error: "Er is iets fout gegaan."
   },
   replyBar: {
     new: "Nieuw bericht",
@@ -1610,7 +1623,12 @@ const it = {
     signout: "Esci",
     exportDialogTitle:
       "Sei sicuro di voler esportare tutte le tue informazioni personali?",
-    deleteDialogTitle: "Confermi di voler eliminare il tuo account?"
+		deleteDialogTitle: "Confermi di voler eliminare il tuo account?",
+		suspend: "Sospendere",
+		suspendDialogTitle: "Sei sicuro di voler sospendere temporaneamente il tuo account?",
+		suspendSuccess: 
+			"Il tuo account è stato sospeso temporaneamente. La prossima volta che accedi al tuo account verrà riattivato.",
+		error: "Qualcosa è andato storto."
   },
   replyBar: {
     new: "Nuovo messaggio",
@@ -2203,7 +2221,13 @@ const el = {
     exportDialogTitle:
       "Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;",
     deleteDialogTitle:
-      "Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;"
+			"Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;",
+		suspend: "Αναστολή",
+		suspendDialogTitle: 
+			"Είστε σίγουροι ότι θέλετε να αναστείλετε προσωρινά το προφίλ σας;",
+		suspendSuccess: 
+			"Ο λογαριασμός σας απενεργοποιήθηκε προσωρινά. Την επόμενη φορά που θα συνδεθείτε θα επανεργοποιηθεί.",
+		error: "Κάτι πήγε στραβά."
   },
   replyBar: {
     new: "Νέο μήνυμα",
