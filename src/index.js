@@ -39,7 +39,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join(__dirname, '../images')))
 
-if (config.util.getEnv('NODE_ENV') === 'development' || true) {
+if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
 }
 
@@ -65,7 +65,7 @@ app.use((err, req, res, next) => {
 
 
 if (port===6003) {
-	const privateKey = fs.readFileSync('../etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
+	const privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
 	const certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
 	const ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
 	const credentials = {
