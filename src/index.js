@@ -7,6 +7,9 @@ const morgan = require('morgan')
 const chalk = require('chalk')
 const jwt = require('jsonwebtoken')
 const compression = require('compression')
+const http = require('http')
+const https = require('https')
+const fs = require('fs')
 
 const port = parseInt(process.env.PORT, 10)
 const config = require('config')
@@ -35,7 +38,6 @@ app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join(__dirname, '../images')))
-app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
@@ -48,7 +50,6 @@ app.use('/api/children', require('./routes/child-routes'))
 app.use('/api/github', require('./routes/github-routes'))
 
 if (config.util.getEnv('NODE_ENV') === 'production') {
-	
   app.use(express.static(path.join(__dirname, '../client/build')))
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
@@ -57,13 +58,29 @@ if (config.util.getEnv('NODE_ENV') === 'production') {
 
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
 
-const server = app.listen(port, () => {
-  console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
-})
-
 app.use((err, req, res, next) => {
   console.error(err.stack)
   res.status(500).send('Something went wrong!')
 })
 
-module.exports = server
+
+if (config.util.getEnv('NODE_ENV') === 'production') {
+	const privateKey = fs.readFileSync('../etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
+	const certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
+	const ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
+	const credentials = {
+		key: privateKey,
+		cert: certificate,
+		ca: ca
+	};
+	const httpsServer = https.createServer(credentials, app);
+	httpsServer.listen(6003, () => {
+		console.log('HTTPS Server running on port 6003');
+	});
+	module.exports = httpsServer
+} else {
+	const server = app.listen(port, () => {
+		console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+		module.exports = server
+	})
+}
