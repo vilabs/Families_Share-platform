@@ -35,6 +35,7 @@ app.use(compression())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join(__dirname, '../images')))
+app.use(express.static(__dirname, { dotfiles: 'allow' } ));
 
 if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
@@ -47,6 +48,7 @@ app.use('/api/children', require('./routes/child-routes'))
 app.use('/api/github', require('./routes/github-routes'))
 
 if (config.util.getEnv('NODE_ENV') === 'production') {
+	
   app.use(express.static(path.join(__dirname, '../client/build')))
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'))
