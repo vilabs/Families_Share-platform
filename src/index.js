@@ -64,23 +64,23 @@ app.use((err, req, res, next) => {
 })
 
 
-if (port===6003) {
-	const privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
-	const certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
-	const ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
-	const credentials = {
-		key: privateKey,
-		cert: certificate,
-		ca: ca
-	};
-	const httpsServer = https.createServer(credentials, app);
-	httpsServer.listen(6003, () => {
-		console.log('HTTPS Server running on port 6003');
-	});
-	module.exports = httpsServer
-} else {
-	const server = app.listen(port, () => {
-		console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
-		module.exports = server
-	})
-}
+// if (port===6003) {
+// 	const privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
+// 	const certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
+// 	const ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
+// 	const credentials = {
+// 		key: privateKey,
+// 		cert: certificate,
+// 		ca: ca
+// 	};
+// 	const httpsServer = https.createServer(credentials, app);
+// 	httpsServer.listen(6003, () => {
+// 		console.log('HTTPS Server running on port 6003');
+// 	});
+// 	module.exports = httpsServer
+// } else {
+const server = app.listen(port, () => {
+	console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+	module.exports = server
+// 	})
+// }
