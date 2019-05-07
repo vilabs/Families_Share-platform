@@ -40,7 +40,7 @@ class RatingModal extends React.Component {
     const texts = Texts[this.props.language].ratingModal;
     const modalStyle = {
       overlay: {
-        zIndex: 10,
+        zIndex: 1000,
         position: "fixed",
         top: 0,
         left: 0,
