@@ -15,36 +15,36 @@ const calendar = google.calendar({
 })
 
 const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
-  new Promise((resolve, reject) => {
-    calendar.events.list({ calendarId: calId }, function (err, response) {
-      if (err) {
-        reject(err)
-      }
-      const usersEvents = response.data.items.filter(event => {
-        if (
-          event.extendedProperties.shared.parents !== undefined &&
-          event.extendedProperties.shared.children !== undefined
-        ) {
-          const parentIds = JSON.parse(event.extendedProperties.shared.parents)
-          const childrenIds = JSON.parse(
-            event.extendedProperties.shared.children
-          )
-          const fixedFlag =
-            event.extendedProperties.shared.status === 'confirmed'
-          const userFlag = parentIds.indexOf(userId) !== -1
-          const childFlag =
-            usersChildrenIds.filter(
-              childId => childrenIds.indexOf(childId) !== -1
-            ).length > 0
-          if (fixedFlag && (userFlag || childFlag)) {
-            return true
-          } else {
-            return false
-          }
-        }
+  new Promise( async (resolve, reject) => {
+		try{
+    const response = await calendar.events.list({ calendarId: calId })
+    const usersEvents = response.data.items.filter(event => {
+			if (
+				event.extendedProperties.shared.parents !== undefined &&
+				event.extendedProperties.shared.children !== undefined
+			) {
+				const parentIds = JSON.parse(event.extendedProperties.shared.parents)
+				const childrenIds = JSON.parse(
+					event.extendedProperties.shared.children
+				)
+				const fixedFlag =
+					event.extendedProperties.shared.status === 'confirmed'
+				const userFlag = parentIds.indexOf(userId) !== -1
+				const childFlag =
+					usersChildrenIds.filter(
+						childId => childrenIds.indexOf(childId) !== -1
+					).length > 0
+				if (fixedFlag && (userFlag || childFlag)) {
+					return true
+				} else {
+					return false
+				}
+			}
       })
-      resolve(usersEvents)
-    })
+			resolve(usersEvents)
+		} catch(err){
+			reject(err);
+		}
   })
 
 const unsubcribeChildFromGroupEvents = (calendar_id, child_id) =>
