@@ -22,6 +22,10 @@ const styles = theme => ({
   }
 });
 
+const MyCalendarScreen = Loadable({
+  loader: () => import("./components/MyCalendarScreen"),
+  loading: () => <div />
+});
 const GroupMainScreen = Loadable({
   loader: () => import("./components/GroupMainScreen"),
   loading: () => <div />
@@ -219,6 +223,10 @@ class App extends React.Component {
               <PrivateRoute
                 path="/myfamiliesshare/invites"
                 component={PendingRequestsScreen}
+							/>
+							<PrivateRoute
+                path="/myfamiliesshare/calendar"
+                component={MyCalendarScreen}
               />
               <PrivateRoute
                 exact

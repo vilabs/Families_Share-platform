@@ -2063,14 +2063,13 @@
 }
 #suggestionContainer {
   cursor: pointer;
-  width: 94%;
+  width: 100%;
   min-height: 8.3rem;
   max-width: 45rem;
   left: 50%;
   transform: translateX(-50%);
   position: relative;
-  border: 1px solid #e0e0e0;
-  border-radius: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 #suggestionInfoContainer {
@@ -2341,15 +2340,36 @@ a:active {
   text-align: left;
   color: rgba(0, 0, 0, 0.54);
 }
-#myGroupsContainerHeader {
-  padding-left: 1.6rem;
-  line-height: 5rem;
-  height: 5rem;
+.myGroupsContainer {
+  padding: 0 3%;
+}
+.myGroupsContainerHeader {
+  margin: 2rem 0;
   color: #010101;
-
   font-size: 1.4rem;
 }
-
+.myGroupsContainerPrompt {
+  margin: 2rem 0;
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.4rem;
+}
+.myPromptSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.myPromptImage {
+  width: 25rem;
+  height: 25rem;
+}
+.myPromptAction {
+  text-align: center;
+  width: 22rem;
+  line-height: 3rem;
+  color: white;
+  background-color: #00838f;
+}
 #myFamiliesShareHeaderContainer {
   z-index: 100;
   width: 100%;
