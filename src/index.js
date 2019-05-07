@@ -82,5 +82,5 @@ app.use((err, req, res, next) => {
 const server = app.listen(port, () => {
 	console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
 	module.exports = server
-// 	})
+})
 // }
