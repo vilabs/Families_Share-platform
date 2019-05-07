@@ -28,6 +28,7 @@ const Images = {
   userFriendsRegular: require("../images/user-friends-regular.png"),
   mapMarkerAltRegular: require("../images/mapMarkerAltRegular.png"),
   thumbtackRegular: require("../images/thumbtackRegular.png"),
-  euroSignRegular: require("../images/euroSignRegular.png")
+	euroSignRegular: require("../images/euroSignRegular.png"),
+	promptImage: require('../images/promptImage.png')
 };
 export default Images;

@@ -292,7 +292,10 @@ const en = {
   myFamiliesShareScreen: {
 		myGroups: "My groups",
 		myActivities: "My activities",
-    myNotifications: "My notifications"
+		myNotifications: "My notifications",
+		myGroupsPrompt: "You are not yet in a group, use the lateral menu to find one",
+		myActivitiesPrompt: "Here you will see your future activities after you have signed up for one or more groups",
+		groupsPrompt: "JOIN OR CREATE A GROUP",
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -942,7 +945,10 @@ const nl = {
   myFamiliesShareScreen: {
 		myGroups: "Mijn groepen",
 		myActivities: "Mijn activiteiten",
-    myNotifications: "Mijn notificaties"
+		myNotifications: "Mijn notificaties",
+		myGroupsPrompt: "Je bent nog niet in een groep, gebruik het laterale menu om er een te vinden",
+		myActivitiesPrompt: "Hier ziet u uw toekomstige activiteiten nadat u zich heeft aangemeld voor een of meer groepen",
+		groupsPrompt: "DOE MEE OF MAAK EEN GROEP",
   },
   faqsScreen: {
     backNavTitle: "FAQ's",
@@ -1527,7 +1533,10 @@ const it = {
   myFamiliesShareScreen: {
 		myGroups: "I miei gruppi",
 		myActivities: "I miei attività",
-    myNotifications: "Le mie notifiche"
+		myNotifications: "Le mie notifiche",
+		myGroupsPrompt: "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
+		myActivitiesPrompt: "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
+		groupsPrompt: "ISCRIVITI O CREA UN GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -2130,7 +2139,10 @@ const el = {
   myFamiliesShareScreen: {
 		myGroups: "Οι ομάδες μου",
 		myActivities: "Οι δραστηριότητες μου",
-    myNotifications: "Οι ειδοποιήσεις μου"
+		myNotifications: "Οι ειδοποιήσεις μου",
+		myGroupsPrompt: "Δεν έχετε γίνει μέλος κάποια ομάδας ακόμη, χρησιμοποιείστε το πλαϊνό μενού για να βρείτε μια ομάδα",
+		myActivitiesPrompt: "Εδώ θα βλέπετε μελλοντικά τις δραστηριότητες, στις οποίες έχετε εγγραφεί.",
+		groupsPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ Η ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ"
   },
   faqsScreen: {
     backNavTitle: "Συχνές ερωτήσεις",
