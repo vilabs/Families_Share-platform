@@ -1,4 +1,7 @@
 const en = {
+	myCalendarScreen: {
+		backNavTitle: "My Calendar"
+	},
   editTimeslotScreen: {
     from: "From",
     date: "Date",
@@ -275,7 +278,8 @@ const en = {
     rating: "Rate us",
     header: "My Families Share",
     homeButton: "Home page",
-    myProfileButton: "My profile",
+		myProfile: "My profile",
+		myCalendar: "My calendar",
     createGroup: "Create a group",
     searchGroup: "Search a group",
     inviteFriends: "Invite friends",
@@ -286,8 +290,12 @@ const en = {
     export: "Export my data"
   },
   myFamiliesShareScreen: {
-    myGroups: "My groups",
-    myNotifications: "My notifications"
+		myGroups: "My groups",
+		myActivities: "My activities",
+		myNotifications: "My notifications",
+		myGroupsPrompt: "You are not yet in a group, use the lateral menu to find one",
+		myActivitiesPrompt: "Here you will see your future activities after you have signed up for one or more groups",
+		groupsPrompt: "JOIN OR CREATE A GROUP",
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -699,6 +707,9 @@ const en = {
 };
 
 const nl = {
+	myCalendarScreen: {
+		backNavTitle: "Mijn Kalender"
+	},
   editTimeslotScreen: {
     timeErr: "Ongeldige combinatie van begin- en eindtijd",
     from: "Van",
@@ -920,7 +931,8 @@ const nl = {
     rating: "Beoordeel ons",
     header: "Mijn Families Share",
     homeButton: "Home",
-    myProfileButton: "Mijn profiel",
+		myProfile: "Mijn profiel",
+		myCalendar: "Mijn kalender",
     createGroup: "Start een groep",
     searchGroup: "Zoek een groep",
     inviteFriends: "Nodig vrienden uit",
@@ -931,8 +943,12 @@ const nl = {
     export: "Exporteer mijn data"
   },
   myFamiliesShareScreen: {
-    myGroups: "Mijn groepen",
-    myNotifications: "Mijn notificaties"
+		myGroups: "Mijn groepen",
+		myActivities: "Mijn activiteiten",
+		myNotifications: "Mijn notificaties",
+		myGroupsPrompt: "Je bent nog niet in een groep, gebruik het laterale menu om er een te vinden",
+		myActivitiesPrompt: "Hier ziet u uw toekomstige activiteiten nadat u zich heeft aangemeld voor een of meer groepen",
+		groupsPrompt: "DOE MEE OF MAAK EEN GROEP",
   },
   faqsScreen: {
     backNavTitle: "FAQ's",
@@ -1281,6 +1297,9 @@ const nl = {
 };
 
 const it = {
+	myCalendarScreen: {
+		backNavTitle: "Il mio calendario"
+	},
   editTimeslotScreen: {
     timeErr: "Combinazione di inizio e fine ora non valida",
     details: "Dettagli",
@@ -1500,7 +1519,8 @@ const it = {
     rating: "Votaci",
     header: "Il mio Families Share",
     homeButton: "Home page",
-    myProfileButton: "Il mio profilo",
+		myProfile: "Il mio profilo",
+		myCalendar: "Il mio calendario",
     createGroup: "Crea un gruppo",
     searchGroup: "Cerca un gruppo",
     inviteFriends: "Invita amici",
@@ -1511,8 +1531,12 @@ const it = {
     export: "Esporta i miei dati"
   },
   myFamiliesShareScreen: {
-    myGroups: "I miei gruppi",
-    myNotifications: "Le mie notifiche"
+		myGroups: "I miei gruppi",
+		myActivities: "I miei attività",
+		myNotifications: "Le mie notifiche",
+		myGroupsPrompt: "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
+		myActivitiesPrompt: "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
+		groupsPrompt: "ISCRIVITI O CREA UN GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -1883,6 +1907,9 @@ const it = {
 };
 
 const el = {
+	myCalendarScreen: {
+		backNavTitle: "Το ημερολόγιο μου"
+	},
   editTimeslotScreen: {
     timeErr: "Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης",
     details: "Λεπτομέρειες",
@@ -2098,7 +2125,8 @@ const el = {
     rating: "Βαθμολογήστε μας",
     header: "Το Families Share μου ",
     homeButton: "Αρχική σελίδα",
-    myProfileButton: "Το προφίλ μου",
+		myProfile: "Το προφίλ μου",
+		myCalendar: "Το ημερολόγιο μου",
     createGroup: "Δημιουργήστε μια ομάδα",
     searchGroup: "Αναζήτηστε  μια ομάδα",
     inviteFriends: "Προσκαλέστε φίλους",
@@ -2109,8 +2137,12 @@ const el = {
     export: "Εξαγωγή των δεδομένων μου"
   },
   myFamiliesShareScreen: {
-    myGroups: "Οι ομάδες μου",
-    myNotifications: "Οι ειδοποιήσεις μου"
+		myGroups: "Οι ομάδες μου",
+		myActivities: "Οι δραστηριότητες μου",
+		myNotifications: "Οι ειδοποιήσεις μου",
+		myGroupsPrompt: "Δεν έχετε γίνει μέλος κάποια ομάδας ακόμη, χρησιμοποιείστε το πλαϊνό μενού για να βρείτε μια ομάδα",
+		myActivitiesPrompt: "Εδώ θα βλέπετε μελλοντικά τις δραστηριότητες, στις οποίες έχετε εγγραφεί.",
+		groupsPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ Η ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ"
   },
   faqsScreen: {
     backNavTitle: "Συχνές ερωτήσεις",
