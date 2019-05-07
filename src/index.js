@@ -64,7 +64,7 @@ app.use((err, req, res, next) => {
 })
 
 
-if (port=6003) {
+if (port===6003) {
 	const privateKey = fs.readFileSync('../etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
 	const certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
 	const ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
