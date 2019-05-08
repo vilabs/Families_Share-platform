@@ -6,11 +6,11 @@ const User = require('../../src/models/user');
 const Notification = require('../../src/models/notification');
 
 
-describe('/Get/users/id/profile', () => {
+describe('/Get/api/users/id/profile', () => {
 	it('it should fetch an authenticated users profile', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/profile`)
+				.get(`/api/users/${user.user_id}/profile`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -29,11 +29,11 @@ describe('/Get/users/id/profile', () => {
 		});
 	});
 });
-describe('/Get/users/id/profile', () => {
+describe('/Get/api/users/id/profile', () => {
 	it('it should not fetch an unauthenticated users profile', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/profile`)
+				.get(`/api/users/${user.user_id}/profile`)
 				.end((err, res) => {
 					res.should.have.status(401);
 					done();
@@ -41,11 +41,11 @@ describe('/Get/users/id/profile', () => {
 		});
 	});
 });
-describe('/Get/users/id/profile', () => {
+describe('/Get/api/users/id/profile', () => {
 	it('it should not fetch an non existing users profile', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get(`/users/12/profile`)
+				.get(`/api/users/12/profile`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -54,7 +54,7 @@ describe('/Get/users/id/profile', () => {
 		});
 	});
 });
-describe('/Patch/users/id/profile', () => {
+describe('/Patch/api/users/id/profile', () => {
 	it('it should patch a users profile when token user_id matches request user_id', (done) => {
 		User.findOne({email: "test3@email.com"}, (err, user) => {
 			const patch = {
@@ -66,7 +66,7 @@ describe('/Patch/users/id/profile', () => {
 				phone_type: "mobile"
 			};
 			chai.request(server)
-				.patch(`/users/${user.user_id}/profile`)
+				.patch(`/api/users/${user.user_id}/profile`)
 				.set('Authorization', user.token)
 				.send(patch)
 				.end((err, res) => {
@@ -76,7 +76,7 @@ describe('/Patch/users/id/profile', () => {
 		});
 	});
 });
-describe('/Patch/users/id/profile', () => {
+describe('/Patch/api/users/id/profile', () => {
 	it('it should not patch a users profile when token user_id doesnt match request user_id', (done) => {
 		User.find({}, (err, users) => {
 			const patch = {
@@ -84,7 +84,7 @@ describe('/Patch/users/id/profile', () => {
 				family_name: "Pool",
 			};
 			chai.request(server)
-				.patch(`/users/${users[0].user_id}/profile`)
+				.patch(`/api/users/${users[0].user_id}/profile`)
 				.set('Authorization', users[1].token)
 				.send(patch)
 				.end((err, res) => {
@@ -94,14 +94,14 @@ describe('/Patch/users/id/profile', () => {
 		});
 	});
 });
-describe('/Patch/users/id/profile', () => {
+describe('/Patch/api/users/id/profile', () => {
 	it('it should not patch a users profile with incorrect parameters', (done) => {
 		User.findOne({}, (err, user) => {
 			const patch = {
 			  foo: "bar",
 			};
 			chai.request(server)
-				.patch(`/users/${user.user_id}/profile`)
+				.patch(`/api/users/${user.user_id}/profile`)
 				.set('Authorization', user.token)
 				.send(patch)
 				.end((err, res) => {
@@ -111,11 +111,11 @@ describe('/Patch/users/id/profile', () => {
 		});
 	});
 });
-describe('/Get/users/id/notifications', () => {
+describe('/Get/api/users/id/notifications', () => {
 	it('it should fetch a users notification when token user_id matches request user_id', (done) => {
 		User.findOne({email:"test@email.com"}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/notifications`)
+				.get(`/api/users/${user.user_id}/notifications`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -125,11 +125,11 @@ describe('/Get/users/id/notifications', () => {
 		});
 	});
 });
-describe('/Get/users/id/notifications', () => {
+describe('/Get/api/users/id/notifications', () => {
 	it('it should not fetch a users notification when token user_id doesnt match request user_id', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.get(`/users/${users[1].user_id}/notifications`)
+				.get(`/api/users/${users[1].user_id}/notifications`)
 				.set('Authorization', users[0].token)
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -138,11 +138,11 @@ describe('/Get/users/id/notifications', () => {
 		});
 	});
 });
-describe('/Get/users/id/notifications', () => {
+describe('/Get/api/users/id/notifications', () => {
 	it('it should not fetch users notifications when he hasnt got any', (done) => {
 		User.findOne({email:"test4@email.com"}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/notifications`)
+				.get(`/api/users/${user.user_id}/notifications`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -151,11 +151,11 @@ describe('/Get/users/id/notifications', () => {
 		});
 	});
 });
-describe('/Patch/users/id/notifications', () => {
+describe('/Patch/api/users/id/notifications', () => {
 	it('it should patch a users notifications as read when token user_id matches request user_id', (done) => {
 		User.findOne({email:"test@email.com"}, (err, user) => {
 			chai.request(server)
-				.patch(`/users/${user.user_id}/notifications`)
+				.patch(`/api/users/${user.user_id}/notifications`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -164,11 +164,11 @@ describe('/Patch/users/id/notifications', () => {
 		});
 	});
 });
-describe('/Patch/users/id/notifications', () => {
+describe('/Patch/api/users/id/notifications', () => {
 	it('it should patch a users notifications as read when token user_id matches request user_id', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.patch(`/users/${users[0].user_id}/notifications`)
+				.patch(`/api/users/${users[0].user_id}/notifications`)
 				.set('Authorization', users[1].token)
 				.end((err, res) => {
 					res.should.have.status(401);

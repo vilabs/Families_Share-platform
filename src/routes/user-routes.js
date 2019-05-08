@@ -309,7 +309,8 @@ router.post('/authenticate/google', async (req, res, next) => {
         phone_type: 'mobile',
         visible: true,
         image_id,
-        address_id
+				address_id,
+				suspended: false
       }
       const image = {
         image_id,

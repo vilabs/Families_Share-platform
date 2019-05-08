@@ -6,7 +6,7 @@ const User = require('../../src/models/user');
 const Group = require('../../src/models/group');
 const Group_Settings = require('../../src/models/group-settings');
 
-describe("/Post/groups", () => {
+describe("/Post/api/groups", () => {
 	it("it should create a group given correct parameters when user is authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const group = {
@@ -19,7 +19,7 @@ describe("/Post/groups", () => {
 			};
 			chai
 				.request(server)
-				.post("/groups")
+				.post("/api/groups")
 				.set('Authorization', user.token)
 				.send(group)
 				.end((err, res) => {
@@ -29,7 +29,7 @@ describe("/Post/groups", () => {
 		});
 	});
 });
-describe("/Post/groups", () => {
+describe("/Post/api/groups", () => {
 	it("it should not create a group when user isnt authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const group = {
@@ -42,7 +42,7 @@ describe("/Post/groups", () => {
 			};
 			chai
 				.request(server)
-				.post("/groups")
+				.post("/api/groups")
 				.set('Authorization', 'invalidtoken')
 				.send(group)
 				.end((err, res) => {
@@ -52,7 +52,7 @@ describe("/Post/groups", () => {
 		});
 	});
 });
-describe("/Post/groups", () => {
+describe("/Post/api/groups", () => {
 	it("it should not create a group given incorrect parameters", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const group = {
@@ -61,7 +61,7 @@ describe("/Post/groups", () => {
 			};
 			chai
 				.request(server)
-				.post("/groups")
+				.post("/api/groups")
 				.set('Authorization', user.token)
 				.send(group)
 				.end((err, res) => {
@@ -71,11 +71,11 @@ describe("/Post/groups", () => {
 		});
 	});
 });
-describe("/Get/groups/suggestions", () => {
+describe("/Get/api/groups/suggestions", () => {
 	it("it should fetch group suggestions", (done) => {
 		chai
 			.request(server)
-			.get("/groups/suggestions")
+			.get("/api/groups/suggestions")
 			.end((err, res) => {
 				res.should.have.status(200);
 				res.body.should.be.a('array');
@@ -84,12 +84,12 @@ describe("/Get/groups/suggestions", () => {
 			});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should fetch all visible groups when user is authenticated", (done) => {
 		User.findOne({}, (err, user) => {
 			chai
 				.request(server)
-				.get("/groups")
+				.get("/api/groups")
 				.set('Authorization', user.token)
 				.query({ "searchBy": "visibility",visible: true })
 				.end((err, res) => {
@@ -101,13 +101,13 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should fetch groups from a list of ids", (done) => {
 		User.findOne({}, (err, user) => {
 			Group.find({}, (err, groups) => {
 				chai
 					.request(server)
-					.get("/groups")
+					.get("/api/groups")
 					.set('Authorization', user.token)
 					.query({ "searchBy": "ids", ids: [groups.map(group=>group.group_id)]})
 					.end((err, res) => {
@@ -120,12 +120,12 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should not fetch groups from a list of invalid ids", (done) => {
 		User.findOne({}, (err, user) => {
 			chai
 				.request(server)
-				.get("/groups")
+				.get("/api/groups")
 				.set('Authorization', user.token)
 				.query({ "searchBy": "ids", ids: ['invalidid'] })
 				.end((err, res) => {
@@ -135,12 +135,12 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should not fetch all visible groups when user isnt authenticated", (done) => {
 		User.findOne({}, (err, user) => {
 			chai
 				.request(server)
-				.get("/groups")
+				.get("/api/groups")
 				.set('Authorization', 'invalidtoken')
 				.query({ "searchBy": "visibility",visible: true })
 				.end((err, res) => {
@@ -150,13 +150,13 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should not fetch anything when there are no visible groups", (done) => {
 		User.findOne({}, (err, user) => {
 			Group_Settings.updateMany({}, { visible: false }, (err) => {
 				chai
 					.request(server)
-					.get("/groups")
+					.get("/api/groups")
 					.set('Authorization', user.token)
 					.query({ "searchBy": "visibility", visible: true })
 					.end((err, res) => {
@@ -167,12 +167,12 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups", () => {
+describe("/Get/api/groups", () => {
 	it("it should not fetch groups given an incorrect query", (done) => {
 		User.findOne({}, (err, user) => {
 			chai
 				.request(server)
-				.get("/groups")
+				.get("/api/groups")
 				.set('Authorization', user.token)
 				.query({ "searchBy": "foo" })
 				.end((err, res) => {
@@ -182,12 +182,12 @@ describe("/Get/groups", () => {
 		});
 	});
 });
-describe("/Get/groups/id", () => {
+describe("/Get/api/groups/id", () => {
 	it("it should fetch a group by the given id", (done) => {
 		Group.findOne({}, (err, group) => {
 			chai
 				.request(server)
-				.get(`/groups/${group.group_id}`)
+				.get(`/api/groups/${group.group_id}`)
 				.end((err, res) => {
 					res.should.have.status(200);
 					res.body.should.be.a('object');
@@ -207,18 +207,18 @@ describe("/Get/groups/id", () => {
 		});
 	});
 });
-describe("/Get/groups/id", () => {
+describe("/Get/api/groups/id", () => {
 	it("it should not fetch a group given an incorrect id", (done) => {
 		chai
 			.request(server)
-			.get(`/groups/incorrectid`)
+			.get(`/api/groups/incorrectid`)
 			.end((err, res) => {
 				res.should.have.status(404);
 				done();
 			});
 	});
 });
-describe("/Patch/groups/id", () => {
+describe("/Patch/api/groups/id", () => {
 	it("it should edit a group when given correct parameters and user is admin and authenticated", (done) => {
 		const patch = {
 			name: "Test Group Edit",
@@ -231,7 +231,7 @@ describe("/Patch/groups/id", () => {
 			Group.findOne({name: "Test Group"}, (err, group) => {
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}`)
+					.patch(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -242,7 +242,7 @@ describe("/Patch/groups/id", () => {
 		});
 	});
 });
-describe("/Patch/groups/id", () => {
+describe("/Patch/api/groups/id", () => {
 	it("it should not edit a group when user isnt authenticated", (done) => {
 		const patch = {
 			name: "Test Group Edit",
@@ -255,7 +255,7 @@ describe("/Patch/groups/id", () => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}`)
+					.patch(`/api/groups/${group.group_id}`)
 					.set('Authorization', 'invalidtoken')
 					.send(patch)
 					.end((err, res) => {
@@ -266,7 +266,7 @@ describe("/Patch/groups/id", () => {
 		});
 	});
 });
-describe("/Patch/groups/id", () => {
+describe("/Patch/api/groups/id", () => {
 	it("it should not edit a group when user isnt a group member", (done) => {
 		const patch = {
 			name: "Test Group Edit",
@@ -279,7 +279,7 @@ describe("/Patch/groups/id", () => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}`)
+					.patch(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -290,7 +290,7 @@ describe("/Patch/groups/id", () => {
 		});
 	});
 });
-describe("/Patch/groups/id", () => {
+describe("/Patch/api/groups/id", () => {
 	it("it should not edit a group when given correct parameters and user is not admin", (done) => {
 		const patch = {
 			name: "Test Group Edit",
@@ -303,7 +303,7 @@ describe("/Patch/groups/id", () => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}`)
+					.patch(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -314,7 +314,7 @@ describe("/Patch/groups/id", () => {
 		});
 	});
 });
-describe("/Patch/groups/id", () => {
+describe("/Patch/api/groups/id", () => {
 	it("it should not edit a group when given incorrect parameters", (done) => {
 		const patch = {
 			name: "Test Group Edit",
@@ -324,7 +324,7 @@ describe("/Patch/groups/id", () => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}`)
+					.patch(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -335,13 +335,13 @@ describe("/Patch/groups/id", () => {
 		});
 	});
 });
-describe("/Get/groups/id/settings", () => {
+describe("/Get/api/groups/id/settings", () => {
 	it("it should get a group's settings by a given id ", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Group.findOne({}, (err, group) => {
 				chai
 					.request(server)
-					.get(`/groups/${group.group_id}/settings`)
+					.get(`/api/groups/${group.group_id}/settings`)
 					.set('Authorization', user.token)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -355,12 +355,12 @@ describe("/Get/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Get/groups/id/settings", () => {
+describe("/Get/api/groups/id/settings", () => {
 	it("it should not get a group's settings given an incorrect id", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			chai
 				.request(server)
-				.get(`/groups/incorrectid/settings`)
+				.get(`/api/groups/incorrectid/settings`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -369,7 +369,7 @@ describe("/Get/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Patch/groups/id/settings", () => {
+describe("/Patch/api/groups/id/settings", () => {
 	it("it should update a group's settings by a given id when user is authenticated and admin", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
@@ -378,7 +378,7 @@ describe("/Patch/groups/id/settings", () => {
 				}
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}/settings`)
+					.patch(`/api/groups/${group.group_id}/settings`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -389,7 +389,7 @@ describe("/Patch/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Patch/groups/id/settings", () => {
+describe("/Patch/api/groups/id/settings", () => {
 	it("it should not update a group's settings by a given id when user isnt authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
@@ -398,7 +398,7 @@ describe("/Patch/groups/id/settings", () => {
 				}
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}/settings`)
+					.patch(`/api/groups/${group.group_id}/settings`)
 					.set('Authorization', 'invalidtoken')
 					.send(patch)
 					.end((err, res) => {
@@ -409,7 +409,7 @@ describe("/Patch/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Patch/groups/id/settings", () => {
+describe("/Patch/api/groups/id/settings", () => {
 	it("it should not update a group's settings by a given id when user is not a group member", (done) => {
 		User.findOne({ email: "test4@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
@@ -418,7 +418,7 @@ describe("/Patch/groups/id/settings", () => {
 				}
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}/settings`)
+					.patch(`/api/groups/${group.group_id}/settings`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -429,7 +429,7 @@ describe("/Patch/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Patch/groups/id/settings", () => {
+describe("/Patch/api/groups/id/settings", () => {
 	it("it should not update a group's settings by a given id when user is not admin", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
@@ -438,7 +438,7 @@ describe("/Patch/groups/id/settings", () => {
 				}
 				chai
 					.request(server)
-					.patch(`/groups/${group.group_id}/settings`)
+					.patch(`/api/groups/${group.group_id}/settings`)
 					.set('Authorization', user.token)
 					.send(patch)
 					.end((err, res) => {
@@ -449,13 +449,13 @@ describe("/Patch/groups/id/settings", () => {
 		});
 	});
 });
-describe("/Delete/groups/id", () => {
+describe("/Delete/api/groups/id", () => {
 	it("it should delete a group by a given id when user is admin", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group 3"}, (err, group) => {
 				chai
 					.request(server)
-					.delete(`/groups/${group.group_id}`)
+					.delete(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.end((err, res) => {
 						res.should.have.status(200);
@@ -465,13 +465,13 @@ describe("/Delete/groups/id", () => {
 		});
 	});
 });
-describe("/Delete/groups/id", () => {
+describe("/Delete/api/groups/id", () => {
 	it("it should not delete a group by a given id when user isnt authenticated", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.delete(`/groups/${group.group_id}`)
+					.delete(`/api/groups/${group.group_id}`)
 					.set('Authorization', 'invalidtoken')
 					.end((err, res) => {
 						res.should.have.status(401);
@@ -481,13 +481,13 @@ describe("/Delete/groups/id", () => {
 		});
 	});
 });
-describe("/Delete/groups/id", () => {
+describe("/Delete/api/groups/id", () => {
 	it("it should not delete a group by a given id when user isnt a group member", (done) => {
 		User.findOne({ email: "test4@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.delete(`/groups/${group.group_id}`)
+					.delete(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.end((err, res) => {
 						res.should.have.status(401);
@@ -497,13 +497,13 @@ describe("/Delete/groups/id", () => {
 		});
 	});
 });
-describe("/Delete/groups/id", () => {
+describe("/Delete/api/groups/id", () => {
 	it("it should not delete a group by a given id when user is not admin", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Group.findOne({name: "Test Group Edit"}, (err, group) => {
 				chai
 					.request(server)
-					.delete(`/groups/${group.group_id}`)
+					.delete(`/api/groups/${group.group_id}`)
 					.set('Authorization', user.token)
 					.end((err, res) => {
 						res.should.have.status(401);

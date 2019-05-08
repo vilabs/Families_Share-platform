@@ -1,4 +1,7 @@
 const en = {
+	profileChildren: {
+		addChildPrompt: "You haven't added any children yet. Click the child icon to add a new child"
+	},
 	myCalendarScreen: {
 		backNavTitle: "My Calendar"
 	},
@@ -707,6 +710,9 @@ const en = {
 };
 
 const nl = {
+	profileChildren: {
+		addChildPrompt: "Je hebt nog geen kinderen toegevoegd. Klik op het kindpictogram om een ​​nieuw kind toe te voegen"
+	},
 	myCalendarScreen: {
 		backNavTitle: "Mijn Kalender"
 	},
@@ -1297,6 +1303,9 @@ const nl = {
 };
 
 const it = {
+	profileChildren: {
+		addChildPrompt: "Non hai ancora aggiunto figli. Fare clic sull'icona figlio per aggiungere un nuovo figlio"
+	},
 	myCalendarScreen: {
 		backNavTitle: "Il mio calendario"
 	},
@@ -1907,6 +1916,9 @@ const it = {
 };
 
 const el = {
+	profileChildren: {
+		addChildPrompt: "Δεν έχετε προσθέσει ακόμη παιδιά. Κάντε κλικ στο εικονίδιο για να προσθέσετε ένα νέο παιδί"
+	},
 	myCalendarScreen: {
 		backNavTitle: "Το ημερολόγιο μου"
 	},

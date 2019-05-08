@@ -5,7 +5,7 @@ const chai = common.chai;
 const User = require('../../src/models/user');
 const Password_Reset = require('../../src/models/password-reset')
 
-describe('/Post/users', () => {
+describe('/Post/api/users', () => {
 	it('it should sign up a user with correct parameters', (done) => {
 		const user = {
 			given_name: "Test",
@@ -17,7 +17,7 @@ describe('/Post/users', () => {
 			language: "en",
 		}
 		chai.request(server)
-			.post('/users')
+			.post('/api/users')
 			.send(user)
 			.end((err, res) => {
 				res.should.have.status(200);
@@ -31,12 +31,12 @@ describe('/Post/users', () => {
 			});
 	});
 });
-describe('/Post/users', () => {
+describe('/Post/api/users', () => {
 	it('it should not sign up a user with incorrect parameters', (done) => {
 		const user = {
 		}
 		chai.request(server)
-			.post('/users')
+			.post('/api/users')
 			.send(user)
 			.end((err, res) => {
 				res.should.have.status(400);
@@ -44,7 +44,7 @@ describe('/Post/users', () => {
 			});
 	});
 });
-describe('/Post/users', () => {
+describe('/Post/api/users', () => {
 	it('it should not sign up a user with an already existing email', (done) => {
 		const user = {
 			given_name: "Testo",
@@ -56,7 +56,7 @@ describe('/Post/users', () => {
 			language: "en",
 		}
 		chai.request(server)
-			.post('/users')
+			.post('/api/users')
 			.send(user)
 			.end((err, res) => {
 				res.should.have.status(409);
@@ -64,7 +64,7 @@ describe('/Post/users', () => {
 			});
 	});
 });
-describe('/Post/users/authenticate/email', () => {
+describe('/Post/api/users/authenticate/email', () => {
 	it('it should log in a user with correct credentials', (done) => {
 		const credentials = {
 			email: 'test@email.com',
@@ -72,7 +72,7 @@ describe('/Post/users/authenticate/email', () => {
 			language: "en"
 		}
 		chai.request(server)
-			.post('/users/authenticate/email')
+			.post('/api/users/authenticate/email')
 			.send(credentials)
 			.end((err, res) => {
 				res.should.have.status(200);
@@ -86,7 +86,7 @@ describe('/Post/users/authenticate/email', () => {
 			});
 	});
 });
-describe('/Post/users/authenticate/email', () => {
+describe('/Post/api/users/authenticate/email', () => {
 	it('it should not log in a user with wrong credentials', (done) => {
 		const credentials = {
 			email: 'test@email.com',
@@ -94,7 +94,7 @@ describe('/Post/users/authenticate/email', () => {
 			language: "en",
 		}
 		chai.request(server)
-			.post('/users/authenticate/email')
+			.post('/api/users/authenticate/email')
 			.send(credentials)
 			.end((err, res) => {
 				res.should.have.status(401);
@@ -102,12 +102,12 @@ describe('/Post/users/authenticate/email', () => {
 			});
 	});
 });
-describe('/Post/users/authenticate/email', () => {
+describe('/Post/api/users/authenticate/email', () => {
 	it('it should not log in a user with no credentials', (done) => {
 		const credentials = {
 		}
 		chai.request(server)
-			.post('/users/authenticate/email')
+			.post('/api/users/authenticate/email')
 			.send(credentials)
 			.end((err, res) => {
 				res.should.have.status(401);
@@ -115,7 +115,7 @@ describe('/Post/users/authenticate/email', () => {
 			});
 	});
 });
-describe('/Post/users/authenticate/google', () => {
+describe('/Post/api/users/authenticate/google', () => {
 	it('it should log in a user with his google account', (done) => {
 		const data = {
 			deviceToken: "deviceToken",
@@ -129,7 +129,7 @@ describe('/Post/users/authenticate/google', () => {
 			}
 		}
 		chai.request(server)
-			.post('/users/authenticate/google')
+			.post('/api/users/authenticate/google')
 			.send(data)
 			.end((err, res) => {
 				res.should.have.status(200);
@@ -145,7 +145,7 @@ describe('/Post/users/authenticate/google', () => {
 			});
 	});
 });
-describe('/Post/users/authenticate/google', () => {
+describe('/Post/api/users/authenticate/google', () => {
 	it('it should sign up a user with his google account', (done) => {
 		const data = {
 			language: "en",
@@ -161,7 +161,7 @@ describe('/Post/users/authenticate/google', () => {
 			}
 		}
 		chai.request(server)
-			.post('/users/authenticate/google')
+			.post('/api/users/authenticate/google')
 			.send(data)
 			.end((err, res) => {
 				res.should.have.status(200);
@@ -177,11 +177,11 @@ describe('/Post/users/authenticate/google', () => {
 			});
 	});
 });
-describe('/Post/users/forgotpassword', () => {
+describe('/Post/api/users/forgotpassword', () => {
 	it('it should send a forgot password email for an existing user', (done) => {
 		const data = { email: "test@email.com" }
 		chai.request(server)
-			.post('/users/forgotpassword')
+			.post('/api/users/forgotpassword')
 			.send(data)
 			.end((err, res) => {
 				res.should.have.status(200);
@@ -189,11 +189,11 @@ describe('/Post/users/forgotpassword', () => {
 			});
 	});
 });
-describe('/Post/users/forgotpassword', () => {
+describe('/Post/api/users/forgotpassword', () => {
 	it('it should not send a forgot password email for non existing user', (done) => {
 		const data = { email: "fas@jela.com" };
 		chai.request(server)
-			.post('/users/forgotpassword')
+			.post('/api/users/forgotpassword')
 			.send(data)
 			.end((err, res) => {
 				res.should.have.status(404);
@@ -201,11 +201,11 @@ describe('/Post/users/forgotpassword', () => {
 			});
 	});
 });
-describe('/Get/users/changepassword', () => {
+describe('/Get/api/users/changepassword', () => {
 	it('it should fetch a users profile given a valid reset token', (done) => {
 		Password_Reset.findOne({}, (err, reset) => {
 			chai.request(server)
-				.get('/users/changepassword')
+				.get('/api/users/changepassword')
 				.set('Authorization', reset.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -219,10 +219,10 @@ describe('/Get/users/changepassword', () => {
 		});
 	});
 });
-describe('/Get/users/changepassword', () => {
+describe('/Get/api/users/changepassword', () => {
 	it('it should not fetch a users profile given a invalid reset token', (done) => {
 		chai.request(server)
-			.get('/users/changepassword')
+			.get('/api/users/changepassword')
 			.set('Authorization', 'invalidtoken')
 			.end((err, res) => {
 				res.should.have.status(401);
@@ -230,11 +230,11 @@ describe('/Get/users/changepassword', () => {
 			});
 	});
 });
-describe('/Get/users/changepassword', () => {
+describe('/Get/api/users/changepassword', () => {
 	it('it should not fetch a users profile given a valid authentication token', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get('/users/changepassword')
+				.get('/api/users/changepassword')
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -243,12 +243,12 @@ describe('/Get/users/changepassword', () => {
 		});
 	});
 });
-describe('/Post/users/changepassword', () => {
+describe('/Post/api/users/changepassword', () => {
 	it('it should change the password of the user  when a valid reset token is provided', (done) => {
 		const data = { password: "password" }
 		Password_Reset.findOne({}, (err, reset) => {
 			chai.request(server)
-				.post('/users/changepassword')
+				.post('/api/users/changepassword')
 				.set('Authorization', reset.token)
 				.send(data)
 				.end((err, res) => {
@@ -264,11 +264,11 @@ describe('/Post/users/changepassword', () => {
 		});
 	});
 });
-describe('/Post/users/changepassword', () => {
+describe('/Post/api/users/changepassword', () => {
 	it('it should not change the password of the user when an invalid token is provided', (done) => {
 		let data = { password: "password" }
 		chai.request(server)
-			.post('/users/changepassword')
+			.post('/api/users/changepassword')
 			.set('Authorization', "invalidtoken")
 			.send(data)
 			.end((err, res) => {
@@ -277,12 +277,12 @@ describe('/Post/users/changepassword', () => {
 			});
 	});
 });
-describe('/Post/users/changepassword', () => {
+describe('/Post/api/users/changepassword', () => {
 	it('it should not change the password of the user when a valid authentication token is provided', (done) => {
 		let data = { password: "password" }
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.post('/users/changepassword')
+				.post('/api/users/changepassword')
 				.set('Authorization', user.token)
 				.send(data)
 				.end((err, res) => {
@@ -292,11 +292,11 @@ describe('/Post/users/changepassword', () => {
 		});
 	});
 });
-describe('/Get/users/id', () => {
+describe('/Get/api/users/id', () => {
 	it('it should fetch a user by the given id when user is authenticated', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}`)
+				.get(`/api/users/${user.user_id}`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -311,11 +311,11 @@ describe('/Get/users/id', () => {
 		})
 	});
 });
-describe('/Get/users/id', () => {
+describe('/Get/api/users/id', () => {
 	it('it should not fetch a user by the given id when user is not authenticated', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}`)
+				.get(`/api/users/${user.user_id}`)
 				.set('Authorization', 'invalidtoken')
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -324,11 +324,11 @@ describe('/Get/users/id', () => {
 		})
 	});
 });
-describe('/Get/users/id', () => {
+describe('/Get/api/users/id', () => {
 	it('it should not fetch a user when token user_id doesnt match request user_id', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.get(`/users/${users[0].user_id}`)
+				.get(`/api/users/${users[0].user_id}`)
 				.set('Authorization', users[1].token)
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -337,11 +337,37 @@ describe('/Get/users/id', () => {
 		})
 	});
 });
-describe('/Delete/users/id', () => {
+describe("/Post/api/users/id/suspend",() => {
+	it('it should suspend a users account by a given id when request user_id matches token user_id', (done) => {
+		User.findOne({ email: "test2@email.com"}, (err, user) => {
+			chai.request(server)
+				.post(`/api/users/${user.user_id}/suspend`)
+				.set('Authorization', user.token)
+				.end((err, res) => {
+					res.should.have.status(200);
+					done();
+				})
+		});
+	});
+});
+describe("/Post/api/users/id/suspend", () => {
+	it('it should not suspend a users account by a given id when request user_id doesnt match token user_id', (done) => {
+		User.find({}, (err, users) => {
+			chai.request(server)
+				.post(`/api/users/${users[0].user_id}/suspend`)
+				.set('Authorization', users[1].token)
+				.end((err, res) => {
+					res.should.have.status(401);
+					done();
+				})
+		});
+	});
+});
+describe('/Delete/api/users/id', () => {
 	it('it should delete a user by the given id when token user_id matched request user_id', (done) => {
 		User.findOne({ email: 'test2@email.com' }, (err, user) => {
 			chai.request(server)
-				.delete(`/users/${user.user_id}`)
+				.delete(`/api/users/${user.user_id}`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -350,11 +376,11 @@ describe('/Delete/users/id', () => {
 		})
 	});
 });
-describe('/Delete/users/id', () => {
+describe('/Delete/api/users/id', () => {
 	it('it should not delete a user when token user_id doesnt match request user_id', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.delete(`/users/${users[0].user_id}`)
+				.delete(`/api/users/${users[0].user_id}`)
 				.set('Authorization', users[1].token)
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -363,11 +389,11 @@ describe('/Delete/users/id', () => {
 		})
 	});
 });
-describe("/Post/users/id/export", () => {
+describe("/Post/api/users/id/export", () => {
 	it('it should a export a users data by a given id when request user_id matches token user_id', (done) => {
 		User.findOne({}, (err, user) => {
 			chai.request(server)
-				.post(`/users/${user.user_id}/export`)
+				.post(`/api/users/${user.user_id}/export`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -376,11 +402,11 @@ describe("/Post/users/id/export", () => {
 		});
 	});
 });
-describe("/Post/users/id/export", () => {
+describe("/Post/api/users/id/export", () => {
 	it('it should not a export a users data by a given id when request user_id doesnt match token user_id', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.post(`/users/${users[0].user_id}/export`)
+				.post(`/api/users/${users[0].user_id}/export`)
 				.set('Authorization', users[1].token)
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -389,11 +415,11 @@ describe("/Post/users/id/export", () => {
 		});
 	});
 });
-describe("/Post/users/id/export", () => {
+describe("/Post/api/users/id/export", () => {
 	it('it should not a export a users data by a given id when an invalid token is provided', (done) => {
 		User.find({}, (err, users) => {
 			chai.request(server)
-				.post(`/users/${users[0].user_id}/export`)
+				.post(`/api/users/${users[0].user_id}/export`)
 				.set('Authorization', 'invalid token')
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -402,11 +428,11 @@ describe("/Post/users/id/export", () => {
 		});
 	});
 });
-describe('/Get/users/userId/events', () => {
+describe('/Get/api/users/userId/events', () => {
 	it('it should not fetch a users events when he isnt authenticated', (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/events`)
+				.get(`/api/users/${user.user_id}/events`)
 				.set('Authorization', 'invalidtoken')
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -415,11 +441,11 @@ describe('/Get/users/userId/events', () => {
 		});
 	});
 });
-describe('/Get/users/userId/events', () => {
+describe('/Get/api/users/userId/events', () => {
 	it('it should not fetch a users events when he is attending none', (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			chai.request(server)
-				.get(`/users/${user.user_id}/events`)
+				.get(`/api/users/${user.user_id}/events`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);

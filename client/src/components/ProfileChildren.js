@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Fab from "@material-ui/core/Fab";
 import { withStyles } from "@material-ui/core/styles";
 import ChildListItem from "./ChildListItem";
+import Texts from '../Constants/Texts';
+import withLanguage from './LanguageContext';
 
 const styles = theme => ({
   add: {
@@ -37,7 +39,8 @@ class ProfileChildren extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+		const { classes, language } = this.props;
+		const texts = Texts[language].profileChildren;
     return (
       <React.Fragment>
         {this.state.children.length > 0 ? (
@@ -53,8 +56,7 @@ class ProfileChildren extends React.Component {
           </ul>
         ) : (
           <div className="addChildPrompt">
-            You haven't added any children yet. Click the child icon to add a
-            new child
+            {texts.addChildPrompt}
           </div>
         )}
         {this.state.myProfile && (
@@ -77,4 +79,4 @@ ProfileChildren.propTypes = {
   profileId: PropTypes.string
 };
 
-export default withStyles(styles)(ProfileChildren);
+export default withStyles(styles)(withLanguage(ProfileChildren));

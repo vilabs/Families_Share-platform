@@ -45,8 +45,8 @@ const initializeDB = async () => {
     visible: true,
     language: 'en'
   }
-  await chai.request(server).post('/users').send(user2)
-  await chai.request(server).post('/users').send(user3)
+  await chai.request(server).post('/api/users').send(user2)
+  await chai.request(server).post('/api/users').send(user3)
   const user = await User.findOne({ email: 'test3@email.com' })
   const group2 = {
     name: 'Test Group 2',
@@ -64,8 +64,8 @@ const initializeDB = async () => {
     owner_id: user.user_id,
     invite_ids: []
   }
-  await chai.request(server).post('/groups').send(group2).set('Authorization', user.token)
-  await chai.request(server).post('/groups').send(group3).set('Authorization', user.token)
+  await chai.request(server).post('/api/groups').send(group2).set('Authorization', user.token)
+  await chai.request(server).post('/api/groups').send(group3).set('Authorization', user.token)
   const group = await Group.findOne({ name: 'Test Group 2' })
   const activity = {
     information: {
@@ -137,11 +137,11 @@ const initializeDB = async () => {
       differentTimeslots: false
     }
   }
-  await chai.request(server).post(`/groups/${group.group_id}/activities`).send(activity).set('Authorization', user.token)
+  await chai.request(server).post(`/api/groups/${group.group_id}/activities`).send(activity).set('Authorization', user.token)
   const announcement = {
     message: 'Test Announcement 2'
   }
-  await chai.request(server).post(`/groups/${group.group_id}/announcements`).send(announcement).set('Authorization', user.token)
+  await chai.request(server).post(`/api/groups/${group.group_id}/announcements`).send(announcement).set('Authorization', user.token)
   const child = {
     given_name: 'Test',
     family_name: 'Child',
@@ -151,7 +151,7 @@ const initializeDB = async () => {
     special_needs: 'no',
     other_info: 'no'
   }
-  await chai.request(server).post(`/users/${user.user_id}/children`).send(child).set('Authorization', user.token)
+  await chai.request(server).post(`/api/users/${user.user_id}/children`).send(child).set('Authorization', user.token)
 }
 describe('Test', () => {
   before('Initializing DB', async () => {

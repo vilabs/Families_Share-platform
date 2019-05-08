@@ -6,7 +6,7 @@ const User = require('../../src/models/user');
 const Parent = require('../../src/models/parent');
 const Child = require('../../src/models/child');
 
-describe("/Post/users/userId/children", () => {
+describe("/Post/api/users/userId/children", () => {
 	it("it should create a child for a given user when request user_id matches token user_id", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const child = {
@@ -20,7 +20,7 @@ describe("/Post/users/userId/children", () => {
 			};
 			chai
 				.request(server)
-				.post(`/users/${user.user_id}/children`)
+				.post(`/api/users/${user.user_id}/children`)
 				.set('Authorization', user.token)
 				.send(child)
 				.end((err, res) => {
@@ -30,7 +30,7 @@ describe("/Post/users/userId/children", () => {
 		});
 	});
 });
-describe("/Post/users/userId/children", () => {
+describe("/Post/api/users/userId/children", () => {
 	it("it should not create a child for a given user when request user_id doesnt match token user_id", (done) => {
 		User.find({}, (err, users) => {
 			const child = {
@@ -44,7 +44,7 @@ describe("/Post/users/userId/children", () => {
 			};
 			chai
 				.request(server)
-				.post(`/users/${users[0].user_id}/children`)
+				.post(`/api/users/${users[0].user_id}/children`)
 				.set('Authorization', users[1].token)
 				.send(child)
 				.end((err, res) => {
@@ -54,7 +54,7 @@ describe("/Post/users/userId/children", () => {
 		});
 	});
 });
-describe("/Post/users/userId/children", () => {
+describe("/Post/api/users/userId/children", () => {
 	it("it should not create a child for a given user when parameters are incorrect", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			const child = {
@@ -62,7 +62,7 @@ describe("/Post/users/userId/children", () => {
 			};
 			chai
 				.request(server)
-				.post(`/users/${user.user_id}/children`)
+				.post(`/api/users/${user.user_id}/children`)
 				.set('Authorization', user.token)
 				.send(child)
 				.end((err, res) => {
@@ -72,12 +72,12 @@ describe("/Post/users/userId/children", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children", () => {
+describe("/Get/api/users/userId/children", () => {
 	it("it should fetch the children of a user when he is authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			chai
 				.request(server)
-				.get(`/users/${user.user_id}/children`)
+				.get(`/api/users/${user.user_id}/children`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(200);
@@ -88,12 +88,12 @@ describe("/Get/users/userId/children", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children", () => {
+describe("/Get/api/users/userId/children", () => {
 	it("it should not fetch the children of a user when he is not authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (err, user) => {
 			chai
 				.request(server)
-				.get(`/users/${user.user_id}/children`)
+				.get(`/api/users/${user.user_id}/children`)
 				.set('Authorization', 'invalid token')
 				.end((err, res) => {
 					res.should.have.status(401);
@@ -102,12 +102,12 @@ describe("/Get/users/userId/children", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children", () => {
+describe("/Get/api/users/userId/children", () => {
 	it("it should not fetch the children of a user when he has none", (done) => {
 		User.findOne({ email: "test4@email.com" }, (err, user) => {
 			chai
 				.request(server)
-				.get(`/users/${user.user_id}/children`)
+				.get(`/api/users/${user.user_id}/children`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -116,14 +116,14 @@ describe("/Get/users/userId/children", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children/childId", () => {
+describe("/Get/api/users/userId/children/childId", () => {
 	it("it should fetch a specific child of a user when he is authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
 				Child.findOne({ child_id: parent.child_id }, (er, child) => {
 					chai
 						.request(server)
-						.get(`/users/${user.user_id}/children/${child.child_id}`)
+						.get(`/api/users/${user.user_id}/children/${child.child_id}`)
 						.set('Authorization', user.token)
 						.end((err, res) => {
 							res.should.have.status(200);
@@ -145,14 +145,14 @@ describe("/Get/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children/childId", () => {
+describe("/Get/api/users/userId/children/childId", () => {
 	it("it should not fetch a specific child of a user when he is not authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
 				Child.findOne({ child_id: parent.child_id }, (er, child) => {
 					chai
 						.request(server)
-						.get(`/users/${user.user_id}/children/${child.child_id}`)
+						.get(`/api/users/${user.user_id}/children/${child.child_id}`)
 						.set('Authorization', 'invalidtoken')
 						.end((err, res) => {
 							res.should.have.status(401);
@@ -163,12 +163,12 @@ describe("/Get/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children/childId", () => {
+describe("/Get/api/users/userId/children/childId", () => {
 	it("it should not fetch a specific child of a user when it doesnt exist", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			chai
 				.request(server)
-				.get(`/users/${user.user_id}/children/invalidchildid`)
+				.get(`/api/users/${user.user_id}/children/invalidchildid`)
 				.set('Authorization', user.token)
 				.end((err, res) => {
 					res.should.have.status(404);
@@ -177,7 +177,7 @@ describe("/Get/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Patch/users/userId/children/childId", () => {
+describe("/Patch/api/users/userId/children/childId", () => {
 	it("it should patch a child profile when request user_id matches token user_id", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
@@ -190,7 +190,7 @@ describe("/Patch/users/userId/children/childId", () => {
 					};
 					chai
 						.request(server)
-						.patch(`/users/${user.user_id}/children/${child.child_id}`)
+						.patch(`/api/users/${user.user_id}/children/${child.child_id}`)
 						.set('Authorization', user.token)
 						.send(patch)
 						.end((err, res) => {
@@ -202,7 +202,7 @@ describe("/Patch/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Patch/users/userId/children/childId", () => {
+describe("/Patch/api/users/userId/children/childId", () => {
 	it("it should not patch a child profile when request user_id doesnt match token user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -217,7 +217,7 @@ describe("/Patch/users/userId/children/childId", () => {
 			};
 			const res = await chai
 				.request(server)
-				.patch(`/users/${user.user_id}/children/${child.child_id}`)
+				.patch(`/api/users/${user.user_id}/children/${child.child_id}`)
 				.set('Authorization', user2.token)
 				.send(patch)
 			res.should.have.status(401);
@@ -226,7 +226,7 @@ describe("/Patch/users/userId/children/childId", () => {
 		}
 	});
 });
-describe("/Patch/users/userId/children/childId", () => {
+describe("/Patch/api/users/userId/children/childId", () => {
 	it("it should not patch a child profile when parameters are incorrect", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
@@ -236,7 +236,7 @@ describe("/Patch/users/userId/children/childId", () => {
 					};
 					chai
 						.request(server)
-						.patch(`/users/${user.user_id}/children/${child.child_id}`)
+						.patch(`/api/users/${user.user_id}/children/${child.child_id}`)
 						.set('Authorization', user.token)
 						.send(patch)
 						.end((err, res) => {
@@ -248,14 +248,14 @@ describe("/Patch/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Delete/users/userId/children/childId", () => {
+describe("/Delete/api/users/userId/children/childId", () => {
 	it("it should delete a child profile when request user_id matches token user_id", (done) => {
 		User.findOne({ email: "test3@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
 				Child.findOne({ child_id: parent.child_id }, (er, child) => {
 					chai
 						.request(server)
-						.delete(`/users/${user.user_id}/children/${child.child_id}`)
+						.delete(`/api/users/${user.user_id}/children/${child.child_id}`)
 						.set('Authorization', user.token)
 						.end((err, res) => {
 							res.should.have.status(200);
@@ -266,7 +266,7 @@ describe("/Delete/users/userId/children/childId", () => {
 		});
 	});
 });
-describe("/Delete/users/userId/children/childId", () => {
+describe("/Delete/api/users/userId/children/childId", () => {
 	it("it should not delete a child profile when request user_id doesnt match token user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -275,7 +275,7 @@ describe("/Delete/users/userId/children/childId", () => {
 			const child = Child.findOne({ child_id: parent.child_id });
 			const res = await chai
 				.request(server)
-				.delete(`/users/${user.user_id}/children/${child.child_id}`)
+				.delete(`/api/users/${user.user_id}/children/${child.child_id}`)
 				.set('Authorization', user2.token)
 			res.should.have.status(401);
 		} catch (err) {
@@ -283,7 +283,7 @@ describe("/Delete/users/userId/children/childId", () => {
 		}
 	});
 });
-describe("/Post/users/userId/children/childId/parents", () => {
+describe("/Post/api/users/userId/children/childId/parents", () => {
 	it("it should post a new parent for a child when request user_id matches token user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -295,7 +295,7 @@ describe("/Post/users/userId/children/childId/parents", () => {
 			};
 			const res = await chai
 				.request(server)
-				.post(`/users/${user.user_id}/children/${child.child_id}/parents`)
+				.post(`/api/users/${user.user_id}/children/${child.child_id}/parents`)
 				.set('Authorization', user.token)
 				.send(newParent)
 			res.should.have.status(200);
@@ -304,7 +304,7 @@ describe("/Post/users/userId/children/childId/parents", () => {
 		}
 	});
 });
-describe("/Post/users/userId/children/childId/parents", () => {
+describe("/Post/api/users/userId/children/childId/parents", () => {
 	it("it should not post a new parent for a child when request user_id doesnt match token user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -316,7 +316,7 @@ describe("/Post/users/userId/children/childId/parents", () => {
 			};
 			const res = await chai
 				.request(server)
-				.post(`/users/${user.user_id}/children/${child.child_id}/parents`)
+				.post(`/api/users/${user.user_id}/children/${child.child_id}/parents`)
 				.set('Authorization', user2.token)
 				.send(newParent)
 			res.should.have.status(401);
@@ -325,7 +325,7 @@ describe("/Post/users/userId/children/childId/parents", () => {
 		}
 	});
 });
-describe("/Post/users/userId/children/childId/parents", () => {
+describe("/Post/api/users/userId/children/childId/parents", () => {
 	it("it should not post a new parent for a child when child already has two parents", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -337,7 +337,7 @@ describe("/Post/users/userId/children/childId/parents", () => {
 			};
 			const res = await chai
 				.request(server)
-				.post(`/users/${user.user_id}/children/${child.child_id}/parents`)
+				.post(`/api/users/${user.user_id}/children/${child.child_id}/parents`)
 				.set('Authorization', user.token)
 				.send(newParent)
 			res.should.have.status(400);
@@ -346,14 +346,14 @@ describe("/Post/users/userId/children/childId/parents", () => {
 		}
 	});
 });
-describe("/Get/users/userId/children/childId/parents", () => {
+describe("/Get/api/users/userId/children/childId/parents", () => {
 	it("it should fetch the parents of a specific child when the user is authenticated", (done) => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
 				Child.findOne({ child_id: parent.child_id }, (er, child) => {
 					chai
 						.request(server)
-						.get(`/users/${user.user_id}/children/${child.child_id}/parents`)
+						.get(`/api/users/${user.user_id}/children/${child.child_id}/parents`)
 						.set('Authorization', user.token)
 						.end((err, res) => {
 							res.should.have.status(200);
@@ -366,14 +366,14 @@ describe("/Get/users/userId/children/childId/parents", () => {
 		});
 	});
 });
-describe("/Get/users/userId/children/childId/parents", () => {
+describe("/Get/api/users/userId/children/childId/parents", () => {
 	it("it should not fetch the parents of a specific child when the user is not authenticated", done => {
 		User.findOne({ email: "test@email.com" }, (error, user) => {
 			Parent.findOne({ parent_id: user.user_id }, (err, parent) => {
 				Child.findOne({ child_id: parent.child_id }, (er, child) => {
 					chai
 						.request(server)
-						.get(`/users/${user.user_id}/children/${child.child_id}/parents`)
+						.get(`/api/users/${user.user_id}/children/${child.child_id}/parents`)
 						.set("Authorization", "invalidtoken")
 						.end((err, res) => {
 							res.should.have.status(401);
@@ -384,7 +384,7 @@ describe("/Get/users/userId/children/childId/parents", () => {
 		});
 	});
 });
-describe("/Delete/users/userId/children/childId/parents/parentId", () => {
+describe("/Delete/api/users/userId/children/childId/parents/parentId", () => {
 	it("it should delete the parent of a specific child when request user_id matches token user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -393,7 +393,7 @@ describe("/Delete/users/userId/children/childId/parents/parentId", () => {
 			const child = await Child.findOne({ child_id: parent.child_id });
 			const res = await chai
 				.request(server)
-				.delete(`/users/${user.user_id}/children/${child.child_id}/parents/${user2.user_id}`)
+				.delete(`/api/users/${user.user_id}/children/${child.child_id}/parents/${user2.user_id}`)
 				.set("Authorization", user.token)
 			res.should.have.status(200);
 		} catch (err) {
@@ -401,7 +401,7 @@ describe("/Delete/users/userId/children/childId/parents/parentId", () => {
 		}
 	});
 });
-describe("/Delete/users/userId/children/childId/parents/parentId", () => {
+describe("/Delete/api/users/userId/children/childId/parents/parentId", () => {
 	it("it should not delete the parent of a specific child when token user_id doesnt match request user_id", async () => {
 		try {
 			const user = await User.findOne({ email: "test@email.com" });
@@ -410,7 +410,7 @@ describe("/Delete/users/userId/children/childId/parents/parentId", () => {
 			const child = await Child.findOne({ child_id: parent.child_id });
 			const res = await chai
 				.request(server)
-				.delete(`/users/${user.user_id}/children/${child.child_id}/parents/${user2.user_id}`)
+				.delete(`/api/users/${user.user_id}/children/${child.child_id}/parents/${user2.user_id}`)
 				.set("Authorization", user2.token)
 			res.should.have.status(401);
 		} catch (err) {
