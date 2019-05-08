@@ -22,17 +22,6 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-if(process.env.CITYLAB!=='ALL'){
-	app.use(function(req, res, next) {
-		if(!req.secure) {
-			var secureUrl = "https://" + req.headers['host'] + req.url; 
-			res.writeHead(301, { "Location":  secureUrl });
-			res.end();
-		}
-		next();
-	});
-}
-
 app.use(async (req) => {
   try {
     const token = req.headers.authorization
@@ -59,6 +48,17 @@ app.use('/api/users', require('./routes/user-routes'))
 app.use('/api/profiles', require('./routes/profile-routes'))
 app.use('/api/children', require('./routes/child-routes'))
 app.use('/api/github', require('./routes/github-routes'))
+
+if(process.env.CITYLAB!=='ALL'){
+	app.use(function(req, res, next) {
+		if(!req.secure) {
+			var secureUrl = "https://" + req.headers['host'] + req.url; 
+			res.writeHead(301, { "Location":  secureUrl });
+			res.end();
+		}
+		next();
+	});
+}
 
 if (config.util.getEnv('NODE_ENV') === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')))
