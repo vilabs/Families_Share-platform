@@ -74,8 +74,8 @@ switch (process.env.CITYLAB) {
 		break;
 	case 'VENICE':
 		privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
-		certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/cert.pem', 'utf8');
-		ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem/chain.pem', 'utf8');
+		certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/cert.pem', 'utf8');
+		ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/chain.pem', 'utf8');
 		credentials = {
 			key: privateKey,
 			cert: certificate,
