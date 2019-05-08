@@ -8,7 +8,7 @@ import * as Sentry from "@sentry/browser";
 import ReactGA from "react-ga";
 import ErrorBoundary from "./components/ErrorBoundary";
 import store from "./Store/Store";
-// import registerServiceWorker from "./registerServiceWorker";
+import registerServiceWorker from "./registerServiceWorker";
 import App from "./App";
 
 const history = createBrowserHistory();
@@ -61,4 +61,5 @@ ReactDOM.render(
   </Provider>,
   document.getElementById("root")
 );
-// registerServiceWorker();
+
+registerServiceWorker();
