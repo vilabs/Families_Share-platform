@@ -22,6 +22,8 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
+app.enable('trust proxy');
+
 if (process.env.CITYLAB !== 'ALL') {
 	app.use(function (req, res, next) {
 		if (!req.secure) {
