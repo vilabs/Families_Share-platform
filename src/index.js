@@ -24,15 +24,15 @@ const app = express()
 
 app.enable('trust proxy');
 
-// if (process.env.CITYLAB !== 'ALL') {
-// 	app.use(function (req, res, next) {
-// 		if (req.secure) {
-// 			next()
-// 		} else {
-// 			res.redirect('https://' + req.headers.host + req.url);
-// 		}
-// 	});
-// }
+if (process.env.CITYLAB === 'ALL') {
+	app.use(function (req, res, next) {
+		if (req.secure) {
+			next()
+		} else {
+			res.redirect('https://' + req.headers.host + req.url);
+		}
+	});
+}
 
 app.use(async (req) => {
   try {
