@@ -77,28 +77,33 @@ app.use((err, req, res, next) => {
 
 let privateKey, certificate, ca, credentials, httpsServer, server, httpServer;
 
-switch (process.env.CITYLAB) {
-	case 'ALL':
-		httpServer = http.createServer(app)
-		server = httpServer.listen(port, () => {
-			console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
-		})
-		break;
-	case 'VENICE':
-		privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
-		certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/cert.pem', 'utf8');
-		ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/chain.pem', 'utf8');
-		credentials = {
-			key: privateKey,
-			cert: certificate,
-			ca: ca
-		};
-		httpsServer = https.createServer(credentials, app);
-		server = httpsServer.listen(6003, () => {
-			console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
-		});
-		break;
-	default:
-}
+// switch (process.env.CITYLAB) {
+// 	case 'ALL':
+// 		httpServer = http.createServer(app)
+// 		server = httpServer.listen(port, () => {
+// 			console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+// 		})
+// 		break;
+// 	case 'VENICE':
+// 		privateKey = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/privkey.pem', 'utf8');
+// 		certificate = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/cert.pem', 'utf8');
+// 		ca = fs.readFileSync('/etc/letsencrypt/live/veniceapp.families-share.eu/chain.pem', 'utf8');
+// 		credentials = {
+// 			key: privateKey,
+// 			cert: certificate,
+// 			ca: ca
+// 		};
+// 		httpsServer = https.createServer(credentials, app);
+// 		server = httpsServer.listen(6003, () => {
+// 			console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
+// 		});
+// 		break;
+// 	default:
+// }
+httpServer = http.createServer(app)
+server = httpServer.listen(port, () => {
+	console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+})
+
 module.exports = server
 
