@@ -1342,7 +1342,7 @@ const it = {
     children: "bambini",
     userSubscribe: "Ti sei aggiunto all'attività",
     userUnsubscribe: "Ti sei rimosso dall'attività",
-    childSubscribe1: "JHai aggiunto",
+    childSubscribe1: "Hai aggiunto",
     childSubscribe2: "all'attività",
     childUnsubscribe1: "Hai rimosso",
     childUnsubscribe2: "dall'attività",
@@ -1541,7 +1541,7 @@ const it = {
   },
   myFamiliesShareScreen: {
 		myGroups: "I miei gruppi",
-		myActivities: "I miei attività",
+		myActivities: "Le mie attività",
 		myNotifications: "Le mie notifiche",
 		myGroupsPrompt: "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
 		myActivitiesPrompt: "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
@@ -1694,7 +1694,7 @@ const it = {
     boy: "Maschio",
     girl: "Femmina",
     unspecified: "Non specificato",
-    age: "Età",
+    age: "anni",
     additional: "Informazioni aggiuntive",
     allergies: "Allergie",
     otherInfo: "Altre informzioni",
@@ -1734,7 +1734,7 @@ const it = {
     example: "es., intolleranze alimentari",
     boy: "Bambino",
     girl: "Bambina",
-    date: "Data",
+    date: "Giorno",
     month: "Mese",
     year: "Anno",
     acceptTerms:
@@ -1908,7 +1908,7 @@ const it = {
   },
   calendar: {
     userCalendar: "Mio calendario",
-    groupCalendar: "Gruppo calendario"
+    groupCalendar: "Calendario del gruppo"
   },
   framilyListItem: {
     delete: ""
