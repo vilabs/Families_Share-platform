@@ -885,7 +885,7 @@ const nl = {
     activitiesTab: "Activiteiten",
     membersTab: "Leden",
     infoTab: "Over",
-    calendar: "Kalender"
+    calendarTab: "Kalender"
   },
   groupMembersAdminOptions: {
     invite: "Nodig mensen uit",
