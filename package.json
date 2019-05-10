@@ -26,6 +26,7 @@
     "googleapis": "^37.2.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.24.0",
+    "moment-timezone": "^0.5.25",
     "mongoose": "^5.5.2",
     "mongoose-unique-validator": "^2.0.3",
     "morgan": "^1.9.1",

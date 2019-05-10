@@ -25,25 +25,28 @@ const handleTimeslots = (timeslots, usersChildren) => {
   const sortedTimeslots = timeslots.sort((a, b) => {
     return moment.utc(a.start.dateTime).diff(moment.utc(b.start.dateTime));
   });
-  sortedTimeslots.forEach(timeslot => {
-    const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
-    timeslot.userSubscribed = parents.includes(userId);
-    const children = JSON.parse(timeslot.extendedProperties.shared.children);
-    timeslot.childrenSubscribed = false;
-    for (let i = 0; i < usersChildren.length; i++) {
+  for (let j = 0; j < sortedTimeslots.length; j += 1) {
+    const parents = JSON.parse(
+      sortedTimeslots[j].extendedProperties.shared.parents
+    );
+    sortedTimeslots[j].userSubscribed = parents.includes(userId);
+    const children = JSON.parse(
+      sortedTimeslots[j].extendedProperties.shared.children
+    );
+    sortedTimeslots[j].childrenSubscribed = false;
+    for (let i = 0; i < usersChildren.length; i += 1) {
       if (children.includes(usersChildren[i].child_id)) {
-        timeslot.childrenSubscribed = true;
+        sortedTimeslots[j].childrenSubscribed = true;
         break;
       }
     }
-  });
+  }
   return sortedTimeslots;
 };
 
 class TimeslotsList extends React.Component {
   state = {
     dates: [],
-    fetchedData: false,
     filter: "all",
     filterDrawerVisible: false,
     timeslots: [],
@@ -67,17 +70,17 @@ class TimeslotsList extends React.Component {
   async componentDidMount() {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const usersChildren = await getUsersChildren(userId);
-    const { timeslots } = this.props;
+    const { timeslots, dates } = this.props;
     this.setState({
       usersChildren,
-      fetchedData: true,
       timeslots: handleTimeslots(timeslots, usersChildren),
-      dates: this.props.dates
+      dates
     });
   }
 
   handleFilterDrawerVisibility = () => {
-    this.setState({ filterDrawerVisible: !this.state.filterDrawerVisible });
+    const { filterDrawerVisible } = this.state;
+    this.setState({ filterDrawerVisible: !filterDrawerVisible });
   };
 
   handleFilterDrawerClick = filterOption => {
@@ -102,7 +105,10 @@ class TimeslotsList extends React.Component {
   };
 
   filterTimeslot = timeslot => {
-    switch (this.state.filter) {
+    const { filter } = this.state;
+    const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
+    const userId = JSON.parse(localStorage.getItem("user")).id;
+    switch (filter) {
       case "all":
         return true;
       case "enough":
@@ -110,8 +116,6 @@ class TimeslotsList extends React.Component {
       case "notEnough":
         return !this.enoughParticipants(timeslot);
       case "signed":
-        const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
-        const userId = JSON.parse(localStorage.getItem("user")).id;
         return parents.indexOf(userId) !== -1;
       default:
         return true;
@@ -133,10 +137,11 @@ class TimeslotsList extends React.Component {
   };
 
   renderDays = () => {
+    const { dates, timeslots } = this.state;
     return (
       <ul id="timeslotDayContainer">
-        {this.state.dates.map((date, index) => {
-          const dayTimeslots = this.state.timeslots.filter(
+        {dates.map((date, index) => {
+          const dayTimeslots = timeslots.filter(
             timeslot =>
               moment(date).format("D") ===
                 moment(timeslot.start.dateTime).format("D") &&
@@ -167,22 +172,25 @@ class TimeslotsList extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].timeslotsList;
+    const { language } = this.props;
+    const { filterDrawerVisible, filter } = this.state;
+    const texts = Texts[language].timeslotsList;
     return (
       <React.Fragment>
         <FilterTimeslotsDrawer
-          isOpen={this.state.filterDrawerVisible}
+          isOpen={filterDrawerVisible}
           handleFilterDrawerClick={this.handleFilterDrawerClick}
-          activeOption={this.state.filter}
+          activeOption={filter}
           handleFilterDrawerClose={this.handleFilterDrawerClose}
         />
         <div id="timeslotsListContainer">
           <div className="row no-gutters filterLabel">
             <button
+              type="button"
               className="transparentButton"
               onClick={this.handleFilterDrawerVisibility}
             >
-              {`${texts[this.state.filter]}  `}
+              {`${texts[filter]}  `}
               <i className="fas fa-chevron-down" />
             </button>
           </div>
@@ -197,5 +205,6 @@ export default withLanguage(TimeslotsList);
 
 TimeslotsList.propTypes = {
   dates: PropTypes.array,
-  timeslots: PropTypes.array
+  timeslots: PropTypes.array,
+  language: PropTypes.string
 };
