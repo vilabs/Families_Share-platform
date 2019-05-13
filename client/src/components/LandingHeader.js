@@ -5,7 +5,7 @@ const LandingHeader = () => {
   return (
     <div className="row no-gutters" id="landingHeaderContainer">
       <img
-        src={Images[process.env.REACT_APP_CITYLAB_IMAGE]}
+        src={Images.citylabImage}
         alt="city logo"
         className="cityImage"
       />

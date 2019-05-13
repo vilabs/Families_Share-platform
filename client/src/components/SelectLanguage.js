@@ -26,14 +26,19 @@ class SelectLanguage extends React.Component {
     const languageIconStyle = {
       position: "relative",
       left: "0"
-    };
-    const appLanguages =
-      process.env.REACT_APP_CITYLAB === "all"
-        ? languages
-        : [
-            process.env.REACT_APP_CITYLAB_DEFAULT_LANG,
-            process.env.REACT_APP_CITYLAB_ALTERNATIVE_LANG
-          ];
+		};
+		let appLanguages;
+		if(process.env.REACT_APP_CITYLAB === "all"){
+			appLanguages =languages;
+		} else {
+			const defaultLang = process.env.REACT_APP_CITYLAB_DEFAULT_LANG;
+			const alternativeLang = process.env.REACT_APP_CITYLAB_ALTERNATIVE_LANG;
+			if (defaultLang && alternativeLang) {
+				appLanguages = [defaultLang, alternativeLang];
+			} else {
+				appLanguages = ["defaultLang"]
+			}
+		}
     const menu = (
       <Menu style={menuStyle} onClick={this.handleClick}>
         {appLanguages.map(language =>
