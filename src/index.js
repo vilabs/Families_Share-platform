@@ -22,7 +22,7 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-app.enable('trust proxy');
+//app.enable('trust proxy');
 
 // if (process.env.CITYLAB !== 'ALL') {
 // 	app.use(function (req, res, next) {
