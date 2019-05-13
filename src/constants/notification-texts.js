@@ -116,63 +116,51 @@ const it = {
 const nl = {
   group: [
     {
-      header: "Group Settings",
-      description: " changed the photo of the group."
+      header: "Groepsinstellingen",
+      description: " heeft de groepsfoto aangepast"
     },
     {
-      header: "Group Settings",
-      description: " changed the name of the group."
+      header: "Groepsinstellingen",
+      description: " heeft de groepsnaam aangepast"
     },
     {
-      header: "Group Settings",
-      description: " made the group invisible."
+      header: "Groepsinstellingen",
+      description: " maakte de groep onzichtbaar"
     },
+    { header: "Groepsinstellingen", description: " maakte de groep openbaar" },
     {
-      header: "Group Settings",
-      description: " made the group visible."
-    },
-    {
-      header: "Group Settings",
-      description: " changed the description of the group."
+      header: "Groepsinstellingen",
+      description: " wijzigde de beschrijving van de groep"
     }
   ],
   members: [
+    { header: "Nieuw lid", description: " werd lid van de groep" },
     {
-      header: "New Member",
-      description: " entered group "
+      header: "Verzoek om lid te worden",
+      description: "Je werd geaccepteerd in "
     },
-    {
-      header: "Join Request",
-      description: "You were accepted into "
-    },
-    {
-      header: "Group Members",
-      description: " was removed from the group "
-    },
-    {
-      header: "Group Members",
-      description: "You were removed from the group "
-    }
+    { header: "Groepsleden", description: " werd verwijderd uit de groep" },
+    { header: "Groepsleden", description: "Je werd verwijderd uit de groep" }
   ],
   activities: [
     {
-      header: "Group Activities",
-      description: " created a new activity in group "
+      header: "Groepsactiviteiten",
+      description: " heeft een nieuwe activiteit toegevoegd in de groep"
     },
     {
-      header: "Group Activities",
-      description: " has met all its requirements."
+      header: "Groepsactiviteiten",
+      description: " voldoet aan alle vereisten "
     },
     {
-      header: "Group Activities",
+      header: "Groepsactiviteiten",
       description:
-        " has changed date and time and participants were unsubscribed. Please, subscribe again."
+        " heeft datum en tijd gewijzigd, alle deelnemers werden verwijdert. Gelieve je opnieuw in te schrijven"
     }
   ],
   announcements: [
     {
-      header: "Group Announcements",
-      description: " posted a new announcement in group "
+      header: "Groepsmededelingen ",
+      description: " heeft een nieuwe mededeling geplaatst in de groep"
     }
   ]
 };
