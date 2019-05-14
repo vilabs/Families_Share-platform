@@ -22,8 +22,7 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-<<<<<<< HEAD
-//app.enable('trust proxy');
+// app.enable('trust proxy');
 // if (process.env.CITYLAB !== 'ALL') {
 // 	app.use(function (req, res, next) {
 // 		if (req.secure) {
@@ -33,18 +32,6 @@ const app = express()
 // 		}
 // 	});
 // }
-=======
-if (process.env.CITYLAB !== 'ALL') {
-	app.use(function (req, res, next) {
-		if(!req.secure) {
-			var secureUrl = "https://" + req.headers['host'] + req.url; 
-			res.writeHead(301, { "Location":  secureUrl });
-			res.end();
-		}
-		next();
-	});
-}
->>>>>>> 4e01270b527f44a04d2c7e9e43dd202a14534ce7
 
 app.use(async (req) => {
   try {
@@ -87,28 +74,27 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!')
 })
 
-let privateKey, certificate, ca, credentials, httpsServer, server, httpServer;
+let privateKey, certificate, ca, credentials, httpsServer, server, httpServer
 
 if (process.env.CITYLAB === 'ALL') {
-	httpServer = http.createServer(app)
-	server = httpServer.listen(port, () => {
-		console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
-	})
+  httpServer = http.createServer(app)
+  server = httpServer.listen(port, () => {
+    console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+  })
 } else {
-	const folder = `/etc/letsencrypt/live/${process.env.CITYLAB.toLowerCase()}app.families-share.eu/`
-	privateKey = fs.readFileSync(folder+'privkey.pem', 'utf8');
-	certificate = fs.readFileSync(folder+'cert.pem', 'utf8');
-		ca = fs.readFileSync(folder+'chain.pem', 'utf8');
+  const folder = `/etc/letsencrypt/live/${process.env.CITYLAB.toLowerCase()}app.families-share.eu/`
+  privateKey = fs.readFileSync(folder + 'privkey.pem', 'utf8')
+	certificate = fs.readFileSync(folder + 'cert.pem', 'utf8')
+		ca = fs.readFileSync(folder + 'chain.pem', 'utf8')
 		credentials = {
-			key: privateKey,
-			cert: certificate,
-			ca: ca
-		};
-		httpsServer = https.createServer(credentials, app);
+    key: privateKey,
+    cert: certificate,
+    ca: ca
+  }
+		httpsServer = https.createServer(credentials, app)
 		server = httpsServer.listen(process.env.PORT, () => {
-			console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
-		});
+    console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
+  })
 }
 
 module.exports = server
-
