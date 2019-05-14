@@ -65,128 +65,102 @@ const en = {
 const it = {
   group: [
     {
-      header: "Group Settings",
-      description: " changed the photo of the group."
+      header: "Impostazioni del gruppo",
+      description: "ha cambiato la foto del gruppo"
     },
     {
-      header: "Group Settings",
-      description: " changed the name of the group."
+      header: "Impostazioni gruppo",
+      description: "ha cambiato il nome del gruppo"
     },
     {
-      header: "Group Settings",
-      description: " made the group invisible."
+      header: "Impostazioni del gruppo",
+      description: "ha reso il gruppo non visibile"
     },
     {
-      header: "Group Settings",
-      description: " made the group visible."
+      header: "Impostazioni del gruppo",
+      description: "ha reso il gruppo visibile"
     },
-
     {
-      header: "Group Settings",
-      description: " changed the description of the group."
+      header: "Impostazioni del gruppo",
+      description: "ha cambiato la descrizione del gruppo"
     }
   ],
   members: [
-    {
-      header: "New Member",
-      description: " entered group "
-    },
-    {
-      header: "Join Request",
-      description: "You were accepted into "
-    },
-    {
-      header: "Group Members",
-      description: " was removed from the group "
-    },
-    {
-      header: "Group Members",
-      description: "You were removed from the group "
-    }
+    { header: "Nuovo membro", description: "è entrato nel gruppo" },
+    { header: "Iscriviti", description: "Sei stato aggiunto al gruppo" },
+    { header: "Membri del gruppo", description: "è stato rimosso dal gruppo" },
+    { header: "Membri del gruppo", description: "Sei stato rimosso dal gruppo" }
   ],
   activities: [
     {
-      header: "Group Activities",
-      description: " created a new activity in group "
+      header: "Attività del gruppo",
+      description: "ha creato una nuova attività nel gruppo"
     },
     {
-      header: "Group Activities",
-      description: " has met all its requirements."
+      header: "Attività del gruppo",
+      description: "ha soddisfatto tutte le condizioni."
     },
     {
-      header: "Group Activities",
+      header: "Attività del gruppo",
       description:
-        " has changed date and time and participants were unsubscribed. Please, subscribe again."
+        "ha modificato date e orari, e i partecipanti sono stati disiscritti. Se ancora interessati, reiscrivetevi alle attività."
     }
   ],
   announcements: [
     {
-      header: "Group Announcements",
-      description: " posted a new announcement in group "
+      header: "Avvisi del gruppo",
+      description: "ha inserito un nuovo avviso nel gruppo"
     }
   ]
 };
 const nl = {
   group: [
     {
-      header: "Group Settings",
-      description: " changed the photo of the group."
+      header: "Groepsinstellingen",
+      description: " heeft de groepsfoto aangepast"
     },
     {
-      header: "Group Settings",
-      description: " changed the name of the group."
+      header: "Groepsinstellingen",
+      description: " heeft de groepsnaam aangepast"
     },
     {
-      header: "Group Settings",
-      description: " made the group invisible."
+      header: "Groepsinstellingen",
+      description: " maakte de groep onzichtbaar"
     },
+    { header: "Groepsinstellingen", description: " maakte de groep openbaar" },
     {
-      header: "Group Settings",
-      description: " made the group visible."
-    },
-
-    {
-      header: "Group Settings",
-      description: " changed the description of the group."
+      header: "Groepsinstellingen",
+      description: " wijzigde de beschrijving van de groep"
     }
   ],
   members: [
+    { header: "Nieuw lid", description: " werd lid van de groep" },
     {
-      header: "New Member",
-      description: " entered group "
+      header: "Verzoek om lid te worden",
+      description: "Je werd geaccepteerd in "
     },
-    {
-      header: "Join Request",
-      description: "You were accepted into "
-    },
-    {
-      header: "Group Members",
-      description: " was removed from the group "
-    },
-    {
-      header: "Group Members",
-      description: "You were removed from the group "
-    }
+    { header: "Groepsleden", description: " werd verwijderd uit de groep" },
+    { header: "Groepsleden", description: "Je werd verwijderd uit de groep" }
   ],
   activities: [
     {
-      header: "Group Activities",
-      description: " created a new activity in group "
+      header: "Groepsactiviteiten",
+      description: " heeft een nieuwe activiteit toegevoegd in de groep"
     },
     {
-      header: "Group Activities",
-      description: " has met all its requirements."
+      header: "Groepsactiviteiten",
+      description: " voldoet aan alle vereisten "
     },
     {
-      header: "Group Activities",
+      header: "Groepsactiviteiten",
       description:
-        " has changed date and time and participants were unsubscribed. Please, subscribe again."
+        " heeft datum en tijd gewijzigd, alle deelnemers werden verwijdert. Gelieve je opnieuw in te schrijven"
     }
   ],
   announcements: [
     {
-      header: "Group Announcements",
-      description: " posted a new announcement in group "
+      header: "Groepsmededelingen ",
+      description: " heeft een nieuwe mededeling geplaatst in de groep"
     }
   ]
 };
@@ -214,22 +188,22 @@ const el = {
     }
   ],
   members: [
-    { 
-			header: "Νέο μέλος", 
-			description: " προστέθηκε στην ομάδα" 
-		},
-		{ 
-			header: "Αίτημα Συμμετοχής", 
-			description: "Προστεθήκατε στην" 
-		},
-    { 
-			header: "Μέλη ομάδας", 
-			description: "αφαιρέθηκε από την ομάδα" 
-		},
-    { 
-			header: "Μέλη ομάδας",
-			description: "Έχετε αφαιρεθεί από την ομάδα" 
-		}
+    {
+      header: "Νέο μέλος",
+      description: " προστέθηκε στην ομάδα"
+    },
+    {
+      header: "Αίτημα Συμμετοχής",
+      description: "Προστεθήκατε στην"
+    },
+    {
+      header: "Μέλη ομάδας",
+      description: "αφαιρέθηκε από την ομάδα"
+    },
+    {
+      header: "Μέλη ομάδας",
+      description: "Έχετε αφαιρεθεί από την ομάδα"
+    }
   ],
   activities: [
     {

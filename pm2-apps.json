@@ -3,6 +3,7 @@
     {
       "name": "Families_Share",
       "script": "src/index.js",
+      "instances": "max",
       "env": {
         "NODE_ENV": "production"
       }
