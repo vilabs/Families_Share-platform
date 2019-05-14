@@ -22,17 +22,6 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-// app.enable('trust proxy');
-// if (process.env.CITYLAB !== 'ALL') {
-// 	app.use(function (req, res, next) {
-// 		if (req.secure) {
-// 			next()
-// 		} else {
-// 			res.redirect('https://' + req.headers.host + req.url);
-// 		}
-// 	});
-// }
-
 app.use(async (req) => {
   try {
     const token = req.headers.authorization
@@ -84,15 +73,15 @@ if (process.env.CITYLAB === 'ALL') {
 } else {
   const folder = `/etc/letsencrypt/live/${process.env.CITYLAB.toLowerCase()}app.families-share.eu/`
   privateKey = fs.readFileSync(folder + 'privkey.pem', 'utf8')
-	certificate = fs.readFileSync(folder + 'cert.pem', 'utf8')
-		ca = fs.readFileSync(folder + 'chain.pem', 'utf8')
-		credentials = {
+  certificate = fs.readFileSync(folder + 'cert.pem', 'utf8')
+  ca = fs.readFileSync(folder + 'chain.pem', 'utf8')
+  credentials = {
     key: privateKey,
     cert: certificate,
     ca: ca
   }
-		httpsServer = https.createServer(credentials, app)
-		server = httpsServer.listen(process.env.PORT, () => {
+  httpsServer = https.createServer(credentials, app)
+  server = httpsServer.listen(process.env.PORT, () => {
     console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
   })
 }
