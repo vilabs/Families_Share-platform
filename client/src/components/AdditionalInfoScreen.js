@@ -1,25 +1,28 @@
 import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import Log from "./Log";
 
-const styles = theme => ({
+const styles = {
   checkbox: {
     "&$checked": {
       color: "#00838F"
     }
   },
   checked: {}
-});
+};
 
 class AdditionalInfoScreen extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.history.location.state !== undefined) {
-      this.state = { ...this.props.history.location.state };
+    const { history } = this.props;
+    const { state } = history.location;
+    if (state !== undefined) {
+      this.state = { ...state };
     } else {
       this.state = {
         allergies: "",
@@ -31,10 +34,11 @@ class AdditionalInfoScreen extends React.Component {
   }
 
   handleCancel = () => {
-    const { pathname } = this.props.history.location;
+    const { history } = this.props;
+    const { pathname } = history.location;
     const parentpath = pathname.slice(0, pathname.lastIndexOf("/"));
-    this.props.history.goBack();
-    this.props.history.replace({
+    history.goBack();
+    history.replace({
       pathname: parentpath,
       state: {
         ...this.state
@@ -53,15 +57,22 @@ class AdditionalInfoScreen extends React.Component {
   };
 
   handleSave = () => {
-    const userId = this.props.match.params.profileId;
-    const { childId } = this.props.match.params;
-    if (this.state.acceptAdditionalTerms) {
-      if (this.state.editChild) {
+    const { match } = this.props;
+    const { profileId: userId, childId } = match.params;
+    const {
+      acceptAdditionalTerms,
+      editChild,
+      allergies,
+      special_needs,
+      other_info
+    } = this.state;
+    if (acceptAdditionalTerms) {
+      if (editChild) {
         axios
           .patch(`/api/users/${userId}/children/${childId}`, {
-            allergies: this.state.allergies,
-            special_needs: this.state.special_needs,
-            other_info: this.state.other_info
+            allergies,
+            special_needs,
+            other_info
           })
           .then(response => {
             Log.info(response);
@@ -77,10 +88,11 @@ class AdditionalInfoScreen extends React.Component {
   };
 
   goBack = () => {
-    const { pathname } = this.props.history.location;
+    const { history } = this.props;
+    const { pathname } = history.location;
     const parentpath = pathname.slice(0, pathname.lastIndexOf("/"));
-    this.props.history.goBack();
-    this.props.history.replace({
+    history.goBack();
+    history.replace({
       pathname: parentpath,
       state: {
         ...this.state
@@ -89,8 +101,14 @@ class AdditionalInfoScreen extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].additionalInfoScreen;
-    const { classes } = this.props;
+    const { classes, language } = this.props;
+    const texts = Texts[language].additionalInfoScreen;
+    const {
+      acceptAdditionalTerms,
+      allergies,
+      special_needs,
+      other_info
+    } = this.state;
     return (
       <React.Fragment>
         <div
@@ -117,9 +135,7 @@ class AdditionalInfoScreen extends React.Component {
             >
               <i
                 className="fas fa-check"
-                style={
-                  !this.state.acceptAdditionalTerms ? { opacity: "0.5" } : {}
-                }
+                style={!acceptAdditionalTerms ? { opacity: "0.5" } : {}}
               />
             </button>
           </div>
@@ -132,7 +148,7 @@ class AdditionalInfoScreen extends React.Component {
               placeholder={texts.allergy}
               onChange={this.handleChange}
               className="additionalInfoInputField"
-              value={this.state.allergies}
+              value={allergies}
             />
           </div>
           <div className="row no-gutters">
@@ -142,7 +158,7 @@ class AdditionalInfoScreen extends React.Component {
               placeholder={texts.special}
               onChange={this.handleChange}
               className="additionalInfoInputField"
-              value={this.state.special_needs}
+              value={special_needs}
             />
           </div>
           <div className="row no-gutters">
@@ -152,14 +168,14 @@ class AdditionalInfoScreen extends React.Component {
               placeholder={texts.others}
               onChange={this.handleChange}
               className="additionalInfoInputField"
-              value={this.state.other_info}
+              value={other_info}
             />
           </div>
           <div className="row no-gutters">
             <div className="col-2-10">
               <Checkbox
                 classes={{ root: classes.checkbox, checked: classes.checked }}
-                checked={this.state.acceptAdditionalTerms}
+                checked={acceptAdditionalTerms}
                 onChange={this.handleAcceptTermsChange("acceptAdditionalTerms")}
               />
             </div>
@@ -172,5 +188,12 @@ class AdditionalInfoScreen extends React.Component {
     );
   }
 }
+
+AdditionalInfoScreen.propTypes = {
+  history: PropTypes.object,
+  classes: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
+};
 
 export default withLanguage(withStyles(styles)(AdditionalInfoScreen));

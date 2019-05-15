@@ -55,7 +55,7 @@ class AnnouncementBar extends React.Component {
       const user_id = JSON.parse(localStorage.getItem("user")).id;
       const bodyFormData = new FormData();
       if (photos.length > 0) {
-        for (let i = 0; i < photos.length; i++) {
+        for (let i = 0; i < photos.length; i += 1) {
           bodyFormData.append("photo", photos[i].photo);
         }
       }
@@ -70,7 +70,7 @@ class AnnouncementBar extends React.Component {
         .catch(error => {
           Log.error(error);
         });
-      this.setState({ message: "", photos: [], photoPreviews: [] });
+      this.setState({ message: "", photos: [] });
     }
   };
 
@@ -82,21 +82,26 @@ class AnnouncementBar extends React.Component {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = e => {
-        photo.preview = e.target.result;
-        resolve(photo);
+        const photoWithPrev = photo;
+        photoWithPrev.preview = e.target.result;
+        resolve(photoWithPrev);
+      };
+      reader.onerror = e => {
+        reject(e);
       };
       reader.readAsDataURL(photo.photo);
     });
   };
 
   handleImageUpload = async event => {
-    const snackMessage = Texts[this.props.language].replyBar.maxFilesError;
+    const { enqueueSnackbar, language } = this.props;
+    const snackMessage = Texts[language].replyBar.maxFilesError;
     if (event.target.files) {
       const photos = [...event.target.files].map(file => {
         return { photo: file, preview: "" };
       });
       if (photos.length > 3) {
-        this.props.enqueueSnackbar(snackMessage, {
+        enqueueSnackbar(snackMessage, {
           variant: "error"
         });
       } else {
@@ -113,17 +118,20 @@ class AnnouncementBar extends React.Component {
   };
 
   handlePreviewDelete = photo => {
+    const { photos } = this.state;
     this.setState({
-      photos: this.state.photos.filter(p => p.preview !== photo.preview)
+      photos: photos.filter(p => p.preview !== photo.preview)
     });
   };
 
   render() {
-    const texts = Texts[this.props.language].replyBar;
+    const { language } = this.props;
+    const texts = Texts[language].replyBar;
+    const { photos, message } = this.state;
     return (
       <React.Fragment>
         <PhotoPreviewBubble
-          photos={this.state.photos}
+          photos={photos}
           handleDelete={this.handlePreviewDelete}
         />
         <div id="announcementBarContainer" className="row no-gutters">
@@ -133,33 +141,37 @@ class AnnouncementBar extends React.Component {
                 <input
                   type="text"
                   className="center"
-                  value={this.state.message}
+                  value={message}
                   placeholder={texts.new}
                   onChange={this.handleMessageChange}
                   onKeyUp={this.handleEnter}
                 />
               </div>
               <div className="col-3-10" id="announcementBubbleButtons">
-                <label className="verticalCenter" htmlFor="uploadPhotoInput">
+                <label htmlFor="uploadPhotoInput">
                   <i
+                    role="button"
+                    tabIndex="-1"
                     className="fas fa-camera"
-                    onClick={
-                      window.isNative ? this.handleNativeImageChange : () => {}
+                    onClick={() =>
+                      window.isNative ? this.handleNativeImageChange : {}
                     }
                   />
+                  {!window.isNative && (
+                    <input
+                      id="uploadPhotoInput"
+                      type="file"
+                      accept="image/*"
+                      name="photo"
+                      multiple
+                      onChange={this.handleImageUpload}
+                    />
+                  )}
                 </label>
-                {!window.isNative && (
-                  <input
-                    id="uploadPhotoInput"
-                    type="file"
-                    accept="image/*"
-                    name="photo"
-                    multiple
-                    onChange={this.handleImageUpload}
-                  />
-                )}
                 <i
-                  className="fas fa-paper-plane verticalCenter"
+                  role="button"
+                  tabIndex="-1"
+                  className="fas fa-paper-plane"
                   onClick={this.handleSend}
                 />
               </div>
@@ -173,7 +185,9 @@ class AnnouncementBar extends React.Component {
 
 AnnouncementBar.propTypes = {
   handleRefresh: PropTypes.func,
-  groupId: PropTypes.string
+  groupId: PropTypes.string,
+  language: PropTypes.string,
+  enqueueSnackbar: PropTypes.func
 };
 
 export default withSnackbar(withLanguage(AnnouncementBar));

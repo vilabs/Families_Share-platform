@@ -198,7 +198,7 @@ class EditProfileScreen extends React.Component {
             src={this.state.image.path}
           />
           <label htmlFor="editGivenNameInput" id="editGivenNameLabel">
-            {texts.name}{" "}
+            {texts.name}
           </label>
           <input
             type="text"
@@ -226,7 +226,7 @@ class EditProfileScreen extends React.Component {
           <div id="uploadProfilePhotoContainer">
             <label htmlFor="uploadPhotoInput">
               <i
-                className="fas fa-camera "
+                className="fas fa-camera"
                 onClick={
                   window.isNative ? this.handleNativeImageChange : () => {}
                 }

@@ -1,17 +1,17 @@
 import languageConstants from "../Constants/LanguageConstants";
 
-const languageActions = {
-  update
-};
-
 function update(language) {
+  function request() {
+    return { type: languageConstants.UPDATE_REQUEST, language };
+  }
   return dispatch => {
     dispatch(request({ language }));
     localStorage.setItem("language", language);
   };
-  function request(language) {
-    return { type: languageConstants.UPDATE_REQUEST, language };
-  }
 }
+
+const languageActions = {
+  update
+};
 
 export default languageActions;

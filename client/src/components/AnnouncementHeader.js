@@ -14,13 +14,13 @@ class AnnouncementHeader extends React.Component {
     confirmDialogIsOpen: false,
     deleteId: "",
     fetchedProfile: false,
-    profile: {},
-    hasError: false
+    profile: {}
   };
 
   componentDidMount() {
+    const { userId } = this.props;
     axios
-      .get(`/api/users/${this.props.userId}/profile`)
+      .get(`/api/users/${userId}/profile`)
       .then(response => {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
@@ -95,8 +95,8 @@ class AnnouncementHeader extends React.Component {
               <Avatar
                 thumbnail={profile.image.path}
                 route={`/profiles/${profile.user_id}/info`}
-								className="horizontalCenter"
-								disabled={profile.suspended}
+                className="horizontalCenter"
+                disabled={profile.suspended}
               />
             </div>
             <div className="col-6-10">

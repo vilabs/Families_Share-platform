@@ -25,10 +25,10 @@ const AgendaView = ({ events }) => {
   };
   const getEvents = () => {
     const timeslots = JSON.parse(JSON.stringify(events));
-    timeslots.forEach(event => {
-      event.start = { dateTime: event.start };
-      event.end = { dateTime: event.end };
-    });
+    for (let i = 0; i < timeslots.length; i += 1) {
+      timeslots[i].start = { dateTime: timeslots[i].start };
+      timeslots[i].end = { dateTime: timeslots[i].end };
+    }
     return timeslots;
   };
   return (
@@ -41,6 +41,5 @@ const AgendaView = ({ events }) => {
 export default withLanguage(withRouter(AgendaView));
 
 AgendaView.propTypes = {
-  events: PropTypes.array,
-  activeMonth: PropTypes.string
+  events: PropTypes.array
 };

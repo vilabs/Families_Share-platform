@@ -117,6 +117,9 @@ class ActivityListItem extends React.Component {
     return fetchedTimeslots ? (
       <React.Fragment>
         <div
+          role="button"
+          tabIndex="0"
+          onKeyPress={this.handleActivityClick}
           className="row no-gutters"
           style={{ height: "7rem", cursor: "pointer" }}
           id={activity.activity_id}

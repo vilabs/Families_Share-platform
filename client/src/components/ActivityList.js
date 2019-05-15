@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import withLanguage from "./LanguageContext";
 import { withRouter } from "react-router-dom";
-import ActivityListItem from './ActivityListItem';
+import withLanguage from "./LanguageContext";
+import ActivityListItem from "./ActivityListItem";
 
 const GroupList = ({ activities, history, language }) => {
   return (
     <div className="suggestionsContainer">
       <ul>
-        {activities.map( (activity,index) => (
+        {activities.map((activity, index) => (
           <li key={index} style={{ margin: "1rem 0" }}>
             <ActivityListItem
               activityId={activity.activityId}
@@ -24,7 +24,9 @@ const GroupList = ({ activities, history, language }) => {
 };
 
 GroupList.propTypes = {
-  activityIds: PropTypes.array
+  activities: PropTypes.array,
+  history: PropTypes.object,
+  language: PropTypes.string
 };
 
 export default withRouter(withLanguage(GroupList));
