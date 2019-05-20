@@ -11,7 +11,9 @@ const http = require('http')
 const https = require('https')
 const fs = require('fs')
 
-const port = parseInt(process.env.PORT, 10)
+const HTTPS_PORT = parseInt(process.env.HTTPS_PORT, 10)
+const HTTP_PORT = parseInt(process.env.HTTP_PORT, 10)
+
 const config = require('config')
 
 const dbHost = config.get('dbConfig.host')
@@ -63,12 +65,12 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!')
 })
 
-let privateKey, certificate, ca, credentials, httpsServer, server, httpServer
+let privateKey, certificate, ca, credentials, httpsServer, httpServer
 
 if (process.env.CITYLAB === 'ALL') {
   httpServer = http.createServer(app)
-  server = httpServer.listen(port, () => {
-    console.log(` Server ${chalk.green('started')} at http://localhost:${port}.`)
+  httpServer.listen(HTTP_PORT, () => {
+    console.log(` Server ${chalk.green('started')} at http://localhost:${HTTP_PORT}.`)
   })
 } else {
   const folder = `/etc/letsencrypt/live/${process.env.CITYLAB.toLowerCase()}app.families-share.eu/`
@@ -80,10 +82,12 @@ if (process.env.CITYLAB === 'ALL') {
     cert: certificate,
     ca: ca
   }
+  httpServer = http.createServer(app)
+  httpServer.listen(process.env.HTTP_PORT, () => {
+    console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${HTTP_PORT}.`)
+  })
   httpsServer = https.createServer(credentials, app)
-  server = httpsServer.listen(process.env.PORT, () => {
-    console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${port}.`)
+  httpsServer.listen(process.env.HTTPS_PORT, () => {
+    console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${HTTPS_PORT}.`)
   })
 }
-
-module.exports = server
