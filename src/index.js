@@ -24,6 +24,12 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
+app.use(function (req, res, next) {
+  if ((req.get('X-Forwarded-Proto') !== 'https')) {
+    res.redirect('https://' + req.get('Host') + req.url)
+  } else { next() }
+})
+
 app.use(async (req) => {
   try {
     const token = req.headers.authorization
