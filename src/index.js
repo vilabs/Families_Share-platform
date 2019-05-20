@@ -27,7 +27,7 @@ const app = express()
 if (process.env.CITYLAB !== 'ALL') {
   app.use((req, res, next) => {
     if (!req.secure) {
-      res.redirect('https://' + req.get('Host') + req.url)
+      res.redirect('https://localhost:' + HTTPS_PORT + req.url)
     }
     next()
   })
