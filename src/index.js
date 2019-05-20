@@ -24,14 +24,14 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-// if (process.env.CITYLAB !== 'ALL') {
-//   app.use((req, res, next) => {
-//     if (!req.secure) {
-//       res.redirect('https://' + req.get('Host') + ':' + HTTPS_PORT + req.url)
-//     }
-//     next()
-//   })
-// }
+if (process.env.CITYLAB !== 'ALL') {
+  app.use((req, res, next) => {
+    if (!req.secure) {
+      res.redirect('https://' + req.get('Host') + ':' + HTTPS_PORT + req.url)
+    }
+    next()
+  })
+}
 
 app.use(async (req) => {
   try {
@@ -93,7 +93,7 @@ if (process.env.CITYLAB === 'ALL') {
   }
   httpServer = http.createServer(app)
   httpServer.listen(process.env.HTTP_PORT, () => {
-    console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${HTTP_PORT}.`)
+    console.log(` HTTP Server ${chalk.green('started')} at https://localhost:${HTTP_PORT}.`)
   })
   httpsServer = https.createServer(credentials, app)
   httpsServer.listen(process.env.HTTPS_PORT, () => {
