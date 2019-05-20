@@ -28,7 +28,7 @@ if (process.env.CITYLAB !== 'ALL') {
   app.use((req, res, next) => {
     if (!req.secure) {
       let host = req.get('Host')
-      host = host.substring(0, host.indexOf(':'))
+      host = host.substring(0, host.indexOf(':') + 1)
       res.redirect('https://' + host + HTTPS_PORT + req.url)
     }
     next()
