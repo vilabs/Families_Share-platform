@@ -24,11 +24,9 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   if (!req.secure) {
-    var secureUrl = 'https://' + req.headers['host'] + req.url
-    res.writeHead(301, { 'Location': secureUrl })
-    res.end()
+    res.redirect('https://' + req.get('Host') + ':' + HTTPS_PORT + req.url)
   }
   next()
 })
