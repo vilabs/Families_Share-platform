@@ -24,14 +24,14 @@ mongoose.Promise = global.Promise
 
 const app = express()
 
-if (process.env.CITYLAB !== 'ALL') {
-  app.use((req, res, next) => {
-    if (!req.secure) {
-      res.redirect('https://' + req.get('Host') + ':' + HTTPS_PORT + req.url)
-    }
-    next()
-  })
-}
+// if (process.env.CITYLAB !== 'ALL') {
+//   app.use((req, res, next) => {
+//     if (!req.secure) {
+//       res.redirect('https://' + req.get('Host') + ':' + HTTPS_PORT + req.url)
+//     }
+//     next()
+//   })
+// }
 
 app.use(async (req) => {
   try {
