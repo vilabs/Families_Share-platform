@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import BackNavigation from "./BackNavigation";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
@@ -11,7 +12,8 @@ class PendingRequestsScreen extends React.Component {
   constructor(props) {
     super(props);
     let requests_type;
-    const { pathname } = this.props.location;
+    const { history } = this.props;
+    const { pathname } = history.location;
     if (pathname.includes("members")) {
       requests_type = "group_members";
     } else if (pathname.includes("invites")) {
@@ -26,11 +28,14 @@ class PendingRequestsScreen extends React.Component {
   }
 
   componentDidMount() {
+    const { match } = this.props;
+    const { groupId } = match.params;
     const { requests_type } = this.state;
+    const userId = JSON.parse(localStorage.getItem("user")).id;
     switch (requests_type) {
       case "group_members":
         axios
-          .get(`/api/groups/${this.props.match.params.groupId}/members`)
+          .get(`/api/groups/${groupId}/members`)
           .then(res => {
             const requests = res.data.filter(
               member => !member.group_accepted && member.user_accepted
@@ -53,7 +58,6 @@ class PendingRequestsScreen extends React.Component {
           });
         break;
       case "user_groups":
-        const userId = JSON.parse(localStorage.getItem("user")).id;
         axios
           .get(`/api/users/${userId}/groups`)
           .then(res => {
@@ -79,7 +83,7 @@ class PendingRequestsScreen extends React.Component {
         break;
       case "group_activities":
         axios
-          .get(`/api/groups/${this.props.match.params.groupId}/activities`)
+          .get(`/api/groups/${groupId}/activities`)
           .then(res => {
             const activities = res.data.filter(
               activity => activity.status === "pending"
@@ -96,13 +100,16 @@ class PendingRequestsScreen extends React.Component {
   }
 
   handleConfirm = request => {
-    switch (this.state.requests_type) {
+    const { requests_type, requests } = this.state;
+    const { match } = this.props;
+    const { groupId } = match.params;
+    switch (requests_type) {
       case "group_members":
-        const filteredUsers = this.state.requests.filter(
+        const filteredUsers = requests.filter(
           req => req.user_id !== request.user_id
         );
         axios
-          .patch(`/api/groups/${this.props.match.params.groupId}/members`, {
+          .patch(`/api/groups/${groupId}/members`, {
             patch: { group_accepted: true },
             id: request.user_id
           })
@@ -116,7 +123,7 @@ class PendingRequestsScreen extends React.Component {
         break;
       case "user_groups":
         const userId = JSON.parse(localStorage.getItem("user")).id;
-        const filteredGroups = this.state.requests.filter(
+        const filteredGroups = requests.filter(
           req => req.group_id !== request.group_id
         );
         axios
@@ -130,16 +137,13 @@ class PendingRequestsScreen extends React.Component {
           });
         break;
       case "group_activities":
-        const filteredActivities = this.state.requests.filter(
+        const filteredActivities = requests.filter(
           req => req.activity_id !== request.activity_id
         );
         axios
-          .patch(
-            `/api/groups/${this.props.match.params.groupId}/activities/${
-              request.activity_id
-            }`,
-            { status: "accepted" }
-          )
+          .patch(`/api/groups/${groupId}/activities/${request.activity_id}`, {
+            status: "accepted"
+          })
           .then(response => {
             Log.info(response);
             this.setState({ requests: filteredActivities });
@@ -153,17 +157,16 @@ class PendingRequestsScreen extends React.Component {
   };
 
   handleDelete = request => {
-    switch (this.state.requests_type) {
+    const { requests_type, requests } = this.state;
+    const { match } = this.props;
+    const { groupId } = match.params;
+    switch (requests_type) {
       case "group_members":
-        const filteredUsers = this.state.requests.filter(
+        const filteredUsers = requests.filter(
           req => req.user_id !== request.user_id
         );
         axios
-          .delete(
-            `/api/groups/${this.props.match.params.groupId}/members/${
-              request.user_id
-            }`
-          )
+          .delete(`/api/groups/${groupId}/members/${request.user_id}`)
           .then(response => {
             Log.info(response);
             this.setState({ requests: filteredUsers });
@@ -174,7 +177,7 @@ class PendingRequestsScreen extends React.Component {
         break;
       case "user_groups":
         const userId = JSON.parse(localStorage.getItem("user")).id;
-        const filteredGroups = this.state.requests.filter(
+        const filteredGroups = requests.filter(
           req => req.group_id !== request.group_id
         );
         axios
@@ -188,15 +191,11 @@ class PendingRequestsScreen extends React.Component {
           });
         break;
       case "group_activities":
-        const filterdActivities = this.state.requests.filter(
+        const filterdActivities = requests.filter(
           req => req.activity_id !== request.activity_id
         );
         axios
-          .delete(
-            `/api/groups/${this.props.match.params.groupId}/activities/${
-              request.activity_id
-            }`
-          )
+          .delete(`/api/groups/${groupId}/activities/${request.activity_id}`)
           .then(response => {
             Log.info(response);
             this.setState({ requests: filterdActivities });
@@ -210,7 +209,9 @@ class PendingRequestsScreen extends React.Component {
   };
 
   renderAvatar = request => {
-    switch (this.state.requests_type) {
+    const { history } = this.props;
+    const { requests_type } = this.state;
+    switch (requests_type) {
       case "group_members":
         return (
           <Avatar
@@ -230,8 +231,10 @@ class PendingRequestsScreen extends React.Component {
       case "group_activities":
         return (
           <i
+            role="button"
+            tabIndex={-42}
             onClick={() =>
-              this.props.history.push(
+              history.push(
                 `/groups/${request.group_id}/activities/${request.activity_id}`
               )
             }
@@ -248,56 +251,58 @@ class PendingRequestsScreen extends React.Component {
   };
 
   renderName = request => {
-    let name;
+    const { requests_type } = this.state;
+    const { history } = this.props;
+    let requestName;
     let route;
-    if (this.state.requests_type === "group_members") {
-      name = `${request.family_name} ${request.given_name[0]}.`;
+    if (requests_type === "group_members") {
+      requestName = `${request.family_name} ${request.given_name[0]}.`;
       route = `/profiles/${request.user_id}/info`;
-    } else if (this.state.requests_type === "user_groups") {
-      name = request.name;
+    } else if (requests_type === "user_groups") {
+      requestName = request.name;
       route = `/groups/${request.group_id}/activities`;
     } else {
-      name = request.name;
+      requestName = request.name;
       route = `/groups/${request.group_id}/activities/${request.activity_id}`;
     }
     return (
       <h1
         className="verticalCenter"
         onClick={() => {
-          this.props.history.push(route);
+          history.push(route);
         }}
       >
-        {name}
+        {requestName}
       </h1>
     );
   };
 
   render() {
-    const texts = Texts[this.props.language].pendingRequestsScreen;
+    const { language, history } = this.props;
+    const { requests_type, fetchedRequests, requests } = this.state;
+    const texts = Texts[language].pendingRequestsScreen;
     let backNavTitle;
-    if (this.state.requests_type === "user_groups") {
+    if (requests_type === "user_groups") {
       backNavTitle = texts.invites;
-    } else if (this.state.requests_type === "group_members") {
+    } else if (requests_type === "group_members") {
       backNavTitle = texts.requests;
     } else {
       backNavTitle = texts.activities;
     }
     const rowStyle = { height: "7rem" };
     const confirmStyle = { backgroundColor: "#00838F", color: "#ffffff" };
-    return this.state.fetchedRequests ? (
+    return fetchedRequests ? (
       <React.Fragment>
-        <BackNavigation
-          title={backNavTitle}
-          onClick={() => this.props.history.goBack()}
-        />
+        <BackNavigation title={backNavTitle} onClick={() => history.goBack()} />
         <ul id="groupMembersRequestsContainer">
-          {this.state.requests.map((request, index) => (
+          {requests.map((request, index) => (
             <li key={index}>
               <div className="row no-gutters" style={rowStyle}>
                 <div className="col-2-10">{this.renderAvatar(request)}</div>
                 <div className="col-4-10">{this.renderName(request)}</div>
                 <div className="col-2-10">
                   <button
+                    type="button"
                     className="center confirmRequestButton"
                     style={confirmStyle}
                     onClick={() => this.handleConfirm(request)}
@@ -307,6 +312,7 @@ class PendingRequestsScreen extends React.Component {
                 </div>
                 <div className="col-2-10">
                   <button
+                    type="button"
                     className="center deleteRequestButton"
                     onClick={() => this.handleDelete(request)}
                   >
@@ -323,5 +329,11 @@ class PendingRequestsScreen extends React.Component {
     );
   }
 }
+
+PendingRequestsScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
+};
 
 export default withLanguage(PendingRequestsScreen);

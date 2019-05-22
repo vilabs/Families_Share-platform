@@ -21,6 +21,7 @@
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
     "import/no-dynamic-require": 0,
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "no-case-declarations": "off"
   }
 }
