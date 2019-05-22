@@ -1,33 +1,55 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import { withSnackbar } from "notistack";
+import PropTypes from "prop-types";
+import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock";
 import OptionsModal from "./OptionsModal";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
+import ExpandedImageModal from "./ExpandedImageModal";
 import Log from "./Log";
-import { withSnackbar } from "notistack";
 
 class ProfileHeader extends React.Component {
-  state = { optionsModalIsOpen: false, confirmDialogIsOpen: false, action: "" };
+  state = {
+    optionsModalIsOpen: false,
+    confirmDialogIsOpen: false,
+    action: "",
+    imageModalIsOpen: false
+  };
+
+  handleImageModalOpen = () => {
+    const target = document.querySelector(".ReactModalPortal");
+    disableBodyScroll(target);
+    this.setState({ imageModalIsOpen: true });
+  };
+
+  handleImageModalClose = () => {
+    clearAllBodyScrollLocks();
+    this.setState({ imageModalIsOpen: false });
+  };
 
   handleClose = () => {
     this.setState({ optionsModalIsOpen: false });
   };
 
   handleEdit = () => {
-    const pathName = this.props.history.location.pathname;
-    const parentPath = pathName.slice(0, pathName.lastIndexOf("/"));
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
     const newPath = `${parentPath}/edit`;
-    this.props.history.push(newPath);
+    history.push(newPath);
   };
 
   handleOptions = () => {
-    this.setState({ optionsModalIsOpen: !this.state.optionsModalIsOpen });
+    const { optionsModalIsOpen } = this.state;
+    this.setState({ optionsModalIsOpen: !optionsModalIsOpen });
   };
 
   handleExport = () => {
-    const userId = this.props.match.params.profileId;
+    const { match } = this.props;
+    const { profileId: userId } = match.params;
     axios
       .post(`/api/users/${userId}/export`)
       .then(response => {
@@ -39,40 +61,45 @@ class ProfileHeader extends React.Component {
   };
 
   handleDelete = () => {
-    const userId = this.props.match.params.profileId;
+    const { match, history } = this.props;
+    const { profileId: userId } = match.params;
     axios
       .delete(`/api/users/${userId}`)
       .then(response => {
         Log.info(response);
         localStorage.removeItem("user");
-        this.props.history.push("/");
+        history.push("/");
       })
       .catch(error => {
         Log.error(error);
       });
   };
-	handleSuspend = () => {
-		const { match, language, enqueueSnackbar, history } = this.props;
-		const { profileId: userId } = match.params;
-		const texts = Texts[language].profileHeader
+
+  handleSuspend = () => {
+    const { match, language, enqueueSnackbar, history } = this.props;
+    const { profileId: userId } = match.params;
+    const texts = Texts[language].profileHeader;
     axios
       .post(`/api/users/${userId}/suspend`)
       .then(response => {
-				enqueueSnackbar( texts.suspendSuccess, {variant: "info"})
-        setTimeout(()=>{ 
-					Log.info(response);
-					localStorage.removeItem("user");
-					history.push("/");
-				}, 2000)
+        enqueueSnackbar(texts.suspendSuccess, { variant: "info" });
+        setTimeout(() => {
+          Log.info(response);
+          localStorage.removeItem("user");
+          history.push("/");
+        }, 2000);
       })
       .catch(error => {
-				Log.error(error);
-				enqueueSnackbar( texts.error, {variant: "error"})
+        Log.error(error);
+        enqueueSnackbar(texts.error, { variant: "error" });
       });
-	}
-  handleBackNav = () => {
-    this.props.history.goBack();
   };
+
+  handleBackNav = () => {
+    const { history } = this.props;
+    history.goBack();
+  };
+
   handleConfirmDialogOpen = action => {
     this.setState({
       confirmDialogIsOpen: true,
@@ -82,17 +109,18 @@ class ProfileHeader extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
+    const { action } = this.state;
     if (choice === "agree") {
-      switch (this.state.action) {
+      switch (action) {
         case "delete":
           this.handleDelete();
           break;
         case "export":
           this.handleExport();
-					break;
-				case "suspend":
-					this.handleSuspend();
-					break;
+          break;
+        case "suspend":
+          this.handleSuspend();
+          break;
         default:
       }
     }
@@ -100,21 +128,28 @@ class ProfileHeader extends React.Component {
   };
 
   render() {
-		const texts = Texts[this.props.language].profileHeader;
-		const { action } = this.state;
-		let confirmDialogTitle;
-		switch(action){
-			case "delete":
-				confirmDialogTitle = texts.deleteDialogTitle
-				break;
-			case "export":
-				confirmDialogTitle = texts.exportDialogTitle
-				break;
-			case "suspend":
-				confirmDialogTitle = texts.suspendDialogTitle
-				break;
-			default:
-		}
+    const { language, match, history, photo, name } = this.props;
+    const { profileId } = match.params;
+    const texts = Texts[language].profileHeader;
+    const {
+      optionsModalIsOpen,
+      confirmDialogIsOpen,
+      action,
+      imageModalIsOpen
+    } = this.state;
+    let confirmDialogTitle;
+    switch (action) {
+      case "delete":
+        confirmDialogTitle = texts.deleteDialogTitle;
+        break;
+      case "export":
+        confirmDialogTitle = texts.exportDialogTitle;
+        break;
+      case "suspend":
+        confirmDialogTitle = texts.suspendDialogTitle;
+        break;
+      default:
+    }
     const options = [
       {
         label: texts.delete,
@@ -122,39 +157,40 @@ class ProfileHeader extends React.Component {
         handle: () => {
           this.handleConfirmDialogOpen("delete");
         }
-			},
-			{
-				label: texts.suspend,
-				style: "optionsModalButton",
-				handle: () => {
-					this.handleConfirmDialogOpen("suspend");
-				}
-			},
+      },
+      {
+        label: texts.suspend,
+        style: "optionsModalButton",
+        handle: () => {
+          this.handleConfirmDialogOpen("suspend");
+        }
+      },
       {
         label: texts.export,
         style: "optionsModalButton",
         handle: () => {
           this.handleConfirmDialogOpen("export");
         }
-			},
+      }
     ];
     return (
       <div id="profileHeaderContainer">
         <div className="row no-gutters" id="profileHeaderOptions">
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
-              onClick={() => this.props.history.goBack()}
+              onClick={() => history.goBack()}
             >
               <i className="fas fa-arrow-left" />
             </button>
           </div>
           <div className="col-6-10" />
-          {this.props.match.params.profileId ===
-          JSON.parse(localStorage.getItem("user")).id ? (
+          {profileId === JSON.parse(localStorage.getItem("user")).id ? (
             <React.Fragment>
               <div className="col-1-10">
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleEdit}
                 >
@@ -163,6 +199,7 @@ class ProfileHeader extends React.Component {
               </div>
               <div className="col-1-10">
                 <button
+                  type="button"
                   className="transparentButton center"
                   onClick={this.handleOptions}
                 >
@@ -177,22 +214,37 @@ class ProfileHeader extends React.Component {
         <img
           className="profilePhoto horizontalCenter"
           alt="user's profile"
-          src={this.props.photo}
+          src={photo}
+          onClick={this.handleImageModalOpen}
         />
-        <h1 className="horizontalCenter">{this.props.name}</h1>
+        <h1 className="horizontalCenter">{name}</h1>
+        <ExpandedImageModal
+          isOpen={imageModalIsOpen}
+          handleClose={this.handleImageModalClose}
+          image={photo}
+        />
         <OptionsModal
-          isOpen={this.state.optionsModalIsOpen}
+          isOpen={optionsModalIsOpen}
           handleClose={this.handleClose}
           options={options}
         />
         <ConfirmDialog
           title={confirmDialogTitle}
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
         />
       </div>
     );
   }
 }
+
+ProfileHeader.propTypes = {
+  history: PropTypes.object,
+  name: PropTypes.string,
+  photo: PropTypes.string,
+  language: PropTypes.string,
+  match: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
+};
 
 export default withRouter(withLanguage(withSnackbar(ProfileHeader)));

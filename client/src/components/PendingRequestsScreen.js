@@ -107,7 +107,7 @@ class PendingRequestsScreen extends React.Component {
             id: request.user_id
           })
           .then(response => {
-            Log.info(response)
+            Log.info(response);
             this.setState({ requests: filteredUsers });
           })
           .catch(error => {

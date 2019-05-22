@@ -47,17 +47,16 @@ class NotificationScreen extends React.Component {
         />
         />
         <div id="notificationContainer">
-  {this.state.fetchedNotificationData ? (
+          {this.state.fetchedNotificationData ? (
             <React.Fragment>
-      <h1>{this.state.notificationHeader}</h1>
-      <p>{this.state.notificationMain}</p>
-    </React.Fragment>
+              <h1>{this.state.notificationHeader}</h1>
+              <p>{this.state.notificationMain}</p>
+            </React.Fragment>
           ) : (
             <Skeleton active paragraph={{ rows: 5 }} />
           )}
-
           )}
-</div>
+        </div>
       </React.Fragment>
     );
   }

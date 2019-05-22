@@ -52,15 +52,14 @@ const theme = createMuiTheme({
 class InviteDialog extends React.Component {
   constructor(props) {
     super(props);
+    const { inviteType } = this.props;
     this.state = {
-      inviteType: this.props.inviteType,
+      inviteType,
       searchInput: "",
-      history: [],
       searchedForInput: false,
       matchingUsers: [],
       users: [],
-      inviteIds: [],
-      fetchedUsers: false
+      inviteIds: []
     };
   }
 
@@ -73,23 +72,23 @@ class InviteDialog extends React.Component {
         users.forEach(user => {
           user.name = `${user.given_name} ${user.family_name}`;
         });
-        this.setState({ fetchedGroups: true, users });
+        this.setState({ users });
         this.handleSearch("");
       })
       .catch(error => {
         Log.error(error);
-        this.setState({ fetchedGroups: true });
       });
   }
 
   handleKeyPress = e => {
+    const { searchInput } = this.state;
     if (e.key === "Enter") {
-      this.handleSearch(this.state.searchInput);
+      this.handleSearch(searchInput);
     }
   };
 
-  handleSearch = value => {
-    value = value.toLowerCase().trim();
+  handleSearch = val => {
+    const value = val.toLowerCase().trim();
     const { users } = this.state;
     const matchingUsers = [];
     users.forEach(user => {
@@ -110,17 +109,16 @@ class InviteDialog extends React.Component {
   };
 
   handleInvite = () => {
-    const { inviteIds } = this.state;
-    if (this.state.inviteIds.length > 0) {
-      if (this.state.inviteType === "member") {
-        this.props.handleInvite(inviteIds);
+    const { inviteIds, inviteType, users, handleClose } = this.state;
+    const { handleInvite } = this.props;
+    if (inviteIds.length > 0) {
+      if (inviteType === "member") {
+        handleInvite(inviteIds);
       } else {
-        this.props.handleInvite(
-          this.state.users.filter(user => user.user_id === inviteIds[0])[0]
-        );
+        handleInvite(users.filter(user => user.user_id === inviteIds[0])[0]);
       }
     } else {
-      this.props.handleClose();
+      handleClose();
     }
     this.setState({
       inviteIds: [],
@@ -131,9 +129,9 @@ class InviteDialog extends React.Component {
   };
 
   handleSelect = id => {
-    const { inviteIds } = this.state;
+    const { inviteIds, inviteType } = this.state;
     const indexOf = inviteIds.indexOf(id);
-    if (this.state.inviteType === "member") {
+    if (inviteType === "member") {
       if (indexOf === -1) {
         inviteIds.push(id);
       } else {
@@ -148,27 +146,51 @@ class InviteDialog extends React.Component {
   };
 
   handleClose = () => {
-    this.props.handleClose();
+    const { handleClose } = this.props;
+    handleClose();
   };
 
   render() {
-    const texts =
-      this.state.inviteType === "member"
-        ? Texts[this.props.language].inviteModal
-        : Texts[this.props.language].addParentModal;
+    const {
+      inviteType,
+      searchInput,
+      searchedForInput,
+      users,
+      matchingUsers,
+      inviteIds
+    } = this.state;
+    const { language, isOpen } = this.props;
+    const texts = Texts[language].inviteModal;
+    let addText;
+    let header;
+    switch (inviteType) {
+      case "member":
+        header = texts.memberHeader;
+        addText = texts.invite;
+        break;
+      case "parent":
+        header = texts.parentHeader;
+        addText = texts.add;
+        break;
+      case "framily":
+        header = texts.framilyHeader;
+        addText = texts.add;
+        break;
+      default:
+    }
     return (
       <MuiThemeProvider theme={theme}>
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="invite user dialog"
-          open={this.props.isOpen}
+          open={isOpen}
         >
           <DialogTitle>
-            <div className="inviteDialogTitle">{texts.header}</div>
+            <div className="inviteDialogTitle">{header}</div>
             <input
               className="inviteDialogInput"
               type="search"
-              value={this.state.searchInput}
+              value={searchInput}
               placeholder={texts.search}
               onChange={this.onInputChange}
               onKeyPress={this.handleKeyPress}
@@ -176,16 +198,16 @@ class InviteDialog extends React.Component {
             />
           </DialogTitle>
           <DialogContent>
-            {!this.state.searchedForInput ? (
+            {!searchedForInput ? (
               <AutoComplete
-                searchInput={this.state.searchInput}
-                entities={this.state.users}
+                searchInput={searchInput}
+                entities={users}
                 handleSearch={this.handleSearch}
               />
             ) : (
               <List>
-                {this.state.matchingUsers.map(user => {
-                  const selected = this.state.inviteIds.includes(user.user_id);
+                {matchingUsers.map(user => {
+                  const selected = inviteIds.includes(user.user_id);
                   return (
                     <ListItem
                       button
@@ -215,7 +237,7 @@ class InviteDialog extends React.Component {
             <Button fontSize={20} variant="text" onClick={this.handleClose}>
               {texts.cancel}
             </Button>
-            <Button onClick={this.handleInvite}>{texts.invite}</Button>
+            <Button onClick={this.handleInvite}>{addText}</Button>
           </DialogActions>
         </Dialog>
       </MuiThemeProvider>
@@ -227,7 +249,8 @@ InviteDialog.propTypes = {
   isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
   handleInvite: PropTypes.func,
-  inviteType: PropTypes.string
+  inviteType: PropTypes.string,
+  language: PropTypes.string
 };
 
 export default withLanguage(InviteDialog);

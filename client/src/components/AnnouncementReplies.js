@@ -46,12 +46,12 @@ class AnnouncementReplies extends React.Component {
   };
 
   handleSend = () => {
-    const { groupId } = this.props;
-    const { announcementId } = this.props;
+    const { groupId, announcementId } = this.props;
+    const { newReply } = this.state;
     axios
       .post(`/api/groups/${groupId}/announcements/${announcementId}/replies`, {
         user_id: JSON.parse(localStorage.getItem("user")).id,
-        message: this.state.newReply
+        message: newReply
       })
       .then(response => {
         Log.info(response);
@@ -68,19 +68,22 @@ class AnnouncementReplies extends React.Component {
   };
 
   handleShow = () => {
-    this.setState({ showReplies: !this.state.showReplies });
+    const { showReplies } = this.state;
+    this.setState({ showReplies: !showReplies });
   };
 
   renderReplies = () => {
+    const { replies } = this.state;
+    const { groupId, userIsAdmin } = this.props;
     return (
       <ul>
-        {this.state.replies.map((reply, index) => (
+        {replies.map((reply, index) => (
           <li key={index}>
             <Reply
               reply={reply}
               handleRefresh={this.refresh}
-							groupId={this.props.groupId}
-							userIsAdmin={this.props.userIsAdmin}
+              groupId={groupId}
+              userIsAdmin={userIsAdmin}
             />
           </li>
         ))}
@@ -93,8 +96,10 @@ class AnnouncementReplies extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].announcementReplies;
-    const showRepliesIcon = this.state.showReplies
+    const { language } = this.props;
+    const { showReplies, fetchedReplies, newReply } = this.state;
+    const texts = Texts[language].announcementReplies;
+    const showRepliesIcon = showReplies
       ? "fas fa-chevron-up"
       : "fas fa-chevron-down";
     return (
@@ -110,15 +115,15 @@ class AnnouncementReplies extends React.Component {
         </div>
         <div
           id="announcementRepliesContainer"
-          style={this.state.showReplies ? {} : { display: "none" }}
+          style={showReplies ? {} : { display: "none" }}
         >
-          {this.state.fetchedReplies ? this.renderReplies() : <div />}
+          {fetchedReplies ? this.renderReplies() : <div />}
           <div className="row no-gutters" id="newReplyContainer">
             <div className="col-8-10">
               <input
                 type="text"
                 placeholder={texts.new}
-                value={this.state.newReply}
+                value={newReply}
                 onChange={this.handleChange}
                 className="verticalCenter"
                 onKeyUp={this.handleEnter}
@@ -142,8 +147,9 @@ class AnnouncementReplies extends React.Component {
 
 AnnouncementReplies.propTypes = {
   announcementId: PropTypes.string,
-	groupId: PropTypes.string,
-	userIsAdmin: PropTypes.bool,
+  groupId: PropTypes.string,
+  userIsAdmin: PropTypes.bool,
+  language: PropTypes.string
 };
 
 export default withLanguage(AnnouncementReplies);

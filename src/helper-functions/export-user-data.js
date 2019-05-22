@@ -25,15 +25,15 @@ function newExportEmail (given_name) {
 function createPdf (profile, groups, children, events, cb) {
   const doc = new PDFDocument({ autoFirstPage: false })
   doc.pipe(fs.createWriteStream(`${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`))
-	doc.addPage({ margin: 50 })
-	doc.font(path.join(__dirname, `../fonts/Roboto-Regular.ttf`));
+  doc.addPage({ margin: 50 })
+  doc.font(path.join(__dirname, `../fonts/Roboto-Regular.ttf`))
 
   doc.fontSize(18).text(`User's Profile`, {
     align: 'center'
   })
   doc.image(path.join(__dirname, `../..${profile.image.path}`), { width: 150 })
-	doc.moveDown()
-	doc.fontSize(14)
+  doc.moveDown()
+  doc.fontSize(14)
   doc.text(`Given name: ${profile.given_name}`, {
     align: 'left' })
   doc.text(`Family name: ${profile.family_name}`, {
@@ -44,22 +44,22 @@ function createPdf (profile, groups, children, events, cb) {
     align: 'left' })
   doc.text(`Address: ${profile.address.city}, ${profile.address.street} ${profile.address.number}`, {
     align: 'left' })
-	doc.moveDown()
-	doc.fontSize(18)
+  doc.moveDown()
+  doc.fontSize(18)
   doc.text(`User's Groups`, {
     align: 'center'
-	})
-	doc.fontSize(14)
+  })
+  doc.fontSize(14)
   groups.forEach((group, index) => {
     doc.text(`${index + 1}. ${group.name}`, {
       align: 'left' })
   })
-	doc.moveDown()
-	doc.fontSize(18)
+  doc.moveDown()
+  doc.fontSize(18)
   doc.text(`User's Children`, {
     align: 'center'
-	})
-	doc.fontSize(14)
+  })
+  doc.fontSize(14)
   children.forEach(child => {
     doc.image(path.join(__dirname, `../..${child.image.path}`), { width: 150, heigh: 150 })
     doc.moveDown()
@@ -78,12 +78,12 @@ function createPdf (profile, groups, children, events, cb) {
     doc.text(`Other info: ${child.other_info}`, {
       align: 'left' })
     doc.moveDown()
-	})
-	doc.fontSize(18)
+  })
+  doc.fontSize(18)
   doc.text(`User's Events`, {
     align: 'center'
-	})
-	doc.fontSize(14)
+  })
+  doc.fontSize(14)
   events.forEach((event, index) => {
     doc.text(`${index + 1}. ${event.summary}`, {
       align: 'left' })

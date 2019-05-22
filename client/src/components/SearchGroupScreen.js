@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import GroupList from "./GroupList";
@@ -34,13 +35,14 @@ class SearchGroupScreen extends React.Component {
   }
 
   handleKeyPress = e => {
+    const { searchInput } = this.state;
     if (e.key === "Enter") {
-      this.handleSearch(this.state.searchInput);
+      this.handleSearch(searchInput);
     }
   };
 
-  handleSearch = value => {
-    value = value.toLowerCase().trim();
+  handleSearch = val => {
+    const value = val.toLowerCase().trim();
     const { groups } = this.state;
     const matchingGroups = [];
     groups.forEach(group => {
@@ -61,74 +63,87 @@ class SearchGroupScreen extends React.Component {
   };
 
   handleSearchVisibility = async () => {
-    await this.setState({ searchBarIsVisible: !this.state.searchBarIsVisible });
+    const { searchBarIsVisible } = this.state;
+    await this.setState({ searchBarIsVisible: !searchBarIsVisible });
     document.getElementById("searchGroupInput").focus();
   };
 
   render() {
-    const texts = Texts[this.props.language].searchGroupModal;
-    return this.state.fetchedGroups ? (
-      <React.Fragment>
-        <div className="row no-gutters" id="searchGroupBarContainer">
-          <div className="col-2-10">
-            <button
-              type="button"
-              className="transparentButton center"
-              onClick={() => this.props.history.replace("/myfamiliesshare")}
-            >
-              <i className="fas fa-arrow-left" />
-            </button>
-          </div>
-          <div
-            className="col-7-10 "
-            style={{ display: "flex", alignItems: "center" }}
-          >
-            <input
-              type="search"
-              id="searchGroupInput"
-              value={this.state.searchInput}
-              placeholder={texts.example}
-              onChange={this.onInputChange}
-              onKeyPress={this.handleKeyPress}
-              style={this.state.searchBarIsVisible ? {} : { display: "none" }}
-            />
-            <h1
-              style={this.state.searchBarIsVisible ? { display: "none" } : {}}
-            >
-              {texts.search}
-            </h1>
-          </div>
-          <div className="col-1-10">
-            <button
-              type="button"
-              className="transparentButton center"
-              onClick={this.handleSearchVisibility}
-            >
-              <i className="fas fa-search" />
-            </button>
-          </div>
-        </div>
-        {!this.state.searchedForInput ? (
-          <div id="searchGroupSuggestionsContainer">
-            <AutoComplete
-              searchInput={this.state.searchInput}
-              entities={this.state.groups}
-              handleSearch={this.handleSearch}
-            />
-          </div>
-        ) : (
-          <div>
-            <div className="row no-gutters" id="searchGroupResultsContainer">
-              <h1>{texts.results}</h1>
+    const { language, history } = this.props;
+    const {
+      fetchedGroups,
+      searchBarIsVisible,
+      searchInput,
+      searchedForInput,
+      groups,
+      matchingGroups
+    } = this.state;
+    const texts = Texts[language].searchGroupModal;
+    return (
+      fetchedGroups && (
+        <React.Fragment>
+          <div className="row no-gutters" id="searchGroupBarContainer">
+            <div className="col-2-10">
+              <button
+                type="button"
+                className="transparentButton center"
+                onClick={() => history.replace("/myfamiliesshare")}
+              >
+                <i className="fas fa-arrow-left" />
+              </button>
             </div>
-            <GroupList groupIds={this.state.matchingGroups} />
+            <div
+              className="col-7-10 "
+              style={{ display: "flex", alignItems: "center" }}
+            >
+              <input
+                type="search"
+                id="searchGroupInput"
+                value={searchInput}
+                placeholder={texts.example}
+                onChange={this.onInputChange}
+                onKeyPress={this.handleKeyPress}
+                style={searchBarIsVisible ? {} : { display: "none" }}
+              />
+              <h1 style={searchBarIsVisible ? { display: "none" } : {}}>
+                {texts.search}
+              </h1>
+            </div>
+            <div className="col-1-10">
+              <button
+                type="button"
+                className="transparentButton center"
+                onClick={this.handleSearchVisibility}
+              >
+                <i className="fas fa-search" />
+              </button>
+            </div>
           </div>
-        )}
-      </React.Fragment>
-    ) : (
-      <div />
+          {!searchedForInput ? (
+            <div id="searchGroupSuggestionsContainer">
+              <AutoComplete
+                searchInput={searchInput}
+                entities={groups}
+                handleSearch={this.handleSearch}
+              />
+            </div>
+          ) : (
+            <div>
+              <div className="row no-gutters" id="searchGroupResultsContainer">
+                <h1>{texts.results}</h1>
+              </div>
+              <GroupList groupIds={matchingGroups} />
+            </div>
+          )}
+        </React.Fragment>
+      )
     );
   }
 }
+
+SearchGroupScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object
+};
 
 export default withLanguage(SearchGroupScreen);

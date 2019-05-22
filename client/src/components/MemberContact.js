@@ -11,11 +11,13 @@ import Log from "./Log";
 
 class MemberContact extends React.Component {
   state = { modalIsOpen: false, top: "", right: "", clickTime: "" };
-	handleRedirect = (suspended, user_id) => {
-		if(!suspended){
-			this.props.history.push(`/profiles/${user_id}/info`);
-		}
-	}
+
+  handleRedirect = (suspended, user_id) => {
+    if (!suspended) {
+      this.props.history.push(`/profiles/${user_id}/info`);
+    }
+  };
+
   handleClick = event => {
     this.setState({ modalIsOpen: true, right: "5%", top: event.clientY });
   };
@@ -38,9 +40,9 @@ class MemberContact extends React.Component {
       })
       .then(response => {
         this.props.handleAddAdmin(this.props.member.user_id);
-        Log.info(response)
+        Log.info(response);
       })
-      .catch(error => Log.error(error))
+      .catch(error => Log.error(error));
     this.setState({
       modalIsOpen: false
     });
@@ -56,7 +58,7 @@ class MemberContact extends React.Component {
       })
       .then(response => {
         this.props.handleRemoveAdmin(this.props.member.user_id);
-        Log.info(response)
+        Log.info(response);
       })
       .catch(error => Log.error(error));
     this.setState({
@@ -74,7 +76,7 @@ class MemberContact extends React.Component {
         Log.info(response);
       })
       .catch(error => {
-        Log.error(error);;
+        Log.error(error);
       });
     this.setState({
       modalIsOpen: false
@@ -128,15 +130,17 @@ class MemberContact extends React.Component {
           <div className="col-2-10">
             <Avatar
               thumbnail={profile.image.path}
-							route={`/profiles/${profile.user_id}/info`}
-							disabled={profile.suspended}
+              route={`/profiles/${profile.user_id}/info`}
+              disabled={profile.suspended}
             />
           </div>
           <div className="col-5-10">
             <div
               id="contactInfoContainer"
               className="center"
-              onClick={() => this.handleRedirect(profile.suspended, profile.user_id)}
+              onClick={() =>
+                this.handleRedirect(profile.suspended, profile.user_id)
+              }
             >
               <h1>{`${profile.given_name} ${profile.family_name}`}</h1>
               <h2>{profile.admin ? texts.administrator : ""}</h2>

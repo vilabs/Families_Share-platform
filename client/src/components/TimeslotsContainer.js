@@ -2,42 +2,45 @@ import React from "react";
 import PropTypes from "prop-types";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import CreateTimeslotModal from "./CreateTimeslotModal";
 import ConfirmDialog from "./ConfirmDialog";
 
 class TimeslotsContainer extends React.Component {
   constructor(props) {
     super(props);
+    const { timeslots, dateIndex, handleTimeslots } = props;
     this.state = {
       deleteId: "",
       confirmDialogIsOpen: false,
-      timeslots: this.props.timeslots,
+      timeslots,
       showTimeslots: false,
-      dateIndex: this.props.dateIndex,
+      dateIndex,
       expandedTimeslot: {
         expanded: false,
         timeslotIndex: -1,
         data: {}
       }
     };
-    this.props.handleTimeslots(this.props.timeslots, this.props.dateIndex);
+    handleTimeslots(timeslots, dateIndex);
   }
 
   handleAddTimeslot = () => {
+    const { timeslots } = this.state;
+    const { activityName, activityLocation } = this.props;
     this.setState({
       expandedTimeslot: {
         expanded: true,
-        timeslotIndex: this.state.timeslots.length,
+        timeslotIndex: timeslots.length,
         data: {
           startTime: "00:00",
           endTime: "00:00",
           requiredChildren: 2,
           requiredParents: 2,
           description: "",
-          name: this.props.activityName,
+          name: activityName,
           cost: "",
-          location: this.props.activityLocation
+          location: activityLocation
         }
       }
     });
@@ -46,11 +49,13 @@ class TimeslotsContainer extends React.Component {
   };
 
   renderAddTimeslot = () => {
-    const texts = Texts[this.props.language].timeslotsContainer;
+    const { language } = this.props;
+    const texts = Texts[language].timeslotsContainer;
     return (
       <div className="row no-gutters">
         <div id="addTimeslotContainer">
           <button
+            type="button"
             className="transparentButton"
             onClick={this.handleAddTimeslot}
           >
@@ -65,28 +70,29 @@ class TimeslotsContainer extends React.Component {
   handleTimeslotModalSave = timeslot => {
     const target = document.querySelector(".ReactModalPortal");
     enableBodyScroll(target);
-    const timeslots = this.state.timeslots.slice(0);
-    if (this.state.expandedTimeslot.timeslotIndex > timeslots.length - 1) {
+    const { handleTimeslots } = this.props;
+    const { expandedTimeslot, dateIndex } = this.state;
+    let { timeslots } = this.state;
+    timeslots = timeslots.slice(0);
+    if (expandedTimeslot.timeslotIndex > timeslots.length - 1) {
       timeslots.push(timeslot);
     } else {
-      timeslots[this.state.expandedTimeslot.timeslotIndex] = Object.assign(
-        {},
-        timeslot
-      );
+      timeslots[expandedTimeslot.timeslotIndex] = Object.assign({}, timeslot);
     }
     this.setState({
       timeslots,
       expandedTimeslot: { expanded: false, timeslotIndex: -1, data: {} }
     });
-    this.props.handleTimeslots(timeslots, this.state.dateIndex);
+    handleTimeslots(timeslots, dateIndex);
   };
 
   handleTimeslotModalOpen = timeslotIndex => {
+    const { timeslots } = this.state;
     this.setState({
       expandedTimeslot: {
         expanded: true,
         timeslotIndex,
-        data: this.state.timeslots[timeslotIndex]
+        data: timeslots[timeslotIndex]
       }
     });
   };
@@ -98,25 +104,30 @@ class TimeslotsContainer extends React.Component {
   };
 
   handleShowTimeslots = () => {
-    this.setState({ showTimeslots: !this.state.showTimeslots });
+    const { showTimeslots } = this.state;
+    this.setState({ showTimeslots: !showTimeslots });
   };
 
   handleTimeslotDelete = id => {
-    const { timeslots } = this.state;
+    const { timeslots, dateIndex } = this.state;
+    const { handleTimeslots } = this.props;
     timeslots.splice(id, 1);
-    this.props.handleTimeslots(timeslots, this.state.dateIndex);
+    handleTimeslots(timeslots, dateIndex);
     this.setState({ timeslots });
   };
 
   renderTimeslots = () => {
-    if (this.state.showTimeslots) {
+    const { timeslots, showTimeslots } = this.state;
+    if (showTimeslots) {
       return (
         <ul>
-          {this.state.timeslots.map((timeslot, timeslotIndex) => (
+          {timeslots.map((timeslot, timeslotIndex) => (
             <li key={timeslotIndex}>
               <div id="timeslotPreviewMain" className="row no-gutters">
                 <div className="col-8-10">
                   <div
+                    role="button"
+                    tabIndex={-42}
                     id="timeslotPreviewBubble"
                     onClick={() => this.handleTimeslotModalOpen(timeslotIndex)}
                   >
@@ -126,15 +137,15 @@ class TimeslotsContainer extends React.Component {
                         style={{ borderRight: "1px solid #00838f" }}
                       >
                         <div className="verticalCenter">
-                    <h1>
+                          <h1>
                             {`${timeslot.startTime} : ${timeslot.endTime}`}
                           </h1>
-                    <h1>
+                          <h1>
                             {timeslot.name.length > 25
                               ? `${timeslot.name.substr(0, 25)}...`
                               : timeslot.name}
                           </h1>
-                  </div>
+                        </div>
                       </div>
                       <div className="col-2-10">
                         <i className="fas fa-plus-circle center" />
@@ -144,6 +155,7 @@ class TimeslotsContainer extends React.Component {
                 </div>
                 <div className="col-2-10">
                   <button
+                    type="button"
                     className="transparentButton center"
                     onClick={() => this.handleConfirmDialogOpen(timeslotIndex)}
                   >
@@ -159,11 +171,13 @@ class TimeslotsContainer extends React.Component {
         </ul>
       );
     }
+    return <div />;
   };
 
   handleConfirmDialogClose = choice => {
+    const { deleteId } = this.state;
     if (choice === "agree") {
-      this.handleTimeslotDelete(this.state.deleteId);
+      this.handleTimeslotDelete(deleteId);
       this.setState({ deleteId: "", confirmDialogIsOpen: false });
     }
     this.setState({ deleteId: "", confirmDialogIsOpen: false });
@@ -174,8 +188,14 @@ class TimeslotsContainer extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].timeslotsContainer;
-    const { showTimeslots } = this.state;
+    const { language, header } = this.props;
+    const texts = Texts[language].timeslotsContainer;
+    const {
+      showTimeslots,
+      confirmDialogIsOpen,
+      timeslots,
+      expandedTimeslot
+    } = this.state;
     const showTimeslotsIcon = showTimeslots
       ? "fas fa-chevron-up"
       : "fas fa-chevron-down";
@@ -183,19 +203,18 @@ class TimeslotsContainer extends React.Component {
       <div id="timeslotPreviewContainer">
         <div id="timeslotPreviewHeader" className="row no-gutters">
           <div className="col-6-10">
-            <h1 className="verticalCenter">{this.props.header}</h1>
+            <h1 className="verticalCenter">{header}</h1>
           </div>
           <div className="col-3-10">
             <h1 className="verticalCenter">
-              {`${this.state.timeslots.length} ${
-                this.state.timeslots.length > 1
-                  ? texts.timeslots
-                  : texts.timeslot
+              {`${timeslots.length} ${
+                timeslots.length > 1 ? texts.timeslots : texts.timeslot
               }`}
             </h1>
           </div>
           <div className="col-1-10">
             <button
+              type="button"
               className="transparentButton"
               onClick={this.handleShowTimeslots}
             >
@@ -204,7 +223,7 @@ class TimeslotsContainer extends React.Component {
           </div>
         </div>
         <ConfirmDialog
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
           title={texts.confirmDialogTitle}
           handleClose={this.handleConfirmDialogClose}
         />
@@ -212,7 +231,7 @@ class TimeslotsContainer extends React.Component {
           handleCancel={this.handleTimeslotModalCancel}
           handleClose={this.handleTimeslotModalClose}
           handleSave={this.handleTimeslotModalSave}
-          {...this.state.expandedTimeslot}
+          {...expandedTimeslot}
         />
         {this.renderTimeslots()}
         {this.renderAddTimeslot()}
@@ -227,5 +246,8 @@ TimeslotsContainer.propTypes = {
   dateIndex: PropTypes.number,
   timeslots: PropTypes.array,
   header: PropTypes.string,
-  handleTimeslots: PropTypes.func
+  handleTimeslots: PropTypes.func,
+  activityLocation: PropTypes.string,
+  activityName: PropTypes.string,
+  language: PropTypes.string
 };

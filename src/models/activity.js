@@ -18,8 +18,8 @@ const activitySchema = new mongoose.Schema({
     type: String,
     required: true
   },
-	description: String,
-	location: String,
+  description: String,
+  location: String,
   color: {
     type: String,
     required: true

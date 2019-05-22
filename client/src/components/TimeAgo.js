@@ -5,11 +5,9 @@ import withLanguage from "./LanguageContext";
 
 moment.locale("en");
 
-class TimeAgo extends React.Component {
-  render() {
-    return <h2 className="timeAgo">{moment(this.props.date).fromNow()}</h2>;
-  }
-}
+const TimeAgo = ({ date }) => {
+  return <h2 className="timeAgo">{moment(date).fromNow()}</h2>;
+};
 
 export default withLanguage(TimeAgo);
 

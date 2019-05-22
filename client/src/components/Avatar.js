@@ -39,7 +39,8 @@ Avatar.propTypes = {
   className: PropTypes.string,
   route: PropTypes.string,
   routeState: PropTypes.object,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  history: PropTypes.object
 };
 
 export default withRouter(Avatar);

@@ -18,6 +18,9 @@
     "no-console": 0,
     "camelcase": "off",
     "jsx-a11y/no-static-elements-interactions": 0,
-    "jsx-a11y/click-events-have-key-events": 0
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "import/no-dynamic-require": 0,
+    "no-param-reassign": "off"
   }
 }

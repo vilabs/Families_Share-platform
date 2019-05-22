@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose')
 
 const profileSchema = new mongoose.Schema(
   {
@@ -40,48 +40,48 @@ const profileSchema = new mongoose.Schema(
     }
   },
   { timestamps: true, toJSON: { virtuals: true } }
-);
+)
 
-profileSchema.index({ given_name: 1, family_name: 1 });
+profileSchema.index({ given_name: 1, family_name: 1 })
 
-profileSchema.virtual("image", {
-  ref: "Image",
-  localField: "image_id",
-  foreignField: "image_id",
+profileSchema.virtual('image', {
+  ref: 'Image',
+  localField: 'image_id',
+  foreignField: 'image_id',
   justOne: true
-});
-profileSchema.virtual("address", {
-  ref: "Address",
-  localField: "address_id",
-  foreignField: "address_id",
+})
+profileSchema.virtual('address', {
+  ref: 'Address',
+  localField: 'address_id',
+  foreignField: 'address_id',
   justOne: true
-});
+})
 
-profileSchema.post("find", (profiles, next) => {
+profileSchema.post('find', (profiles, next) => {
   for (let i = 0; i < profiles.length; i++) {
     if (profiles[i].suspended) {
       if (profiles[i].image !== null) {
-        profiles[i].image.path = "/images/profiles/user_default_photo.png";
+        profiles[i].image.path = '/images/profiles/user_default_photo.png'
         profiles[i].image.thumbnail_path =
-          "/images/profiles/user_default_photo.png";
+          '/images/profiles/user_default_photo.png'
       }
     }
   }
-  next();
-});
-profileSchema.post("findOne", (profile, next) => {
+  next()
+})
+profileSchema.post('findOne', (profile, next) => {
   if (profile !== null) {
     if (profile.suspended) {
-			if(profile.image!== null){
-				profile.image.path = "/images/profiles/user_default_photo.png";
-				profile.image.thumbnail_path = "/images/profiles/user_default_photo.png";
-			}
+      if (profile.image !== null) {
+        profile.image.path = '/images/profiles/user_default_photo.png'
+        profile.image.thumbnail_path = '/images/profiles/user_default_photo.png'
+      }
     }
   }
-  next();
-});
+  next()
+})
 
-mongoose.pluralize(null);
-const model = mongoose.model("Profile", profileSchema);
+mongoose.pluralize(null)
+const model = mongoose.model('Profile', profileSchema)
 
-module.exports = model;
+module.exports = model

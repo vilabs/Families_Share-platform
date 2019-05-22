@@ -3,14 +3,15 @@ import Loadable from "react-loadable";
 import { Redirect, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/stylesheet.css";
+import PropTypes from "prop-types";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
 import Loading from "./components/LoadingSpinner";
 import { LanguageProvider } from "./components/LanguageContext";
-import { PrivateRoute } from "./components/PrivateRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
-const styles = theme => ({
+const styles = () => ({
   info: { backgroundColor: "#202124" },
   message: {
     fontSize: 15
@@ -59,7 +60,6 @@ const ChildProfileScreen = Loadable({
   loading: () => <div />
 });
 const NotificationScreen = Loadable({
-  loader: () => import("./components/NotificationScreen"),
   loading: () => <div />
 });
 const CreateChildScreen = Loadable({
@@ -137,13 +137,13 @@ const LogInScreen = Loadable({
 
 axios.interceptors.request.use(
   config => {
-    let token = "";
+    let userToken = "";
     const user = localStorage.getItem("user");
     if (user) {
-      token = JSON.parse(user).token;
+      userToken = JSON.parse(user).token;
     }
-    if (token) {
-      config.headers.Authorization = token;
+    if (userToken) {
+      config.headers.Authorization = userToken;
     }
 
     return config;
@@ -223,8 +223,8 @@ class App extends React.Component {
               <PrivateRoute
                 path="/myfamiliesshare/invites"
                 component={PendingRequestsScreen}
-							/>
-							<PrivateRoute
+              />
+              <PrivateRoute
                 path="/myfamiliesshare/calendar"
                 component={MyCalendarScreen}
               />
@@ -344,5 +344,9 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object
+};
 
 export default withStyles(styles)(App);

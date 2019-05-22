@@ -97,10 +97,8 @@ class GroupListItem extends React.Component {
             <h1>{group.name}</h1>
             <h2>
               {texts.members}
-
-
 :
-              {group.members.length}
+{group.members.length}
             </h2>
             <h3>{group.settings.open ? texts.open : texts.closed}</h3>
           </div>

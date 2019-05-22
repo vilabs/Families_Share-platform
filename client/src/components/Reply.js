@@ -12,8 +12,9 @@ import Log from "./Log";
 class Reply extends React.Component {
   constructor(props) {
     super(props);
+    const { reply } = this.props;
     this.state = {
-      reply: this.props.reply,
+      reply,
       fetchedProfile: false,
       confirmDialogIsOpen: false,
       deleteId: "",
@@ -22,8 +23,9 @@ class Reply extends React.Component {
   }
 
   componentDidMount() {
+    const { reply } = this.state;
     axios
-      .get(`/api/users/${this.state.reply.user_id}/profile`)
+      .get(`/api/users/${reply.user_id}/profile`)
       .then(response => {
         this.setState({ fetchedProfile: true, profile: response.data });
       })
@@ -37,17 +39,17 @@ class Reply extends React.Component {
   }
 
   handleDelete = () => {
-    const announcementId = this.state.reply.announcement_id;
-    const replyId = this.state.deleteId;
+    const { reply, deleteId } = this.state;
+    const announcementId = reply.announcement_id;
+    const { groupId, handleRefresh } = this.props;
+    const replyId = deleteId;
     axios
       .delete(
-        `/api/groups/${
-          this.props.groupId
-        }/announcements/${announcementId}/replies/${replyId}`
+        `/api/groups/${groupId}/announcements/${announcementId}/replies/${replyId}`
       )
       .then(response => {
         Log.info(response);
-        this.props.handleRefresh();
+        handleRefresh();
       })
       .catch(error => {
         Log.error(error);
@@ -66,28 +68,28 @@ class Reply extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].reply;
-    const { profile } = this.state;
-    const { reply } = this.state;
+    const { language, userIsAdmin } = this.props;
+    const texts = Texts[language].reply;
+    const { profile, reply, confirmDialogIsOpen, fetchedProfile } = this.state;
     return (
       <React.Fragment>
         <div id="announcementReplyContainer">
           <ConfirmDialog
-            isOpen={this.state.confirmDialogIsOpen}
+            isOpen={confirmDialogIsOpen}
             title={texts.confirmDialogTitle}
             handleClose={this.handleConfirmDialogClose}
           />
           <div className="row no-gutters" id="timeAgoContainer">
             <TimeAgo date={reply.createdAt} />
           </div>
-          {this.state.fetchedProfile ? (
+          {fetchedProfile ? (
             <div className="row no-gutters">
               <div className="col-2-10">
                 <Avatar
                   thumbnail={profile.image.path}
                   route={`/profiles/${profile.user_id}/info`}
-									style={{ transform: "scale(0.8)" }}
-									disabled={profile.suspended}
+                  style={{ transform: "scale(0.8)" }}
+                  disabled={profile.suspended}
                 />
               </div>
               <div className="col-6-10">
@@ -97,7 +99,8 @@ class Reply extends React.Component {
               </div>
               <div className="col-2-10">
                 {(JSON.parse(localStorage.getItem("user")).id ===
-                  this.state.profile.user_id  || this.props.userIsAdmin) && (
+                  profile.user_id ||
+                  userIsAdmin) && (
                   <button
                     type="button"
                     className="transparentButton center"
@@ -125,5 +128,7 @@ export default withLanguage(Reply);
 Reply.propTypes = {
   handleRefresh: PropTypes.func,
   groupId: PropTypes.string,
-  reply: PropTypes.object
+  reply: PropTypes.object,
+  language: PropTypes.string,
+  userIsAdmin: PropTypes.bool
 };

@@ -4,6 +4,7 @@ import moment from "moment";
 import { withSnackbar } from "notistack";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
@@ -12,7 +13,7 @@ import TimeslotSubcribe from "./TimeslotSubcribe";
 import Images from "../Constants/Images";
 import Log from "./Log";
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     width: "3rem",
     height: "3rem"
@@ -26,6 +27,7 @@ const getTimeslot = pathname => {
       return response.data;
     })
     .catch(error => {
+      Log.error(error);
       return {
         start: {
           dateTime: ""
@@ -50,6 +52,7 @@ const getUsersChildren = userId => {
       return response.data.map(child => child.child_id);
     })
     .catch(error => {
+      Log.error(error);
       return [];
     });
 };
@@ -129,7 +132,8 @@ class TimeslotScreen extends React.Component {
   async componentDidMount() {
     document.addEventListener("message", this.handleMessage, false);
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const { pathname } = this.props.history.location;
+    const { history } = this.props;
+    const { pathname } = history.location;
     const timeslot = await getTimeslot(`/api${pathname}`);
     timeslot.extendedProperties.shared.parents = JSON.parse(
       timeslot.extendedProperties.shared.parents
@@ -162,35 +166,43 @@ class TimeslotScreen extends React.Component {
   }
 
   handleMessage = event => {
+    const { madeChanges } = this.state;
+    const { history } = this.props;
     const data = JSON.parse(event.data);
     if (data.action === "confirmGoBack") {
-      this.state.madeChanges
-        ? this.handleConfirmDialogOpen("back")
-        : this.props.history.goBack();
+      if (madeChanges) {
+        this.handleConfirmDialogOpen("back");
+      } else {
+        history.goBack();
+      }
     }
   };
 
   handleEdit = () => {
-    const route = `${this.props.history.location.pathname}/edit`;
-    this.props.history.push(route);
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const route = `${pathname}/edit`;
+    history.push(route);
   };
 
   handleSave = () => {
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const { timeslot } = this.state;
     axios
-      .patch(`/api${this.props.location.pathname}`, {
+      .patch(`/api${pathname}`, {
         extendedProperties: {
           shared: {
-            parents: JSON.stringify(
-              this.state.timeslot.extendedProperties.shared.parents
-            ),
+            parents: JSON.stringify(timeslot.extendedProperties.shared.parents),
             children: JSON.stringify(
-              this.state.timeslot.extendedProperties.shared.children
+              timeslot.extendedProperties.shared.children
             )
           }
         }
       })
       .then(response => {
-        this.props.history.goBack();
+        Log.info(response);
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
@@ -198,10 +210,12 @@ class TimeslotScreen extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
+    const { confirmTrigger } = this.state;
+    const { history } = this.props;
     if (choice === "agree") {
       this.handleSave();
-    } else if (this.state.confirmTrigger === "back") {
-      this.props.history.goBack();
+    } else if (confirmTrigger === "back") {
+      history.goBack();
     }
     this.setState({ confirmDialogIsOpen: false, confirmTrigger: "" });
   };
@@ -211,14 +225,15 @@ class TimeslotScreen extends React.Component {
   };
 
   handleSubscribe = (id, type) => {
-    const { timeslot } = this.state;
-    const texts = Texts[this.props.language].timeslotScreen;
+    const { language, enqueueSnackbar } = this.props;
+    const { timeslot, childrenProfiles } = this.state;
+    const texts = Texts[language].timeslotScreen;
     let snackMessage;
     if (type === "parent") {
       timeslot.extendedProperties.shared.parents.push(id);
       snackMessage = texts.userSubscribe;
     } else {
-      const childName = this.state.childrenProfiles.filter(
+      const childName = childrenProfiles.filter(
         profile => profile.child_id === id
       )[0].given_name;
       timeslot.extendedProperties.shared.children.push(id);
@@ -227,14 +242,15 @@ class TimeslotScreen extends React.Component {
       }`;
     }
     this.setState({ timeslot, madeChanges: true });
-    this.props.enqueueSnackbar(snackMessage, {
+    enqueueSnackbar(snackMessage, {
       variant: "info"
     });
   };
 
   handleUnsubscribe = (id, type) => {
-    const { timeslot } = this.state;
-    const texts = Texts[this.props.language].timeslotScreen;
+    const { language, enqueueSnackbar } = this.props;
+    const { timeslot, childrenProfiles } = this.state;
+    const texts = Texts[language].timeslotScreen;
     let snackMessage;
     if (type === "parent") {
       timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(
@@ -242,7 +258,7 @@ class TimeslotScreen extends React.Component {
       );
       snackMessage = texts.userUnsubscribe;
     } else {
-      const childName = this.state.childrenProfiles.filter(
+      const childName = childrenProfiles.filter(
         profile => profile.child_id === id
       )[0].given_name;
       timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(
@@ -253,56 +269,66 @@ class TimeslotScreen extends React.Component {
       }`;
     }
     this.setState({ timeslot, madeChanges: true });
-    this.props.enqueueSnackbar(snackMessage, {
+    enqueueSnackbar(snackMessage, {
       variant: "info"
     });
   };
 
   getBackNavTitle = () => {
-    const { start, end } = this.state.timeslot;
+    const { timeslot } = this.state;
+    const { start, end } = timeslot;
     return `${moment(start.dateTime).format("DD MMM")} ${moment(
       start.dateTime
     ).format("HH:mm")}-${moment(end.dateTime).format("HH:mm")}`;
   };
 
   renderParticipants = type => {
-    const texts = Texts[this.props.language].timeslotScreen;
+    const { language, classes } = this.props;
+    const {
+      timeslot,
+      parentProfiles,
+      showParents,
+      childrenProfiles,
+      showChildren
+    } = this.state;
+    const texts = Texts[language].timeslotScreen;
     let participants;
     let profiles;
     let showing;
     let participantsHeader;
     let minimum;
     if (type === "parents") {
-      participants = this.state.timeslot.extendedProperties.shared.parents;
-      profiles = this.state.parentProfiles.filter(profile =>
+      participants = timeslot.extendedProperties.shared.parents;
+      profiles = parentProfiles.filter(profile =>
         participants.includes(profile.user_id)
       );
-      showing = this.state.showParents;
+      showing = showParents;
       participantsHeader = `${participants.length} ${
         participants.length === 1 ? texts.volunteer : texts.volunteers
       } ${texts.signup}`;
-      minimum = this.state.timeslot.extendedProperties.shared.requiredParents;
+      minimum = timeslot.extendedProperties.shared.requiredParents;
     } else {
-      participants = this.state.timeslot.extendedProperties.shared.children;
-      profiles = this.state.childrenProfiles.filter(profile =>
+      participants = timeslot.extendedProperties.shared.children;
+      profiles = childrenProfiles.filter(profile =>
         participants.includes(profile.child_id)
       );
-      showing = this.state.showChildren;
+      showing = showChildren;
       participantsHeader = `${participants.length} ${
         participants.length === 1 ? texts.child : texts.children
       } ${texts.signup}`;
-      minimum = this.state.timeslot.extendedProperties.shared.requiredChildren;
+      minimum = timeslot.extendedProperties.shared.requiredChildren;
     }
     return (
       <div className="participantsContainer">
         <div className="participantsHeaderContainer">
           <div className="participantsHeaderText">{participantsHeader}</div>
           <button
+            type="button"
             className="transparentButton participantsHeaderButton"
             onClick={() =>
               type === "parents"
-                ? this.setState({ showParents: !this.state.showParents })
-                : this.setState({ showChildren: !this.state.showChildren })
+                ? this.setState({ showParents: !showParents })
+                : this.setState({ showChildren: !showChildren })
             }
           >
             <i
@@ -317,10 +343,7 @@ class TimeslotScreen extends React.Component {
           {profiles.map((profile, index) => (
             <li key={index} style={{ display: "block" }}>
               <div className="row" style={{ margin: "1rem 0" }}>
-                <Avatar
-                  className={this.props.classes.avatar}
-                  src={profile.image}
-                />
+                <Avatar className={classes.avatar} src={profile.image} />
                 <div className="participantsText">{profile.name}</div>
               </div>
             </li>
@@ -331,11 +354,12 @@ class TimeslotScreen extends React.Component {
   };
 
   getUserSubscribe = () => {
+    const { language } = this.props;
+    const { timeslot, parentProfiles } = this.state;
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const texts = Texts[this.props.language].timeslotScreen;
-    const parentParticipants = this.state.timeslot.extendedProperties.shared
-      .parents;
-    const userProfile = this.state.parentProfiles.filter(
+    const texts = Texts[language].timeslotScreen;
+    const parentParticipants = timeslot.extendedProperties.shared.parents;
+    const userProfile = parentProfiles.filter(
       profile => profile.user_id === userId
     )[0];
     return (
@@ -352,11 +376,15 @@ class TimeslotScreen extends React.Component {
   };
 
   getChildrenSubscribes = () => {
-    const childrenProfiles = this.state.childrenProfiles.filter(profile =>
-      this.state.children.includes(profile.child_id)
+    const {
+      childrenProfiles: unfilteredChildrenProfiles,
+      children,
+      timeslot
+    } = this.state;
+    const childrenProfiles = unfilteredChildrenProfiles.filter(profile =>
+      children.includes(profile.child_id)
     );
-    const childrenParticipants = this.state.timeslot.extendedProperties.shared
-      .children;
+    const childrenParticipants = timeslot.extendedProperties.shared.children;
     return childrenProfiles.map((child, index) => (
       <TimeslotSubcribe
         key={index}
@@ -372,24 +400,31 @@ class TimeslotScreen extends React.Component {
   };
 
   render() {
+    const { language, history } = this.props;
     const rowStyle = { minHeight: "5rem" };
-    const texts = Texts[this.props.language].timeslotScreen;
-    const { timeslot } = this.state;
-    return this.state.fetchedTimeslot ? (
+    const texts = Texts[language].timeslotScreen;
+    const {
+      timeslot,
+      fetchedTimeslot,
+      confirmDialogIsOpen,
+      madeChanges
+    } = this.state;
+    return fetchedTimeslot ? (
       <React.Fragment>
         <ConfirmDialog
           title={texts.editConfirm}
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
         />
         <div id="activityHeaderContainer" className="row no-gutters">
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={() =>
-                this.state.madeChanges
+                madeChanges
                   ? this.handleConfirmDialogOpen("back")
-                  : this.props.history.goBack()
+                  : history.goBack()
               }
             >
               <i className="fas fa-arrow-left" />
@@ -401,6 +436,7 @@ class TimeslotScreen extends React.Component {
           <div className="col-1-10">
             {timeslot.userCanEdit && (
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handleEdit}
               >
@@ -410,11 +446,12 @@ class TimeslotScreen extends React.Component {
           </div>
           <div className="col-1-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={() =>
-                this.state.madeChanges
+                madeChanges
                   ? this.handleConfirmDialogOpen("save")
-                  : this.props.history.goBack()
+                  : history.goBack()
               }
             >
               <i className="fas fa-check" />
@@ -509,3 +546,10 @@ class TimeslotScreen extends React.Component {
 }
 
 export default withStyles(styles)(withSnackbar(withLanguage(TimeslotScreen)));
+
+TimeslotScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  enqueueSnackbar: PropTypes.func,
+  classes: PropTypes.object
+};

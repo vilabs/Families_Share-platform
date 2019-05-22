@@ -34,7 +34,8 @@ class AnnouncementHeader extends React.Component {
   }
 
   componentWillReceiveProps(props) {
-    if (this.props.userId !== props.userId) {
+    const { userId } = this.props;
+    if (userId !== props.userId) {
       this.setState({ fetchedProfile: false });
       axios
         .get(`/api/users/${props.userId}/profile`)
@@ -52,13 +53,13 @@ class AnnouncementHeader extends React.Component {
   }
 
   handleDelete = () => {
+    const { groupId, handleRefresh } = this.props;
+    const { deleteId } = this.state;
     axios
-      .delete(
-        `/api/groups/${this.props.groupId}/announcements/${this.state.deleteId}`
-      )
+      .delete(`/api/groups/${groupId}/announcements/${deleteId}`)
       .then(response => {
         Log.info(response);
-        this.props.handleRefresh();
+        handleRefresh();
       })
       .catch(error => {
         Log.error(error);
@@ -77,19 +78,21 @@ class AnnouncementHeader extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].announcementHeader;
-    const { profile } = this.state;
+    const { language, createdAt, announcementId, userIsAdmin } = this.props;
+    const texts = Texts[language].announcementHeader;
+    const { profile, confirmDialogIsOpen, fetchedProfile } = this.state;
+    const userId = JSON.parse(localStorage.getItem("user")).id;
     return (
       <div id="announcementHeaderContainer">
         <ConfirmDialog
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
           title={texts.confirmDialogTitle}
           handleClose={this.handleConfirmDialogClose}
         />
         <div className="row no-gutters" id="timeAgoContainer">
-          <TimeAgo date={this.props.createdAt} />
+          <TimeAgo date={createdAt} />
         </div>
-        {this.state.fetchedProfile ? (
+        {fetchedProfile ? (
           <div className="row no-gutters">
             <div className="col-2-10">
               <Avatar
@@ -105,18 +108,14 @@ class AnnouncementHeader extends React.Component {
               </h1>
             </div>
             <div className="col-2-10">
-              {JSON.parse(localStorage.getItem("user")).id ===
-                this.state.profile.user_id || this.props.userIsAdmin ? (
-                  <button
+              {(userId === profile.user_id || userIsAdmin) && (
+                <button
+                  type="button"
                   className="transparentButton center"
-                  onClick={() =>
-                    this.handleConfirmDialogOpen(this.props.announcementId)
-                  }
+                  onClick={() => this.handleConfirmDialogOpen(announcementId)}
                 >
                   <i className="fas fa-times" />
                 </button>
-              ) : (
-                <div />
               )}
             </div>
           </div>
@@ -134,7 +133,8 @@ AnnouncementHeader.propTypes = {
   userId: PropTypes.string,
   createdAt: PropTypes.string,
   handleRefresh: PropTypes.func,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  language: PropTypes.string
 };
 
 export default withLanguage(AnnouncementHeader);

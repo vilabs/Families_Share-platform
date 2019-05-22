@@ -1,9 +1,5 @@
 import axios from "axios";
 
-const registrationServices = {
-  signup
-};
-
 function signup(
   given_name,
   family_name,
@@ -31,12 +27,14 @@ function signup(
   })
     .then(response => {
       const user = response.data;
-      if (user.token) {
-        localStorage.setItem("user", JSON.stringify(user));
-        return user;
-      }
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
     })
     .catch(error => Promise.reject(error));
 }
+
+const registrationServices = {
+  signup
+};
 
 export default registrationServices;

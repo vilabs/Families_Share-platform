@@ -1,10 +1,11 @@
 const en = {
-	profileChildren: {
-		addChildPrompt: "You haven't added any children yet. Click the child icon to add a new child"
-	},
-	myCalendarScreen: {
-		backNavTitle: "My Calendar"
-	},
+  profileChildren: {
+    addChildPrompt:
+      "You haven't added any children yet. Click the child icon to add a new child"
+  },
+  myCalendarScreen: {
+    backNavTitle: "My Calendar"
+  },
   editTimeslotScreen: {
     from: "From",
     date: "Date",
@@ -235,17 +236,15 @@ const en = {
     requestsClosed: "Full capacity has been reached"
   },
   inviteModal: {
-    header: "Invite people",
+    memberHeader: "Invite people",
+    parentHeader: "Add parent",
+    framilyHeader: "Add framily",
     invite: "INVITE",
+    add: "ADD",
     cancel: "CANCEL",
     search: "Search"
   },
-  addParentModal: {
-    header: "Add parent",
-    invite: "ADD",
-    cancel: "CANCEL",
-    search: "Search"
-  },
+
   groupNewsNavbar: {
     notifications: "NOTIFICATIONS",
     messages: "MESSAGES"
@@ -281,8 +280,8 @@ const en = {
     rating: "Rate us",
     header: "My Families Share",
     homeButton: "Home page",
-		myProfile: "My profile",
-		myCalendar: "My calendar",
+    myProfile: "My profile",
+    myCalendar: "My calendar",
     createGroup: "Create a group",
     searchGroup: "Search a group",
     inviteFriends: "Invite friends",
@@ -293,12 +292,14 @@ const en = {
     export: "Export my data"
   },
   myFamiliesShareScreen: {
-		myGroups: "My groups",
-		myActivities: "My activities",
-		myNotifications: "My notifications",
-		myGroupsPrompt: "You are not yet in a group, use the lateral menu to find one",
-		myActivitiesPrompt: "Here you will see your future activities after you have signed up for one or more groups",
-		groupsPrompt: "JOIN OR CREATE A GROUP",
+    myGroups: "My groups",
+    myActivities: "My activities",
+    myNotifications: "My notifications",
+    myGroupsPrompt:
+      "You are not yet in a group, use the lateral menu to find one",
+    myActivitiesPrompt:
+      "Here you will see your future activities after you have signed up for one or more groups",
+    groupsPrompt: "JOIN OR CREATE A GROUP"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -451,13 +452,13 @@ const en = {
     deleteDialogTitle:
       "Are you sure you want to delete your profile and remove all your data?",
     exportDialogTitle:
-			"Are you sure you want to export all your personal information?",
-		suspend: "Suspend",
-		suspendDialogTitle: 
-			"Are you sure you want to temporarily suspend  your account?",
-		suspendSuccess: 
-			"Your account has been suspended temporarily. Next time you log in your account will be reactivated.",
-		error: "Something went wrong."
+      "Are you sure you want to export all your personal information?",
+    suspend: "Suspend",
+    suspendDialogTitle:
+      "Are you sure you want to temporarily suspend  your account?",
+    suspendSuccess:
+      "Your account has been suspended temporarily. Next time you log in your account will be reactivated.",
+    error: "Something went wrong."
   },
   replyBar: {
     new: "New message",
@@ -710,12 +711,13 @@ const en = {
 };
 
 const nl = {
-	profileChildren: {
-		addChildPrompt: "Je hebt nog geen kinderen toegevoegd. Klik op het kindpictogram om een ​​nieuw kind toe te voegen"
-	},
-	myCalendarScreen: {
-		backNavTitle: "Mijn Kalender"
-	},
+  profileChildren: {
+    addChildPrompt:
+      "Je hebt nog geen kinderen toegevoegd. Klik op het kindpictogram om een ​​nieuw kind toe te voegen"
+  },
+  myCalendarScreen: {
+    backNavTitle: "Mijn Kalender"
+  },
   editTimeslotScreen: {
     timeErr: "Ongeldige combinatie van begin- en eindtijd",
     from: "Van",
@@ -895,14 +897,11 @@ const nl = {
     requestsClosed: "Groep is volzet"
   },
   inviteModal: {
-    header: "Mensen uitnodigen",
+    memberHeader: "Mensen uitnodigen",
+    parentHeader: "Voeg ouder toe",
+    framilyHeader: "Voeg vriend toe",
     invite: "Uitnodigen",
-    cancel: "Annuleer",
-    search: "Zoek"
-  },
-  addParentModal: {
-    header: "Voeg ouder toe",
-    invite: "Toevoegen",
+    add: "Toevoegen",
     cancel: "Annuleer",
     search: "Zoek"
   },
@@ -937,8 +936,8 @@ const nl = {
     rating: "Beoordeel ons",
     header: "Mijn Families Share",
     homeButton: "Home",
-		myProfile: "Mijn profiel",
-		myCalendar: "Mijn kalender",
+    myProfile: "Mijn profiel",
+    myCalendar: "Mijn kalender",
     createGroup: "Start een groep",
     searchGroup: "Zoek een groep",
     inviteFriends: "Nodig vrienden uit",
@@ -949,12 +948,14 @@ const nl = {
     export: "Exporteer mijn data"
   },
   myFamiliesShareScreen: {
-		myGroups: "Mijn groepen",
-		myActivities: "Mijn activiteiten",
-		myNotifications: "Mijn notificaties",
-		myGroupsPrompt: "Je bent nog niet in een groep, gebruik het laterale menu om er een te vinden",
-		myActivitiesPrompt: "Hier ziet u uw toekomstige activiteiten nadat u zich heeft aangemeld voor een of meer groepen",
-		groupsPrompt: "DOE MEE OF MAAK EEN GROEP",
+    myGroups: "Mijn groepen",
+    myActivities: "Mijn activiteiten",
+    myNotifications: "Mijn notificaties",
+    myGroupsPrompt:
+      "Je bent nog niet in een groep, gebruik het laterale menu om er een te vinden",
+    myActivitiesPrompt:
+      "Hier ziet u uw toekomstige activiteiten nadat u zich heeft aangemeld voor een of meer groepen",
+    groupsPrompt: "DOE MEE OF MAAK EEN GROEP"
   },
   faqsScreen: {
     backNavTitle: "FAQ's",
@@ -988,7 +989,7 @@ const nl = {
   searchGroupModal: {
     search: "Zoek een groep",
     results: "Resultaten",
-    example: ""
+    example: "bijv. Naschoolse activiteiten"
   },
   createGroup: { backNavTitle: "Start een groep" },
   createGroupStepper: {
@@ -1059,14 +1060,13 @@ const nl = {
     signout: "Afmelden",
     exportDialogTitle:
       "Weet je zeker dat je al je persoonlijke informatie wilt exporteren?",
-		deleteDialogTitle: 
-			"Ben je zeker dat je je account wilt verwijderen",
-		suspend: "Opschorten",
-		suspendDialogTitle: 
-			"Weet je zeker dat je je account tijdelijk wilt opschorten?",
-		suspendSuccess: 
-			"Uw account is tijdelijk opgeschort. De volgende keer dat u inlogt, wordt uw account opnieuw geactiveerd.",
-		error: "Er is iets fout gegaan."
+    deleteDialogTitle: "Ben je zeker dat je je account wilt verwijderen",
+    suspend: "Opschorten",
+    suspendDialogTitle:
+      "Weet je zeker dat je je account tijdelijk wilt opschorten?",
+    suspendSuccess:
+      "Uw account is tijdelijk opgeschort. De volgende keer dat u inlogt, wordt uw account opnieuw geactiveerd.",
+    error: "Er is iets fout gegaan."
   },
   replyBar: {
     new: "Nieuw bericht",
@@ -1303,12 +1303,13 @@ const nl = {
 };
 
 const it = {
-	profileChildren: {
-		addChildPrompt: "Non hai ancora aggiunto figli. Fare clic sull'icona figlio per aggiungere un nuovo figlio"
-	},
-	myCalendarScreen: {
-		backNavTitle: "Il mio calendario"
-	},
+  profileChildren: {
+    addChildPrompt:
+      "Non hai ancora aggiunto figli. Fare clic sull'icona figlio per aggiungere un nuovo figlio"
+  },
+  myCalendarScreen: {
+    backNavTitle: "Il mio calendario"
+  },
   editTimeslotScreen: {
     timeErr: "Combinazione di inizio e fine ora non valida",
     details: "Dettagli",
@@ -1489,14 +1490,11 @@ const it = {
     requestsClosed: "Il gruppo ha raggiunto il numero massimo di membri"
   },
   inviteModal: {
-    header: "Invita altre persone",
-    invite: "INVITA   ",
-    cancel: "CANCELLA",
-    search: "Cerca"
-  },
-  addParentModal: {
-    header: "Aggiungi un genitore",
-    invite: "AGGIUNGI",
+    memberHeader: "Invita altre persone",
+    parentHeader: "Aggiungi un genitore",
+    framilyHeader: "Aggiungi un amico",
+    invite: "INVITA",
+    add: "AGGIUNGI",
     cancel: "CANCELLA",
     search: "Cerca"
   },
@@ -1528,8 +1526,8 @@ const it = {
     rating: "Votaci",
     header: "Il mio Families Share",
     homeButton: "Home page",
-		myProfile: "Il mio profilo",
-		myCalendar: "Il mio calendario",
+    myProfile: "Il mio profilo",
+    myCalendar: "Il mio calendario",
     createGroup: "Crea un gruppo",
     searchGroup: "Cerca un gruppo",
     inviteFriends: "Invita amici",
@@ -1540,12 +1538,14 @@ const it = {
     export: "Esporta i miei dati"
   },
   myFamiliesShareScreen: {
-		myGroups: "I miei gruppi",
-		myActivities: "Le mie attività",
-		myNotifications: "Le mie notifiche",
-		myGroupsPrompt: "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
-		myActivitiesPrompt: "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
-		groupsPrompt: "ISCRIVITI O CREA UN GRUPPO"
+    myGroups: "I miei gruppi",
+    myActivities: "Le mie attività",
+    myNotifications: "Le mie notifiche",
+    myGroupsPrompt:
+      "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
+    myActivitiesPrompt:
+      "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
+    groupsPrompt: "ISCRIVITI O CREA UN GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -1580,7 +1580,7 @@ const it = {
   searchGroupModal: {
     search: "Cerca un gruppo",
     results: "Risultati",
-    example: ""
+    example: "per esempio. Doposcuola"
   },
   createGroup: { backNavTitle: "Crea un gruppo" },
   createGroupStepper: {
@@ -1656,12 +1656,13 @@ const it = {
     signout: "Esci",
     exportDialogTitle:
       "Sei sicuro di voler esportare tutte le tue informazioni personali?",
-		deleteDialogTitle: "Confermi di voler eliminare il tuo account?",
-		suspend: "Sospendere",
-		suspendDialogTitle: "Sei sicuro di voler sospendere temporaneamente il tuo account?",
-		suspendSuccess: 
-			"Il tuo account è stato sospeso temporaneamente. La prossima volta che accedi al tuo account verrà riattivato.",
-		error: "Qualcosa è andato storto."
+    deleteDialogTitle: "Confermi di voler eliminare il tuo account?",
+    suspend: "Sospendere",
+    suspendDialogTitle:
+      "Sei sicuro di voler sospendere temporaneamente il tuo account?",
+    suspendSuccess:
+      "Il tuo account è stato sospeso temporaneamente. La prossima volta che accedi al tuo account verrà riattivato.",
+    error: "Qualcosa è andato storto."
   },
   replyBar: {
     new: "Nuovo messaggio",
@@ -1916,12 +1917,13 @@ const it = {
 };
 
 const el = {
-	profileChildren: {
-		addChildPrompt: "Δεν έχετε προσθέσει ακόμη παιδιά. Κάντε κλικ στο εικονίδιο για να προσθέσετε ένα νέο παιδί"
-	},
-	myCalendarScreen: {
-		backNavTitle: "Το ημερολόγιο μου"
-	},
+  profileChildren: {
+    addChildPrompt:
+      "Δεν έχετε προσθέσει ακόμη παιδιά. Κάντε κλικ στο εικονίδιο για να προσθέσετε ένα νέο παιδί"
+  },
+  myCalendarScreen: {
+    backNavTitle: "Το ημερολόγιο μου"
+  },
   editTimeslotScreen: {
     timeErr: "Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης",
     details: "Λεπτομέρειες",
@@ -2095,14 +2097,11 @@ const el = {
     requestsClosed: "Έχει επιτευχθεί μέγιστη χωρητικότητα"
   },
   inviteModal: {
-    header: "Προσκαλέστε άτομα",
+    memberHeader: "Προσκαλέστε άτομα",
+    parentHeader: "Προσθήκη γονέα",
+    framilyHeader: "Προσθήκη φίλου",
     invite: "ΠΡΟΣΚΛΗΣΗ",
-    cancel: "ΑΚΥΡΩΣΗ",
-    search: "Αναζήτηση"
-  },
-  addParentModal: {
-    header: "Προσθήκη γονέα",
-    invite: "ΠΡΟΣΘΗΚΗ",
+    add: "ΠΡΟΣΘΗΚΗ",
     cancel: "ΑΚΥΡΩΣΗ",
     search: "Αναζήτηση"
   },
@@ -2137,8 +2136,8 @@ const el = {
     rating: "Βαθμολογήστε μας",
     header: "Το Families Share μου ",
     homeButton: "Αρχική σελίδα",
-		myProfile: "Το προφίλ μου",
-		myCalendar: "Το ημερολόγιο μου",
+    myProfile: "Το προφίλ μου",
+    myCalendar: "Το ημερολόγιο μου",
     createGroup: "Δημιουργήστε μια ομάδα",
     searchGroup: "Αναζήτηστε  μια ομάδα",
     inviteFriends: "Προσκαλέστε φίλους",
@@ -2149,12 +2148,14 @@ const el = {
     export: "Εξαγωγή των δεδομένων μου"
   },
   myFamiliesShareScreen: {
-		myGroups: "Οι ομάδες μου",
-		myActivities: "Οι δραστηριότητες μου",
-		myNotifications: "Οι ειδοποιήσεις μου",
-		myGroupsPrompt: "Δεν έχετε γίνει μέλος κάποια ομάδας ακόμη, χρησιμοποιείστε το πλαϊνό μενού για να βρείτε μια ομάδα",
-		myActivitiesPrompt: "Εδώ θα βλέπετε μελλοντικά τις δραστηριότητες, στις οποίες έχετε εγγραφεί.",
-		groupsPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ Η ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ"
+    myGroups: "Οι ομάδες μου",
+    myActivities: "Οι δραστηριότητες μου",
+    myNotifications: "Οι ειδοποιήσεις μου",
+    myGroupsPrompt:
+      "Δεν έχετε γίνει μέλος κάποια ομάδας ακόμη, χρησιμοποιείστε το πλαϊνό μενού για να βρείτε μια ομάδα",
+    myActivitiesPrompt:
+      "Εδώ θα βλέπετε μελλοντικά τις δραστηριότητες, στις οποίες έχετε εγγραφεί.",
+    groupsPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ Η ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ"
   },
   faqsScreen: {
     backNavTitle: "Συχνές ερωτήσεις",
@@ -2195,7 +2196,7 @@ const el = {
   searchGroupModal: {
     search: "Αναζήτηση ομάδας",
     results: "Αποτελέσματα",
-    example: ""
+    example: "π.χ. Δραστηριότητες μετά το σχολείο"
   },
   createGroup: { backNavTitle: "Δημιουργία ομάδας" },
   createGroupStepper: {
@@ -2265,13 +2266,13 @@ const el = {
     exportDialogTitle:
       "Είστε σίγουροι ότι θέλετε να εξάγετε όλα τα προσωπικά σας δεδομένα;",
     deleteDialogTitle:
-			"Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;",
-		suspend: "Αναστολή",
-		suspendDialogTitle: 
-			"Είστε σίγουροι ότι θέλετε να αναστείλετε προσωρινά το προφίλ σας;",
-		suspendSuccess: 
-			"Ο λογαριασμός σας απενεργοποιήθηκε προσωρινά. Την επόμενη φορά που θα συνδεθείτε θα επανεργοποιηθεί.",
-		error: "Κάτι πήγε στραβά."
+      "Είστε σίγουροι ότι θέλετε να διαγράψετε το λογαριασμό σας;",
+    suspend: "Αναστολή",
+    suspendDialogTitle:
+      "Είστε σίγουροι ότι θέλετε να αναστείλετε προσωρινά το προφίλ σας;",
+    suspendSuccess:
+      "Ο λογαριασμός σας απενεργοποιήθηκε προσωρινά. Την επόμενη φορά που θα συνδεθείτε θα επανεργοποιηθεί.",
+    error: "Κάτι πήγε στραβά."
   },
   replyBar: {
     new: "Νέο μήνυμα",

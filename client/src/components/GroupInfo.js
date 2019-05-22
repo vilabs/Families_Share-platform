@@ -56,7 +56,7 @@ class GroupInfo extends React.Component {
         patch: { user_accepted: true }
       })
       .then(response => {
-        Log.info(response)
+        Log.info(response);
         this.setState({ user_accepted: true });
         this.props.enableNavigation();
       })
@@ -72,7 +72,7 @@ class GroupInfo extends React.Component {
         group_id: this.state.group.group_id
       })
       .then(response => {
-        Log.info(response)
+        Log.info(response);
         this.setState({ user_accepted: true });
       })
       .catch(error => {
@@ -86,11 +86,11 @@ class GroupInfo extends React.Component {
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
-        Log.info(response)
+        Log.info(response);
         this.props.history.replace("/myfamiliesshare");
       })
       .catch(error => {
-        Log.error(error);;
+        Log.error(error);
       });
   };
 
@@ -100,7 +100,7 @@ class GroupInfo extends React.Component {
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
-        Log.info(response)
+        Log.info(response);
         this.setState({ user_accepted: false });
       })
       .catch(error => {

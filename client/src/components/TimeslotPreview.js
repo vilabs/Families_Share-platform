@@ -6,6 +6,7 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 const TimeslotPreview = ({ language, timeslot, history }) => {
+  const texts = Texts[language].timeslotPreview;
   const getPreviewStyle = () => {
     let previewStyle = "normalPreview";
     if (timeslot.userSubscribed || timeslot.childrenSubscribed) {
@@ -34,12 +35,12 @@ const TimeslotPreview = ({ language, timeslot, history }) => {
     }
     return participationMessage;
   };
-
-  const texts = Texts[language].timeslotPreview;
   const startTime = moment(timeslot.start.dateTime).format("HH:mm");
   const endTime = moment(timeslot.end.dateTime).format("HH:mm");
   return (
     <div
+      role="button"
+      tabIndex={-42}
       className={`timeslotPreview ${getPreviewStyle()}`}
       onClick={navigateToTimeslot}
     >
@@ -102,5 +103,7 @@ const TimeslotPreview = ({ language, timeslot, history }) => {
 export default withRouter(withLanguage(TimeslotPreview));
 
 TimeslotPreview.propTypes = {
-  timeslot: PropTypes.object
+  timeslot: PropTypes.object,
+  language: PropTypes.string,
+  history: PropTypes.object
 };

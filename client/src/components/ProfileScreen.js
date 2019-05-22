@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import axios from "axios";
 import Loadable from "react-loadable";
+import PropTypes from "prop-types";
 import ProfileHeader from "./ProfileHeader";
 import ProfileNavbar from "./ProfileNavbar";
 import LoadingSpinner from "./LoadingSpinner";
@@ -53,12 +54,12 @@ class ProfileScreen extends React.Component {
   state = {
     profile: {},
     children: [],
-    activeTab: "",
     fetchedProfile: false
   };
 
   async componentDidMount() {
-    const { profileId } = this.props.match.params;
+    const { match } = this.props;
+    const { profileId } = match.params;
     const profile = await getMyProfile(profileId);
     const children = await getMyChildren(profileId);
     this.setState({
@@ -68,21 +69,20 @@ class ProfileScreen extends React.Component {
     });
   }
 
-  handleActiveTab = activeTab => {
-    this.setState({ activeTab });
-  };
-
   render() {
-    const currentPath = this.props.match.url;
+    const { match } = this.props;
+    const { profileId } = match.params;
+    const { fetchedProfile, children } = this.state;
+    const currentPath = match.url;
     const { profile } = this.state;
-    return this.state.fetchedProfile ? (
+    return fetchedProfile ? (
       <React.Fragment>
         <ProfileHeader
           name={`${profile.given_name} ${profile.family_name}`}
           photo={profile.image.path}
         />
         <React.Fragment>
-          <ProfileNavbar renderActiveTab={this.handleActiveTab} />
+          <ProfileNavbar />
           <Switch>
             <Route
               exact
@@ -95,8 +95,8 @@ class ProfileScreen extends React.Component {
               render={props => (
                 <ProfileChildren
                   {...props}
-                  profileId={this.props.match.params.profileId}
-                  children={this.state.children}
+                  profileId={profileId}
+                  usersChildren={children}
                 />
               )}
             />
@@ -108,5 +108,9 @@ class ProfileScreen extends React.Component {
     );
   }
 }
+
+ProfileScreen.propTypes = {
+  match: PropTypes.object
+};
 
 export default ProfileScreen;

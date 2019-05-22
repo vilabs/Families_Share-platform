@@ -37,9 +37,10 @@ const getUserEvents = userId => {
 
 class MyAgenda extends React.Component {
   getCurrentMonthEvents = () => {
-    const events = JSON.parse(JSON.stringify(this.props.events));
-    const currentMonth = moment(this.props.date).format("MMMM");
-    const currentYear = moment(this.props.date).format("YYYY");
+    const { events: ev, date } = this.props;
+    const events = JSON.parse(JSON.stringify(ev));
+    const currentMonth = moment(date).format("MMMM");
+    const currentYear = moment(date).format("YYYY");
     const filteredEvents = events.filter(
       event =>
         moment(event.start).format("MMMM") === currentMonth &&
@@ -49,10 +50,11 @@ class MyAgenda extends React.Component {
   };
 
   render() {
+    const { date } = this.props;
     return (
       <AgendaView
         events={this.getCurrentMonthEvents()}
-        activeMonth={moment(this.props.date).format("MMMM")}
+        activeMonth={moment(date).format("MMMM")}
       />
     );
   }
@@ -76,42 +78,42 @@ MyAgenda.navigate = (date, action) => {
   }
 };
 
-class DayHeader extends React.Component {
-  render() {
-    return <div />;
-  }
-}
+const DayHeader = () => {
+  return <div />;
+};
 
-class MyMonthEvent extends React.Component {
-  render() {
-    const { event } = this.props;
-    const { activityId } = event.extendedProperties.shared;
-    const { groupId } = event.extendedProperties.shared;
-    const pathname = `/groups/${groupId}/activities/${activityId}`;
-    return (
-      <div onClick={() => this.props.history.push(pathname)}>{event.title}</div>
-    );
-  }
-}
+const MyMonthEvent = ({ event, history }) => {
+  const { activityId } = event.extendedProperties.shared;
+  const { groupId } = event.extendedProperties.shared;
+  const pathname = `/groups/${groupId}/activities/${activityId}`;
+  return (
+    <div role="button" tabIndex={-42} onClick={() => history.push(pathname)}>
+      {event.title}
+    </div>
+  );
+};
 
-const DateCell = ({ range, value, children }) => {
+const DateCell = ({ children }) => {
   return <div style={{ backgroundColor: "#00838f" }}>{children}</div>;
 };
 
 const DateHeader = handleDayClick => props => {
-  if (!props.drilldownView) {
-    return <span>{props.label}</span>;
+  const { drilldownView, label, onDrillDown } = props;
+  if (!drilldownView) {
+    return <span>{label}</span>;
   }
 
   return (
     <div
+      role="button"
+      tabIndex={-42}
       onClick={event => {
-        props.onDrillDown(event);
+        onDrillDown(event);
         handleDayClick();
       }}
       style={{ cursor: "pointer" }}
     >
-      {props.label}
+      {label}
     </div>
   );
 };
@@ -123,18 +125,19 @@ const CustomToolbar = (
   cancelSwipe,
   title
 ) => props => {
+  const { view, onView, onNavigate, date, label } = props;
   const changeView = () => {
-    switch (props.view) {
+    switch (view) {
       case "month":
-        props.onView("agenda");
+        onView("agenda");
         handleChangeView("agenda");
         break;
       case "day":
-        props.onView("month");
+        onView("month");
         handleChangeView("month");
         break;
       case "agenda":
-        props.onView("month");
+        onView("month");
         handleChangeView("month");
         break;
       default:
@@ -142,7 +145,7 @@ const CustomToolbar = (
   };
   const navigate = action => {
     if (action === "NEXT") {
-      const newDate = moment(props.date)
+      const newDate = moment(date)
         .add(1, "M")
         .toDate();
       handleMonthEvents(
@@ -150,7 +153,7 @@ const CustomToolbar = (
         moment(newDate).format("YYYY")
       );
     } else {
-      const newDate = moment(props.date)
+      const newDate = moment(date)
         .add(-1, "M")
         .toDate();
       handleMonthEvents(
@@ -158,32 +161,32 @@ const CustomToolbar = (
         moment(newDate).format("YYYY")
       );
     }
-    props.onNavigate(action);
+    onNavigate(action);
   };
   if (swipe === "right") {
     cancelSwipe();
-    const newDate = moment(props.date)
+    const newDate = moment(date)
       .add(-1, "M")
       .toDate();
     handleMonthEvents(
       moment(newDate).format("MMMM"),
       moment(newDate).format("YYYY")
     );
-    props.onNavigate("PREV");
+    onNavigate("PREV");
   } else if (swipe === "left") {
     cancelSwipe();
-    const newDate = moment(props.date)
+    const newDate = moment(date)
       .add(1, "M")
       .toDate();
     handleMonthEvents(
       moment(newDate).format("MMMM"),
       moment(newDate).format("YYYY")
     );
-    props.onNavigate("NEXT");
+    onNavigate("NEXT");
   }
-  const { label } = props;
+
   let icon = "";
-  switch (props.view) {
+  switch (view) {
     case "agenda":
       icon = "fas fa-clipboard";
       break;
@@ -375,6 +378,25 @@ export default withRouter(withLanguage(Calendar));
 
 Calendar.propTypes = {
   ownerType: PropTypes.string,
-  ownerId: PropTypes.string,
-  handleChangeView: PropTypes.func
+  ownerId: PropTypes.string
+};
+
+MyAgenda.propTypes = {
+  events: PropTypes.array,
+  date: PropTypes.instanceOf(Date)
+};
+
+MyMonthEvent.propTypes = {
+  history: PropTypes.object,
+  event: PropTypes.object
+};
+
+DateCell.propTypes = {
+  children: PropTypes.node
+};
+
+DateHeader.propTypes = {
+  drilldownView: PropTypes.bool,
+  onDrillDown: PropTypes.func,
+  label: PropTypes.string
 };

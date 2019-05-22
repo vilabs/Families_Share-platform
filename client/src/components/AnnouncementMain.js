@@ -18,20 +18,22 @@ class AnnouncementMain extends React.Component {
   };
 
   render() {
+    const { imageModalIsOpen, expandedImage } = this.state;
+    const { message, images } = this.props;
     return (
       <div id="announcementMainContainer" className="horizontalCenter">
-        {this.state.imageModalIsOpen ? (
+        {imageModalIsOpen && (
           <ExpandedImageModal
-            isOpen={this.state.imageModalIsOpen}
+            isOpen={imageModalIsOpen}
             handleClose={this.handleModalClose}
-            image={this.state.expandedImage}
+            image={expandedImage}
           />
-        ) : null}
+        )}
         <div className="row no-gutters">
-          <h1>{this.props.message}</h1>
+          <h1>{message}</h1>
         </div>
         <ul>
-          {this.props.images.map((image, index) => (
+          {images.map((image, index) => (
             <li key={index}>
               <img
                 src={image.path}

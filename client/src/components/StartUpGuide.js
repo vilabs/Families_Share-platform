@@ -1,11 +1,12 @@
 import React from "react";
-import Texts from "../Constants/Texts.js";
+import PropTypes from "prop-types";
+import Texts from "../Constants/Texts";
 import BackNavigation from "./BackNavigation";
 import withLanguage from "./LanguageContext";
 
-class StartUpGuide extends React.Component {
-  renderGuide = () => {
-    const { guide } = Texts[this.props.language].startUpGuide;
+const StartUpGuide = ({ language, history }) => {
+  const renderGuide = () => {
+    const { guide } = Texts[language].startUpGuide;
     return guide.map((instruction, index) => (
       <li key={index} className="row no-gutters" id="instructionContainer">
         <div className="col-2-10">
@@ -20,23 +21,21 @@ class StartUpGuide extends React.Component {
       </li>
     ));
   };
-
-  render() {
-    const texts = Texts[this.props.language].startUpGuide;
-    return (
-      <div>
-        <BackNavigation
-          title={texts.backNavTitle}
-          onClick={() => this.props.history.goBack()}
-        />
-
-        />
-<ul>{this.renderGuide()}</ul>
-      </div>
-    );
-  }
-}
+  const texts = Texts[language].startUpGuide;
+  return (
+    <React.Fragment>
+      <BackNavigation
+        title={texts.backNavTitle}
+        onClick={() => history.goBack()}
+      />
+      <ul>{renderGuide()}</ul>
+    </React.Fragment>
+  );
+};
 
 export default withLanguage(StartUpGuide);
 
-StartUpGuide.propTypes = {};
+StartUpGuide.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string
+};

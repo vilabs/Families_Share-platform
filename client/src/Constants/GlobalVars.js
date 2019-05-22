@@ -1,1 +1,4 @@
-export const languages = ["en", "nl", "it", "el"];
+const languages = ["en", "nl", "it", "el"];
+module.exports = {
+  languages
+};

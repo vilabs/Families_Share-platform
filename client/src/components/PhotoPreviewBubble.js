@@ -1,20 +1,22 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const PhotoPreviewBubble = props => (
+const PhotoPreviewBubble = ({ photos, handleDelete }) => (
   <ul
     id="photoPreviewContainer"
     style={
-      props.photos.length > 0
-        ? { display: "flex", width: props.photos.length * 65 }
-        : { display: "none", width: props.photos.length * 65 }
+      photos.length > 0
+        ? { display: "flex", width: photos.length * 65 }
+        : { display: "none", width: photos.length * 65 }
     }
   >
-    {props.photos.map((photo, index) => (
+    {photos.map((photo, index) => (
       <li key={index}>
         <i
+          role="button"
+          tabIndex={-42}
           className="fas fa-times previewDelete"
-          onClick={() => props.handleDelete(photo)}
+          onClick={() => handleDelete(photo)}
         />
         <img
           className="photoPreview"
@@ -26,7 +28,6 @@ const PhotoPreviewBubble = props => (
   </ul>
 );
 PhotoPreviewBubble.propTypes = {
-  handleClose: PropTypes.func,
   photos: PropTypes.array,
   handleDelete: PropTypes.func
 };

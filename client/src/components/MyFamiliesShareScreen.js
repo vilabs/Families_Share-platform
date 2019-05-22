@@ -1,13 +1,13 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
 import { MyFamiliesShareHeader } from "./MyFamiliesShareHeader";
 import withLanguage from "./LanguageContext";
 import GroupList from "./GroupList";
-import TimeslotsList from './TimeslotsList';
+import TimeslotsList from "./TimeslotsList";
 import Texts from "../Constants/Texts";
 import Log from "./Log";
-import Images from '../Constants/Images';
-import moment from 'moment';
+import Images from "../Constants/Images";
 
 const getMyGroups = userId => {
   return axios
@@ -22,7 +22,7 @@ const getMyGroups = userId => {
 };
 
 const getMyTimeslots = userId => {
-	return axios
+  return axios
     .get(`/api/users/${userId}/events`)
     .then(response => {
       return response.data;
@@ -31,7 +31,7 @@ const getMyTimeslots = userId => {
       Log.error(error);
       return [];
     });
-}
+};
 const getMyUnreadNotifications = userId => {
   return axios
     .get(`/api/users/${userId}/notifications/unread`)
@@ -63,9 +63,9 @@ class MyFamiliesShareScreen extends React.Component {
     const pendingInvites = groups.filter(
       group => group.group_accepted && !group.user_accepted
     ).length;
-		const unreadNotifications = await getMyUnreadNotifications(userId);
-		const myTimeslots = await getMyTimeslots(userId);
-		let dates = myTimeslots.map(timeslot => timeslot.start.dateTime);
+    const unreadNotifications = await getMyUnreadNotifications(userId);
+    const myTimeslots = await getMyTimeslots(userId);
+    let dates = myTimeslots.map(timeslot => timeslot.start.dateTime);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
     });
@@ -80,10 +80,10 @@ class MyFamiliesShareScreen extends React.Component {
     });
     this.setState({
       fetchedUserInfo: true,
-			unreadNotifications,
-			dates: uniqueDates,
-			myGroups,
-			myTimeslots,
+      unreadNotifications,
+      dates: uniqueDates,
+      myGroups,
+      myTimeslots,
       pendingInvites
     });
   }
@@ -91,6 +91,7 @@ class MyFamiliesShareScreen extends React.Component {
   handleChangeView = view => {
     this.setState({ activeView: view });
   };
+
   renderGroupSection = () => {
     const { language } = this.props;
     const { myGroups } = this.state;
@@ -106,36 +107,43 @@ class MyFamiliesShareScreen extends React.Component {
       </div>
     );
   };
+
   renderTimeslotsSection = () => {
-		const { language } = this.props;
+    const { language } = this.props;
     const { myTimeslots, dates } = this.state;
     const texts = Texts[language].myFamiliesShareScreen;
     return (
       <div className="myGroupsContainer">
-				<div className="myGroupsContainerHeader">{texts.myActivities}</div>
-				{ myTimeslots.length > 0 ? (
-					<TimeslotsList timeslots={myTimeslots} dates={dates}/>
-				) : (
-					<div className="myGroupsContainerPrompt">{texts.myActivitiesPrompt}</div>
-				)}
+        <div className="myGroupsContainerHeader">{texts.myActivities}</div>
+        {myTimeslots.length > 0 ? (
+          <TimeslotsList timeslots={myTimeslots} dates={dates} />
+        ) : (
+          <div className="myGroupsContainerPrompt">
+            {texts.myActivitiesPrompt}
+          </div>
+        )}
       </div>
     );
-	};
-	renderPromptAction = () => {
-		const { language } = this.props;
-		const texts = Texts[language].myFamiliesShareScreen;
-		const { myGroups } = this.state;
-		if (myGroups.length === 0) {
-			return (
-				<div className="myPromptSection">
-					<div className="myPromptAction">
-						{texts.groupsPrompt}
-					</div>
-					<img className="myPromptImage" src={Images.promptImage} alt="confetti icon" />
-				</div>
-			)
-		}
-	}
+  };
+
+  renderPromptAction = () => {
+    const { language } = this.props;
+    const texts = Texts[language].myFamiliesShareScreen;
+    const { myGroups } = this.state;
+    if (myGroups.length === 0) {
+      return (
+        <div className="myPromptSection">
+          <div className="myPromptAction">{texts.groupsPrompt}</div>
+          <img
+            className="myPromptImage"
+            src={Images.promptImage}
+            alt="confetti icon"
+          />
+        </div>
+      );
+    }
+  };
+
   render() {
     return (
       <div id="drawerContainer">
@@ -146,8 +154,8 @@ class MyFamiliesShareScreen extends React.Component {
         {this.state.fetchedUserInfo && (
           <div id="myFamiliesShareMainContainer">
             {this.renderGroupSection()}
-						{this.renderTimeslotsSection()}
-						{this.renderPromptAction()}
+            {this.renderTimeslotsSection()}
+            {this.renderPromptAction()}
           </div>
         )}
       </div>

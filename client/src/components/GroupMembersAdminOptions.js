@@ -8,7 +8,7 @@ import Texts from "../Constants/Texts";
 import InviteDialog from "./InviteDialog";
 import Log from "./Log";
 
-const styles = theme => ({
+const styles = () => ({
   colorSwitchBase: {
     color: "#c43e00",
     "&$colorChecked": {
@@ -45,7 +45,7 @@ class GroupMembersAdminOptions extends React.Component {
         open: !this.state.groupIsOpen
       })
       .then(response => {
-        Log.info(response)
+        Log.info(response);
         this.setState({ groupIsOpen: !this.state.groupIsOpen });
       })
       .catch(error => {
@@ -66,7 +66,7 @@ class GroupMembersAdminOptions extends React.Component {
     axios
       .post(`/api/groups/${this.state.groupId}/members`, { inviteIds })
       .then(response => {
-        Log.info(response)
+        Log.info(response);
       })
       .catch(error => {
         Log.error(error);
@@ -84,6 +84,7 @@ class GroupMembersAdminOptions extends React.Component {
           </div>
           <div className="col-8-10">
             <button
+              type="button"
               className="transparentButton verticalCenter"
               onClick={this.handleInviteModalOpen}
             >
@@ -131,7 +132,7 @@ class GroupMembersAdminOptions extends React.Component {
           isOpen={this.state.inviteModalIsOpen}
           handleClose={this.handleInviteModalClose}
           handleInvite={this.handleInvite}
-          inviteTYpe="member"
+          inviteType="member"
         />
       </div>
     );

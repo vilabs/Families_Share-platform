@@ -2,23 +2,41 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock";
 import OptionsModal from "./OptionsModal";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
+import ExpandedImageModal from "./ExpandedImageModal";
 import Log from "./Log";
 
 class ChildProfileHeader extends React.Component {
-  state = { optionsModalIsOpen: false, confirmDialogIsOpen: false };
+  state = {
+    optionsModalIsOpen: false,
+    confirmDialogIsOpen: false,
+    imageModalIsOpen: false
+  };
+
+  handleImageModalOpen = () => {
+    const target = document.querySelector(".ReactModalPortal");
+    disableBodyScroll(target);
+    this.setState({ imageModalIsOpen: true });
+  };
+
+  handleImageModalClose = () => {
+    clearAllBodyScrollLocks();
+    this.setState({ imageModalIsOpen: false });
+  };
 
   handleClose = () => {
     this.setState({ optionsModalIsOpen: false });
   };
 
   handleEdit = () => {
-    const pathName = this.props.history.location.pathname;
-    const newPath = `${pathName}/edit`;
-    this.props.history.push(newPath);
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const newPath = `${pathname}/edit`;
+    history.push(newPath);
   };
 
   handleOptions = () => {
@@ -26,17 +44,17 @@ class ChildProfileHeader extends React.Component {
   };
 
   handleDelete = () => {
-    const userId = this.props.match.params.profileId;
-    const { childId } = this.props.match.params;
+    const { match, history } = this.props;
+    const { profileId: userId, childId } = match.params;
     axios
       .delete(`/api/users/${userId}/children/${childId}`)
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
@@ -52,7 +70,14 @@ class ChildProfileHeader extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].childProfileHeader;
+    const { language, background, history, match, photo, name } = this.props;
+    const { profileId } = match.params;
+    const {
+      imageModalIsOpen,
+      confirmDialogIsOpen,
+      optionsModalIsOpen
+    } = this.state;
+    const texts = Texts[language].childProfileHeader;
     const options = [
       {
         label: texts.delete,
@@ -65,27 +90,25 @@ class ChildProfileHeader extends React.Component {
         <ConfirmDialog
           title={texts.confirmDialogTitle}
           handleClose={this.handleConfirmDialogClose}
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
         />
-        <div
-          id="profileHeaderContainer"
-          style={{ background: this.props.background }}
-        >
+        <div id="profileHeaderContainer" style={{ background }}>
           <div className="row no-gutters" id="profileHeaderOptions">
             <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
-                onClick={() => this.props.history.goBack()}
+                onClick={() => history.goBack()}
               >
                 <i className="fas fa-arrow-left" />
               </button>
             </div>
             <div className="col-6-10" />
-            {this.props.match.params.profileId ===
-            JSON.parse(localStorage.getItem("user")).id ? (
+            {profileId === JSON.parse(localStorage.getItem("user")).id ? (
               <React.Fragment>
                 <div className="col-1-10">
                   <button
+                    type="button"
                     className="transparentButton center"
                     onClick={this.handleEdit}
                   >
@@ -94,6 +117,7 @@ class ChildProfileHeader extends React.Component {
                 </div>
                 <div className="col-1-10">
                   <button
+                    type="button"
                     className="transparentButton center"
                     onClick={this.handleOptions}
                   >
@@ -108,11 +132,17 @@ class ChildProfileHeader extends React.Component {
           <img
             className="profilePhoto horizontalCenter"
             alt="child's profile"
-            src={this.props.photo}
+            src={photo}
+            onClick={this.handleImageModalOpen}
           />
-          <h1 className="horizontalCenter">{this.props.name}</h1>
+          <h1 className="horizontalCenter">{name}</h1>
+          <ExpandedImageModal
+            isOpen={imageModalIsOpen}
+            handleClose={this.handleImageModalClose}
+            image={photo}
+          />
           <OptionsModal
-            isOpen={this.state.optionsModalIsOpen}
+            isOpen={optionsModalIsOpen}
             handleClose={this.handleClose}
             options={options}
           />
@@ -126,7 +156,9 @@ ChildProfileHeader.propTypes = {
   background: PropTypes.string,
   name: PropTypes.string,
   photo: PropTypes.string,
-  profileId: PropTypes.string
+  match: PropTypes.object,
+  history: PropTypes.object,
+  language: PropTypes.string
 };
 
 export default withRouter(withLanguage(ChildProfileHeader));

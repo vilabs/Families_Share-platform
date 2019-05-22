@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import BackNavigation from "./BackNavigation";
 import SignUpForm from "./SignUpForm";
 import Texts from "../Constants/Texts";
@@ -37,5 +38,11 @@ function mapStateToProps(state) {
     signingUp
   };
 }
+
+SignUpScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  signingUp: PropTypes.bool
+};
 
 export default connect(mapStateToProps)(withLanguage(SignUpScreen));

@@ -4,11 +4,7 @@ import Images from "../Constants/Images";
 const LandingHeader = () => {
   return (
     <div className="row no-gutters" id="landingHeaderContainer">
-      <img
-        src={Images.citylabImage}
-        alt="city logo"
-        className="cityImage"
-      />
+      <img src={Images.citylabImage} alt="city logo" className="cityImage" />
       <div className="center" id="landingHeaderBrandContainer">
         <img
           src={Images.familyShareLogo}

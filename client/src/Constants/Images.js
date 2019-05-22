@@ -1,5 +1,5 @@
 const Images = {
-	citylabImage: require(process.env.REACT_APP_CITYLAB_IMAGE),
+  citylabImage: require(process.env.REACT_APP_CITYLAB_IMAGE),
   familyShareLogo: require("../images/families_share_logo.png"),
   challengeImage: require("../images/DSC_0321.jpg"),
   europeanUnionLogo: require("../images/european_union_logo.png"),
@@ -28,7 +28,7 @@ const Images = {
   userFriendsRegular: require("../images/user-friends-regular.png"),
   mapMarkerAltRegular: require("../images/mapMarkerAltRegular.png"),
   thumbtackRegular: require("../images/thumbtackRegular.png"),
-	euroSignRegular: require("../images/euroSignRegular.png"),
-	promptImage: require('../images/promptImage.png')
+  euroSignRegular: require("../images/euroSignRegular.png"),
+  promptImage: require("../images/promptImage.png")
 };
 export default Images;

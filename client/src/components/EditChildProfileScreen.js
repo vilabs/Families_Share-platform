@@ -5,7 +5,7 @@ import axios from "axios";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
-import Log from './Log';
+import Log from "./Log";
 
 const dataURLtoFile = (dataurl, filename) => {
   const arr = dataurl.split(",");

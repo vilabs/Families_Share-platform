@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     width: "3rem",
     height: "3rem"
@@ -29,6 +29,8 @@ const TimeslotSubscribe = ({
   };
   return (
     <div
+      role="button"
+      tabIndex={-42}
       onClick={handleClick}
       className="subscribeBubble"
       style={subscribed ? { backgroundColor: "#00838F", color: "#ffffff" } : {}}
@@ -56,5 +58,6 @@ TimeslotSubscribe.propTypes = {
   id: PropTypes.string,
   handleSubscribe: PropTypes.func,
   handleUnsubscribe: PropTypes.func,
-  type: PropTypes.string
+  type: PropTypes.string,
+  classes: PropTypes.object
 };

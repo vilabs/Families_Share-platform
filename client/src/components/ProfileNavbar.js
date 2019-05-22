@@ -1,54 +1,50 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
-class ProfileNavbar extends React.Component {
-  handleActiveTab = event => {
-    const pathName = this.props.history.location.pathname;
-    const parentPath = pathName.slice(0, pathName.lastIndexOf("/"));
-    this.props.history.replace(`${parentPath}/${event.target.id}`);
-    this.props.renderActiveTab(event.target.id);
+const ProfileNavbar = ({ language, history }) => {
+  const handleActiveTab = event => {
+    const { pathname } = history.location;
+    const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
+    history.replace(`${parentPath}/${event.target.id}`);
   };
-
-  render() {
-    const texts = Texts[this.props.language].profileNavbar;
-    const { pathname } = this.props.location;
-    const activeTab = pathname.slice(
-      pathname.lastIndexOf("/") + 1,
-      pathname.length
-    );
-    return (
-      <div id="profileNavbarContainer">
-        <div className="row no-gutters">
-          <div className="col-1-2">
-            <h1
-              id="info"
-              className={activeTab === "info" ? "profileTabActive" : ""}
-              onClick={this.handleActiveTab}
-            >
-              {texts.info}
-            </h1>
-          </div>
-          <div className="col-1-2">
-            <h1
-              id="children"
-              className={activeTab === "children" ? "profileTabActive" : ""}
-              onClick={this.handleActiveTab}
-            >
-              {texts.children}
-            </h1>
-          </div>
+  const texts = Texts[language].profileNavbar;
+  const { pathname } = history.location;
+  const activeTab = pathname.slice(
+    pathname.lastIndexOf("/") + 1,
+    pathname.length
+  );
+  return (
+    <div id="profileNavbarContainer">
+      <div className="row no-gutters">
+        <div className="col-1-2">
+          <h1
+            id="info"
+            className={activeTab === "info" ? "profileTabActive" : ""}
+            onClick={handleActiveTab}
+          >
+            {texts.info}
+          </h1>
+        </div>
+        <div className="col-1-2">
+          <h1
+            id="children"
+            className={activeTab === "children" ? "profileTabActive" : ""}
+            onClick={handleActiveTab}
+          >
+            {texts.children}
+          </h1>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default withRouter(withLanguage(ProfileNavbar));
 
 ProfileNavbar.propTypes = {
-  activeTab: PropTypes.string,
-  renderActiveTab: PropTypes.func
+  language: PropTypes.string,
+  history: PropTypes.object
 };

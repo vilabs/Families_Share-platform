@@ -1,11 +1,5 @@
 import axios from "axios";
 
-const authenticationServices = {
-  login,
-  logout,
-  googleLogin
-};
-
 function login(email, password, deviceToken) {
   const language = localStorage.getItem("language");
   return axios({
@@ -21,22 +15,20 @@ function login(email, password, deviceToken) {
   })
     .then(response => {
       const user = response.data;
-      if (user.token) {
-        localStorage.setItem("user", JSON.stringify(user));
-        return user;
-      }
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
     })
     .catch(error => Promise.reject(error));
 }
 
-function googleLogin(response, origin, deviceToken) {
+function googleLogin(googleResponse, origin, deviceToken) {
   const language = localStorage.getItem("language");
   return axios({
     url: "/api/users/authenticate/google",
     method: "POST",
     headers: { "Content-Type": "application/json" },
     data: JSON.stringify({
-      response,
+      response: googleResponse,
       origin,
       deviceToken,
       language
@@ -44,10 +36,8 @@ function googleLogin(response, origin, deviceToken) {
   })
     .then(response => {
       const user = response.data;
-      if (user.token) {
-        localStorage.setItem("user", JSON.stringify(user));
-        return user;
-      }
+      localStorage.setItem("user", JSON.stringify(user));
+      return user;
     })
     .catch(error => Promise.reject(error));
 }
@@ -55,5 +45,11 @@ function googleLogin(response, origin, deviceToken) {
 function logout() {
   localStorage.removeItem("user");
 }
+
+const authenticationServices = {
+  login,
+  logout,
+  googleLogin
+};
 
 export default authenticationServices;

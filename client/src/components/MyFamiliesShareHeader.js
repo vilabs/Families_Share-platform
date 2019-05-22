@@ -93,10 +93,10 @@ class MyFamiliesShareHeader extends React.Component {
       case "myprofile":
         const userId = JSON.parse(localStorage.getItem("user")).id;
         this.props.history.push(`/profiles/${userId}/info`);
-				break;
-			case "mycalendar":
-				this.props.history.push(`/myfamiliesshare/calendar`);
-				break;
+        break;
+      case "mycalendar":
+        this.props.history.push(`/myfamiliesshare/calendar`);
+        break;
       case "faqs":
         this.props.history.push("/faqs");
         break;
@@ -208,21 +208,21 @@ class MyFamiliesShareHeader extends React.Component {
                   <h1>{texts.myProfile}</h1>
                 </div>
               </div>
-						</Menu.Item>
-						<Menu.Item
-						style={menuItemWithLine}
-						key="mycalendar"
-						onClick={this.handleDrawerClick}
-					>
-						<div className="row no-gutters">
-							<div className="col-1-4">
-								<i className="fas fa-calendar-alt" />
-							</div>
-							<div className="col-3-4">
-								<h1>{texts.myCalendar}</h1>
-							</div>
-						</div>
-					</Menu.Item>
+            </Menu.Item>
+            <Menu.Item
+              style={menuItemWithLine}
+              key="mycalendar"
+              onClick={this.handleDrawerClick}
+            >
+              <div className="row no-gutters">
+                <div className="col-1-4">
+                  <i className="fas fa-calendar-alt" />
+                </div>
+                <div className="col-3-4">
+                  <h1>{texts.myCalendar}</h1>
+                </div>
+              </div>
+            </Menu.Item>
             <Menu.Item
               style={menuItem}
               key="creategroup"

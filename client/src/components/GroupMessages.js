@@ -40,7 +40,7 @@ class GroupMessages extends React.Component {
       .catch(error => {
         Log.error(error);
       });
-  }
+  };
 
   renderAnnouncements = () => {
     const { announcements } = this.state;
@@ -84,8 +84,8 @@ class GroupMessages extends React.Component {
                     />
                     <AnnouncementReplies
                       announcementId={announcements[index].announcement_id}
-											groupId={announcements[index].group_id}
-											userIsAdmin={this.props.userIsAdmin}
+                      groupId={announcements[index].group_id}
+                      userIsAdmin={this.props.userIsAdmin}
                     />
                   </div>
                 </li>

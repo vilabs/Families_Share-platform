@@ -25,11 +25,14 @@ class RatingModal extends React.Component {
   }
 
   handleRate = () => {
+    const { rating } = this.state;
+    const { handleClose } = this.props;
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
-      .patch(`/api/users/${userId}/rating`, { rating: this.state.rating })
-      .then(reponse => {
-        this.props.handleClose();
+      .patch(`/api/users/${userId}/rating`, { rating })
+      .then(response => {
+        Log.info(response);
+        handleClose();
       })
       .catch(error => {
         Log.error(error);
@@ -37,7 +40,9 @@ class RatingModal extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].ratingModal;
+    const { language, isOpen, handleClose } = this.props;
+    const { rating } = this.state;
+    const texts = Texts[language].ratingModal;
     const modalStyle = {
       overlay: {
         zIndex: 1000,
@@ -64,8 +69,8 @@ class RatingModal extends React.Component {
     return (
       <Modal
         style={modalStyle}
-        isOpen={this.props.isOpen}
-        onRequestClose={this.props.handleClose}
+        isOpen={isOpen}
+        onRequestClose={handleClose}
         contentLabel="Rating Modal"
       >
         {" "}
@@ -73,8 +78,8 @@ class RatingModal extends React.Component {
         <div className="ratingHeader">{texts.title}</div>
         <div className="ratingMain">
           <Rating
-            initialRating={this.state.rating}
-            onClick={rating => {
+            initialRating={rating}
+            onClick={() => {
               this.setState({ rating });
             }}
             emptySymbol={<i className="fas fa-star ratingStar" />}
@@ -83,7 +88,11 @@ class RatingModal extends React.Component {
         </div>
         <div className="ratingFooter">
           <div className="ratingGuide ">{texts.rateInstruction}</div>
-          <button className="ratingButton" onClick={this.handleRate}>
+          <button
+            type="button"
+            className="ratingButton"
+            onClick={this.handleRate}
+          >
             {texts.rate}
           </button>
         </div>
@@ -94,7 +103,8 @@ class RatingModal extends React.Component {
 
 RatingModal.propTypes = {
   isOpen: PropTypes.bool,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  language: PropTypes.string
 };
 
 export default withLanguage(RatingModal);

@@ -1,5 +1,6 @@
 import React from "react";
 import Switch from "@material-ui/core/Switch";
+import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
@@ -10,7 +11,7 @@ import registrationActions from "../Actions/RegistrationActions";
 import Images from "../Constants/Images";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
-const styles = theme => ({
+const styles = () => ({
   colorSwitchBase: {
     color: "#c43e00",
     "&$colorChecked": {
@@ -138,7 +139,8 @@ class SignUpForm extends React.Component {
       }
     }
     if (name === "acceptTerms") {
-      this.setState({ [name]: !this.state[name] });
+      const { acceptTerms } = this.state;
+      this.setState({ acceptTerms: !acceptTerms });
     } else {
       this.setState({ [name]: value });
     }
@@ -203,7 +205,9 @@ class SignUpForm extends React.Component {
     }
     return (
       <form
-        ref={form => (this.formEl = form)}
+        ref={form => {
+          this.formEl = form;
+        }}
         onSubmit={this.handleSubmit}
         className={formClass}
         noValidate
@@ -293,7 +297,12 @@ class SignUpForm extends React.Component {
               src={acceptTerms ? Images.policyAccepted : Images.policy}
             />
           </div>
-          <div className="col-8-10" onClick={this.handlePolicyOpen}>
+          <div
+            role="button"
+            tabIndex={-42}
+            className="col-8-10"
+            onClick={this.handlePolicyOpen}
+          >
             <p className="acceptTermsText verticalCenter">
               {texts.termsPolicy}
             </p>
@@ -306,7 +315,7 @@ class SignUpForm extends React.Component {
             name="acceptTerms"
             className="form-control"
             required
-            checked={this.state.acceptTerms}
+            checked={acceptTerms}
             id="termsAndPolicy"
             onChange={() => {}}
           />
@@ -333,6 +342,15 @@ class SignUpForm extends React.Component {
     );
   }
 }
+
+SignUpForm.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  classes: PropTypes.object,
+  error: PropTypes.bool,
+  enqueueSnackbar: PropTypes.func,
+  dispatch: PropTypes.func
+};
 
 function mapStateToProps(state) {
   const { error } = state.registration;

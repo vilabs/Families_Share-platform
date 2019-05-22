@@ -40,16 +40,16 @@ class CreateChildScreen extends React.Component {
     }
   }
 
-	componentDidMount() {
-		const { acceptTerms } = this.state;
-		if (!acceptTerms) {
-			document
-				.getElementById("acceptTermsCheckbox")
-				.setCustomValidity(
-					Texts[this.props.language].createChildScreen.acceptTermsErr
-				);
-		}
-	}
+  componentDidMount() {
+    const { acceptTerms } = this.state;
+    if (!acceptTerms) {
+      document
+        .getElementById("acceptTermsCheckbox")
+        .setCustomValidity(
+          Texts[this.props.language].createChildScreen.acceptTermsErr
+        );
+    }
+  }
 
   handleCancel = () => {
     this.props.history.goBack();

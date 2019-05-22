@@ -2,25 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import FramilyListItem from "./FramilyListItem";
-import InviteModal from "./InviteModal";
+import InviteDialog from "./InviteDialog";
 import Log from "./Log";
 
 class ProfileFramily extends React.Component {
   constructor(props) {
     super(props);
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const myProfile = userId === this.props.profileId;
+    const { profileId } = this.props;
+    const myProfile = userId === profileId;
     this.state = {
       modalIsOpen: false,
-      profileId: this.props.profileId,
+      profileId,
       myProfile,
       framily: []
     };
   }
 
   componentDidMount = () => {
+    const { profileId } = this.state;
     axios
-      .get(`/api/users/${this.state.profileId}/framily`)
+      .get(`/api/users/${profileId}/framily`)
       .then(response => {
         const framily = response.data;
         this.setState({ framily });
@@ -31,8 +33,9 @@ class ProfileFramily extends React.Component {
   };
 
   refresh = () => {
+    const { profileId } = this.state;
     axios
-      .get(`/api/users/${this.state.profileId}/framily`)
+      .get(`/api/users/${profileId}/framily`)
       .then(response => {
         const framily = response.data;
         this.setState({ framily });
@@ -44,8 +47,11 @@ class ProfileFramily extends React.Component {
 
   handleAddFramily = inviteIds => {
     this.setState({ modalIsOpen: false });
+    const elem = document.getElementsByTagName("body")[0];
+    elem.style.overflow = "auto";
+    const { profileId } = this.state;
     axios
-      .post(`/api/users/${this.state.profileId}/framily`, { inviteIds })
+      .post(`/api/users/${profileId}/framily`, { inviteIds })
       .then(response => {
         Log.info(response);
         this.refresh();
@@ -56,38 +62,45 @@ class ProfileFramily extends React.Component {
   };
 
   addFramilyMember = () => {
+    const elem = document.getElementsByTagName("body")[0];
+    elem.style.overflow = "hidden";
     this.setState({ modalIsOpen: true });
   };
 
   handleClose = () => {
+    const elem = document.getElementsByTagName("body")[0];
+    elem.style.overflow = "auto";
     this.setState({ modalIsOpen: false });
-    Log.info("framily added");
   };
 
   render() {
+    const { profileId, framily, myProfile, modalIsOpen } = this.state;
     return (
       <div id="framilyContainer">
-        <InviteModal
-          isOpen={this.state.modalIsOpen}
+        <InviteDialog
+          isOpen={modalIsOpen}
           handleClose={this.handleClose}
           handleInvite={this.handleAddFramily}
+          inviteTYpe="framily"
         />
         <ul>
-          {this.state.framily.map((member, index) => (
+          {framily.map((member, index) => (
             <li key={index}>
               <FramilyListItem
                 framilyId={member.framily_id}
-                profileId={this.state.profileId}
+                profileId={profileId}
               />
             </li>
           ))}
         </ul>
-        {this.state.myProfile ? (
-          <button id="addFramilyThumbnail" onClick={this.addFramilyMember}>
+        {myProfile && (
+          <button
+            type="button"
+            id="addFramilyThumbnail"
+            onClick={this.addFramilyMember}
+          >
             <i className="fas fa-user-plus" />
           </button>
-        ) : (
-          <div />
         )}
       </div>
     );
@@ -95,7 +108,6 @@ class ProfileFramily extends React.Component {
 }
 
 ProfileFramily.propTypes = {
-  framily: PropTypes.array,
   profileId: PropTypes.string
 };
 
