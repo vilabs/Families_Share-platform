@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_backend:
+  build:
     docker:
       - image: circleci/node:8.12
       - image: circleci/mongo:3.6.3
