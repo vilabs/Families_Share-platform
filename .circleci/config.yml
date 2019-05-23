@@ -64,6 +64,7 @@ jobs:
           command: npm run build
 
 workflows:
-  test_and_build:
+  version: 2
+  backend_and_frontend:
     - backend
     - frontend
