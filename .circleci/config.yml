@@ -46,10 +46,6 @@ jobs:
     steps:
       - checkout
 
-      - run:
-          name: Change Directory
-          command: cd client
-
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
@@ -57,7 +53,7 @@ jobs:
 
       - run:
           name: Install Frontend Dependencies
-          command: npm install
+          command: cd client && npm install
 
       - save_cache:
           paths:
@@ -70,7 +66,7 @@ jobs:
 
       - run:
           name: Running Frontend Build
-          command: npm run build
+          command: cd client && npm run build
 
       - persist_to_workspace:
           root: /client
