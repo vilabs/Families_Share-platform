@@ -36,7 +36,7 @@ jobs:
     docker:
       - image: circleci/node:8.12
 
-    working_directory: ~/project
+    working_directory: ~/project/client
 
     steps:
       - checkout
@@ -65,11 +65,11 @@ jobs:
 
       - run:
           name: Running Frontend Build
-          command: npm run build
+          command: npm build
 
 workflows:
   version: 2
   backend_and_frontend:
     jobs:
-      - backend
       - frontend
+      - backend
