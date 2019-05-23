@@ -5,7 +5,7 @@ jobs:
       - image: circleci/node:8.12
       - image: circleci/mongo:3.6.3
 
-    working_directory: ~/repo
+    working_directory: ~/Families_Share-platform
 
     steps:
       - restore_cache:
@@ -29,24 +29,3 @@ jobs:
       - run:
           name: npm test
           command: npm test
-          when: always
-#   build:
-#     docker:
-#       - image: circleci/node:8.12
-#     working_directory: ~~/repo/client
-#      steps:
-#       - restore_cache:
-#           keys:
-#             - v1-dependencies-{{ checksum "package.json" }}s
-#             - v1-dependencies-
-#       - run: npm install
-#       - save_cache:
-#           paths:
-#             - node_modules
-#           key: v1-dependencies-{{ checksum "package.json" }}
-#       - run: npm run build
-# workflows:
-#   test_and_build:
-#     - test
-#     - build:
-#         requires: -test
