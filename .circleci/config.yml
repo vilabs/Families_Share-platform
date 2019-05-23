@@ -61,7 +61,7 @@ jobs:
 
       - run:
           name: Running Frontend Build
-          command: npm run build
+          command: npm build
 
 workflows:
   version: 2
