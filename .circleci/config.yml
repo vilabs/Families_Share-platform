@@ -5,8 +5,6 @@ jobs:
       - image: circleci/node:8.12
       - image: circleci/mongo:3.6.3
 
-    working_directory: ~/project
-
     steps:
       - checkout
 
@@ -41,14 +39,12 @@ jobs:
     docker:
       - image: circleci/node:8.12
 
-    working_directory: ~/project/client
-
     steps:
       - checkout
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-{{ checksum "/client/package.json" }}
             - v1-dependencies-
 
       - run:
@@ -58,7 +54,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: v1-dependencies-{{ checksum "/client/package.json" }}
 
       # - run:
       #     name: Running Frontend Linter

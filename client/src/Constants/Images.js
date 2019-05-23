@@ -1,5 +1,7 @@
+const cityLabImage = process.env.REACT_APP_CITYLAB_IMAGE;
+
 const Images = {
-  citylabImage: require(process.env.REACT_APP_CITYLAB_IMAGE),
+  citylabImage: require(cityLabImage),
   familyShareLogo: require("../images/families_share_logo.png"),
   challengeImage: require("../images/DSC_0321.jpg"),
   europeanUnionLogo: require("../images/european_union_logo.png"),
