@@ -1,37 +1,52 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
-  build:
+  build_backend:
     docker:
-      # specify the version you desire here
       - image: circleci/node:8.12
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
       - image: circleci/mongo:3.6.3
 
     working_directory: ~/repo
 
     steps:
-      - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-{{ checksum "package.json" }}s
             - v1-dependencies-
 
-      - run: npm install
+      - run:
+        name: Install Dependencies
+        command: npm install
 
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
-      - run: npm test
+      - run:
+          name: Running Backend Linter
+          command: ./node_modules/.bin/eslint src
+
+      - run:
+          name: npm test
+          command: ./node_modules/.bin/nyc ./node_modules/.bin/mocha --recursive --timeout=20000 --exit --reporter mocha-junit-reporter --reporter-options mochaFile=reports/mocha/test-results.xml
+          when: always
+#   build:
+#     docker:
+#       - image: circleci/node:8.12
+#     working_directory: ~~/repo/client
+#      steps:
+#       - restore_cache:
+#           keys:
+#             - v1-dependencies-{{ checksum "package.json" }}s
+#             - v1-dependencies-
+#       - run: npm install
+#       - save_cache:
+#           paths:
+#             - node_modules
+#           key: v1-dependencies-{{ checksum "package.json" }}
+#       - run: npm run build
+# workflows:
+#   test_and_build:
+#     - test
+#     - build:
+#         requires: -test
