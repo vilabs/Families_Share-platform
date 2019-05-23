@@ -39,7 +39,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "./client/package.json" }}
+            - v1-dependencies-{{ checksum "client/package.json" }}
             - v1-dependencies-
 
       - run:
@@ -48,8 +48,8 @@ jobs:
 
       - save_cache:
           paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "./client/package.json" }}
+            - client/node_modules
+          key: v1-dependencies-{{ checksum "client/package.json" }}
 
       # - run:
       #     name: Running Frontend Linter
