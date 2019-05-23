@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  build_backend:
     docker:
       - image: circleci/node:8.12
       - image: circleci/mongo:3.6.3
@@ -16,7 +16,7 @@ jobs:
             - v1-dependencies-
 
       - run:
-          name: Install Dependencies
+          name: Install Backend Dependencies
           command: npm install
 
       - save_cache:
@@ -29,5 +29,42 @@ jobs:
           command: ./node_modules/.bin/eslint src
 
       - run:
-          name: npm test
+          name: Running Backend Testing
           command: npm test
+
+  build_frontend:
+    docker:
+      - image: circleci/node:8.12
+
+    working_directory: ~/project/client
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install Frontend Dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # - run:
+      #     name: Running Frontend Linter
+      #     command: ./node_modules/.bin/eslint src
+
+      - run:
+          name: Running Frontend Build
+          command: npm run build
+
+workflows:
+  test_and_build:
+    - test
+    - build:
+        requires: -test
