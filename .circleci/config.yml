@@ -36,10 +36,14 @@ jobs:
     docker:
       - image: circleci/node:8.12
 
-    working_directory: ~/project/client
+    working_directory: ~/project
 
     steps:
       - checkout
+      
+      -run 
+        name: Change Directory
+        command: cd client
 
       - restore_cache:
           keys:
@@ -61,7 +65,7 @@ jobs:
 
       - run:
           name: Running Frontend Build
-          command: npm build
+          command: npm run build
 
 workflows:
   version: 2
