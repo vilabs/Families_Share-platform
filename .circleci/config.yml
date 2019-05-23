@@ -42,8 +42,8 @@ jobs:
       - checkout
 
       - run:
-        name: Change Directory
-        command: cd client
+          name: Change Directory
+          command: cd client
 
       - restore_cache:
           keys:
