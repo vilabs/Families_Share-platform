@@ -76,11 +76,11 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something went wrong!')
 })
 
-let privateKey, certificate, ca, credentials, httpsServer, httpServer
+let privateKey, certificate, ca, credentials, httpsServer, httpServer, server
 
 if (process.env.CITYLAB === 'ALL') {
   httpServer = http.createServer(app)
-  httpServer.listen(HTTP_PORT, () => {
+  server = httpServer.listen(HTTP_PORT, () => {
     console.log(` Server ${chalk.green('started')} at http://localhost:${HTTP_PORT}.`)
   })
 } else {
@@ -94,7 +94,7 @@ if (process.env.CITYLAB === 'ALL') {
     ca: ca
   }
   httpServer = http.createServer(app)
-  httpServer.listen(process.env.HTTP_PORT, () => {
+  server = httpServer.listen(process.env.HTTP_PORT, () => {
     console.log(` HTTP Server ${chalk.green('started')} at https://localhost:${HTTP_PORT}.`)
   })
   httpsServer = https.createServer(credentials, app)
@@ -102,3 +102,5 @@ if (process.env.CITYLAB === 'ALL') {
     console.log(` HTTPS Server ${chalk.green('started')} at https://localhost:${HTTPS_PORT}.`)
   })
 }
+
+module.exports = server
