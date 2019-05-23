@@ -8,7 +8,7 @@ jobs:
     working_directory: ~/project
 
     steps:
-      -checkout 
+      - checkout
 
       - restore_cache:
           keys:
