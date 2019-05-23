@@ -41,7 +41,7 @@ jobs:
     docker:
       - image: circleci/node:8.12
 
-  working_directory: ~/project/client
+    working_directory: ~/project/client
 
     steps:
       - checkout
