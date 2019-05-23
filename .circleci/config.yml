@@ -8,6 +8,8 @@ jobs:
     working_directory: ~/project
 
     steps:
+      -checkout 
+      
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}s
