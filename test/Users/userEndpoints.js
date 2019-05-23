@@ -177,20 +177,18 @@ describe('/Post/api/users/authenticate/google', () => {
       })
   })
 })
-if (!process.env.CIRCLECI) {
-  describe('/Post/api/users/forgotpassword', () => {
-    it('it should send a forgot password email for an existing user', (done) => {
-      const data = { email: 'test@email.com' }
-      chai.request(server)
-        .post('/api/users/forgotpassword')
-        .send(data)
-        .end((err, res) => {
-          res.should.have.status(200)
-          done()
-        })
-    })
+describe('/Post/api/users/forgotpassword', () => {
+  it('it should send a forgot password email for an existing user', (done) => {
+    const data = { email: 'test@email.com' }
+    chai.request(server)
+      .post('/api/users/forgotpassword')
+      .send(data)
+      .end((err, res) => {
+        res.should.have.status(200)
+        done()
+      })
   })
-}
+})
 describe('/Post/api/users/forgotpassword', () => {
   it('it should not send a forgot password email for non existing user', (done) => {
     const data = { email: 'fas@jela.com' }
@@ -203,26 +201,24 @@ describe('/Post/api/users/forgotpassword', () => {
       })
   })
 })
-if (!process.env.CIRCLECI) {
-  describe('/Get/api/users/changepassword', () => {
-    it('it should fetch a users profile given a valid reset token', (done) => {
-      Password_Reset.findOne({}, (err, reset) => {
-        chai.request(server)
-          .get('/api/users/changepassword')
-          .set('Authorization', reset.token)
-          .end((err, res) => {
-            res.should.have.status(200)
-            res.body.should.be.a('object')
-            res.body.should.have.property('user_id').eql(reset.user_id)
-            res.body.should.have.property('image')
-            res.body.should.have.property('given_name')
-            res.body.should.have.property('family_name')
-            done()
-          })
-      })
+describe('/Get/api/users/changepassword', () => {
+  it('it should fetch a users profile given a valid reset token', (done) => {
+    Password_Reset.findOne({}, (err, reset) => {
+      chai.request(server)
+        .get('/api/users/changepassword')
+        .set('Authorization', reset.token)
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.body.should.be.a('object')
+          res.body.should.have.property('user_id').eql(reset.user_id)
+          res.body.should.have.property('image')
+          res.body.should.have.property('given_name')
+          res.body.should.have.property('family_name')
+          done()
+        })
     })
   })
-}
+})
 describe('/Get/api/users/changepassword', () => {
   it('it should not fetch a users profile given a invalid reset token', (done) => {
     chai.request(server)
@@ -247,29 +243,27 @@ describe('/Get/api/users/changepassword', () => {
     })
   })
 })
-if (!process.env.CIRCLECI) {
-  describe('/Post/api/users/changepassword', () => {
-    it('it should change the password of the user  when a valid reset token is provided', (done) => {
-      const data = { password: 'password' }
-      Password_Reset.findOne({}, (err, reset) => {
-        chai.request(server)
-          .post('/api/users/changepassword')
-          .set('Authorization', reset.token)
-          .send(data)
-          .end((err, res) => {
-            res.should.have.status(200)
-            res.body.should.be.a('object')
-            res.body.should.have.property('id')
-            res.body.should.have.property('email')
-            res.body.should.have.property('name')
-            res.body.should.have.property('image')
-            res.body.should.have.property('token')
-            done()
-          })
-      })
+describe('/Post/api/users/changepassword', () => {
+  it('it should change the password of the user  when a valid reset token is provided', (done) => {
+    const data = { password: 'password' }
+    Password_Reset.findOne({}, (err, reset) => {
+      chai.request(server)
+        .post('/api/users/changepassword')
+        .set('Authorization', reset.token)
+        .send(data)
+        .end((err, res) => {
+          res.should.have.status(200)
+          res.body.should.be.a('object')
+          res.body.should.have.property('id')
+          res.body.should.have.property('email')
+          res.body.should.have.property('name')
+          res.body.should.have.property('image')
+          res.body.should.have.property('token')
+          done()
+        })
     })
   })
-}
+})
 describe('/Post/api/users/changepassword', () => {
   it('it should not change the password of the user when an invalid token is provided', (done) => {
     let data = { password: 'password' }
