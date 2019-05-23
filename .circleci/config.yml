@@ -40,8 +40,8 @@ jobs:
 
     steps:
       - checkout
-      
-      -run 
+
+      - run:
         name: Change Directory
         command: cd client
 
