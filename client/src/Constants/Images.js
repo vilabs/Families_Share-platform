@@ -1,5 +1,15 @@
+const landingImage = {
+  Cokido: require("../images/cokidoImage.png"),
+  Venice: require("../images/veniceImage.png"),
+  Budapest: require("../images/budapestImage.png"),
+  Bologna: require("../images/bolognaImage.png"),
+  all: require("../images/cokidoImage.png"),
+  FBK: require("../images/fbkImage.png"),
+  Thessaloniki: require("../images/thessalonikiImage.png")
+};
+
 const Images = {
-  citylabImage: require(process.env.REACT_APP_CITYLAB_IMAGE),
+  citylabImage: landingImage[process.env.REACT_APP_CITYLAB],
   familyShareLogo: require("../images/families_share_logo.png"),
   challengeImage: require("../images/DSC_0321.jpg"),
   europeanUnionLogo: require("../images/european_union_logo.png"),

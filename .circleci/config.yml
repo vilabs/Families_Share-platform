@@ -10,8 +10,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
+            - backend-dependencies-{{ checksum "package.json" }}
+            - backend-dependencies-
 
       - run:
           name: Install Backend Dependencies
@@ -20,7 +20,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: backend-dependencies-{{ checksum "package.json" }}
 
       - run:
           name: Running Backend Linter
@@ -39,8 +39,8 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "client/package.json" }}
-            - v1-dependencies-
+            - frontend-dependencies-{{ checksum "client/package.json" }}
+            - frontend-dependencies-
 
       - run:
           name: Install Frontend Dependencies
@@ -49,7 +49,7 @@ jobs:
       - save_cache:
           paths:
             - client/node_modules
-          key: v1-dependencies-{{ checksum "client/package.json" }}
+          key: frontend-dependencies-{{ checksum "client/package.json" }}
 
       # - run:
       #     name: Running Frontend Linter
