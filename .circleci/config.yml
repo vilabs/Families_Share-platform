@@ -22,11 +22,6 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - node_modules
-
       - run:
           name: Running Backend Linter
           command: ./node_modules/.bin/eslint src
@@ -44,7 +39,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "/client/package.json" }}
+            - v1-dependencies-{{ checksum "./client/package.json" }}
             - v1-dependencies-
 
       - run:
@@ -54,7 +49,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "/client/package.json" }}
+          key: v1-dependencies-{{ checksum "./client/package.json" }}
 
       # - run:
       #     name: Running Frontend Linter
@@ -63,12 +58,6 @@ jobs:
       - run:
           name: Running Frontend Build
           command: cd client && npm run build
-
-      - persist_to_workspace:
-          root: /client
-          paths:
-            - node_modules
-            - build
 
 workflows:
   version: 2
