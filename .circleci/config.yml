@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build_backend:
+  backend:
     docker:
       - image: circleci/node:8.12
       - image: circleci/mongo:3.6.3
@@ -32,7 +32,7 @@ jobs:
           name: Running Backend Testing
           command: npm test
 
-  build_frontend:
+  frontend:
     docker:
       - image: circleci/node:8.12
 
@@ -65,6 +65,5 @@ jobs:
 
 workflows:
   test_and_build:
-    - test
-    - build:
-        requires: -test
+    - backend
+    - frontend
