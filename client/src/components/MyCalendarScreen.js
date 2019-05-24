@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import Calendar from "./Calendar";
 import BackNavigation from "./BackNavigation";
 import withLanguage from "./LanguageContext";
@@ -17,6 +18,11 @@ const MyCalendarScreen = ({ history, language }) => {
       <Calendar ownerType="user" ownerId={userId} />
     </React.Fragment>
   );
+};
+
+MyCalendarScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string
 };
 
 export default withRouter(withLanguage(MyCalendarScreen));

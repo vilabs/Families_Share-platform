@@ -29,8 +29,12 @@ class MyFamiliesShareHeader extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .post(`/api/users/${userId}/sendmenotification`)
-      .then(response => {})
-      .catch(error => {});
+      .then(response => {
+        Log.info(response);
+      })
+      .catch(error => {
+        Log.error(error);
+      });
   };
 
   getContainer = () => {
@@ -66,6 +70,7 @@ class MyFamiliesShareHeader extends React.Component {
     axios
       .patch(`/api/users/${userId}/notifications`)
       .then(response => {
+        Log.info(response);
         this.setState({
           notificationModalIsOpen: true,
           readNotifications: true
@@ -83,6 +88,7 @@ class MyFamiliesShareHeader extends React.Component {
   };
 
   handleDrawerClick = ({ key }) => {
+    const { history, dispatch } = this.props;
     const target = document.getElementById("drawerContainer");
     target.style.position = "";
     this.setState({ drawerIsOpen: false });
@@ -92,19 +98,19 @@ class MyFamiliesShareHeader extends React.Component {
         break;
       case "myprofile":
         const userId = JSON.parse(localStorage.getItem("user")).id;
-        this.props.history.push(`/profiles/${userId}/info`);
+        history.push(`/profiles/${userId}/info`);
         break;
       case "mycalendar":
-        this.props.history.push(`/myfamiliesshare/calendar`);
+        history.push(`/myfamiliesshare/calendar`);
         break;
       case "faqs":
-        this.props.history.push("/faqs");
+        history.push("/faqs");
         break;
       case "about":
-        this.props.history.push("/about");
+        history.push("/about");
         break;
       case "creategroup":
-        this.props.history.push("/groups/create");
+        history.push("/groups/create");
         break;
       case "signout":
         const user = JSON.parse(localStorage.getItem("user"));
@@ -112,17 +118,17 @@ class MyFamiliesShareHeader extends React.Component {
           if (user.origin === "native")
             window.postMessage(JSON.stringify({ action: "googleLogout" }), "*");
         }
-        this.props.dispatch(authenticationActions.logout(this.props.history));
+        dispatch(authenticationActions.logout(history));
         break;
       case "searchgroup":
-        this.props.history.push("/groups/search");
+        history.push("/groups/search");
         break;
       case "invitefriends":
         window.postMessage(JSON.stringify({ action: "share" }), "*");
         break;
       case "rating":
-        const target = document.querySelector(".ReactModalPortal");
-        disableBodyScroll(target);
+        const ratingTarget = document.querySelector(".ReactModalPortal");
+        disableBodyScroll(ratingTarget);
         this.setState({ ratingModalIsOpen: true });
         break;
       case "walkthrough":
@@ -133,7 +139,8 @@ class MyFamiliesShareHeader extends React.Component {
   };
 
   handlePendingInvites = () => {
-    this.props.history.push("/myfamiliesshare/invites");
+    const { history } = this.props;
+    history.push("/myfamiliesshare/invites");
   };
 
   handleConfirmModalClose = choice => {
@@ -150,7 +157,15 @@ class MyFamiliesShareHeader extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].myFamiliesShareHeader;
+    const { language, pendingInvites, pendingNotifications } = this.props;
+    const {
+      confirmModalIsOpen,
+      notificationModalIsOpen,
+      ratingModalIsOpen,
+      readNotifications,
+      drawerIsOpen
+    } = this.state;
+    const texts = Texts[language].myFamiliesShareHeader;
     const menuItem = { height: "5.5rem" };
     const menuStyle = { borderTop: "2.5rem solid rgba(0,0,0,0.5)" };
     const menuItemWithLine = {
@@ -161,19 +176,19 @@ class MyFamiliesShareHeader extends React.Component {
       <div>
         <ConfirmDialog
           title={texts.confirmDialogTitle}
-          isOpen={this.state.confirmModalIsOpen}
+          isOpen={confirmModalIsOpen}
           handleClose={this.handleConfirmModalClose}
         />
         <NotificationsModal
-          isOpen={this.state.notificationModalIsOpen}
+          isOpen={notificationModalIsOpen}
           handleClose={this.handleNotificationsClose}
         />
         <RatingModal
-          isOpen={this.state.ratingModalIsOpen}
+          isOpen={ratingModalIsOpen}
           handleClose={this.handleRatingClose}
         />
         <Drawer
-          open={this.state.drawerIsOpen}
+          open={drawerIsOpen}
           handler={false}
           width="30rem"
           getContainer={this.getContainer}
@@ -352,6 +367,7 @@ class MyFamiliesShareHeader extends React.Component {
           />
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={this.handleOpen}
             >
@@ -365,37 +381,32 @@ class MyFamiliesShareHeader extends React.Component {
           </div>
           <div className="col-1-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={this.handlePendingInvites}
             >
               <i className="fas fa-user-friends">
-                {this.props.pendingInvites > 0 ? (
-                  <span className="invites-badge">
-                    {this.props.pendingInvites}
-                  </span>
-                ) : (
-                  <div />
+                {pendingInvites > 0 && (
+                  <span className="invites-badge">{pendingInvites}</span>
                 )}
               </i>
             </button>
           </div>
           <div className="col-1-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={
-                this.state.notificationModalIsOpen
+                notificationModalIsOpen
                   ? this.handleNotificationsClose
                   : this.handleNotificationsOpen
               }
-              style={
-                this.state.notificationModalIsOpen ? { zIndex: 10000000 } : {}
-              }
+              style={notificationModalIsOpen ? { zIndex: 10000000 } : {}}
             >
               <i className="fas fa-bell">
-                {this.props.pendingNotifications > 0 &&
-                !this.state.readNotifications ? (
+                {pendingNotifications > 0 && !readNotifications ? (
                   <span className="notifications-badge">
-                    {this.props.pendingNotifications}
+                    {pendingNotifications}
                   </span>
                 ) : (
                   <div />
@@ -411,10 +422,10 @@ class MyFamiliesShareHeader extends React.Component {
 
 MyFamiliesShareHeader.propTypes = {
   pendingInvites: PropTypes.number,
-  pendingNotifications: PropTypes.number
+  pendingNotifications: PropTypes.number,
+  language: PropTypes.string,
+  history: PropTypes.object,
+  dispatch: PropTypes.func
 };
 
-const connectedMyFamiliesShareHeader = connect()(
-  withRouter(withLanguage(MyFamiliesShareHeader))
-);
-export { connectedMyFamiliesShareHeader as MyFamiliesShareHeader };
+export default connect()(withRouter(withLanguage(MyFamiliesShareHeader)));

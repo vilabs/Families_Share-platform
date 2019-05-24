@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Images from "../Constants/Images";
 
@@ -46,21 +46,29 @@ const muiTheme = createMuiTheme({
   }
 });
 
-const GroupNavbar = props => {
+const GroupNavbar = ({
+  history,
+  language,
+  match,
+  allowNavigation,
+  handleActiveTab
+}) => {
   const handleChange = (event, value) => {
-    if (props.allowNavigation) {
+    const { groupId } = match.params;
+    if (allowNavigation) {
       if (value === "news") {
-        props.history.replace(
-          `/groups/${props.match.params.groupId}/${value}/notifications`
+        history.replace(
+          `/groups/${match.params.groupId}/${value}/notifications`
         );
       } else {
-        props.history.replace(`/groups/${props.match.params.groupId}/${value}`);
+        history.replace(`/groups/${groupId}/${value}`);
       }
-      props.handleActiveTab(value);
+      handleActiveTab(value);
     }
   };
-  const texts = Texts[props.language].groupNavbar;
-  const { pathname } = props.location;
+  const texts = Texts[language].groupNavbar;
+
+  const { pathname } = history.location;
   let activeTab = pathname.slice(
     pathname.lastIndexOf("/") + 1,
     pathname.length
@@ -68,7 +76,7 @@ const GroupNavbar = props => {
   if (activeTab === "notifications" || activeTab === "announcements") {
     activeTab = "news";
   }
-  const disabled = !props.allowNavigation;
+  const disabled = !allowNavigation;
   const flags = [
     activeTab === "info",
     activeTab === "calendar",
@@ -98,29 +106,25 @@ const GroupNavbar = props => {
           value="calendar"
           disabled={disabled}
           label={texts.calendarTab}
-          icon={(
-<i
-  className={
-                flags[1]
-                  ? "fas fa-calendar groupNavbarIcon"
-                  : "far fa-calendar groupNavbarIcon"
-              }
-/>
-)}
+          icon={
+            flags[1] ? (
+              <i className="fas fa-calendar groupNavbarIcon" />
+            ) : (
+              <i className="far fa-calendar groupNavbarIcon" />
+            )
+          }
         />
         <BottomNavigationAction
           value="activities"
           disabled={disabled}
           label={texts.activitiesTab}
-          icon={(
-<i
-  className={
-                flags[2]
-                  ? "fas fa-heart groupNavbarIcon"
-                  : "far fa-heart groupNavbarIcon"
-              }
-/>
-)}
+          icon={
+            flags[2] ? (
+              <i className="fas fa-heart groupNavbarIcon" />
+            ) : (
+              <i className="far fa-heart groupNavbarIcon" />
+            )
+          }
         />
         <BottomNavigationAction
           value="members"
@@ -142,15 +146,13 @@ const GroupNavbar = props => {
           value="news"
           disabled={disabled}
           label={texts.newsTab}
-          icon={(
-<i
-  className={
-                flags[4]
-                  ? "fas fa-envelope groupNavbarIcon"
-                  : "far fa-envelope groupNavbarIcon"
-              }
-/>
-)}
+          icon={
+            flags[4] ? (
+              <i className="fas fa-envelope groupNavbarIcon" />
+            ) : (
+              <i className="far fa-envelope groupNavbarIcon" />
+            )
+          }
         />
       </BottomNavigation>
     </MuiThemeProvider>
@@ -159,7 +161,10 @@ const GroupNavbar = props => {
 
 GroupNavbar.propTypes = {
   handleActiveTab: PropTypes.func,
-  allowNavigation: PropTypes.bool
+  allowNavigation: PropTypes.bool,
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
 };
 
 export default withRouter(withLanguage(GroupNavbar));

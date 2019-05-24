@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Highlighter = ({ highlight, text }) => {
   // Split on higlight term and include term into parts, ignore case
@@ -18,9 +19,13 @@ const Highlighter = ({ highlight, text }) => {
           {part}
         </span>
       ))}
-{" "}
     </span>
   );
+};
+
+Highlighter.propTypes = {
+  text: PropTypes.string,
+  highlight: PropTypes.string
 };
 
 export default Highlighter;

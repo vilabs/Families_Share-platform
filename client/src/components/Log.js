@@ -9,7 +9,7 @@ const COLOURS = {
 }; // choose better colours :)
 
 class Log {
-  generateMessage(level, message, source) {
+  generateMessage = (level, message, source) => {
     // Set the prefix which will cause debug to enable the message
     const namespace = `${BASE}:${level}`;
     const createDebug = debug(namespace);
@@ -22,7 +22,7 @@ class Log {
     } else {
       createDebug(message);
     }
-  }
+  };
 
   trace(message, source) {
     return this.generateMessage("trace", message, source);

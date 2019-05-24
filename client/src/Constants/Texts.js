@@ -150,7 +150,8 @@ const en = {
     google: "GOOGLE",
     facebook: "FACEBOOK",
     dontHaveAccount: "Don't have an account?",
-    signUp: "Sign Up"
+    signUp: "Sign Up",
+    agreeWithTerms: "By logging in you agree with our Terms of Service and Privacy Policy"
   },
   logInForm: {
     password: "Password",
@@ -813,7 +814,8 @@ const nl = {
     google: "Google",
     facebook: "Facebook",
     dontHaveAccount: "Je hebt nog geen account?",
-    signUp: "Registreer"
+    signUp: "Registreer",
+    agreeWithTerms: ""
   },
   logInForm: {
     password: "Wachtwoord",
@@ -1405,7 +1407,9 @@ const it = {
     google: "GOOGLE",
     facebook: "FACEBOOK",
     dontHaveAccount: "Non hai ancora un account?",
-    signUp: "Registrati"
+    signUp: "Registrati",
+    agreeWithTerms:
+      "Effettuando il login acconsente ai nostri termini di servizio e informativa sulla privacy"
   },
   logInForm: {
     password: "Password",
@@ -1443,8 +1447,73 @@ const it = {
       "Gli utenti potranno cercare il mio profilo all'interno dell'app"
   },
   privacyPolicyModal: {
-    terms: null,
-    privacy: null,
+    terms: `L’applicazione Families_Share FBK è una piattaforma di gestione e organizzazione di eventi e attività. Attraverso questa applicazione sarà più facile per i partecipanti alle iniziative di Families_Share proporre, partecipare e organizzare attività di childcare collaborativo, nonché condividere informazioni. Si può accedere all’applicazione attraverso dispositivi mobile (Android) e web.
+    \n Il Consorzio Families_Share ("Families_Share", "noi", "nostri") è il proprietario dell’applicazione Families_Share FBK (da ora in poi il "Servizio"). Il presente documento, i Termini di servizio (“Termini”), espone i termini che regolano l'utilizzo del Servizio. Se l'utente non è d'accordo con i Termini presenti non dovrà registrarsi né utilizzare il Servizio.
+    \n 1.    Privacy
+    \n Per essere in grado di gestire e fornire i Servizi, raccogliamo determinate informazioni sull'utente. Utilizziamo e proteggiamo tali informazioni come descritto nella nostra Informativa sulla privacy. L'utente dichiara di riconoscere che l'utilizzo dei Servizi è soggetto alla nostra Informativa sulla privacy e di comprendere che quest'ultima stabilisce la modalità secondo cui Families_Share raccoglie, memorizza e utilizza determinate informazioni.
+    \n 2.    Modifiche ai presenti termini
+    \n Nel caso in cui vengano apportate modifiche sostanziali ai presenti Termini, ciò verrà comunicato all'utente attraverso i Servizi e/o via e-mail all'indirizzo associato all'account. Se l'utente non accetta le modifiche dovrà disattivare il proprio account presso di noi e cessare l'utilizzo dei Servizi. L'utilizzo di uno qualsiasi dei Servizi dopo la pubblicazione di tali modifiche o l'invio di una notifica in relazione ad essi equivarrà al consenso dell'utente ai termini modificati.
+    \n 3.    Account dell’utente
+    \n Determinati aspetti dei Servizi richiedono la creazione di un account mediante la compilazione di un modulo di registrazione e la designazione di una password. Quando l'utente si registra deve: (a) fornire informazioni veritiere, aggiornate e complete su di sé nel modulo di registrazione e (b) far sì che tali informazioni che continuino ad essere veritiere, aggiornate e complete.
+    \n L'utente è interamente responsabile di tutti i materiali e delle informazioni che carica, pubblica o altrimenti trasmette attraverso il Servizio.
+    `,
+    privacy: `Il Consorzio Families_Share ("Families_Share", "noi", "nostri") è il proprietario dell’applicazione Families_Share FBK, da ora in poi il "Servizio") e ha sviluppato questa informativa sulla privacy per fornire informazioni importanti sulla raccolta, l’uso e la divulgazione delle informazioni dell'utente raccolte nel Servizio. Families_Share fornisce questa informativa sulla privacy per aiutarti a prendere una decisione informata sulla possibilità di utilizzare, o di continuare a utilizzare, il Servizio.
+    La presente Informativa sulla privacy è incorporata e soggetta ai Termini di Servizio. Ogni volta che accedi o utilizzi il Servizio dichiari di accettare i Termini di Servizio e la presente Informativa sulla privacy. Se non accetti i termini della presente informativa sulla privacy, è necessario interrompere l'utilizzo del Servizio.
+    
+    1.    Raccolta di informazioni
+    Potremmo raccogliere i seguenti tipi di informazioni quando utilizzi il Servizio:
+      \u2022Informazioni che fornisci direttamente a noi
+      \u2022 Dati di utilizzo del Servizio
+     
+    Le informazioni fornite dall’utente comprendono:
+      \u2022 nome e cognome dell’utente
+      \u2022 nome e cognome del/i figlio/i
+      \u2022 indirizzo
+      \u2022 email
+      \u2022 recapito telefonico
+      \u2022 data di nascita
+      \u2022 informazioni riferite ai bambini quali allergie, bisogni speciali ed ogni altra informazione che sia inserita dai genitori
+     
+    In particolare, le informazioni dei minori inserite dai genitori sono trattate in accordo all’articolo 8 del GDPR.
+    1. 	[…] Ove il minore abbia un'età inferiore ai 16 anni, tale trattamento è lecito soltanto se e nella misura in cui tale consenso è prestato o autorizzato dal titolare della responsabilità genitoriale. Gli Stati membri possono stabilire per legge un'età inferiore a tali fini purché non inferiore ai 13 anni.
+    2. 	Il titolare del trattamento si adopera in ogni modo ragionevole per verificare in tali casi che il consenso sia prestato o autorizzato dal titolare della responsabilità genitoriale sul minore, in considerazione delle tecnologie disponibili.
+    3. 	Il paragrafo 1 non pregiudica le disposizioni generali del diritto dei contratti degli Stati membri, quali le norme sulla validità, la formazione o l'efficacia di un contratto rispetto a un minore.
+    I dati di utilizzo del Servizio comprendono dati di attività generali come numero di accessi e pagine visualizzate.
+    
+    2.    Titolare del Trattamento e Responsabile della Protezione dei Dati
+    I Servizi sono gestiti e forniti dal Consorzio Families_Share. Ai fini della legislazione europea in materia di protezione dei dati, l’Università Ca’ Foscari (Venezia, Italia) è il titolare del trattamento dei tuoi dati, e ViLabs (Salonicco, Grecia) è il responsabile della protezione dei dati.
+     
+    3.    Utilizzo delle informazioni
+    Utilizziamo le informazioni che raccogliamo nel Servizio per i seguenti scopi:
+      \u2022 Assistere gli utenti nella creazione di un account e nella gestione delle attività;
+      \u2022 Informare chi svolge attività di childcare dei partecipanti alle suddette attività;
+      \u2022 Analizzare l’utilizzo del Servizio e i dati degli/delle utenti per comprendere e migliorare il Servizio;
+      \u2022 Per qualsiasi altro scopo a te comunicato al momento della raccolta delle tue informazioni o in base al tuo consenso.
+     
+    4.    Archiviazione delle informazioni
+    Il Servizio è supportato da un’infrastruttura tecnologica in cloud, composta da una piattaforma di back e front-end. I dati sono archiviati in server dedicati e protetti garantiti dal fornitore di servizi cloud certificato con sede in Grecia, in ottemperanza ai requisiti di infrastrutture e certificazioni del GDPR.
+    
+    5.    Protezione delle informazioni
+    I dati sono protetti centralmente nelle strutture del fornitore del servizio in cloud collocate in Grecia, amministrate da un responsabile di ViLabs e certificato da un responsabile della protezione dei dati del fornitore, seguendo le migliore pratiche e standard disponibili.
+    
+    La struttura del fornitore del servizio in cloud è basata su sistemi ridondanti collocati ad Atene e a Salonicco in Grecia, mentre i dati saranno replicato in sistemi remoti collocati sempre ad Atene e a Salonicco (Grecia). I dati vengono sottoposti a backup quotidianamente e una copia di backup viene archiviata in un data center esterno ad Atene e a Salonicco (Grecia). L’accesso ai dati archiviati è soggetto ad autenticazione tramite username e password, in conformità con la Direttiva 2002/58 / CE del Parlamento Europeo. L’accesso ai dati potrà avvenire solo da parte dei ricercatori di ViLabs e degli amministratori di sistema (a scopo di manutenzione). Le procedure di conservazione e protezione dei dati sono conformi al 2016/679 (GDPR) e alla direttiva europea 2002/58/EC.
+     
+    6.    Divulgazione delle informazioni
+    Ci impegniamo a mantenere la tua fiducia e vogliamo che tu capisca quando e con chi potremmo condividere le informazioni che raccogliamo.
+      \u2022 Ricerca. Potremmo divulgare le tue informazioni anonime a ricercatori di terze parti appartenenti al Consorzio Families_Share a scopo di ricerca. Tutti le informazioni saranno basate su dati anonimi classificati e registrati (età, sesso, ecc.) che non sono correlati al profilo personalizzato o alle preferenze dell'utente.
+      \u2022 I dati non verranno divulgati a terzi esterni al Consorzio.
+    
+    7.    Diritti dell’interessato
+    Ai sensi del Capo III del GDPR l'interessato potrà esercitare i seguenti diritti al seguente recapito di posta elettronica families_share@fbk.eu:
+      a. accesso ai dati personali (avrà quindi il diritto di avere gratuitamente le informazioni in merito ai dati personali detenuti dal Titolare, nonché di ottenerne copia in formato accessibile);
+      b. rettifica dei dati non corretti, imprecisi, o obsoleti (su sua segnalazione, e ove non siano espressione di elementi valutativi);
+      c. revoca del consenso (qualora il trattamento avvenga in forza di consenso manifestato, potrà in qualsiasi momento revocare il consenso e tale revoca comporterà la cessazione del trattamento);
+      d. cancellazione dei dati – diritto all’oblio – (ad esempio, in caso di revoca del consenso, se non sussiste altro fondamento giuridico per il trattamento);
+      e. limitazione del trattamento (in determinati casi – contestazione dell’esattezza dei dati, per il tempo necessario alla verifica; contestazione della liceità del trattamento con opposizione alla cancellazione; necessità di utilizzo dei dati per i suoi diritti di difesa, mentre essi non sono più utili ai fini del trattamento; se vi è opposizione al trattamento, mentre vengono svolte le necessarie verifiche – i dati verranno conservati con modalità tali da poter essere eventualmente ripristinati, ma, nel mentre, non sono consultabili dal Titolare se non in relazione alla validità della sua richiesta di limitazione);
+      f. opposizione al trattamento per motivi legittimi (in determinate circostanze, potrà opporsi al trattamento dei suoi dati, ed in ogni caso potrà opporsi al trattamento effettuato ai fini di marketing diretto);
+      g. portabilità dei dati (su sua richiesta, i dati saranno trasmessi al soggetto indicato in formato che renda agevole la loro consultazione ed utilizzo);
+      h. proposizione reclamo all’autorità di controllo (Garante Privacy).
+    `,
     privacyHeader: "Informativa sulla privacy",
     termsHeader: "Condizioni d'uso",
     accept: "ACCETTA"
@@ -2015,7 +2084,8 @@ const el = {
     google: "GOOGLE",
     facebook: "FACEBOOK",
     dontHaveAccount: "Δεν έχετε λογαριασμό;",
-    signUp: "Εγγραφή"
+    signUp: "Εγγραφή",
+    agreeWithTerms: ""
   },
   logInForm: {
     password: "Κωδικός πρόσβασης",

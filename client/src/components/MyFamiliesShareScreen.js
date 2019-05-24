@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
-import { MyFamiliesShareHeader } from "./MyFamiliesShareHeader";
+import PropTypes from "prop-types";
+import MyFamiliesShareHeader from "./MyFamiliesShareHeader";
 import withLanguage from "./LanguageContext";
 import GroupList from "./GroupList";
 import TimeslotsList from "./TimeslotsList";
@@ -88,10 +89,6 @@ class MyFamiliesShareScreen extends React.Component {
     });
   }
 
-  handleChangeView = view => {
-    this.setState({ activeView: view });
-  };
-
   renderGroupSection = () => {
     const { language } = this.props;
     const { myGroups } = this.state;
@@ -142,16 +139,18 @@ class MyFamiliesShareScreen extends React.Component {
         </div>
       );
     }
+    return null;
   };
 
   render() {
+    const { pendingInvites, unreadNotifications, fetchedUserInfo } = this.state;
     return (
       <div id="drawerContainer">
         <MyFamiliesShareHeader
-          pendingInvites={this.state.pendingInvites}
-          pendingNotifications={this.state.unreadNotifications}
+          pendingInvites={pendingInvites}
+          pendingNotifications={unreadNotifications}
         />
-        {this.state.fetchedUserInfo && (
+        {fetchedUserInfo && (
           <div id="myFamiliesShareMainContainer">
             {this.renderGroupSection()}
             {this.renderTimeslotsSection()}
@@ -162,5 +161,9 @@ class MyFamiliesShareScreen extends React.Component {
     );
   }
 }
+
+MyFamiliesShareScreen.propTypes = {
+  language: PropTypes.string
+};
 
 export default withLanguage(MyFamiliesShareScreen);

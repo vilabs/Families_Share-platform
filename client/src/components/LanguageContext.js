@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+import PropTypes from "prop-types";
 import languageActions from "../Actions/LanguageActions";
 import "moment/locale/de";
 import "moment/locale/el";
@@ -25,25 +26,27 @@ class LanguageProvider extends React.Component {
     this.state = {
       language
     };
-    this.updateLanguage = this.updateLanguage.bind(this);
-    moment.locale(this.state.language);
-  }
-
-  updateLanguage(language) {
-    this.props.dispatch(languageActions.update(language));
-    this.setState({ language });
     moment.locale(language);
   }
 
+  updateLanguage = language => {
+    const { dispatch } = this.props;
+    dispatch(languageActions.update(language));
+    this.setState({ language });
+    moment.locale(language);
+  };
+
   render() {
+    const { language } = this.state;
+    const { children } = this.props;
     return (
       <LanguageContext.Provider
         value={{
-          language: this.state.language,
+          language,
           updateLanguage: this.updateLanguage
         }}
       >
-        {this.props.children}
+        {children}
       </LanguageContext.Provider>
     );
   }
@@ -77,3 +80,8 @@ export default function WithLanguage(Component) {
     );
   };
 }
+
+LanguageProvider.propTypes = {
+  children: PropTypes.node,
+  dispatch: PropTypes.func
+};

@@ -13,8 +13,9 @@ class GroupMessages extends React.Component {
   state = { fetchedAnnouncements: false };
 
   componentDidMount() {
+    const { groupId } = this.props;
     axios
-      .get(`/api/groups/${this.props.groupId}/announcements`)
+      .get(`/api/groups/${groupId}/announcements`)
       .then(response => {
         const announcements = response.data;
         this.setState({
@@ -23,13 +24,15 @@ class GroupMessages extends React.Component {
         });
       })
       .catch(error => {
+        Log.error(error);
         this.setState({ fetchedAnnouncements: true, announcements: [] });
       });
   }
 
   refresh = () => {
+    const { groupId } = this.props;
     axios
-      .get(`/api/groups/${this.props.groupId}/announcements`)
+      .get(`/api/groups/${groupId}/announcements`)
       .then(async response => {
         const announcements = response.data;
         await this.setState({
@@ -44,6 +47,7 @@ class GroupMessages extends React.Component {
 
   renderAnnouncements = () => {
     const { announcements } = this.state;
+    const { userIsAdmin } = this.props;
     const { length } = announcements;
     const blocks = [...Array(Math.ceil(length / 2)).keys()];
     return (
@@ -65,15 +69,17 @@ class GroupMessages extends React.Component {
                 <li
                   style={{ padding: "2rem 0" }}
                   key={index}
-                  ref={ref =>
-                    index === 0 ? (this.announcementsStart = ref) : null
-                  }
+                  ref={ref => {
+                    if (index === 0) {
+                      this.announcementsStart = ref;
+                    }
+                  }}
                 >
                   <div id="announcementContainer" className="horizontalCenter">
                     <AnnouncementHeader
                       userId={announcements[index].user_id}
                       createdAt={announcements[index].createdAt}
-                      userIsAdmin={this.props.userIsAdmin}
+                      userIsAdmin={userIsAdmin}
                       handleRefresh={this.refresh}
                       announcementId={announcements[index].announcement_id}
                       groupId={announcements[index].group_id}
@@ -85,7 +91,7 @@ class GroupMessages extends React.Component {
                     <AnnouncementReplies
                       announcementId={announcements[index].announcement_id}
                       groupId={announcements[index].group_id}
-                      userIsAdmin={this.props.userIsAdmin}
+                      userIsAdmin={userIsAdmin}
                     />
                   </div>
                 </li>
@@ -98,17 +104,12 @@ class GroupMessages extends React.Component {
   };
 
   render() {
+    const { fetchedAnnouncements } = this.state;
+    const { groupId } = this.props;
     return (
       <div id="announcementsContainer">
-        {this.state.fetchedAnnouncements ? (
-          this.renderAnnouncements()
-        ) : (
-          <LoadingSpinner />
-        )}
-        <AnnouncementBar
-          groupId={this.props.groupId}
-          handleRefresh={this.refresh}
-        />
+        {fetchedAnnouncements ? this.renderAnnouncements() : <LoadingSpinner />}
+        <AnnouncementBar groupId={groupId} handleRefresh={this.refresh} />
       </div>
     );
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Images from "../Constants/Images.js";
+import Images from "../Constants/Images";
 
 const LanguageIcon = ({ language, style }) => {
   const images = Images.languages;

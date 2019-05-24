@@ -3,18 +3,19 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import Tooltip from "@material-ui/core/Tooltip";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
 import MemberOptionsModal from "./OptionsModal";
 import Log from "./Log";
 
 class MemberContact extends React.Component {
-  state = { modalIsOpen: false, top: "", right: "", clickTime: "" };
+  state = { modalIsOpen: false, top: "", right: "" };
 
   handleRedirect = (suspended, user_id) => {
+    const { history } = this.props;
     if (!suspended) {
-      this.props.history.push(`/profiles/${user_id}/info`);
+      history.push(`/profiles/${user_id}/info`);
     }
   };
 
@@ -31,15 +32,15 @@ class MemberContact extends React.Component {
   };
 
   handleAddAdmin = () => {
-    const { groupId } = this.props;
+    const { groupId, member, handleAddAdmin } = this.props;
     const patch = { admin: true };
     axios
       .patch(`/api/groups/${groupId}/members`, {
         patch,
-        id: this.props.member.user_id
+        id: member.user_id
       })
       .then(response => {
-        this.props.handleAddAdmin(this.props.member.user_id);
+        handleAddAdmin(member.user_id);
         Log.info(response);
       })
       .catch(error => Log.error(error));
@@ -49,15 +50,15 @@ class MemberContact extends React.Component {
   };
 
   handleRemoveAdmin = () => {
-    const { groupId } = this.props;
+    const { groupId, member, handleRemoveAdmin } = this.props;
     const patch = { admin: false };
     axios
       .patch(`/api/groups/${groupId}/members`, {
         patch,
-        id: this.props.member.user_id
+        id: member.user_id
       })
       .then(response => {
-        this.props.handleRemoveAdmin(this.props.member.user_id);
+        handleRemoveAdmin(member.user_id);
         Log.info(response);
       })
       .catch(error => Log.error(error));
@@ -67,12 +68,12 @@ class MemberContact extends React.Component {
   };
 
   handleRemoveUser = () => {
-    const { groupId } = this.props;
-    const userId = this.props.member.user_id;
+    const { member, handleRemoveUser, groupId } = this.props;
+    const userId = member.user_id;
     axios
       .delete(`/api/groups/${groupId}/members/${userId}`)
       .then(response => {
-        this.props.handleRemoveUser(this.props.member.user_id);
+        handleRemoveUser(member.user_id);
         Log.info(response);
       })
       .catch(error => {
@@ -98,8 +99,9 @@ class MemberContact extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].memberContact;
-    const profile = this.props.member;
+    const { language, member: profile, userIsAdmin } = this.props;
+    const { top, right, modalIsOpen } = this.state;
+    const texts = Texts[language].memberContact;
     const options = [
       profile.admin
         ? {
@@ -121,9 +123,9 @@ class MemberContact extends React.Component {
     return (
       <React.Fragment>
         <MemberOptionsModal
-          position={{ top: this.state.top, right: this.state.right }}
+          position={{ top, right }}
           options={options}
-          isOpen={this.state.modalIsOpen}
+          isOpen={modalIsOpen}
           handleClose={this.handleModalClose}
         />
         <div id="contactContainer" className="row no-gutters">
@@ -136,6 +138,8 @@ class MemberContact extends React.Component {
           </div>
           <div className="col-5-10">
             <div
+              role="button"
+              tabIndex={-42}
               id="contactInfoContainer"
               className="center"
               onClick={() =>
@@ -150,6 +154,7 @@ class MemberContact extends React.Component {
             {profile.phone && !profile.suspended && (
               <Tooltip title={profile.phone} aria-label="phone">
                 <button
+                  type="button"
                   onClick={() => this.handlePhoneCall(profile.phone)}
                   className="transparentButton verticalCenter"
                 >
@@ -162,6 +167,7 @@ class MemberContact extends React.Component {
             {profile.email && !profile.suspended && (
               <Tooltip title={profile.email} aria-label="email">
                 <button
+                  type="button"
                   onClick={() => this.handleEmail(profile.email)}
                   className="transparentButton verticalCenter"
                 >
@@ -171,8 +177,9 @@ class MemberContact extends React.Component {
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
-            {this.props.userIsAdmin && !profile.suspended && (
+            {userIsAdmin && !profile.suspended && (
               <button
+                type="button"
                 className="transparentButton verticalCenter memberOptions"
                 onClick={this.handleClick}
               >
@@ -194,5 +201,7 @@ MemberContact.propTypes = {
   groupId: PropTypes.string,
   handleAddAdmin: PropTypes.func,
   handleRemoveUser: PropTypes.func,
-  handleRemoveAdmin: PropTypes.func
+  handleRemoveAdmin: PropTypes.func,
+  language: PropTypes.string,
+  history: PropTypes.object
 };

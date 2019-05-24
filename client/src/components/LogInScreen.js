@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { GoogleLogin } from "react-google-login";
 import { withSnackbar } from "notistack";
@@ -15,13 +16,18 @@ class LogInScreen extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   handleMessage = event => {
+    const { dispatch, history } = this.props;
     const data = JSON.parse(event.data);
     if (data.action === "googleLogin") {
-      this.props.dispatch(
+      dispatch(
         authenticationActions.googleLogin(
           data.userInfo,
-          this.props.history,
+          history,
           "native",
           JSON.parse(localStorage.getItem("deviceToken"))
         )
@@ -29,25 +35,29 @@ class LogInScreen extends React.Component {
     }
   };
 
-  componentWillUnmount() {
-    document.removeEventListener("message", this.handleMessage, false);
-  }
-
   render() {
-    const { loggingIn } = this.props;
-    const texts = Texts[this.props.language].logInScreen;
+    const {
+      loggingIn,
+      language,
+      history,
+      dispatch,
+      enqueueSnackbar
+    } = this.props;
+    const texts = Texts[language].logInScreen;
     return (
       <React.Fragment>
         {loggingIn ? <LoadingSpinner /> : <div />}
         <BackNavigation
           title={texts.backNavTitle}
-          onClick={() => this.props.history.goBack()}
+          onClick={() => history.goBack()}
         />
         <div id="logInContainer">
           <LogInForm />
           <div className="row no-gutters">
             <div
-              onClick={() => this.props.history.push("/forgotpsw")}
+              role="button"
+              tabIndex={-42}
+              onClick={() => history.push("/forgotpsw")}
               className="horizontalCenter forgotPasswordButton"
             >
               {texts.forgotPassword}
@@ -79,23 +89,24 @@ class LogInScreen extends React.Component {
               )}
               buttonText="Login"
               onSuccess={response =>
-                this.props.dispatch(
+                dispatch(
                   authenticationActions.googleLogin(
                     response,
-                    this.props.history,
+                    history,
                     "web",
                     JSON.parse(localStorage.getItem("deviceToken"))
                   )
                 )
               }
               onFailure={response => {
-                this.props.enqueueSnackbar(response.error, {
+                enqueueSnackbar(response.error, {
                   variant: "error"
                 });
               }}
             />
           </div>
         </div>
+        <div className="agreeWithTermsGoogle">{texts.agreeWithTerms}</div>
         <div
           className="row no-gutters"
           style={{ marginTop: "3rem", marginBottom: "6rem" }}
@@ -122,3 +133,11 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(
   withSnackbar(withLanguage(LogInScreen))
 );
+
+LogInScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  dispatch: PropTypes.func,
+  enqueueSnackbar: PropTypes.func,
+  loggingIn: PropTypes.bool
+};

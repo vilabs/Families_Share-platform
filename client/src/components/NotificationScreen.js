@@ -10,13 +10,9 @@ import Log from "./Log";
 class NotificationScreen extends React.Component {
   state = { fetchedNotificationData: false };
 
-  handleClose = () => {
-    this.props.history.goBack();
-  };
-
   componentDidMount() {
-    const { groupId } = this.props.match.params;
-    const { notificationId } = this.props.match.params;
+    const { match } = this.props;
+    const { groupId, notificationId } = match.params;
     axios
       .get(`/api/groups/${groupId}/notifications/${notificationId}`)
       .then(response => {
@@ -37,24 +33,33 @@ class NotificationScreen extends React.Component {
       });
   }
 
+  handleClose = () => {
+    const { history } = this.props;
+    history.goBack();
+  };
+
   render() {
-    const texts = Texts[this.props.language].notificationScreen;
+    const { language, history } = this.props;
+    const {
+      fetchedNotificationData,
+      notificationHeader,
+      notificationMain
+    } = this.state;
+    const texts = Texts[language].notificationScreen;
     return (
       <React.Fragment>
         <BackNavigation
           title={texts.backNavTitle}
-          onClick={() => this.props.history.goBack()}
-        />
+          onClick={() => history.goBack()}
         />
         <div id="notificationContainer">
-          {this.state.fetchedNotificationData ? (
+          {fetchedNotificationData ? (
             <React.Fragment>
-              <h1>{this.state.notificationHeader}</h1>
-              <p>{this.state.notificationMain}</p>
+              <h1>{notificationHeader}</h1>
+              <p>{notificationMain}</p>
             </React.Fragment>
           ) : (
             <Skeleton active paragraph={{ rows: 5 }} />
-          )}
           )}
         </div>
       </React.Fragment>
@@ -65,5 +70,7 @@ class NotificationScreen extends React.Component {
 export default withLanguage(NotificationScreen);
 
 NotificationScreen.propTypes = {
-  notification: PropTypes.object
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
 };

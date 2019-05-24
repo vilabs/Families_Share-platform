@@ -31,28 +31,33 @@ class NotificationsModal extends React.Component {
     };
   }
 
+  async componentDidMount() {
+    const { user_id } = this.state;
+    const notifications = await getMyNotifications(user_id, 0);
+    this.setState({ notifications });
+  }
+
   closeModal = () => {
-    this.props.handleClose();
+    const { handleClose } = this.props;
+    handleClose();
   };
 
   afterOpenModal = () => {};
 
-  async componentDidMount() {
-    const notifications = await getMyNotifications(this.state.user_id, 0);
-    this.setState({ notifications });
-  }
-
   loadMoreNotifications = async () => {
-    const page = Math.floor(this.state.notifications.length / 10);
-    const newNotifications = await getMyNotifications(this.state.user_id, page);
+    const { notifications, user_id } = this.state;
+    const page = Math.floor(notifications.length / 10);
+    const newNotifications = await getMyNotifications(user_id, page);
     this.setState({
-      notifications: this.state.notifications.concat(newNotifications),
+      notifications: notifications.concat(newNotifications),
       fetchedAll: newNotifications.length < 10
     });
   };
 
   render() {
-    const texts = Texts[this.props.language].myFamiliesShareScreen;
+    const { language, isOpen } = this.props;
+    const { fetchedAll, notifications } = this.state;
+    const texts = Texts[language].myFamiliesShareScreen;
     const modalStyle = {
       overlay: {
         position: "fixed",
@@ -77,7 +82,7 @@ class NotificationsModal extends React.Component {
       <Modal
         className="modal-container"
         style={modalStyle}
-        isOpen={this.props.isOpen}
+        isOpen={isOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         contentLabel="Notifications Modal"
@@ -85,10 +90,9 @@ class NotificationsModal extends React.Component {
         <div id="myNotificationsContainer">
           <h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
           <ul>
-            {this.state.notifications.map((notification, index) => (
+            {notifications.map((notification, index) => (
               <li key={index}>
-                {index === this.state.notifications.length - 4 &&
-                !this.state.fetchedAll ? (
+                {index === notifications.length - 4 && !fetchedAll ? (
                   <Waypoint onEnter={this.loadMoreNotifications}>
                     <div
                       id="myNotification"
@@ -122,7 +126,7 @@ class NotificationsModal extends React.Component {
 NotificationsModal.propTypes = {
   isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
-  notifications: PropTypes.array
+  language: PropTypes.string
 };
 
 export default withLanguage(NotificationsModal);

@@ -7,22 +7,24 @@ Modal.setAppElement("#root");
 class OptionsModal extends React.Component {
   constructor(props) {
     super(props);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
   }
 
-  closeModal() {
-    this.props.handleClose();
-  }
+  closeModal = () => {
+    const { handleClose } = this.props;
+    handleClose();
+  };
 
-  afterOpenModal() {}
+  afterOpenModal = () => {};
 
   render() {
+    const { position, isOpen, handleClose, options } = this.props;
     let top = "4rem";
     let right = "3rem";
-    if (this.props.position !== undefined) {
-      top = this.props.position.top;
-      right = this.props.position.right;
+    if (position !== undefined) {
+      const { top: newTop, right: newRight } = position;
+      right = newRight;
+      top = newTop;
     }
     const modalStyle = {
       overlay: {
@@ -49,15 +51,19 @@ class OptionsModal extends React.Component {
       <Modal
         className="modal-container"
         style={modalStyle}
-        isOpen={this.props.isOpen}
+        isOpen={isOpen}
+        onRequestClose={handleClose}
         onAfterOpen={this.afterOpenModal}
-        onRequestClose={this.props.handleClose}
         contentLabel="Options Modal"
       >
         <ul>
-          {this.props.options.map(option => (
+          {options.map(option => (
             <li key={option.label} className={option.style}>
-              <button className="transparentButton" onClick={option.handle}>
+              <button
+                type="button"
+                className="transparentButton"
+                onClick={option.handle}
+              >
                 {option.label}
               </button>
             </li>

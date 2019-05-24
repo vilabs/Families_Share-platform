@@ -2,7 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { withSnackbar } from "notistack";
-import Texts from "../Constants/Texts.js";
+import PropTypes from "prop-types";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import authenticationActions from "../Actions/AuthenticationActions";
 
@@ -17,13 +18,12 @@ class LogInForm extends React.Component {
   }
 
   validate = () => {
+    const { language } = this.props;
+    const { acceptTerms } = this.state;
     const formLength = this.formEl.length;
-    const texts = Texts[this.props.language].logInForm;
-    if (
-      this.formEl.checkValidity() === false ||
-      this.state.acceptTerms === false
-    ) {
-      for (let i = 0; i < formLength; i++) {
+    const texts = Texts[language].logInForm;
+    if (this.formEl.checkValidity() === false || acceptTerms === false) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -42,7 +42,7 @@ class LogInForm extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -53,14 +53,11 @@ class LogInForm extends React.Component {
   };
 
   submit = () => {
+    const { dispatch, history } = this.props;
+    const { email, password } = this.state;
     const deviceToken = JSON.parse(localStorage.getItem("deviceToken"));
-    this.props.dispatch(
-      authenticationActions.login(
-        this.state.email,
-        this.state.password,
-        this.props.history,
-        deviceToken
-      )
+    dispatch(
+      authenticationActions.login(email, password, history, deviceToken)
     );
   };
 
@@ -79,22 +76,25 @@ class LogInForm extends React.Component {
   };
 
   render() {
-    const { error } = this.props;
-    const texts = Texts[this.props.language].logInForm;
+    const { error, language, enqueueSnackbar } = this.props;
+    const { formIsValidated, email, password } = this.state;
+    const texts = Texts[language].logInForm;
     if (error) {
-      this.props.enqueueSnackbar(texts.authenticationErr, {
+      enqueueSnackbar(texts.authenticationErr, {
         variant: "error",
         preventDuplicate: true
       });
     }
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
     return (
       <React.Fragment>
         <form
-          ref={form => (this.formEl = form)}
+          ref={form => {
+            this.formEl = form;
+          }}
           onSubmit={this.handleSubmit}
           className={formClass}
           noValidate
@@ -107,7 +107,7 @@ class LogInForm extends React.Component {
               className="logInInputField horizontalCenter form-control"
               onChange={this.handleChange}
               required
-              value={this.state.email}
+              value={email}
             />
             <span className="invalid-feedback" id="emailErr" />
           </div>
@@ -120,7 +120,7 @@ class LogInForm extends React.Component {
               onChange={this.handleChange}
               required
               minLength={8}
-              value={this.state.password}
+              value={password}
             />
             <span className="invalid-feedback" id="passwordErr" />
           </div>
@@ -128,7 +128,7 @@ class LogInForm extends React.Component {
             <input
               type="submit"
               style={
-                this.state.email && this.state.password
+                email && password
                   ? { backgroundColor: "#00838F", color: "#ffffff" }
                   : {}
               }
@@ -153,3 +153,11 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(
   withSnackbar(withRouter(withLanguage(LogInForm)))
 );
+
+LogInForm.propTypes = {
+  enqueueSnackbar: PropTypes.func,
+  language: PropTypes.string,
+  history: PropTypes.object,
+  error: PropTypes.bool,
+  dispatch: PropTypes.func
+};

@@ -1,28 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 class GroupNewsNavbar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { activeTab: this.props.activeTab };
+    const { activeTab } = this.props;
+    this.state = { activeTab };
     this.handleActiveTab = this.handleActiveTab.bind(this);
   }
 
   handleActiveTab(event) {
     this.setState({ activeTab: event.target.id });
-    const pathName = this.props.history.location.pathname;
-    const parentPath = pathName.slice(0, pathName.lastIndexOf("/"));
-    this.props.history.replace(`${parentPath}/${event.target.id}`);
-    this.props.renderActiveTab(event.target.id);
+    const { history, renderActiveTab } = this.props;
+    const { pathname } = history.location;
+    const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
+    history.replace(`${parentPath}/${event.target.id}`);
+    renderActiveTab(event.target.id);
   }
 
   render() {
-    const texts = Texts[this.props.language].groupNewsNavbar;
+    const { language } = this.props;
+    const { activeTab } = this.state;
+    const texts = Texts[language].groupNewsNavbar;
     return (
       <div
+        role="button"
+        tabIndex={-42}
         className="row no-gutters"
         id="groupNewsNavContainer"
         onClick={this.handleActiveTab}
@@ -31,9 +37,7 @@ class GroupNewsNavbar extends React.Component {
           <h1
             id="notifications"
             className={
-              this.state.activeTab === "notifications"
-                ? "groupNewsNavTabActive"
-                : ""
+              activeTab === "notifications" ? "groupNewsNavTabActive" : ""
             }
           >
             {texts.notifications}
@@ -43,9 +47,7 @@ class GroupNewsNavbar extends React.Component {
           <h1
             id="announcements"
             className={
-              this.state.activeTab === "announcements"
-                ? "groupNewsNavTabActive"
-                : ""
+              activeTab === "announcements" ? "groupNewsNavTabActive" : ""
             }
           >
             {texts.messages}
@@ -60,6 +62,7 @@ export default withRouter(withLanguage(GroupNewsNavbar));
 
 GroupNewsNavbar.propTypes = {
   activeTab: PropTypes.string,
-  title: PropTypes.string,
+  language: PropTypes.string,
+  history: PropTypes.object,
   renderActiveTab: PropTypes.func
 };

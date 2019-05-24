@@ -2273,6 +2273,12 @@
   text-align: left;
   color: #010101;
 }
+.agreeWithTermsGoogle {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  font-size: 1.4rem;
+}
 .forgotPasswordButton {
   font-size: 1.4rem;
   font-weight: 500;
@@ -2532,9 +2538,10 @@ a:active {
   color: rgba(0, 0, 0, 0.9);
 }
 #termsAndPolicyMain p {
+  white-space: pre-line;
   font-size: 1.5rem;
   text-align: left;
-
+  display: block;
   color: rgba(0, 0, 0, 0.7);
 }
 #termsAndPolicyMain button {
@@ -2826,6 +2833,9 @@ a:active {
   color: #000000;
   line-height: 4.4rem;
   display: inline-block;
+}
+#searchGroupSuggestionsContainer {
+  padding: 3rem;
 }
 #searchGroupSuggestionsContainer {
   margin-top: 6rem;

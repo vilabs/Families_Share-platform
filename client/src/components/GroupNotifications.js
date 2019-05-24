@@ -9,8 +9,9 @@ class GroupNotifications extends React.Component {
   state = { fetchedGroupNotifications: false };
 
   componentDidMount() {
+    const { groupId } = this.props;
     axios
-      .get(`/api/groups/${this.props.groupId}/notifications`)
+      .get(`/api/groups/${groupId}/notifications`)
       .then(response => {
         const notifications = response.data;
         this.setState({ fetchedGroupNotifications: true, notifications });
@@ -22,7 +23,8 @@ class GroupNotifications extends React.Component {
   }
 
   renderNotifications = () => {
-    return this.state.notifications.map((notification, index) => (
+    const { notifications } = this.state;
+    return notifications.map((notification, index) => (
       <li key={index} style={{ padding: "1rem 0" }}>
         <Card
           card={{
@@ -36,9 +38,10 @@ class GroupNotifications extends React.Component {
   };
 
   render() {
+    const { fetchedGroupNotifications } = this.state;
     return (
       <div id="notificationsContainer">
-        {this.state.fetchedGroupNotifications ? (
+        {fetchedGroupNotifications ? (
           <ul>{this.renderNotifications()}</ul>
         ) : (
           <LoadingSpinner />

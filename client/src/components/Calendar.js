@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import BigCalendar from "react-big-calendar";
 import PropTypes from "prop-types";
 import axios from "axios";
-import Swipeable from "react-swipeable";
+import { Swipeable } from "react-swipeable";
 import AgendaView from "./AgendaView";
 import "../styles/react-big-calendar.css";
 import withLanguage from "./LanguageContext";

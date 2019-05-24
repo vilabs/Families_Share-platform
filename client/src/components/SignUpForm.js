@@ -1,7 +1,7 @@
 import React from "react";
 import Switch from "@material-ui/core/Switch";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { withSnackbar } from "notistack";
@@ -11,19 +11,12 @@ import registrationActions from "../Actions/RegistrationActions";
 import Images from "../Constants/Images";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
 
-const styles = () => ({
-  colorSwitchBase: {
-    color: "#c43e00",
-    "&$colorChecked": {
-      color: "#c43e00",
-      "& + $colorBar": {
-        backgroundColor: "#ffa040",
-        opacity: 1
-      }
+const theme = createMuiTheme({
+  palette: {
+    secondary: {
+      main: "#c43e00"
     }
-  },
-  colorBar: {},
-  colorChecked: {}
+  }
 });
 
 class SignUpForm extends React.Component {
@@ -180,7 +173,7 @@ class SignUpForm extends React.Component {
   };
 
   render() {
-    const { classes, error, language, enqueueSnackbar } = this.props;
+    const { error, language, enqueueSnackbar } = this.props;
     const {
       formIsValidated,
       givenName,
@@ -277,15 +270,14 @@ class SignUpForm extends React.Component {
         <div className="line horizontalCenter" />
         <div className="row no-gutters" style={{ alignItems: "center" }}>
           <h1 className="profileToggleText">{texts.profileVisibility}</h1>
-          <Switch
-            checked={profileVisibility}
-            onClick={this.handleSwitch}
-            classes={{
-              switchBase: classes.colorSwitchBase,
-              checked: classes.colorChecked,
-              bar: classes.colorBar
-            }}
-          />
+          <MuiThemeProvider theme={theme}>
+            <Switch
+              color="secondary"
+              checked={profileVisibility}
+              onClick={this.handleSwitch}
+            />
+          </MuiThemeProvider>
+
           <span>{texts.visibilityPrompt}</span>
         </div>
         <div className="acceptTermsContainer row no-gutters">
@@ -360,5 +352,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(
-  withRouter(withSnackbar(withLanguage(withStyles(styles)(SignUpForm))))
+  withRouter(withSnackbar(withLanguage(SignUpForm)))
 );

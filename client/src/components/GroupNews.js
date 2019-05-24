@@ -9,12 +9,13 @@ import GroupMessages from "./GroupMessages";
 export default class GroupNews extends React.Component {
   constructor(props) {
     super(props);
-    const { pathname } = this.props.location;
+    const { history, group } = this.props;
+    const { pathname } = history.location;
     const activeTab = pathname.substr(
       pathname.lastIndexOf("/") + 1,
       pathname.length - 1
     );
-    this.state = { activeTab, group: this.props.group };
+    this.state = { activeTab, group };
   }
 
   renderActiveTab = id => {
@@ -22,25 +23,24 @@ export default class GroupNews extends React.Component {
   };
 
   render() {
+    const { group, activeTab } = this.state;
+    const { history, userIsAdmin } = this.props;
     return (
       <React.Fragment>
         <BackNavigation
-          title={this.state.group.name}
+          title={group.name}
           fixed
-          onClick={() => this.props.history.goBack()}
+          onClick={() => history.goBack()}
         />
         <GroupNewsNavbar
-          activeTab={this.state.activeTab}
+          activeTab={activeTab}
           renderActiveTab={this.renderActiveTab}
         />
         <Route
           exact
           path="/groups/:groupId/news/notifications"
           render={props => (
-            <GroupNotifications
-              {...props}
-              groupId={this.state.group.group_id}
-            />
+            <GroupNotifications {...props} groupId={group.group_id} />
           )}
         />
         <Route
@@ -49,8 +49,8 @@ export default class GroupNews extends React.Component {
           render={props => (
             <GroupMessages
               {...props}
-              groupId={this.state.group.group_id}
-              userIsAdmin={this.props.userIsAdmin}
+              groupId={group.group_id}
+              userIsAdmin={userIsAdmin}
             />
           )}
         />
@@ -61,5 +61,6 @@ export default class GroupNews extends React.Component {
 
 GroupNews.propTypes = {
   group: PropTypes.object,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  history: PropTypes.object
 };
