@@ -52,8 +52,8 @@
     "nyc": "^14.0.0"
   },
   "lint-staged": {
-    "*.js": [
-      "./node_modules/.bin/eslint src",
+    "src/*.js": [
+      "eslint",
       "git add"
     ]
   },
