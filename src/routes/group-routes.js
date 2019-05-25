@@ -824,7 +824,7 @@ router.post('/:id/activities', async (req, res, next) => {
           startTime.substr(0, startTime.indexOf(':')) >
           endTime.substr(0, endTime.indexOf(':'))
         ) {
-          dend.add(1, 'd');
+          dend.add(1, 'd')
         }
         const event = {
           description: timeslot.description,
