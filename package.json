@@ -53,7 +53,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint",
+      "./node_modules/.bin/eslint src",
       "git add"
     ]
   },
