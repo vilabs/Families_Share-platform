@@ -151,7 +151,8 @@ const en = {
     facebook: "FACEBOOK",
     dontHaveAccount: "Don't have an account?",
     signUp: "Sign Up",
-    agreeWithTerms: "By logging in you agree with our Terms of Service and Privacy Policy"
+    agreeWithTerms:
+      "By logging in you agree with our Terms of Service and Privacy Policy"
   },
   logInForm: {
     password: "Password",
@@ -815,7 +816,8 @@ const nl = {
     facebook: "Facebook",
     dontHaveAccount: "Je hebt nog geen account?",
     signUp: "Registreer",
-    agreeWithTerms: ""
+    agreeWithTerms:
+      "Door u aan te melden, gaat u akkoord met onze Servicevoorwaarden en ons Privacybeleid"
   },
   logInForm: {
     password: "Wachtwoord",
@@ -2085,7 +2087,8 @@ const el = {
     facebook: "FACEBOOK",
     dontHaveAccount: "Δεν έχετε λογαριασμό;",
     signUp: "Εγγραφή",
-    agreeWithTerms: ""
+    agreeWithTerms:
+      "Με τη σύνδεση σας, δέχεστε ότι συμφωνείτε με τους όρους Χρήσης και τη Πολιτική Απορρήτου."
   },
   logInForm: {
     password: "Κωδικός πρόσβασης",
