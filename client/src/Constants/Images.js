@@ -9,7 +9,7 @@ const landingImage = {
 };
 
 const Images = {
-  citylabImage: landingImage[process.env.REACT_APP_CITYLAB_NAME],
+  citylabImage: landingImage[process.env.REACT_APP_CITYLAB],
   familyShareLogo: require("../images/families_share_logo.png"),
   challengeImage: require("../images/DSC_0321.jpg"),
   europeanUnionLogo: require("../images/european_union_logo.png"),
