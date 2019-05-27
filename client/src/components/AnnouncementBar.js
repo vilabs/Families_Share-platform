@@ -114,7 +114,9 @@ class AnnouncementBar extends React.Component {
   };
 
   handleNativeImageChange = () => {
-    window.postMessage(JSON.stringify({ action: "fileUpload" }), "*");
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "fileUpload" })
+    );
   };
 
   handlePreviewDelete = photo => {

@@ -85,16 +85,14 @@ class MemberContact extends React.Component {
   };
 
   handlePhoneCall = number => {
-    window.postMessage(
-      JSON.stringify({ action: "phoneCall", value: number }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "phoneCall", value: number })
     );
   };
 
   handleEmail = email => {
-    window.postMessage(
-      JSON.stringify({ action: "sendEmail", value: email }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "sendEmail", value: email })
     );
   };
 

@@ -116,7 +116,9 @@ class MyFamiliesShareHeader extends React.Component {
         const user = JSON.parse(localStorage.getItem("user"));
         if (user.google_token !== undefined) {
           if (user.origin === "native")
-            window.postMessage(JSON.stringify({ action: "googleLogout" }), "*");
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({ action: "googleLogout" })
+            );
         }
         dispatch(authenticationActions.logout(history));
         break;
@@ -124,7 +126,9 @@ class MyFamiliesShareHeader extends React.Component {
         history.push("/groups/search");
         break;
       case "invitefriends":
-        window.postMessage(JSON.stringify({ action: "share" }), "*");
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({ action: "share" })
+        );
         break;
       case "rating":
         const ratingTarget = document.querySelector(".ReactModalPortal");

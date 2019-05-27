@@ -40,7 +40,7 @@ class LogInScreen extends React.Component {
       action: "termsAndPolicy"
     };
     if (window.isNative) {
-      window.postMessage(JSON.stringify(message), "*");
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
       window.location.replace(process.env.REACT_APP_TERMS_AND_POLICY);
     }
@@ -87,9 +87,8 @@ class LogInScreen extends React.Component {
                   type="button"
                   onClick={() =>
                     window.isNative
-                      ? window.postMessage(
-                          JSON.stringify({ action: "googleLogin" }),
-                          "*"
+                      ? window.ReactNativeWebView.postMessage(
+                          JSON.stringify({ action: "googleLogin" })
                         )
                       : renderProps.onClick()
                   }

@@ -21,7 +21,7 @@ class AboutScreen extends React.Component {
       action: "findOutMore"
     };
     if (window.isNative) {
-      window.postMessage(JSON.stringify(message), "*");
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
     } else {
       window.location.replace("https://www.families-share.eu");
     }

@@ -22,27 +22,23 @@ ReactGA.initialize(process.env.REACT_APP_GA_ID);
 history.listen(location => {
   ReactGA.pageview(location.pathname);
   if (location.pathname === "/" || location.pathname === "/myfamiliesshare") {
-    window.postMessage(
-      JSON.stringify({ action: "cannotGoBack", value: location.pathname }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "cannotGoBack", value: location.pathname })
     );
   } else if (
     location.pathname.indexOf("/activities/create") !== -1 ||
     location.pathname.indexOf("/groups/create") !== -1
   ) {
-    window.postMessage(
-      JSON.stringify({ action: "stepperGoBack", value: location.pathname }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "stepperGoBack", value: location.pathname })
     );
   } else if (location.pathname.indexOf("timeslots") !== -1) {
-    window.postMessage(
-      JSON.stringify({ action: "confirmGoBack", value: location.pathname }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "confirmGoBack", value: location.pathname })
     );
   } else {
-    window.postMessage(
-      JSON.stringify({ action: "canGoBack", value: location.pathname }),
-      "*"
+    window.ReactNativeWebView.postMessage(
+      JSON.stringify({ action: "canGoBack", value: location.pathname })
     );
   }
 });
