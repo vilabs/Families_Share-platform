@@ -35,6 +35,17 @@ class LogInScreen extends React.Component {
     }
   };
 
+  handleTermsAndPolicy = () => {
+    const message = {
+      action: "termsAndPolicy"
+    };
+    if (window.isNative) {
+      window.postMessage(JSON.stringify(message), "*");
+    } else {
+      window.location.replace(process.env.REACT_APP_TERMS_AND_POLICY);
+    }
+  };
+
   render() {
     const {
       loggingIn,
@@ -106,7 +117,14 @@ class LogInScreen extends React.Component {
             />
           </div>
         </div>
-        <div className="agreeWithTermsGoogle">{texts.agreeWithTerms}</div>
+        <div
+          className="agreeWithTermsGoogle"
+          role="button"
+          tabIndex={-42}
+          onClick={this.handleTermsAndPolicy}
+        >
+          {texts.agreeWithTerms}
+        </div>
         <div
           className="row no-gutters"
           style={{ marginTop: "3rem", marginBottom: "6rem" }}
