@@ -14,14 +14,11 @@ const theme = createMuiTheme({
       main: "#c43e00"
     }
   },
-  MuiSwitchBase: {
-    root: {
-      position: "initial"
-    }
-  },
-  MuiSwitch: {
-    root: {
-      position: "initial"
+  overrides: {
+    MuiSwitch: {
+      root: {
+        position: "initial"
+      }
     }
   }
 });
@@ -116,7 +113,11 @@ class GroupMembersAdminOptions extends React.Component {
           <div className="col-3-10">
             <div className="verticalCenter">
               <MuiThemeProvider theme={theme}>
-                <Switch checked={groupIsOpen} onClick={this.handleSwitch} />
+                <Switch
+                  checked={groupIsOpen}
+                  onClick={this.handleSwitch}
+                  classes={{ root: { position: "initial" } }}
+                />
               </MuiThemeProvider>
             </div>
           </div>
