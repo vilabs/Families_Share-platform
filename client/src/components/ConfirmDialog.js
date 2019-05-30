@@ -11,7 +11,7 @@ import {
 
 import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 
 const styles = theme => ({
   button: {
@@ -32,16 +32,17 @@ const theme = createMuiTheme({
 
 class ConfirmDialog extends React.Component {
   handleClose = choice => {
-    this.props.handleClose(choice);
+    const { handleClose } = this.props;
+    handleClose(choice);
   };
 
   render() {
-    const { classes } = this.props;
-    const texts = Texts[this.props.language].confirmDialog;
+    const { classes, language, isOpen, title } = this.props;
+    const texts = Texts[language].confirmDialog;
     return (
       <MuiThemeProvider theme={theme}>
         <Dialog
-          open={this.props.isOpen}
+          open={isOpen}
           onClose={() => this.handleClose("disagree")}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
@@ -49,7 +50,7 @@ class ConfirmDialog extends React.Component {
           fullWidth
         >
           <DialogTitle className={classes.dialogTitle} id="alert-dialog-title">
-            <div className="inviteDialogTitle">{this.props.title}</div>
+            <div className="inviteDialogTitle">{title}</div>
           </DialogTitle>
           <DialogActions>
             <Button
@@ -79,5 +80,7 @@ export default withLanguage(withStyles(styles)(ConfirmDialog));
 ConfirmDialog.propTypes = {
   title: PropTypes.string,
   isOpen: PropTypes.bool,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  language: PropTypes.string,
+  classes: PropTypes.object
 };

@@ -7,8 +7,8 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import withLanguage from "./LanguageContext.js";
-import Texts from "../Constants/Texts.js";
+import withLanguage from "./LanguageContext";
+import Texts from "../Constants/Texts";
 
 const styles = {
   card: {
@@ -47,13 +47,12 @@ const styles = {
   }
 };
 
-const Card = props => {
+const Card = ({ history, card, classes, language }) => {
   const handleClick = () => {
-    props.history.push(props.card.link);
+    history.push(card.link);
   };
-  const { classes } = props;
-  const { card } = props;
-  const texts = Texts[props.language].cardWithLink;
+
+  const texts = Texts[language].cardWithLink;
   return (
     <MCard className={classes.card}>
       <CardContent>
@@ -82,7 +81,10 @@ const Card = props => {
 };
 
 Card.propTypes = {
-  card: PropTypes.object
+  card: PropTypes.object,
+  history: PropTypes.object,
+  language: PropTypes.string,
+  classes: PropTypes.object
 };
 
 export default withRouter(withLanguage(withStyles(styles)(Card)));

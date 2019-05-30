@@ -35,9 +35,8 @@ const getUserEvents = userId => {
     });
 };
 
-class MyAgenda extends React.Component {
-  getCurrentMonthEvents = () => {
-    const { events: ev, date } = this.props;
+const MyAgenda = ({ events: ev, date }) => {
+  const getCurrentMonthEvents = () => {
     const events = JSON.parse(JSON.stringify(ev));
     const currentMonth = moment(date).format("MMMM");
     const currentYear = moment(date).format("YYYY");
@@ -48,17 +47,13 @@ class MyAgenda extends React.Component {
     );
     return filteredEvents;
   };
-
-  render() {
-    const { date } = this.props;
-    return (
-      <AgendaView
-        events={this.getCurrentMonthEvents()}
-        activeMonth={moment(date).format("MMMM")}
-      />
-    );
-  }
-}
+  return (
+    <AgendaView
+      events={getCurrentMonthEvents()}
+      activeMonth={moment(date).format("MMMM")}
+    />
+  );
+};
 MyAgenda.title = date => {
   return moment(date).format("MMMM YYYY");
 };
@@ -97,8 +92,11 @@ const DateCell = ({ children }) => {
   return <div style={{ backgroundColor: "#00838f" }}>{children}</div>;
 };
 
-const DateHeader = handleDayClick => props => {
-  const { drilldownView, label, onDrillDown } = props;
+const DateHeader = handleDayClick => ({
+  drilldownView,
+  label,
+  onDrillDown
+}) => {
   if (!drilldownView) {
     return <span>{label}</span>;
   }
@@ -124,8 +122,7 @@ const CustomToolbar = (
   swipe,
   cancelSwipe,
   title
-) => props => {
-  const { view, onView, onNavigate, date, label } = props;
+) => ({ view, onView, onNavigate, date, label }) => {
   const changeView = () => {
     switch (view) {
       case "month":
@@ -238,9 +235,10 @@ class Calendar extends React.Component {
   state = { events: [], swipe: "none" };
 
   async componentDidMount() {
-    switch (this.props.ownerType) {
+    const { ownerType, ownerId } = this.props;
+    switch (ownerType) {
       case "user":
-        const userEvents = await getUserEvents(this.props.ownerId);
+        const userEvents = await getUserEvents(ownerId);
         userEvents.forEach(event => {
           event.title = event.summary;
           event.start = new Date(event.start.dateTime);
@@ -249,7 +247,7 @@ class Calendar extends React.Component {
         this.setState({ events: userEvents });
         break;
       case "group":
-        const groupEvents = await getGroupEvents(this.props.ownerId);
+        const groupEvents = await getGroupEvents(ownerId);
         groupEvents.forEach(event => {
           event.title = event.summary;
           event.start = new Date(event.start.dateTime);
@@ -263,7 +261,7 @@ class Calendar extends React.Component {
     }
   }
 
-  eventStyleGetter = (event, start, end, isSelected) => {
+  eventStyleGetter = event => {
     const style = {
       backgroundColor: event.extendedProperties.shared.activityColor
     };
@@ -306,11 +304,11 @@ class Calendar extends React.Component {
     this.setState({ events });
   };
 
-  swipingLeft = (e, absX) => {
+  swipingLeft = () => {
     this.setState({ swipe: "left" });
   };
 
-  swipingRight = (e, absX) => {
+  swipingRight = () => {
     this.setState({ swipe: "right" });
   };
 
@@ -323,11 +321,11 @@ class Calendar extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].calendar;
+    const { language, ownerType } = this.props;
+    const { swipe, activeView, events } = this.state;
+    const texts = Texts[language].calendar;
     const calendarTitle =
-      this.props.ownerType === "user"
-        ? texts.userCalendar
-        : texts.groupCalendar;
+      ownerType === "user" ? texts.userCalendar : texts.groupCalendar;
     const localizer = BigCalendar.momentLocalizer(moment);
     const components = {
       month: {
@@ -339,13 +337,13 @@ class Calendar extends React.Component {
       toolbar: CustomToolbar(
         this.handleChangeView,
         this.handleMonthEvents,
-        this.state.swipe,
+        swipe,
         this.cancelSwipe,
         calendarTitle
       )
     };
     const style = { flex: 1 };
-    if (this.state.activeView === "day" && this.props.ownerType === "group") {
+    if (activeView === "day" && ownerType === "group") {
       style.paddingBottom = "6rem";
     }
     return (
@@ -359,7 +357,7 @@ class Calendar extends React.Component {
             popup
             style={{ minHeight: "40rem" }}
             localizer={localizer}
-            events={this.state.events}
+            events={events}
             views={{ month: true, agenda: MyAgenda, day: true }}
             defaultView={BigCalendar.Views.MONTH}
             startAccessor="start"
@@ -378,7 +376,8 @@ export default withRouter(withLanguage(Calendar));
 
 Calendar.propTypes = {
   ownerType: PropTypes.string,
-  ownerId: PropTypes.string
+  ownerId: PropTypes.string,
+  language: PropTypes.string
 };
 
 MyAgenda.propTypes = {
@@ -398,5 +397,13 @@ DateCell.propTypes = {
 DateHeader.propTypes = {
   drilldownView: PropTypes.bool,
   onDrillDown: PropTypes.func,
+  label: PropTypes.string
+};
+
+CustomToolbar.propTypes = {
+  view: PropTypes.string,
+  onView: PropTypes.func,
+  onNavigate: PropTypes.func,
+  date: PropTypes.instanceOf(Date),
   label: PropTypes.string
 };

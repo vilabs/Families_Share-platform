@@ -9,7 +9,8 @@ export default class GroupMembersList extends React.Component {
   state = { fetchedUsers: false };
 
   componentDidMount() {
-    const memberIds = this.props.members.map(member => member.user_id);
+    const { members } = this.props;
+    const memberIds = members.map(member => member.user_id);
     axios
       .get("/api/profiles", {
         params: {
@@ -20,7 +21,7 @@ export default class GroupMembersList extends React.Component {
       .then(response => {
         const users = response.data;
         users.forEach(user => {
-          const temp = this.props.members.filter(
+          const temp = members.filter(
             member => user.user_id === member.user_id
           )[0];
           user.admin = temp.admin;
@@ -42,7 +43,7 @@ export default class GroupMembersList extends React.Component {
         found = true;
         users[i].admin = true;
       }
-      i++;
+      i += 1;
     }
     this.setState({ users });
   };
@@ -56,19 +57,21 @@ export default class GroupMembersList extends React.Component {
         found = true;
         users[i].admin = false;
       }
-      i++;
+      i += 1;
     }
     this.setState({ users });
   };
 
   handleRemoveUser = userId => {
+    const { users } = this.state;
     this.setState({
-      users: this.state.users.filter(user => user.user_id !== userId)
+      users: users.filter(user => user.user_id !== userId)
     });
   };
 
   renderLetters = () => {
-    const members = this.state.users;
+    const { users: members } = this.state;
+    const { userIsAdmin, groupId } = this.props;
     const sortedMembers = [].concat(members).sort((a, b) => {
       if (
         `${a.given_name} ${a.family_name}` < `${b.given_name} ${b.family_name}`
@@ -80,7 +83,7 @@ export default class GroupMembersList extends React.Component {
     const membersLength = members.length;
     const letterIndices = {};
     const letters = [];
-    for (let i = 0; i < membersLength; i++) {
+    for (let i = 0; i < membersLength; i += 1) {
       const name = sortedMembers[i].given_name;
       const letter = name[0].toUpperCase();
       if (letters.indexOf(letter) === -1) {
@@ -97,8 +100,8 @@ export default class GroupMembersList extends React.Component {
             <li key={memberIndex} className="contactLiContainer">
               <MemberContact
                 member={sortedMembers[memberIndex]}
-                groupId={this.props.groupId}
-                userIsAdmin={this.props.userIsAdmin}
+                groupId={groupId}
+                userIsAdmin={userIsAdmin}
                 handleRemoveUser={this.handleRemoveUser}
                 handleAddAdmin={this.handleAddAdmin}
                 handleRemoveAdmin={this.handleRemoveAdmin}
@@ -111,13 +114,15 @@ export default class GroupMembersList extends React.Component {
   };
 
   render() {
+    const { fetchedUsers } = this.state;
+    const { members } = this.props;
     return (
       <div className="membersContainer">
-        {this.state.fetchedUsers ? (
+        {fetchedUsers ? (
           <ul>{this.renderLetters()}</ul>
         ) : (
           <ul>
-            {this.props.members.map((member, index) => (
+            {members.map((member, index) => (
               <li key={index}>
                 <Skeleton avatar active paragraph={{ rows: 2 }} />
               </li>

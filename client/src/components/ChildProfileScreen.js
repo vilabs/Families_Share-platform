@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import ChildProfileHeader from "./ChildProfileHeader";
 import ChildProfileInfo from "./ChildProfileInfo";
 import LoadingSpinner from "./LoadingSpinner";
@@ -43,9 +44,9 @@ class ChildProfileScreen extends React.Component {
   state = { fetchedChildData: false, child: {} };
 
   async componentDidMount() {
-    const { profileId } = this.props.match.params;
+    const { match } = this.props;
+    const { profileId, childId } = match.params;
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const { childId } = this.props.match.params;
     const child = await getChild(profileId, childId);
     child.parents = await getParents(profileId, childId);
     child.showAdditional = userId === profileId;
@@ -59,15 +60,16 @@ class ChildProfileScreen extends React.Component {
   };
 
   handleDeleteParent = index => {
+    const { history } = this.props;
     const { child } = this.state;
     child.parents.splice(index, 1);
     this.setState({ child });
-    if (child.parents.length === 0) this.props.history.goBack();
+    if (child.parents.length === 0) history.goBack();
   };
 
   render() {
-    const { child } = this.state;
-    return this.state.fetchedChildData ? (
+    const { child, fetchedChildData } = this.state;
+    return fetchedChildData ? (
       <React.Fragment>
         <ChildProfileHeader
           background={child.background}
@@ -91,5 +93,10 @@ class ChildProfileScreen extends React.Component {
     );
   }
 }
+
+ChildProfileScreen.propTypes = {
+  match: PropTypes.object,
+  history: PropTypes.object
+};
 
 export default ChildProfileScreen;

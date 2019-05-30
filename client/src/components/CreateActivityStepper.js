@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import {
   withStyles,
   MuiThemeProvider,
@@ -11,7 +12,6 @@ import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
 import moment from "moment";
-import { withRouter } from "react-router-dom";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
 import CreateActivityInformation from "./CreateActivityInformation";
@@ -167,45 +167,53 @@ class CreateActivityStepper extends React.Component {
 
   handleMessage = event => {
     const data = JSON.parse(event.data);
+    const { history } = this.props;
+    const { activeStep } = this.state;
     if (data.action === "stepperGoBack") {
-      this.state.activeStep - 1 >= 0
-        ? this.setState({ activeStep: this.state.activeStep - 1 })
-        : this.props.history.goBack();
+      if (activeStep - 1 >= 0) {
+        this.setState({ activeStep: activeStep - 1 });
+      } else {
+        history.goBack();
+      }
     }
   };
 
   createActivity = () => {
-    const { groupId } = this.props.match.params;
+    const { match, history } = this.props;
+    const { groupId } = match.params;
+    const { information, dates, timeslots } = this.state;
     const activity = {
-      information: this.state.information,
-      dates: this.state.dates,
-      timeslots: this.state.timeslots
+      information,
+      dates,
+      timeslots
     };
     axios
       .post(`/api/groups/${groupId}/activities`, activity)
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goback();
+        history.goback();
       });
   };
 
   handleContinue = () => {
-    if (this.state.activeStep === 2) {
+    const { activeStep } = this.state;
+    if (activeStep === 2) {
       this.createActivity();
     } else {
       this.setState({
-        activeStep: this.state.activeStep + 1
+        activeStep: activeStep + 1
       });
     }
   };
 
   handleCancel = () => {
+    const { activeStep } = this.state;
     this.setState({
-      activeStep: this.state.activeStep - 1
+      activeStep: activeStep - 1
     });
   };
 
@@ -222,10 +230,8 @@ class CreateActivityStepper extends React.Component {
   };
 
   getStepContent = () => {
-    const { information } = this.state;
-    const { dates } = this.state;
-    const { timeslots } = this.state;
-    switch (this.state.activeStep) {
+    const { activeStep, information, dates, timeslots } = this.state;
+    switch (activeStep) {
       case 0:
         return (
           <CreateActivityInformation
@@ -243,9 +249,9 @@ class CreateActivityStepper extends React.Component {
       case 2:
         return (
           <CreateActivityTimeslots
-            activityName={this.state.information.name}
-            activityLocation={this.state.information.location}
-            dates={this.state.dates.selectedDays}
+            activityName={information.name}
+            activityLocation={information.location}
+            dates={dates.selectedDays}
             {...timeslots}
             handleSubmit={this.handleTimeslotsSubmit}
           />
@@ -256,6 +262,7 @@ class CreateActivityStepper extends React.Component {
   };
 
   getStepLabel = (label, index) => {
+    const { activeStep } = this.state;
     const iconStyle = { fontSize: "2rem" };
     let icon = "";
     switch (index) {
@@ -271,7 +278,7 @@ class CreateActivityStepper extends React.Component {
       default:
         icon = "fas fa-exclamation";
     }
-    if (this.state.activeStep >= index) {
+    if (activeStep >= index) {
       iconStyle.color = "#00838F";
     } else {
       iconStyle.color = "rgba(0,0,0,0.5)";
@@ -284,17 +291,18 @@ class CreateActivityStepper extends React.Component {
   };
 
   getDatesCompletedLabel = label => {
-    const { selectedDays } = this.state.dates;
+    const { dates } = this.state;
+    const { selectedDays, repetitionType } = dates;
     let completedLabel = "";
-    if (this.state.dates.repetitionType === "monthly") {
+    if (repetitionType === "monthly") {
       const selectedDay = moment(selectedDays[0]);
       completedLabel = `Every ${selectedDay.format(
         "Do "
       )} of ${selectedDay.format("MMMM")}`;
     } else {
-      selectedDays.map(
-        selectedDay => (completedLabel += `${selectedDay.getDate()}, `)
-      );
+      selectedDays.forEach(selectedDay => {
+        completedLabel += `${selectedDay.getDate()}, `;
+      });
       completedLabel = completedLabel.slice(0, completedLabel.lastIndexOf(","));
       completedLabel += ` ${moment(selectedDays[0]).format("MMMM YYYY")}`;
     }
@@ -309,10 +317,10 @@ class CreateActivityStepper extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].createActivityStepper;
-    const { classes } = this.props;
+    const { language, classes } = this.props;
+    const texts = Texts[language].createActivityStepper;
     const steps = texts.stepLabels;
-    const { activeStep } = this.state;
+    const { activeStep, stepWasValidated } = this.state;
     return (
       <div className={classes.root}>
         <MuiThemeProvider theme={muiTheme}>
@@ -324,7 +332,7 @@ class CreateActivityStepper extends React.Component {
                     icon={this.getStepLabel(label, index)}
                     className={classes.stepLabel}
                   >
-                    {this.state.activeStep > index && index === 1 ? (
+                    {activeStep > index && index === 1 ? (
                       <div>{this.getDatesCompletedLabel(label)}</div>
                     ) : (
                       label
@@ -335,7 +343,7 @@ class CreateActivityStepper extends React.Component {
                     <div className={classes.actionsContainer}>
                       <div>
                         <Button
-                          disabled={!this.state.stepWasValidated}
+                          disabled={!stepWasValidated}
                           variant="contained"
                           color="primary"
                           onClick={this.handleContinue}
@@ -346,9 +354,7 @@ class CreateActivityStepper extends React.Component {
                           }
                         >
                           {activeStep === steps.length - 1
-                            ? this.props.action === "create"
-                              ? texts.finish
-                              : texts.save
+                            ? texts.finish
                             : texts.continue}
                         </Button>
                         <Button
@@ -372,7 +378,10 @@ class CreateActivityStepper extends React.Component {
 }
 
 CreateActivityStepper.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  match: PropTypes.object,
+  history: PropTypes.object,
+  language: PropTypes.string
 };
 export default withRouter(
   withLanguage(withStyles(styles)(CreateActivityStepper))

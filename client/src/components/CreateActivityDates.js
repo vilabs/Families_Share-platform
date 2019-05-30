@@ -7,7 +7,7 @@ import "../styles/DayPicker.css";
 import Switch from "@material-ui/core/Switch";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { withSnackbar } from "notistack";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 const muiTheme = createMuiTheme({
@@ -43,10 +43,14 @@ const Navbar = ({ onPreviousClick, onNextClick, handleMonthChange }) => {
   return (
     <div className="">
       <span
+        role="button"
+        tabIndex={-42}
         className="dayPickerNavButton dayPickerPrevNav"
         onClick={handlePrevNav}
       />
       <span
+        role="button"
+        tabIndex={-43}
         className="dayPickerNavButton dayPickerNextNav"
         onClick={handleNextNav}
       />
@@ -57,36 +61,46 @@ const Navbar = ({ onPreviousClick, onNextClick, handleMonthChange }) => {
 class CreateActivityDates extends React.Component {
   constructor(props) {
     super(props);
+    const {
+      handleSubmit,
+      selectedDays,
+      repetition,
+      repetitionType,
+      lastSelect
+    } = this.props;
     this.state = {
-      selectedDays: this.props.selectedDays,
-      repetition: this.props.repetition,
-      repetitionType: this.props.repetitionType,
-      lastSelect: this.props.lastSelect
+      selectedDays,
+      repetition,
+      repetitionType,
+      lastSelect
     };
-    this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+    handleSubmit(this.state, selectedDays.length > 0);
   }
 
   handleDayClick = async (day, { selected }) => {
-    switch (this.state.repetitionType) {
+    const { state } = this;
+    const { repetitionType, selectedDays } = state;
+    const { handleSubmit } = this.props;
+    switch (repetitionType) {
       case "weekly":
         const days = await this.handleRepetition(day);
-        await this.setState({
-          lastSelect: day,
-          selectedDays: days
-        });
-        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+        state.lastSelect = day;
+        state.selectedDays = days;
+        this.setState(state);
+        handleSubmit(state, selectedDays.length > 0);
         break;
       case "monthly":
-        await this.setState(
-          !selected
-            ? { lastSelect: day, selectedDays: [day] }
-            : { lastSelect: undefined, selectedDays: [] }
-        );
-        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+        if (!selected) {
+          state.lastSelect = day;
+          state.selectedDays = [day];
+        } else {
+          state.lastSelect = undefined;
+          state.selectedDays = [];
+        }
+        this.setState(state);
+        handleSubmit(state, selectedDays.length > 0);
         break;
       default:
-        let { selectedDays } = this.state;
-        let lastSelect;
         if (!selected) {
           selectedDays.push(day);
           selectedDays.sort((a, b) => {
@@ -95,40 +109,42 @@ class CreateActivityDates extends React.Component {
             }
             return -1;
           });
-          lastSelect = day;
+          state.selectedDays = selectedDays;
+          state.lastSelect = day;
         } else {
-          selectedDays = selectedDays.filter(
+          state.selectedDays = selectedDays.filter(
             selectedDay => moment(selectedDay).format() !== moment(day).format()
           );
-          lastSelect = undefined;
+          state.lastSelect = undefined;
         }
-        await this.setState({ lastSelect, selectedDays });
-        this.props.handleSubmit(this.state, this.state.selectedDays.length > 0);
+        this.setState(state);
+        handleSubmit(this.state, state.selectedDays.length > 0);
     }
   };
 
   handleSwitch = async () => {
-    const snackMessage =
-      Texts[this.props.language].createActivityDates.datesError;
-    if (!this.state.repetition) {
-      if (this.state.selectedDays.length > 1) {
-        this.props.enqueueSnackbar(snackMessage, {
+    const { language, enqueueSnackbar } = this.props;
+    const { repetition, lastSelect, selectedDays } = this.state;
+    const snackMessage = Texts[language].createActivityDates.datesError;
+    if (!repetition) {
+      if (selectedDays.length > 1) {
+        enqueueSnackbar(snackMessage, {
           variant: "error"
         });
       } else {
         await this.setState({
-          repetition: !this.state.repetition,
+          repetition: !repetition,
           repetitionType: ""
         });
       }
     } else {
       await this.setState({
-        repetition: !this.state.repetition,
+        repetition: !repetition,
         repetitionType: "",
         selectedDays: []
       });
-      if (this.state.lastSelect) {
-        this.handleDayClick(this.state.lastSelect, {});
+      if (lastSelect) {
+        this.handleDayClick(lastSelect, {});
       }
     }
   };
@@ -153,18 +169,28 @@ class CreateActivityDates extends React.Component {
   };
 
   handleRepetitionClick = async event => {
+    const { lastSelect, selectedDays } = this.state;
     const repetitionType = event.target.id === "monthly" ? "monthly" : "weekly";
     await this.setState({ repetitionType });
-    if (this.state.lastSelect) {
-      this.handleDayClick(this.state.lastSelect, true);
+    if (lastSelect) {
+      this.handleDayClick(lastSelect, true);
     } else {
-      this.handleDayClick(this.state.selectedDays[0], true);
+      this.handleDayClick(selectedDays[0], true);
     }
   };
 
   render() {
-    const texts = Texts[this.props.language].createActivityDates;
-    const repetitionStyle = this.state.repetition
+    const { language } = this.props;
+    const { repetition, repetitionType, selectedDays } = this.state;
+    const texts = Texts[language].createActivityDates;
+    const navbar = (
+      <Navbar
+        handleMonthChange={() =>
+          this.setState({ selectedDays: [], lastSelect: undefined })
+        }
+      />
+    );
+    const repetitionStyle = repetition
       ? { color: "#00838F" }
       : { color: "rgba(0,0,0,0.5)" };
     return (
@@ -174,17 +200,11 @@ class CreateActivityDates extends React.Component {
           <DayPicker
             className="horizontalCenter"
             localeUtils={MomentLocaleUtils}
-            locale={this.props.language}
-            selectedDays={this.state.selectedDays}
+            locale={language}
+            selectedDays={selectedDays}
             onDayClick={this.handleDayClick}
             modifiersStyles={modifiersStyles}
-            navbarElement={
-              <Navbar
-                handleMonthChange={() =>
-                  this.setState({ selectedDays: [], lastSelect: undefined })
-                }
-              />
-            }
+            navbarElement={navbar}
           />
         </div>
         <div id="createActivityRepetitionContainer">
@@ -195,30 +215,27 @@ class CreateActivityDates extends React.Component {
             <div className="col-6-10">
               <h1
                 className="center"
-                style={
-                  this.state.repetition
-                    ? { color: "#00838f" }
-                    : { color: "#000000" }
-                }
+                style={repetition ? { color: "#00838f" } : { color: "#000000" }}
               >
-                {`${texts.repetition}: ${this.state.repetitionType}`}
+                {`${texts.repetition}: ${repetitionType}`}
               </h1>
             </div>
             <div className="col-2-10">
               <MuiThemeProvider theme={muiTheme}>
                 <Switch
-                  checked={this.state.repetition}
+                  checked={repetition}
                   color="primary"
                   onChange={this.handleSwitch}
                 />
               </MuiThemeProvider>
             </div>
           </div>
-          <div style={this.state.repetition ? {} : { display: "none" }}>
+          <div style={repetition ? {} : { display: "none" }}>
             <div className="row no-gutters">
               <div className="col-2-10" />
               <div className="col-8-10">
                 <button
+                  type="button"
                   id="weekly"
                   className="transparentButton"
                   onClick={this.handleRepetitionClick}
@@ -231,6 +248,7 @@ class CreateActivityDates extends React.Component {
               <div className="col-2-10" />
               <div className="col-8-10">
                 <button
+                  type="button"
                   id="monthly"
                   className="transparentButton"
                   onClick={this.handleRepetitionClick}
@@ -247,11 +265,19 @@ class CreateActivityDates extends React.Component {
 }
 
 CreateActivityDates.propTypes = {
-  dates: PropTypes.array,
   handleSubmit: PropTypes.func,
   repetition: PropTypes.bool,
-  repetittionType: PropTypes.string,
-  lastSelect: PropTypes.instanceOf(Date)
+  lastSelect: PropTypes.instanceOf(Date),
+  language: PropTypes.string,
+  repetitionType: PropTypes.string,
+  selectedDays: PropTypes.array,
+  enqueueSnackbar: PropTypes.func
+};
+
+Navbar.propTypes = {
+  onPreviousClick: PropTypes.func,
+  onNextClick: PropTypes.func,
+  handleMonthChange: PropTypes.func
 };
 
 export default withSnackbar(withLanguage(CreateActivityDates));

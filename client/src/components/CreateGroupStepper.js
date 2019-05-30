@@ -50,6 +50,11 @@ const muiTheme = createMuiTheme({
         fontFamily: "Roboto"
       }
     }
+  },
+  palette: {
+    secondary: {
+      main: "#c43e00"
+    }
   }
 });
 
@@ -57,18 +62,6 @@ const styles = theme => ({
   root: {
     width: "95%"
   },
-  colorSwitchBase: {
-    color: "#c43e00",
-    "&$colorChecked": {
-      color: "#c43e00",
-      "& + $colorBar": {
-        backgroundColor: "#ffa040",
-        opacity: 1
-      }
-    }
-  },
-  colorBar: {},
-  colorChecked: {},
   continueButton: {
     backgroundColor: "#00838f",
     marginTop: theme.spacing.unit,

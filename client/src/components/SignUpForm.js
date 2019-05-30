@@ -338,7 +338,6 @@ class SignUpForm extends React.Component {
 SignUpForm.propTypes = {
   language: PropTypes.string,
   history: PropTypes.object,
-  classes: PropTypes.object,
   error: PropTypes.bool,
   enqueueSnackbar: PropTypes.func,
   dispatch: PropTypes.func

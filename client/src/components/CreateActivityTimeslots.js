@@ -3,28 +3,34 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import withLanguage from "./LanguageContext";
 import TimeslotsContainer from "./TimeslotsContainer";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 
 class CreateActivityTimeslots extends React.Component {
   constructor(props) {
     super(props);
-    const { activityTimeslots } = this.props;
-    for (let i = 0; i < this.props.dates.length; i++) {
+    const { activityTimeslots, dates, differentTimeslots } = this.props;
+    for (let i = 0; i < dates.length; i += 1) {
       if (activityTimeslots[i] === undefined) activityTimeslots.push([]);
     }
     this.state = {
-      dates: this.props.dates,
-      numberOfDays: this.props.dates.length,
-      differentTimeslots: this.props.differentTimeslots,
+      dates,
+      numberOfDays: dates.length,
+      differentTimeslots,
       activityTimeslots
     };
   }
 
   renderDays = () => {
-    const { dates } = this.state;
+    const {
+      dates,
+      numberOfDays,
+      differentTimeslots,
+      activityTimeslots
+    } = this.state;
+    const { activityName, activityLocation } = this.props;
     let header = "";
-    if (this.state.numberOfDays > 1) {
-      if (this.state.differentTimeslots) {
+    if (numberOfDays > 1) {
+      if (differentTimeslots) {
         return (
           <ul>
             {dates.map((date, index) => {
@@ -32,9 +38,9 @@ class CreateActivityTimeslots extends React.Component {
               return (
                 <li key={index}>
                   <TimeslotsContainer
-                    activityName={this.props.activityName}
-                    timeslots={this.state.activityTimeslots[index]}
-                    activityLocation={this.props.activityLocation}
+                    activityName={activityName}
+                    timeslots={activityTimeslots[index]}
+                    activityLocation={activityLocation}
                     dateIndex={index}
                     header={header}
                     handleTimeslots={this.handleTimeslots}
@@ -48,9 +54,9 @@ class CreateActivityTimeslots extends React.Component {
       header = `${dates.length} dates selected`;
       return (
         <TimeslotsContainer
-          activityName={this.props.activityName}
-          timeslots={this.state.activityTimeslots[0]}
-          activityLocation={this.props.activityLocation}
+          activityName={activityName}
+          timeslots={activityTimeslots[0]}
+          activityLocation={activityLocation}
           dateIndex={0}
           header={header}
           handleTimeslots={this.handleTimeslots}
@@ -60,9 +66,9 @@ class CreateActivityTimeslots extends React.Component {
     header = moment(dates[0]).format("D MMMM YYYY");
     return (
       <TimeslotsContainer
-        activityName={this.props.activityName}
-        activityLocation={this.props.activityLocation}
-        timeslots={this.state.activityTimeslots[0]}
+        activityName={activityName}
+        activityLocation={activityLocation}
+        timeslots={activityTimeslots[0]}
         dateIndex={0}
         header={header}
         handleTimeslots={this.handleTimeslots}
@@ -71,9 +77,10 @@ class CreateActivityTimeslots extends React.Component {
   };
 
   handleTimeslots = (timeslots, dateIndex) => {
-    const { activityTimeslots } = this.state;
-    if (this.state.numberOfDays > 1 && !this.state.differentTimeslots) {
-      for (let i = 0; i < this.state.numberOfDays; i++) {
+    const { numberOfDays, differentTimeslots, activityTimeslots } = this.state;
+    const { handleSubmit } = this.props;
+    if (numberOfDays > 1 && !differentTimeslots) {
+      for (let i = 0; i < numberOfDays; i += 1) {
         activityTimeslots[i] = timeslots.slice(0);
       }
     } else {
@@ -81,29 +88,33 @@ class CreateActivityTimeslots extends React.Component {
     }
     this.setState({ activityTimeslots });
     let validated = true;
-    for (let i = 0; i < this.state.numberOfDays; i++) {
+    for (let i = 0; i < numberOfDays; i += 1) {
       if (activityTimeslots[i].length === 0) validated = false;
     }
-    this.props.handleSubmit(
+    handleSubmit(
       {
         activityTimeslots,
-        differentTimeslots: this.state.differentTimeslots
+        differentTimeslots
       },
       validated
     );
   };
 
   handleDifferentTimeslots = () => {
-    this.setState({ differentTimeslots: !this.state.differentTimeslots });
+    const { differentTimeslots } = this.state;
+    this.setState({ differentTimeslots: !differentTimeslots });
   };
 
   renderDifferentTimeslots = () => {
-    const texts = Texts[this.props.language].createActivityTimeslots;
-    if (this.state.numberOfDays > 1) {
-      if (this.state.differentTimeslots) {
+    const { language } = this.props;
+    const { numberOfDays, differentTimeslots } = this.state;
+    const texts = Texts[language].createActivityTimeslots;
+    if (numberOfDays > 1) {
+      if (differentTimeslots) {
         return (
           <div id="differentTimeslotsContainer" className="row no-gutters">
             <button
+              type="button"
               className="horizontalCenter"
               onClick={this.handleDifferentTimeslots}
             >
@@ -115,6 +126,7 @@ class CreateActivityTimeslots extends React.Component {
       return (
         <div id="differentTimeslotsContainer" className="row no-gutters">
           <button
+            type="button"
             className="horizontalCenter"
             onClick={this.handleDifferentTimeslots}
           >
@@ -123,10 +135,12 @@ class CreateActivityTimeslots extends React.Component {
         </div>
       );
     }
+    return null;
   };
 
   render() {
-    const texts = Texts[this.props.language].createActivityTimeslots;
+    const { language } = this.props;
+    const texts = Texts[language].createActivityTimeslots;
     return (
       <div id="createActivityTimeslotsContainer">
         <div id="createActivityTimeslotsHeader" className="row no-gutters">
@@ -146,6 +160,7 @@ CreateActivityTimeslots.propTypes = {
   activityLocation: PropTypes.string,
   dates: PropTypes.array,
   handleSubmit: PropTypes.func,
-  activityTimesltos: PropTypes.array,
-  differentTimeslots: PropTypes.bool
+  activityTimeslots: PropTypes.array,
+  differentTimeslots: PropTypes.bool,
+  language: PropTypes.string
 };

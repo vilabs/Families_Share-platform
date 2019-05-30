@@ -13,8 +13,9 @@ class ChildListItem extends React.Component {
   state = { fetchedChild: false, child: {} };
 
   componentDidMount() {
+    const { userId, childId } = this.props;
     axios
-      .get(`/api/users/${this.props.userId}/children/${this.props.childId}`)
+      .get(`/api/users/${userId}/children/${childId}`)
       .then(response => {
         const child = response.data;
         this.setState({ fetchedChild: true, child });
@@ -36,18 +37,18 @@ class ChildListItem extends React.Component {
   }
 
   render() {
-    const { child } = this.state;
-    const texts = Texts[this.props.language].childListItem;
-    const route = `${this.props.history.location.pathname}/${
-      this.props.childId
-    }`;
+    const { language, history, childId } = this.props;
+    const { pathname } = history.location;
+    const { child, fetchedChild } = this.state;
+    const texts = Texts[language].childListItem;
+    const route = `${pathname}/${childId}`;
     return (
       <div
         id="childContainer"
         className="row no-gutters"
         style={{ borderBottom: "1px solid rgba(0,0,0,0.1" }}
       >
-        {this.state.fetchedChild ? (
+        {fetchedChild ? (
           <React.Fragment>
             <div className="col-3-10">
               <Avatar
@@ -58,7 +59,9 @@ class ChildListItem extends React.Component {
             </div>
             <div className="col-7-10">
               <div
-                onClick={() => this.props.history.push(route)}
+                role="button"
+                tabIndex={-42}
+                onClick={() => history.push(route)}
                 id="childInfoContainer"
                 className="verticalCenter"
               >
@@ -82,5 +85,7 @@ export default withRouter(withLanguage(ChildListItem));
 
 ChildListItem.propTypes = {
   childId: PropTypes.string,
-  userId: PropTypes.string
+  userId: PropTypes.string,
+  language: PropTypes.string,
+  history: PropTypes.object
 };

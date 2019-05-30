@@ -3,13 +3,21 @@ import PropTypes from "prop-types";
 import autosize from "autosize";
 import { CirclePicker } from "react-color";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 
 class CreateActivityInformation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { ...this.props };
-    this.props.handleSubmit(this.state, this.validate(this.state));
+    const {
+      handleSubmit,
+      name,
+      location,
+      description,
+      cost,
+      color
+    } = this.props;
+    this.state = { color, cost, description, location, name };
+    handleSubmit(this.state, this.validate(this.state));
     autosize(document.querySelectorAll("textarea"));
   }
 
@@ -22,22 +30,25 @@ class CreateActivityInformation extends React.Component {
 
   handleChange = event => {
     const state = Object.assign({}, this.state);
-    const { name } = event.target;
-    const { value } = event.target;
+    const { name, value } = event.target;
+    const { handleSubmit } = this.props;
     state[name] = value;
-    this.props.handleSubmit(state, this.validate(state));
+    handleSubmit(state, this.validate(state));
     this.setState(state);
   };
 
   handleColorChange = color => {
+    const { handleSubmit } = this.props;
     const state = Object.assign({}, this.state);
     state.color = color.hex;
-    this.props.handleSubmit(state, this.validate(state));
+    handleSubmit(state, this.validate(state));
     this.setState(state);
   };
 
   render() {
-    const texts = Texts[this.props.language].createActivityInformation;
+    const { language } = this.props;
+    const { name, color, description, location } = this.state;
+    const texts = Texts[language].createActivityInformation;
     const rowStyle = { minHeight: "7rem" };
     return (
       <div id="createActivityInformationContainer">
@@ -50,7 +61,7 @@ class CreateActivityInformation extends React.Component {
               type="text"
               name="name"
               placeholder={texts.name}
-              value={this.state.name}
+              value={name}
               className="center"
               onChange={this.handleChange}
             />
@@ -66,7 +77,7 @@ class CreateActivityInformation extends React.Component {
               name="description"
               className="center"
               placeholder={texts.description}
-              value={this.state.description}
+              value={description}
               onChange={event => {
                 this.handleChange(event);
                 autosize(document.querySelectorAll("textarea"));
@@ -83,7 +94,7 @@ class CreateActivityInformation extends React.Component {
               type="text"
               name="location"
               placeholder={texts.location}
-              value={this.state.location}
+              value={location}
               className="center"
               onChange={this.handleChange}
             />
@@ -93,12 +104,12 @@ class CreateActivityInformation extends React.Component {
           <div className="col-2-10">
             <i
               className="fas fa-palette center"
-              style={{ color: this.state.color }}
+              style={{ color }}
               alt="palette icon"
             />
           </div>
           <div className="col-8-10">
-            <h1 className="verticalCenter" style={{ color: this.state.color }}>
+            <h1 className="verticalCenter" style={{ color }}>
               {texts.color}
             </h1>
           </div>
@@ -108,7 +119,7 @@ class CreateActivityInformation extends React.Component {
           <div className="col-8-10">
             <CirclePicker
               width="100%"
-              color={this.state.color}
+              color={color}
               onChange={this.handleColorChange}
             />
           </div>
@@ -121,12 +132,11 @@ class CreateActivityInformation extends React.Component {
 CreateActivityInformation.propTypes = {
   name: PropTypes.string,
   location: PropTypes.string,
-  requiredParents: PropTypes.number,
-  requiredChildren: PropTypes.number,
   description: PropTypes.string,
   cost: PropTypes.number,
   color: PropTypes.string,
-  handleSubmit: PropTypes.func
+  handleSubmit: PropTypes.func,
+  language: PropTypes.string
 };
 
 export default withLanguage(CreateActivityInformation);
