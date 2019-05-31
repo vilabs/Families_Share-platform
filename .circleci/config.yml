@@ -24,7 +24,7 @@ jobs:
 
       - run:
           name: Running Backend Linter
-          command: npm run lint
+          command: 'node_modules/.bin/eslint src'
 
       - run:
           name: Running Backend Testing
@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Running Frontend Linter
-          command: cd client && npm run lint
+          command: 'client/node_modules/.bin/eslint src'
 
       - run:
           name: Running Frontend Build
