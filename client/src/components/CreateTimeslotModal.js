@@ -3,24 +3,34 @@ import React from "react";
 import PropTypes from "prop-types";
 import autosize from "autosize";
 import withLanguage from "./LanguageContext";
-import Texts from "../Constants/Texts.js";
-import Images from "../Constants/Images.js";
+import Texts from "../Constants/Texts";
+import Images from "../Constants/Images";
 
 Modal.setAppElement("#root");
 
 class CreateTimeslotModal extends React.Component {
   constructor(props) {
     super(props);
+    const { data, expanded } = this.props;
     this.state = {
-      ...this.props.data,
+      ...data,
       formIsValidated: false,
-      expanded: this.props.expanded
+      expanded
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.expanded !== prevState.expanded) {
+      return {
+        expanded: nextProps.expanded,
+        ...nextProps.data
+      };
+    }
+    return null;
+  }
+
   handleChange = event => {
-    const { name } = event.target;
-    const { value } = event.target;
+    const { name, value } = event.target;
     this.setState({ [name]: value });
   };
 
@@ -34,10 +44,11 @@ class CreateTimeslotModal extends React.Component {
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].expandedTimeslotEdit;
+    const { language } = this.props;
+    const texts = Texts[language].expandedTimeslotEdit;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         if (elem.name === "startTime" || elem.name === "endTime") {
           const { startTime } = this.state;
@@ -72,7 +83,7 @@ class CreateTimeslotModal extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -85,45 +96,49 @@ class CreateTimeslotModal extends React.Component {
   };
 
   closeModal = () => {
+    const { handleClose } = this.props;
     this.setState({ formIsValidated: false });
-    this.props.handleClose();
+    handleClose();
   };
 
   afterOpenModal = () => {};
 
   handleSave = () => {
+    const {
+      startTime,
+      endTime,
+      requiredChildren,
+      requiredParents,
+      description,
+      name,
+      location,
+      cost
+    } = this.state;
     const timeslot = {
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      requiredChildren: this.state.requiredChildren,
-      requiredParents: this.state.requiredParents,
-      description: this.state.description,
-      name: this.state.name,
-      cost: this.state.cost,
-      location: this.state.location
+      startTime,
+      endTime,
+      requiredChildren,
+      requiredParents,
+      description,
+      name,
+      cost,
+      location
     };
-    this.props.handleSave(timeslot);
+    const { handleSave } = this.props;
+    handleSave(timeslot);
     this.setState({ formIsValidated: false });
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.expanded !== prevState.expanded) {
-      return {
-        expanded: nextProps.expanded,
-        ...nextProps.data
-      };
-    }
-    return null;
-  }
-
   render() {
+    const { formIsValidated } = this.state;
+    const { language } = this.props;
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
     const rowStyle = { margin: "2rem 0" };
-    const texts = Texts[this.props.language].expandedTimeslotEdit;
-    const { state } = this;
+    const texts = Texts[language].expandedTimeslotEdit;
+    const { state, expanded } = this;
     const modalStyle = {
       overlay: {
         zIndex: 1500,
@@ -149,7 +164,7 @@ class CreateTimeslotModal extends React.Component {
     return (
       <Modal
         style={modalStyle}
-        isOpen={this.state.expanded}
+        isOpen={expanded}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         contentLabel="Create Timeslot Modal"
@@ -162,6 +177,7 @@ class CreateTimeslotModal extends React.Component {
             </div>
             <div className="col-1-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.closeModal}
               >
@@ -170,6 +186,7 @@ class CreateTimeslotModal extends React.Component {
             </div>
             <div className="col-1-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handleSubmit}
               >
@@ -179,7 +196,9 @@ class CreateTimeslotModal extends React.Component {
           </div>
           <div id="expandedTimeslotMainContainer">
             <form
-              ref={form => (this.formEl = form)}
+              ref={form => {
+                this.formEl = form;
+              }}
               onSubmit={this.handleSubmit}
               className={formClass}
               noValidate
@@ -369,7 +388,7 @@ export default withLanguage(CreateTimeslotModal);
 
 CreateTimeslotModal.propTypes = {
   handleSave: PropTypes.func,
-  handleTimeRangeError: PropTypes.func,
+  language: PropTypes.string,
   handleClose: PropTypes.func,
   data: PropTypes.object,
   expanded: PropTypes.bool

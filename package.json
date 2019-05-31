@@ -55,7 +55,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "concurrently \"npm run lint\" "
+      "pre-commit": "concurrently \"npm run lint\"   \"cd client && npm run lint\""
     }
   }
 }

@@ -7,7 +7,8 @@
   "plugins": ["prettier", "jsx-a11y"],
   "parser": "babel-eslint",
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
@@ -20,8 +21,9 @@
     "jsx-a11y/no-static-elements-interactions": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
-    "import/no-dynamic-require": 0,
     "no-param-reassign": "off",
-    "no-case-declarations": "off"
+    "no-case-declarations": "off",
+    "jsx-a11y/no-onchange": 0,
+    "jsx-a11y/label-has-associated-control": "off"
   }
 }

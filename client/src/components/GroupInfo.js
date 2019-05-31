@@ -13,30 +13,32 @@ import Log from "./Log";
 class GroupInfo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { group: this.props.group, fetchedGroupInfo: false };
+    const { group } = this.props;
+    this.state = { group, fetchedGroupInfo: false };
   }
 
   componentDidMount() {
-    const groupId = this.state.group.group_id;
+    const { group } = this.state;
+    const { group_id: groupId } = group;
     axios
       .get(`/api/groups/${groupId}/settings`)
       .then(response => {
-        const { group } = this.state;
         group.settings = response.data;
-        let group_accepted = false;
-        let user_accepted = false;
+        let groupAccepted = false;
+        let userAccepted = false;
         let userIsAdmin = false;
         const userId = JSON.parse(localStorage.getItem("user")).id;
         group.members.forEach(member => {
           if (member.user_id === userId) {
-            group_accepted = member.group_accepted;
-            user_accepted = member.user_accepted;
-            userIsAdmin = member.admin;
+            const { group_accepted, user_accepted, admin } = member;
+            groupAccepted = group_accepted;
+            userAccepted = user_accepted;
+            userIsAdmin = admin;
           }
         });
         this.setState({
-          group_accepted,
-          user_accepted,
+          groupAccepted,
+          userAccepted,
           userIsAdmin,
           confirmIsOpen: false,
           fetchedGroupInfo: true,
@@ -49,16 +51,18 @@ class GroupInfo extends React.Component {
   }
 
   handleAcceptInvite = () => {
+    const { group } = this.state;
+    const { group_id: groupId } = group;
+    const { enableNavigation } = this.props;
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const groupId = this.state.group.group_id;
     axios
       .patch(`/api/users/${userId}/groups/${groupId}`, {
         patch: { user_accepted: true }
       })
       .then(response => {
         Log.info(response);
-        this.setState({ user_accepted: true });
-        this.props.enableNavigation();
+        this.setState({ userAccepted: true });
+        enableNavigation();
       })
       .catch(error => {
         Log.error(error);
@@ -66,14 +70,16 @@ class GroupInfo extends React.Component {
   };
 
   handleJoin = () => {
+    const { group } = this.state;
+    const { group_id } = group;
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
       .post(`/api/users/${userId}/groups`, {
-        group_id: this.state.group.group_id
+        group_id
       })
       .then(response => {
         Log.info(response);
-        this.setState({ user_accepted: true });
+        this.setState({ userAccepted: true });
       })
       .catch(error => {
         Log.error(error);
@@ -81,13 +87,15 @@ class GroupInfo extends React.Component {
   };
 
   handleLeave = () => {
+    const { group } = this.state;
+    const { group_id: groupId } = group;
+    const { history } = this.props;
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const groupId = this.state.group.group_id;
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
         Log.info(response);
-        this.props.history.replace("/myfamiliesshare");
+        history.replace("/myfamiliesshare");
       })
       .catch(error => {
         Log.error(error);
@@ -95,13 +103,14 @@ class GroupInfo extends React.Component {
   };
 
   handleCancel = () => {
+    const { group } = this.state;
+    const { group_id: groupId } = group;
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const groupId = this.state.group.group_id;
     axios
       .delete(`/api/users/${userId}/groups/${groupId}`)
       .then(response => {
         Log.info(response);
-        this.setState({ user_accepted: false });
+        this.setState({ userAccepted: false });
       })
       .catch(error => {
         Log.error(error);
@@ -116,15 +125,15 @@ class GroupInfo extends React.Component {
   };
 
   renderJoinButton = () => {
-    const texts = Texts[this.props.language].groupInfo;
-    const { group_accepted } = this.state;
-    const { user_accepted } = this.state;
-    const groupIsOpen = this.state.group.settings.open;
+    const { language } = this.props;
+    const { groupAccepted, userAccepted, group } = this.state;
+    const { open: groupIsOpen } = group.settings;
+    const texts = Texts[language].groupInfo;
     let disabled = false;
     let text;
     let handleFunc;
-    if (user_accepted) {
-      if (group_accepted) {
+    if (userAccepted) {
+      if (groupAccepted) {
         text = texts.leave;
         handleFunc = () => {
           this.setState({ confirmIsOpen: true });
@@ -133,7 +142,7 @@ class GroupInfo extends React.Component {
         text = texts.pending;
         handleFunc = this.handleCancel;
       }
-    } else if (group_accepted) {
+    } else if (groupAccepted) {
       text = texts.join;
       handleFunc = this.handleAcceptInvite;
     } else if (groupIsOpen) {
@@ -143,41 +152,58 @@ class GroupInfo extends React.Component {
       disabled = true;
     }
     return !disabled ? (
-      <button onClick={handleFunc} className="joinGroupButton">
+      <button type="button" onClick={handleFunc} className="joinGroupButton">
         {text}
       </button>
     ) : null;
   };
 
   render() {
-    const texts = Texts[this.props.language].groupInfo;
-    return this.state.fetchedGroupInfo ? (
+    const { language, match } = this.props;
+    const {
+      fetchedGroupInfo,
+      group,
+      userIsAdmin,
+      groupAccepted,
+      userAccepted,
+      confirmIsOpen
+    } = this.state;
+    const {
+      name: groupName,
+      group_id: groupId,
+      background: groupBackground,
+      description: groupInfo,
+      image
+    } = group;
+    const { path: groupLogo } = image || { path: "" };
+    const texts = Texts[language].groupInfo;
+    return fetchedGroupInfo ? (
       <div id="groupInfoContainer">
         <GroupHeader
-          groupName={this.state.group.name}
-          groupId={this.props.group.group_id}
-          groupLogo={this.state.group.image.path}
-          groupBackground={this.state.group.background}
-          userIsAdmin={this.state.userIsAdmin}
+          groupName={groupName}
+          groupId={groupId}
+          groupLogo={groupLogo}
+          groupBackground={groupBackground}
+          userIsAdmin={userIsAdmin}
         />
         <div id="groupInfoMainContainer">
           <GroupAbout
-            groupInfo={this.state.group.description}
-            hasJoined={this.state.group_accepted && this.state.user_accepted}
+            groupInfo={groupInfo}
+            hasJoined={groupAccepted && userAccepted}
           />
-          {this.state.user_accepted && this.state.group_accepted && (
+          {userAccepted && groupAccepted && (
             <Card
               card={{
                 cardHeader: texts.startGuideHeader,
                 cardInfo: texts.startGuideInfo,
                 learnMore: true,
-                link: `${this.props.match.url}/start-up-guide`
+                link: `${match.url}/start-up-guide`
               }}
             />
           )}
           {this.renderJoinButton()}
           <ConfirmDialog
-            isOpen={this.state.confirmIsOpen}
+            isOpen={confirmIsOpen}
             title={texts.confirm}
             handleClose={this.handleConfirmClose}
           />
@@ -192,5 +218,8 @@ export default withLanguage(GroupInfo);
 
 GroupInfo.propTypes = {
   enableNavigation: PropTypes.func,
-  group: PropTypes.object
+  group: PropTypes.object,
+  language: PropTypes.string,
+  history: PropTypes.object,
+  match: PropTypes.object
 };

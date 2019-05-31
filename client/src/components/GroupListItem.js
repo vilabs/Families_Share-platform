@@ -23,16 +23,7 @@ const getGroup = groupId => {
       };
     });
 };
-// const getGroupKids = (groupId) => {
-//   return axios.get('/api/groups/' + groupId + '/kids')
-//     .then(response => {
-//       return response.data;
-//     })
-//     .catch(error => {
-//       Log.error(error);
-//       return [];
-//     })
-// }
+
 const getGroupMembers = groupId => {
   return axios
     .get(`/api/groups/${groupId}/members`)
@@ -73,14 +64,19 @@ class GroupListItem extends React.Component {
   }
 
   handleNavigation = () => {
-    this.props.history.push(`/groups/${this.state.group.group_id}/activities`);
+    const { history } = this.props;
+    const { group } = this.state;
+    history.push(`/groups/${group.group_id}/activities`);
   };
 
   render() {
-    const texts = Texts[this.props.language].groupListItem;
-    const { group } = this.state;
-    return this.state.fetchedGroupData ? (
+    const { language } = this.props;
+    const texts = Texts[language].groupListItem;
+    const { group, fetchedGroupData } = this.state;
+    return fetchedGroupData ? (
       <div
+        role="button"
+        tabIndex={-42}
         className="row no-gutters"
         id="suggestionContainer"
         onClick={this.handleNavigation}
@@ -95,11 +91,7 @@ class GroupListItem extends React.Component {
         <div className="col-8-10">
           <div id="suggestionInfoContainer">
             <h1>{group.name}</h1>
-            <h2>
-              {texts.members}
-:
-{group.members.length}
-            </h2>
+            <h2>{`${texts.members}: ${group.members.length}`}</h2>
             <h3>{group.settings.open ? texts.open : texts.closed}</h3>
           </div>
         </div>
@@ -113,7 +105,9 @@ class GroupListItem extends React.Component {
 }
 
 GroupListItem.propTypes = {
-  groupId: PropTypes.string
+  groupId: PropTypes.string,
+  language: PropTypes.string,
+  history: PropTypes.object
 };
 
 export default withRouter(withLanguage(GroupListItem));

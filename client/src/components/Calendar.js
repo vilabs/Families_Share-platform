@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import * as moment from "moment";
 import { withRouter } from "react-router-dom";
@@ -95,6 +96,7 @@ const DateCell = ({ children }) => {
 const DateHeader = handleDayClick => ({
   drilldownView,
   label,
+  // eslint-disable-next-line react/prop-types
   onDrillDown
 }) => {
   if (!drilldownView) {

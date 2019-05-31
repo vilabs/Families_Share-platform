@@ -13,7 +13,7 @@ import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 
-const styles = theme => ({
+const styles = {
   button: {
     fontSize: "1.5rem",
     color: "#00838F"
@@ -22,7 +22,7 @@ const styles = theme => ({
     fontSize: 20,
     fontWeight: 700
   }
-});
+};
 
 const theme = createMuiTheme({
   typography: {

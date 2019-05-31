@@ -2,7 +2,7 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-import MCard from "@material-ui/core/Card";
+import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -43,18 +43,19 @@ const styles = {
   button: {
     fontSize: "1.4rem",
     fontWeight: 500,
-    color: "#4671b6"
+    color: "#4671b6",
+    width: "auto"
   }
 };
 
-const Card = ({ history, card, classes, language }) => {
+const CardWithLink = ({ history, card, classes, language }) => {
   const handleClick = () => {
     history.push(card.link);
   };
 
   const texts = Texts[language].cardWithLink;
   return (
-    <MCard className={classes.card}>
+    <Card className={classes.card}>
       <CardContent>
         <Typography
           className={classes.header}
@@ -71,20 +72,20 @@ const Card = ({ history, card, classes, language }) => {
       </CardContent>
       {card.learnMore && (
         <CardActions>
-          <Button size="small" className={classes.button} onClick={handleClick}>
+          <Button className={classes.button} onClick={handleClick}>
             {texts.learnMore}
           </Button>
         </CardActions>
       )}
-    </MCard>
+    </Card>
   );
 };
 
-Card.propTypes = {
+CardWithLink.propTypes = {
   card: PropTypes.object,
   history: PropTypes.object,
   language: PropTypes.string,
   classes: PropTypes.object
 };
 
-export default withRouter(withLanguage(withStyles(styles)(Card)));
+export default withRouter(withLanguage(withStyles(styles)(CardWithLink)));

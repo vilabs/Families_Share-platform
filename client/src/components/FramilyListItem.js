@@ -18,12 +18,13 @@ class FramilyListItem extends React.Component {
   };
 
   componentDidMount() {
+    const { framilyId, profileId } = this.props;
     axios
-      .get(`/api/users/${this.props.framilyId}/profile`)
+      .get(`/api/users/${framilyId}/profile`)
       .then(response => {
         const profile = response.data;
         const myProfile =
-          JSON.parse(localStorage.getItem("user")).id === this.props.profileId;
+          JSON.parse(localStorage.getItem("user")).id === profileId;
         this.setState({ fetchedProfile: true, profile, myProfile });
       })
       .catch(error => {
@@ -49,10 +50,12 @@ class FramilyListItem extends React.Component {
   };
 
   mouseUp = () => {
-    if (new Date().getTime() - this.state.timer > 500 && this.state.myProfile) {
+    const { timer, myProfile } = this.state;
+    const { framilyId, history } = this.props;
+    if (new Date().getTime() - timer > 500 && myProfile) {
       this.setState({ modalIsOpen: true, timer: 0 });
     } else {
-      this.props.history.push(`/profiles/${this.props.framilyId}/info`);
+      history.push(`/profiles/${framilyId}/info`);
     }
   };
 
@@ -73,7 +76,9 @@ class FramilyListItem extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].framilyListItem;
+    const { language, framilyId, history } = this.props;
+    const { top, right, modalIsOpen, fetchedProfile } = this.state;
+    const texts = Texts[language].framilyListItem;
     const options = [
       {
         label: texts.delete,
@@ -82,23 +87,23 @@ class FramilyListItem extends React.Component {
       }
     ];
     const { profile } = this.state;
-    const route = `/profiles/${this.props.framilyId}/info`;
+    const route = `/profiles/${framilyId}/info`;
     return (
       <div
         role="button"
         tabIndex={-42}
         id="framilyMemberContainer"
         className="row no-gutters"
-        onClick={() => this.props.history.push(route)}
+        onClick={() => history.push(route)}
         style={{ borderBottom: "1px solid rgba(0,0,0,0.1" }}
       >
         <FramilyOptionsModal
-          position={{ top: this.state.top, right: this.state.right }}
+          position={{ top, right }}
           options={options}
-          isOpen={this.state.modalIsOpen}
+          isOpen={modalIsOpen}
           handleClose={this.handleModalClose}
         />
-        {this.state.fetchedProfile ? (
+        {fetchedProfile ? (
           <React.Fragment>
             <div className="col-3-10">
               <Avatar
@@ -125,5 +130,7 @@ export default withRouter(withLanguage(FramilyListItem));
 
 FramilyListItem.propTypes = {
   framilyId: PropTypes.string,
-  profileId: PropTypes.string
+  profileId: PropTypes.string,
+  language: PropTypes.string,
+  history: PropTypes.object
 };

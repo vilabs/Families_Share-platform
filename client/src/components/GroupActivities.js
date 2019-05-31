@@ -9,7 +9,7 @@ import ActivityOptionsModal from "./OptionsModal";
 import ActivityListItem from "./ActivityListItem";
 import Log from "./Log";
 
-const styles = theme => ({
+const styles = {
   add: {
     position: "fixed",
     bottom: "8rem",
@@ -22,20 +22,22 @@ const styles = theme => ({
     zIndex: 100,
     fontSize: "2rem"
   }
-});
+};
 
 class GroupActivities extends React.Component {
   constructor(props) {
     super(props);
+    const { group } = this.props;
     this.state = {
-      group: this.props.group,
+      group,
       fetchedActivities: false,
       optionsModalIsOpen: false
     };
   }
 
   componentDidMount() {
-    const groupId = this.state.group.group_id;
+    const { group } = this.state;
+    const { group_id: groupId } = group;
     axios
       .get(`/api/groups/${groupId}/activities`)
       .then(response => {
@@ -57,19 +59,19 @@ class GroupActivities extends React.Component {
   }
 
   addActivity = () => {
-    this.props.history.push(`${this.props.history.location.pathname}/create`);
+    const { history } = this.props;
+    const { pathname } = history.location;
+    history.push(`${pathname}/create`);
   };
 
   renderActivities = () => {
-    const { activities } = this.state;
+    const { group, activities } = this.state;
+    const { group_id: groupId } = group;
     return (
       <ul>
         {activities.map((activity, index) => (
           <li key={index}>
-            <ActivityListItem
-              activity={activity}
-              groupId={this.state.group.group_id}
-            />
+            <ActivityListItem activity={activity} groupId={groupId} />
           </li>
         ))}
       </ul>
@@ -85,8 +87,9 @@ class GroupActivities extends React.Component {
   };
 
   handleExport = () => {
+    const { group } = this.state;
+    const { group_id: groupId } = group;
     this.setState({ optionsModalIsOpen: false });
-    const groupId = this.state.group.group_id;
     axios
       .post(`/api/groups/${groupId}/agenda/export`)
       .then(response => {
@@ -98,14 +101,22 @@ class GroupActivities extends React.Component {
   };
 
   handlePendingRequests = () => {
-    this.props.history.push(
-      `/groups/${this.state.group.group_id}/activities/pending`
-    );
+    const { history } = this.props;
+    const { group } = this.state;
+    const { group_id: groupId } = group;
+    history.push(`/groups/${groupId}/activities/pending`);
   };
 
   render() {
-    const { classes } = this.props;
-    const texts = Texts[this.props.language].groupActivities;
+    const { classes, language, history, userIsAdmin } = this.props;
+    const {
+      optionsModalIsOpen,
+      group,
+      pendingActivities,
+      fetchedActivities
+    } = this.state;
+    const { name } = group;
+    const texts = Texts[language].groupActivities;
     const options = [
       {
         label: texts.export,
@@ -116,44 +127,41 @@ class GroupActivities extends React.Component {
     return (
       <React.Fragment>
         <ActivityOptionsModal
-          isOpen={this.state.optionsModalIsOpen}
+          isOpen={optionsModalIsOpen}
           options={options}
           handleClose={this.handleModalClose}
         />
         <div className="row no-gutters" id="groupMembersHeaderContainer">
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
-              onClick={() => this.props.history.goBack()}
+              onClick={() => history.goBack()}
             >
               <i className="fas fa-arrow-left" />
             </button>
           </div>
           <div className="col-6-10 ">
-            <h1 className="verticalCenter">{this.state.group.name}</h1>
+            <h1 className="verticalCenter">{name}</h1>
           </div>
           <div className="col-1-10 ">
-            {this.props.userIsAdmin ? (
+            {userIsAdmin && (
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handlePendingRequests}
               >
                 <i className="fas fa-certificate">
-                  {this.state.pendingActivities > 0 ? (
-                    <span className="badge">
-                      {this.state.pendingActivities}
-                    </span>
-                  ) : (
-                    <div />
+                  {pendingActivities > 0 && (
+                    <span className="badge">{pendingActivities}</span>
                   )}
                 </i>
               </button>
-            ) : (
-              <div />
             )}
           </div>
           <div className="col-1-10 ">
             <button
+              type="button"
               className="transparentButton center"
               onClick={this.handleModalOpen}
             >
@@ -172,7 +180,7 @@ class GroupActivities extends React.Component {
         </Fab>
         <div id="groupActivitiesContainer" className="horizontalCenter">
           <h1 className="">{texts.header}</h1>
-          {this.state.fetchedActivities ? this.renderActivities() : <div />}
+          {fetchedActivities ? this.renderActivities() : <div />}
         </div>
       </React.Fragment>
     );
@@ -181,7 +189,10 @@ class GroupActivities extends React.Component {
 
 GroupActivities.propTypes = {
   group: PropTypes.object,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  classes: PropTypes.object,
+  language: PropTypes.string,
+  history: PropTypes.object
 };
 
 export default withStyles(styles)(withLanguage(GroupActivities));

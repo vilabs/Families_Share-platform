@@ -11,14 +11,16 @@ class GroupHeader extends React.Component {
   state = { confirmDialogIsOpen: false };
 
   handleEdit = () => {
-    const pathName = this.props.location.pathname;
-    const parentPath = pathName.slice(0, pathName.lastIndexOf("/"));
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
     const newPath = `${parentPath}/edit`;
-    this.props.history.push(newPath);
+    history.push(newPath);
   };
 
   handleBackNav = () => {
-    this.props.history.goBack();
+    const { history } = this.props;
+    history.goBack();
   };
 
   handleConfirmDialogOpen = () => {
@@ -35,11 +37,12 @@ class GroupHeader extends React.Component {
   };
 
   handleDelete = () => {
+    const { groupId, history } = this.props;
     axios
-      .delete(`/api/groups/${this.props.groupId}`)
+      .delete(`/api/groups/${groupId}`)
       .then(response => {
         Log.info(response);
-        this.props.history.push("/myfamiliesshare");
+        history.push("/myfamiliesshare");
       })
       .catch(error => {
         Log.error(error);
@@ -47,12 +50,19 @@ class GroupHeader extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].groupHeader;
-    const { groupLogo, groupName, groupBackground } = this.props;
+    const {
+      groupLogo,
+      groupName,
+      groupBackground,
+      language,
+      userIsAdmin
+    } = this.props;
+    const { confirmDialogIsOpen } = this.state;
+    const texts = Texts[language].groupHeader;
     return (
       <React.Fragment>
         <ConfirmDialog
-          isOpen={this.state.confirmDialogIsOpen}
+          isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
           title={texts.confirmDialogTitle}
         />
@@ -72,7 +82,7 @@ class GroupHeader extends React.Component {
             </div>
             <div className="col-6-10" />
             <div className="col-1-10">
-              {this.props.userIsAdmin ? (
+              {userIsAdmin ? (
                 <button
                   type="button"
                   className="transparentButton center"
@@ -85,7 +95,7 @@ class GroupHeader extends React.Component {
               )}
             </div>
             <div className="col-1-10">
-              {this.props.userIsAdmin ? (
+              {userIsAdmin ? (
                 <button
                   type="button"
                   className="transparentButton center"
@@ -111,7 +121,9 @@ GroupHeader.propTypes = {
   groupLogo: PropTypes.string,
   groupBackground: PropTypes.string,
   groupName: PropTypes.string,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  language: PropTypes.string,
+  history: PropTypes.object
 };
 
 export default withRouter(withLanguage(GroupHeader));

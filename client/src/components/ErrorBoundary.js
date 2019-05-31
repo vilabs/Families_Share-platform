@@ -1,5 +1,6 @@
 import React from "react";
 import * as Sentry from "@sentry/browser";
+import PropTypes from "prop-types";
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -8,7 +9,6 @@ class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error, info) {
-    // Display fallback UI
     this.setState({ hasError: true });
     Sentry.withScope(scope => {
       Object.keys(info).forEach(key => {
@@ -19,14 +19,25 @@ class ErrorBoundary extends React.Component {
   }
 
   render() {
-    if (this.state.hasError) {
-      // You can render any custom fallback UI
+    const { hasError } = this.state;
+    const { children } = this.props;
+    if (hasError) {
       return (
-        <div onClick={() => Sentry.showReportDialog()}>Report feedback</div>
+        <div
+          role="button"
+          tabIndex={-42}
+          onClick={() => Sentry.showReportDialog()}
+        >
+          Report feedback
+        </div>
       );
     }
-    return this.props.children;
+    return children;
   }
 }
+
+ErrorBoundary.propTypes = {
+  children: PropTypes.node.isRequired
+};
 
 export default ErrorBoundary;

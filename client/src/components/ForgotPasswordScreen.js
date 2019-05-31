@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { withSnackbar } from "notistack";
+import PropTypes from "prop-types";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Images from "../Constants/Images";
@@ -20,25 +21,26 @@ class ForgotPasswordScreen extends React.Component {
   };
 
   handleSubmit = event => {
+    const { email } = this.state;
+    const { language, enqueueSnackbar } = this.props;
     let snackMessage;
     event.preventDefault();
     if (this.validate()) {
       this.setState({ sendingEmail: true });
       axios
-        .post("/api/users/forgotpassword", { email: this.state.email })
+        .post("/api/users/forgotpassword", { email })
         .then(response => {
           Log.info(response);
-          snackMessage =
-            Texts[this.props.language].forgotPasswordScreen.success;
-          this.props.enqueueSnackbar(snackMessage, { variant: "success" });
+          snackMessage = Texts[language].forgotPasswordScreen.success;
+          enqueueSnackbar(snackMessage, { variant: "success" });
         })
         .catch(error => {
-          error.response.status === 404
-            ? (snackMessage =
-                Texts[this.props.language].forgotPasswordScreen.notExistErr)
-            : (snackMessage =
-                Texts[this.props.language].forgotPasswordScreen.err);
-          this.props.enqueueSnackbar(snackMessage, { variant: "error" });
+          if (error.response.status === 404) {
+            snackMessage = Texts[language].forgotPasswordScreen.notExistErr;
+          } else {
+            snackMessage = Texts[language].forgotPasswordScreen.err;
+            enqueueSnackbar(snackMessage, { variant: "error" });
+          }
         })
         .then(() => {
           this.setState({ sendingEmail: false });
@@ -48,7 +50,8 @@ class ForgotPasswordScreen extends React.Component {
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].forgotPasswordScreen;
+    const { language } = this.props;
+    const texts = Texts[language].forgotPasswordScreen;
     if (this.formEl.checkValidity() === false) {
       const elem = this.formEl[0];
       const errorLabel = document.getElementById(`${elem.name}Err`);
@@ -68,17 +71,19 @@ class ForgotPasswordScreen extends React.Component {
   };
 
   render() {
+    const { formIsValidated, sendingEmail, email } = this.state;
+    const { language, history } = this.props;
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
-    const texts = Texts[this.props.language].forgotPasswordScreen;
+    const texts = Texts[language].forgotPasswordScreen;
     return (
       <React.Fragment>
-        {this.state.sendingEmail ? <LoadingSpinner /> : <div />}
+        {sendingEmail ? <LoadingSpinner /> : <div />}
         <BackNavigation
           title={texts.backNavTitle}
-          onClick={() => this.props.history.goBack()}
+          onClick={() => history.goBack()}
         />
         <div id="forgotPasswordContainer">
           <div id="forgotPasswordLogo" className="horizontalCenter">
@@ -91,14 +96,16 @@ class ForgotPasswordScreen extends React.Component {
           <div id="forgotPasswordMain">
             <h1>{texts.prompt}</h1>
             <form
-              ref={form => (this.formEl = form)}
+              ref={form => {
+                this.formEl = form;
+              }}
               className={formClass}
               noValidate
               onSubmit={this.handleSubmit}
             >
               <input
                 type="email"
-                value={this.state.email}
+                value={email}
                 placeholder={texts.email}
                 className="form-control"
                 onChange={this.handleInputChange}
@@ -106,7 +113,9 @@ class ForgotPasswordScreen extends React.Component {
                 required
               />
               <span className="invalid-feedback" id="emailErr" />
-              <button onClick={this.handleSubmit}>{texts.send}</button>
+              <button type="button" onClick={this.handleSubmit}>
+                {texts.send}
+              </button>
             </form>
           </div>
         </div>
@@ -116,3 +125,9 @@ class ForgotPasswordScreen extends React.Component {
 }
 
 export default withSnackbar(withLanguage(ForgotPasswordScreen));
+
+ForgotPasswordScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
+};

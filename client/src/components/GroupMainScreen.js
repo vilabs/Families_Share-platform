@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Loadable from "react-loadable";
 import axios from "axios";
+import PropTypes from "prop-types";
 import LoadingSpinner from "./LoadingSpinner";
 import GroupNavbar from "./GroupNavbar";
 import Log from "./Log";
@@ -56,7 +57,9 @@ const getGroup = groupId => {
 export default class GroupMainScreen extends React.Component {
   constructor(props) {
     super(props);
-    const { pathname } = this.props.history.location;
+    const { history, match } = this.props;
+    const { pathname } = history.location;
+    const { groupId } = match.params;
     let activeTab = pathname.substr(
       pathname.lastIndexOf("/") + 1,
       pathname.length - 1
@@ -65,14 +68,14 @@ export default class GroupMainScreen extends React.Component {
       activeTab = "news";
     }
     this.state = {
-      groupId: this.props.match.params.groupId,
-      activeTab,
+      groupId,
       allowNavigation: false,
       fetchedGroup: false
     };
   }
 
   async componentDidMount() {
+    const { history } = this.props;
     const { groupId } = this.state;
     const group = await getGroup(groupId);
     group.members = await getGroupMembers(groupId);
@@ -83,7 +86,7 @@ export default class GroupMainScreen extends React.Component {
         member.group_accepted
     );
     const allowNavigation = user.length > 0;
-    if (!allowNavigation) this.props.history.replace(`/groups/${groupId}/info`);
+    if (!allowNavigation) history.replace(`/groups/${groupId}/info`);
     const userIsAdmin = user.length > 0 ? user[0].admin : false;
     this.setState({
       allowNavigation,
@@ -97,13 +100,11 @@ export default class GroupMainScreen extends React.Component {
     this.setState({ allowNavigation: true });
   };
 
-  handleActiveTab = id => {
-    this.setState({ activeTab: id });
-  };
-
   render() {
-    const currentPath = this.props.match.url;
-    return this.state.fetchedGroup ? (
+    const { fetchedGroup, group, userIsAdmin, allowNavigation } = this.state;
+    const { match } = this.props;
+    const { url: currentPath } = match;
+    return fetchedGroup ? (
       <div id="groupMainContainer">
         <Switch>
           <Route
@@ -111,7 +112,7 @@ export default class GroupMainScreen extends React.Component {
             render={props => (
               <GroupInfo
                 {...props}
-                group={this.state.group}
+                group={group}
                 enableNavigation={this.enableNavigation}
               />
             )}
@@ -119,11 +120,7 @@ export default class GroupMainScreen extends React.Component {
           <Route
             path={`${currentPath}/news`}
             render={props => (
-              <GroupNews
-                {...props}
-                group={this.state.group}
-                userIsAdmin={this.state.userIsAdmin}
-              />
+              <GroupNews {...props} group={group} userIsAdmin={userIsAdmin} />
             )}
           />
           <Route
@@ -131,8 +128,8 @@ export default class GroupMainScreen extends React.Component {
             render={props => (
               <GroupMembers
                 {...props}
-                group={this.state.group}
-                userIsAdmin={this.state.userIsAdmin}
+                group={group}
+                userIsAdmin={userIsAdmin}
               />
             )}
           />
@@ -142,8 +139,8 @@ export default class GroupMainScreen extends React.Component {
             render={props => (
               <GroupActivities
                 {...props}
-                group={this.state.group}
-                userIsAdmin={this.state.userIsAdmin}
+                group={group}
+                userIsAdmin={userIsAdmin}
               />
             )}
           />
@@ -153,19 +150,22 @@ export default class GroupMainScreen extends React.Component {
             render={props => (
               <GroupCalendar
                 {...props}
-                group={this.state.group}
-                userIsAdmin={this.state.userIsAdmin}
+                group={group}
+                userIsAdmin={userIsAdmin}
               />
             )}
           />
         </Switch>
-        <GroupNavbar
-          handleActiveTab={this.handleActiveTab}
-          allowNavigation={this.state.allowNavigation}
-        />
+        <GroupNavbar allowNavigation={allowNavigation} />
       </div>
     ) : (
       <LoadingSpinner />
     );
   }
 }
+
+GroupMainScreen.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.object,
+  group: PropTypes.object
+};

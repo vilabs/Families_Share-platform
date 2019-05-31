@@ -3,25 +3,28 @@ import moment from "moment";
 import axios from "axios";
 import Checkbox from "@material-ui/core/Checkbox";
 import { withStyles } from "@material-ui/core/styles";
+import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import Log from "./Log";
 
-const styles = theme => ({
+const styles = {
   checkbox: {
     "&$checked": {
       color: "#00838F"
     }
   },
   checked: {}
-});
+};
 
 class CreateChildScreen extends React.Component {
   constructor(props) {
     super(props);
-    if (this.props.history.location.state !== undefined) {
+    const { history } = this.props;
+    const { state } = history.location;
+    if (state !== undefined) {
       this.state = {
-        ...this.props.history.location.state
+        ...state
       };
     } else {
       this.state = {
@@ -41,18 +44,18 @@ class CreateChildScreen extends React.Component {
   }
 
   componentDidMount() {
+    const { language } = this.props;
     const { acceptTerms } = this.state;
     if (!acceptTerms) {
       document
         .getElementById("acceptTermsCheckbox")
-        .setCustomValidity(
-          Texts[this.props.language].createChildScreen.acceptTermsErr
-        );
+        .setCustomValidity(Texts[language].createChildScreen.acceptTermsErr);
     }
   }
 
   handleCancel = () => {
-    this.props.history.goBack();
+    const { history } = this.props;
+    history.goBack();
   };
 
   handleChange = event => {
@@ -62,10 +65,11 @@ class CreateChildScreen extends React.Component {
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].createChildScreen;
+    const { language } = this.props;
+    const texts = Texts[language].createChildScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -82,7 +86,7 @@ class CreateChildScreen extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -93,28 +97,40 @@ class CreateChildScreen extends React.Component {
   };
 
   submitChanges = () => {
-    const userId = this.props.match.params.profileId;
+    const { match, history } = this.props;
+    const { profileId: userId } = match.params;
+    const {
+      name: given_name,
+      surname: family_name,
+      year,
+      month,
+      date,
+      gender,
+      allergies,
+      other_info,
+      special_needs
+    } = this.state;
     axios
       .post(`/api/users/${userId}/children`, {
-        given_name: this.state.name,
-        family_name: this.state.surname,
+        given_name,
+        family_name,
         birthdate: moment().set({
-          year: this.state.year,
-          month: this.state.month,
-          date: this.state.date
+          year,
+          month,
+          date
         }),
-        gender: this.state.gender,
-        allergies: this.state.allergies,
-        other_info: this.state.other_info,
-        special_needs: this.state.special_needs
+        gender,
+        allergies,
+        other_info,
+        special_needs
       })
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
@@ -127,8 +143,9 @@ class CreateChildScreen extends React.Component {
   };
 
   handleAdd = () => {
-    const { pathname } = this.props.history.location;
-    this.props.history.push({
+    const { history } = this.props;
+    const { pathname } = history.location;
+    history.push({
       pathname: `${pathname}/additional`,
       state: {
         ...this.state
@@ -138,28 +155,39 @@ class CreateChildScreen extends React.Component {
   };
 
   handleAcceptTerms = () => {
+    const { acceptTerms } = this.state;
+    const { language } = this.props;
     const elem = document.getElementById("acceptTermsCheckbox");
-    elem.checked = !this.state.acceptTerms;
-    !this.state.acceptTerms
-      ? elem.setCustomValidity("")
-      : elem.setCustomValidity(
-          Texts[this.props.language].createChildScreen.acceptTermsErr
-        );
-    this.setState({ acceptTerms: !this.state.acceptTerms });
+    elem.checked = !acceptTerms;
+    if (!acceptTerms) {
+      elem.setCustomValidity("");
+    } else {
+      elem.setCustomValidity(Texts[language].createChildScreen.acceptTermsErr);
+    }
+    this.setState({ acceptTerms: !acceptTerms });
   };
 
   render() {
-    const { classes } = this.props;
-    const texts = Texts[this.props.language].createChildScreen;
+    const { classes, language, history } = this.props;
+    const texts = Texts[language].createChildScreen;
+    const {
+      formIsValidated,
+      month,
+      year,
+      name,
+      surname,
+      gender,
+      date,
+      acceptAdditionalTerms,
+      acceptTerms
+    } = this.state;
     const formClass = [];
     const dates = [
-      ...Array(
-        moment(`${this.state.year}-${this.state.month}`).daysInMonth()
-      ).keys()
-    ].map(x => ++x);
-    const months = [...Array(12).keys()].map(x => ++x);
+      ...Array(moment(`${year}-${month}`).daysInMonth()).keys()
+    ].map(x => x + 1);
+    const months = [...Array(12).keys()].map(x => x + 1);
     const years = [...Array(18).keys()].map(x => x + (moment().year() - 17));
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
     const bottomBorder = { borderBottom: "1px solid rgba(0,0,0,0.1)" };
@@ -170,7 +198,7 @@ class CreateChildScreen extends React.Component {
             <button
               type="button"
               className="transparentButton center"
-              onClick={() => this.props.history.goBack()}
+              onClick={() => history.goBack()}
             >
               <i className="fas fa-times" />
             </button>
@@ -190,7 +218,9 @@ class CreateChildScreen extends React.Component {
         </div>
         <div id="createChildProfileInfoContainer">
           <form
-            ref={form => (this.formEl = form)}
+            ref={form => {
+              this.formEl = form;
+            }}
             onSubmit={this.handleSubmit}
             className={formClass}
             noValidate
@@ -204,7 +234,7 @@ class CreateChildScreen extends React.Component {
                   placeholder={texts.name}
                   onChange={this.handleChange}
                   required
-                  value={this.state.name}
+                  value={name}
                 />
                 <span className="invalid-feedback" id="nameErr" />
               </div>
@@ -216,7 +246,7 @@ class CreateChildScreen extends React.Component {
                   placeholder={texts.surname}
                   onChange={this.handleChange}
                   required
-                  value={this.state.surname}
+                  value={surname}
                 />
                 <span className="invalid-feedback" id="surnameErr" />
               </div>
@@ -225,14 +255,10 @@ class CreateChildScreen extends React.Component {
               <div className="col-1-3">
                 <div className="fullInput editChildProfileInputField">
                   <label htmlFor="date">{texts.date}</label>
-                  <select
-                    value={this.state.date}
-                    onChange={this.handleChange}
-                    name="date"
-                  >
-                    {dates.map(date => (
-                      <option key={date} value={date}>
-                        {date}
+                  <select value={date} onChange={this.handleChange} name="date">
+                    {dates.map(d => (
+                      <option key={d} value={d}>
+                        {d}
                       </option>
                     ))}
                   </select>
@@ -242,13 +268,13 @@ class CreateChildScreen extends React.Component {
                 <div className="fullInput editChildProfileInputField">
                   <label htmlFor="month">{texts.month}</label>
                   <select
-                    value={this.state.month}
+                    value={month}
                     onChange={this.handleChange}
                     name="month"
                   >
-                    {months.map(month => (
-                      <option key={month} value={month}>
-                        {month}
+                    {months.map(m => (
+                      <option key={m} value={m}>
+                        {m}
                       </option>
                     ))}
                   </select>
@@ -257,14 +283,10 @@ class CreateChildScreen extends React.Component {
               <div className="col-1-3">
                 <div className="fullInput editChildProfileInputField">
                   <label htmlFor="year">{texts.year}</label>
-                  <select
-                    value={this.state.year}
-                    onChange={this.handleChange}
-                    name="year"
-                  >
-                    {years.map(year => (
-                      <option key={year} value={year}>
-                        {year}
+                  <select value={year} onChange={this.handleChange} name="year">
+                    {years.map(y => (
+                      <option key={y} value={y}>
+                        {y}
                       </option>
                     ))}
                   </select>
@@ -276,7 +298,7 @@ class CreateChildScreen extends React.Component {
                 <div className="fullInput editChildProfileInputField">
                   <label htmlFor="gender">{texts.gender}</label>
                   <select
-                    value={this.state.gender}
+                    value={gender}
                     onChange={this.handleChange}
                     name="gender"
                   >
@@ -304,7 +326,7 @@ class CreateChildScreen extends React.Component {
                   type="button"
                   onClick={this.handleAdd}
                 >
-                  {this.state.acceptAdditionalTerms ? texts.edit : texts.add}
+                  {acceptAdditionalTerms ? texts.edit : texts.add}
                 </button>
               </div>
             </div>
@@ -313,7 +335,7 @@ class CreateChildScreen extends React.Component {
                 <Checkbox
                   classes={{ root: classes.checkbox, checked: classes.checked }}
                   className="center"
-                  checked={this.state.acceptTerms}
+                  checked={acceptTerms}
                   onClick={this.handleAcceptTerms}
                 />
               </div>
@@ -329,7 +351,7 @@ class CreateChildScreen extends React.Component {
                 name="acceptTerms"
                 className="form-control"
                 required
-                defaultChecked={this.state.acceptTerms}
+                defaultChecked={acceptTerms}
               />
               <span className="invalid-feedback" id="acceptTermsErr" />
             </div>
@@ -341,3 +363,10 @@ class CreateChildScreen extends React.Component {
 }
 
 export default withLanguage(withStyles(styles)(CreateChildScreen));
+
+CreateChildScreen.propTypes = {
+  history: PropTypes.object,
+  match: PropTypes.object,
+  language: PropTypes.string,
+  classes: PropTypes.object
+};

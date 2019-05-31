@@ -51,9 +51,9 @@ jobs:
             - client/node_modules
           key: frontend-dependencies-{{ checksum "client/package.json" }}
 
-      # - run:
-      #     name: Running Frontend Linter
-      #     command: ./node_modules/.bin/eslint src
+      - run:
+          name: Running Frontend Linter
+          command: ./node_modules/.bin/eslint src
 
       - run:
           name: Running Frontend Build

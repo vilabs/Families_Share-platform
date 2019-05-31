@@ -1,6 +1,7 @@
 import React from "react";
 import autosize from "autosize";
 import axios from "axios";
+import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -12,7 +13,8 @@ const dataURLtoFile = (dataurl, filename) => {
   const bstr = atob(arr[1]);
   let n = bstr.length;
   const u8arr = new Uint8Array(n);
-  while (n--) {
+  while (n) {
+    n -= 1;
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], filename, { type: mime });
@@ -65,13 +67,14 @@ class EditGroupScreen extends React.Component {
   state = { fetchedGroupData: false };
 
   async componentDidMount() {
+    const { match } = this.props;
+    const { groupId } = match.params;
     document.addEventListener("message", this.handleMessage, false);
     const groupNames = [];
-    const { groupId } = this.props.match.params;
     const groups = await getGroups();
     const group = await getGroup(groupId);
     const settings = await getGroupSettings(groupId);
-    groups.forEach(group => groupNames.push(group.name));
+    groups.forEach(item => groupNames.push(item.name));
     groupNames.splice(groupNames.indexOf(group.name), 1);
     this.setState({
       fetchedGroupData: true,
@@ -81,11 +84,16 @@ class EditGroupScreen extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
   validate = () => {
-    const texts = Texts[this.props.language].editGroupScreen;
+    const { language } = this.props;
+    const texts = Texts[language].editGroupScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -102,7 +110,7 @@ class EditGroupScreen extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -111,10 +119,6 @@ class EditGroupScreen extends React.Component {
     }
     return true;
   };
-
-  componentWillUnmount() {
-    document.removeEventListener("message", this.handleMessage, false);
-  }
 
   handleMessage = event => {
     const data = JSON.parse(event.data);
@@ -128,28 +132,38 @@ class EditGroupScreen extends React.Component {
   };
 
   submitChanges = () => {
+    const {
+      file,
+      visible,
+      description,
+      name,
+      background,
+      location,
+      group_id
+    } = this.state;
+    const { history } = this.props;
     const bodyFormData = new FormData();
-    if (this.state.file !== undefined) {
-      bodyFormData.append("photo", this.state.file);
+    if (file !== undefined) {
+      bodyFormData.append("photo", file);
     }
-    bodyFormData.append("visible", this.state.visible);
-    bodyFormData.append("name", this.state.name);
-    bodyFormData.append("description", this.state.description);
-    bodyFormData.append("background", this.state.background);
-    bodyFormData.append("location", this.state.location);
+    bodyFormData.append("visible", visible);
+    bodyFormData.append("name", name);
+    bodyFormData.append("description", description);
+    bodyFormData.append("background", background);
+    bodyFormData.append("location", location);
     axios
-      .patch(`/api/groups/${this.state.group_id}`, bodyFormData, {
+      .patch(`/api/groups/${group_id}`, bodyFormData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }
       })
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
@@ -183,6 +197,7 @@ class EditGroupScreen extends React.Component {
   };
 
   handleChange = event => {
+    const { language } = this.props;
     const { groupNames } = this.state;
     const { name } = event.target;
     const { value } = event.target;
@@ -192,9 +207,7 @@ class EditGroupScreen extends React.Component {
           groupName => groupName.toUpperCase() === value.toUpperCase().trim()
         ).length > 0;
       if (nameExists) {
-        event.target.setCustomValidity(
-          Texts[this.props.language].editGroupScreen.nameErr
-        );
+        event.target.setCustomValidity(Texts[language].editGroupScreen.nameErr);
       } else {
         event.target.setCustomValidity("");
       }
@@ -207,29 +220,43 @@ class EditGroupScreen extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].editGroupScreen;
+    const { language, history } = this.props;
+    const {
+      formIsValidated,
+      fetchedGroupData,
+      background,
+      location,
+      visible,
+      name,
+      image,
+      description
+    } = this.state;
+    const texts = Texts[language].editGroupScreen;
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
     return (
       <div>
-        {this.state.fetchedGroupData ? (
+        {fetchedGroupData ? (
           <form
-            ref={form => (this.formEl = form)}
+            ref={form => {
+              this.formEl = form;
+            }}
             onSubmit={event => event.preventDefault()}
             className={formClass}
             noValidate
           >
             <div
               id="editGroupHeaderContainer"
-              style={{ backgroundColor: this.state.background }}
+              style={{ backgroundColor: background }}
             >
               <div className="row no-gutters" id="groupHeaderOptions">
                 <div className="col-2-10">
                   <button
+                    type="button"
                     className="transparentButton center"
-                    onClick={() => this.props.history.goBack()}
+                    onClick={() => history.goBack()}
                   >
                     <i className="fas fa-times" />
                   </button>
@@ -239,6 +266,7 @@ class EditGroupScreen extends React.Component {
                 </div>
                 <div className="col-2-10">
                   <button
+                    type="button"
                     className="transparentButton center"
                     onClick={this.handleSave}
                   >
@@ -247,14 +275,14 @@ class EditGroupScreen extends React.Component {
                 </div>
               </div>
               <img
-                src={this.state.image.path}
+                src={image.path}
                 alt="Group Logo"
                 className="editGroupImage"
               />
               <label htmlFor="editNameInput">{texts.name}</label>
               <input
                 type="text"
-                value={this.state.name}
+                value={name}
                 id="editNameInput"
                 className="form-control"
                 required
@@ -283,7 +311,7 @@ class EditGroupScreen extends React.Component {
                       autosize(document.querySelectorAll("textarea"));
                     }}
                     required
-                    value={this.state.description}
+                    value={description}
                   />
                   <span className="invalid-feedback" id="descriptionErr" />
                 </div>
@@ -327,7 +355,7 @@ class EditGroupScreen extends React.Component {
                 </div>
                 <div className="col-3-10">
                   <select
-                    value={this.state.visible ? "visible" : "invisible"}
+                    value={visible ? "visible" : "invisible"}
                     onChange={this.handleVisibility}
                     className="editGroupInputField center"
                     name="visible"
@@ -347,7 +375,7 @@ class EditGroupScreen extends React.Component {
                 <div className="col-8-10">
                   <input
                     type="text"
-                    value={this.state.location}
+                    value={location}
                     className="form-control editGroupInputField"
                     required
                     name="location"
@@ -368,3 +396,9 @@ class EditGroupScreen extends React.Component {
 }
 
 export default withLanguage(EditGroupScreen);
+
+EditGroupScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
+};

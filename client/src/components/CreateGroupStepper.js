@@ -137,47 +137,60 @@ class CreateGroupStepper extends React.Component {
     document.addEventListener("message", this.handleMessage, false);
   }
 
-  handleMessage = event => {
-    const data = JSON.parse(event.data);
-    if (data.action === "stepperGoBack") {
-      this.state.activeStep - 1 >= 0
-        ? this.setState({ activeStep: this.state.activeStep - 1 })
-        : this.props.history.goBack();
-    }
-  };
-
   componentWillUnmount() {
     document.removeEventListener("message", this.handleMessage, false);
   }
 
+  handleMessage = event => {
+    const { activeStep } = this.state;
+    const { history } = this.props;
+    const data = JSON.parse(event.data);
+    if (data.action === "stepperGoBack") {
+      if (activeStep - 1 >= 0) {
+        this.setState({ activeStep: activeStep - 1 });
+      } else {
+        history.goBack();
+      }
+    }
+  };
+
   createGroup = () => {
     const user = JSON.parse(localStorage.getItem("user"));
+    const { history } = this.props;
     this.setState({ creatingGroup: true });
+    const {
+      description,
+      groupVisibility: visible,
+      inviteIds: invite_ids,
+      location,
+      name
+    } = this.state;
     axios
       .post("/api/groups", {
         google_token: user.google_token,
-        name: this.state.name,
-        description: this.state.description,
-        location: this.state.location,
+        name,
+        description,
+        location,
         background: "#00838F",
-        visible: this.state.groupVisibility,
+        visible,
         owner_id: user.id,
         email: user.email,
-        invite_ids: this.state.inviteIds
+        invite_ids
       })
       .then(response => {
         Log.info(response);
-        this.props.history.push("/myfamiliesshare");
+        history.push("/myfamiliesshare");
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.push("/myfamiliesshare");
+        history.push("/myfamiliesshare");
       });
   };
 
   handleContinue = () => {
+    const { activeStep } = this.state;
     if (this.validate()) {
-      if (this.state.activeStep === 3) {
+      if (activeStep === 3) {
         this.createGroup();
       }
       this.setState(state => ({
@@ -196,30 +209,34 @@ class CreateGroupStepper extends React.Component {
   };
 
   handleChange = event => {
-    const { name } = event.target;
-    const { value } = event.target;
+    const { groupNames, groupVisibility } = this.state;
+    const { name, value } = event.target;
+    const { language } = this.props;
     if (name === "name") {
       const nameExists =
-        this.state.groupNames.filter(
+        groupNames.filter(
           groupName => groupName.toUpperCase() === value.toUpperCase().trim()
         ).length > 0;
       if (nameExists) {
         event.target.setCustomValidity(
-          Texts[this.props.language].createGroupStepper.nameErr
+          Texts[language].createGroupStepper.nameErr
         );
       } else {
         event.target.setCustomValidity("");
       }
     }
-    name === "groupVisibility"
-      ? this.setState({ groupVisibility: !this.state.groupVisibility })
-      : this.setState({ [name]: value });
+    if (name === "groupVisibility") {
+      this.setState({ groupVisibility: !groupVisibility });
+    } else {
+      this.setState({ [name]: value });
+    }
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].createGroupStepper;
+    const { language } = this.props;
+    const texts = Texts[language].createGroupStepper;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < this.formEl.length; i++) {
+      for (let i = 0; i < this.formEl.length; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -236,7 +253,7 @@ class CreateGroupStepper extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < this.formEl.length; i++) {
+    for (let i = 0; i < this.formEl.length; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -259,9 +276,17 @@ class CreateGroupStepper extends React.Component {
   };
 
   getStepContent = () => {
-    const { classes } = this.props;
-    const texts = Texts[this.props.language].createGroupStepper;
-    switch (this.state.activeStep) {
+    const { classes, language } = this.props;
+    const {
+      activeStep,
+      name,
+      location,
+      description,
+      inviteModalIsOpen,
+      groupVisibility
+    } = this.state;
+    const texts = Texts[language].createGroupStepper;
+    switch (activeStep) {
       case 0:
         return (
           <div>
@@ -272,7 +297,7 @@ class CreateGroupStepper extends React.Component {
               placeholder={texts.name}
               onChange={this.handleChange}
               required
-              value={this.state.name}
+              value={name}
             />
             <span className="invalid-feedback" id="nameErr" />
             <textarea
@@ -280,7 +305,7 @@ class CreateGroupStepper extends React.Component {
               name="description"
               className="textareaInput form-control"
               placeholder={texts.description}
-              value={this.state.description}
+              value={description}
               onChange={event => {
                 this.handleChange(event);
                 autosize(document.querySelectorAll("textarea"));
@@ -294,12 +319,10 @@ class CreateGroupStepper extends React.Component {
         return (
           <div className="row no-gutters">
             <h1 className="groupVisibility">
-              {this.state.groupVisibility
-                ? texts.visibleGroup
-                : texts.invisibleGroup}
+              {groupVisibility ? texts.visibleGroup : texts.invisibleGroup}
             </h1>
             <Switch
-              checked={this.state.groupVisibility}
+              checked={groupVisibility}
               onClick={() =>
                 this.handleChange({
                   target: { name: "groupVisibility", value: "" }
@@ -324,7 +347,7 @@ class CreateGroupStepper extends React.Component {
               placeholder={texts.city}
               onChange={this.handleChange}
               required
-              value={this.state.location}
+              value={location}
             />
             <span className="invalid-feedback" id="locationErr" />
           </div>
@@ -333,13 +356,18 @@ class CreateGroupStepper extends React.Component {
         return (
           <div className="row no-gutters" id="createGroupScreenInvites">
             <InviteDialog
-              isOpen={this.state.inviteModalIsOpen}
+              isOpen={inviteModalIsOpen}
               handleClose={this.handleInviteModalClose}
               handleInvite={this.handleInvite}
               inviteType="member"
             />
             <h1>{texts.invite}</h1>
-            <i className="fas fa-plus" onClick={this.handleInviteModalOpen} />
+            <i
+              role="button"
+              tabIndex={-42}
+              className="fas fa-plus"
+              onClick={this.handleInviteModalOpen}
+            />
           </div>
         );
       default:
@@ -348,28 +376,35 @@ class CreateGroupStepper extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].createGroupStepper;
-    const { classes } = this.props;
+    const { classes, language } = this.props;
+    const texts = Texts[language].createGroupStepper;
     const steps = texts.stepLabels;
-    const { activeStep } = this.state;
+    const {
+      activeStep,
+      formIsValidated,
+      creatingGroup,
+      fetchedGroups
+    } = this.state;
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     } else {
       formClass.pop();
     }
 
-    return this.state.fetchedGroups && !this.state.creatingGroup ? (
+    return fetchedGroups && !creatingGroup ? (
       <div className={classes.root}>
         <form
-          ref={form => (this.formEl = form)}
+          ref={form => {
+            this.formEl = form;
+          }}
           onSubmit={event => event.preventDefault()}
           className={formClass}
           noValidate
         >
           <MuiThemeProvider theme={muiTheme}>
             <Stepper activeStep={activeStep} orientation="vertical">
-              {steps.map((label, index) => {
+              {steps.map(label => {
                 return (
                   <Step key={label}>
                     <StepLabel className={classes.stepLabel}>{label}</StepLabel>
@@ -411,6 +446,8 @@ class CreateGroupStepper extends React.Component {
 }
 
 CreateGroupStepper.propTypes = {
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  history: PropTypes.object,
+  language: PropTypes.string
 };
 export default withRouter(withLanguage(withStyles(styles)(CreateGroupStepper)));

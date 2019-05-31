@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -11,7 +12,8 @@ const dataURLtoFile = (dataurl, filename) => {
   const bstr = atob(arr[1]);
   let n = bstr.length;
   const u8arr = new Uint8Array(n);
-  while (n--) {
+  while (n) {
+    n -= 1;
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], filename, { type: mime });
@@ -31,7 +33,7 @@ class EditProfileScreen extends React.Component {
       })
       .catch(error => {
         Log.error(error);
-        this.setState({ name: "", image: { path: "" } });
+        this.setState({ image: { path: "" } });
       });
   }
 
@@ -51,10 +53,11 @@ class EditProfileScreen extends React.Component {
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].editProfileScreen;
+    const { language } = this.props;
+    const texts = Texts[language].editProfileScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -69,7 +72,7 @@ class EditProfileScreen extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -80,21 +83,33 @@ class EditProfileScreen extends React.Component {
   };
 
   submitChanges = () => {
-    const userId = this.props.match.params.profileId;
+    const { match, history } = this.props;
+    const { profileId: userId } = match.params;
+    const {
+      file,
+      given_name,
+      email,
+      family_name,
+      visible,
+      phone,
+      phone_type,
+      address
+    } = this.state;
+    const { city, street, number, address_id } = address;
     const bodyFormData = new FormData();
-    if (this.state.file !== undefined) {
-      bodyFormData.append("photo", this.state.file);
+    if (file !== undefined) {
+      bodyFormData.append("photo", file);
     }
-    bodyFormData.append("given_name", this.state.given_name);
-    bodyFormData.append("family_name", this.state.family_name);
-    bodyFormData.append("visible", this.state.visible);
-    bodyFormData.append("email", this.state.email);
-    bodyFormData.append("phone", this.state.phone);
-    bodyFormData.append("phone_type", this.state.phone_type);
-    bodyFormData.append("city", this.state.address.city);
-    bodyFormData.append("street", this.state.address.street);
-    bodyFormData.append("number", this.state.address.number);
-    bodyFormData.append("address_id", this.state.address.address_id);
+    bodyFormData.append("given_name", given_name);
+    bodyFormData.append("family_name", family_name);
+    bodyFormData.append("visible", visible);
+    bodyFormData.append("email", email);
+    bodyFormData.append("phone", phone);
+    bodyFormData.append("phone_type", phone_type);
+    bodyFormData.append("city", city);
+    bodyFormData.append("street", street);
+    bodyFormData.append("number", number);
+    bodyFormData.append("address_id", address_id);
     axios
       .patch(`/api/users/${userId}/profile`, bodyFormData, {
         headers: {
@@ -103,19 +118,20 @@ class EditProfileScreen extends React.Component {
       })
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
-  handleCancel = event => {
-    this.props.history.goBack();
+  handleCancel = () => {
+    const { history } = this.props;
+    history.goBack();
   };
 
-  handleSave = event => {
+  handleSave = () => {
     if (this.validate()) {
       this.submitChanges();
     }
@@ -159,15 +175,30 @@ class EditProfileScreen extends React.Component {
   };
 
   render() {
+    const { language } = this.props;
+    const {
+      formIsValidated,
+      fetchedProfile,
+      image,
+      given_name,
+      family_name,
+      visible,
+      phone,
+      phone_type,
+      email,
+      address
+    } = this.state;
     const bottomBorder = { borderBottom: "1px solid rgba(0,0,0,0.5)" };
-    const texts = Texts[this.props.language].editProfileScreen;
+    const texts = Texts[language].editProfileScreen;
     const formClass = [];
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
-    return this.state.fetchedProfile ? (
+    return fetchedProfile ? (
       <form
-        ref={form => (this.formEl = form)}
+        ref={form => {
+          this.formEl = form;
+        }}
         onSubmit={event => event.preventDefault()}
         className={formClass}
         noValidate
@@ -176,6 +207,7 @@ class EditProfileScreen extends React.Component {
           <div className="row no-gutters" id="profileHeaderOptions">
             <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handleCancel}
               >
@@ -187,6 +219,7 @@ class EditProfileScreen extends React.Component {
             </div>
             <div className="col-2-10">
               <button
+                type="button"
                 className="transparentButton center"
                 onClick={this.handleSave}
               >
@@ -197,14 +230,14 @@ class EditProfileScreen extends React.Component {
           <img
             className="profilePhoto horizontalCenter"
             alt="user's profile"
-            src={this.state.image.path}
+            src={image.path}
           />
           <label htmlFor="editGivenNameInput" id="editGivenNameLabel">
             {texts.name}
           </label>
           <input
             type="text"
-            value={this.state.given_name}
+            value={given_name}
             id="editGivenNameInput"
             className="form-control"
             required
@@ -217,7 +250,7 @@ class EditProfileScreen extends React.Component {
           </label>
           <input
             type="text"
-            value={this.state.family_name}
+            value={family_name}
             id="editFamilyNameInput"
             className="form-control"
             required
@@ -228,9 +261,11 @@ class EditProfileScreen extends React.Component {
           <div id="uploadProfilePhotoContainer">
             <label htmlFor="uploadPhotoInput">
               <i
+                role="button"
+                tabIndex={-42}
                 className="fas fa-camera"
-                onClick={
-                  window.isNative ? this.handleNativeImageChange : () => {}
+                onClick={() =>
+                  window.isNative ? this.handleNativeImageChange() : () => {}
                 }
               />
             </label>
@@ -257,13 +292,13 @@ class EditProfileScreen extends React.Component {
                 name="phone"
                 className="editProfileInputField form-control"
                 onChange={this.handleChange}
-                value={this.state.phone}
+                value={phone}
               />
               <span className="invalid-feedback" id="phoneErr" />
             </div>
             <div className="col-3-10">
               <select
-                value={this.state.phone_type}
+                value={phone_type}
                 onChange={this.handleChange}
                 className="editProfileInputField"
                 name="phone_type"
@@ -285,7 +320,7 @@ class EditProfileScreen extends React.Component {
                 name="city"
                 className="editProfileInputField form-control"
                 onChange={this.handleAddressChange}
-                value={this.state.address.city}
+                value={address.city}
               />
               <span className="invalid-feedback" id="cityErr" />
             </div>
@@ -299,7 +334,7 @@ class EditProfileScreen extends React.Component {
                 name="street"
                 className="editProfileInputField form-control"
                 onChange={this.handleAddressChange}
-                value={this.state.address.street}
+                value={address.street}
               />
               <span className="invalid-feedback" id="streetErr" />
             </div>
@@ -310,7 +345,7 @@ class EditProfileScreen extends React.Component {
                 name="number"
                 className="editProfileInputField form-control"
                 onChange={this.handleAddressChange}
-                value={this.state.address.number}
+                value={address.number}
               />
               <span className="invalid-feedback" id="numberErr" />
             </div>
@@ -327,7 +362,7 @@ class EditProfileScreen extends React.Component {
                 className="editProfileInputField form-control"
                 onChange={this.handleChange}
                 required
-                value={this.state.email}
+                value={email}
               />
               <span className="invalid-feedback" id="emailErr" />
             </div>
@@ -338,7 +373,7 @@ class EditProfileScreen extends React.Component {
             </div>
             <div className="col-8-10">
               <select
-                value={this.state.visible ? "visible" : "invisible"}
+                value={visible ? "visible" : "invisible"}
                 onChange={this.handleVisibility}
                 className="editProfileInputField"
                 name="visible"
@@ -357,3 +392,9 @@ class EditProfileScreen extends React.Component {
 }
 
 export default withLanguage(EditProfileScreen);
+
+EditProfileScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  match: PropTypes.object
+};

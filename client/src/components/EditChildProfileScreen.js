@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import { HuePicker } from "react-color";
 import axios from "axios";
+import PropTypes from "prop-types";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -17,7 +18,8 @@ const dataURLtoFile = (dataurl, filename) => {
   let n = bstr.length;
 
   const u8arr = new Uint8Array(n);
-  while (n--) {
+  while (n) {
+    n -= 1;
     u8arr[n] = bstr.charCodeAt(n);
   }
   return new File([u8arr], filename, { type: mime });
@@ -31,13 +33,14 @@ class EditChildProfileScreen extends React.Component {
   };
 
   componentDidMount() {
+    const { history } = this.props;
+    const { state } = history.location;
     document.addEventListener("message", this.handleMessage, false);
-    if (this.props.history.location.state !== undefined) {
-      const { state } = this.props.history.location;
+    if (state !== undefined) {
       this.setState({ ...state });
     } else {
-      const userId = this.props.match.params.profileId;
-      const { childId } = this.props.match.params;
+      const { match } = this.props;
+      const { profileId: userId, childId } = match.params;
       axios
         .get(`/api/users/${userId}/children/${childId}`)
         .then(response => {
@@ -85,7 +88,8 @@ class EditChildProfileScreen extends React.Component {
   };
 
   handleCancel = () => {
-    this.props.history.goBack();
+    const { history } = this.props;
+    history.goBack();
   };
 
   handleChange = event => {
@@ -95,10 +99,11 @@ class EditChildProfileScreen extends React.Component {
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].editChildProfileScreen;
+    const { language } = this.props;
+    const texts = Texts[language].editChildProfileScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         const errorLabel = document.getElementById(`${elem.name}Err`);
         if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -113,7 +118,7 @@ class EditChildProfileScreen extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -124,9 +129,10 @@ class EditChildProfileScreen extends React.Component {
   };
 
   handleAdd = event => {
+    const { history } = this.props;
+    const { pathname } = history.location;
     event.preventDefault();
-    const { pathname } = this.props.history.location;
-    this.props.history.push({
+    history.push({
       pathname: `${pathname}/additional`,
       state: {
         ...this.state,
@@ -141,22 +147,33 @@ class EditChildProfileScreen extends React.Component {
   };
 
   submitChanges = () => {
-    const userId = this.props.match.params.profileId;
-    const { childId } = this.props.match.params;
+    const { match, history } = this.props;
+    const { profileId: userId, childId } = match.params;
+    const {
+      year,
+      month,
+      date,
+      file,
+      family_name,
+      given_name,
+      background,
+      other_info,
+      gender,
+      special_needs,
+      allergies
+    } = this.state;
     const bodyFormData = new FormData();
-    const birthdate = new Date(
-      `${this.state.year}-${this.state.month}-${this.state.date}`
-    );
-    if (this.state.file !== undefined) {
-      bodyFormData.append("photo", this.state.file);
+    const birthdate = new Date(`${year}-${month}-${date}`);
+    if (file !== undefined) {
+      bodyFormData.append("photo", file);
     }
-    bodyFormData.append("given_name", this.state.given_name);
-    bodyFormData.append("family_name", this.state.family_name);
-    bodyFormData.append("gender", this.state.gender);
-    bodyFormData.append("background", this.state.background);
-    bodyFormData.append("other_info", this.state.other_info);
-    bodyFormData.append("special_needs", this.state.special_needs);
-    bodyFormData.append("allergies", this.state.allergies);
+    bodyFormData.append("given_name", given_name);
+    bodyFormData.append("family_name", family_name);
+    bodyFormData.append("gender", gender);
+    bodyFormData.append("background", background);
+    bodyFormData.append("other_info", other_info);
+    bodyFormData.append("special_needs", special_needs);
+    bodyFormData.append("allergies", allergies);
     bodyFormData.append("birthdate", birthdate);
     axios
       .patch(`/api/users/${userId}/children/${childId}`, bodyFormData, {
@@ -166,11 +183,11 @@ class EditChildProfileScreen extends React.Component {
       })
       .then(response => {
         Log.info(response);
-        this.props.history.goBack();
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        this.props.history.goBack();
+        history.goBack();
       });
   };
 
@@ -200,30 +217,41 @@ class EditChildProfileScreen extends React.Component {
   };
 
   render() {
-    const texts = Texts[this.props.language].editChildProfileScreen;
+    const { language, history } = this.props;
+    const {
+      month,
+      year,
+      date,
+      gender,
+      formIsValidated,
+      fetchedChildData,
+      image,
+      given_name,
+      family_name,
+      background
+    } = this.state;
+    const texts = Texts[language].editChildProfileScreen;
     const formClass = [];
     const dates = [
-      ...Array(
-        moment(`${this.state.year}-${this.state.month}`).daysInMonth()
-      ).keys()
-    ].map(x => ++x);
-    const months = [...Array(12).keys()].map(x => ++x);
+      ...Array(moment(`${year}-${month}`).daysInMonth()).keys()
+    ].map(x => x + 1);
+    const months = [...Array(12).keys()].map(x => x + 1);
     const years = [...Array(18).keys()].map(x => x + (moment().year() - 17));
-    if (this.state.formIsValidated) {
+    if (formIsValidated) {
       formClass.push("was-validated");
     }
-    return this.state.fetchedChildData ? (
+    return fetchedChildData ? (
       <React.Fragment>
         <div
           id="editChildProfileHeaderContainer"
-          style={{ backgroundColor: this.state.background }}
+          style={{ backgroundColor: background }}
         >
           <div className="row no-gutters" id="profileHeaderOptions">
             <div className="col-2-10">
               <button
                 type="button"
                 className="transparentButton center"
-                onClick={() => this.props.history.goBack()}
+                onClick={() => history.goBack()}
               >
                 <i className="fas fa-times" />
               </button>
@@ -242,14 +270,16 @@ class EditChildProfileScreen extends React.Component {
             </div>
           </div>
           <img
-            src={this.state.image.path}
+            src={image.path}
             alt="child profile logo"
             className="horizontalCenter profilePhoto"
           />
         </div>
         <div id="editChildProfileInfoContainer" className="horizontalCenter">
           <form
-            ref={form => (this.formEl = form)}
+            ref={form => {
+              this.formEl = form;
+            }}
             onSubmit={this.handleSave}
             className={formClass}
             noValidate
@@ -264,7 +294,7 @@ class EditChildProfileScreen extends React.Component {
                     className="form-control"
                     onChange={this.handleChange}
                     required
-                    value={this.state.given_name}
+                    value={given_name}
                   />
                   <span className="invalid-feedback" id="given_nameErr" />
                 </div>
@@ -278,7 +308,7 @@ class EditChildProfileScreen extends React.Component {
                     className="form-control"
                     onChange={this.handleChange}
                     required
-                    value={this.state.family_name}
+                    value={family_name}
                   />
                   <span className="invalid-feedback" id="family_nameErr" />
                 </div>
@@ -288,14 +318,10 @@ class EditChildProfileScreen extends React.Component {
               <div className="col-1-3">
                 <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="date">{texts.date}</label>
-                  <select
-                    value={this.state.date}
-                    onChange={this.handleChange}
-                    name="date"
-                  >
-                    {dates.map(date => (
-                      <option key={date} value={date}>
-                        {date}
+                  <select value={date} onChange={this.handleChange} name="date">
+                    {dates.map(d => (
+                      <option key={d} value={d}>
+                        {d}
                       </option>
                     ))}
                   </select>
@@ -305,13 +331,13 @@ class EditChildProfileScreen extends React.Component {
                 <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="month">{texts.month}</label>
                   <select
-                    value={this.state.month}
+                    value={month}
                     onChange={this.handleChange}
                     name="month"
                   >
-                    {months.map(month => (
-                      <option key={month} value={month}>
-                        {month}
+                    {months.map(m => (
+                      <option key={m} value={m}>
+                        {m}
                       </option>
                     ))}
                   </select>
@@ -320,14 +346,10 @@ class EditChildProfileScreen extends React.Component {
               <div className="col-1-3">
                 <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="year">{texts.year}</label>
-                  <select
-                    value={this.state.year}
-                    onChange={this.handleChange}
-                    name="year"
-                  >
-                    {years.map(year => (
-                      <option key={year} value={year}>
-                        {year}
+                  <select value={year} onChange={this.handleChange} name="year">
+                    {years.map(y => (
+                      <option key={y} value={y}>
+                        {y}
                       </option>
                     ))}
                   </select>
@@ -339,7 +361,7 @@ class EditChildProfileScreen extends React.Component {
                 <div className="fullInput editChildProfileInputField center">
                   <label htmlFor="gender">{texts.gender}</label>
                   <select
-                    value={this.state.gender}
+                    value={gender}
                     onChange={this.handleChange}
                     name="gender"
                   >
@@ -407,7 +429,7 @@ class EditChildProfileScreen extends React.Component {
                 <HuePicker
                   width="90%"
                   className="verticalCenter"
-                  color={this.state.background}
+                  color={background}
                   onChange={this.handleColorChange}
                 />
               </div>
@@ -422,3 +444,9 @@ class EditChildProfileScreen extends React.Component {
 }
 
 export default withLanguage(EditChildProfileScreen);
+
+EditChildProfileScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object,
+  match: PropTypes.object
+};

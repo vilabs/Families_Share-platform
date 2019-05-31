@@ -46,13 +46,7 @@ const muiTheme = createMuiTheme({
   }
 });
 
-const GroupNavbar = ({
-  history,
-  language,
-  match,
-  allowNavigation,
-  handleActiveTab
-}) => {
+const GroupNavbar = ({ history, language, match, allowNavigation }) => {
   const handleChange = (event, value) => {
     const { groupId } = match.params;
     if (allowNavigation) {
@@ -63,7 +57,6 @@ const GroupNavbar = ({
       } else {
         history.replace(`/groups/${groupId}/${value}`);
       }
-      handleActiveTab(value);
     }
   };
   const texts = Texts[language].groupNavbar;
@@ -160,7 +153,6 @@ const GroupNavbar = ({
 };
 
 GroupNavbar.propTypes = {
-  handleActiveTab: PropTypes.func,
   allowNavigation: PropTypes.bool,
   history: PropTypes.object,
   language: PropTypes.string,

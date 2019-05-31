@@ -2,6 +2,7 @@ import React from "react";
 import autosize from "autosize";
 import axios from "axios";
 import { CirclePicker } from "react-color";
+import PropTypes from "prop-types";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
 import withLanguage from "./LanguageContext";
@@ -13,8 +14,8 @@ class EditActivityScreen extends React.Component {
   };
 
   componentDidMount() {
-    const { activityId } = this.props.match.params;
-    const { groupId } = this.props.match.params;
+    const { match } = this.props;
+    const { activityId, groupId } = match.params;
     axios
       .get(`/api/groups/${groupId}/activities/${activityId}`)
       .then(response => {
@@ -59,25 +60,26 @@ class EditActivityScreen extends React.Component {
   };
 
   handleSave = () => {
-    const { activityId } = this.props.match.params;
-    const { groupId } = this.props.match.params;
-    if (this.state.validated) {
+    const { match, history } = this.props;
+    const { activityId, groupId } = match.params;
+    const { validated, name, color, location, description } = this.state;
+    if (validated) {
       this.setState({ fetchedActivity: false });
       const patch = {
-        name: this.state.name,
-        color: this.state.color,
-        location: this.state.location.trim(),
-        description: this.state.description.trim()
+        name,
+        color,
+        location: location.trim(),
+        description: description.trim()
       };
       axios
         .patch(`/api/groups/${groupId}/activities/${activityId}`, patch)
         .then(response => {
           Log.info(response);
-          this.props.history.goBack();
+          history.goBack();
         })
         .catch(error => {
           Log.error(error);
-          this.props.history.goBack();
+          history.goBack();
         });
     }
   };
@@ -91,7 +93,8 @@ class EditActivityScreen extends React.Component {
       location,
       color
     } = this.state;
-    const texts = Texts[this.props.language].editActivityScreen;
+    const { language, history } = this.props;
+    const texts = Texts[language].editActivityScreen;
     return fetchedActivity ? (
       <React.Fragment>
         <div className="row no-gutters" id="editActivityHeaderContainer">
@@ -99,7 +102,7 @@ class EditActivityScreen extends React.Component {
             <button
               className="transparentButton center"
               type="button"
-              onClick={() => this.props.history.goBack()}
+              onClick={() => history.goBack()}
             >
               <i className="fas fa-arrow-left" />
             </button>
@@ -200,3 +203,9 @@ class EditActivityScreen extends React.Component {
 }
 
 export default withLanguage(EditActivityScreen);
+
+EditActivityScreen.propTypes = {
+  history: PropTypes.object,
+  language: PropTypes.string,
+  match: PropTypes.object
+};

@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import autosize from "autosize";
+import PropTypes from "prop-types";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
@@ -16,6 +17,7 @@ const getTimeslot = pathname => {
       return response.data;
     })
     .catch(error => {
+      Log.error(error);
       return {
         start: {
           dateTime: ""
@@ -40,21 +42,13 @@ class EditTimeslotScreen extends React.Component {
     notifyUsers: false,
     fetchedTimeslot: false,
     confirmDialogIsOpen: false,
-    confirmDialogTitle: "",
-    confirmType: "",
-    timeslot: {
-      extendedProperties: {
-        shared: {
-          parents: [],
-          children: []
-        }
-      }
-    }
+    confirmDialogTitle: ""
   };
 
   async componentDidMount() {
     document.addEventListener("message", this.handleMessage, false);
-    let { pathname } = this.props.history.location;
+    const { history } = this.props;
+    let { pathname } = history.location;
     pathname = pathname.substring(0, pathname.length - 5);
     const timeslot = await getTimeslot(`/api${pathname}`);
     timeslot.date = moment(timeslot.start.dateTime).format("YYYY-MM-DD");
@@ -75,19 +69,24 @@ class EditTimeslotScreen extends React.Component {
   }
 
   handleMessage = event => {
+    const { madeChanges } = this.state;
+    const { history } = this.props;
     const data = JSON.parse(event.data);
     if (data.action === "confirmGoBack") {
-      this.state.madeChanges
-        ? this.handleConfirmDialogOpen("back")
-        : this.props.history.goBack();
+      if (madeChanges) {
+        this.handleConfirmDialogOpen("back");
+      } else {
+        history.goBack();
+      }
     }
   };
 
   validate = () => {
-    const texts = Texts[this.props.language].editTimeslotScreen;
+    const { language } = this.props;
+    const texts = Texts[language].editTimeslotScreen;
     const formLength = this.formEl.length;
     if (this.formEl.checkValidity() === false) {
-      for (let i = 0; i < formLength; i++) {
+      for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         if (elem.name === "startTime" || elem.name === "endTime") {
           const { startTime } = this.state;
@@ -122,7 +121,7 @@ class EditTimeslotScreen extends React.Component {
       }
       return false;
     }
-    for (let i = 0; i < formLength; i++) {
+    for (let i = 0; i < formLength; i += 1) {
       const elem = this.formEl[i];
       const errorLabel = document.getElementById(`${elem.name}Err`);
       if (errorLabel && elem.nodeName.toLowerCase() !== "button") {
@@ -135,12 +134,14 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleSubmit = event => {
+    const { madeChanges } = this.state;
+    const { history } = this.props;
     event.preventDefault();
     if (this.validate()) {
-      if (this.state.madeChanges) {
+      if (madeChanges) {
         this.handleConfirmDialogOpen("save");
       } else {
-        this.props.history.goBack();
+        history.goBack();
       }
     } else {
       this.setState({ formIsValidated: true });
@@ -148,7 +149,9 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleSave = () => {
-    const { dateTime } = this.state.start;
+    const { history } = this.props;
+    const { start } = this.state;
+    const { dateTime } = start;
     const {
       date,
       startTime,
@@ -201,12 +204,13 @@ class EditTimeslotScreen extends React.Component {
         }
       }
     };
-    let { pathname } = this.props.history.location;
+    let { pathname } = history.location;
     pathname = `/api${pathname.substring(0, pathname.length - 5)}`;
     axios
       .patch(pathname, timeslot)
       .then(response => {
-        this.props.history.goBack();
+        Log.info(response);
+        history.goBack();
       })
       .catch(error => {
         Log.error(error);
@@ -214,10 +218,12 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
+    const { confirmDialogTrigger } = this.state;
+    const { history } = this.props;
     if (choice === "agree") {
       this.handleSave();
-    } else if (this.state.confirmDialogTrigger === "back") {
-      this.props.history.goBack();
+    } else if (confirmDialogTrigger === "back") {
+      history.goBack();
     }
     this.setState({
       confirmDialogIsOpen: false,
@@ -227,9 +233,11 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleConfirmDialogOpen = confirmDialogTrigger => {
-    const texts = Texts[this.props.language].editTimeslotScreen;
+    const { language } = this.props;
+    const { notifyUsers } = this.state;
+    const texts = Texts[language].editTimeslotScreen;
     let confirmDialogTitle;
-    if (this.state.notifyUsers) {
+    if (notifyUsers) {
       confirmDialogTitle = texts.crucialChangeConfirm;
     } else {
       confirmDialogTitle = texts.editConfirm;
@@ -249,10 +257,11 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleChange = event => {
+    const { notifyUsers } = this.state;
     const { name, value } = event.target;
     if (
       (name === "startTime" || name === "endTime" || name === "date") &&
-      !this.state.notifyUsers
+      !notifyUsers
     ) {
       this.setState({ [name]: value, notifyUsers: true, madeChanges: true });
     } else {
@@ -261,12 +270,7 @@ class EditTimeslotScreen extends React.Component {
   };
 
   render() {
-    const formClass = [];
-    if (this.state.formIsValidated) {
-      formClass.push("was-validated");
-    }
-    const rowStyle = { minHeight: "5rem" };
-    const texts = Texts[this.props.language].editTimeslotScreen;
+    const { language, history } = this.props;
     const {
       date,
       startTime,
@@ -277,23 +281,35 @@ class EditTimeslotScreen extends React.Component {
       cost,
       requiredChildren,
       requiredParents,
-      status
+      status,
+      fetchedTimeslot,
+      formIsValidated,
+      confirmDialogIsOpen,
+      confirmDialogTitle,
+      madeChanges
     } = this.state;
-    return this.state.fetchedTimeslot ? (
+    const formClass = [];
+    if (formIsValidated) {
+      formClass.push("was-validated");
+    }
+    const rowStyle = { minHeight: "5rem" };
+    const texts = Texts[language].editTimeslotScreen;
+    return fetchedTimeslot ? (
       <React.Fragment>
         <ConfirmDialog
-          title={this.state.confirmDialogTitle}
-          isOpen={this.state.confirmDialogIsOpen}
+          title={confirmDialogTitle}
+          isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
         />
         <div id="activityHeaderContainer" className="row no-gutters">
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={() =>
-                this.state.madeChanges
+                madeChanges
                   ? this.handleConfirmDialogOpen("back")
-                  : this.props.history.goBack()
+                  : history.goBack()
               }
             >
               <i className="fas fa-arrow-left" />
@@ -304,6 +320,7 @@ class EditTimeslotScreen extends React.Component {
           </div>
           <div className="col-2-10">
             <button
+              type="button"
               className="transparentButton center"
               onClick={this.handleSubmit}
             >
@@ -313,7 +330,9 @@ class EditTimeslotScreen extends React.Component {
         </div>
         <div id="activityMainContainer" style={{ borderBottom: "none" }}>
           <form
-            ref={form => (this.formEl = form)}
+            ref={form => {
+              this.formEl = form;
+            }}
             onSubmit={this.handleSubmit}
             className={formClass}
             noValidate
@@ -531,3 +550,8 @@ class EditTimeslotScreen extends React.Component {
 }
 
 export default withLanguage(EditTimeslotScreen);
+
+EditTimeslotScreen.propTypes = {
+  language: PropTypes.string,
+  history: PropTypes.object
+};

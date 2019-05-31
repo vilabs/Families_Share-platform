@@ -1,26 +1,29 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Drawer, Menu } from "antd";
-import Texts from "../Constants/Texts.js";
+import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
 class FilterTimeslotsDrawer extends React.Component {
   onClose = () => {
-    this.props.handleFilterDrawerClose();
+    const { handleFilterDrawerClose } = this.props;
+    handleFilterDrawerClose();
   };
 
   handleDrawerClick = ({ key }) => {
-    this.props.handleFilterDrawerClick(key);
+    const { handleFilterDrawerClick } = this.props;
+    handleFilterDrawerClick(key);
   };
 
   render() {
-    const texts = Texts[this.props.language].filterTimeslotsDrawer;
+    const { language, isOpen, activeOption } = this.props;
+    const texts = Texts[language].filterTimeslotsDrawer;
     return (
       <Drawer
         placement="bottom"
         closable={false}
         onClose={this.onClose}
-        visible={this.props.isOpen}
+        visible={isOpen}
       >
         <div id="filterTimeslotsDrawer">
           <div className="row no-gutters">
@@ -32,21 +35,13 @@ class FilterTimeslotsDrawer extends React.Component {
                 <div className="col-1-10">
                   <i
                     className=" fas fa-bars"
-                    style={
-                      this.props.activeOption === "all"
-                        ? { color: "#00838f" }
-                        : {}
-                    }
+                    style={activeOption === "all" ? { color: "#00838f" } : {}}
                   />
                 </div>
                 <div className="col-8-10">
                   <h1
                     className="verticalCenter"
-                    style={
-                      this.props.activeOption === "all"
-                        ? { color: "#00838f" }
-                        : {}
-                    }
+                    style={activeOption === "all" ? { color: "#00838f" } : {}}
                   >
                     {texts.all}
                   </h1>
@@ -55,7 +50,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className="fas fa-check"
                     style={
-                      this.props.activeOption === "all"
+                      activeOption === "all"
                         ? { color: "#00838f" }
                         : { display: "none" }
                     }
@@ -69,9 +64,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className=" fas fa-calendar-check"
                     style={
-                      this.props.activeOption === "enough"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "enough" ? { color: "#00838f" } : {}
                     }
                   />
                 </div>
@@ -79,9 +72,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <h1
                     className="verticalCenter"
                     style={
-                      this.props.activeOption === "enough"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "enough" ? { color: "#00838f" } : {}
                     }
                   >
                     {texts.enough}
@@ -91,7 +82,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className="fas fa-check"
                     style={
-                      this.props.activeOption === "enough"
+                      activeOption === "enough"
                         ? { color: "#00838f" }
                         : { display: "none" }
                     }
@@ -105,9 +96,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className=" fas fa-calendar-times"
                     style={
-                      this.props.activeOption === "notEnough"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "notEnough" ? { color: "#00838f" } : {}
                     }
                   />
                 </div>
@@ -115,9 +104,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <h1
                     className="verticalCenter"
                     style={
-                      this.props.activeOption === "notEnough"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "notEnough" ? { color: "#00838f" } : {}
                     }
                   >
                     {texts.notEnough}
@@ -127,7 +114,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className="fas fa-check"
                     style={
-                      this.props.activeOption === "notEnough"
+                      activeOption === "notEnough"
                         ? { color: "#00838f" }
                         : { display: "none" }
                     }
@@ -141,9 +128,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className=" fas fa-user-check"
                     style={
-                      this.props.activeOption === "signed"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "signed" ? { color: "#00838f" } : {}
                     }
                   />
                 </div>
@@ -151,9 +136,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <h1
                     className="verticalCenter"
                     style={
-                      this.props.activeOption === "signed"
-                        ? { color: "#00838f" }
-                        : {}
+                      activeOption === "signed" ? { color: "#00838f" } : {}
                     }
                   >
                     {texts.signed}
@@ -163,7 +146,7 @@ class FilterTimeslotsDrawer extends React.Component {
                   <i
                     className="fas fa-check"
                     style={
-                      this.props.activeOption === "signed"
+                      activeOption === "signed"
                         ? { color: "#00838f" }
                         : { display: "none" }
                     }
@@ -182,7 +165,8 @@ FilterTimeslotsDrawer.propTypes = {
   handleFilterDrawerClick: PropTypes.func,
   activeOption: PropTypes.string,
   isOpen: PropTypes.bool,
-  handleFilterDrawerClose: PropTypes.func
+  handleFilterDrawerClose: PropTypes.func,
+  language: PropTypes.string
 };
 
 export default withLanguage(FilterTimeslotsDrawer);

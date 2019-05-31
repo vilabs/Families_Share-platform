@@ -2,29 +2,24 @@ import Modal from "react-modal";
 import React from "react";
 import PropTypes from "prop-types";
 
-const getImageMeta = (image, cb) => {
-  const img = new Image();
-  img.src = image;
-  img.onload = function() {
-    cb(this.width, this.height);
-  };
-};
 Modal.setAppElement("#root");
 
 class ExpandedImageModal extends React.Component {
-  state = { height: "", width: "" };
+  state = { image: "" };
 
   closeModal = () => {
-    this.props.handleClose();
+    const { handleClose } = this.props;
+    handleClose();
   };
 
   afterOpenModal = () => {
-    getImageMeta(this.props.image, (width, height) => {
-      this.setState({ image: this.props.image, width, height });
-    });
+    const { image } = this.props;
+    this.setState({ image });
   };
 
   render() {
+    const { isOpen, handleClose } = this.props;
+    const { image } = this.state;
     const modalStyle = {
       content: {
         left: 0,
@@ -41,14 +36,16 @@ class ExpandedImageModal extends React.Component {
     return (
       <Modal
         style={modalStyle}
-        isOpen={this.props.isOpen}
+        isOpen={isOpen}
         onAfterOpen={this.afterOpenModal}
         onRequestClose={this.closeModal}
         contentLabel="Expanded Image Modal"
       >
         <i
+          role="button"
+          tabIndex={-42}
           className="fas fa-times"
-          onClick={() => this.props.handleClose()}
+          onClick={handleClose}
           style={{
             color: "#FFFFFF",
             fontSize: "2rem",
@@ -59,7 +56,7 @@ class ExpandedImageModal extends React.Component {
           }}
         />
         <img
-          src={this.state.image}
+          src={image}
           alt="expanded"
           className="center"
           style={{
