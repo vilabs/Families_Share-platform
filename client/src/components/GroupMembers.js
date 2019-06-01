@@ -64,8 +64,9 @@ class GroupMembers extends React.Component {
 
   handlePendingRequests = () => {
     const { history } = this.props;
-    const { group_id } = this.state;
-    history.push(`/groups/${group_id}/members/pending`);
+    const { group } = this.state;
+    const { group_id: groupId } = group;
+    history.push(`/groups/${groupId}/members/pending`);
   };
 
   render() {

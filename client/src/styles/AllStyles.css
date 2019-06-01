@@ -1653,7 +1653,7 @@
 }
 #groupMembersHeaderContainer i {
   font-size: 2rem;
-  z-index: 200;
+  z-index: 100;
   position: relative;
   color: #ffffff;
 }
@@ -1675,21 +1675,23 @@
 }
 
 #groupMembersHeaderContainer .badge {
-  font-size: 0.4em;
+  font-size: 0.7em;
   display: block;
   position: absolute;
-  top: -0.75em;
-  right: -0.75em;
+  top: 0.3em;
+  right: 0.2em;
   width: 2em;
   height: 2em;
   line-height: 2em;
   border-radius: 50%;
   text-align: center;
+  z-index: 101;
   color: #fff;
   background: #c43e00;
 }
 #groupMembersContainer {
-  padding-bottom: 12rem;
+  padding-bottom: 6rem;
+  height: 100vh;
 }
 #groupMembersAdminOptionsContainer {
   position: relative;
@@ -1719,15 +1721,9 @@
 }
 #groupMembersAdminOptionsContainer h2 {
   font-size: 1.2rem;
-
   color: rgba(0, 0, 0, 0.54);
 }
-.groupIsOpenSwitch {
-  position: relative;
-  top: 35%;
-  transform: translateY(-35%);
-  transform: scale(0.8);
-}
+
 #contactContainer {
   width: 100%;
   padding: 1.5rem 1rem;
