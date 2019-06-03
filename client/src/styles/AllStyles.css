@@ -2385,7 +2385,7 @@ a:active {
   background-color: #00838f;
 }
 #myFamiliesShareHeaderContainer {
-  z-index: 1000;
+  z-index: 100;
   top: 0;
   height: 6rem;
   width: 100%;
