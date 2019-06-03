@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
-import Loading from "./components/LoadingSpinner";
+import LoadingSpinner from "./components/LoadingSpinner";
 import { LanguageProvider } from "./components/LanguageContext";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -23,52 +23,54 @@ const styles = () => ({
   }
 });
 
+const Loading = <LoadingSpinner />;
+
 const MyCalendarScreen = Loadable({
   loader: () => import("./components/MyCalendarScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const GroupMainScreen = Loadable({
   loader: () => import("./components/GroupMainScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const MyFamiliesShareScreen = Loadable({
   loader: () => import("./components/MyFamiliesShareScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const StartUpGuide = Loadable({
   loader: () => import("./components/StartUpGuide"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const FaqsScreen = Loadable({
   loader: () => import("./components/FaqsScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const NoMatchScreen = Loadable({
   loader: () => import("./components/NoMatchScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const ProfileScreen = Loadable({
   loader: () => import("./components/ProfileScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const EditProfileScreen = Loadable({
   loader: () => import("./components/EditProfileScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const ChildProfileScreen = Loadable({
   loader: () => import("./components/ChildProfileScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const NotificationScreen = Loadable({
-  loading: () => <div />
+  loading: () => Loading
 });
 const CreateChildScreen = Loadable({
   loader: () => import("./components/CreateChildScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const SearchGroupScreen = Loadable({
   loader: () => import("./components/SearchGroupScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const EditChildProfileScreen = Loadable({
   loader: () => import("./components/EditChildProfileScreen"),
@@ -88,51 +90,51 @@ const EditGroupScreen = Loadable({
 });
 const CreateGroupScreen = Loadable({
   loader: () => import("./components/CreateGroupScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const ActivityScreen = Loadable({
   loader: () => import("./components/ActivityScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const CreateActivityScreen = Loadable({
   loader: () => import("./components/CreateActivityScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const PendingRequestsScreen = Loadable({
   loader: () => import("./components/PendingRequestsScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const ForgotPasswordScreen = Loadable({
   loader: () => import("./components/ForgotPasswordScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const ChangePasswordScreen = Loadable({
   loader: () => import("./components/ChangePasswordScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const LandingScreen = Loadable({
   loader: () => import("./components/LandingScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const AboutScreen = Loadable({
   loader: () => import("./components/AboutScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const TimeslotScreen = Loadable({
   loader: () => import("./components/TimeslotScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const EditTimeslotScreen = Loadable({
   loader: () => import("./components/EditTimeslotScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const SignUpScreen = Loadable({
   loader: () => import("./components/SignUpScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 const LogInScreen = Loadable({
   loader: () => import("./components/LogInScreen"),
-  loading: () => <div />
+  loading: () => Loading
 });
 
 axios.interceptors.request.use(
