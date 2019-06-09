@@ -22,18 +22,10 @@ const calendar = google.calendar({
   version: 'v3',
   auth: googleToken
 })
-const fbadmin = require('firebase-admin')
 
-if (!fbadmin.apps.length) {
-  fbadmin.initializeApp({
-    credential: fbadmin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-    }),
-    databaseURL: process.env.FIREBASE_DATABASE_NAME
-  })
-}
+const { Expo } = require('expo-server-sdk')
+let expo = new Expo()
+
 const sharp = require('sharp')
 
 const transporter = nodemailer.createTransport({
@@ -226,15 +218,8 @@ router.post('/authenticate/email', async (req, res, next) => {
 })
 
 router.post('/authenticate/google', async (req, res, next) => {
-  const { deviceToken, language, origin } = req.body
-  let googleProfile, googleToken
-  if (origin === 'native') {
-    googleProfile = req.body.response.user
-    googleToken = req.body.response.idToken
-  } else {
-    googleProfile = req.body.response.profileObj
-    googleToken = req.body.response.tokenObj.id_token
-  }
+  const { deviceToken, language, origin, response } = req.body
+  const { user: googleProfile, idToken: googleToken } = response
   try {
     const user = await User.findOne({ email: googleProfile.email })
     if (user) {
@@ -265,7 +250,7 @@ router.post('/authenticate/google', async (req, res, next) => {
         image: profile.image.path,
         token,
         google_token: googleToken,
-        origin: req.body.origin
+        origin
       }
       user.last_login = new Date()
       user.language = language
@@ -316,7 +301,7 @@ router.post('/authenticate/google', async (req, res, next) => {
         owner_type: 'user',
         owner_id: user_id,
         path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
-        thumbnail_path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl
+        thumbnail_path: googleProfile.photo
       }
       const address = {
         address_id,
@@ -337,10 +322,10 @@ router.post('/authenticate/google', async (req, res, next) => {
         id: user_id,
         token,
         google_token: googleToken,
-        origin: req.body.origin,
+        origin,
         email: googleProfile.email,
         name: `${googleProfile.givenName} ${googleProfile.familyName}`,
-        image: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl
+        image: googleProfile.photo
       })
     }
   } catch (err) {
@@ -349,7 +334,7 @@ router.post('/authenticate/google', async (req, res, next) => {
 })
 
 router.get('/changepasswordredirect/:token', (req, res) => {
-  res.redirect(`families-share://changepsw/${req.params.token}`)
+  res.redirect(`${process.env.CITYLAB_SCHEME}://changepsw/${req.params.token}`)
 })
 
 router.post('/forgotpassword', async (req, res, next) => {
@@ -1006,24 +991,35 @@ router.delete('/:userId/children/:childId/parents/:parentId', (req, res, next) =
 module.exports = router
 
 router.post('/:userId/sendmenotification', async (req, res, next) => {
-  Device.find({ user_id: req.params.userId }).then(devices => {
-    if (devices) {
-      devices.forEach((device) => {
-        const message = {
-          notification: { title: 'Welcome', body: 'Families Share welcomes you to our community' },
-          token: device.device_id
-        }
-        fbadmin.messaging().send(message)
-          .then((response) => {
-            console.log('Successfully sent message:', response)
-          })
-          .catch((error) => {
-            if (error.code === 'messaging/registration-token-not-registered') {
-              Device.deleteOne({ device_id: device.device_id })
-            }
-          })
-      })
+  try {
+    const devices = await Device.find({ user_id: req.params.userId })
+    if (devices.length === 0) {
+      return res.status(404).send('User has no registered devices')
     }
+    const messages = []
+    const invalidTokens = []
+    devices.forEach((device) => {
+      if (Expo.isExpoPushToken(device.device_id)) {
+        messages.push({
+          to: device.device_id,
+          sound: 'default',
+          title: 'Welcome',
+          body: 'Families Share welcomes you to our community',
+          badge: 1
+        })
+      } else {
+        invalidTokens.push(device.device_id)
+      }
+    })
+    let chunks = expo.chunkPushNotifications(messages)
+    let tickets = []
+    for (let chunk of chunks) {
+      let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+      tickets.push(...ticketChunk)
+    }
+    await Device.deleteMany({ device_id: { $in: invalidTokens } })
     res.status(200).send('Push notification sent')
-  }).catch(next)
+  } catch (err) {
+    next(err)
+  }
 })

@@ -26,7 +26,7 @@ class LogInScreen extends React.Component {
     if (data.action === "googleLogin") {
       dispatch(
         authenticationActions.googleLogin(
-          data.userInfo,
+          data.response,
           history,
           "native",
           JSON.parse(localStorage.getItem("deviceToken"))

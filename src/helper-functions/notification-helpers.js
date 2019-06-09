@@ -5,16 +5,10 @@ const Member = require('../models/member')
 const Group = require('../models/group')
 const Device = require('../models/device')
 const User = require('../models/user')
-var fbadmin = require('firebase-admin')
 const texts = require('../constants/notification-texts')
 
-fbadmin.initializeApp({
-  credential: fbadmin.credential.cert({
-    projectId: process.env.FIREBASE_PROJECT_ID,
-    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n')
-  })
-})
+const { Expo } = require('expo-server-sdk')
+let expo = new Expo()
 
 async function newMemberNotification (group_id, user_id) {
   const group = await Group.findOne({ group_id })
@@ -195,20 +189,28 @@ async function timeslotRequirementsNotification (timeslotName, participants) {
     })
   })
   await Notification.create(notifications)
+  const messages = []
+  const invalidTokens = []
   devices.forEach(device => {
-    const language = users.filter(user => user.user_id === device.user_id)[0].language
-    const message = {
-      notification: { title: texts[language]['activities'][1]['header'], body: `${timeslotName} ${texts[language]['activities'][1]['description']}` },
-      token: device.device_id
-    }
-    fbadmin.messaging().send(message)
-      .then(() => { })
-      .catch((error) => {
-        if (error.code === 'messaging/registration-token-not-registered') {
-          Device.deleteOne({ device_id: device.device_id })
-        }
+    if (Expo.isExpoPushToken(device.device_id)) {
+      const language = users.filter(user => user.user_id === device.user_id)[0].language
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: texts[language]['activities'][1]['header'],
+        body: `${timeslotName} ${texts[language]['activities'][1]['description']}`
       })
+    } else {
+      invalidTokens.push(device.device_id)
+    }
   })
+  let chunks = expo.chunkPushNotifications(messages)
+  let tickets = []
+  for (let chunk of chunks) {
+    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+    tickets.push(...ticketChunk)
+  }
+  await Device.deleteMany({ device_id: { $in: invalidTokens } })
 }
 
 async function timeslotChangedNotification (timeslotName, participants) {
@@ -226,20 +228,28 @@ async function timeslotChangedNotification (timeslotName, participants) {
     })
   })
   await Notification.create(notifications)
+  const messages = []
+  const invalidTokens = []
   devices.forEach(device => {
-    const language = users.filter(user => user.user_id === device.user_id)[0].language
-    const message = {
-      notification: { title: texts[language]['activities'][2]['header'], body: `${timeslotName} ${texts[language]['activities'][2]['description']}` },
-      token: device.device_id
-    }
-    fbadmin.messaging().send(message)
-      .then(() => { })
-      .catch((error) => {
-        if (error.code === 'messaging/registration-token-not-registered') {
-          Device.deleteOne({ device_id: device.device_id })
-        }
+    if (Expo.isExpoPushToken(device.device_id)) {
+      const language = users.filter(user => user.user_id === device.user_id)[0].language
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: texts[language]['activities'][2]['header'],
+        body: `${timeslotName} ${texts[language]['activities'][2]['description']}`
       })
+    } else {
+      invalidTokens.push(device.device_id)
+    }
   })
+  let chunks = expo.chunkPushNotifications(messages)
+  let tickets = []
+  for (let chunk of chunks) {
+    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+    tickets.push(...ticketChunk)
+  }
+  await Device.deleteMany({ device_id: { $in: invalidTokens } })
 }
 
 const getNotificationDescription = (notification, language) => {
