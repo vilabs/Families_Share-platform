@@ -24,7 +24,7 @@ jobs:
 
       - run:
           name: Running Backend Linter
-          command: 'node_modules/.bin/eslint --config .eslintsrc src'
+          command: 'node_modules/.bin/eslint --config .eslintrc src'
 
       - run:
           name: Running Backend Testing
@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Running Frontend Linter
-          command: 'client/node_modules/.bin/eslint --config client/.eslintsrc src'
+          command: 'client/node_modules/.bin/eslint --config client/.eslintrc src'
 
       - run:
           name: Running Frontend Build
