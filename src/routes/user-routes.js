@@ -1004,8 +1004,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
           to: device.device_id,
           sound: 'default',
           title: 'Welcome',
-          body: 'Families Share welcomes you to our community',
-          badge: 1
+          body: 'Families Share welcomes you to our community'
         })
       } else {
         invalidTokens.push(device.device_id)
