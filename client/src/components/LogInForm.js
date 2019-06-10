@@ -55,7 +55,7 @@ class LogInForm extends React.Component {
   submit = () => {
     const { dispatch, history } = this.props;
     const { email, password } = this.state;
-    const deviceToken = JSON.parse(localStorage.getItem("deviceToken"));
+    const deviceToken = localStorage.getItem("deviceToken");
     dispatch(
       authenticationActions.login(email, password, history, deviceToken)
     );

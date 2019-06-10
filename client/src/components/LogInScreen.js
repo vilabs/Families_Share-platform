@@ -29,7 +29,7 @@ class LogInScreen extends React.Component {
           data.response,
           history,
           "native",
-          JSON.parse(localStorage.getItem("deviceToken"))
+          localStorage.getItem("deviceToken")
         )
       );
     }
@@ -104,7 +104,7 @@ class LogInScreen extends React.Component {
                     response,
                     history,
                     "web",
-                    JSON.parse(localStorage.getItem("deviceToken"))
+                    localStorage.getItem("deviceToken")
                   )
                 )
               }

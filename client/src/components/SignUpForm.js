@@ -86,7 +86,7 @@ class SignUpForm extends React.Component {
   };
 
   submit = () => {
-    const deviceToken = JSON.parse(localStorage.getItem("deviceToken"));
+    const deviceToken = localStorage.getItem("deviceToken");
     const {
       password,
       email,
