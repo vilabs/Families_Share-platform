@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Running Frontend Linter
-          command: 'client/node_modules/.bin/eslint --config client/.eslintrc client/src'
+          command: 'cd client && node_modules/.bin/eslint --config .eslintrc src'
 
       - run:
           name: Running Frontend Build
