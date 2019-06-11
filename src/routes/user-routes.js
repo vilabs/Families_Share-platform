@@ -1016,6 +1016,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
       tickets.push(...ticketChunk)
     }
+    console.log(tickets)
     // await Device.deleteMany({ device_id: { $in: invalidTokens } })
     res.status(200).send('Push notification sent')
   } catch (err) {
