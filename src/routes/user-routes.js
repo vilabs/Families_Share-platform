@@ -1000,6 +1000,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
     // const invalidTokens = []
     devices.forEach((device) => {
       // if (Expo.isExpoPushToken(device.device_id)) {
+      console.log(device.device_id)
       messages.push({
         to: device.device_id,
         sound: 'default',
