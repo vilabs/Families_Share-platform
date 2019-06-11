@@ -997,7 +997,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
       return res.status(404).send('User has no registered devices')
     }
     const messages = []
-    const invalidTokens = []
+    // const invalidTokens = []
     devices.forEach((device) => {
       // if (Expo.isExpoPushToken(device.device_id)) {
       messages.push({
@@ -1014,7 +1014,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
     for (let chunk of chunks) {
       await expo.sendPushNotificationsAsync(chunk)
     }
-    await Device.deleteMany({ device_id: { $in: invalidTokens } })
+    // await Device.deleteMany({ device_id: { $in: invalidTokens } })
     res.status(200).send('Push notification sent')
   } catch (err) {
     next(err)
