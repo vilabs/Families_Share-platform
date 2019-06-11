@@ -23,10 +23,6 @@ jobs:
           key: backend-dependencies-{{ checksum "package.json" }}
 
       - run:
-          name: Running Backend Linter
-          command: 'npm run lint'
-
-      - run:
           name: Running Backend Testing
           command: npm test
 
@@ -50,10 +46,6 @@ jobs:
           paths:
             - client/node_modules
           key: frontend-dependencies-{{ checksum "client/package.json" }}
-
-      - run:
-          name: Running Frontend Linter
-          command: 'npm run lint --prefix ./client'
 
       - run:
           name: Running Frontend Build
