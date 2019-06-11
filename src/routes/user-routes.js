@@ -174,7 +174,7 @@ router.post('/authenticate/email', async (req, res, next) => {
     if (!passwordMatch) {
       return res.status(401).send('Authentication failure')
     }
-    if (deviceToken !== undefined && deviceToken !== null) {
+    if (deviceToken !== 'undefined' && deviceToken !== undefined && deviceToken !== null) {
       const device = await Device.findOne({ device_id: deviceToken })
       if (device) {
         device.user_id = user.user_id
@@ -223,7 +223,7 @@ router.post('/authenticate/google', async (req, res, next) => {
   try {
     const user = await User.findOne({ email: googleProfile.email })
     if (user) {
-      if (deviceToken !== undefined && deviceToken !== null) {
+      if (deviceToken !== undefined && deviceToken !== 'undefined' && deviceToken !== null) {
         const device = await Device.findOne({ device_id: deviceToken })
         if (device) {
           device.user_id = user.user_id

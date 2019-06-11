@@ -51,7 +51,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint --config .client.eslintrc src",
+    "lint": "./node_modules/.bin/eslint src",
     "storybook": "start-storybook"
   },
   "browserslist": [

@@ -165,7 +165,7 @@ class App extends React.Component {
   handleMessage = event => {
     const data = JSON.parse(event.data);
     if (data.action === "deviceToken") {
-      localStorage.setItem("deviceToken", JSON.stringify(data.token));
+      localStorage.setItem("deviceToken", data.token);
     } else if (data.action === "appVersion") {
       localStorage.setItem("version", data.version);
     }

@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Running Frontend Linter
-          command: 'cd client && npm run lint'
+          command: 'npm run lint --prefix ./client'
 
       - run:
           name: Running Frontend Build
