@@ -999,16 +999,16 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
     const messages = []
     const invalidTokens = []
     devices.forEach((device) => {
-      if (Expo.isExpoPushToken(device.device_id)) {
-        messages.push({
-          to: device.device_id,
-          sound: 'default',
-          title: 'Welcome',
-          body: 'Families Share welcomes you to our community'
-        })
-      } else {
-        invalidTokens.push(device.device_id)
-      }
+      // if (Expo.isExpoPushToken(device.device_id)) {
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: 'Welcome',
+        body: 'Families Share welcomes you to our community'
+      })
+      // } else {
+      // invalidTokens.push(device.device_id)
+      // }
     })
     let chunks = expo.chunkPushNotifications(messages)
     for (let chunk of chunks) {
