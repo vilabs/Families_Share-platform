@@ -7,6 +7,7 @@ import "moment/locale/de";
 import "moment/locale/el";
 import "moment/locale/nl";
 import "moment/locale/it";
+import "moment/locale/hu";
 
 const LanguageContext = React.createContext();
 
