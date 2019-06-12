@@ -52,7 +52,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/images', express.static(path.join(__dirname, '../images')))
 
-if (config.util.getEnv('NODE_ENV') === 'production') {
+if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
 }
 
