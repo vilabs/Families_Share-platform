@@ -1013,6 +1013,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
     let chunks = expo.chunkPushNotifications(messages)
     for (let chunk of chunks) {
       let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+      console.log(ticketChunk)
       ticketChunk.forEach((ticket, index) => {
         if (ticket.status === 'error') invalidTokens.push(chunk[index].to)
       })
