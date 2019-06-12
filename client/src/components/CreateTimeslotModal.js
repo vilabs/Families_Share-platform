@@ -47,16 +47,16 @@ class CreateTimeslotModal extends React.Component {
     const { language } = this.props;
     const texts = Texts[language].expandedTimeslotEdit;
     const formLength = this.formEl.length;
-    if (this.formEl.checkValidity() === false) {
+    const { startTime, endTime } = this.state;
+    const samePeriod =
+      Math.floor(startTime.substr(0, startTime.indexOf(":")) / 12) ===
+      Math.floor(endTime.substr(0, endTime.indexOf(":")) / 12);
+    const invalidTime = samePeriod && startTime >= endTime;
+    if (this.formEl.checkValidity() === false || invalidTime) {
       for (let i = 0; i < formLength; i += 1) {
         const elem = this.formEl[i];
         if (elem.name === "startTime" || elem.name === "endTime") {
-          const { startTime } = this.state;
-          const { endTime } = this.state;
-          const samePeriod =
-            Math.floor(startTime.substr(0, startTime.indexOf(":")) / 12) ===
-            Math.floor(endTime.substr(0, endTime.indexOf(":")) / 12);
-          if (samePeriod && startTime >= endTime) {
+          if (invalidTime) {
             elem.setCustomValidity(texts.timeError);
           } else {
             elem.setCustomValidity("");
@@ -130,7 +130,18 @@ class CreateTimeslotModal extends React.Component {
   };
 
   render() {
-    const { formIsValidated } = this.state;
+    const {
+      formIsValidated,
+      expanded,
+      startTime,
+      endTime,
+      name,
+      description,
+      location,
+      requiredChildren,
+      requiredParents,
+      cost
+    } = this.state;
     const { language } = this.props;
     const formClass = [];
     if (formIsValidated) {
@@ -138,7 +149,6 @@ class CreateTimeslotModal extends React.Component {
     }
     const rowStyle = { margin: "2rem 0" };
     const texts = Texts[language].expandedTimeslotEdit;
-    const { state, expanded } = this;
     const modalStyle = {
       overlay: {
         zIndex: 1500,
@@ -214,7 +224,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     name="startTime"
                     type="time"
-                    value={state.startTime}
+                    value={startTime}
                     onChange={this.handleChange}
                     className="expandedTimeslotTimeInput"
                   />
@@ -229,7 +239,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     name="endTime"
                     type="time"
-                    value={state.endTime}
+                    value={endTime}
                     onChange={this.handleChange}
                     className="expandedTimeslotTimeInput form-control"
                   />
@@ -249,7 +259,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     type="text"
                     name="name"
-                    value={state.name}
+                    value={name}
                     className="expandedTimeslotInput form-control"
                     onChange={this.handleChange}
                     placeholder={texts.name}
@@ -266,7 +276,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     type="text"
                     name="location"
-                    value={state.location}
+                    value={location}
                     className="expandedTimeslotInput form-control"
                     onChange={this.handleChange}
                     placeholder={texts.location}
@@ -296,7 +306,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     type="number"
                     name="requiredParents"
-                    value={state.requiredParents}
+                    value={requiredParents}
                     min={1}
                     required
                     className="expandedTimeslotInput form-control"
@@ -326,7 +336,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     type="number"
                     name="requiredChildren"
-                    value={state.requiredChildren}
+                    value={requiredChildren}
                     min={1}
                     className="expandedTimeslotInput form-control"
                     onChange={this.handleChange}
@@ -350,7 +360,7 @@ class CreateTimeslotModal extends React.Component {
                     name="description"
                     className="expandedTimeslotInput center"
                     placeholder={texts.description}
-                    value={state.description}
+                    value={description}
                     onChange={event => {
                       this.handleChange(event);
                       autosize(document.querySelectorAll("textarea"));
@@ -366,7 +376,7 @@ class CreateTimeslotModal extends React.Component {
                   <input
                     type="text"
                     name="cost"
-                    value={state.cost}
+                    value={cost}
                     className="expandedTimeslotInput"
                     onChange={this.handleChange}
                     placeholder={texts.cost}

@@ -2,7 +2,7 @@ node_modules/
 build/
 .env
 .nyc_output
-images/announcements/
+images/announcements/*
 images/profiles/
 !images/profiles/child_default_photo.jpg
 !images/profiles/user_default_photo.png
