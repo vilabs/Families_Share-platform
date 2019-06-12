@@ -21,7 +21,8 @@ const Images = {
     en: require("../images/en.png"),
     de: require("../images/de.png"),
     nl: require("../images/nl.png"),
-    it: require("../images/it.png")
+    it: require("../images/it.png"),
+    hu: require("../images/hu.png")
   },
   gender: require("../images/gender.png"),
   couple: require("../images/couple.png"),

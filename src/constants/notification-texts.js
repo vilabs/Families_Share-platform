@@ -228,9 +228,73 @@ const el = {
   ]
 }
 
+const hu = {
+  'group': [
+    {
+      'header': 'Csoport beállítások',
+      'description': 'Megváltoztatta a csoport képét'
+    },
+    {
+      'header': 'Csoport beállítások',
+      'description': 'Megváltoztatta a csoport nevét'
+    },
+    {
+      'header': 'Csoport beállítások',
+      'description': 'A csoport nem hozzáférhető'
+    },
+    {
+      'header': 'Csoport beállítások',
+      'description': 'A csoport nem hozzáférhető'
+    },
+    {
+      'header': 'Csoport beállítások',
+      'description': 'Megváltoztatta a csoport leírását'
+    }
+  ],
+  'members': [
+    {
+      'header': 'Új tag',
+      'description': 'Belépett a csoportba'
+    },
+    {
+      'header': 'Jelezze csatlakozási szándékát',
+      'description': 'Ön sikeresen jelentkezett a csoportba'
+    },
+    {
+      'header': 'Csoporttagok',
+      'description': 'Eltávolításra került a csoportból'
+    },
+    {
+      'header': 'Csoporttagok',
+      'description': 'Önt eltávolítottuk a csoportból'
+    }
+  ],
+  'activities': [
+    {
+      'header': 'Csoporttevékenységek',
+      'description': 'Új tevékenységet hozott létre a csoporton belül'
+    },
+    {
+      'header': 'Csoporttevékenységek',
+      'description': 'Minden feltétel teljesült'
+    },
+    {
+      'header': 'Csoporttevékenységek',
+      'description': 'Megváltozott az időpont és a helyszín, valamint a résztvevők leiratkoztak. Kérjük, iratkozzon fel ismét'
+    }
+  ],
+  'announcements': [
+    {
+      'header': 'Csoport bejelentések',
+      'description': 'Új bejegyzést osztott meg a csoporton belül'
+    }
+  ]
+}
+
 module.exports = {
   en,
   it,
   nl,
-  el
+  el,
+  hu
 }

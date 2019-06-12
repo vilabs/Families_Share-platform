@@ -2589,9 +2589,662 @@ const el = {
   framilyListItem: { delete: "" }
 };
 
+const hu = {
+  profileChildren: {
+    addChildPrompt:
+      "Még nem adott meg gyermeket. Kattintson a gyermek ikonra új gyermek hozzáadásáért"
+  },
+  myCalendarScreen: {
+    backNavTitle: "Eseménynaptáram"
+  },
+  editTimeslotScreen: {
+    from: "Tól",
+    date: "Időpont",
+    to: "Ig",
+    details: "Részletek",
+    parents: "Szülő hozzáadása szükséges",
+    children: "Gyermek hozzáadása szükséges",
+    name: "Cím",
+    location: "Helyszín",
+    description: "Leírás (opcionális)",
+    cost: "Költségvonzat (opcionális)",
+    status: "Időszak állapota",
+    proposed: "Javasolt",
+    confirmed: "Jóváhagyott",
+    completed: "Befejezett",
+    timeErr: "Érvénytelen a kezdő és a záró idöpont kombinációja",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt",
+    rangeErr: "Kérjük, adjon meg nullánál nagyobb értéket",
+    editConfirm: "Jóváhagyja a módosításokat?",
+    crucialChangeConfirm:
+      "Amennyiben elmenti ezeket a változtatásokat, akkor a teljes csoport leiratkozik. Jóváhagyja a módosításokat?"
+  },
+  timeslotScreen: {
+    minimum: "minimum érték",
+    userAvailability: "Adja meg saját elérhetőségét",
+    childrenAvailability: "Adja meg gyermeke elérhetőségét",
+    volunteer: "önkéntes",
+    volunteers: "önkéntesek",
+    child: "gyermek",
+    children: "gyermekek",
+    signup: "feliratkozott",
+    userSubscribe: "Hozzáadta magát a tevékenységhez",
+    userUnsubscribe: "Leiratkozott a tevékenységről",
+    childSubscribe1: "Hozzáadta",
+    childSubscribe2: "a tevékenységhez",
+    childUnsubscribe1: "Leiratkozott",
+    childUnsubscribe2: "a tevékenységről",
+    childSubscribeConfirm1: "Biztosan hozzá szeretné adni",
+    childSubscribeConfirm2: "a tevékenységhez",
+    childUnsubscribeConfirm1: "Biztosan le szeretne jelentkezni",
+    childUnsubscribeConfirm2: "a tevékenységről",
+    editConfirm: "Jóváhagyja a módosításokat?",
+    you: "Ön",
+    userSubscribeConfirm:
+      "Biztosan hozzá szeretné adni magát a tevékenységhez?",
+    userUnsubscribeConfirm: "Biztosan le szeretne iratkozni a tevékenységről?"
+  },
+  timeslotPreview: {
+    confirmed: "Jóváhagyva",
+    pending: "Jóváhagyásra vár",
+    participating: "Ön és gyermeke részt fognak venni",
+    parentParticipating: "Ön részt fog venni",
+    notParticipating: null
+  },
+  ratingModal: {
+    title: "Milyennek találja a Families_Share-t?",
+    rate: "Értékelje",
+    rateInstruction: "Hány csillagot adna nekünk egy 1-5-ig terjedő skálán?"
+  },
+  landingHeader: {
+    communityName: null
+  },
+  landingNavbar: {
+    logIn: "Bejelentkezés",
+    signUp: "Regisztráció"
+  },
+  aboutScreen: {
+    findOutMore: "További információért, kérjük látogasson el a honlapra",
+    aboutHeader: "A projektről",
+    familyShareSolution: "A Families_Share megoldás",
+    firstParagraph:
+      "Az Európai Bizottság Horizont 2020, az Unió ipari vezető szerepének erősítését célzó komponensének Információs és Kommunikációs technológiák prioritási tengelye finanszírozásával, célja olyan közösségi figyelemfelkeltő fenntarthatósági és társadalmi innovációs platform kialakítása, amely ösztönzi a gyermekfelügyelet és a munka-magánélet egyensúlyának fenntartását. A platform szomszédsági kapcsolatrendszerre épít, továbbá elősegíti a polgárok egymás közötti feladat-, idő- és gyermekneveléssel összefüggésbe hozható képességeinek, iskolán kívüli tevékenységeinek, szabadidejének megosztását - amelyek másként megfizethetetlenek lennének a gazdasági stagnálás, illetve visszaesés időszakaiban.",
+    challengeHeader: "A kihívás",
+    secondParagraph:
+      "A munka-magánélet egyensúlyának fenntartása az elmúlt évtized egyik legnagyobb kihívásává vált. A legutóbbi gazdasági válság következtében jelentősen csökkent a teljes munkaidős álláshelyek száma (mindez különösen igaz a női munkakörök esetében) és elterjedtek a részmunkaidős, azonban sokszor egyenlőtlen munkaterhelést eredményező álláshelyek. Ennek következtében, a munkanélküliségi ráta folyamatos növekedésével párhuzamosan emelkedett a részmunkaidős álláshelyek száma. A stabil álláshelyek már nem tekinthetőek elterjedtnek, a határozatlan időre álláslehetőséget kínáló szerződések száma jelentősen megnőtt, a dolgozók többségének munkaerőpiaci átképzését és időszakos munkanélküliségét magával hozva. A határozott idejű munkaszerződések eredményeképpen megjelentek az egyenetlen munkaterheléssel és hosszabb munkaórákkal járó álláshelyek, a munka-magánélet egyensúlyát megnehezíve, a jelenlegi modelleket pedig fenntarthatatlanná téve. ",
+    fourthParagraph:
+      "A Families_Share projekt alulról szerveződő megoldást kínál a közösen kialakított platform segítségével elősegítve a családok gyermekfelügyelettel kapcsolatos idejének és feladatainak, a gyermeknevelési, oktatási órákon túli, szabadidős és háztartási feladatainak megosztására - különös tekintettel az alacsony jövedelmű családokra.A projekt emellett épít az idősebb generáció bevonására, gyermekfelügyeleti, bevásárlási és a családok életét érintő adminisztratív feladatokon keresztül. A fentiek érdekében, a projekt kihasználja az időbank megoldást, építve a partnerség meglévő digitális társadalmi innovációs tapasztalataira. Továbbá, felhasználja az információs és kommunikációs technológiai hálózatokban rejlő lehetőségeket az önszerveződő szomszédságok kialakításának elősegítésével.",
+    europeanUnionText:
+      "A projekt az Európai Unió Horizont 2020 programja keretében részesült finanszírozásban (Téma: ICT-11-2017 tevékenység típusa: innovációs tevékenység, támogatási szerződés száma: 780783)",
+    backNavTitle: "Rólunk"
+  },
+  landingScreen: {
+    suggestionsHeader: "A közösség csoportjai",
+    cardHeader: "A projektről",
+    cardInfo:
+      "A Families_Share keretében közösségi és figyelemfelkeltő platform kerül kialakításra, amely célja a gyermekfelügyelet és a munka-magánélet egyensúlyának fenntartása."
+  },
+  logInScreen: {
+    backNavTitle: "Bejelentkezés",
+    forgotPassword: "Elfelejtett jelszó?",
+    orLogInWith: "Jelentkezzen be másként",
+    google: "Google",
+    facebook: "Facebook",
+    dontHaveAccount: "Még nincs fiókja?",
+    signUp: "Bejelentkezés",
+    agreeWithTerms:
+      "Bejelentkezésével elfogadja a szolgáltatási feltételeket és adatvédelmi szabályzatot."
+  },
+  logInForm: {
+    password: "Jelszó",
+    email: "E-mail",
+    confirm: "Erősítse meg",
+    authenticationErr: "Érvénytelen e-mail cím vagy jelszó",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt",
+    tooShortErr: "Kérjük, adjon meg legalább 8 karaktert",
+    typeMismatchErr: "Kárjük, adjon meg e-mail címet"
+  },
+  signUpScreen: {
+    backNavTitle: "Bejelentkezés",
+    accountQuestion: "Van már felhasználói fiókja?",
+    logIn: "Bejelentkezés"
+  },
+  signUpForm: {
+    email: "E-mail",
+    givenName: "Keresztnév",
+    familyName: "Vezetéknév",
+    password: "Jelszó",
+    confirmPassword: "Erősítse meg jelszavát",
+    confirm: "Erősítse meg",
+    profileVisibility: "A profilom megjelenik a keresési találatok között",
+    termsPolicy: "Feltételek és szabályzat",
+    phoneNumber: "Telefonszám (opcionális)",
+    confirmPasswordErr: "Eltérő jelszavak",
+    signupErr: "Másik jelszó használatban",
+    acceptTermsErr: "Kérjük, fogadja el a feltételeket és a szabályzatot",
+    passwordPrompt: "A jelszónak legalább 8 karaktert kell tartalmaznia",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt",
+    tooShortErr: "Kérjük, adjon meg legalább 8 karaktert",
+    typeMismatchErr: "Kérjük, adjon meg e-mail címet",
+    visibilityPrompt:
+      "A felhasználók keresési találatai között megjelenik a profilon az applikációban"
+  },
+  privacyPolicyModal: {
+    terms:
+      'Közismert tény, hogy az olvasó figyelmét elvonja az oldal elrendezése az olvasandó szövegről. A Lorem Ipsum használatának célja, hogy többé-kevésbé egyenlegesen osztja el a betűket, ellentétben a "Tartalom itt, tartalom ott" megközelítéssel olvashatóbbá téve az angol nyelvű szövegeket. Számos kiadó fontolgatja a "Lorem Ipsum" alkalmazását alapértelmezett megoldásként, amely még a mai napig gyermekcipőben jár. Számos típusa alakult ki az elmúlt évek során, néha véletlenek folytán, máskor pedig szándékosan.',
+    privacy:
+      'Közismert tény, hogy az olvasó figyelmét elvonja az oldal elrendezése az olvasandó szövegről. A Lorem Ipsum használatának célja, hogy többé-kevésbé egyenlegesen osztja el a betűket, ellentétben a "Tartalom itt, tartalom ott" megközelítéssel olvashatóbbá téve az angol nyelvű szövegeket. Számos kiadó fontolgatja a "Lorem Ipsum" alkalmazását alapértelmezett megoldásként, amely még a mai napig gyermekcipőben jár. Számos típusa alakult ki az elmúlt évek során, néha véletlenek folytán, máskor pedig szándékosan.',
+    privacyHeader: "Adatvédelmi szabályzat",
+    termsHeader: "Felhasználási feltételek",
+    accept: "Elfogad"
+  },
+  groupAbout: {
+    header: "A csoportról",
+    memberHeader: "Rólunk"
+  },
+  groupActivities: {
+    header: "A csoport tevékenységei",
+    export: "Program exportálása"
+  },
+  activityListItem: {
+    every: "Mindegyik",
+    of: "Mindegyik"
+  },
+  groupListItem: {
+    open: "A csoportban történő részvétel bárki számára lehetséges",
+    closed: "A csoportban történő részvétel csak tagok számára lehetséges",
+    members: "Tagok",
+    kids: "Gyermekek"
+  },
+  groupInfo: {
+    startGuideHeader: "Nem tudja hogyan kezdje?",
+    startGuideInfo:
+      "Nézze meg a kezdő felhasználóknak szóló,  7 lépéses útmutatónkat!",
+    join: "Csatlakozás",
+    leave: "Kilépés",
+    pending: "Igénylés visszavonása",
+    confirm: "Biztosan ki szeretne lépni a csoportból?"
+  },
+  groupNavbar: {
+    newsTab: "Hírek",
+    activitiesTab: "Tevékenységek",
+    membersTab: "Tagok",
+    infoTab: "A csoportról",
+    calendarTab: "Eseménynaptáram"
+  },
+  groupMembersAdminOptions: {
+    invite: "Emberek meghívása",
+    groupIsOpen: "Nyitott csoport",
+    groupIsClosed: "Zárt csoport",
+    requestsOpen: "Csatlakozás lehetséges",
+    requestsClosed: "A csoport betelt "
+  },
+  inviteModal: {
+    memberHeader: "Emberek meghívása",
+    parentHeader: "Szülő hozzáadása",
+    framilyHeader: "Család hozzáadása",
+    invite: "Meghívás",
+    add: "Hozzáadás",
+    cancel: "Visszavonás",
+    search: "Keresés"
+  },
+  groupNewsNavbar: {
+    notifications: "Értesítések",
+    messages: "Üzenetek"
+  },
+  cardWithLink: {
+    learnMore: "További információ"
+  },
+  memberContact: {
+    administrator: "Adminisztrátor",
+    addAdmin: "Adminisztrátor hozzáadása",
+    removeAdmin: "Adminisztrátor eltávolítása",
+    removeUser: "Felhasználó eltávolítása"
+  },
+  startUpGuide: {
+    backNavTitle: "Kezdő felhasználóknak szóló útmutató",
+    guide: [
+      {
+        main: "Hírdesse meg a kezdeményezést baráti körében",
+        secondary: null
+      },
+      {
+        main: "Egyesítse az első érdeklődőket",
+        secondary: null
+      },
+      {
+        main: "Lépjen kapcsolatba a helyzetmeghatározó eszközzel",
+        secondary: null
+      },
+      {
+        main: "Kezdeményezzen belső egyeztetéseket",
+        secondary: null
+      },
+      {
+        main: "Véglegesítse a programot",
+        secondary: null
+      },
+      {
+        main: "Indulás!",
+        secondary: null
+      },
+      {
+        main: "Üdvözöljük!",
+        secondary: null
+      }
+    ]
+  },
+  notificationScreen: {
+    backNavTitle: "Értesítés"
+  },
+  myFamiliesShareHeader: {
+    confirmDialogTitle: "Küldjünk Önnek összefoglalót e-mail címére?",
+    walkthrough: "Útmutató kezdő felhasználók számára",
+    rating: "Értékeljen minket!",
+    header: "Saját Families_Share-m",
+    homeButton: "Főoldal",
+    myProfile: "Profilom",
+    myCalendar: "Eseménynaptáram",
+    createGroup: "Csoport létrehozása",
+    searchGroup: "Csoport keresése",
+    inviteFriends: "Barátok meghívása",
+    faqs: "GYIK",
+    about: "Rólunk",
+    signOut: "Kijelentkezés",
+    language: "Nyelv",
+    export: "Adatok exportálása"
+  },
+  myFamiliesShareScreen: {
+    myGroups: "Csoportjaim",
+    myActivities: "Tevékenységeim",
+    myNotifications: "Értesítéseim",
+    myGroupsPrompt:
+      "Még nincs csoportja, használja az alábbi menüt a csoport megtalálására",
+    myActivitiesPrompt:
+      "Itt láthatja a jövőbeli tevékenységeit miután feiratkozott egy vagy több csoportba",
+    groupsPrompt: "Új csoporthoz történő csatlakozás vagy létrehozás"
+  },
+  faqsScreen: {
+    backNavTitle: "GYIK",
+    faqs: [
+      {
+        question: "Hogyan működik a csoport?",
+        dropdowns: [
+          {
+            title: "Melyik szabályok vonatkoznak a csoport tagjaira?",
+            paragraph:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu, vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum. Vivamus cursus sit amet dui ut sodales."
+          },
+          {
+            title:
+              "Mi történik ha rajtam kívülálló okok miatt nem tudok részt venni a vállalt tevékenység végrehajtásában?",
+            paragraph:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu, vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum. Vivamus cursus sit amet dui ut sodales."
+          },
+          {
+            title: "Mi történik ha nincs tapasztalatom gyermekfelügyeletben?",
+            paragraph:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu, vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum. Vivamus cursus sit amet dui ut sodales."
+          }
+        ]
+      },
+      {
+        question: "Iskolák és szervezetek számára szóló információk",
+        dropdowns: [
+          {
+            title: "Speciális szervezeti adatok",
+            paragraph:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu, vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum. Vivamus cursus sit amet dui ut sodales."
+          },
+          {
+            title: "Iskolák számára szóló információ",
+            paragraph:
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit.Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu, vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum. Vivamus cursus sit amet dui ut sodales."
+          }
+        ]
+      }
+    ]
+  },
+  searchGroupModal: {
+    search: "Csoport keresése",
+    example: "Pl. iskolai órák utáni tevékenységek",
+    results: "Eredmények"
+  },
+  createGroup: {
+    backNavTitle: "Csoport létrehozása"
+  },
+  createGroupStepper: {
+    continue: "Folytatás",
+    cancel: "Visszavonás",
+    finish: "Befejezés",
+    stepLabels: [
+      "Adjon meg címet és leírást",
+      "Adja meg a láthatóságra vonatkozó beállításokat",
+      "Adjon meg helyszínt",
+      "Emberek meghívása"
+    ],
+    name: "Név",
+    description: "Leírás",
+    visibleGroup: "Mások keresési találatai között megjelenik a csoportom",
+    invisibleGroup:
+      "Mások keresési találatai között nemjelenik meg a csoportom",
+    city: "Város",
+    invite: "Csoporttag hozzáadása",
+    nameErr: "Csoport megnevezése már foglalt",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  profileNavbar: {
+    framily: "Család",
+    info: "Információ",
+    children: "Gyermekek"
+  },
+  profileInfo: {
+    adress: "Cím",
+    email: "Személyes",
+    mobile: "Mobil telefonszám",
+    home: "Vezetékes telefonszám",
+    unspecified: "További információ nem elérhető"
+  },
+  profileScreen: {
+    privateProfile: "Magán profil"
+  },
+  editProfileScreen: {
+    save: "Mentés",
+    header: "Profil szerkesztése",
+    name: "Név",
+    surname: "Vezetéknév",
+    phoneNumber: "Telefonszám",
+    phoneLabel: "Címke",
+    street: "Utca",
+    streetNumber: "Házszám",
+    country: "Ország",
+    city: "Város",
+    email: "E-mail cím",
+    mobile: "Mobil telefonszám",
+    home: "Vezetékes telefonszám",
+    unspecified: "További információ nem elérhető",
+    visible: "Nyilvános profil",
+    invisible: "Láthatatlan profil",
+    cityErr: "Nem létező város",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  editGroupScreen: {
+    save: "Mentés",
+    header: "Csoport szerkesztése",
+    name: "Név",
+    description: "Leírás",
+    file: "Feltöltés",
+    city: "Város",
+    nameErr: "Foglalt csoport megnevezés",
+    visible: "Nyilvános csoport",
+    invisible: "Láthatatlan csoport",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  profileHeader: {
+    export: "exportálás",
+    delete: "törlés",
+    signout: "Kijelentkezés",
+    deleteDialogTitle: "Biztosan törölni szeretné profilját és összes adatát?",
+    exportDialogTitle: "Biztosan exportálni szeretné személyes adatait?",
+    suspend: "Felfüggesztve",
+    suspendDialogTitle: "Biztosan szeretné időlegesen felfüggeszteni fiókját?",
+    suspendSuccess:
+      "Fiókját átmenetileg felfüggesztettük. A következő bejelentkezés alkalmával fiókja aktiválásra kerül.",
+    error: "Hiba történt"
+  },
+  replyBar: {
+    new: "Új üzenet",
+    maxFilesError: "Legfeljebb 3 file tölthető fel"
+  },
+  announcementReplies: {
+    new: "Véleménye"
+  },
+  reply: {
+    confirmDialogTitle: "Biztosan törölni szeretné válaszát?"
+  },
+  groupHeader: {
+    confirmDialogTitle: "Biztosan törölni szeretné a csoportot?"
+  },
+  announcementHeader: {
+    confirmDialogTitle: "Biztosan törölni szeretné ezt?"
+  },
+  childListItem: {
+    boy: "Fiú",
+    girl: "Lány",
+    age: "Éves"
+  },
+  childProfileHeader: {
+    delete: "Gyermek törlése",
+    confirmDialogTitle:
+      "Biztosan törölni szeretné a gyermeket és valamennyi adatát?"
+  },
+  childProfileInfo: {
+    boy: "Fiú",
+    girl: "Lány",
+    unspecified: "Meghatározhatatlan",
+    age: "éves",
+    additional: "további információ",
+    allergies: "Allergiák",
+    otherInfo: "Egyéb információ",
+    specialNeeds: "Sajátos nevelési igény",
+    addAdditional: "Hozzáadás",
+    addParent: "Szülő hozzáadása",
+    confirmDialogTitle: "Biztosan törölni szeretné ezt a szülőt?"
+  },
+  editChildProfileScreen: {
+    backNavTitle: "Profil szerkesztése",
+    save: "Mentés",
+    name: "Név",
+    surname: "Vezéknév",
+    birthday: "Születésnap",
+    gender: "Nem",
+    additional: "Speciális információ hozzáadása",
+    example: "pl. étel intolerancia",
+    boy: "Fiú",
+    girl: "Lány",
+    date: "Dátum",
+    add: "Szerkesztés",
+    month: "Hónap",
+    year: "Év",
+    file: "File kiválasztása",
+    unspecified: "Meghatározhatatlan",
+    requiredErrr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  createChildScreen: {
+    backNavTitle: "Gyermek hozzáadása",
+    save: "Mentés",
+    name: "Név",
+    surname: "Vezetéknév",
+    birthday: "Születésnap",
+    gender: "Nem",
+    additional: "Speciális információ hozzáadása",
+    add: "Hozzáadás",
+    edit: "Szerkesztés",
+    example: "pl. étel intolerancia",
+    boy: "Fiú",
+    girl: "Lány",
+    date: "Dátum",
+    month: "Hónap",
+    year: "Év",
+    acceptTerms:
+      "Hozzájárulok a felhaszálási feltételekhez és személyes adataim kezeléséhez",
+    acceptTermsErr: "Kérjük, fogadja el a felhasználási feltételeket",
+    unspecified: "Meghatározhatatlan",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  additionalInfoScreen: {
+    backNavTitle: "Információ",
+    save: "Mentés",
+    allergy: "Allergia",
+    special: "Sajátos nevelési igény",
+    others: "Egyéb",
+    acceptTerms:
+      "Tudomásul veszem, hogy ez az információ megosztásra kerül a gyermekfelügyeleti tevékenységekben részt vevő más csoporttagokkal."
+  },
+  createActivityScreen: {
+    backNavTitle: "Új tevékenység"
+  },
+  createActivityStepper: {
+    continue: "Folytatás",
+    cancel: "Visszavonás",
+    finish: "Létrehozás",
+    save: "Mentés",
+    stepLabels: ["Információ", "Dátumok", "Időpontok"]
+  },
+  createActivityInformation: {
+    color: "Színezze be a tevékenységet",
+    description: "Leírás (opcionális)",
+    name: "Nevezze meg a tevékenységet",
+    location: "Helyszín (opcionális)"
+  },
+  createActivityDates: {
+    header: "Jelöljön meg egy vagy több napot",
+    repetition: "Ismétlés",
+    weekly: "Heti",
+    monthly: "Havi ",
+    datesError: "Több kiválasztott nap esetén ismétlés nem lehetséges"
+  },
+  createActivityTimeslots: {
+    header: "Adjon hozzá időpontokat a kiválasztott napokhoz",
+    differentTimeslots: "Naponta különböző időpontok?",
+    sameTimeslots: "Ugyanazon időpontok minden nap?"
+  },
+  timeslotsContainer: {
+    addTimeslot: "Időpont hozzáadása",
+    timeslot: "Időpont",
+    timeslots: "Időpontok",
+    confirmDialogTitle: "Biztosan törölni szeretné ezt az időpontot?",
+    timeRangeError: "Érvénytelen kezdő és záró idöpont kombinációja"
+  },
+  clockModal: {
+    am: "Délelőtt",
+    pm: "Délután",
+    start: "Indulás! / Kezdés",
+    end: "Szerkesztés",
+    confirm: "OK",
+    cancel: "Visszavonás"
+  },
+  activityScreen: {
+    color: "Szín",
+    deleteDialogTitle: "Biztosan törölni szeretné ezt a tevékenységet?",
+    exportDialogTitle: "Biztosan exportálni szeretné ezt a tevékenységet?",
+    delete: "Törlés",
+    export: "Exportálás",
+    every: "Mindegyik",
+    of: "Mindegyik",
+    infoHeader: "Tevékenységre vonatkozó információ"
+  },
+  timeslotsList: {
+    fixed: "Rögzítve",
+    completed: "Befejezve",
+    proposed: "Javasolt",
+    timeslot: "Időpont",
+    timeslots: "Időpontok",
+    available: "elérhető",
+    all: "Minden időpont",
+    signed: "Feliratkozásaim",
+    enough: "Résztvevők száma elegendő",
+    notEnough: "Résztvevők száma nem elengedő"
+  },
+  filterTimeslotsDrawer: {
+    header: "Időpontok szűrése",
+    all: "Minden időpont",
+    signed: "Feliratkozásaim",
+    enough: "Résztvevők száma elegendő",
+    notEnough: "Résztvevők száma nem elengedő"
+  },
+  expandedTimeslot: {
+    signup: "Feliratkozás",
+    parents: "Szülők feliratkozása sikeres",
+    children: "Gyermekek feliratkozása sikeres",
+    parent: "Szülő feliratkozása sikeres",
+    child: "Gyermek feliratkozása sikeres",
+    proposed: "Javasolt",
+    fixed: "Rögzítve",
+    completed: "Befejezve"
+  },
+  expandedTimeslotEdit: {
+    details: "Részletek",
+    from: "tól ",
+    to: "ig",
+    parents: "Szükséges szülők száma",
+    children: "Szükséges gyermekek száma",
+    footer: null,
+    name:
+      "A változtatások csak az időszakot érintik és nem vonatkoznak a tevékenységre",
+    location: "Helyszín",
+    description: "Leírás (opcionális)",
+    cost: "Költségvonzat (opcionális)",
+    status: "Időszakok állapota",
+    proposed: "Javasolt",
+    fixed: "Rögzítve",
+    completed: "Befejezve",
+    timeErr: "Érvénytelen a kezdő és a záró idöpont kombinációja",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt",
+    rangeErr: "Kérjük, adjon meg null"
+  },
+  editActivityScreen: {
+    backNavTitle: "Tevékenység szerkesztése",
+    color: "Színezze be a tevékenységet",
+    description: "Leírás (opcionális)",
+    name: "Tevékenység megnevezése",
+    save: "Mentés",
+    location: "Helyszín (opcionális)"
+  },
+  agendaView: {
+    timeslots: "időpontok",
+    available: "elérhető",
+    all: "Minden időpont",
+    signed: "Feliratkozásaim",
+    enough: "Résztvevők száma elegendő",
+    notEnough: "Résztvevők száma nem elengedő",
+    notEnoughParticipants: "Résztvevők száma nem éri el a minimális létszámot"
+  },
+  confirmDialog: {
+    agree: "OK",
+    disagree: "Visszavonás"
+  },
+  pendingRequestsScreen: {
+    requests: "Függőben lévő felkérés ",
+    invites: "Függőben lévő meghívás",
+    activities: "Függőben lévő tevékenység",
+    confirm: "Megerősítés",
+    delete: "Törlés"
+  },
+  forgotPasswordScreen: {
+    prompt:
+      "Kérjük, adja meg e-mail címét a jelszó megváltoztatását tartalamzó link elküldésére",
+    email: "E-mail",
+    backNavTitle: "Elfelejtett jelszó",
+    send: "Küldés",
+    notExistErr: "Nem létező felhasználó",
+    err: "Hiba történt",
+    success: "E-mail elküldve",
+    requiredErrr: "Kérjük, töltse ki ezt a mezőt"
+  },
+  changePasswordScreen: {
+    prompt: "Kérjük, adjon meg új jelszót",
+    password: "Jelszó",
+    confirm: "Jelszó megerősítése",
+    change: "Változtatás",
+    err: "Nem egyező jelszavak",
+    badRequest: "Hibás igény",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt",
+    tooShortErr: "Kérjük, adjon meg legalább 8 karaktert"
+  },
+  calendar: {
+    userCalendar: "Eseménynaptáram",
+    groupCalendar: "Csoportos eseménynaptár"
+  },
+  framilyListItem: {
+    delete: "Család törlése"
+  }
+};
+
 module.exports = {
   en,
   nl,
   it,
-  el
+  el,
+  hu
 };
