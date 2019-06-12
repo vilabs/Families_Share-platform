@@ -301,7 +301,7 @@ router.post('/authenticate/google', async (req, res, next) => {
         image_id,
         owner_type: 'user',
         owner_id: user_id,
-        path: req.body.origin === 'native' ? googleProfile.photo : googleProfile.imageUrl,
+        path: googleProfile.photo,
         thumbnail_path: googleProfile.photo
       }
       const address = {
