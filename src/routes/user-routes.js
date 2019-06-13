@@ -1018,7 +1018,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
         if (ticket.status === 'error') invalidTokens.push(chunk[index].to)
       })
     }
-    await Device.deleteMany({ device_id: { $in: invalidTokens } })
+    // await Device.deleteMany({ device_id: { $in: invalidTokens } })
     res.status(200).send('Push notification sent')
   } catch (err) {
     next(err)
