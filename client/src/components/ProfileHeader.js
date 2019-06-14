@@ -118,9 +118,9 @@ class ProfileHeader extends React.Component {
         case "export":
           this.handleExport();
           break;
-        // case "suspend":
-        //   this.handleSuspend();
-        //   break;
+        case "suspend":
+          this.handleSuspend();
+          break;
         default:
       }
     }
@@ -158,13 +158,13 @@ class ProfileHeader extends React.Component {
           this.handleConfirmDialogOpen("delete");
         }
       },
-      {
-        label: texts.suspend,
-        style: "optionsModalButton",
-        handle: () => {
-          this.handleConfirmDialogOpen("suspend");
-        }
-      },
+      // {
+      //   label: texts.suspend,
+      //   style: "optionsModalButton",
+      //   handle: () => {
+      //     this.handleConfirmDialogOpen("suspend");
+      //   }
+      // },
       {
         label: texts.export,
         style: "optionsModalButton",
