@@ -60,10 +60,16 @@ profileSchema.virtual('address', {
 profileSchema.post('find', (profiles, next) => {
   for (let i = 0; i < profiles.length; i++) {
     if (profiles[i].suspended) {
-      if (profiles[i].image !== null) {
-        profiles[i].image.path = '/images/profiles/user_default_photo.png'
-        profiles[i].image.thumbnail_path =
-          '/images/profiles/user_default_photo.png'
+      profiles[i].image = {
+        path: '/images/profiles/user_default_photo.png',
+        thumbnail_path: '/images/profiles/user_default_photo.png'
+      }
+    } else {
+      if (profiles[i].image === null) {
+        profiles[i].image = {
+          path: '/images/profiles/user_default_photo.png',
+          thumbnail_path: '/images/profiles/user_default_photo.png'
+        }
       }
     }
   }
@@ -72,9 +78,16 @@ profileSchema.post('find', (profiles, next) => {
 profileSchema.post('findOne', (profile, next) => {
   if (profile !== null) {
     if (profile.suspended) {
-      if (profile.image !== null) {
-        profile.image.path = '/images/profiles/user_default_photo.png'
-        profile.image.thumbnail_path = '/images/profiles/user_default_photo.png'
+      profile.image = {
+        path: '/images/profiles/user_default_photo.png',
+        thumbnail_path: '/images/profiles/user_default_photo.png'
+      }
+    } else {
+      if (profile.image === null) {
+        profile.image = {
+          path: '/images/profiles/user_default_photo.png',
+          thumbnail_path: '/images/profiles/user_default_photo.png'
+        }
       }
     }
   }

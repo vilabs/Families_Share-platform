@@ -118,9 +118,9 @@ class ProfileHeader extends React.Component {
         case "export":
           this.handleExport();
           break;
-        case "suspend":
-          this.handleSuspend();
-          break;
+        // case "suspend":
+        //   this.handleSuspend();
+        //   break;
         default:
       }
     }
