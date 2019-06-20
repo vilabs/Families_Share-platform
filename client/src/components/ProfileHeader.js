@@ -158,13 +158,13 @@ class ProfileHeader extends React.Component {
           this.handleConfirmDialogOpen("delete");
         }
       },
-      {
-        label: texts.suspend,
-        style: "optionsModalButton",
-        handle: () => {
-          this.handleConfirmDialogOpen("suspend");
-        }
-      },
+      // {
+      //   label: texts.suspend,
+      //   style: "optionsModalButton",
+      //   handle: () => {
+      //     this.handleConfirmDialogOpen("suspend");
+      //   }
+      // },
       {
         label: texts.export,
         style: "optionsModalButton",
