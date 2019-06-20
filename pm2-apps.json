@@ -3,6 +3,9 @@
     {
       "name": "Families_Share",
       "script": "src/index.js",
+      "error_file": "logs/err.log",
+      "log_date_format": "YYYY-MM-DD HH:mm Z",
+      "log_type": "json",
       "instances": "max",
       "env": {
         "NODE_ENV": "production"
