@@ -315,12 +315,21 @@
   font-size: 1.6rem;
   color: rgba(1, 1, 1, 1);
 }
-#toggleViewButton {
+.toggleViewButton {
   height: 3rem;
   width: 3rem;
   font-size: 2rem;
   padding-right: 3rem;
   color: rgba(1, 1, 1, 0.7);
+}
+.filterActivitiesButton {
+  height: 3rem;
+  width: 3rem;
+  font-size: 2rem;
+  padding-right: 3rem;
+  color: rgba(1, 1, 1, 0.7);
+}
+.calendarToolbarButtons{
   margin-left: auto;
 }
 #agendaViewContainer h2 {
@@ -2950,3 +2959,24 @@ a:active {
 }
 
 /*SIGN UP SCREEN END*/
+
+/* COMMUNITY MANAGEMENT SCREEN*/
+
+.analytics-container{
+  padding: 2rem 3%;
+}
+.analytics-container .row{
+  min-height: 5.6rem;
+  align-items: center;
+}
+.analytics-header{
+  font-size: 1.8rem;
+  color: #000000;
+  font-weight: 800;
+  margin: 1rem 0;
+}
+.analytics-info{
+  font-size: 1.6rem;
+  color: #000000;
+  font-weight: 600;
+}

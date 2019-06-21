@@ -1,6 +1,13 @@
 const en = {
   communityInterface: {
-    backNavTitle: "Community Interface"
+    backNavTitle: "Community Interface",
+    totalNumberOfUsers: "Total number of Users",
+    totalNumberOfGroups: "Total number of Groups",
+    averageAppRating: "App rating",
+    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
+    averageNumberOfMembersPerGroup: "Average number of Members per Group",
+    totalNumberOfChildren: "Total number of Children",
+    analyticsHeader: "Community Analytics"
   },
   profileChildren: {
     addChildPrompt:

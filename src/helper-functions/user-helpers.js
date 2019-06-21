@@ -27,14 +27,12 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
           const childrenIds = JSON.parse(
             event.extendedProperties.shared.children
           )
-          const fixedFlag =
-            event.extendedProperties.shared.status === 'confirmed'
           const userFlag = parentIds.indexOf(userId) !== -1
           const childFlag =
             usersChildrenIds.filter(
               childId => childrenIds.indexOf(childId) !== -1
             ).length > 0
-          if (fixedFlag && (userFlag || childFlag)) {
+          if (userFlag || childFlag) {
             return true
           } else {
             return false
