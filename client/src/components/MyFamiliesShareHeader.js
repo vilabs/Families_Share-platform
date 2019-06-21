@@ -138,6 +138,9 @@ class MyFamiliesShareHeader extends React.Component {
       case "walkthrough":
         this.setState({ confirmModalIsOpen: true });
         break;
+      case "community":
+        history.push("/community");
+        break;
       default:
     }
   };
@@ -176,6 +179,9 @@ class MyFamiliesShareHeader extends React.Component {
       borderBottom: "1px solid rgba(0,0,0,0.1)",
       height: "5.5rem"
     };
+    const communityManager =
+      JSON.parse(localStorage.getItem("user")).id ===
+      process.env.REACT_APP_COMMUNITY_MANAGER_ID;
     return (
       <div>
         <ConfirmDialog
@@ -201,7 +207,7 @@ class MyFamiliesShareHeader extends React.Component {
         >
           <Menu selectedKeys={[]} id="drawerMenuContainer" style={menuStyle}>
             <Menu.Item
-              style={menuItem}
+              style={menuItemWithLine}
               key="homepage"
               onClick={this.handleDrawerClick}
             >
@@ -214,6 +220,22 @@ class MyFamiliesShareHeader extends React.Component {
                 </div>
               </div>
             </Menu.Item>
+            {communityManager && (
+              <Menu.Item
+                style={menuItemWithLine}
+                key="community"
+                onClick={this.handleDrawerClick}
+              >
+                <div className="row no-gutters">
+                  <div className="col-1-4">
+                    <i className="fas fa-users" />
+                  </div>
+                  <div className="col-3-4">
+                    <h1 className="">{texts.community}</h1>
+                  </div>
+                </div>
+              </Menu.Item>
+            )}
             <Menu.Item
               style={menuItem}
               key="myprofile"
@@ -290,7 +312,6 @@ class MyFamiliesShareHeader extends React.Component {
             <Menu.Item
               style={menuItem}
               key="faqs"
-              className="drawerButtonContainer"
               onClick={this.handleDrawerClick}
             >
               <div className="row no-gutters">

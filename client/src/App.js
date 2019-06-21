@@ -25,6 +25,10 @@ const styles = () => ({
 
 const Loading = <LoadingSpinner />;
 
+const CommunityInterface = Loadable({
+  loader: () => import("./components/CommunityManagementScreen"),
+  loading: () => Loading
+});
 const MyCalendarScreen = Loadable({
   loader: () => import("./components/MyCalendarScreen"),
   loading: () => Loading
@@ -217,6 +221,7 @@ class App extends React.Component {
                 path="/changepsw/:token"
                 component={ChangePasswordScreen}
               />
+              <PrivateRoute path="/community" component={CommunityInterface} />
               <PrivateRoute
                 exact
                 path="/myfamiliesshare"

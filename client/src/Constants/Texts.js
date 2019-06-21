@@ -1,4 +1,7 @@
 const en = {
+  communityInterface: {
+    backNavTitle: "Community Interface"
+  },
   profileChildren: {
     addChildPrompt:
       "You haven't added any children yet. Click the child icon to add a new child"
@@ -291,7 +294,8 @@ const en = {
     about: "About",
     signOut: "Sign out",
     language: "Language",
-    export: "Export my data"
+    export: "Export my data",
+    community: "Community"
   },
   myFamiliesShareScreen: {
     myGroups: "My groups",
@@ -949,7 +953,8 @@ const nl = {
     about: "Over",
     signOut: "Afmelden",
     language: "Taal",
-    export: "Exporteer mijn data"
+    export: "Exporteer mijn data",
+    community: "Gemeenschap"
   },
   myFamiliesShareScreen: {
     myGroups: "Mijn groepen",
@@ -1606,7 +1611,8 @@ const it = {
     about: "Il progetto",
     signOut: "Esci ",
     language: "Lingua",
-    export: "Esporta i miei dati"
+    export: "Esporta i miei dati",
+    community: "Comunità"
   },
   myFamiliesShareScreen: {
     myGroups: "I miei gruppi",
@@ -2218,7 +2224,8 @@ const el = {
     about: "Σχετικά με",
     signOut: "Αποσύνδεση",
     language: "Γλώσσα",
-    export: "Εξαγωγή των δεδομένων μου"
+    export: "Εξαγωγή των δεδομένων μου",
+    community: "Κοινότητα"
   },
   myFamiliesShareScreen: {
     myGroups: "Οι ομάδες μου",
@@ -2852,7 +2859,8 @@ const hu = {
     about: "Rólunk",
     signOut: "Kijelentkezés",
     language: "Nyelv",
-    export: "Adatok exportálása"
+    export: "Adatok exportálása",
+    community: "Közösség"
   },
   myFamiliesShareScreen: {
     myGroups: "Csoportjaim",
