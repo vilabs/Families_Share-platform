@@ -79,8 +79,8 @@ class RatingModal extends React.Component {
         <div className="ratingMain">
           <Rating
             initialRating={rating}
-            onClick={() => {
-              this.setState({ rating });
+            onClick={newRating => {
+              this.setState({ rating: newRating });
             }}
             emptySymbol={<i className="fas fa-star ratingStar" />}
             fullSymbol={<i className="fas fa-star ratingStarSelected" />}
