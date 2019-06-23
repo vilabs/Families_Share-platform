@@ -14,12 +14,29 @@ class CommunityInterface extends React.Component {
   async componentDidMount() {
     const response = await axios.get("/api/analytics");
     const analytics = response.data;
-    this.setState({ ...analytics, fetchedAnalytics: true });
+    this.setState({ analytics, fetchedAnalytics: true });
   }
 
   handleBackNav = () => {
     const { history } = this.props;
     history.goBack();
+  };
+
+  renderMetrics = () => {
+    const { language } = this.props;
+    const { analytics } = this.state;
+    const metrics = Object.keys(analytics);
+    const values = Object.values(analytics);
+    const texts = Texts[language].communityInterface;
+    return metrics.map((metric, index) => {
+      return (
+        <div className="row no-gutters" key={metric}>
+          <div className="analytics-info">
+            {`${texts[metric]}: ${values[index]}`}
+          </div>
+        </div>
+      );
+    });
   };
 
   render() {
@@ -32,11 +49,16 @@ class CommunityInterface extends React.Component {
           title={texts.backNavTitle}
           onClick={this.handleBackNav}
         />
-        {fetchedAnalytics ? (
-          <div className="analyticsContainer" />
-        ) : (
-          <Skeleton active paragraph={{ rows: 5 }} />
-        )}
+        <div className="analytics-container">
+          {fetchedAnalytics ? (
+            <React.Fragment>
+              <div className="analytics-header">{texts.analyticsHeader}</div>
+              {this.renderMetrics()}
+            </React.Fragment>
+          ) : (
+            <Skeleton active paragraph={{ rows: 5 }} />
+          )}
+        </div>
       </React.Fragment>
     );
   }

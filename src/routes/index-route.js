@@ -18,10 +18,14 @@ router.get('/analytics', async (req, res, next) => {
     const totalNumberOfChildren = await Child.estimatedDocumentCount({})
     const totalNumberOfGroups = await Group.estimatedDocumentCount({})
     const totalNumberOfGroupMembers = await Member.estimatedDocumentCount({ group_accepted: true, user_accepted: true })
-    const averageNumberOfMembersPerGroup = Math.floor(totalNumberOfGroupMembers / totalNumberOfGroups)
     const totalNumberOfActivities = await Activity.estimatedDocumentCount({})
-    const averageNumberOfActivitiesPerGroup = Math.floor(totalNumberOfActivities / totalNumberOfGroups)
-    const averageAppRating = await Rating.aggregate([
+    let averageNumberOfMembersPerGroup = 0
+    let averageNumberOfActivitiesPerGroup = 0
+    if (totalNumberOfGroups !== 0) {
+      averageNumberOfMembersPerGroup = Math.floor(totalNumberOfGroupMembers / totalNumberOfGroups)
+      averageNumberOfActivitiesPerGroup = Math.floor(totalNumberOfActivities / totalNumberOfGroups)
+    }
+    let averageAppRating = await Rating.aggregate([
       { '$group':
           {
             '_id': null,
@@ -31,13 +35,14 @@ router.get('/analytics', async (req, res, next) => {
           }
       }
     ])
+    console.log(averageAppRating)
     const response = {
       totalNumberOfUsers,
       totalNumberOfGroups,
       averageNumberOfMembersPerGroup,
       averageNumberOfActivitiesPerGroup,
       totalNumberOfChildren,
-      averageAppRating
+      averageAppRating: Number.parseFloat(averageAppRating[0].avg).toFixed(1)
     }
     res.status(200).send(response)
   } catch (err) {

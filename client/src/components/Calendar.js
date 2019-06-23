@@ -123,6 +123,8 @@ const CustomToolbar = (
   handleMonthEvents,
   swipe,
   cancelSwipe,
+  filter,
+  filterActivities,
   title
 ) => ({ view, onView, onNavigate, date, label }) => {
   const changeView = () => {
@@ -183,7 +185,7 @@ const CustomToolbar = (
     );
     onNavigate("NEXT");
   }
-
+  const filterIcon = filter === "all" ? "fas fa-list-ul" : "fas fa-tasks";
   let icon = "";
   switch (view) {
     case "agenda":
@@ -220,24 +222,37 @@ const CustomToolbar = (
             <i className="fas fa-chevron-right" />
           </button>
         </div>
-        <button
-          type="button"
-          className="transparentButton"
-          id="toggleViewButton"
-          onClick={changeView}
-        >
-          <i className={icon} />
-        </button>
+        <div className="calendarToolbarButtons">
+          <button
+            type="button"
+            className="transparentButton filterActivitiesButton"
+            onClick={() =>
+              filter === "all"
+                ? filterActivities("confirmed")
+                : filterActivities("all")
+            }
+          >
+            <i className={filterIcon} />
+          </button>
+          <button
+            type="button"
+            className="transparentButton toggleViewButton"
+            onClick={changeView}
+          >
+            <i className={icon} />
+          </button>
+        </div>
       </div>
     </React.Fragment>
   );
 };
 
 class Calendar extends React.Component {
-  state = { events: [], swipe: "none" };
+  state = { events: [], swipe: "none", filter: "all", filteredEvents: [] };
 
   async componentDidMount() {
     const { ownerType, ownerId } = this.props;
+    const { filter } = this.state;
     switch (ownerType) {
       case "user":
         const userEvents = await getUserEvents(ownerId);
@@ -246,7 +261,16 @@ class Calendar extends React.Component {
           event.start = new Date(event.start.dateTime);
           event.end = new Date(event.end.dateTime);
         });
-        this.setState({ events: userEvents });
+        const filteredUserEvents =
+          filter === "all"
+            ? userEvents
+            : userEvents.filter(
+                event => event.extendedProperties.shared === "confirmed"
+              );
+        this.setState({
+          events: userEvents,
+          filteredEvents: filteredUserEvents
+        });
         break;
       case "group":
         const groupEvents = await getGroupEvents(ownerId);
@@ -255,7 +279,16 @@ class Calendar extends React.Component {
           event.start = new Date(event.start.dateTime);
           event.end = new Date(event.end.dateTime);
         });
-        this.setState({ events: groupEvents });
+        const filteredGroupEvents =
+          filter === "all"
+            ? groupEvents
+            : groupEvents.filter(
+                event => event.extendedProperties.shared === "confirmed"
+              );
+        this.setState({
+          events: groupEvents,
+          filteredEvents: filteredGroupEvents
+        });
         break;
       default:
         this.setState({ events: [] });
@@ -322,9 +355,20 @@ class Calendar extends React.Component {
     this.setState({ activeView: view });
   };
 
+  handleActivitiesFilter = filter => {
+    const { events } = this.state;
+    const filteredEvents =
+      filter === "all"
+        ? events
+        : events.filter(
+            event => event.extendedProperties.shared.status === "confirmed"
+          );
+    this.setState({ filter, filteredEvents });
+  };
+
   render() {
     const { language, ownerType } = this.props;
-    const { swipe, activeView, events } = this.state;
+    const { swipe, activeView, filteredEvents, filter } = this.state;
     const texts = Texts[language].calendar;
     const calendarTitle =
       ownerType === "user" ? texts.userCalendar : texts.groupCalendar;
@@ -341,6 +385,8 @@ class Calendar extends React.Component {
         this.handleMonthEvents,
         swipe,
         this.cancelSwipe,
+        filter,
+        this.handleActivitiesFilter,
         calendarTitle
       )
     };
@@ -359,7 +405,7 @@ class Calendar extends React.Component {
             popup
             style={{ minHeight: "40rem" }}
             localizer={localizer}
-            events={events}
+            events={filteredEvents}
             views={{ month: true, agenda: MyAgenda, day: true }}
             defaultView={BigCalendar.Views.MONTH}
             startAccessor="start"
