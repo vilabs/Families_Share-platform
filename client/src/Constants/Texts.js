@@ -7,7 +7,7 @@ const en = {
     averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
     averageNumberOfMembersPerGroup: "Average number of Members per Group",
     totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Community Analytics"
+    analyticsHeader: "Analytics"
   },
   profileChildren: {
     addChildPrompt:
@@ -724,6 +724,16 @@ const en = {
 };
 
 const nl = {
+  communityInterface: {
+    backNavTitle: "Community Interface",
+    totalNumberOfUsers: "Total number of Users",
+    totalNumberOfGroups: "Total number of Groups",
+    averageAppRating: "App rating",
+    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
+    averageNumberOfMembersPerGroup: "Average number of Members per Group",
+    totalNumberOfChildren: "Total number of Children",
+    analyticsHeader: "Community Analytics"
+  },
   profileChildren: {
     addChildPrompt:
       "Je hebt nog geen kinderen toegevoegd. Klik op het kindpictogram om een ​​nieuw kind toe te voegen"
@@ -1319,6 +1329,16 @@ const nl = {
 };
 
 const it = {
+  communityInterface: {
+    backNavTitle: "Community Interface",
+    totalNumberOfUsers: "Total number of Users",
+    totalNumberOfGroups: "Total number of Groups",
+    averageAppRating: "App rating",
+    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
+    averageNumberOfMembersPerGroup: "Average number of Members per Group",
+    totalNumberOfChildren: "Total number of Children",
+    analyticsHeader: "Community Analytics"
+  },
   profileChildren: {
     addChildPrompt:
       "Non hai ancora aggiunto figli. Fare clic sull'icona figlio per aggiungere un nuovo figlio"
@@ -2001,6 +2021,16 @@ const it = {
 };
 
 const el = {
+  communityInterface: {
+    backNavTitle: "Community Interface",
+    totalNumberOfUsers: "Total number of Users",
+    totalNumberOfGroups: "Total number of Groups",
+    averageAppRating: "App rating",
+    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
+    averageNumberOfMembersPerGroup: "Average number of Members per Group",
+    totalNumberOfChildren: "Total number of Children",
+    analyticsHeader: "Community Analytics"
+  },
   profileChildren: {
     addChildPrompt:
       "Δεν έχετε προσθέσει ακόμη παιδιά. Κάντε κλικ στο εικονίδιο για να προσθέσετε ένα νέο παιδί"
@@ -2604,6 +2634,16 @@ const el = {
 };
 
 const hu = {
+  communityInterface: {
+    backNavTitle: "Community Interface",
+    totalNumberOfUsers: "Total number of Users",
+    totalNumberOfGroups: "Total number of Groups",
+    averageAppRating: "App rating",
+    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
+    averageNumberOfMembersPerGroup: "Average number of Members per Group",
+    totalNumberOfChildren: "Total number of Children",
+    analyticsHeader: "Community Analytics"
+  },
   profileChildren: {
     addChildPrompt:
       "Még nem adott meg gyermeket. Kattintson a gyermek ikonra új gyermek hozzáadásáért"
