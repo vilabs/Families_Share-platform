@@ -7,7 +7,10 @@ const en = {
     averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
     averageNumberOfMembersPerGroup: "Average number of Members per Group",
     totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Analytics"
+    analyticsHeader: "Analytics",
+    communityGrowth: "Platform user growth (%)",
+    totalNumberOfGoogleSignups: "Registered using Google",
+    totalNumberOfPlatformSignups: "Registered using the Families_Share platform"
   },
   profileChildren: {
     addChildPrompt:
@@ -725,14 +728,18 @@ const en = {
 
 const nl = {
   communityInterface: {
-    backNavTitle: "Community Interface",
-    totalNumberOfUsers: "Total number of Users",
-    totalNumberOfGroups: "Total number of Groups",
-    averageAppRating: "App rating",
-    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
-    averageNumberOfMembersPerGroup: "Average number of Members per Group",
-    totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Community Analytics"
+    backNavTitle: "Gemeenschaps interface",
+    totalNumberOfUsers: "Totaal aantal gebruikers",
+    totalNumberOfGroups: "Totaal aantal groepen",
+    averageAppRating: "App-beoordeling",
+    averageNumberOfActivitiesPerGroup:
+      "Gemiddeld aantal activiteiten per groep",
+    averageNumberOfMembersPerGroup: "Gemiddeld aantal leden per groep",
+    totalNumberOfChildren: "Totaal aantal kinderen",
+    analyticsHeader: "Analytics",
+    communityGrowth: "Gebruikersgroei platform (%)",
+    totalNumberOfGoogleSignups: "Geregistreerd via Google",
+    totalNumberOfPlatformSignups: "Geregistreerd via Families_Share platform"
   },
   profileChildren: {
     addChildPrompt:
@@ -1330,14 +1337,18 @@ const nl = {
 
 const it = {
   communityInterface: {
-    backNavTitle: "Community Interface",
-    totalNumberOfUsers: "Total number of Users",
-    totalNumberOfGroups: "Total number of Groups",
+    backNavTitle: "Interfaccia della comunità",
+    totalNumberOfUsers: "Numero totale di utenti",
+    totalNumberOfGroups: "Numero totale di gruppi",
     averageAppRating: "App rating",
-    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
-    averageNumberOfMembersPerGroup: "Average number of Members per Group",
-    totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Community Analytics"
+    averageNumberOfActivitiesPerGroup: "Numero medio di attività per gruppo",
+    averageNumberOfMembersPerGroup: "Numero medio di membri per gruppo",
+    totalNumberOfChildren: "Numero totale di bambini",
+    analyticsHeader: "Analytics",
+    communityGrowth: "Crescita utenti della piattaforma (%)",
+    totalNumberOfGoogleSignups: "Registrato utilizzando Google",
+    totalNumberOfPlatformSignups:
+      "Registrato utilizzando la piattaforma Families_Share"
   },
   profileChildren: {
     addChildPrompt:
@@ -2023,13 +2034,17 @@ const it = {
 const el = {
   communityInterface: {
     backNavTitle: "Community Interface",
-    totalNumberOfUsers: "Total number of Users",
-    totalNumberOfGroups: "Total number of Groups",
-    averageAppRating: "App rating",
-    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
-    averageNumberOfMembersPerGroup: "Average number of Members per Group",
-    totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Community Analytics"
+    totalNumberOfUsers: "Συνολικός αριθμός χρηστών",
+    totalNumberOfGroups: "Συνολικός αριθμός ομάδων",
+    averageAppRating: "Αξιολόγηση εφαρμογής",
+    averageNumberOfActivitiesPerGroup: "Μέσος αριθμός δραστηριοτήτων ανά ομάδα",
+    averageNumberOfMembersPerGroup: "Μέσος αριθμός μελών ανά ομάδα",
+    totalNumberOfChildren: "Συνολικός αριθμός παιδιών",
+    analyticsHeader: "Αναλυτικά στοιχεία",
+    communityGrowth: "Μηνιαία αύξηση χρηστών (%)",
+    totalNumberOfGoogleSignups: "Εγγράφηκαν μέσω Google",
+    totalNumberOfPlatformSignups:
+      "Εγγράφηκαν μέσω της Families_Share πλατφόρμας"
   },
   profileChildren: {
     addChildPrompt:
@@ -2635,14 +2650,18 @@ const el = {
 
 const hu = {
   communityInterface: {
-    backNavTitle: "Community Interface",
-    totalNumberOfUsers: "Total number of Users",
-    totalNumberOfGroups: "Total number of Groups",
-    averageAppRating: "App rating",
-    averageNumberOfActivitiesPerGroup: "Average number of Activities per Group",
-    averageNumberOfMembersPerGroup: "Average number of Members per Group",
-    totalNumberOfChildren: "Total number of Children",
-    analyticsHeader: "Community Analytics"
+    backNavTitle: "Közösségi felület",
+    totalNumberOfUsers: "Összes felhasználó száma",
+    totalNumberOfGroups: "Csoportok száma",
+    averageAppRating: "App besorolás",
+    averageNumberOfActivitiesPerGroup:
+      "Csoportonkénti tevékenységek átlagos száma",
+    averageNumberOfMembersPerGroup: "Csoportos tagok átlagos száma",
+    totalNumberOfChildren: "Gyermekek száma",
+    analyticsHeader: "Analytics",
+    communityGrowth: "A platform felhasználói növekedése (%)",
+    totalNumberOfGoogleSignups: "A Google-on regisztrált",
+    totalNumberOfPlatformSignups: "Regisztrált a Families_Share platformon"
   },
   profileChildren: {
     addChildPrompt:

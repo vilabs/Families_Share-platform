@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     minLength: 8
   },
+  role: {
+    type: String,
+    required: true
+  },
   auth0_token: String,
   last_login: Date,
   language: {

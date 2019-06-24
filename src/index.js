@@ -57,12 +57,13 @@ if (config.util.getEnv('NODE_ENV') === 'development') {
   app.use(morgan('dev'))
 }
 
-app.use('/api', require('./routes/index-route'))
+app.use('/api', require('./routes/community-routes'))
 app.use('/api/groups', require('./routes/group-routes'))
 app.use('/api/users', require('./routes/user-routes'))
 app.use('/api/profiles', require('./routes/profile-routes'))
 app.use('/api/children', require('./routes/child-routes'))
 app.use('/api/github', require('./routes/github-routes'))
+app.use('/api/community', require('./routes/community-routes'))
 
 if (config.util.getEnv('NODE_ENV') === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')))

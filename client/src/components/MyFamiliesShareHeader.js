@@ -179,9 +179,11 @@ class MyFamiliesShareHeader extends React.Component {
       borderBottom: "1px solid rgba(0,0,0,0.1)",
       height: "5.5rem"
     };
-    const communityManager =
-      JSON.parse(localStorage.getItem("user")).id ===
-      process.env.REACT_APP_COMMUNITY_MANAGER_ID;
+    let isManager = false;
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.role === "manager") {
+      isManager = true;
+    }
     return (
       <div>
         <ConfirmDialog
@@ -220,7 +222,7 @@ class MyFamiliesShareHeader extends React.Component {
                 </div>
               </div>
             </Menu.Item>
-            {communityManager && (
+            {isManager && (
               <Menu.Item
                 style={menuItemWithLine}
                 key="community"

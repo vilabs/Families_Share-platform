@@ -12,7 +12,7 @@ class CommunityInterface extends React.Component {
   };
 
   async componentDidMount() {
-    const response = await axios.get("/api/analytics");
+    const response = await axios.get("/api/community/analytics");
     const analytics = response.data;
     this.setState({ analytics, fetchedAnalytics: true });
   }

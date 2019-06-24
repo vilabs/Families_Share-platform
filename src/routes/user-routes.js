@@ -96,6 +96,7 @@ router.post('/', async (req, res, next) => {
     const newUser = {
       user_id,
       provider: 'families_share',
+      role: 'parent',
       email,
       token,
       password,
@@ -205,7 +206,8 @@ router.post('/authenticate/email', async (req, res, next) => {
       email,
       name: `${profile.given_name} ${profile.family_name}`,
       image: profile.image.path,
-      token
+      token,
+      role: user.role
     }
     user.last_login = new Date()
     user.language = language
@@ -249,6 +251,7 @@ router.post('/authenticate/google', async (req, res, next) => {
         name: `${profile.given_name} ${profile.family_name}`,
         image: profile.image.path,
         token,
+        role: user.role,
         google_token: googleToken,
         origin
       }
@@ -279,6 +282,7 @@ router.post('/authenticate/google', async (req, res, next) => {
         user_id,
         provider: 'google',
         email: googleProfile.email,
+        role: 'parent',
         token,
         auth0_token: googleToken,
         language,
