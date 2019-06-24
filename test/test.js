@@ -170,6 +170,7 @@ describe('Test', () => {
   importTest('User Various Endpoints Test', './Users/variousEndpoints')
   importTest('Child Endpoints Test', './Children/childEndpoints')
   importTest('Profile Endpoints Test', './Profiles/profileEndpoints')
+  importTest('Community Endpoints Test', './Community/communityEndpoints')
 
   after('Cleaning up', async () => {
     await User.deleteMany({})
