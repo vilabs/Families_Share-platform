@@ -38,6 +38,10 @@ const en = {
     {
       header: 'Group Members',
       description: 'You were removed from the group '
+    },
+    {
+      header: 'Group Members',
+      description: ' requested to join group '
     }
   ],
   activities: [

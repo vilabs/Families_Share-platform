@@ -574,6 +574,7 @@ router.post('/:id/groups', (req, res, next) => {
     group_accepted: false
   }
   Member.create(member).then(() => {
+    nh.newRequestNotification(user_id, group_id)
     res.status(200).send('Joined succesfully')
   }).catch(next)
 })

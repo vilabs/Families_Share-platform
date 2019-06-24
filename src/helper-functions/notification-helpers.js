@@ -63,7 +63,9 @@ async function newActivityNotification (group_id, user_id) {
 async function newAnnouncementNotification (group_id, user_id) {
   const object = await Group.findOne({ group_id })
   const subject = await Profile.findOne({ user_id })
-  const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true })
+  const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true }).distinct('user_id')
+  const users = await User.find({ user_id: { $in: members } })
+  const devices = await Device.find({ user_id: { $in: members } })
   if (subject && object) {
     const notifications = []
     members.forEach(member => {
@@ -78,7 +80,17 @@ async function newAnnouncementNotification (group_id, user_id) {
       })
     })
     await Notification.create(notifications)
-    console.log('New announcement notification created')
+    const messages = []
+    devices.forEach(device => {
+      const language = users.filter(user => user.user_id === device.user_id)[0].language
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: texts[language]['announcements'][0]['header'],
+        body: `${subject} ${texts[language]['announcements'][0]['description']} ${object}`
+      })
+    })
+    await sendPushNotifications(messages)
   }
 };
 
@@ -190,27 +202,16 @@ async function timeslotRequirementsNotification (timeslotName, participants) {
   })
   await Notification.create(notifications)
   const messages = []
-  const invalidTokens = []
   devices.forEach(device => {
-    if (Expo.isExpoPushToken(device.device_id)) {
-      const language = users.filter(user => user.user_id === device.user_id)[0].language
-      messages.push({
-        to: device.device_id,
-        sound: 'default',
-        title: texts[language]['activities'][1]['header'],
-        body: `${timeslotName} ${texts[language]['activities'][1]['description']}`
-      })
-    } else {
-      invalidTokens.push(device.device_id)
-    }
+    const language = users.filter(user => user.user_id === device.user_id)[0].language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['activities'][1]['header'],
+      body: `${timeslotName} ${texts[language]['activities'][1]['description']}`
+    })
   })
-  let chunks = expo.chunkPushNotifications(messages)
-  let tickets = []
-  for (let chunk of chunks) {
-    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
-    tickets.push(...ticketChunk)
-  }
-  await Device.deleteMany({ device_id: { $in: invalidTokens } })
+  await sendPushNotifications(messages)
 }
 
 async function timeslotChangedNotification (timeslotName, participants) {
@@ -229,30 +230,38 @@ async function timeslotChangedNotification (timeslotName, participants) {
   })
   await Notification.create(notifications)
   const messages = []
-  const invalidTokens = []
   devices.forEach(device => {
-    if (Expo.isExpoPushToken(device.device_id)) {
-      const language = users.filter(user => user.user_id === device.user_id)[0].language
-      messages.push({
-        to: device.device_id,
-        sound: 'default',
-        title: texts[language]['activities'][2]['header'],
-        body: `${timeslotName} ${texts[language]['activities'][2]['description']}`
-      })
-    } else {
-      invalidTokens.push(device.device_id)
-    }
+    const language = users.filter(user => user.user_id === device.user_id)[0].language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['activities'][2]['header'],
+      body: `${timeslotName} ${texts[language]['activities'][2]['description']}`
+    })
   })
-  let chunks = expo.chunkPushNotifications(messages)
-  let tickets = []
-  for (let chunk of chunks) {
-    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
-    tickets.push(...ticketChunk)
-  }
-  await Device.deleteMany({ device_id: { $in: invalidTokens } })
+  await sendPushNotifications(messages)
 }
 
-const getNotificationDescription = (notification, language) => {
+async function newRequestNotification (user_id, group_id) {
+  const admins = await Member.find({ group_id, user_accepted: true, group_accepted: true, admin: true }).distinct('user_id')
+  const users = await User.find({ user_id: { $in: admins } })
+  const user = await Profile.findOne({ user_id })
+  const group = await Group.findOne({ group_id })
+  const devices = await Device.find({ user_id: { $in: admins } })
+  const messages = []
+  devices.forEach(device => {
+    const language = users.filter(user => user.user_id === device.user_id)[0].language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['members'][4]['header'],
+      body: `${user.give_name} ${user.family_name} ${texts[language]['members'][4]['description']} ${group.name}`
+    })
+  })
+  await sendPushNotifications(messages)
+}
+
+async function getNotificationDescription (notification, language) {
   const {
     type, code, subject, object
   } = notification
@@ -310,6 +319,25 @@ const getNotificationDescription = (notification, language) => {
   }
 }
 
+async function sendPushNotifications (messages) {
+  const invalidTokens = []
+  const notifications = []
+  messages.forEach(message => {
+    if (!Expo.isExpoPushToken(message.to)) {
+      notifications.push(message)
+    } else {
+      invalidTokens.push(message.to)
+    }
+  })
+  let chunks = expo.chunkPushNotifications(messages)
+  let tickets = []
+  for (let chunk of chunks) {
+    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+    tickets.push(...ticketChunk)
+  }
+  await Device.deleteMany({ device_id: { $in: invalidTokens } })
+}
+
 module.exports = {
   newMemberNotification,
   timeslotRequirementsNotification,
@@ -318,5 +346,6 @@ module.exports = {
   removeMemberNotification,
   newActivityNotification,
   newAnnouncementNotification,
-  timeslotChangedNotification
+  timeslotChangedNotification,
+  newRequestNotification
 }
