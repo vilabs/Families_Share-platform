@@ -265,7 +265,7 @@ async function getNotificationDescription (notification, language) {
   const {
     type, code, subject, object
   } = notification
-  const { description } = texts[language][type][code]
+  const description = texts[language][type][code].description
 
   switch (type) {
     case 'group':
