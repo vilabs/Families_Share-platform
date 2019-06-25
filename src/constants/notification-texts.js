@@ -194,11 +194,11 @@ const el = {
   members: [
     {
       header: 'Νέο μέλος',
-      description: ' προστέθηκε στην ομάδα'
+      description: 'προστέθηκε στην ομάδα'
     },
     {
       header: 'Αίτημα Συμμετοχής',
-      description: 'Προστεθήκατε στην'
+      description: 'Προστεθήκατε στην ομάδα'
     },
     {
       header: 'Μέλη ομάδας',

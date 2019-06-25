@@ -288,7 +288,7 @@ async function getNotificationDescription (notification, language) {
         case 0:
           return `${subject} ${description} ${object}.`
         case 1:
-          return `${subject} ${description}`
+          return `${description} ${object}`
         case 2:
           return `${subject} ${description} ${object}.`
         case 3:
