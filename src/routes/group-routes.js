@@ -980,6 +980,7 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
       )
     )
     await Activity.deleteOne({ activity_id })
+    await nh.deleteActivityNotification(user_id, activityTimeslots)
     res.status(200).send('Activity Deleted')
   } catch (error) {
     next(error)

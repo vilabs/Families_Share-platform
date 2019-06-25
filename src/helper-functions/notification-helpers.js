@@ -1,5 +1,6 @@
 const Profile = require('../models/profile')
 const Notification = require('../models/notification')
+const Activity = require('../models/activity')
 const Settings = require('../models/group-settings')
 const Member = require('../models/member')
 const Group = require('../models/group')
@@ -242,6 +243,43 @@ async function timeslotChangedNotification (timeslotName, participants) {
   await sendPushNotifications(messages)
 }
 
+async function deleteActivityNotification (user_id, timeslots) {
+  const subject = await Profile.findOne({ user_id })
+  const activity_id = timeslots[0].extendedProperties.shared.activityId
+  const object = Activity.findOne({ activity_id })
+  let userIds = []
+  timeslots.map(async (event) => {
+    userIds = userIds.concat(JSON.parse(event.extendedProperties.shared.parents))
+  })
+  userIds = [ ...new Set(userIds) ].filter(id => id !== user_id)
+  const users = await User.find({ user_id: { $in: userIds } })
+  const devices = await Device.find({ user_id: { $in: userIds } })
+  const notifications = []
+  users.forEach(user => {
+    notifications.push({
+      owner_type: 'user',
+      owner_id: user.user_id,
+      type: 'activities',
+      code: 3,
+      read: false,
+      subject: `${subject.given_name} ${subject.family_name}`,
+      object: `${object.name}`
+    })
+  })
+  await Notification.create(notifications)
+  const messages = []
+  devices.forEach(device => {
+    const language = users.filter(user => user.user_id === device.user_id)[0].language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['activities'][3]['header'],
+      body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][3]['description']} ${object.name}`
+    })
+  })
+  await sendPushNotifications(messages)
+}
+
 async function newRequestNotification (user_id, group_id) {
   const admins = await Member.find({ group_id, user_accepted: true, group_accepted: true, admin: true }).distinct('user_id')
   const users = await User.find({ user_id: { $in: admins } })
@@ -293,6 +331,8 @@ function getNotificationDescription (notification, language) {
           return `${subject} ${description} ${object}.`
         case 3:
           return `${description} ${object}.`
+        case 4:
+          return `${subject} ${description} ${object}.`
         default:
           return ''
       }
@@ -304,6 +344,8 @@ function getNotificationDescription (notification, language) {
           return `${subject} ${description}`
         case 2:
           return `${subject} ${description}`
+        case 3:
+          return `${subject} ${description} ${object}.`
         default:
           return ''
       }
@@ -343,6 +385,7 @@ module.exports = {
   timeslotRequirementsNotification,
   editGroupNotification,
   getNotificationDescription,
+  deleteActivityNotification,
   removeMemberNotification,
   newActivityNotification,
   newAnnouncementNotification,
