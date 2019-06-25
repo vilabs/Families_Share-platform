@@ -365,7 +365,7 @@ async function sendPushNotifications (messages) {
   const invalidTokens = []
   const notifications = []
   messages.forEach(message => {
-    if (!Expo.isExpoPushToken(message.to)) {
+    if (Expo.isExpoPushToken(message.to)) {
       notifications.push(message)
     } else {
       invalidTokens.push(message.to)
