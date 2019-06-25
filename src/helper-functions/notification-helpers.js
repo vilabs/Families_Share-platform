@@ -246,12 +246,12 @@ async function timeslotChangedNotification (timeslotName, participants) {
 async function deleteActivityNotification (user_id, timeslots) {
   const subject = await Profile.findOne({ user_id })
   const activity_id = timeslots[0].extendedProperties.shared.activityId
-  const object = Activity.findOne({ activity_id })
+  const object = await Activity.findOne({ activity_id })
   let userIds = []
   timeslots.map(async (event) => {
     userIds = userIds.concat(JSON.parse(event.extendedProperties.shared.parents))
   })
-  userIds = [ ...new Set(userIds) ]
+  userIds = [ ...new Set(userIds), user_id ]
   const users = await User.find({ user_id: { $in: userIds } })
   const devices = await Device.find({ user_id: { $in: userIds } })
   const notifications = []
