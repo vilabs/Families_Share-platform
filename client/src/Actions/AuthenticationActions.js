@@ -25,7 +25,7 @@ function googleLogin(response, history, origin, deviceToken) {
   };
 }
 
-function login(email, password, history, deviceToken) {
+function login(email, password, history, origin, deviceToken) {
   function request() {
     return { type: authenticationConstants.LOGIN_REQUEST };
   }
@@ -37,7 +37,7 @@ function login(email, password, history, deviceToken) {
   }
   return dispatch => {
     dispatch(request());
-    authenticationServices.login(email, password, deviceToken).then(
+    authenticationServices.login(email, password, origin, deviceToken).then(
       user => {
         dispatch(success(user));
         history.push("/myfamiliesshare");

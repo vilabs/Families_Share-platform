@@ -164,8 +164,11 @@ router.post('/', async (req, res, next) => {
 
 router.post('/authenticate/email', async (req, res, next) => {
   const {
-    email, password, deviceToken, language
+    email, password, deviceToken, language, origin
   } = req.body
+  if (origin === 'native') {
+    if (req.body.version !== process.env.APP_VERSION) return res.status(400).send('Update app to the latest version')
+  }
   try {
     const user = await User.findOne({ email })
     if (!user) {
@@ -222,6 +225,9 @@ router.post('/authenticate/email', async (req, res, next) => {
 router.post('/authenticate/google', async (req, res, next) => {
   const { deviceToken, language, origin, response } = req.body
   const { user: googleProfile, idToken: googleToken } = response
+  if (origin === 'native') {
+    if (req.body.version !== process.env.APP_VERSION) return res.status(400).send('Update app to the latest version')
+  }
   try {
     const user = await User.findOne({ email: googleProfile.email })
     if (user) {
