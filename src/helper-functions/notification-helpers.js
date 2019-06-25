@@ -248,7 +248,7 @@ async function deleteActivityNotification (user_id, activityName, timeslots) {
   timeslots.map(async (event) => {
     userIds = userIds.concat(JSON.parse(event.extendedProperties.shared.parents))
   })
-  userIds = [ ...new Set(userIds), user_id ]
+  userIds = [ ...new Set(userIds) ].filter(id => id !== user_id)
   const users = await User.find({ user_id: { $in: userIds } })
   const devices = await Device.find({ user_id: { $in: userIds } })
   const notifications = []
