@@ -88,7 +88,7 @@ async function newAnnouncementNotification (group_id, user_id) {
         to: device.device_id,
         sound: 'default',
         title: texts[language]['announcements'][0]['header'],
-        body: `${subject} ${texts[language]['announcements'][0]['description']} ${object}`
+        body: `${subject.given_name} ${subject.family_name} ${texts[language]['announcements'][0]['description']} ${object.name}`
       })
     })
     await sendPushNotifications(messages)
