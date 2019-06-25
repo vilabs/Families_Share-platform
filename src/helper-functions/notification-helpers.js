@@ -71,7 +71,7 @@ async function newAnnouncementNotification (group_id, user_id) {
     members.forEach(member => {
       notifications.push({
         owner_type: 'user',
-        owner_id: member.user_id,
+        owner_id: member,
         type: 'announcements',
         code: 0,
         read: false,
@@ -255,7 +255,7 @@ async function newRequestNotification (user_id, group_id) {
       to: device.device_id,
       sound: 'default',
       title: texts[language]['members'][4]['header'],
-      body: `${user.give_name} ${user.family_name} ${texts[language]['members'][4]['description']} ${group.name}`
+      body: `${user.given_name} ${user.family_name} ${texts[language]['members'][4]['description']} ${group.name}`
     })
   })
   await sendPushNotifications(messages)
