@@ -166,9 +166,6 @@ router.post('/authenticate/email', async (req, res, next) => {
   const {
     email, password, deviceToken, language, origin
   } = req.body
-  if (origin === 'native') {
-    if (req.body.version !== process.env.APP_VERSION) return res.status(400).send('Update app to the latest version')
-  }
   try {
     const user = await User.findOne({ email })
     if (!user) {
@@ -215,6 +212,11 @@ router.post('/authenticate/email', async (req, res, next) => {
     user.last_login = new Date()
     user.language = language
     user.token = token
+    if (origin === 'native') {
+      user.version = req.body.version
+    } else {
+      user.version = 'latest'
+    }
     await user.save()
     res.json(response)
   } catch (error) {
@@ -225,9 +227,6 @@ router.post('/authenticate/email', async (req, res, next) => {
 router.post('/authenticate/google', async (req, res, next) => {
   const { deviceToken, language, origin, response } = req.body
   const { user: googleProfile, idToken: googleToken } = response
-  if (origin === 'native') {
-    if (req.body.version !== process.env.APP_VERSION) return res.status(400).send('Update app to the latest version')
-  }
   try {
     const user = await User.findOne({ email: googleProfile.email })
     if (user) {
@@ -265,6 +264,11 @@ router.post('/authenticate/google', async (req, res, next) => {
       user.language = language
       user.token = token
       user.auth0_token = googleToken
+      if (origin === 'native') {
+        user.version = req.body.version
+      } else {
+        user.version = 'latest'
+      }
       await user.save()
       res.json(response)
     } else {
@@ -292,7 +296,8 @@ router.post('/authenticate/google', async (req, res, next) => {
         token,
         auth0_token: googleToken,
         language,
-        last_login: new Date()
+        last_login: new Date(),
+        version: origin === 'native' ? req.body.version : 'latest'
       }
       const profile = {
         given_name: googleProfile.givenName,
