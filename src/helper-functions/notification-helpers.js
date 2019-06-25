@@ -1,6 +1,5 @@
 const Profile = require('../models/profile')
 const Notification = require('../models/notification')
-const Activity = require('../models/activity')
 const Settings = require('../models/group-settings')
 const Member = require('../models/member')
 const Group = require('../models/group')
@@ -243,10 +242,8 @@ async function timeslotChangedNotification (timeslotName, participants) {
   await sendPushNotifications(messages)
 }
 
-async function deleteActivityNotification (user_id, timeslots) {
+async function deleteActivityNotification (user_id, activityName, timeslots) {
   const subject = await Profile.findOne({ user_id })
-  const activity_id = timeslots[0].extendedProperties.shared.activityId
-  const object = await Activity.findOne({ activity_id })
   let userIds = []
   timeslots.map(async (event) => {
     userIds = userIds.concat(JSON.parse(event.extendedProperties.shared.parents))
@@ -263,9 +260,10 @@ async function deleteActivityNotification (user_id, timeslots) {
       code: 3,
       read: false,
       subject: `${subject.given_name} ${subject.family_name}`,
-      object: `${object.name}`
+      object: `${activityName}`
     })
   })
+  console.log(notifications)
   await Notification.create(notifications)
   const messages = []
   devices.forEach(device => {
@@ -274,7 +272,7 @@ async function deleteActivityNotification (user_id, timeslots) {
       to: device.device_id,
       sound: 'default',
       title: texts[language]['activities'][3]['header'],
-      body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][3]['description']} ${object.name}`
+      body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][3]['description']} ${activityName}`
     })
   })
   await sendPushNotifications(messages)

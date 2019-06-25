@@ -103,7 +103,7 @@ class GroupMembers extends React.Component {
               >
                 <i className="fas fa-user-friends" />
                 {pendingRequests > 0 && (
-                  <span className="badge">{pendingRequests}</span>
+                  <span className="members-badge">{pendingRequests}</span>
                 )}
               </button>
             )}

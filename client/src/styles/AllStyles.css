@@ -329,7 +329,7 @@
   padding-right: 3rem;
   color: rgba(1, 1, 1, 0.7);
 }
-.calendarToolbarButtons{
+.calendarToolbarButtons {
   margin-left: auto;
 }
 #agendaViewContainer h2 {
@@ -1683,15 +1683,30 @@
   color: #ffffff;
 }
 
-#groupMembersHeaderContainer .badge {
-  font-size: 0.7em;
+.members-badge {
+  font-size: 0.9rem;
   display: block;
   position: absolute;
-  top: 0.3em;
-  right: 0.2em;
-  width: 2em;
-  height: 2em;
-  line-height: 2em;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  line-height: 1.7rem;
+  border-radius: 50%;
+  text-align: center;
+  z-index: 101;
+  color: #fff;
+  background: #c43e00;
+}
+.activities-badge {
+  font-size: 0.9rem;
+  display: block;
+  position: absolute;
+  top: -0.5rem;
+  right: -0.6rem;
+  width: 1.7rem;
+  height: 1.7rem;
+  line-height: 1.7rem;
   border-radius: 50%;
   text-align: center;
   z-index: 101;
@@ -2413,7 +2428,7 @@ a:active {
   font-size: 2rem;
   color: #ffffff;
 }
-#myFamiliesShareHeaderContainer .invites-badge {
+.invites-badge {
   font-size: 0.4em;
   display: block;
   position: absolute;
@@ -2427,7 +2442,7 @@ a:active {
   color: #fff;
   background: #c43e00;
 }
-#myFamiliesShareHeaderContainer .notifications-badge {
+.notifications-badge {
   font-size: 0.4em;
   display: block;
   position: absolute;
@@ -2962,20 +2977,20 @@ a:active {
 
 /* COMMUNITY MANAGEMENT SCREEN*/
 
-.analytics-container{
+.analytics-container {
   padding: 2rem 3%;
 }
-.analytics-container .row{
+.analytics-container .row {
   min-height: 5.6rem;
   align-items: center;
 }
-.analytics-header{
+.analytics-header {
   font-size: 1.8rem;
   color: #000000;
   font-weight: 800;
   margin: 1rem 0;
 }
-.analytics-info{
+.analytics-info {
   font-size: 1.6rem;
   color: #000000;
   font-weight: 600;
