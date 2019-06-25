@@ -261,7 +261,7 @@ async function newRequestNotification (user_id, group_id) {
   await sendPushNotifications(messages)
 }
 
-async function getNotificationDescription (notification, language) {
+function getNotificationDescription (notification, language) {
   const {
     type, code, subject, object
   } = notification
