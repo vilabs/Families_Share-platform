@@ -164,7 +164,7 @@ router.post('/', async (req, res, next) => {
 
 router.post('/authenticate/email', async (req, res, next) => {
   const {
-    email, password, deviceToken, language
+    email, password, deviceToken, language, origin
   } = req.body
   try {
     const user = await User.findOne({ email })
@@ -212,6 +212,11 @@ router.post('/authenticate/email', async (req, res, next) => {
     user.last_login = new Date()
     user.language = language
     user.token = token
+    if (origin === 'native') {
+      user.version = req.body.version
+    } else {
+      user.version = 'latest'
+    }
     await user.save()
     res.json(response)
   } catch (error) {
@@ -259,6 +264,11 @@ router.post('/authenticate/google', async (req, res, next) => {
       user.language = language
       user.token = token
       user.auth0_token = googleToken
+      if (origin === 'native') {
+        user.version = req.body.version
+      } else {
+        user.version = 'latest'
+      }
       await user.save()
       res.json(response)
     } else {
@@ -286,7 +296,8 @@ router.post('/authenticate/google', async (req, res, next) => {
         token,
         auth0_token: googleToken,
         language,
-        last_login: new Date()
+        last_login: new Date(),
+        version: origin === 'native' ? req.body.version : 'latest'
       }
       const profile = {
         given_name: googleProfile.givenName,
@@ -574,6 +585,7 @@ router.post('/:id/groups', (req, res, next) => {
     group_accepted: false
   }
   Member.create(member).then(() => {
+    nh.newRequestNotification(user_id, group_id)
     res.status(200).send('Joined succesfully')
   }).catch(next)
 })

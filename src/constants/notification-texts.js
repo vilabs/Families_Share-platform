@@ -38,6 +38,10 @@ const en = {
     {
       header: 'Group Members',
       description: 'You were removed from the group '
+    },
+    {
+      header: 'Group Members',
+      description: ' requested to join group '
     }
   ],
   activities: [
@@ -53,6 +57,11 @@ const en = {
       header: 'Group Activities',
       description:
         ' has changed date and time and participants were unsubscribed. Please, subscribe again.'
+    },
+    {
+      header: 'Group Activities',
+      description:
+        'has deleted activity'
     }
   ],
   announcements: [
@@ -89,7 +98,11 @@ const it = {
     { header: 'Nuovo membro', description: 'è entrato nel gruppo' },
     { header: 'Iscriviti', description: 'Sei stato aggiunto al gruppo' },
     { header: 'Membri del gruppo', description: 'è stato rimosso dal gruppo' },
-    { header: 'Membri del gruppo', description: 'Sei stato rimosso dal gruppo' }
+    { header: 'Membri del gruppo', description: 'Sei stato rimosso dal gruppo' },
+    {
+      header: 'Membri del gruppo',
+      description: 'richiesto di unirsi al gruppo'
+    }
   ],
   activities: [
     {
@@ -104,6 +117,11 @@ const it = {
       header: 'Attività del gruppo',
       description:
         'ha modificato date e orari, e i partecipanti sono stati disiscritti. Se ancora interessati, reiscrivetevi alle attività.'
+    },
+    {
+      header: 'Attività del gruppo',
+      description:
+        `ha cancellato l'attività`
     }
   ],
   announcements: [
@@ -140,7 +158,11 @@ const nl = {
       description: 'Je werd geaccepteerd in '
     },
     { header: 'Groepsleden', description: ' werd verwijderd uit de groep' },
-    { header: 'Groepsleden', description: 'Je werd verwijderd uit de groep' }
+    { header: 'Groepsleden', description: 'Je werd verwijderd uit de groep' },
+    {
+      header: 'Groepsleden',
+      description: 'gevraagd om lid te worden van de groep'
+    }
   ],
   activities: [
     {
@@ -155,6 +177,11 @@ const nl = {
       header: 'Groepsactiviteiten',
       description:
         ' heeft datum en tijd gewijzigd, alle deelnemers werden verwijdert. Gelieve je opnieuw in te schrijven'
+    },
+    {
+      header: 'Groepsactiviteiten',
+      description:
+        'heeft activiteit verwijderd'
     }
   ],
   announcements: [
@@ -190,11 +217,11 @@ const el = {
   members: [
     {
       header: 'Νέο μέλος',
-      description: ' προστέθηκε στην ομάδα'
+      description: 'προστέθηκε στην ομάδα'
     },
     {
       header: 'Αίτημα Συμμετοχής',
-      description: 'Προστεθήκατε στην'
+      description: 'Προστεθήκατε στην ομάδα'
     },
     {
       header: 'Μέλη ομάδας',
@@ -203,6 +230,10 @@ const el = {
     {
       header: 'Μέλη ομάδας',
       description: 'Έχετε αφαιρεθεί από την ομάδα'
+    },
+    {
+      header: 'Αίτημα Συμμετοχής',
+      description: 'αιτήθηκε να γίνει μέλος της ομάδας'
     }
   ],
   activities: [
@@ -218,6 +249,11 @@ const el = {
       header: 'Ομαδικές δραστηριότητες',
       description:
         '  έχει αλλάξει την ημερομηνία και ώρα και οι συμμετέχοντες έχουν καταργηθεί. Παρακαλώ εγγραφείτε ξανά.'
+    },
+    {
+      header: 'Ομαδικές δραστηριότητες',
+      description:
+        'διέγραψε τη δραστηριότητα'
     }
   ],
   announcements: [
@@ -227,7 +263,6 @@ const el = {
     }
   ]
 }
-
 const hu = {
   'group': [
     {
@@ -267,6 +302,10 @@ const hu = {
     {
       'header': 'Csoporttagok',
       'description': 'Önt eltávolítottuk a csoportból'
+    },
+    {
+      header: 'Csoporttagok',
+      description: 'csatlakozni kell a csoporthoz'
     }
   ],
   'activities': [
@@ -281,6 +320,11 @@ const hu = {
     {
       'header': 'Csoporttevékenységek',
       'description': 'Megváltozott az időpont és a helyszín, valamint a résztvevők leiratkoztak. Kérjük, iratkozzon fel ismét'
+    },
+    {
+      header: 'Csoporttevékenységek',
+      description:
+        'törölte a tevékenységet'
     }
   ],
   'announcements': [

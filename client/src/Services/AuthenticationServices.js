@@ -1,17 +1,22 @@
 import axios from "axios";
 
-function login(email, password, deviceToken) {
+function login(email, password, origin, deviceToken) {
   const language = localStorage.getItem("language");
+  const data = {
+    email,
+    password,
+    deviceToken,
+    language,
+    origin
+  };
+  if (origin === "native") {
+    data.version = localStorage.getItem("version");
+  }
   return axios({
     url: "/api/users/authenticate/email",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: JSON.stringify({
-      email,
-      password,
-      deviceToken,
-      language
-    })
+    data: JSON.stringify(data)
   })
     .then(response => {
       const user = response.data;
@@ -41,16 +46,20 @@ function googleLogin(googleResponse, origin, deviceToken) {
     };
     properResponse.idToken = googleResponse.auth.idToken;
   }
+  const data = {
+    response: properResponse,
+    origin,
+    deviceToken,
+    language
+  };
+  if (origin === "native") {
+    data.version = localStorage.getItem("version");
+  }
   return axios({
     url: "/api/users/authenticate/google",
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    data: JSON.stringify({
-      response: properResponse,
-      origin,
-      deviceToken,
-      language
-    })
+    data: JSON.stringify(data)
   })
     .then(response => {
       const user = response.data;

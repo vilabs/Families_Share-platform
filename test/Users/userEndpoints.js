@@ -126,7 +126,8 @@ describe('/Post/api/users/authenticate/google', () => {
           email: 'test@email.com'
         },
         idToken: 'googletoken'
-      }
+      },
+      version: '20190625'
     }
     chai.request(server)
       .post('/api/users/authenticate/google')
@@ -158,7 +159,8 @@ describe('/Post/api/users/authenticate/google', () => {
           photo: '/images/groups/group_default_photo.png'
         },
         idToken: 'googletoken'
-      }
+      },
+      version: '20190625'
     }
     chai.request(server)
       .post('/api/users/authenticate/google')

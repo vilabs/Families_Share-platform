@@ -56,8 +56,9 @@ class LogInForm extends React.Component {
     const { dispatch, history } = this.props;
     const { email, password } = this.state;
     const deviceToken = localStorage.getItem("deviceToken");
+    const origin = window.isNative ? "native" : "web";
     dispatch(
-      authenticationActions.login(email, password, history, deviceToken)
+      authenticationActions.login(email, password, history, origin, deviceToken)
     );
   };
 

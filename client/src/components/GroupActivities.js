@@ -153,7 +153,9 @@ class GroupActivities extends React.Component {
               >
                 <i className="fas fa-certificate">
                   {pendingActivities > 0 && (
-                    <span className="badge">{pendingActivities}</span>
+                    <span className="activities-badge">
+                      {pendingActivities}
+                    </span>
                   )}
                 </i>
               </button>

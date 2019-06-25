@@ -296,21 +296,23 @@ class MyFamiliesShareHeader extends React.Component {
                 </div>
               </div>
             </Menu.Item>
-            <Menu.Item
-              style={menuItemWithLine}
-              key="invitefriends"
-              className="drawerButtonContainer"
-              onClick={this.handleDrawerClick}
-            >
-              <div className="row no-gutters">
-                <div className="col-1-4">
-                  <i className="fas fa-user-plus" />
+            {user.origin === "native" && (
+              <Menu.Item
+                style={menuItemWithLine}
+                key="invitefriends"
+                className="drawerButtonContainer"
+                onClick={this.handleDrawerClick}
+              >
+                <div className="row no-gutters">
+                  <div className="col-1-4">
+                    <i className="fas fa-user-plus" />
+                  </div>
+                  <div className="col-3-4">
+                    <h1>{texts.inviteFriends}</h1>
+                  </div>
                 </div>
-                <div className="col-3-4">
-                  <h1>{texts.inviteFriends}</h1>
-                </div>
-              </div>
-            </Menu.Item>
+              </Menu.Item>
+            )}
             <Menu.Item
               style={menuItem}
               key="faqs"
