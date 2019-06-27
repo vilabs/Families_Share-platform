@@ -915,14 +915,7 @@ router.patch('/:userId/children/:childId', childProfileUpload.single('photo'), a
     given_name, family_name, gender, birthdate, background, allergies, other_info, special_needs
   } = req.body
   const childPatch = {
-    given_name,
-    family_name,
-    gender,
-    birthdate,
-    background,
-    allergies,
-    other_info,
-    special_needs
+    ...req.body
   }
   if (!(given_name || family_name || gender || birthdate || background || allergies || other_info || special_needs)) {
     return res.status(400).send('Bad Request')
