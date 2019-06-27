@@ -1190,6 +1190,11 @@ router.patch(
         parents.length >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
+      if (parentsReq && childrenReq) {
+        extendedProperties.shared.status = 'confirmed'
+      } else {
+        extendedProperties.shared.status = 'proposed'
+      }
       const fixedReq = extendedProperties.shared.status === 'confirmed'
       if (notifyUsers) {
         extendedProperties.shared.parents = JSON.stringify([])

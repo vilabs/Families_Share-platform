@@ -11,14 +11,16 @@ const Child = require('../models/child')
 // const Announcement = require('../models/announcement')
 const Activity = require('../models/activity')
 const Rating = require('../models/rating')
+const Community = require('../models/community')
 
-router.get('/analytics', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   try {
     const user = await User.findOne({ user_id: req.user_id })
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
+    const community = Community.findOne({})
     const users = await User.find({}).lean()
     const totalNumberOfUsers = users.length
     const totalNumberOfGoogleSignups = users.filter(user => user.provider === 'google').length
@@ -54,17 +56,38 @@ router.get('/analytics', async (req, res, next) => {
       }
     ])
     const response = {
-      totalNumberOfUsers,
-      totalNumberOfGroups,
-      averageNumberOfMembersPerGroup,
-      averageNumberOfActivitiesPerGroup,
-      totalNumberOfChildren,
-      totalNumberOfGoogleSignups,
-      totalNumberOfPlatformSignups,
-      communityGrowth,
-      averageAppRating: Number.parseFloat(averageAppRating[0].avg).toFixed(1)
+      community,
+      analytics: {
+        totalNumberOfUsers,
+        totalNumberOfGroups,
+        averageNumberOfMembersPerGroup,
+        averageNumberOfActivitiesPerGroup,
+        totalNumberOfChildren,
+        totalNumberOfGoogleSignups,
+        totalNumberOfPlatformSignups,
+        communityGrowth,
+        averageAppRating: Number.parseFloat(averageAppRating[0].avg).toFixed(1)
+      }
     }
     res.status(200).send(response)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.patch('/', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  try {
+    const user = await User.findOne({ user_id: req.user_id })
+    if (user.role !== 'manager') {
+      return res.status(401).send('Unauthorized')
+    }
+    const { timeslot_autoconfirm } = req.body
+    if (timeslot_autoconfirm === undefined) {
+      return res.status(400).send('Bad request')
+    }
+    await Community.updateOne({}, { ...req.body })
+    res.status(200).send('Community configurations updated')
   } catch (err) {
     next(err)
   }
