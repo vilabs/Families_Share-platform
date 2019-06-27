@@ -682,6 +682,7 @@ router.get('/:id/events', async (req, res, next) => {
   const group_id = req.params.id
   const user_id = req.user_id
   try {
+    const pendingActivities = await Activity.find({ status: 'pending' }).distinct('activity_id')
     const group = await Group.findOne({ group_id })
     if (!group) {
       return res.status(404).send('Non existing group')
@@ -696,7 +697,7 @@ router.get('/:id/events', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const resp = await calendar.events.list({ calendarId: group.calendar_id })
-    const events = resp.data.items
+    const events = resp.data.items.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
     if (events.length === 0) {
       return res.status(404).send('Group has no events')
     }
