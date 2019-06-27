@@ -272,6 +272,9 @@ router.post('/authenticate/google', async (req, res, next) => {
       await user.save()
       res.json(response)
     } else {
+      if (!(googleProfile.email && googleProfile.givenName && googleProfile.familyName && googleProfile.photo)) {
+        return res.status(400).send('Bad request')
+      }
       const user_id = objectid()
       if (deviceToken !== undefined && deviceToken !== null) {
         const device = await Device.findOne({ device_id: deviceToken })
