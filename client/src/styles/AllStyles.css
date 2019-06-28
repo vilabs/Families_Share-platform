@@ -291,12 +291,13 @@
 /*ADDITIONAL INFO SCREEN END*/
 
 /*CALENDAR*/
-.timeslotStatusIndicator{
-  display:inline-block;
+
+.eventStatusIndicator {
+  display: inline-block;
   border-radius: 50%;
   width: 0.7rem;
   height: 0.7rem;
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 #toolbarContainer {
   padding-bottom: 0.3rem;
@@ -2984,10 +2985,10 @@ a:active {
 
 /* COMMUNITY MANAGEMENT SCREEN*/
 
-.analytics-container {
+.interface-container {
   padding: 2rem 3%;
 }
-.analytics-container .row {
+.interface-container .row {
   min-height: 5.6rem;
   align-items: center;
 }

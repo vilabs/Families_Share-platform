@@ -80,8 +80,9 @@ const DayHeader = () => {
 
 const MyMonthEvent = ({ event, history }) => {
   const { activityId } = event.extendedProperties.shared;
+  const timeslotId = event.id;
   const { groupId, status } = event.extendedProperties.shared;
-  const pathname = `/groups/${groupId}/activities/${activityId}`;
+  const pathname = `/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}`;
   let indicatorColor = "grey";
   if (status === "confirmed") {
     indicatorColor = "#00FF00	";
@@ -91,7 +92,7 @@ const MyMonthEvent = ({ event, history }) => {
   return (
     <div role="button" tabIndex={-42} onClick={() => history.push(pathname)}>
       <div
-        className="timeslotStatusIndicator"
+        className="eventStatusIndicator"
         style={{ backgroundColor: indicatorColor }}
       />
       {event.title}

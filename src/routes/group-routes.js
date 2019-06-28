@@ -119,6 +119,7 @@ const Parent = require('../models/parent')
 const Activity = require('../models/activity')
 const Child = require('../models/child')
 const Profile = require('../models/profile')
+const Community = require('../models/community')
 const User = require('../models/user')
 
 router.get('/', (req, res, next) => {
@@ -445,47 +446,50 @@ router.get('/:id/members', (req, res, next) => {
     .catch(next)
 })
 
-router.patch('/:id/members', (req, res, next) => {
+router.patch('/:id/members', async (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')
   }
-  const group_id = req.params.id
-  const patch = req.body.patch
-  const user_id = req.body.id
-  Member.findOne({
-    group_id,
-    user_id: req.user_id,
-    group_accepted: true,
-    user_accepted: true
-  })
-    .then(edittingUser => {
-      if (!edittingUser) {
-        return res.status(401).send('Unauthorized')
-      }
-      if (!edittingUser.admin) {
-        return res.status(401).send('Unauthorized')
-      }
-      if (!(patch.group_accepted || patch.admin !== undefined)) {
-        return res.status(400).send('Bad Request')
-      }
-      return Member.updateOne({ group_id, user_id }, patch).then(() => {
-        let message = ''
-        if (patch.group_accepted !== undefined) {
-          if (patch.group_accepted) {
-            nh.newMemberNotification(group_id, user_id)
-            message = 'Request confirmed'
-          } else {
-            message = 'Request deleted'
-          }
-        } else if (patch.admin) {
-          message = 'Admin added'
-        } else {
-          message = 'Admin removed'
-        }
-        res.status(200).send(message)
-      })
+  try {
+    const group_id = req.params.id
+    const patch = req.body.patch
+    const user_id = req.body.id
+    const edittingUser = await Member.findOne({
+      group_id,
+      user_id: req.user_id,
+      group_accepted: true,
+      user_accepted: true
     })
-    .catch(next)
+    if (!edittingUser) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!edittingUser.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!(patch.group_accepted || patch.admin !== undefined)) {
+      return res.status(400).send('Bad Request')
+    }
+    let community = await Community.findOne({})
+    if (!community) {
+      community = await Community.create({})
+    }
+    patch.admin = community.auto_admin
+    await Member.updateOne({ group_id, user_id }, patch)
+    let message = ''
+    if (patch.group_accepted !== undefined) {
+      if (patch.group_accepted) {
+        nh.newMemberNotification(group_id, user_id)
+        message = 'Request confirmed'
+      } else {
+        message = 'Request deleted'
+      }
+    } else if (patch.admin) {
+      message = 'Admin added'
+    } else {
+      message = 'Admin removed'
+    }
+    res.status(200).send(message)
+  } catch (err) { next(err) }
 })
 
 router.delete('/:groupId/members/:memberId', async (req, res, next) => {
@@ -1163,6 +1167,10 @@ router.patch(
       if (!member) {
         return res.status(401).send('Unauthorized')
       }
+      let community = await Community.findOne({})
+      if (!community) {
+        community = await Community.create({})
+      }
       const {
         summary,
         description,
@@ -1190,10 +1198,14 @@ router.patch(
         parents.length >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
-      if (parentsReq && childrenReq) {
-        extendedProperties.shared.status = 'confirmed'
-      } else {
-        extendedProperties.shared.status = 'proposed'
+      if (community.timeslot_autoconfirm) {
+        if (extendedProperties.shared.status !== 'completed') {
+          if (parentsReq && childrenReq) {
+            extendedProperties.shared.status = 'confirmed'
+          } else {
+            extendedProperties.shared.status = 'proposed'
+          }
+        }
       }
       const fixedReq = extendedProperties.shared.status === 'confirmed'
       if (notifyUsers) {

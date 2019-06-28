@@ -76,6 +76,7 @@ const Announcement = require('../models/announcement')
 const Password_Reset = require('../models/password-reset')
 const Device = require('../models/device')
 const Rating = require('../models/rating')
+const Community = require('../models/community')
 
 router.post('/', async (req, res, next) => {
   const {
@@ -593,14 +594,21 @@ router.post('/:id/groups', (req, res, next) => {
   }).catch(next)
 })
 
-router.patch('/:userId/groups/:groupId', (req, res, next) => {
+router.patch('/:userId/groups/:groupId', async (req, res, next) => {
   if (req.user_id !== req.params.userId) { return res.status(401).send('Unauthorized') }
   const group_id = req.params.groupId
   const user_id = req.params.userId
-  Member.updateOne({ user_id, group_id }, { user_accepted: true }).then(() => {
+  try {
+    let community = await Community.findOne({})
+    if (!community) {
+      community = await Community.create({})
+    }
+    await Member.updateOne({ user_id, group_id }, { user_accepted: true, admin: community.auto_admin })
     nh.newMemberNotification(group_id, user_id)
     res.status(200).send('User joined')
-  }).catch(next)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.delete('/:userId/groups/:groupId', async (req, res, next) => {
