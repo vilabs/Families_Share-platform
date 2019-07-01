@@ -21,14 +21,14 @@ router.get('/', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const community = Community.findOne({})
-    const users = await User.find({}).lean()
+    const users = await User.find({ email: { $ne: 'fonikhmyga@gmail.com' } }).lean()
     const totalNumberOfUsers = users.length
     const totalNumberOfGoogleSignups = users.filter(user => user.provider === 'google').length
     const totalNumberOfPlatformSignups = totalNumberOfUsers - totalNumberOfGoogleSignups
-    const totalNumberOfChildren = await Child.estimatedDocumentCount({})
-    const totalNumberOfGroups = await Group.estimatedDocumentCount({})
+    const totalNumberOfChildren = await Child.estimatedDocumentCount({ given_name: { $ne: 'Test' } })
+    const totalNumberOfGroups = await Group.estimatedDocumentCount({ name: { $ne: 'Test' } })
     const totalNumberOfGroupMembers = await Member.estimatedDocumentCount({ group_accepted: true, user_accepted: true })
-    const totalNumberOfActivities = await Activity.estimatedDocumentCount({})
+    const totalNumberOfActivities = await Activity.estimatedDocumentCount({ name: { $ne: 'Test' } })
     let averageNumberOfMembersPerGroup = 0
     let averageNumberOfActivitiesPerGroup = 0
     let newUsers = 0
