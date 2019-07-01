@@ -20,7 +20,7 @@ router.get('/', async (req, res, next) => {
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
-    const community = Community.findOne({})
+    const community = await Community.findOne({}).lean()
     const users = await User.find({ email: { $ne: 'fonikhmyga@gmail.com' } }).lean()
     const totalNumberOfUsers = users.length
     const totalNumberOfGoogleSignups = users.filter(user => user.provider === 'google').length
@@ -55,8 +55,9 @@ router.get('/', async (req, res, next) => {
           }
       }
     ])
+    const { timeslot_autoconfirm, auto_admin } = community
     const response = {
-      community,
+      configurations: { timeslot_autoconfirm, auto_admin },
       analytics: {
         totalNumberOfUsers,
         totalNumberOfGroups,
