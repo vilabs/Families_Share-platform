@@ -57,11 +57,14 @@ describe('/Patch/api/community', () => {
   it('it should update the configurations of the community when user is authenticated and community manager', async () => {
     try {
       const user = await User.findOne({ email: 'test@email.com' })
+      const patch = {
+        auto_admin: true
+      }
       const res = await chai
         .request(server)
-        .get(`/api/community`)
+        .patch(`/api/community`)
         .set('Authorization', user.token)
-        .send({ auto_admin: true })
+        .send(patch)
       const community = await Community.findOne({}).lean()
       res.should.have.status(200)
       community.should.have.property('auto_admin').to.equal(true)
