@@ -64,7 +64,7 @@ describe('/Patch/api/community', () => {
         .send({ auto_admin: true })
       const community = await Community.findOne({}).lean()
       res.should.have.status(200)
-      community.analytics.should.have.property('auto_admin').to.equal(true)
+      community.should.have.property('auto_admin').to.equal(true)
     } catch (err) {
       throw err
     }
