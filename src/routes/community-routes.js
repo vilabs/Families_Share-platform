@@ -83,8 +83,8 @@ router.patch('/', async (req, res, next) => {
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
-    const { timeslot_autoconfirm } = req.body
-    if (timeslot_autoconfirm === undefined) {
+    const { timeslot_autoconfirm, auto_admin } = req.body
+    if (!(timeslot_autoconfirm || auto_admin)) {
       return res.status(400).send('Bad request')
     }
     await Community.updateOne({}, { ...req.body })
