@@ -62,6 +62,11 @@ const en = {
       header: 'Group Activities',
       description:
         'has deleted activity'
+    },
+    {
+      header: 'Group Activities',
+      description:
+        'has deleted timeslot'
     }
   ],
   announcements: [
@@ -122,6 +127,11 @@ const it = {
       header: 'Attività del gruppo',
       description:
         `ha cancellato l'attività`
+    },
+    {
+      header: 'Attività del gruppo',
+      description:
+        `ha cancellato Orario`
     }
   ],
   announcements: [
@@ -182,6 +192,11 @@ const nl = {
       header: 'Groepsactiviteiten',
       description:
         'heeft activiteit verwijderd'
+    },
+    {
+      header: 'Groepsactiviteiten',
+      description:
+        'heeft timeslot verwijderd'
     }
   ],
   announcements: [
@@ -254,6 +269,11 @@ const el = {
       header: 'Ομαδικές δραστηριότητες',
       description:
         'διέγραψε τη δραστηριότητα'
+    },
+    {
+      header: 'Ομαδικές δραστηριότητες',
+      description:
+        'διέγραψε τη χρονική περίοδο'
     }
   ],
   announcements: [
@@ -325,6 +345,11 @@ const hu = {
       header: 'Csoporttevékenységek',
       description:
         'törölte a tevékenységet'
+    },
+    {
+      header: 'Csoporttevékenységek',
+      description:
+        'törölte a Időpont'
     }
   ],
   'announcements': [

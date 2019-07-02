@@ -42,7 +42,8 @@ const en = {
     rangeErr: "Please select a value greater than zero.",
     editConfirm: "Confirm edits?",
     crucialChangeConfirm:
-      "If you save these edits all participants will be unsubscribed. Confirm edits?"
+      "If you save these edits all participants will be unsubscribed. Confirm edits?",
+    deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
     minimum: "minimum number",
@@ -770,7 +771,8 @@ const nl = {
     date: "Datum",
     editConfirm: "Bewerkingen bevestigen?",
     crucialChangeConfirm:
-      "Als u deze bewerkingen opslaat, worden alle deelnemers afgemeld. Bevestig bewerkingen?"
+      "Als u deze bewerkingen opslaat, worden alle deelnemers afgemeld. Bevestig bewerkingen?",
+    deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
     minimum: "minimum antaal",
@@ -1380,7 +1382,8 @@ const it = {
     date: "Data",
     editConfirm: "confermare le modifiche?",
     crucialChangeConfirm:
-      "Se salvi queste modifiche, tutti i partecipanti verranno annullati. Conferma le modifiche?"
+      "Se salvi queste modifiche, tutti i partecipanti verranno annullati. Conferma le modifiche?",
+    deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
     minimum: "numero minimo",
@@ -2076,7 +2079,9 @@ const el = {
     date: "Ημερομηνία",
     editConfirm: "Επιβεβαίωση αλλαγών;",
     crucialChangeConfirm:
-      "Εάν αποθηκεύσετε αυτές τις αλλαγές όλοι οι συμμετέχοντες θα διαγραφούν. Αποθήκευση αλλαγών;"
+      "Εάν αποθηκεύσετε αυτές τις αλλαγές όλοι οι συμμετέχοντες θα διαγραφούν. Αποθήκευση αλλαγών;",
+    deleteConfirm:
+      "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
     minimum: "ελάχιστος αριθμός",
@@ -2693,7 +2698,8 @@ const hu = {
     rangeErr: "Kérjük, adjon meg nullánál nagyobb értéket",
     editConfirm: "Jóváhagyja a módosításokat?",
     crucialChangeConfirm:
-      "Amennyiben elmenti ezeket a változtatásokat, akkor a teljes csoport leiratkozik. Jóváhagyja a módosításokat?"
+      "Amennyiben elmenti ezeket a változtatásokat, akkor a teljes csoport leiratkozik. Jóváhagyja a módosításokat?",
+    deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
     minimum: "minimum érték",
