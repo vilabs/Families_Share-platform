@@ -263,7 +263,6 @@ async function deleteActivityNotification (user_id, activityName, timeslots) {
       object: `${activityName}`
     })
   })
-  console.log(notifications)
   await Notification.create(notifications)
   const messages = []
   devices.forEach(device => {
@@ -273,6 +272,37 @@ async function deleteActivityNotification (user_id, activityName, timeslots) {
       sound: 'default',
       title: texts[language]['activities'][3]['header'],
       body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][3]['description']} ${activityName}`
+    })
+  })
+  await sendPushNotifications(messages)
+}
+
+async function deleteTimeslotNotification (user_id, timeslot) {
+  const subject = await Profile.findOne({ user_id })
+  const userIds = timeslot.parents.filter(id => id !== user_id)
+  const users = await User.find({ user_id: { $in: userIds } })
+  const devices = await Device.find({ user_id: { $in: userIds } })
+  const notifications = []
+  users.forEach(user => {
+    notifications.push({
+      owner_type: 'user',
+      owner_id: user.user_id,
+      type: 'activities',
+      code: 4,
+      read: false,
+      subject: `${subject.given_name} ${subject.family_name}`,
+      object: `${timeslot.summary}`
+    })
+  })
+  await Notification.create(notifications)
+  const messages = []
+  devices.forEach(device => {
+    const language = users.filter(user => user.user_id === device.user_id)[0].language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['activities'][4]['header'],
+      body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][4]['description']} ${timeslot.summary}`
     })
   })
   await sendPushNotifications(messages)
@@ -388,5 +418,6 @@ module.exports = {
   newActivityNotification,
   newAnnouncementNotification,
   timeslotChangedNotification,
+  deleteTimeslotNotification,
   newRequestNotification
 }

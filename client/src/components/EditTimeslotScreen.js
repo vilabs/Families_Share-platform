@@ -148,6 +148,24 @@ class EditTimeslotScreen extends React.Component {
     }
   };
 
+  handleDelete = () => {
+    const { history } = this.props;
+    const { summary, parents } = this.state;
+    let { pathname } = history.location;
+    pathname = `/api${pathname.substring(0, pathname.length - 5)}`;
+    axios
+      .delete(pathname, {
+        params: { summary, parents: JSON.stringify(parents) }
+      })
+      .then(response => {
+        Log.info(response);
+        history.go(-2);
+      })
+      .catch(error => {
+        Log.error(error);
+      });
+  };
+
   handleSave = () => {
     const { history } = this.props;
     const { start } = this.state;
@@ -221,7 +239,11 @@ class EditTimeslotScreen extends React.Component {
     const { confirmDialogTrigger } = this.state;
     const { history } = this.props;
     if (choice === "agree") {
-      this.handleSave();
+      if (confirmDialogTrigger === "delete") {
+        this.handleDelete();
+      } else {
+        this.handleSave();
+      }
     } else if (confirmDialogTrigger === "back") {
       history.goBack();
     }
@@ -237,7 +259,9 @@ class EditTimeslotScreen extends React.Component {
     const { notifyUsers } = this.state;
     const texts = Texts[language].editTimeslotScreen;
     let confirmDialogTitle;
-    if (notifyUsers) {
+    if (confirmDialogTrigger === "delete") {
+      confirmDialogTitle = texts.deleteConfirm;
+    } else if (notifyUsers) {
       confirmDialogTitle = texts.crucialChangeConfirm;
     } else {
       confirmDialogTitle = texts.editConfirm;
@@ -318,7 +342,16 @@ class EditTimeslotScreen extends React.Component {
           <div className="col-6-10">
             <h1 className="center">{this.getBackNavTitle()}</h1>
           </div>
-          <div className="col-2-10">
+          <div className="col-1-10">
+            <button
+              type="button"
+              className="transparentButton center"
+              onClick={() => this.handleConfirmDialogOpen("delete")}
+            >
+              <i className="fas fa-trash-alt" />
+            </button>
+          </div>
+          <div className="col-1-10">
             <button
               type="button"
               className="transparentButton center"
