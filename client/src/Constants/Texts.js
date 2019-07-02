@@ -743,7 +743,9 @@ const nl = {
     analyticsHeader: "Analytics",
     communityGrowth: "Gebruikersgroei platform (%)",
     totalNumberOfGoogleSignups: "Geregistreerd via Google",
-    totalNumberOfPlatformSignups: "Geregistreerd via Families_Share platform"
+    totalNumberOfPlatformSignups: "Geregistreerd via Families_Share platform",
+    timeslot_autoconfirm: "Timeslots automatisch bevestigen",
+    auto_admin: "Groepslid automatische beheerder"
   },
   profileChildren: {
     addChildPrompt:
@@ -1353,7 +1355,9 @@ const it = {
     communityGrowth: "Crescita utenti della piattaforma (%)",
     totalNumberOfGoogleSignups: "Registrato utilizzando Google",
     totalNumberOfPlatformSignups:
-      "Registrato utilizzando la piattaforma Families_Share"
+      "Registrato utilizzando la piattaforma Families_Share",
+    timeslot_autoconfirm: "Orario conferma automatico",
+    auto_admin: "Membro del gruppo aamministratore automatico"
   },
   profileChildren: {
     addChildPrompt:
@@ -2050,7 +2054,9 @@ const el = {
     communityGrowth: "Μηνιαία αύξηση χρηστών (%)",
     totalNumberOfGoogleSignups: "Εγγράφηκαν μέσω Google",
     totalNumberOfPlatformSignups:
-      "Εγγράφηκαν μέσω της Families_Share πλατφόρμας"
+      "Εγγράφηκαν μέσω της Families_Share πλατφόρμας",
+    timeslot_autoconfirm: "Αυτόματη επιβεβαίωση χρονικής περιόδου",
+    auto_admin: "Μέλη ομάδων αυτόματα διαχειριστές"
   },
   profileChildren: {
     addChildPrompt:
@@ -2669,7 +2675,9 @@ const hu = {
     analyticsHeader: "Analytics",
     communityGrowth: "A platform felhasználói növekedése (%)",
     totalNumberOfGoogleSignups: "A Google-on regisztrált",
-    totalNumberOfPlatformSignups: "Regisztrált a Families_Share platformon"
+    totalNumberOfPlatformSignups: "Regisztrált a Families_Share platformon",
+    timeslot_autoconfirm: "Időpont automatikus megerősítés",
+    auto_admin: "Csoporttag automatikus admin"
   },
   profileChildren: {
     addChildPrompt:
