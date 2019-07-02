@@ -1155,7 +1155,7 @@ router.patch(
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
-    const group_id = req.params.groupId
+    const { groupId: group_id, activityId: activity_id } = req.params
     const user_id = req.user_id
     try {
       const member = await Member.findOne({
@@ -1164,7 +1164,11 @@ router.patch(
         group_accepted: true,
         user_accepted: true
       })
+      const activity = await Activity.findOne({ activity_id })
       if (!member) {
+        return res.status(401).send('Unauthorized')
+      }
+      if (!(member.admin || user_id === activity.creator_id)) {
         return res.status(401).send('Unauthorized')
       }
       let community = await Community.findOne({})
@@ -1241,7 +1245,7 @@ router.delete(
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
-    const group_id = req.params.groupId
+    const { groupId: group_id, activityId: activity_id } = req.params
     const user_id = req.user_id
     const { summary, parents } = req.query
     try {
@@ -1249,10 +1253,13 @@ router.delete(
         group_id,
         user_id,
         group_accepted: true,
-        user_accepted: true,
-        admin: true
+        user_accepted: true
       })
+      const activity = await Activity.findOne({ activity_id })
       if (!member) {
+        return res.status(401).send('Unauthorized')
+      }
+      if (!(member.admin || user_id === activity.creator_id)) {
         return res.status(401).send('Unauthorized')
       }
       if (!(summary && parents)) {

@@ -761,7 +761,6 @@ describe('/Delete/api/groups/groupId/activities/activityId/timeslots/timeslotId'
     const user = await User.findOne({ email: 'test@email.com' })
     const group = await Group.findOne({ name: 'Test Group Edit' })
     const activity = await Activity.findOne({ group_id: group.group_id })
-    const parent = await Parent.findOne({ parent_id: user.user_id })
     const timeslotResp = await chai
       .request(server)
       .get(
@@ -773,12 +772,12 @@ describe('/Delete/api/groups/groupId/activities/activityId/timeslots/timeslotId'
     const timeslots = timeslotResp.body
     const res = await chai
       .request(server)
-      .query({ summary: timeslots[1].summary, parents: [] })
       .delete(
         `/api/groups/${group.group_id}/activities/${
           activity.activity_id
         }/timeslots/${timeslots[1].id}`
       )
+      .query({ summary: timeslots[1].summary, parents: '[]' })
       .set('Authorization', user.token)
     res.should.have.status(200)
   })
@@ -800,12 +799,12 @@ describe('/Delete/api/groups/groupId/activities/activityId/timeslots/timeslotId'
     const timeslots = timeslotResp.body
     const res = await chai
       .request(server)
-      .query({ summary: 'blah', parents: [] })
       .delete(
         `/api/groups/${group.group_id}/activities/${
           activity.activity_id
         }/timeslots/${timeslots[0].id}`
       )
+      .query({ summary: 'blah', parents: [] })
       .set('Authorization', user2.token)
     res.should.have.status(401)
   })
@@ -826,12 +825,12 @@ describe('/Delete/api/groups/groupId/activities/activityId/timeslots/timeslotId'
     const timeslots = timeslotResp.body
     const res = await chai
       .request(server)
-      .query({ summary: 'blah', parents: [] })
       .delete(
         `/api/groups/${group.group_id}/activities/${
           activity.activity_id
         }/timeslots/${timeslots[0].id}`
       )
+      .query({ summary: 'blah', parents: [] })
       .set('Authorization', 'invalidtoken')
     res.should.have.status(401)
   })
@@ -852,12 +851,12 @@ describe('/Delete/api/groups/groupId/activities/activityId/timeslots/timeslotId'
     const timeslots = timeslotResp.body
     const res = await chai
       .request(server)
-      .query({ foo: 'bar' })
       .delete(
         `/api/groups/${group.group_id}/activities/${
           activity.activity_id
         }/timeslots/${timeslots[0].id}`
       )
+      .query({ foo: 'bar' })
       .set('Authorization', user.token)
     res.should.have.status(400)
   })
@@ -872,7 +871,7 @@ describe('/Get/api/groups/groupId/events', () => {
           .set('Authorization', user.token)
           .end((err, res) => {
             res.should.have.status(200)
-            res.body.should.be.a('array').with.lengthOf(4)
+            res.body.should.be.a('array').with.lengthOf(3)
             done()
           })
       })
