@@ -10,7 +10,10 @@ const en = {
     analyticsHeader: "Analytics",
     communityGrowth: "Platform user growth (%)",
     totalNumberOfGoogleSignups: "Registered using Google",
-    totalNumberOfPlatformSignups: "Registered using the Families_Share platform"
+    totalNumberOfPlatformSignups:
+      "Registered using the Families_Share platform",
+    timeslot_autoconfirm: "Timeslots auto-confirm",
+    auto_admin: "Member automatically admins"
   },
   profileChildren: {
     addChildPrompt:

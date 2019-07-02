@@ -11,22 +11,24 @@ const Child = require('../models/child')
 // const Announcement = require('../models/announcement')
 const Activity = require('../models/activity')
 const Rating = require('../models/rating')
+const Community = require('../models/community')
 
-router.get('/analytics', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
   try {
     const user = await User.findOne({ user_id: req.user_id })
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
-    const users = await User.find({}).lean()
+    const community = await Community.findOne({}).lean()
+    const users = await User.find({ email: { $ne: 'fonikhmyga@gmail.com' } }).lean()
     const totalNumberOfUsers = users.length
     const totalNumberOfGoogleSignups = users.filter(user => user.provider === 'google').length
     const totalNumberOfPlatformSignups = totalNumberOfUsers - totalNumberOfGoogleSignups
-    const totalNumberOfChildren = await Child.estimatedDocumentCount({})
-    const totalNumberOfGroups = await Group.estimatedDocumentCount({})
+    const totalNumberOfChildren = await Child.estimatedDocumentCount({ given_name: { $ne: 'Test' } })
+    const totalNumberOfGroups = await Group.estimatedDocumentCount({ name: { $ne: 'Test' } })
     const totalNumberOfGroupMembers = await Member.estimatedDocumentCount({ group_accepted: true, user_accepted: true })
-    const totalNumberOfActivities = await Activity.estimatedDocumentCount({})
+    const totalNumberOfActivities = await Activity.estimatedDocumentCount({ name: { $ne: 'Test' } })
     let averageNumberOfMembersPerGroup = 0
     let averageNumberOfActivitiesPerGroup = 0
     let newUsers = 0
@@ -53,18 +55,40 @@ router.get('/analytics', async (req, res, next) => {
           }
       }
     ])
+    const { timeslot_autoconfirm, auto_admin } = community
     const response = {
-      totalNumberOfUsers,
-      totalNumberOfGroups,
-      averageNumberOfMembersPerGroup,
-      averageNumberOfActivitiesPerGroup,
-      totalNumberOfChildren,
-      totalNumberOfGoogleSignups,
-      totalNumberOfPlatformSignups,
-      communityGrowth,
-      averageAppRating: Number.parseFloat(averageAppRating[0].avg).toFixed(1)
+      configurations: { timeslot_autoconfirm, auto_admin },
+      analytics: {
+        totalNumberOfUsers,
+        totalNumberOfGroups,
+        averageNumberOfMembersPerGroup,
+        averageNumberOfActivitiesPerGroup,
+        totalNumberOfChildren,
+        totalNumberOfGoogleSignups,
+        totalNumberOfPlatformSignups,
+        communityGrowth,
+        averageAppRating: Number.parseFloat(averageAppRating[0].avg).toFixed(1)
+      }
     }
     res.status(200).send(response)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.patch('/', async (req, res, next) => {
+  if (!req.user_id) { return res.status(401).send('Not authenticated') }
+  try {
+    const user = await User.findOne({ user_id: req.user_id })
+    if (user.role !== 'manager') {
+      return res.status(401).send('Unauthorized')
+    }
+    const { timeslot_autoconfirm, auto_admin } = req.body
+    if (!(timeslot_autoconfirm || auto_admin)) {
+      return res.status(400).send('Bad request')
+    }
+    await Community.updateOne({}, { ...req.body })
+    res.status(200).send('Community configurations updated')
   } catch (err) {
     next(err)
   }

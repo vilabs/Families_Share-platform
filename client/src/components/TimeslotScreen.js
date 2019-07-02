@@ -189,16 +189,15 @@ class TimeslotScreen extends React.Component {
     const { history } = this.props;
     const { pathname } = history.location;
     const { timeslot } = this.state;
+    timeslot.extendedProperties.shared.children = JSON.stringify(
+      timeslot.extendedProperties.shared.children
+    );
+    timeslot.extendedProperties.shared.parents = JSON.stringify(
+      timeslot.extendedProperties.shared.parents
+    );
     axios
       .patch(`/api${pathname}`, {
-        extendedProperties: {
-          shared: {
-            parents: JSON.stringify(timeslot.extendedProperties.shared.parents),
-            children: JSON.stringify(
-              timeslot.extendedProperties.shared.children
-            )
-          }
-        }
+        ...timeslot
       })
       .then(response => {
         Log.info(response);
