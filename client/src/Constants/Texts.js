@@ -2847,7 +2847,7 @@ const hu = {
     kids: "Gyermekek"
   },
   groupInfo: {
-    startGuideHeader: "Nem tudja hogyan kezdje?",
+    startGuideHeader: "Nem tudja hogyan kezdje el?",
     startGuideInfo:
       "Nézze meg a kezdő felhasználóknak szóló,  7 lépéses útmutatónkat!",
     join: "Csatlakozás",
@@ -2903,7 +2903,7 @@ const hu = {
         secondary: null
       },
       {
-        main: "Lépjen kapcsolatba a helyzetmeghatározó eszközzel",
+        main: "Határozza meg a helyszínt!",
         secondary: null
       },
       {
@@ -3018,7 +3018,7 @@ const hu = {
     description: "Leírás",
     visibleGroup: "Mások keresési találatai között megjelenik a csoportom",
     invisibleGroup:
-      "Mások keresési találatai között nemjelenik meg a csoportom",
+      "Mások keresési találatai között nem jelenik meg a csoportom",
     city: "Város",
     invite: "Csoporttag hozzáadása",
     nameErr: "Csoport megnevezése már foglalt",
@@ -3133,7 +3133,7 @@ const hu = {
     example: "pl. étel intolerancia",
     boy: "Fiú",
     girl: "Lány",
-    date: "Dátum",
+    date: "Nap",
     add: "Szerkesztés",
     month: "Hónap",
     year: "Év",
@@ -3154,7 +3154,7 @@ const hu = {
     example: "pl. étel intolerancia",
     boy: "Fiú",
     girl: "Lány",
-    date: "Dátum",
+    date: "Nap",
     month: "Hónap",
     year: "Év",
     acceptTerms:
