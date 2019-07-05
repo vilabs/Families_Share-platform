@@ -188,7 +188,7 @@ class TimeslotScreen extends React.Component {
   handleSave = () => {
     const { history } = this.props;
     const { pathname } = history.location;
-    const { timeslot } = this.state;
+    const { timeslot } = JSON.parse(JSON.stringify(this.state));
     timeslot.extendedProperties.shared.children = JSON.stringify(
       timeslot.extendedProperties.shared.children
     );
@@ -302,6 +302,7 @@ class TimeslotScreen extends React.Component {
         participants.includes(profile.user_id)
       );
       showing = showParents;
+      console.log(participants);
       participantsHeader = `${participants.length} ${
         participants.length === 1 ? texts.volunteer : texts.volunteers
       } ${texts.signup}`;
