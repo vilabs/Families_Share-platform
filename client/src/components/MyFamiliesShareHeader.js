@@ -25,6 +25,21 @@ class MyFamiliesShareHeader extends React.Component {
     confirmModalIsOpen: false
   };
 
+  componentDidMount() {
+    document.addEventListener("message", this.handleMessage, false);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("message", this.handleMessage, false);
+  }
+
+  handleMessage = event => {
+    const data = JSON.parse(event.data);
+    if (data.action === "notificationsGoBack") {
+      this.handleNotificationsClose();
+    }
+  };
+
   sendMeNotification = () => {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     axios
@@ -61,6 +76,14 @@ class MyFamiliesShareHeader extends React.Component {
     const target = document.querySelector(".ReactModalPortal");
     enableBodyScroll(target);
     this.setState({ notificationModalIsOpen: false });
+    if (window.isNative) {
+      window.ReactNativeWebView.postMessage(
+        JSON.stringify({
+          action: "handleNotificationsModal",
+          value: "cannotGoBack"
+        })
+      );
+    }
   };
 
   handleNotificationsOpen = () => {
@@ -75,6 +98,14 @@ class MyFamiliesShareHeader extends React.Component {
           notificationModalIsOpen: true,
           readNotifications: true
         });
+        if (window.isNative) {
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({
+              action: "handleNotificationsModal",
+              value: "notificationsGoBack"
+            })
+          );
+        }
       })
       .catch(error => {
         Log.error(error);
