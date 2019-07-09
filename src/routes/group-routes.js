@@ -1155,7 +1155,7 @@ router.patch(
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
-    const { groupId: group_id, activityId: activity_id } = req.params
+    const { groupId: group_id } = req.params
     const user_id = req.user_id
     try {
       const member = await Member.findOne({
@@ -1164,11 +1164,7 @@ router.patch(
         group_accepted: true,
         user_accepted: true
       })
-      const activity = await Activity.findOne({ activity_id })
       if (!member) {
-        return res.status(401).send('Unauthorized')
-      }
-      if (!(member.admin || user_id === activity.creator_id)) {
         return res.status(401).send('Unauthorized')
       }
       let community = await Community.findOne({})
