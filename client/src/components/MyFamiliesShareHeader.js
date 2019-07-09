@@ -113,13 +113,10 @@ class MyFamiliesShareHeader extends React.Component {
         history.push("/groups/create");
         break;
       case "signout":
-        const user = JSON.parse(localStorage.getItem("user"));
-        if (user.google_token !== undefined) {
-          if (user.origin === "native")
-            window.ReactNativeWebView.postMessage(
-              JSON.stringify({ action: "googleLogout" })
-            );
-        }
+        if (window.isNative)
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({ action: "googleLogout" })
+          );
         dispatch(authenticationActions.logout(history));
         break;
       case "searchgroup":
@@ -296,7 +293,7 @@ class MyFamiliesShareHeader extends React.Component {
                 </div>
               </div>
             </Menu.Item>
-            {user.origin === "native" && (
+            {window.isNative && (
               <Menu.Item
                 style={menuItemWithLine}
                 key="invitefriends"

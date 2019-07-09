@@ -88,7 +88,20 @@ class NotificationsModal extends React.Component {
         contentLabel="Notifications Modal"
       >
         <div id="myNotificationsContainer">
-          <h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
+          <div className="row no-gutters">
+            <div className="col-9-10">
+              <h1 style={{ fontSize: "1.4rem" }}>{texts.myNotifications}</h1>
+            </div>
+            <div clasName="col-1-10">
+              <button
+                className="transparentButton"
+                type="button"
+                onClick={this.closeModal}
+              >
+                <i className="fas fa-times" />
+              </button>
+            </div>
+          </div>
           <ul>
             {notifications.map((notification, index) => (
               <li key={index}>
