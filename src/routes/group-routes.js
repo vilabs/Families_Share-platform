@@ -466,14 +466,16 @@ router.patch('/:id/members', async (req, res, next) => {
     if (!edittingUser.admin) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(patch.group_accepted || patch.admin !== undefined)) {
+    if (!(patch.group_accepted !== undefined || patch.admin !== undefined)) {
       return res.status(400).send('Bad Request')
     }
     let community = await Community.findOne({})
     if (!community) {
       community = await Community.create({})
     }
-    patch.admin = community.auto_admin
+    if (patch.group_accepted !== undefined) {
+      patch.admin = community.auto_admin
+    }
     await Member.updateOne({ group_id, user_id }, patch)
     let message = ''
     if (patch.group_accepted !== undefined) {
