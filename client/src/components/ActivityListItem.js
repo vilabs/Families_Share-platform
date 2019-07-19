@@ -98,16 +98,28 @@ class ActivityListItem extends React.Component {
     let datesString = "";
     if (activity.repetition_type === "monthly") {
       datesString = `${texts.every} ${moment(selectedDates[0]).format("Do")}`;
-    } else if (activity.repetition_type === "weekly") {
-      datesString = `${texts.every} ${moment(selectedDates[0]).format(
-        "dddd"
-      )} ${texts.of} ${moment(selectedDates[0]).format("MMMM")}`;
     } else {
+      const eachMonthsDates = {};
       selectedDates.forEach(selectedDate => {
-        datesString += `${moment(selectedDate).format("D")}, `;
+        const key = moment(selectedDate).format("MMMM YYYY");
+        if (eachMonthsDates[key] === undefined) {
+          eachMonthsDates[key] = [selectedDate];
+        } else {
+          eachMonthsDates[key].push(selectedDate);
+        }
       });
-      datesString = datesString.slice(0, datesString.lastIndexOf(","));
-      datesString += ` ${moment(selectedDates[0]).format("MMMM YYYY")}`;
+      const months = Object.keys(eachMonthsDates);
+      const dates = Object.values(eachMonthsDates);
+      for (let i = 0; i < months.length; i += 1) {
+        let monthString = "";
+        dates[i].forEach(date => {
+          monthString += ` ${moment(date).format("DD")},`;
+        });
+        monthString = monthString.substr(0, monthString.length - 1);
+        monthString += ` ${months[i]}`;
+        datesString += ` ${monthString}, `;
+      }
+      datesString = datesString.substr(0, datesString.length - 2);
     }
     return datesString;
   };

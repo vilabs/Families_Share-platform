@@ -31,13 +31,11 @@ const modifiersStyles = {
   }
 };
 
-const Navbar = ({ onPreviousClick, onNextClick, handleMonthChange }) => {
+const Navbar = ({ onPreviousClick, onNextClick }) => {
   function handlePrevNav() {
-    handleMonthChange();
     onPreviousClick();
   }
   function handleNextNav() {
-    handleMonthChange();
     onNextClick();
   }
   return (
@@ -104,10 +102,7 @@ class CreateActivityDates extends React.Component {
         if (!selected) {
           selectedDays.push(day);
           selectedDays.sort((a, b) => {
-            if (moment(a).format("DD") > moment(b).format("DD")) {
-              return 1;
-            }
-            return -1;
+            return new Date(a) - new Date(b);
           });
           state.selectedDays = selectedDays;
           state.lastSelect = day;
@@ -183,13 +178,7 @@ class CreateActivityDates extends React.Component {
     const { language } = this.props;
     const { repetition, repetitionType, selectedDays } = this.state;
     const texts = Texts[language].createActivityDates;
-    const navbar = (
-      <Navbar
-        handleMonthChange={() =>
-          this.setState({ selectedDays: [], lastSelect: undefined })
-        }
-      />
-    );
+    const navbar = <Navbar />;
     const repetitionStyle = repetition
       ? { color: "#00838F" }
       : { color: "rgba(0,0,0,0.5)" };
@@ -276,8 +265,7 @@ CreateActivityDates.propTypes = {
 
 Navbar.propTypes = {
   onPreviousClick: PropTypes.func,
-  onNextClick: PropTypes.func,
-  handleMonthChange: PropTypes.func
+  onNextClick: PropTypes.func
 };
 
 export default withSnackbar(withLanguage(CreateActivityDates));

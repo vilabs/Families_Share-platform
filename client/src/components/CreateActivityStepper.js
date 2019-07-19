@@ -291,8 +291,8 @@ class CreateActivityStepper extends React.Component {
   };
 
   getDatesCompletedLabel = label => {
-    const { dates } = this.state;
-    const { selectedDays, repetitionType } = dates;
+    const { dates: days } = this.state;
+    const { selectedDays, repetitionType } = days;
     let completedLabel = "";
     if (repetitionType === "monthly") {
       const selectedDay = moment(selectedDays[0]);
@@ -300,11 +300,27 @@ class CreateActivityStepper extends React.Component {
         "Do "
       )} of ${selectedDay.format("MMMM")}`;
     } else {
+      const eachMonthsDates = {};
       selectedDays.forEach(selectedDay => {
-        completedLabel += `${selectedDay.getDate()}, `;
+        const key = moment(selectedDay).format("MMMM YYYY");
+        if (eachMonthsDates[key] === undefined) {
+          eachMonthsDates[key] = [selectedDay];
+        } else {
+          eachMonthsDates[key].push(selectedDay);
+        }
       });
-      completedLabel = completedLabel.slice(0, completedLabel.lastIndexOf(","));
-      completedLabel += ` ${moment(selectedDays[0]).format("MMMM YYYY")}`;
+      const months = Object.keys(eachMonthsDates);
+      const dates = Object.values(eachMonthsDates);
+      for (let i = 0; i < months.length; i += 1) {
+        let monthString = "";
+        dates[i].forEach(date => {
+          monthString += ` ${moment(date).format("DD")},`;
+        });
+        monthString = monthString.substr(0, monthString.length - 1);
+        monthString += ` ${months[i]}`;
+        completedLabel += ` ${monthString}, `;
+      }
+      completedLabel = completedLabel.substr(0, completedLabel.length - 2);
     }
     return (
       <div style={{ paddingTop: "2 rem" }}>
