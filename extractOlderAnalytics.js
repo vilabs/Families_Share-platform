@@ -1,15 +1,42 @@
-const mongoose = require('mongoose')
 require('dotenv').config()
+const mongoose = require('mongoose')
+const moment = require('moment')
+const args = process.argv.slice(2);
+const mongoUri = args[0];
 mongoose.set('useCreateIndex', true)
 mongoose.set('useNewUrlParser', true)
-mongoose.connect(process.env.DB_DEV_HOST) // { autoIndex: false } set this to false in production to disable auto creating indexes
 mongoose.Promise = global.Promise
-const moment = require('moment')
+mongoose.connect(mongoUri)
+
 
 const User = require('./src/models/user')
 const Group = require('./src/models/group')
 const Child = require('./src/models/child')
-const Member = require('./src/models/member')
+
+const fillInMissing = (values) => {
+  const startDate = moment(values[0]._id);
+  const endDate = moment(values[values.length-1]._id);
+  const dates = enumerateDaysBetweenDates(startDate,endDate);
+  const withMissingValues = []
+  dates.forEach( (date,index) => {
+    const i = values.map( value => value._id).indexOf(date);
+    const total = i>=0?values[i].total:withMissingValues[index-1].total
+    withMissingValues.push({
+    _id: date,
+    total
+    })
+  })
+  return withMissingValues;
+}
+ 
+const enumerateDaysBetweenDates = (startDate, endDate) => {
+  const now = startDate.clone(), dates = [];
+  while (now.isSameOrBefore(endDate)) {
+      dates.push(now.format('YYYY-MM-DD'));
+      now.add(1, 'days');
+  }
+  return dates;
+};
 
 const accumulate = (array) => (
   array.map((date, index) => ({
@@ -24,14 +51,12 @@ const dateSort = (array) => (
   })
 )
 
-const aggregate = (model, projectionFields) => (
+const aggregate = (model) => (
   model.aggregate([
     {
       '$project': {
-        ...projectionFields,
-        'date': { '$dateToString': { format: '%Y-%m-%d', date: '$createdAt' } }
-
-      }
+        'date': { '$dateToString': { format: '%Y-%m-%d', date: '$createdAt' }}
+     }
     },
     {
       '$group': {
@@ -44,15 +69,27 @@ const aggregate = (model, projectionFields) => (
   ])
 )
 
-async function extract () {
+const extract = async () => {
+  try{
   const newUsers = await aggregate(User)
   const newChildren = await aggregate(Child)
   const newGroups = await aggregate(Group)
-  const newMembers = await aggregate(Member, { 'group_id': 1 })
-  const newUsersAnalytics = accumulate(dateSort(newUsers))
-  const newChildrenAnalytics = accumulate(dateSort(newChildren))
-  const newGroupsAnalytics = accumulate(dateSort(newGroups))
+  const newUsersAnalytics = fillInMissing(accumulate(dateSort(newUsers)))
+  const newChildrenAnalytics = fillInMissing(accumulate(dateSort(newChildren)))
+  const newGroupsAnalytics = fillInMissing(accumulate(dateSort(newGroups)))
+  console.log('Date,Total Users')
+  newUsersAnalytics.forEach ( item => console.log(`${item._id},${item.total}`))
+  console.log('\n')
+  console.log('Date,Total Children')
+  newChildrenAnalytics.forEach ( item => console.log(`${item._id},${item.total}`))
+  console.log('\n')
+  console.log('Date,Total Groups')
+  newGroupsAnalytics.forEach ( item => console.log(`${item._id},${item.total}`))
   process.exit()
+} catch(error) {
+  console.log(error)
+  process.exit(0)
+}
 }
 
 extract()
