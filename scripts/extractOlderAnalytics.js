@@ -105,7 +105,7 @@ const extract = async () => {
     const TGA = await getAnalytics(Group)
     console.log('Date,Total number of users,Users registered with platform,Users registered with google,Total number of children,Total number of groups,Average Number of members per group,Average number of activities per group')
     for (let i = 0; i < GUA.length; i++) {
-      console.log(TUA[i]._id, TUA[i].total, PUA[i].total, GUA[i].total, TCA[i].total, TGA[i].total, 0, 0, 0)
+      console.log(TUA[i]._id, TUA[i].total, PUA[i].total, GUA[i].total, TCA[i].total, TGA[i].total, 0, 0)
     }
     process.exit(0)
   } catch (error) {
