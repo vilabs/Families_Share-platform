@@ -31,8 +31,8 @@ const getDailyAnalytics = async () => {
       averageNumberOfActivitiesPerGroup = Math.floor(totalNumberOfActivities / totalNumberOfGroups)
     }
     console.log(
-      moment().format('YYYY-MM-DD'), totalNumberOfUsers, totalNumberOfGoogleSignups,
-      totalNumberOfPlatformSignups, totalNumberOfChildren, averageNumberOfMembersPerGroup,
+      moment().format('YYYY-MM-DD'), totalNumberOfUsers, totalNumberOfPlatformSignups,
+      totalNumberOfGoogleSignups, totalNumberOfChildren, totalNumberOfGroups, averageNumberOfMembersPerGroup,
       averageNumberOfActivitiesPerGroup
     )
     process.exit(0)
