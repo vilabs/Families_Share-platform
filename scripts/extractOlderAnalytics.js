@@ -98,11 +98,11 @@ const getAnalytics = async (model, match) => {
 
 const extract = async () => {
   try {
-    const GUA = await getAnalytics(User, { provider: 'google' })
+    const GUA = await getAnalytics(User, { provider: 'google', email: { $ne: 'fonikhmyga@gmail.com' } })
     const PUA = await getAnalytics(User, { provider: 'families_share' })
     const TUA = GUA.map((x, idx) => ({ _id: x._id, total: GUA[idx].total + PUA[idx].total }))
-    const TCA = await getAnalytics(Child)
-    const TGA = await getAnalytics(Group)
+    const TCA = await getAnalytics(Child, { given_name: { $ne: 'Test ' } })
+    const TGA = await getAnalytics(Group, { name: { $ne: 'Test ' } })
     console.log('Date,Total number of users,Users registered with platform,Users registered with google,Total number of children,Total number of groups,Average Number of members per group,Average number of activities per group')
     for (let i = 0; i < GUA.length; i++) {
       console.log(TUA[i]._id, TUA[i].total, PUA[i].total, GUA[i].total, TCA[i].total, TGA[i].total, 0, 0)
