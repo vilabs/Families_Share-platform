@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const moment = require('moment')
 const args = process.argv.slice(2)
 const mongoUri = args[0]
+const date = args[1]
+const month = args[2]
+const year = args[3]
 mongoose.set('useCreateIndex', true)
 mongoose.set('useNewUrlParser', true)
 mongoose.Promise = global.Promise
@@ -13,13 +16,26 @@ const Group = require('../src/models/group')
 const Child = require('../src/models/child')
 
 const fillInMissing = (values) => {
-  const startDate = moment(values[0]._id)
-  const endDate = moment(values[values.length - 1]._id)
+  const startDate = moment().set({
+    date,
+    month,
+    year
+  })
+  const endDate = moment()
   const dates = enumerateDaysBetweenDates(startDate, endDate)
   const withMissingValues = []
   dates.forEach((date, index) => {
     const i = values.map(value => value._id).indexOf(date)
-    const total = i >= 0 ? values[i].total : withMissingValues[index - 1].total
+    let total
+    if (i >= 0) {
+      total = values[i].total
+    } else {
+      if (withMissingValues[index - 1] !== undefined) {
+        total = withMissingValues[index - 1].total
+      } else {
+        total = 0
+      }
+    }
     withMissingValues.push({
       _id: date,
       total
@@ -40,7 +56,7 @@ const enumerateDaysBetweenDates = (startDate, endDate) => {
 const accumulate = (array) => (
   array.map((date, index) => ({
     ...date,
-    total: array.slice(0, index).map(d => d.new).reduce((a, b) => a + b, 0)
+    total: array.slice(0, index).map(d => d.total).reduce((a, b) => a + b, 0)
   }))
 )
 
@@ -50,42 +66,47 @@ const dateSort = (array) => (
   })
 )
 
-const aggregate = (model) => (
+const aggregate = (model, match) => (
   model.aggregate([
     {
+      '$match': {
+        ...match
+      }
+    },
+    {
       '$project': {
+        '_id': false,
         'date': { '$dateToString': { format: '%Y-%m-%d', date: '$createdAt' } }
       }
     },
     {
       '$group': {
         _id: '$date',
-        new: {
+        total: {
           $sum: 1
         }
       }
     }
+
   ])
 )
 
-const getAnalytics = async (model) => {
-  const data = await aggregate(model)
+const getAnalytics = async (model, match) => {
+  const data = await aggregate(model, match)
   return fillInMissing(accumulate(dateSort(data)))
 }
 
 const extract = async () => {
   try {
-    const newUsersAnalytics = await getAnalytics(User)
-    const newChildrenAnalytics = await getAnalytics(Child)
-    const newGroupsAnalytics = await getAnalytics(Group)
-    console.log('Date,Total Users')
-    newUsersAnalytics.forEach(item => console.log(`${item._id},${item.total}`))
-    console.log('\n')
-    console.log('Date,Total Children')
-    newChildrenAnalytics.forEach(item => console.log(`${item._id},${item.total}`))
-    console.log('\n')
-    console.log('Date,Total Groups')
-    newGroupsAnalytics.forEach(item => console.log(`${item._id},${item.total}`))
+    const GUA = await getAnalytics(User, { provider: 'google' })
+    const PUA = await getAnalytics(User, { provider: 'families_share' })
+    const TUA = GUA.map((x, idx) => ({ _id: x._id, total: GUA[idx].total + PUA[idx].total }))
+    const TCA = await getAnalytics(Child)
+    const TGA = await getAnalytics(Group)
+    console.log('Date,Total number of users,Users registered with platform,Users registered with google,Total number of children,Total number of groups,Average Number of members per group,Average number of activities per group,Average app rating')
+    for (let i = 0; i < GUA.length; i++) {
+      console.log(TUA[i]._id, TUA[i].total, PUA[i].total, GUA[i].total, TCA[i].total, TGA[i].total, 0, 0, 0)
+    }
     process.exit(0)
   } catch (error) {
     console.log(error)
