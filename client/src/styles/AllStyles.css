@@ -2990,7 +2990,19 @@ a:active {
 /*SIGN UP SCREEN END*/
 
 /* COMMUNITY MANAGEMENT SCREEN*/
-
+.chartsSelect {
+  width: 12rem;
+  background-color: #dcdcdc;
+  border: none;
+  height: 3rem;
+  border-radius: 3px;
+  margin-bottom: 3rem;
+}
+.chartsContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 .interface-container {
   padding: 2rem 3%;
 }
@@ -3006,6 +3018,6 @@ a:active {
 }
 .analytics-info {
   font-size: 1.6rem;
-  color: #000000;
-  font-weight: 600;
+  color: rgba(0, 0, 0, 0.87);
+  font-weight: 400;
 }

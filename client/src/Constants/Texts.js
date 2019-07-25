@@ -13,7 +13,12 @@ const en = {
     totalNumberOfPlatformSignups:
       "Registered using the Families_Share platform",
     timeslot_autoconfirm: "Timeslots auto-confirm",
-    auto_admin: "Member automatically admins"
+    auto_admin: "Member automatically admins",
+    metricsColumn: "Metric",
+    valuesColumn: "Value",
+    configurationsHeader: "Configurations",
+    chartsHeader: "Charts",
+    usersChartTitle: "Users"
   },
   profileChildren: {
     addChildPrompt:
@@ -745,7 +750,12 @@ const nl = {
     totalNumberOfGoogleSignups: "Geregistreerd via Google",
     totalNumberOfPlatformSignups: "Geregistreerd via Families_Share platform",
     timeslot_autoconfirm: "Timeslots automatisch bevestigen",
-    auto_admin: "Groepslid automatische beheerder"
+    auto_admin: "Groepslid automatische beheerder",
+    metricsColumn: "Metriek",
+    valuesColumn: "Waarde",
+    configurationsHeader: "Configuraties",
+    chartsHeader: "Grafieken",
+    usersChartTitle: "Gebruikers"
   },
   profileChildren: {
     addChildPrompt:
@@ -1357,7 +1367,12 @@ const it = {
     totalNumberOfPlatformSignups:
       "Registrato utilizzando la piattaforma Families_Share",
     timeslot_autoconfirm: "Orario conferma automatico",
-    auto_admin: "Membro del gruppo aamministratore automatico"
+    auto_admin: "Membro del gruppo aamministratore automatico",
+    metricsColumn: "Metrica",
+    valuesColumn: "Valore",
+    configurationsHeader: "Configurazioni",
+    chartsHeader: "Grafici",
+    usersChartTitle: "Utenti"
   },
   profileChildren: {
     addChildPrompt:
@@ -2056,7 +2071,12 @@ const el = {
     totalNumberOfPlatformSignups:
       "Εγγράφηκαν μέσω της Families_Share πλατφόρμας",
     timeslot_autoconfirm: "Αυτόματη επιβεβαίωση χρονικής περιόδου",
-    auto_admin: "Μέλη ομάδων αυτόματα διαχειριστές"
+    auto_admin: "Μέλη ομάδων αυτόματα διαχειριστές",
+    metricsColumn: "Μετρική",
+    valuesColumn: "Τιμή",
+    configurationsHeader: "Ρυθμίσεις",
+    chartsHeader: "Γραφήματα",
+    usersChartTitle: "Χρήστες"
   },
   profileChildren: {
     addChildPrompt:
@@ -2677,7 +2697,12 @@ const hu = {
     totalNumberOfGoogleSignups: "A Google-on regisztrált",
     totalNumberOfPlatformSignups: "Regisztrált a Families_Share platformon",
     timeslot_autoconfirm: "Időpont automatikus megerősítés",
-    auto_admin: "Csoporttag automatikus admin"
+    auto_admin: "Csoporttag automatikus admin",
+    metricsColumn: "Metrikus",
+    valuesColumn: "Érték",
+    configurationsHeader: "Konfigurációk",
+    chartsHeader: "Táblázatok",
+    usersChartTitle: "Felhasználók"
   },
   profileChildren: {
     addChildPrompt:
