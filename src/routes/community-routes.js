@@ -71,7 +71,7 @@ router.get('/data', async (req, res, next) => {
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
-    const file = path.join(__dirname, '../../analytics', 'analytics.csv')
+    const file = path.join(__dirname, '../../', 'analytics.csv')
     res.sendFile(file)
   } catch (err) {
     next(err)
