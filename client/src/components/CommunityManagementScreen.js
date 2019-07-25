@@ -157,7 +157,7 @@ class CommunityInterface extends React.Component {
     const monthlyUsers = usersData.filter(
       value => moment(value.date).format("MMMM-YYYY") === usersChartMonth
     );
-    const min = Math.min(usersData.map(value => value.users));
+    const min = 0;
     const max = Math.max(usersData.map(value => value.users));
     return (
       <div className="chartsContainer">
