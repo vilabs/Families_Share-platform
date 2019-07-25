@@ -3,8 +3,12 @@
   font-size: 65%;
 }
 
-@import "~antd/dist/antd.css";
-@import "AllStyles.css";
+div {
+  outline: none;
+}
+
+@import '~antd/dist/antd.css';
+@import 'AllStyles.css';
 
 html {
   box-sizing: border-box;
@@ -25,14 +29,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
-input[type="number"] {
+input[type='number'] {
   -moz-appearance: textfield;
 }
 /****Layout Styles****/
@@ -46,7 +50,7 @@ input[type="number"] {
   margin-left: auto;
 }
 .timeAgo {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -66,7 +70,7 @@ input[type="number"] {
   height: 100%;
 }
 .row:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -80,7 +84,7 @@ input:focus {
 }
 .alert-message {
   font-size: 1.3rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   text-align: center;
   color: white;
 }
@@ -97,7 +101,7 @@ input:focus {
 .invalid-feedback {
   color: red;
   font-size: 1.4rem !important;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -256,15 +260,15 @@ select:focus {
   border: 1px solid #80bdff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 .optionsModalButton {
   min-height: 5rem;
   font-size: 1.4rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   display: flex;
   justify-content: center;
 }
@@ -284,5 +288,5 @@ button,
 label,
 input,
 span {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }

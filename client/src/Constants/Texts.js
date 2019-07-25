@@ -787,7 +787,7 @@ const nl = {
     children: "kinderen",
     userSubscribe: "Je hebt jezelf aan de activiteit toegevoegd",
     userUnsubscribe: "Je hebt jezelf van de activiteit verwijderd",
-    chilSubscribe1: "Je hebt toegevoegd",
+    childSubscribe1: "Je hebt toegevoegd",
     childSubscribe2: "naar de activiteit",
     childUnsubscribe1: "Je hebt verwijderd",
     childUnsubscribe2: "van de activiteit",

@@ -19,6 +19,7 @@ import CreateActivityDates from "./CreateActivityDates";
 import CreateActivityTimeslots from "./CreateActivityTimeslots";
 import Texts from "../Constants/Texts";
 import Log from "./Log";
+import LoadingSpinner from "./LoadingSpinner";
 
 const muiTheme = createMuiTheme({
   typography: {
@@ -153,7 +154,8 @@ class CreateActivityStepper extends React.Component {
         activityTimeslots: [],
         differentTimeslots: false
       },
-      stepWasValidated: false
+      stepWasValidated: false,
+      creating: false
     };
   }
 
@@ -187,6 +189,7 @@ class CreateActivityStepper extends React.Component {
       dates,
       timeslots
     };
+    this.setState({ creating: true });
     axios
       .post(`/api/groups/${groupId}/activities`, activity)
       .then(response => {
@@ -336,9 +339,10 @@ class CreateActivityStepper extends React.Component {
     const { language, classes } = this.props;
     const texts = Texts[language].createActivityStepper;
     const steps = texts.stepLabels;
-    const { activeStep, stepWasValidated } = this.state;
+    const { activeStep, stepWasValidated, creating } = this.state;
     return (
       <div className={classes.root}>
+        {creating && <LoadingSpinner />}
         <MuiThemeProvider theme={muiTheme}>
           <Stepper activeStep={activeStep} orientation="vertical">
             {steps.map((label, index) => {

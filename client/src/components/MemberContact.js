@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import Tooltip from "@material-ui/core/Tooltip";
+import { withSnackbar } from "notistack";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
@@ -85,18 +86,28 @@ class MemberContact extends React.Component {
   };
 
   handlePhoneCall = number => {
+    const { enqueueSnackbar } = this.props;
     if (window.isNative) {
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ action: "phoneCall", value: number })
       );
+    } else {
+      enqueueSnackbar("Copied number to clipboard", {
+        variant: "info"
+      });
     }
   };
 
   handleEmail = email => {
+    const { enqueueSnackbar } = this.props;
     if (window.isNative) {
       window.ReactNativeWebView.postMessage(
         JSON.stringify({ action: "sendEmail", value: email })
       );
+    } else {
+      enqueueSnackbar("Copied e-mail to clipboard", {
+        variant: "info"
+      });
     }
   };
 
@@ -154,7 +165,7 @@ class MemberContact extends React.Component {
           </div>
           <div id="contactIconsContainer" className="col-1-10">
             {profile.phone && !profile.suspended && (
-              <Tooltip title={profile.phone} aria-label="phone">
+              <CopyToClipboard text={profile.phone}>
                 <button
                   type="button"
                   onClick={() => this.handlePhoneCall(profile.phone)}
@@ -162,12 +173,12 @@ class MemberContact extends React.Component {
                 >
                   <i className="fas fa-phone" />
                 </button>
-              </Tooltip>
+              </CopyToClipboard>
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
             {profile.email && !profile.suspended && (
-              <Tooltip title={profile.email} aria-label="email">
+              <CopyToClipboard text={profile.email}>
                 <button
                   type="button"
                   onClick={() => this.handleEmail(profile.email)}
@@ -175,7 +186,7 @@ class MemberContact extends React.Component {
                 >
                   <i className="fas fa-envelope" />
                 </button>
-              </Tooltip>
+              </CopyToClipboard>
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
@@ -195,7 +206,7 @@ class MemberContact extends React.Component {
   }
 }
 
-export default withRouter(withLanguage(MemberContact));
+export default withSnackbar(withRouter(withLanguage(MemberContact)));
 
 MemberContact.propTypes = {
   member: PropTypes.object,
@@ -205,5 +216,6 @@ MemberContact.propTypes = {
   handleRemoveUser: PropTypes.func,
   handleRemoveAdmin: PropTypes.func,
   language: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
 };

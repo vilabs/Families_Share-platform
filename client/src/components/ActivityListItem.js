@@ -133,7 +133,7 @@ class ActivityListItem extends React.Component {
           tabIndex="0"
           onKeyPress={this.handleActivityClick}
           className="row no-gutters"
-          style={{ height: "7rem", cursor: "pointer" }}
+          style={{ minHheight: "7rem", cursor: "pointer" }}
           id={activity.activity_id}
           onClick={this.handleActivityClick}
         >
