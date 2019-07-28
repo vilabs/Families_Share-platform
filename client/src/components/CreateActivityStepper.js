@@ -184,22 +184,98 @@ class CreateActivityStepper extends React.Component {
     const { match, history } = this.props;
     const { groupId } = match.params;
     const { information, dates, timeslots } = this.state;
-    const activity = {
+    const userId = JSON.parse(localStorage.getItem("user")).id;
+    const activity = this.formatDataToActivity(
       information,
       dates,
-      timeslots
-    };
+      timeslots,
+      groupId,
+      userId
+    );
+    const events = this.formatDataToEvents(
+      information,
+      dates,
+      timeslots,
+      groupId
+    );
     this.setState({ creating: true });
     axios
-      .post(`/api/groups/${groupId}/activities`, activity)
+      .post(`/api/groups/${groupId}/activities`, { activity, events })
       .then(response => {
         Log.info(response);
         history.goBack();
       })
       .catch(error => {
         Log.error(error);
-        history.goback();
+        history.goBack();
       });
+  };
+
+  formatDataToActivity = (information, dates, timeslots, groupId, userId) => {
+    return {
+      group_id: groupId,
+      creator_id: userId,
+      name: information.name,
+      color: information.color,
+      description: information.description,
+      location: information.location,
+      repetition: dates.repetition,
+      repetition_type: dates.repetitionType,
+      different_timeslots: timeslots.differentTimeslots
+    };
+  };
+
+  formatDataToEvents = (information, dates, timeslots, groupId) => {
+    const events = [];
+    dates.selectedDays.forEach((date, index) => {
+      const dstart = moment(date);
+      const dend = moment(date);
+      timeslots.activityTimeslots[index].forEach(timeslot => {
+        const { startTime, endTime } = timeslot;
+        dstart.hours(startTime.substr(0, startTime.indexOf(":")));
+        dstart.minutes(
+          startTime.substr(startTime.indexOf(":") + 1, startTime.length - 1)
+        );
+        dend.hours(endTime.substr(0, endTime.indexOf(":")));
+        dend.minutes(
+          endTime.substr(endTime.indexOf(":") + 1, endTime.length - 1)
+        );
+        if (
+          startTime.substr(0, startTime.indexOf(":")) >
+          endTime.substr(0, endTime.indexOf(":"))
+        ) {
+          dend.add(1, "d");
+        }
+        const event = {
+          description: timeslot.description,
+          location: timeslot.location,
+          summary: timeslot.name,
+          start: {
+            dateTime: dstart.toISOString(),
+            date: null
+          },
+          end: {
+            dateTime: dend.toISOString(),
+            date: null
+          },
+          extendedProperties: {
+            shared: {
+              requiredParents: timeslot.requiredParents,
+              requiredChildren: timeslot.requiredChildren,
+              cost: timeslot.cost,
+              parents: JSON.stringify([]),
+              children: JSON.stringify([]),
+              status: "proposed",
+              activityColor: information.color,
+              groupId,
+              repetition: dates.repetition ? dates.repetitionType : "none"
+            }
+          }
+        };
+        events.push(event);
+      });
+    });
+    return events;
   };
 
   handleContinue = () => {

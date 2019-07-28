@@ -5,7 +5,6 @@ const multer = require('multer')
 const objectid = require('objectid')
 const fr = require('find-remove')
 const { google } = require('googleapis')
-const moment = require('moment-timezone')
 const googleEmail = config.get('google.email')
 const googleKey = config.get('google.key')
 const scopes = 'https://www.googleapis.com/auth/calendar'
@@ -753,7 +752,7 @@ router.post('/:id/activities', async (req, res, next) => {
   const user_id = req.user_id
   const group_id = req.params.id
   try {
-    const { information, dates, timeslots } = req.body
+    const { activity, events } = req.body
     const member = await Member.findOne({
       group_id,
       user_id,
@@ -763,75 +762,15 @@ router.post('/:id/activities', async (req, res, next) => {
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(information && dates && timeslots)) {
+    if (!(events && activity)) {
       return res.status(400).send('Bad Request')
     }
     const activity_id = objectid()
-    const activity = {
-      group_id,
-      activity_id,
-      creator_id: user_id,
-      name: information.name,
-      color: information.color,
-      description: information.description,
-      location: information.location,
-      repetition: dates.repetition,
-      repetition_type: dates.repetitionType,
-      different_timeslots: timeslots.differentTimeslots,
-      status: member.admin ? 'accepted' : 'pending'
-    }
+    activity.status = member.admin ? 'accepted' : 'pending'
+    activity.activity_id = activity_id
     const group = await Group.findOne({ group_id })
-    const events = []
     activity.group_name = group.name
-    dates.selectedDays.forEach((date, index) => {
-      const dstart = moment(date)
-      const dend = moment(date)
-      timeslots.activityTimeslots[index].forEach(timeslot => {
-        const { startTime, endTime } = timeslot
-        dstart.hours(startTime.substr(0, startTime.indexOf(':')))
-        dstart.minutes(
-          startTime.substr(startTime.indexOf(':') + 1, startTime.length - 1)
-        )
-        dend.hours(endTime.substr(0, endTime.indexOf(':')))
-        dend.minutes(
-          endTime.substr(endTime.indexOf(':') + 1, endTime.length - 1)
-        )
-        if (
-          startTime.substr(0, startTime.indexOf(':')) >
-          endTime.substr(0, endTime.indexOf(':'))
-        ) {
-          dend.add(1, 'd')
-        }
-        const event = {
-          description: timeslot.description,
-          location: timeslot.location,
-          summary: timeslot.name,
-          start: {
-            dateTime: dstart.toISOString(),
-            date: null
-          },
-          end: {
-            dateTime: dend.toISOString(),
-            date: null
-          },
-          extendedProperties: {
-            shared: {
-              requiredParents: timeslot.requiredParents,
-              requiredChildren: timeslot.requiredChildren,
-              cost: timeslot.cost,
-              activityId: activity_id,
-              parents: JSON.stringify([]),
-              children: JSON.stringify([]),
-              status: 'proposed',
-              activityColor: information.color,
-              groupId: req.params.id,
-              repetition: dates.repetition ? dates.repetitionType : 'none'
-            }
-          }
-        }
-        events.push(event)
-      })
-    })
+    events.forEach(event => { event.extendedProperties.shared.activityId = activity_id })
     await Promise.all(
       events.map(event =>
         calendar.events.insert({
