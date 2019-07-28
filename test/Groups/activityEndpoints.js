@@ -14,80 +14,127 @@ describe('/Post/api/groups/id/activities', () => {
     User.findOne({ email: 'test@email.com' }, (error, user) => {
       Group.findOne({ name: 'Test Group Edit' }, (err, group) => {
         const activity = {
-          information: {
-            name: 'Test Activity',
-            color: '#00838F',
-            description: 'test'
-          },
-          dates: {
-            selectedDays: [
-              '2019-03-06T22:00:00.000Z',
-              '2019-03-13T22:00:00.000Z',
-              '2019-03-20T22:00:00.000Z',
-              '2019-03-27T22:00:00.000Z'
-            ],
-            repetition: true,
-            repetitionType: 'weekly'
-          },
-          timeslots: {
-            activityTimeslots: [
-              [
-                {
-                  startTime: '20:00',
-                  endTime: '22:00',
-                  description: 'Test ',
-                  name: 'Test Timeslot',
-                  requiredParents: 4,
-                  requiredChildren: 10,
-                  cost: 10,
-                  location: 'Kuala lumpur'
-                }
-              ],
-              [
-                {
-                  startTime: '20:00',
-                  endTime: '22:00',
-                  description: 'Test ',
-                  name: 'Test Timeslot',
-                  requiredParents: 4,
-                  requiredChildren: 10,
-                  cost: 10,
-                  location: 'Kuala lumpur'
-                }
-              ],
-              [
-                {
-                  startTime: '20:00',
-                  endTime: '22:00',
-                  description: 'Test ',
-                  name: 'Test Timeslot',
-                  requiredParents: 4,
-                  requiredChildren: 10,
-                  cost: 10,
-                  location: 'Kuala lumpur'
-                }
-              ],
-              [
-                {
-                  startTime: '20:00',
-                  endTime: '22:00',
-                  description: 'Test ',
-                  name: 'Test Timeslot',
-                  requiredParents: 4,
-                  requiredChildren: 10,
-                  cost: 10,
-                  location: 'Kuala lumpur'
-                }
-              ]
-            ],
-            differentTimeslots: false
-          }
+          group_id: group.group_id,
+          creator_id: user.user_id,
+          name: 'Test Activity',
+          color: '#00838F',
+          description: 'test',
+          location: 'Kuala lumpur',
+          repetition: true,
+          repetition_type: 'weekly',
+          different_timeslots: false
         }
+        const events = [
+          {
+            description: 'Test timeslot',
+            location: 'Kuala lumpur',
+            summary: 'Test timeslot',
+            start: {
+              dateTime: '2019-03-06T22:00:00.000Z',
+              date: null
+            },
+            end: {
+              dateTime: '2019-03-06T23:00:00.000Z',
+              date: null
+            },
+            extendedProperties: {
+              shared: {
+                requiredParents: 4,
+                requiredChildren: 10,
+                cost: 10,
+                parents: JSON.stringify([]),
+                children: JSON.stringify([]),
+                status: 'proposed',
+                activityColor: '#00838F',
+                groupId: group.group_id,
+                repetition: 'weekly'
+              }
+            }
+          },
+          {
+            description: 'Test timeslot',
+            location: 'Kuala lumpur',
+            summary: 'Test timeslot',
+            start: {
+              dateTime: '2019-03-13T22:00:00.000Z',
+              date: null
+            },
+            end: {
+              dateTime: '2019-03-13T23:00:00.000Z',
+              date: null
+            },
+            extendedProperties: {
+              shared: {
+                requiredParents: 4,
+                requiredChildren: 10,
+                cost: 10,
+                parents: JSON.stringify([]),
+                children: JSON.stringify([]),
+                status: 'proposed',
+                activityColor: '#00838F',
+                groupId: group.group_id,
+                repetition: 'weekly'
+              }
+            }
+          },
+          {
+            description: 'Test timeslot',
+            location: 'Kuala lumpur',
+            summary: 'Test timeslot',
+            start: {
+              dateTime: '2019-03-20T22:00:00.000Z',
+              date: null
+            },
+            end: {
+              dateTime: '2019-03-20T23:00:00.000Z',
+              date: null
+            },
+            extendedProperties: {
+              shared: {
+                requiredParents: 4,
+                requiredChildren: 10,
+                cost: 10,
+                parents: JSON.stringify([]),
+                children: JSON.stringify([]),
+                status: 'proposed',
+                activityColor: '#00838F',
+                groupId: group.group_id,
+                repetition: 'weekly'
+              }
+            }
+          },
+          {
+            description: 'Test timeslot',
+            location: 'Kuala lumpur',
+            summary: 'Test timeslot',
+            start: {
+              dateTime: '2019-03-27T22:00:00.000Z',
+              date: null
+            },
+            end: {
+              dateTime: '2019-03-27T23:00:00.000Z',
+              date: null
+            },
+            extendedProperties: {
+              shared: {
+                requiredParents: 4,
+                requiredChildren: 10,
+                cost: 10,
+                parents: JSON.stringify([]),
+                children: JSON.stringify([]),
+                status: 'proposed',
+                activityColor: '#00838F',
+                groupId: group.group_id,
+                repetition: 'weekly'
+              }
+            }
+          }
+        ]
         chai
           .request(server)
           .post(`/api/groups/${group.group_id}/activities`)
           .set('Authorization', user.token)
-          .send(activity)
+          .send({ activity, events })
           .end((err, res) => {
             res.should.have.status(200)
             done()
@@ -100,14 +147,11 @@ describe('/Post/api/groups/id/activities', () => {
   it('it should not post a new activity with incorrect parameters', done => {
     User.findOne({ email: 'test@email.com' }, (error, user) => {
       Group.findOne({ name: 'Test Group Edit' }, (err, group) => {
-        const activity = {
-          timeslots: {}
-        }
         chai
           .request(server)
           .post(`/api/groups/${group.group_id}/activities`)
           .set('Authorization', user.token)
-          .send(activity)
+          .send({})
           .end((err, res) => {
             res.should.have.status(400)
             done()
