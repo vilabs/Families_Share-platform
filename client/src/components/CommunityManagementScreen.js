@@ -172,7 +172,7 @@ class CommunityInterface extends React.Component {
           >
             {charts.map(d => (
               <option key={d} value={d}>
-                {d}
+                {texts.charts[d]}
               </option>
             ))}
           </select>
