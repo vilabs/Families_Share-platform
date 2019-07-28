@@ -18,7 +18,6 @@ const en = {
     valuesColumn: "Value",
     configurationsHeader: "Configurations",
     chartsHeader: "Charts",
-    usersChartTitle: "Users",
     charts: [
       "Total number of users",
       "Number of users registered with platform",
@@ -764,7 +763,15 @@ const nl = {
     valuesColumn: "Waarde",
     configurationsHeader: "Configuraties",
     chartsHeader: "Grafieken",
-    usersChartTitle: "Gebruikers"
+    charts: [
+      "Totaal aantal gebruikers",
+      "Aantal gebruikers geregistreerd bij platform",
+      "Aantal gebruikers geregistreerd bij Google",
+      "Totaal aantal kinderen",
+      "Totaal aantal groepen",
+      "Gemiddeld aantal groepsleden",
+      "Gemiddeld aantal groepsactiviteiten"
+    ]
   },
   profileChildren: {
     addChildPrompt:
@@ -1381,7 +1388,15 @@ const it = {
     valuesColumn: "Valore",
     configurationsHeader: "Configurazioni",
     chartsHeader: "Grafici",
-    usersChartTitle: "Utenti"
+    charts: [
+      "Numero totale di utenti",
+      "Numero di utenti registrati con la piattaforma",
+      "Numero di utenti registrati con google",
+      "Numero totale di bambini",
+      "Numero totale di gruppi",
+      "Numero medio di membri del gruppo",
+      "Numero medio di attività di gruppo"
+    ]
   },
   profileChildren: {
     addChildPrompt:
@@ -2085,7 +2100,15 @@ const el = {
     valuesColumn: "Τιμή",
     configurationsHeader: "Ρυθμίσεις",
     chartsHeader: "Γραφήματα",
-    usersChartTitle: "Χρήστες"
+    charts: [
+      "Συνολικός αριθμός χρηστών",
+      "Αριθμός χρηστών που έχουν εγγραφεί μέσω της πλατφόρμας",
+      "Αριθμός χρηστών που έχουν εγγραφεί μέσω Google",
+      "Συνολικός αριθμός παιδιών",
+      "Συνολικός αριθμός ομάδων",
+      "Μέσος αριθμός μελών ομάδας",
+      "Μέσος αριθμός δραστηριοτήτων ομάδας"
+    ]
   },
   profileChildren: {
     addChildPrompt:
@@ -2711,7 +2734,15 @@ const hu = {
     valuesColumn: "Érték",
     configurationsHeader: "Konfigurációk",
     chartsHeader: "Táblázatok",
-    usersChartTitle: "Felhasználók"
+    charts: [
+      "A felhasználók száma",
+      "A platformon regisztrált felhasználók száma",
+      "A google-on regisztrált felhasználók száma",
+      "Gyermekek száma",
+      "Csoportok száma",
+      "Csoporttagok átlagos száma",
+      "A csoporttevékenységek átlagos száma"
+    ]
   },
   profileChildren: {
     addChildPrompt:
