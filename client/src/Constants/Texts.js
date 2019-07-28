@@ -18,7 +18,16 @@ const en = {
     valuesColumn: "Value",
     configurationsHeader: "Configurations",
     chartsHeader: "Charts",
-    usersChartTitle: "Users"
+    usersChartTitle: "Users",
+    charts: [
+      "Total number of users",
+      "Number of users registered with platform",
+      "Number of users registered with google",
+      "Total number of children",
+      "Total number of groups",
+      "Average number of group members",
+      "Average number of group activities"
+    ]
   },
   profileChildren: {
     addChildPrompt:

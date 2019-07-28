@@ -2990,6 +2990,13 @@ a:active {
 /*SIGN UP SCREEN END*/
 
 /* COMMUNITY MANAGEMENT SCREEN*/
+.selectChartsContainer {
+  display: flex;
+  flex: 1;
+}
+.selectChartsContainer select{
+  margin-right: 2rem;
+}
 .chartsSelect {
   width: 12rem;
   background-color: #dcdcdc;

@@ -61,7 +61,8 @@ class CommunityInterface extends React.Component {
       configurations,
       fetchedData: true,
       analyticsData: parsedData,
-      usersChartMonth: moment().format("MMMM-YYYY")
+      chartMonth: moment().format("MMMM-YYYY"),
+      chartNumber: 0
     });
   }
 
@@ -147,46 +148,61 @@ class CommunityInterface extends React.Component {
   };
 
   renderCharts = () => {
-    const { analyticsData, usersChartMonth } = this.state;
+    const { analyticsData, chartMonth, chartNumber } = this.state;
     const { language } = this.props;
     const texts = Texts[language].communityInterface;
-    const usersData = analyticsData.map(value => ({
+    const charts = [...Array(analyticsData[0].length - 1).keys()];
+    const chartsData = analyticsData.map(value => ({
       date: value[0],
-      users: parseInt(value[1], 10)
+      value: parseInt(value[parseInt(chartNumber, 10) + 1], 10)
     }));
-    const monthlyUsers = usersData.filter(
-      value => moment(value.date).format("MMMM-YYYY") === usersChartMonth
+    const monthlyData = chartsData.filter(
+      value => moment(value.date).format("MMMM-YYYY") === chartMonth
     );
     const min = 0;
-    const max = Math.max(usersData.map(value => value.users));
+    const max = Math.max(chartsData.map(t => t.value));
     return (
       <div className="chartsContainer">
-        <select
-          className="chartsSelect"
-          value={usersChartMonth}
-          onChange={this.handleSelectChange}
-          name="usersChartMonth"
-        >
-          {[
-            ...new Set(
-              usersData.map(data => moment(data.date).format("MMMM-YYYY"))
-            )
-          ].map(d => (
-            <option key={d} value={d}>
-              {d}
-            </option>
-          ))}
-        </select>
+        <div className="selectChartsContainer">
+          <select
+            className="chartsSelect"
+            value={chartNumber}
+            onChange={this.handleSelectChange}
+            name="chartNumber"
+          >
+            {charts.map(d => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+          <select
+            className="chartsSelect"
+            value={chartMonth}
+            onChange={this.handleSelectChange}
+            name="chartMonth"
+          >
+            {[
+              ...new Set(
+                chartsData.map(data => moment(data.date).format("MMMM-YYYY"))
+              )
+            ].map(d => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
+          </select>
+        </div>
         <ResponsiveContainer width="80%" height={300}>
-          <LineChart data={monthlyUsers}>
+          <LineChart data={monthlyData}>
             <Line
               type="monotone"
-              dataKey="users"
-              name={texts.usersChartTitle}
+              dataKey="value"
               stroke="#00838F"
+              name={texts.charts[chartNumber]}
             />
-            <XAxis dataKey="date" name="Date" />
-            <YAxis name="Users" type="number" domain={[min, max]} />
+            <XAxis dataKey="date" />
+            <YAxis domain={[min, max]} />
             <Legend verticalAlign="bottom" height={36} />
             <Tooltip />
           </LineChart>
