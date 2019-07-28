@@ -23,35 +23,6 @@ const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')
 const nh = require('../helper-functions/notification-helpers')
 
-switch (process.env.CITYLAB) {
-  case 'ALL':
-    moment.tz.setDefault('Europe/Athens')
-    break
-  case 'VENICE':
-    moment.tz.setDefault('Europe/Rome')
-    break
-  case 'FBK':
-    moment.tz.setDefault('Europe/Rome')
-    break
-  case 'BOLOGNA':
-    moment.tz.setDefault('Europe/Rome')
-    break
-  case 'DESTUYVERIJ':
-    moment.tz.setDefault('Europe/Brussels')
-    break
-  case 'HAMBURG':
-    moment.tz.setDefault('Europe/Berlin')
-    break
-  case 'BUDAPEST':
-    moment.tz.setDefault('Europe/Budapest')
-    break
-  case 'THESSALONIKI':
-    moment.tz.setDefault('Europe/Athens')
-    break
-  default:
-    moment.tz.setDefault('Europe/Athens')
-}
-
 const calendar = google.calendar({
   version: 'v3',
   auth: jwt
