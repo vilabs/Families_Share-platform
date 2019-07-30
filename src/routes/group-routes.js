@@ -1067,7 +1067,7 @@ router.patch(
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
-    const { groupId: group_id } = req.params
+    const { groupId: group_id, activityId: activity_id, timeslotId: timeslot_id } = req.params
     const user_id = req.user_id
     try {
       const member = await Member.findOne({
@@ -1125,7 +1125,7 @@ router.patch(
         extendedProperties.shared.children = JSON.stringify([])
         await nh.timeslotChangedNotification(summary, parents)
       } else if (parentsReq && childrenReq && fixedReq) {
-        await nh.timeslotRequirementsNotification(summary, parents)
+        await nh.timeslotRequirementsNotification(summary, parents, group_id, activity_id, timeslot_id)
       }
       const timeslotPatch = {
         summary,

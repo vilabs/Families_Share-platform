@@ -87,7 +87,8 @@ async function newAnnouncementNotification (group_id, user_id) {
         to: device.device_id,
         sound: 'default',
         title: texts[language]['announcements'][0]['header'],
-        body: `${subject.given_name} ${subject.family_name} ${texts[language]['announcements'][0]['description']} ${object.name}`
+        body: `${subject.given_name} ${subject.family_name} ${texts[language]['announcements'][0]['description']} ${object.name}`,
+        data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/news/announcements` }
       })
     })
     await sendPushNotifications(messages)
@@ -186,7 +187,7 @@ async function removeMemberNotification (member_id, group_id) {
   console.log('Remove member Notification created')
 };
 
-async function timeslotRequirementsNotification (timeslotName, participants) {
+async function timeslotRequirementsNotification (timeslotName, participants, groupId, activityId, timeslotId) {
   const devices = await Device.find({ user_id: { $in: participants } })
   const users = await User.find({ user_id: { $in: participants } })
   const notifications = []
@@ -208,13 +209,14 @@ async function timeslotRequirementsNotification (timeslotName, participants) {
       to: device.device_id,
       sound: 'default',
       title: texts[language]['activities'][1]['header'],
-      body: `${timeslotName} ${texts[language]['activities'][1]['description']}`
+      body: `${timeslotName} ${texts[language]['activities'][1]['description']}`,
+      data: { url: `${process.env.CITYLAB_URI}/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}` }
     })
   })
   await sendPushNotifications(messages)
 }
 
-async function timeslotChangedNotification (timeslotName, participants) {
+async function timeslotChangedNotification (timeslotName, participants, groupId, activityId, timeslotId) {
   const devices = await Device.find({ user_id: { $in: participants } })
   const users = await User.find({ user_id: { $in: participants } })
   const notifications = []
@@ -236,7 +238,8 @@ async function timeslotChangedNotification (timeslotName, participants) {
       to: device.device_id,
       sound: 'default',
       title: texts[language]['activities'][2]['header'],
-      body: `${timeslotName} ${texts[language]['activities'][2]['description']}`
+      body: `${timeslotName} ${texts[language]['activities'][2]['description']}`,
+      data: { url: `$${process.env.CITYLAB_URI}/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}` }
     })
   })
   await sendPushNotifications(messages)
@@ -321,7 +324,8 @@ async function newRequestNotification (user_id, group_id) {
       to: device.device_id,
       sound: 'default',
       title: texts[language]['members'][4]['header'],
-      body: `${user.given_name} ${user.family_name} ${texts[language]['members'][4]['description']} ${group.name}`
+      body: `${user.given_name} ${user.family_name} ${texts[language]['members'][4]['description']} ${group.name}`,
+      data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/members/pending` }
     })
   })
   await sendPushNotifications(messages)
