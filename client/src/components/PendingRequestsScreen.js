@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import BackNavigation from "./BackNavigation";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
@@ -216,7 +217,7 @@ class PendingRequestsScreen extends React.Component {
         return (
           <Avatar
             className="verticalCenter"
-            thumbnail={request.image.path}
+            thumbnail={path(request, ["image", "path"])}
             route={`/profiles/${request.user_id}/info`}
           />
         );
@@ -224,7 +225,7 @@ class PendingRequestsScreen extends React.Component {
         return (
           <Avatar
             className="verticalCenter"
-            thumbnail={request.image.path}
+            thumbnail={path(request, ["image", "path"])}
             route={`/groups/${request.group_id}/info`}
           />
         );

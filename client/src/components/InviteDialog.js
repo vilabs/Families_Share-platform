@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import Dialog from "@material-ui/core/Dialog";
+import * as path from "lodash.get";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -216,7 +217,10 @@ class InviteDialog extends React.Component {
                       selected={selected}
                     >
                       <ListItemAvatar>
-                        <Avatar src={user.image.path} sizes="small" />
+                        <Avatar
+                          src={path(user, ["image", "path"])}
+                          sizes="small"
+                        />
                       </ListItemAvatar>
                       <ListItemText
                         primary={`${user.given_name} ${user.family_name}`}

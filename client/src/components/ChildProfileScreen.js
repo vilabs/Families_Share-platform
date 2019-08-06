@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import ChildProfileHeader from "./ChildProfileHeader";
 import ChildProfileInfo from "./ChildProfileInfo";
 import LoadingSpinner from "./LoadingSpinner";
@@ -73,7 +74,7 @@ class ChildProfileScreen extends React.Component {
       <React.Fragment>
         <ChildProfileHeader
           background={child.background}
-          photo={child.image.path}
+          photo={path(child, ["image", "path"])}
           name={`${child.given_name} ${child.family_name}`}
         />
         <ChildProfileInfo

@@ -5,6 +5,7 @@ import { withSnackbar } from "notistack";
 import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
@@ -68,7 +69,7 @@ const getChildrenProfiles = ids => {
       return response.data.map(child => {
         return {
           child_id: child.child_id,
-          image: child.image.path,
+          image: path(child, ["image", "path"]),
           name: `${child.given_name} ${child.family_name}`,
           given_name: child.given_name
         };
@@ -92,7 +93,7 @@ const getParentProfiles = ids => {
       return response.data.map(parent => {
         return {
           user_id: parent.user_id,
-          image: parent.image.path,
+          image: path(parent, ["image", "path"]),
           name: `${parent.given_name} ${parent.family_name}`
         };
       });

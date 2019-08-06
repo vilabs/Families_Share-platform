@@ -4,6 +4,7 @@ import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { withSnackbar } from "notistack";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import * as path from "lodash.get";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
@@ -144,7 +145,7 @@ class MemberContact extends React.Component {
         <div id="contactContainer" className="row no-gutters">
           <div className="col-2-10">
             <Avatar
-              thumbnail={profile.image.path}
+              thumbnail={path(profile, ["image", "path"])}
               route={`/profiles/${profile.user_id}/info`}
               disabled={profile.suspended}
             />

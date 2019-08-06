@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock";
+import * as path from "lodash.get";
 import ExpandedImageModal from "./ExpandedImageModal";
 
 class AnnouncementMain extends React.Component {
@@ -36,9 +37,9 @@ class AnnouncementMain extends React.Component {
           {images.map((image, index) => (
             <li key={index}>
               <img
-                src={image.path}
+                src={path(image, ["path"])}
                 alt="announcement content"
-                onClick={() => this.handleModalOpen(image.path)}
+                onClick={() => this.handleModalOpen(path(image, ["path"]))}
               />
             </li>
           ))}

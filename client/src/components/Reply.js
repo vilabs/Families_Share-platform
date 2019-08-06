@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
+import * as path from "lodash.get";
 import ConfirmDialog from "./ConfirmDialog";
 import Avatar from "./Avatar";
 import TimeAgo from "./TimeAgo";
@@ -86,7 +87,7 @@ class Reply extends React.Component {
             <div className="row no-gutters">
               <div className="col-2-10">
                 <Avatar
-                  thumbnail={profile.image.path}
+                  thumbnail={path(profile, ["image", "path"])}
                   route={`/profiles/${profile.user_id}/info`}
                   style={{ transform: "scale(0.8)" }}
                   disabled={profile.suspended}

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -230,7 +231,7 @@ class EditProfileScreen extends React.Component {
           <img
             className="profilePhoto horizontalCenter"
             alt="user's profile"
-            src={image.path}
+            src={path(image, ["path"])}
           />
           <label htmlFor="editGivenNameInput" id="editGivenNameLabel">
             {texts.name}

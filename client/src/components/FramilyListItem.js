@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Skeleton } from "antd";
+import * as path from "lodash.get";
 import { withRouter } from "react-router-dom";
 import Avatar from "./Avatar";
 import FramilyOptionsModal from "./OptionsModal";
@@ -107,7 +108,7 @@ class FramilyListItem extends React.Component {
           <React.Fragment>
             <div className="col-3-10">
               <Avatar
-                thumbnail={profile.image.path}
+                thumbnail={path(profile, ["image", "path"])}
                 route={route}
                 className="horizontalCenter"
               />

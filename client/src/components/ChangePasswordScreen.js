@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import LoadingSpinner from "./LoadingSpinner";
@@ -146,7 +147,7 @@ class ChangePasswordScreen extends React.Component {
           <div id="changePasswordContainer">
             <img
               className="horizontalCenter"
-              src={profile.image.path}
+              src={path(profile, ["image", "path"])}
               alt="user logo"
             />
             <h1>{texts.prompt}</h1>

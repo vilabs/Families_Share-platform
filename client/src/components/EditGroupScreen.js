@@ -2,6 +2,7 @@ import React from "react";
 import autosize from "autosize";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -275,7 +276,7 @@ class EditGroupScreen extends React.Component {
                 </div>
               </div>
               <img
-                src={image.path}
+                src={path(image, ["path"])}
                 alt="Group Logo"
                 className="editGroupImage"
               />

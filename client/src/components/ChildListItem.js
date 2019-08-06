@@ -4,6 +4,7 @@ import axios from "axios";
 import { Skeleton } from "antd";
 import moment from "moment";
 import { withRouter } from "react-router-dom";
+import * as path from "lodash.get";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Avatar from "./Avatar";
@@ -52,7 +53,7 @@ class ChildListItem extends React.Component {
           <React.Fragment>
             <div className="col-3-10">
               <Avatar
-                thumbnail={child.image.path}
+                thumbnail={path(child, ["image", "path"])}
                 route={route}
                 className="center"
               />

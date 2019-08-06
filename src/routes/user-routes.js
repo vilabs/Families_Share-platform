@@ -1024,7 +1024,8 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
           to: device.device_id,
           sound: 'default',
           title: 'Welcome',
-          body: 'Families Share welcomes you to our community'
+          body: 'Families Share welcomes you to our community',
+          data: { url: `${process.env.CITYLAB_URI}/myfamiliesshare` }
         })
       } else {
         invalidTokens.push(device.device_id)

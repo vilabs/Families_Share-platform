@@ -3,6 +3,7 @@ import { Switch, Route } from "react-router-dom";
 import axios from "axios";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import ProfileHeader from "./ProfileHeader";
 import ProfileNavbar from "./ProfileNavbar";
 import LoadingSpinner from "./LoadingSpinner";
@@ -61,6 +62,7 @@ class ProfileScreen extends React.Component {
     const { match } = this.props;
     const { profileId } = match.params;
     const profile = await getMyProfile(profileId);
+
     const children = await getMyChildren(profileId);
     this.setState({
       fetchedProfile: true,
@@ -79,7 +81,7 @@ class ProfileScreen extends React.Component {
       <React.Fragment>
         <ProfileHeader
           name={`${profile.given_name} ${profile.family_name}`}
-          photo={profile.image.path}
+          photo={path(profile, ["image", "path"])}
         />
         <React.Fragment>
           <ProfileNavbar />

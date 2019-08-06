@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import GroupAbout from "./GroupAbout";
 import GroupHeader from "./GroupHeader";
 import Card from "./CardWithLink";
@@ -172,17 +173,15 @@ class GroupInfo extends React.Component {
       name: groupName,
       group_id: groupId,
       background: groupBackground,
-      description: groupInfo,
-      image
+      description: groupInfo
     } = group;
-    const { path: groupLogo } = image || { path: "" };
     const texts = Texts[language].groupInfo;
     return fetchedGroupInfo ? (
       <div id="groupInfoContainer">
         <GroupHeader
           groupName={groupName}
           groupId={groupId}
-          groupLogo={groupLogo}
+          groupLogo={path(group, ["image", "path"])}
           groupBackground={groupBackground}
           userIsAdmin={userIsAdmin}
         />

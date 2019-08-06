@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import * as path from "lodash.get";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 
@@ -24,7 +25,12 @@ const ProfileInfo = ({ language, profile }) => {
         </div>
         <div className="col-8-10">
           <div className="verticalCenter">
-            <h1>{`${profile.address.street} ${profile.address.number}`}</h1>
+            <h1>
+              {`${path(profile, ["address", "street"])} ${path(profile, [
+                "address",
+                "number"
+              ])}`}
+            </h1>
             <h2>{texts.adress}</h2>
           </div>
         </div>

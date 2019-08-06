@@ -1,5 +1,6 @@
 import React from "react";
 import moment from "moment";
+import * as path from "lodash.get";
 import { HuePicker } from "react-color";
 import axios from "axios";
 import PropTypes from "prop-types";
@@ -270,7 +271,7 @@ class EditChildProfileScreen extends React.Component {
             </div>
           </div>
           <img
-            src={image.path}
+            src={path(image, ["path"])}
             alt="child profile logo"
             className="horizontalCenter profilePhoto"
           />

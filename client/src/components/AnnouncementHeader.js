@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { Skeleton } from "antd";
+import * as path from "lodash.get";
 import TimeAgo from "./TimeAgo";
 import Avatar from "./Avatar";
 import ConfirmDialog from "./ConfirmDialog";
@@ -96,7 +97,7 @@ class AnnouncementHeader extends React.Component {
           <div className="row no-gutters">
             <div className="col-2-10">
               <Avatar
-                thumbnail={profile.image.path}
+                thumbnail={path(profile, ["image", "path"])}
                 route={`/profiles/${profile.user_id}/info`}
                 className="horizontalCenter"
                 disabled={profile.suspended}
