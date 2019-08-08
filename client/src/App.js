@@ -1,4 +1,5 @@
 import React from "react";
+import Loadable from "react-loadable";
 import { Redirect, Route, Switch } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/stylesheet.css";
@@ -6,38 +7,9 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { withStyles } from "@material-ui/core/styles";
 import { SnackbarProvider } from "notistack";
+import LoadingSpinner from "./components/LoadingSpinner";
 import { LanguageProvider } from "./components/LanguageContext";
 import PrivateRoute from "./components/PrivateRoute";
-
-import CommunityInterface from "./components/CommunityManagementScreen";
-import MyCalendarScreen from "./components/MyCalendarScreen";
-import GroupMainScreen from "./components/GroupMainScreen";
-import MyFamiliesShareScreen from "./components/MyFamiliesShareScreen";
-import StartUpGuide from "./components/StartUpGuide";
-import FaqsScreen from "./components/FaqsScreen";
-import NoMatchScreen from "./components/NoMatchScreen";
-import ProfileScreen from "./components/ProfileScreen";
-import EditProfileScreen from "./components/EditProfileScreen";
-import ChildProfileScreen from "./components/ChildProfileScreen";
-import CreateChildScreen from "./components/CreateChildScreen";
-import SearchGroupScreen from "./components/SearchGroupScreen";
-import EditChildProfileScreen from "./components/EditChildProfileScreen";
-import EditActivityScreen from "./components/EditActivityScreen";
-import AdditionalInfoScreen from "./components/AdditionalInfoScreen";
-import EditGroupScreen from "./components/EditGroupScreen";
-import CreateGroupScreen from "./components/CreateGroupScreen";
-import ActivityScreen from "./components/ActivityScreen";
-import CreateActivityScreen from "./components/CreateActivityScreen";
-import PendingRequestsScreen from "./components/PendingRequestsScreen";
-import ForgotPasswordScreen from "./components/ForgotPasswordScreen";
-import ChangePasswordScreen from "./components/ChangePasswordScreen";
-import LandingScreen from "./components/LandingScreen";
-import AboutScreen from "./components/AboutScreen";
-import TimeslotScreen from "./components/TimeslotScreen";
-import EditTimeslotScreen from "./components/EditTimeslotScreen";
-import SignUpScreen from "./components/SignUpScreen";
-import NotificationScreen from "./components/NotificationScreen";
-import LogInScreen from "./components/LogInScreen";
 
 const styles = () => ({
   info: { backgroundColor: "#202124" },
@@ -49,6 +21,125 @@ const styles = () => ({
     left: "50%",
     transform: "translateX(-50%)"
   }
+});
+
+const Loading = <LoadingSpinner />;
+
+const CommunityInterface = Loadable({
+  loader: () => import("./components/CommunityManagementScreen"),
+  loading: () => Loading
+});
+const MyCalendarScreen = Loadable({
+  loader: () => import("./components/MyCalendarScreen"),
+  loading: () => Loading
+});
+const GroupMainScreen = Loadable({
+  loader: () => import("./components/GroupMainScreen"),
+  loading: () => Loading
+});
+const MyFamiliesShareScreen = Loadable({
+  loader: () => import("./components/MyFamiliesShareScreen"),
+  loading: () => Loading
+});
+const StartUpGuide = Loadable({
+  loader: () => import("./components/StartUpGuide"),
+  loading: () => Loading
+});
+const FaqsScreen = Loadable({
+  loader: () => import("./components/FaqsScreen"),
+  loading: () => Loading
+});
+const NoMatchScreen = Loadable({
+  loader: () => import("./components/NoMatchScreen"),
+  loading: () => Loading
+});
+const ProfileScreen = Loadable({
+  loader: () => import("./components/ProfileScreen"),
+  loading: () => Loading
+});
+const EditProfileScreen = Loadable({
+  loader: () => import("./components/EditProfileScreen"),
+  loading: () => Loading
+});
+const ChildProfileScreen = Loadable({
+  loader: () => import("./components/ChildProfileScreen"),
+  loading: () => Loading
+});
+const NotificationScreen = Loadable({
+  loader: () => import("./components/NotificationScreen"),
+  loading: () => Loading
+});
+const CreateChildScreen = Loadable({
+  loader: () => import("./components/CreateChildScreen"),
+  loading: () => Loading
+});
+const SearchGroupScreen = Loadable({
+  loader: () => import("./components/SearchGroupScreen"),
+  loading: () => Loading
+});
+const EditChildProfileScreen = Loadable({
+  loader: () => import("./components/EditChildProfileScreen"),
+  loading: () => Loading
+});
+const EditActivityScreen = Loadable({
+  loader: () => import("./components/EditActivityScreen"),
+  loading: () => Loading
+});
+const AdditionalInfoScreen = Loadable({
+  loader: () => import("./components/AdditionalInfoScreen"),
+  loading: () => Loading
+});
+const EditGroupScreen = Loadable({
+  loader: () => import("./components/EditGroupScreen"),
+  loading: () => Loading
+});
+const CreateGroupScreen = Loadable({
+  loader: () => import("./components/CreateGroupScreen"),
+  loading: () => Loading
+});
+const ActivityScreen = Loadable({
+  loader: () => import("./components/ActivityScreen"),
+  loading: () => Loading
+});
+const CreateActivityScreen = Loadable({
+  loader: () => import("./components/CreateActivityScreen"),
+  loading: () => Loading
+});
+const PendingRequestsScreen = Loadable({
+  loader: () => import("./components/PendingRequestsScreen"),
+  loading: () => Loading
+});
+const ForgotPasswordScreen = Loadable({
+  loader: () => import("./components/ForgotPasswordScreen"),
+  loading: () => Loading
+});
+const ChangePasswordScreen = Loadable({
+  loader: () => import("./components/ChangePasswordScreen"),
+  loading: () => Loading
+});
+const LandingScreen = Loadable({
+  loader: () => import("./components/LandingScreen"),
+  loading: () => Loading
+});
+const AboutScreen = Loadable({
+  loader: () => import("./components/AboutScreen"),
+  loading: () => Loading
+});
+const TimeslotScreen = Loadable({
+  loader: () => import("./components/TimeslotScreen"),
+  loading: () => Loading
+});
+const EditTimeslotScreen = Loadable({
+  loader: () => import("./components/EditTimeslotScreen"),
+  loading: () => Loading
+});
+const SignUpScreen = Loadable({
+  loader: () => import("./components/SignUpScreen"),
+  loading: () => Loading
+});
+const LogInScreen = Loadable({
+  loader: () => import("./components/LogInScreen"),
+  loading: () => Loading
 });
 
 axios.interceptors.request.use(

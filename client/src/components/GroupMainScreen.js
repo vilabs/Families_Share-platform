@@ -1,15 +1,32 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import Loadable from "react-loadable";
 import axios from "axios";
 import PropTypes from "prop-types";
 import LoadingSpinner from "./LoadingSpinner";
 import GroupNavbar from "./GroupNavbar";
 import Log from "./Log";
-import GroupInfo from "./GroupInfo";
-import GroupCalendar from "./GroupCalendar";
-import GroupNews from "./GroupNews";
-import GroupActivities from "./GroupActivities";
-import GroupMembers from "./GroupMembers";
+
+const GroupInfo = Loadable({
+  loader: () => import("./GroupInfo"),
+  loading: () => <div />
+});
+const GroupMembers = Loadable({
+  loader: () => import("./GroupMembers"),
+  loading: () => <div />
+});
+const GroupActivities = Loadable({
+  loader: () => import("./GroupActivities"),
+  loading: () => <div />
+});
+const GroupCalendar = Loadable({
+  loader: () => import("./GroupCalendar"),
+  loading: () => <div />
+});
+const GroupNews = Loadable({
+  loader: () => import("./GroupNews"),
+  loading: () => <div />
+});
 
 const getGroupMembers = groupId => {
   return axios
