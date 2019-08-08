@@ -25,6 +25,10 @@ const styles = () => ({
 
 const Loading = <LoadingSpinner />;
 
+const LogInScreen = Loadable({
+  loader: () => import("./components/LogInScreen"),
+  loading: () => Loading
+});
 const CommunityInterface = Loadable({
   loader: () => import("./components/CommunityManagementScreen"),
   loading: () => Loading
@@ -135,10 +139,6 @@ const EditTimeslotScreen = Loadable({
 });
 const SignUpScreen = Loadable({
   loader: () => import("./components/SignUpScreen"),
-  loading: () => Loading
-});
-const LogInScreen = Loadable({
-  loader: () => import("./components/LogInScreen"),
   loading: () => Loading
 });
 
