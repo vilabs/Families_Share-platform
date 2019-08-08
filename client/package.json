@@ -9,7 +9,7 @@
     "ajv-keywords": "^3.4.0",
     "antd": "^3.18.2",
     "autosize": "^4.0.2",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "body-scroll-lock": "^2.6.1",
     "bootstrap": "^4.3.1",
     "braces": "^3.0.2",
@@ -55,8 +55,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "lint": "./node_modules/.bin/eslint src",
-    "storybook": "start-storybook"
+    "lint": "./node_modules/.bin/eslint src"
   },
   "browserslist": [
     "> 0.5%",
@@ -70,8 +69,6 @@
   "proxy": "http://localhost:4000/",
   "devDependencies": {
     "@babel/core": "^7.4.5",
-    "@storybook/addon-info": "^5.0.11",
-    "@storybook/react": "^5.0.11",
     "babel-loader": "^8.0.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
