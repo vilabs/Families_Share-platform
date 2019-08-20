@@ -7,8 +7,6 @@ import Texts from "../Constants/Texts";
 Modal.setAppElement("#root");
 
 class PrivacyPolicyModal extends React.Component {
-  state = { page: 1 };
-
   closeModal = () => {
     const { handleClose } = this.props;
     handleClose();
@@ -21,23 +19,8 @@ class PrivacyPolicyModal extends React.Component {
     handleAccept();
   };
 
-  handleNextPage = () => {
-    const { page } = this.state;
-    if (page === 1) {
-      this.setState({ page: 2 });
-    }
-  };
-
-  handlePreviousPage = () => {
-    const { page } = this.state;
-    if (page === 2) {
-      this.setState({ page: 1 });
-    }
-  };
-
   render() {
     const { language, isOpen } = this.props;
-    const { page } = this.state;
     const texts = Texts[language].privacyPolicyModal;
     const modalStyle = {
       overlay: {
@@ -78,46 +61,9 @@ class PrivacyPolicyModal extends React.Component {
           </button>
         </div>
         <div id="termsAndPolicyMain">
-          {page === 1 ? (
-            <div>
-              <h1>{texts.termsHeader}</h1>
-              <p>{texts.terms}</p>
-            </div>
-          ) : null}
-          {page === 2 ? (
-            <div>
-              <h1>{texts.privacyHeader}</h1>
-              <p>{texts.privacy}</p>
-              <button
-                className="center"
-                type="button"
-                onClick={this.handleAccept}
-              >
-                {texts.accept}
-              </button>
-            </div>
-          ) : null}
-        </div>
-        <div id="termsAndPolicyFooter">
-          <button
-            type="button"
-            className="transparentButton"
-            onClick={this.handlePreviousPage}
-          >
-            <i
-              className="fas fa-chevron-left"
-              style={page === 1 ? { opacity: 0.3 } : {}}
-            />
-          </button>
-          <button
-            type="button"
-            className="transparentButton"
-            onClick={this.handleNextPage}
-          >
-            <i
-              className="fas fa-chevron-right"
-              style={page === 2 ? { opacity: 0.3 } : {}}
-            />
+          {texts.privacyPolicy}
+          <button className="center" type="button" onClick={this.handleAccept}>
+            {texts.accept}
           </button>
         </div>
       </Modal>

@@ -2573,9 +2573,24 @@ a:active {
 #termsAndPolicyMain h1 {
   text-align: center;
   font-size: 2rem;
-
   font-weight: 400;
   color: rgba(0, 0, 0, 0.9);
+}
+#termsAndPolicyMain h2 {
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.9);
+}
+#termsAndPolicyMain li{
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.9);
+}
+#termsAndPolicyMain bold{
+  color: #00838f;
+  cursor: initial;
 }
 #termsAndPolicyMain p {
   white-space: pre-line;
