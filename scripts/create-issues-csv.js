@@ -23,9 +23,9 @@ const create = async () => {
     batch = await fetchBatch(page)
     issues = issues.concat(batch)
   }
-  console.log('Title;Date Reported;Labels;Description')
+  console.log('Issue Number;Title;Date Reported;Labels;Description')
   for (let i = 0; issues.length; i += 1) {
-    let { title, body, created_at: created, labels } = issues[i]
+    let { number, title, body, created_at: created, labels } = issues[i]
     const filteredLabels = labels.filter(label => label.name !== 'User feedback')
     if (filteredLabels.length) {
       const initial = `=\"${filteredLabels[0].name}\"`
@@ -38,7 +38,7 @@ const create = async () => {
     created = moment(created).format('DD-MM-YYYY')
     body = body.slice(0, body.indexOf(';'))
     body = body.replace(',', ' ')
-    console.log(`${title};${created};${labels};${JSON.stringify(body)}`)
+    console.log(`${number};${title};${created};${labels};${JSON.stringify(body)}`)
   }
 }
 
