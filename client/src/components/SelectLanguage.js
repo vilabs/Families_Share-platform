@@ -26,7 +26,7 @@ const SelectLanguage = ({ language, updateLanguage }) => {
     left: "0"
   };
   let appLanguages;
-  if (process.env.REACT_APP_CITYLAB === "all") {
+  if (process.env.REACT_APP_CITYLAB === "Development") {
     appLanguages = languages;
   } else {
     const defaultLang = process.env.REACT_APP_CITYLAB_DEFAULT_LANG;
