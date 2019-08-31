@@ -7,7 +7,8 @@ const landingImage = {
   FBK: require("../images/fbkImage.png"),
   Thessaloniki: require("../images/thessalonikiImage.png"),
   Hamburg: require("../images/hamburgImage.png"),
-  Pescara: require("../images/pescaraImage.png")
+  Pescara: require("../images/pescaraImage.png"),
+  Development: require("../images/developmentImage.png")
 };
 
 const Images = {
