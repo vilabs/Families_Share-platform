@@ -2407,414 +2407,449 @@ const it = {
   privacyPolicyModal: {
     privacyPolicy: (
       <div>
-        <h1>Families_Share Privacy Policy</h1>
+        <h1>Informativa privacy di Families_Share</h1>
         <p>
-          This Privacy Policy is meant to help you understand what information
-          we collect, why we collect it, and how you can update, manage, export,
-          and delete your information.
+          Questa Informativa sulla privacy ha lo scopo di aiutarti a capire
+          quali informazioni raccogliamo, perché le raccogliamo e come puoi
+          aggiornare, gestire, esportare ed eliminare le tue informazioni.
         </p>
         <ol type="i">
           <li>
-            <h2>Families_Share Privacy Policy</h2>
+            <h2>Informativa privacy di Families_Share</h2>
             <p>
-              Welcome to the website (the "Site") of Families_Share. This Site
-              was developed to provide information about the Families_Share
-              services. The Families_Share application, along with the website,
-              are the "Services” for visitors and users ("you" and/or "your").
+              Benvenuti nel sito Web (il "Sito") di Families_Share. Questo sito
+              è stato creato per fornire informazioni sui servizi
+              Families_Share. L'applicazione Families_Share, insieme al sito
+              Web, sono i "Servizi" per visitatori e utenti ("tu" e/o "tuo").
             </p>
             <p>
-              This Privacy Policy sets out Families_Share’s policy with respect
-              to your information, including information which identifies or
-              could identify you personally (known as 'personally identifiable
-              information' in the USA or 'personal data' in the European Union,
-              which we'll call "Personal Data") and other information that is
-              collected from visitors and users of the Services. Please read
-              this privacy policy carefully so that you understand how we will
-              treat your data. By using any of our Services, you confirm that
-              you have read, understood and agree to this privacy policy. If you
-              do not agree to this policy, please do not use any of the
-              Services. If you have any queries, please email us at
-              <bold> info@families-share.eu </bold>
-            </p>
-          </li>
-          <li>
-            <h2>Who we are</h2>
-            <p>
-              We are: ViLabs, the Families_Share EU Project’s Responsible
-              Partner for the development and maintenance of the website and of
-              the Families_Share Applications and corresponding services as well
-              as the project’s Data processor and Data Controller. ViLabs CY
-              (“Versatile Innovations”), ECASTICA Business centre 6, Vasili
-              Vryonides str. Gala Court Chambers, Limassol, Cyprus t. +30 2310
-              365 188, +35 725 760 967, <bold> info@vilabs.eu </bold>. We refer
-              to this team as "ViLabs", "we", "us" and/or "our".
+              La presente Informativa sulla privacy definisce la policy di
+              Families_Share relativamente alle tue informazioni, comprese le
+              informazioni che identificano o potrebbero identificarti
+              personalmente (conosciute come "informazioni di identificazione
+              personale" negli Stati Uniti o "dati personali" nell'Unione
+              europea, che chiameremo "Dati Personali") e altre informazioni
+              raccolta dai visitatori e dagli utenti dei Servizi. Si prega di
+              leggere attentamente questinformativa sulla privacy in modo da
+              comprendere come tratteremo i tuoi dati. Utilizzando uno qualsiasi
+              dei nostri Servizi, confermi di aver letto, compreso e accettato
+              la presente informativa sulla privacy. Se non accetti la presente
+              policy, sei pregato di non utilizzare i nostri Servizi. In caso di
+              domande, ti preghiamo di contattarci via email a
+              <bold>info@families-Share.eu</bold>
             </p>
           </li>
           <li>
-            <h2>Our legal status and applicable data privacy laws</h2>
+            <h2>Chi siamo</h2>
             <p>
-              ViLabs holds the role of data processor and data controller under
-              the EU legislation. All personal data are collected, used, stored
-              and processed in full compliance with General Data Protection
-              Regulation (Regulation (UE) 679/2016 also known as “GDPR") and
-              European Parliament Directive 2002/58/EC (Directive on privacy and
-              electronic communications). Only the Vilabs researchers and system
-              administrators will have access to the data folder. The
-              Families_Share services are hosted on servers located in the
-              European Union and provided by contabo (https://contabo.com/).
+              Siamo: ViLabs, il partner responsabile del progetto UE
+              Families_Share per lo sviluppo e la manutenzione del sito Web e
+              delle applicazioni Families_Share e dei relativi servizi, nonché
+              Responsabile del trattamento e Titolare del trattamento del
+              progetto. ViLabs CY ("Versatile Innovations"), ECASTICA Business
+              centre 6, Vasili Vryonides str. Gala Court Chambers, Limassol,
+              Cipro t. +30 2310 365 188, +35 725 760 967,
+              <bold>info@vilabs.eu</bold>. Ci riferiamo a questo gruppo con i
+              termini "ViLabs", "noi", e/o "nostro".
             </p>
           </li>
           <li>
-            <h2>Information We Collect</h2>
+            <h2>
+              Il nostro stato legale e le leggi relative alla protezione dei
+              dati personali
+            </h2>
             <p>
-              When you interact with us through the Services, we collect
-              Personal Data and other information from you, as further described
-              below: We collect Personal Data from you when you voluntarily
-              provide such information, such as when you contact us with
-              inquiries, register for access to the Services or use certain
-              Services.
+              ViLabs ricopre il ruolo di responsabile del trattamento e di
+              titolare del trattamento dei dati ai sensi della legislazione
+              europea. Tutti i dati personali vengono raccolti, utilizzati,
+              archiviati ed trattati nel pieno rispetto del Regolamento generale
+              sulla protezione dei dati (Regolamento (UE) 679/2016 noto anche
+              come "GDPR") e della Direttiva del Parlamento europeo 2002/58/CE
+              (Direttiva sulla privacy e le comunicazioni elettroniche). Solo i
+              ricercatori e gli amministratori di sistema di Vilabs avranno
+              accesso alla cartella dei dati. I servizi Families_Share sono
+              ospitati su server situati nell'Unione Europea e forniti da
+              Contabo (https://contabo.com/).
+            </p>
+          </li>
+          <li>
+            <h2>Informazioni raccolte</h2>
+            <p>
+              Quando interagisci con noi attraverso i Servizi, raccogliamo dati
+              personali e altre informazioni da te, tra cui quelle descritte di
+              seguito: Raccogliamo dati personali da te quando fornisci
+              volontariamente tali informazioni, ad esempio quando ci contatti
+              per richieste, ti registri per accedere ai Servizi o utilizzi
+              determinati Servizi.
             </p>
             <p>
-              In particular, in Families_Share platform will be collecting
-              information about parents, children, and childcare groups.
+              In particolare, la piattaforma Families_Share raccoglierà
+              informazioni su genitori, bambini e gruppi di assistenza
+              all'infanzia.
             </p>
             <ul>
               <li>
                 <p>
-                  &bull; About parents: name, family name, phone number,
-                  address, email and picture/avatar.
+                  &bull; Informazioni sui genitori: nome, cognome, numero di
+                  telefono, indirizzo, e-mail e immagine/avatar.
                 </p>
               </li>
               <li>
                 <p>
-                  &bull; About children: The Information is collected only by
-                  the ones who exercise parental responsibility, and there are
-                  entitled to provide the relevant information, according to the
-                  relevant legislation. The information is: name, birth date,
-                  gender, picture/avatar and other information directly
-                  specified by parents (allergies, diseases, specific diet,
-                  special need, etc.).
+                  &bull;Informazioni sui minori: le informazioni vengono
+                  raccolte esclusivamente da coloro che esercitano la
+                  responsabilità genitoriale e hanno il diritto di fornire le
+                  informazioni pertinenti, conformemente alla legislazione in
+                  materia. Le informazioni sono: nome, data di nascita, sesso,
+                  immagine/avatar e altre informazioni specificate direttamente
+                  dai genitori (allergie, malattie, dieta speciale, esigenze
+                  particolari, ecc.).
                 </p>
               </li>
               <li>
                 <p>
-                  &bull; About childcare groups: the group name, group bio,
-                  childcare location, childcare periods and the messages in the
-                  group feed (text & picture).
+                  &bull; Informazioni sui gruppi di assistenza all'infanzia: il
+                  nome del gruppo, la descrizione del gruppo, la sede dei
+                  servizi di assistenza all'infanzia, i periodi dei servizi di
+                  assistenza all'infanzia e i messaggi nel feed del gruppo
+                  (testo e immagine).
                 </p>
               </li>
               <li>
                 <p>
-                  &bull; Technical or other details about any device which you
-                  use to access the Services, including device Unique Device
-                  Identifier (UDID) or equivalent; your operating system,
-                  browser type or other software; your hardware or mobile device
-                  details (including your mobile device type and number and
-                  mobile carrier details), if applicable; or other technical
-                  details.
+                  &bull; Specifiche tecniche o di altro genere su qualsiasi
+                  dispositivo utilizzato per accedere ai Servizi, identificatore
+                  univoco del dispositivo (UDID) o equivalente, il sistema
+                  operativo, il tipo di browser o altro software, le specifiche
+                  dell'hardware o del dispositivo mobile (tipo e numero del
+                  dispositivo mobile e i dettagli del gestore di telefonia
+                  mobile compresi) o altri eventuali dettagli tecnici compresi.
                 </p>
               </li>
               <li>
                 <p>
-                  &bull; Details of your use of our Services: metrics
-                  information about when and how you use the Services.
+                  &bull; Dettagli sull'utilizzo dei nostri servizi: informazioni
+                  sulle metriche su quando e come vengono utilizzati i servizi.
                 </p>
               </li>
             </ul>
             <p>
-              By voluntarily providing us with Personal Data, you are consenting
-              to us using them in the context of the Services and in accordance
-              with this Privacy Policy (art. 6, par. 1, lett. a, GDPR). By the
-              way, processing personal data should also be lawful when it is
-              necessary for the performance of the Services (art. 6, par. 1,
-              lett. b, GDPR). Regarding special categories of personal data, you
-              give explicit consent to the processing of those data as soon as
-              providing them for the purposes of the Services.
+              Fornendoci volontariamente i Dati personali, ci autorizzi a
+              utilizzarli nel contesto dei Servizi e in conformità con la
+              presente Informativa sulla privacy (art. 6, par. 1, lett. a,
+              GDPR). A proposito, anche il trattamento dei dati personali
+              dovrebbe essere lecito quando è necessario per lo svolgimento dei
+              Servizi (art. 6, par. 1, lett. b) GDPR. Per quanto riguarda le
+              categorie speciali di dati personali, dai il consenso esplicito al
+              trattamento di tali dati nel momento in cui li fornisci ai fini
+              dei Servizi.
             </p>
           </li>
           <li>
-            <h2>Our Use of Your Personal Data and Other Information</h2>
+            <h2>
+              L'uso che facciamo dei tuoi dati personali e altre informazioni
+            </h2>
             <p>
-              Each information collected is immediately separated in (i) a part
-              which contains personal (not sensitive) information (such as name,
-              email, phone number, etc.) about the participants involved and
-              (ii) a part which is fully anonymized (non-personally
-              identifiable) and then made available to the whole consortium for
-              research purposes.
+              Ogni dato raccolto viene immediatamente attribuito a (i) una parte
+              che contiene dati personali (non sensibili) (quali nome, e-mail,
+              numero di telefono, ecc.) sui partecipanti coinvolti e (ii) una
+              parte completamente anonimizzata (la persona non può essere
+              identificata da questi dati) e quindi messo a disposizione
+              dell'intero consorzio a fini della ricerca.
             </p>
             <p>
-              Personal data of participants to each CityLab will be shared
-              through the app to the other members of the group for the
-              Families_Share activity management, under the control of the group
-              administrator. Any abuse by a member will result in the
-              cancellation of her/his account. Notice that any request to be
-              part of a group is subject to approval by the group administrator.
-              Additional personal data of participants will be collected when
-              necessary only for scientific purposes (for example, to further
-              contacts for longitudinal studies) and will be deleted immediately
-              after the completion of the project. Anonymized data are stored in
-              a shared repository and will be maintained after the completion of
-              the project as evidence for the studies and the publications.
+              I dati personali dei partecipanti a ciascun CityLab saranno
+              condivisi tramite l'app agli altri membri del gruppo per la
+              gestione delle attività Families_Share, sotto il controllo
+              dell'amministratore del gruppo. Qualsiasi abuso da parte di un
+              membro comporterà la cancellazione del suo account. Si noti che
+              qualsiasi richiesta di far parte di un gruppo è soggetta
+              all'approvazione dell'amministratore del gruppo. Ulteriori dati
+              personali dei partecipanti saranno raccolti, se necessario,
+              esclusivamente per scopi scientifici (ad esempio, per ulteriori
+              contatti per studi longitudinali) e saranno cancellati
+              immediatamente alla fine del progetto. I dati anonimizzati sono
+              archiviati in un repository condiviso e saranno mantenuti dopo la
+              fine del progetto come prova per gli studi e le pubblicazioni.
             </p>
             <p>
-              In particular, the Services may use such information and pool it
-              with other information on an anonymized and generalized basis to
-              track, for example, the total number of users of our Services, the
-              number of visitors to each page of our Site and the domain names
-              of our visitors' Internet service providers (no personal data are
-              involved in such case).
+              In particolare, i Servizi possono utilizzare tali informazioni e
+              condividerle con altre informazioni in forma anonima e
+              generalizzata per tenere traccia, ad esempio, del numero totale di
+              utenti dei nostri Servizi, del numero di visitatori di ciascuna
+              pagina del nostro Sito e dei nomi di dominio dei gestori di
+              servizi Internet dei nostri visitatori (in questo caso non sono
+              dati personali).
             </p>
           </li>
           <li>
-            <h2>Our Disclosure of Your Personal Data and Other Information</h2>
+            <h2>
+              La divulgazione dei tuoi dati personali e altre informazioni
+            </h2>
             <p>
-              Anyways, Families_Share (and thus the responsible partner ViLabs)
-              may disclose your Personal Data only if required to do so by law
-              or in the good faith belief that such action is necessary to:
+              Families_Share (e quindi il partner responsabile ViLabs) potrebbe
+              comunque divulgare i tuoi dati personali solo se richiesto dalla
+              legge o nella buona fede che tale azione sia necessaria ai fini
+              di:
             </p>
             <ul>
               <li>
-                <p> &bull; Comply with a legal obligation</p>
+                <p> &bull; Osservare un obbligo di legge</p>
               </li>
               <li>
                 <p>
-                  &bull; Act in urgent circumstances to protect the personal
-                  safety of users of the Services or the public
+                  &bull; prendere misure in circostanze urgenti per proteggere
+                  la sicurezza personale degli utenti dei nostri servizi o del
+                  pubblico
                 </p>
               </li>
               <li>
-                <p> &bull; Protect against legal liability </p>
+                <p> &bull; Proteggere da responsabilità legale</p>
               </li>
             </ul>
           </li>
           <li>
-            <h2>Your Choices</h2>
+            <h2>Le tue opzioni</h2>
             <p>
-              You can visit the Services without providing any Personal Data. If
-              you choose not to provide any Personal Data, you may not be able
-              to use certain Families_Share Services.
+              È possibile visitare i Servizi senza fornire alcun dato personale.
+              Se si sceglie di non fornire alcun dato personale, potrebbe non
+              essere possibile accedere a determinati servizi Families_Share.
             </p>
           </li>
           <li>
-            <h2>Data collection</h2>
+            <h2>Raccolta dei dati</h2>
             <p>
-              All the data come from users in signing up to the Families_Share
-              platform. Most of the time, parents have to give their consent to
-              the treatment of private and “sensible” information about their
-              children. In particular, children information is provided by
-              parents and data are collected according to the GDRP (article 8):
+              Tutti i dati provengono dagli utenti che si iscrivono alla
+              piattaforma Families_Share. Nella maggior parte dei casi i
+              genitori devono dare il loro consenso al trattamento dei dati
+              privati e "sensibili" dei loro figli. In particolare, le
+              informazioni sui minori vengono fornite dai genitori e i dati
+              vengono raccolti secondo le normative del GDPR (articolo 8):
             </p>
             <ul>
               <li>
                 <p>
-                  &bull; Where point (a) of Article 6(1) applies, in relation to
-                  the offer of information society services directly to a child,
-                  the processing of the personal data of a child shall be lawful
-                  where the child is at least 16 years old. Where the child is
-                  below the age of 16 years, such processing shall be lawful
-                  only if and to the extent that consent is given or authorized
-                  by the holder of parental responsibility over the child.
+                  &bull; Qualora si applichi l'articolo 6, paragrafo 1, lettera
+                  a), per quanto riguarda l'offerta diretta di servizi della
+                  società dell'informazione ai minori, il trattamento di dati
+                  personali del minore è lecito ove il minore abbia almeno 16
+                  anni di età. Ove il minore abbia un'età inferiore ai 16 anni,
+                  tale trattamento è lecito soltanto se, e nella misura in cui,
+                  tale consenso viene conferito o autorizzato dal titolare della
+                  responsabilità genitoriale.
                 </p>
               </li>
               <li>
                 <p>
-                  &bull;The controller shall make reasonable efforts to verify
-                  in such cases that consent is given or authorized by the
-                  holder of parental responsibility for the child, taking into
-                  consideration available technology.
+                  &bull;Il titolare del trattamento si adopera in ogni modo
+                  ragionevole per verificare in tali casi che il consenso
+                  conferito o autorizzato dal titolare della responsabilità
+                  genitoriale sul minore, in considerazione delle tecnologie
+                  disponibili.
                 </p>
               </li>
               <li>
                 <p>
-                  &bull; Paragraph 1 shall not affect the general contract law
-                  of the Member States such as the rules on the validity,
-                  formation or effect of a contract in relation to a child.”
+                  &bull; Il punto 1 non pregiudica le disposizioni generali del
+                  diritto dei contratti degli Stati membri, quali le norme sulla
+                  validità, la formazione o l'efficacia di un contratto relativo
+                  a un minore".
                 </p>
               </li>
             </ul>
             <p>
-              Remember also GDPR’s point 32: “Consent should be given by a clear
-              affirmative act establishing a freely given, specific, informed
-              and unambiguous indication of the data subject's agreement to the
-              processing of personal data relating to him or her, such as by a
-              written statement, including by electronic means, or an oral
-              statement. This could include ticking a box when visiting an
-              internet website, choosing technical settings for information
-              society services or another statement or conduct which clearly
-              indicates in this context the data subject’s acceptance of the
-              proposed processing of his or her personal data [...] If the data
-              subject's consent is to be given following a request by electronic
-              means, the request must be clear, concise and not unnecessarily
-              disruptive to the use of the service for which it is provided”.
+              RRichiamiamo anche il punto 32 del GDPR: Il consenso deve essere
+              conferito mediante un'azione positiva inequivocabile mediante la
+              quale l'interessato manifesta l'intenzione libera, specifica,
+              informata e inequivocabile di accettare il trattamento dei dati
+              personali che lo riguardano, ad esempio mediante dichiarazione
+              scritta, anche attraverso mezzi elettronici, o orale. Ciò potrebbe
+              comprendere la selezione di un'apposita casella in un sito web, la
+              scelta di impostazioni tecniche per servizi della società
+              dell'informazione o qualsiasi altra dichiarazione o qualsiasi
+              altro comportamento che indichi chiaramente in tale contesto che
+              l'interessato accetta il trattamento proposto [...] Se il consenso
+              dell'interessato viene richiesto attraverso mezzi elettronici, la
+              richiesta deve essere chiara, concisa e non interferire
+              immotivatamente con il servizio per il quale il consenso viene
+              conferito.
             </p>
           </li>
           <li>
-            <h2>Children</h2>
+            <h2>Bambini</h2>
             <p>
-              Families_Share does not knowingly collect Personal Data provided
-              by the very children under the age of 16. If you are under the age
-              of 16, please do not submit any Personal Data through the
-              Services. We encourage parents and legal guardians to monitor
-              their children's Internet usage and to help enforce our Privacy
-              Policy by instructing their children never to provide Personal
-              Data on the Services without their permission. If you have reason
-              to believe that a child under the age of 16 has provided Personal
-              Data to Families_Share through the Services, please contact us,
-              and we will endeavour to delete that information from our
-              databases.
+              Families_Share non raccoglie consapevolmente dati personali
+              forniti da bambini di età inferiore ai 16 anni. Se hai meno di 16
+              anni, ti preghiamo di non inviare dati personali attraverso i
+              Servizi. Invitiamo i genitori e i custodi legali a monitorare
+              l'utilizzo di Internet dei propri figli e ad aiutare a far
+              rispettare la nostra Informativa sulla privacy istruendo i propri
+              figli a non conferire mai Dati personali sui Servizi senza il loro
+              consenso. Se hai motivo di credere che un bambino di età inferiore
+              ai 16 anni abbia fornito Dati personali a Families_Share
+              attraverso i Servizi, ti preghiamo di contattarci e cercheremo di
+              eliminare tali informazioni dai nostri database.
             </p>
           </li>
           <li>
-            <h2>Data storage and preservation strategy</h2>
+            <h2>Strategia di archiviazione e conservazione dei dati </h2>
             <p>
-              The overall Families_Share services are offered through the cloud,
-              and both the back and front end of the platform and the data is
-              stored on secure and protected dedicated servers through a
-              certified cloud provider, which has all the needed infrastructures
-              and certifications required by the GDPR.
+              I servizi generali Families_Share vengono offerti attraverso il
+              cloud e sia il back-end che il front-end della piattaforma e i
+              dati sono archiviati su server dedicati sicuri e protetti
+              attraverso un provider cloud certificato che possiede tutte le
+              infrastrutture e le certificazioni necessarie secondo quanto
+              disposto dal GDPR.
             </p>
             <p>
-              The cloud service provider is administered by a responsible person
-              from VILABS and a dedicated data protection officer – (Project
-              Coordinator Prof. Agostino Cortesi, Universita Ca’Foscari Venezia,
-              <bold>cortesi@unive.it</bold>), following the best practices and
-              standards available.
+              Il gestore di servizi cloud è controllato da un responsabile di
+              VILABS e da un responsabile della protezione dei dati dedicato -
+              (Coordinatore del progetto Prof. Agostino Cortesi, Universita
+              Ca'Foscari Venezia, <bold>cortesi@unive.it</bold>), attenendosi
+              alle migliori pratiche e livelli esistenti.
             </p>
             <p>
-              Personal data will be stored throughout the official lifecycle of
-              the Families_Share EU Funded Horizon 2020 Project (until the
-              31/10/2020). After the end of the official period of the project,
-              the personal data of users that have not logged in their account
-              for one year (365 days) will be fully deleted.
+              I dati personali verranno archiviati per tutto il ciclo di vita
+              ufficiale del progetto Families-Share finanziato dall'UE
+              nell'ambito di Horizon 2020 (fino al 10/31/2020). Dopo la fine del
+              periodo ufficiale del progetto, i dati personali degli utenti che
+              non hanno effettuato l'accesso al proprio account per un anno (365
+              giorni) verranno completamente cancellati.
             </p>
             <p>
-              The Cloud service provider protected storage facility will be
-              based on redundant systems and located in the EU. Data are backed
-              up daily, and a backup copy is stored again in data centres in the
-              EU
+              La struttura di archiviazione protetta del gestore di servizi
+              cloud conterà su sistemi ridondanti e avrà sede all'interno
+              dell'Unione Europea. Il backup dei dati viene effettuato
+              quotidianamente e una copia di backup viene nuovamente archiviata
+              nei data center dell'UEs
             </p>
             <p>
-              Access to data on the storage is subject to authentication using
-              username and password managed in compliance with European
-              Parliament Directive 2002/58/EC.
+              L'accesso ai dati sull'archiviazione è soggetto all'autenticazione
+              mediante nome utente e password gestiti in conformità alla
+              Direttiva 2002/58/CE del Parlamento europeo.
             </p>
             <p>
-              Only the ViLabs researchers (for research purpose) and system
-              administrators (for maintenance purposes) will have access to the
-              data folder.
-            </p>
-          </li>
-          <li>
-            <h2>Transmission of data to third parties</h2>
-            <p>
-              None of the collected personal information will be shared with
-              third parties. The collected information will only be used within
-              the platform itself, as described above (V.)
-            </p>
-            <p>
-              The app does not make use of the use of implicit “intents”. This
-              prevents the data to be unproperly accessed by other apps
-              installed on the same device.
+              Solo i ricercatori ViLabs (a scopo di ricerca) e gli
+              amministratori di sistema (a fini di manutenzione) avranno accesso
+              alla cartella dei dati.
             </p>
           </li>
           <li>
-            <h2>Security</h2>
+            <h2>Trasmissione di dati personali a terzi</h2>
             <p>
-              ViLabs takes reasonable steps to protect the Personal Data
-              provided via the Services from loss, misuse, and unauthorized
-              access, disclosure, alteration, or destruction. The data
-              communication from/to the user will be managed through the https
-              SSL-based protocol.
+              Nessuna delle informazioni personali raccolte verrà condivisa con
+              terzi. Le informazioni raccolte verranno utilizzate esclusivamente
+              all'interno della piattaforma stessa, come descritto sopra (V.)
             </p>
             <p>
-              It is your responsibility to properly protect the access to the
-              device where the app is installed against unauthorized usage.
-            </p>
-            <p>
-              Registered Families_Share users will have a username and a unique
-              identifier, which enables you to access certain parts of our
-              Services. You are responsible for keeping them confidential. Be
-              sure do not share them with anyone else.
+              L'app non fa uso di intenti impliciti. Ciò impedisce l'accesso ai
+              dati senza motivo da parte di altre app installate sullo stesso
+              dispositivo.
             </p>
           </li>
           <li>
-            <h2>Your rights - Closing your account</h2>
+            <h2>Sicurezza</h2>
             <p>
-              EU data protection legislation gives EU citizens the right to
-              access information held about them. This information is mentioned
-              above and can be edited by you via the services, according to GDPR
-              (art. 15-22). In addition, you have the right to rectification,
-              the right to withdraw the consent given (when the consent is the
-              lawful basis for personal data processing), the right to erasure
-              (‘right to be forgotten’), the right to restrict processing, the
-              right to data portability, the right to object to processing, the
-              right not to be subject to a decision based on automated
-              processing (including profiling), the right to lodge a complaint
-              with a supervisory authority, the right to an effective judicial
-              remedy.
+              ViLabs adotta misure ragionevoli per proteggere i Dati personali
+              conferiti tramite i Servizi da perdita, uso improprio e accesso,
+              divulgazione, alterazione o distruzione non autorizzati. La
+              comunicazione dei dati da/per l'utente verrà gestita tramite il
+              protocollo https basato su SSL.
             </p>
             <p>
-              You may email us at <bold> info@families-share.eu</bold>
+              È responsabilità dell'utente proteggere correttamente l'accesso al
+              dispositivo su cui è installata l'app da un utilizzo non
+              autorizzato.
             </p>
             <p>
-              All users can alter their personal information as they wish, have
-              access and can download a copy of their information and their
-              participation to activities via the Families_Share application,
-              while they also have the right to fully delete their account and
-              all information relevant to their account.
-            </p>
-            <p>
-              Following the cancellation of the account by the user, except in
-              the case of anonymous data, there is an obligation to remove
-              personal data as soon as possible, since the legal basis for
-              further processing should have disappeared.
-            </p>
-            <p>
-              You may also email us at info@families-share.eu to request that we
-              delete your personal information from our database.
+              Gli utenti registrati a Families_Share avranno un nome utente e un
+              identificatore univoco, che consente di accedere a determinate
+              sezioni dei nostri Servizi. Sei responsabile di mantenerli
+              riservati. Non devono essere comunicati a nessuno.
             </p>
           </li>
           <li>
-            <h2>Changes to the Privacy Policy</h2>
+            <h2>I tuoi diritti - Chiusura del tuo account</h2>
             <p>
-              This Privacy Policy may change from time to time. When changes are
-              made, the effective date listed below will also change
-              accordingly, and the new Privacy Policy will be published online,
-              while all the involved parties will receive a dedicated
-              notification.
+              La legislazione europea sulla protezione dei dati conferisce ai
+              cittadini UE il diritto di accedere alle informazioni in loro
+              possesso. Queste informazioni sono menzionate sopra e possono
+              essere modificate dall'utente tramite i servizi, ai sensi del GDPR
+              (art. 15-22). Inoltre, hai il diritto di rettifica, il diritto di
+              revocare il consenso conferito (quando il consenso è la base
+              legale per il trattamento dei dati personali), il diritto alla
+              cancellazione ("diritto all'oblio"), il diritto a limitare il
+              trattamento, il diritto alla portabilità dei dati, il diritto di
+              opporsi al trattamento, il diritto a non essere soggetto a una
+              decisione basata sul trattamento automatizzato (profilazione
+              compresa), il diritto di proporre reclamo al Garante, il diritto
+              al ricorso giurisdizionale effettivo.
+            </p>
+            <p>
+              Puoi inviarci un'e-mail a <bold>info@families-share.eu</bold>
+            </p>
+            <p>
+              Tutti gli utenti possono modificare le loro informazioni personali
+              come desiderano, avere accesso e scaricare una copia delle loro
+              informazioni e la loro partecipazione alle attività tramite
+              l'applicazione Families_Share, come anche il diritto di eliminare
+              completamente il loro account e tutte le informazioni relative ai
+              loro account.
+            </p>
+            <p>
+              A seguito della cancellazione dell'account da parte dell'utente,
+              tranne nel caso di dati anonimi, vi è l'obbligo di rimuovere i
+              dati personali il più presto possibile poiché la base giuridica
+              per ulteriore trattamento viene a cessare.
+            </p>
+            <p>
+              Puoi anche inviarci un'e-mail a info@families-share.eu chiedendoci
+              di procedere alla cancellazione delle tue informazioni personali
+              dal nostro database.
             </p>
           </li>
           <li>
-            <h2>Communication </h2>
+            <h2>Modifiche alla Privacy Policy</h2>
             <p>
-              For any other information about us, please visit our website:
-              http://www.families-share.eu
-            </p>
-            <p>
-              Please also feel free to contact us if you have any questions
-              about Families_Share’s Privacy Policy or the information practices
-              of the Services.
+              Questa Informativa sulla privacy può subire modifiche di tanto in
+              tanto. Quando vengono apportate modifiche anche la data di entrata
+              in vigore riportata sotto cambierà di conseguenza e la nuova
+              Informativa sulla privacy verrà pubblicata online, mentre tutte le
+              parti interessate ne riceveranno apposita notifica.
             </p>
           </li>
           <li>
-            <h2>Data Management</h2>
+            <h2>Comunicazione</h2>
             <p>
-              DPO: Project Coordinator Prof.Agostino Cortesi, Universita
-              Ca’Foscari Venezia,<bold>cortesi@unive.it</bold>
+              Per qualsiasi altra informazione sul nostro conto siete pregati di
+              visitare il nostro sito Web: https://www.families-share.eu/
             </p>
             <p>
-              Platform Data Manager: Apostolos Vontas, ViLabs Director,{" "}
+              Non esitare a contattarci in caso di domande sull'Informativa
+              sulla privacy di Families_Share o sulle pratiche di informazione
+              dei Servizi. Puoi contattarci a: info@families-share.eu
+            </p>
+          </li>
+          <li>
+            <h2>Gestione dei dati</h2>
+            <p>
+              DPO: Coordinatore del progetto Prof. Agostino Cortesi, Universita
+              Ca'Foscari Venezia, <bold>cortesi@unive.it</bold>
+            </p>
+            <p>
+              Platform Data Manager: Apostolos Vontas, direttore di ViLabs,
               <bold>avontas@vilabs.eu</bold>
             </p>
             <p>
-              Data Controller: Apostolos Vontas, ViLabs Director,
+              Titolare del trattamento: Apostolos Vontas, direttore di ViLabs,
+              avontas@vilabs.eu
               <bold>avontas@vilabs.eu</bold>
             </p>
           </li>
         </ol>
         <p>
-          By clicking on Accept button, I confirm that I have read, understood
-          and agree to the Privacy Policy above
+          Facendo clic sul pulsante Accetta, confermo di aver letto, compreso e
+          accetta l'informativa sulla privacy di cui sopra
         </p>
       </div>
     ),
