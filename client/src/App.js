@@ -49,10 +49,10 @@ const StartUpGuide = Loadable({
   loader: () => import("./components/StartUpGuide"),
   loading: () => Loading
 });
-const FaqsScreen = Loadable({
-  loader: () => import("./components/FaqsScreen"),
-  loading: () => Loading
-});
+// const FaqsScreen = Loadable({
+//   loader: () => import("./components/FaqsScreen"),
+//   loading: () => Loading
+// });
 const NoMatchScreen = Loadable({
   loader: () => import("./components/NoMatchScreen"),
   loading: () => Loading
@@ -216,7 +216,7 @@ class App extends React.Component {
               <Route path="/about" component={AboutScreen} />
               <Route path="/signup" component={SignUpScreen} />
               <Route path="/login" component={LogInScreen} />
-              <Route path="/faqs" component={FaqsScreen} />
+              {/* <Route path="/faqs" component={FaqsScreen} /> */}
               <Route path="/forgotpsw" component={ForgotPasswordScreen} />
               <Route
                 path="/changepsw/:token"
