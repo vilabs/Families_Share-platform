@@ -228,23 +228,23 @@ class CreateActivityStepper extends React.Component {
   formatDataToEvents = (information, dates, timeslots, groupId) => {
     const events = [];
     dates.selectedDays.forEach((date, index) => {
-      const dstart = moment(date);
-      const dend = moment(date);
+      const dstart = new Date(date);
+      const dend = new Date(date);
       timeslots.activityTimeslots[index].forEach(timeslot => {
         const { startTime, endTime } = timeslot;
-        dstart.hours(startTime.substr(0, startTime.indexOf(":")));
-        dstart.minutes(
+        dstart.setHours(startTime.substr(0, startTime.indexOf(":")));
+        dstart.setMinutes(
           startTime.substr(startTime.indexOf(":") + 1, startTime.length - 1)
         );
-        dend.hours(endTime.substr(0, endTime.indexOf(":")));
-        dend.minutes(
+        dend.setHours(endTime.substr(0, endTime.indexOf(":")));
+        dend.setMinutes(
           endTime.substr(endTime.indexOf(":") + 1, endTime.length - 1)
         );
         if (
           startTime.substr(0, startTime.indexOf(":")) >
           endTime.substr(0, endTime.indexOf(":"))
         ) {
-          dend.add(1, "d");
+          dend.setDate(dend.getDate() + 1);
         }
         const event = {
           description: timeslot.description,
