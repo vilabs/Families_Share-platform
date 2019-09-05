@@ -2,7 +2,6 @@ const PDFDocument = require('pdfkit')
 const fs = require('fs')
 const Profile = require('../models/profile')
 const Child = require('../models/child')
-const moment = require('moment')
 
 function newExportEmail (activity_name) {
   return (`<div
@@ -48,6 +47,10 @@ async function createPdf (activity, timeslots, cb) {
   for (const timeslot of timeslots) {
     const parents = await Profile.find({ user_id: { $in: JSON.parse(timeslot.extendedProperties.shared.parents) } })
     const children = await Child.find({ child_id: { $in: JSON.parse(timeslot.extendedProperties.shared.children) } })
+    const { dateTime: start } = timeslot.start
+    const { dateTime: end } = timeslot.end
+    const startDate = `${start.getMonth + 1()}-${start.getDate()}-${start.getFullYear()} ${start.getHours()}:${start.getMinutes()}}`
+    const endDate = `${start.getMonth + 1()}-${end.getDate()}-${end.getFullYear()} ${end.getHours()}:${end.getMinutes()}}`
     doc.font('Times-Roman').fontSize(14).text(`Name: ${timeslot.summary || ''}`, {
       align: 'left'
     })
@@ -57,10 +60,10 @@ async function createPdf (activity, timeslots, cb) {
     doc.font('Times-Roman').fontSize(14).text(`Location: ${timeslot.location}`, {
       align: 'left'
     })
-    doc.font('Times-Roman').fontSize(14).text(`Start time: ${moment(timeslot.start.dateTime).format('DD MMMM YYYY HH:mm')}`, {
+    doc.font('Times-Roman').fontSize(14).text(`Start time: ${startDate}`, {
       align: 'left'
     })
-    doc.font('Times-Roman').fontSize(14).text(`End time: ${moment(timeslot.end.dateTime).format('DD MMMM YYYY HH:mm')}`, {
+    doc.font('Times-Roman').fontSize(14).text(`End time: ${endDate}`, {
       align: 'left'
     })
     doc.font('Times-Roman').fontSize(14).text(`Cost: ${timeslot.extendedProperties.shared.cost}`, {

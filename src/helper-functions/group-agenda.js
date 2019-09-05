@@ -1,5 +1,4 @@
 const Excel = require('exceljs')
-const moment = require('moment')
 
 function newGroupAgendaEmail (groupName) {
   return (`<div
@@ -89,12 +88,14 @@ async function createExcel (group, activities, events, cb) {
       const requiredChildren = event.extendedProperties.shared.requiredChildren
       const parents = JSON.parse(event.extendedProperties.shared.parents)
       const children = JSON.parse(event.extendedProperties.shared.children)
+      const { dateTime: start } = event.start
+      const { dateTime: end } = event.end
       await sheet.addRow({
         activity: activity.name,
         event: event.summary,
-        date: moment(event.start.dateTime).format('DD-MM-YY'),
-        start: moment(event.start.dateTime).format('hh:mm a'),
-        end: moment(event.end.dateTime).format('hh:mm a'),
+        date: `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()}}`,
+        start: `${start.getHours()}:${start.getMinutes()}`,
+        end: `${end.getHours()}:${end.getMinutes()}`,
         description: event.description,
         location: event.location,
         cost: event.extendedProperties.shared.cost,
