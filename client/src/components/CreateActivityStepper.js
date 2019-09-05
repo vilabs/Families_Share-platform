@@ -251,11 +251,11 @@ class CreateActivityStepper extends React.Component {
           location: timeslot.location,
           summary: timeslot.name,
           start: {
-            dateTime: dstart.toISOString(),
+            dateTime: dstart,
             date: null
           },
           end: {
-            dateTime: dend.toISOString(),
+            dateTime: dend,
             date: null
           },
           extendedProperties: {
