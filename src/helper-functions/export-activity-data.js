@@ -49,8 +49,10 @@ async function createPdf (activity, timeslots, cb) {
     const children = await Child.find({ child_id: { $in: JSON.parse(timeslot.extendedProperties.shared.children) } })
     const start = new Date(timeslot.start.dateTime)
     const end = new Date(timeslot.end.dateTime)
-    const startDate = `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()} ${start.toLocaleTimeString()}`
-    const endDate = `${start.getMonth() + 1}-${end.getDate()}-${end.getFullYear()} ${end.toLocaleTimeString()}`
+    const originalStart = timeslot.extendedProperties.shared.start
+    const originalEnd = timeslot.extendedProperties.shared.end
+    const startDate = `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()} ${originalStart}:${start.getMinutes()}}`
+    const endDate = `${start.getMonth() + 1}-${end.getDate()}-${end.getFullYear()} ${originalEnd}:${end.getMinutes()}`
     doc.font('Times-Roman').fontSize(14).text(`Name: ${timeslot.summary || ''}`, {
       align: 'left'
     })

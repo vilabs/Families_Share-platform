@@ -268,7 +268,9 @@ class CreateActivityStepper extends React.Component {
               status: "proposed",
               activityColor: information.color,
               groupId,
-              repetition: dates.repetition ? dates.repetitionType : "none"
+              repetition: dates.repetition ? dates.repetitionType : "none",
+              start: startTime.substr(0, startTime.indexOf(":")),
+              end: endTime.substr(0, startTime.indexOf(":"))
             }
           }
         };
