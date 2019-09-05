@@ -51,7 +51,7 @@ async function createPdf (activity, timeslots, cb) {
     const end = new Date(timeslot.end.dateTime)
     const originalStart = timeslot.extendedProperties.shared.start || start.getHours()
     const originalEnd = timeslot.extendedProperties.shared.end || end.getHours()
-    const startDate = `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()} ${originalStart}:${start.getMinutes()}}`
+    const startDate = `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()} ${originalStart}:${start.getMinutes()}`
     const endDate = `${start.getMonth() + 1}-${end.getDate()}-${end.getFullYear()} ${originalEnd}:${end.getMinutes()}`
     doc.font('Times-Roman').fontSize(14).text(`Name: ${timeslot.summary || ''}`, {
       align: 'left'

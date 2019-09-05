@@ -218,7 +218,9 @@ class EditTimeslotScreen extends React.Component {
           requiredChildren,
           status,
           parents: JSON.stringify(parents),
-          children: JSON.stringify(children)
+          children: JSON.stringify(children),
+          start: startTime.substr(0, startTime.indexOf(":")),
+          end: endTime.substr(0, endTime.indexOf(":"))
         }
       }
     };
