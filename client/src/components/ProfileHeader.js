@@ -67,6 +67,10 @@ class ProfileHeader extends React.Component {
       .delete(`/api/users/${userId}`)
       .then(response => {
         Log.info(response);
+        if (window.isNative)
+          window.ReactNativeWebView.postMessage(
+            JSON.stringify({ action: "googleLogout" })
+          );
         localStorage.removeItem("user");
         history.push("/");
       })
