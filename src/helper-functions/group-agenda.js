@@ -90,12 +90,14 @@ async function createExcel (group, activities, events, cb) {
       const children = JSON.parse(event.extendedProperties.shared.children)
       const start = new Date(event.start.dateTime)
       const end = new Date(event.end.dateTime)
+      const originalStart = event.extendedProperties.shared.start || start.getHours()
+      const originalEnd = event.extendedProperties.shared.end || end.getHours()
       await sheet.addRow({
         activity: activity.name,
         event: event.summary,
         date: `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()}}`,
-        start: `${start.getHours()}:${start.getMinutes()}`,
-        end: `${end.getHours()}:${end.getMinutes()}`,
+        start: `${originalStart}:${start.getMinutes()}`,
+        end: `${originalEnd}:${end.getMinutes()}`,
         description: event.description,
         location: event.location,
         cost: event.extendedProperties.shared.cost,
