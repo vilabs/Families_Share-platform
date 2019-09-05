@@ -88,8 +88,8 @@ async function createExcel (group, activities, events, cb) {
       const requiredChildren = event.extendedProperties.shared.requiredChildren
       const parents = JSON.parse(event.extendedProperties.shared.parents)
       const children = JSON.parse(event.extendedProperties.shared.children)
-      const { dateTime: start } = event.start
-      const { dateTime: end } = event.end
+      const start = new Date(event.start.dateTime)
+      const end = new Date(event.end.dateTime)
       await sheet.addRow({
         activity: activity.name,
         event: event.summary,
