@@ -12,7 +12,8 @@ class AboutScreen extends React.Component {
     this.state = {
       aboutCollapsed: false,
       challengeCollapsed: false,
-      solutionCollapsed: false
+      solutionCollapsed: false,
+      policyCollapsed: false
     };
   }
 
@@ -31,10 +32,12 @@ class AboutScreen extends React.Component {
     const {
       aboutCollapsed,
       solutionCollapsed,
-      challengeCollapsed
+      challengeCollapsed,
+      policyCollapsed
     } = this.state;
     const { history, language } = this.props;
     const texts = Texts[language].aboutScreen;
+    const policy = Texts[language].privacyPolicyModal.privacyPolicy;
     return (
       <div>
         <BackNavigation
@@ -140,6 +143,36 @@ class AboutScreen extends React.Component {
             style={solutionCollapsed ? {} : { display: "none" }}
           >
             <p>{texts.fourthParagraph}</p>
+          </div>
+          <div className="row no-gutters">
+            <div className="col-9-10">
+              <h1>{texts.privacyPolicy}</h1>
+            </div>
+            <div className="col-1-10">
+              <button
+                type="button"
+                className="transparentButton"
+                onClick={() =>
+                  this.setState({
+                    policyCollapsed: !policyCollapsed
+                  })
+                }
+              >
+                <i
+                  className={
+                    policyCollapsed
+                      ? "fas fa-chevron-up"
+                      : "fas fa-chevron-down"
+                  }
+                />
+              </button>
+            </div>
+          </div>
+          <div
+            className="row no-gutters"
+            style={policyCollapsed ? {} : { display: "none" }}
+          >
+            <p>{policy}</p>
           </div>
           {window.isNative ? (
             <div className="row no-gutters">

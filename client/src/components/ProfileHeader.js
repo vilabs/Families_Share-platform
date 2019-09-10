@@ -48,11 +48,13 @@ class ProfileHeader extends React.Component {
   };
 
   handleExport = () => {
-    const { match } = this.props;
+    const { match, enqueueSnackbar, language } = this.props;
     const { profileId: userId } = match.params;
+    const texts = Texts[language].profileHeader;
     axios
       .post(`/api/users/${userId}/export`)
       .then(response => {
+        enqueueSnackbar(texts.exportSuccess, { variant: "info" });
         Log.info(response);
       })
       .catch(error => {

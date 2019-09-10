@@ -111,6 +111,7 @@ const en = {
   aboutScreen: {
     findOutMore: "FIND OUT MORE ON THE WEBSITE",
     aboutHeader: "About the project",
+    privacyPolicy: "Privacy Policy",
     familyShareSolution: "The Families_Share solution",
     firstParagraph: `Funded under the Information and Communication
 		 Technologies programme of Horizon 2020’s
@@ -906,6 +907,8 @@ const en = {
       "Are you sure you want to temporarily suspend  your account?",
     suspendSuccess:
       "Your account has been suspended temporarily. Next time you log in your account will be reactivated.",
+    exportSuccess:
+      "You will soon receive an e-mail with all your personal information",
     error: "Something went wrong."
   },
   replyBar: {
@@ -1266,6 +1269,7 @@ const nl = {
   aboutScreen: {
     findOutMore: "LEES MEER OP DE WEBSITE",
     aboutHeader: "Over het project",
+    privacyPolicy: "Privacybeleid",
     familyShareSolution: "De Families Share oplossing",
     firstParagraph:
       "Gesubsideerd binnen het informatie en communicatie technologie programma van het Horizon 2020 project en zijn oproep naar collectieve bewustzijnsplatformen voor duurzaamheid en sociale innovatie, creëert het Families Share project een sociaal netwerk en bewustzijns platform dat zich toelegt op het aanmoedigen van gedeelde kinderopvang en work/life balance. Het platform maakt gebruik van buurtnetwerken en stelt burgers in staat om samen te komen voor het delen van taken, tijd en skills die relevant zijn voor kinderopvang en naschoolse opvang / educatie.",
@@ -1998,6 +2002,8 @@ const nl = {
       "Weet je zeker dat je je account tijdelijk wilt opschorten?",
     suspendSuccess:
       "Uw account is tijdelijk opgeschort. De volgende keer dat u inlogt, wordt uw account opnieuw geactiveerd.",
+    exportSuccess:
+      "U ontvangt binnenkort een e-mail met al uw persoonlijke gegevens",
     error: "Er is iets fout gegaan."
   },
   replyBar: {
@@ -2341,6 +2347,7 @@ const it = {
   },
   aboutScreen: {
     findOutMore: "SCOPRI DI PIÙ SUL SITO",
+    privacyPolicy: "Informativa privacy",
     aboutHeader: "Il progetto",
     familyShareSolution: "La soluzione proposta da Families_Share",
     firstParagraph:
@@ -3072,6 +3079,8 @@ const it = {
       "Sei sicuro di voler sospendere temporaneamente il tuo account?",
     suspendSuccess:
       "Il tuo account è stato sospeso temporaneamente. La prossima volta che accedi al tuo account verrà riattivato.",
+    exportSuccess:
+      "Presto riceverai un'e-mail con tutte le tue informazioni personali",
     error: "Qualcosa è andato storto."
   },
   replyBar: {
@@ -3431,6 +3440,7 @@ const el = {
   aboutScreen: {
     findOutMore: "ΜΑΘΕΤΕ ΠΕΡΙΣΣΟΤΕΡΑ ΣΤΗΝ ΙΣΤΟΣΕΛΙΔΑ ΜΑΣ",
     aboutHeader: "Σχετικά με το πρόγραμμα",
+    privacyPolicy: "Πολιτική απορρήτου",
     familyShareSolution: "Η λύση Families_Share",
     firstParagraph:
       'Χρηματοδοτούμενο από το πρόγραμμα "Τεχνολογίες της πληροφορίας και της επικοινωνίας" της συνιστώσας "Βιομηχανική ηγεσία" του προγράμματος Horizon 2020 και από την έκκλησή του για συλλογικές πλατφόρμες ευαισθητοποίησης για την αειφορία και την κοινωνική καινοτομία, το πρόγραμμα Families_Share αναπτύσσει μια πλατφόρμα κοινωνικής δικτύωσης και ευαισθητοποίησης αφιερωμένη στην ενθάρρυνση της φροντίδας των παιδιών και της ισορροπίας μεταξύ εργασίας και προσωπικής ζωής. Η πλατφόρμα αξιοποιεί τα δίκτυα γειτονιάς και δίνει τη δυνατότητα στους πολίτες να συναντώνται για να μοιράζονται τα καθήκοντα, τον χρόνο και τις δεξιότητες που σχετίζονται με την παιδική μέριμνα και την παιδεία / ψυχαγωγία μετά το σχολείο, όπου αυτές έχουν γίνει μη προσβάσιμες σε περιόδους στασιμότητας και λιτότητας.',
@@ -4170,6 +4180,8 @@ const el = {
       "Είστε σίγουροι ότι θέλετε να αναστείλετε προσωρινά το προφίλ σας;",
     suspendSuccess:
       "Ο λογαριασμός σας απενεργοποιήθηκε προσωρινά. Την επόμενη φορά που θα συνδεθείτε θα επανεργοποιηθεί.",
+    exportSuccess:
+      "Θα λάβετε σύντομα ένα e-mail με όλα τα προσωπικά σας δεδομένα",
     error: "Κάτι πήγε στραβά."
   },
   replyBar: {
@@ -4520,6 +4532,7 @@ const hu = {
   },
   aboutScreen: {
     findOutMore: "További információért, kérjük látogasson el a honlapra",
+    privacyPolicy: "Adatvédelmi Irányelvek",
     aboutHeader: "A projektről",
     familyShareSolution: "A Families_Share megoldás",
     firstParagraph:
@@ -5302,6 +5315,7 @@ const hu = {
     suspendDialogTitle: "Biztosan szeretné időlegesen felfüggeszteni fiókját?",
     suspendSuccess:
       "Fiókját átmenetileg felfüggesztettük. A következő bejelentkezés alkalmával fiókja aktiválásra kerül.",
+    exportSuccess: "Hamarosan e-mailt fog kapni az összes személyes adatról",
     error: "Hiba történt"
   },
   replyBar: {
