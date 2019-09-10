@@ -746,7 +746,8 @@ const en = {
       "You are not yet in a group, use the lateral menu to find one",
     myActivitiesPrompt:
       "Here you will see your future activities after you have signed up for one or more groups",
-    groupsPrompt: "JOIN OR CREATE A GROUP"
+    joinPrompt: "JOIN GROUP",
+    createPrompt: "CREATE GROUP"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -1885,7 +1886,8 @@ const nl = {
       "Je bent nog niet in een groep, gebruik het laterale menu om er een te vinden",
     myActivitiesPrompt:
       "Hier ziet u uw toekomstige activiteiten nadat u zich heeft aangemeld voor een of meer groepen",
-    groupsPrompt: "DOE MEE OF MAAK EEN GROEP"
+    joinPrompt: "DEELNEMEN AAN GROEP",
+    createPrompt: "CREËER GROEP"
   },
   faqsScreen: {
     backNavTitle: "FAQ's",
@@ -2952,7 +2954,8 @@ const it = {
       "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
     myActivitiesPrompt:
       "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
-    groupsPrompt: "ISCRIVITI O CREA UN GRUPPO"
+    joinPrompt: "UNIRSI AL GRUPPO",
+    createPrompt: "CREARE UN GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs",
@@ -4049,7 +4052,8 @@ const el = {
       "Δεν έχετε γίνει μέλος κάποια ομάδας ακόμη, χρησιμοποιείστε το πλαϊνό μενού για να βρείτε μια ομάδα",
     myActivitiesPrompt:
       "Εδώ θα βλέπετε μελλοντικά τις δραστηριότητες, στις οποίες έχετε εγγραφεί.",
-    groupsPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ Η ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ"
+    joinPrompt: "ΓΙΝΕΤΕ ΜΕΛΟΣ ΜΙΑΣ ΟΜΑΔΑΣ",
+    createPrompt: "ΔΗΜΙΟΥΡΓΕΙΣΤΕ ΜΙΑ ΝΕΑ ΟΜΑΔΑ"
   },
   faqsScreen: {
     backNavTitle: "Συχνές ερωτήσεις",
@@ -5169,7 +5173,8 @@ const hu = {
       "Még nincs csoportja, használja az alábbi menüt a csoport megtalálására",
     myActivitiesPrompt:
       "Itt láthatja a jövőbeli tevékenységeit miután feiratkozott egy vagy több csoportba",
-    groupsPrompt: "Új csoporthoz történő csatlakozás vagy létrehozás"
+    joinPrompt: "CSAPATHOZ CSATLAKOZNI",
+    createPrompt: "CSOPORT LETREHOZASA"
   },
   faqsScreen: {
     backNavTitle: "GYIK",

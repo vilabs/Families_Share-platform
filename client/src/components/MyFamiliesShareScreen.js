@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import MyFamiliesShareHeader from "./MyFamiliesShareHeader";
 import withLanguage from "./LanguageContext";
 import GroupList from "./GroupList";
@@ -124,13 +125,31 @@ class MyFamiliesShareScreen extends React.Component {
   };
 
   renderPromptAction = () => {
-    const { language } = this.props;
+    const {
+      language,
+      history: { push: pushHistory }
+    } = this.props;
     const texts = Texts[language].myFamiliesShareScreen;
     const { myGroups } = this.state;
     if (myGroups.length === 0) {
       return (
         <div className="myPromptSection">
-          <div className="myPromptAction">{texts.groupsPrompt}</div>
+          <div className="myPromptActionsContainer">
+            <button
+              type="button"
+              className="myPromptAction"
+              onClick={() => pushHistory("/groups/search")}
+            >
+              {texts.joinPrompt}
+            </button>
+            <button
+              type="button"
+              className="myPromptAction"
+              onClick={() => pushHistory("/groups/create")}
+            >
+              {texts.createPrompt}
+            </button>
+          </div>
           <img
             className="myPromptImage"
             src={Images.promptImage}
@@ -165,7 +184,8 @@ class MyFamiliesShareScreen extends React.Component {
 }
 
 MyFamiliesShareScreen.propTypes = {
-  language: PropTypes.string
+  language: PropTypes.string,
+  history: PropTypes.object
 };
 
-export default withLanguage(MyFamiliesShareScreen);
+export default withLanguage(withRouter(MyFamiliesShareScreen));

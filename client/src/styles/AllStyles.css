@@ -2416,12 +2416,22 @@ a:active {
   width: 25rem;
   height: 25rem;
 }
+.myPromptActionsContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  height: 10rem;
+}
 .myPromptAction {
+  height: 4rem;
+  border: none;
   text-align: center;
-  width: 22rem;
   line-height: 3rem;
   color: white;
   background-color: #00838f;
+  border-radius: 5px;
+  margin: 10 0;
 }
 #myFamiliesShareHeaderContainer {
   z-index: 100;
@@ -2582,13 +2592,13 @@ a:active {
   font-weight: 400;
   color: rgba(0, 0, 0, 0.9);
 }
-#termsAndPolicyMain li{
+#termsAndPolicyMain li {
   text-align: left;
   font-size: 1.8rem;
   font-weight: 400;
   color: rgba(0, 0, 0, 0.9);
 }
-#termsAndPolicyMain bold{
+#termsAndPolicyMain bold {
   color: #00838f;
   cursor: initial;
 }
@@ -3009,7 +3019,7 @@ a:active {
   display: flex;
   flex: 1;
 }
-.selectChartsContainer select{
+.selectChartsContainer select {
   margin-right: 2rem;
 }
 .chartsSelect {
