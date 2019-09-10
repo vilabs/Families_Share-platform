@@ -25,8 +25,6 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Log from "./Log";
 
-Papa.RemoteChunkSize = "10MB";
-
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true
@@ -56,7 +54,7 @@ class CommunityInterface extends React.Component {
   async componentDidMount() {
     const metricsResponse = await axios.get("/api/community");
     const dataResponse = await axios.get("/api/community/data");
-    const parsedData = this.parseAnalytics(dataResponse.data);
+    const parsedData = await this.parseAnalytics(dataResponse.data);
     const { analytics, configurations } = metricsResponse.data;
     this.setState({
       analytics,
@@ -68,11 +66,20 @@ class CommunityInterface extends React.Component {
     });
   }
 
-  parseAnalytics = data => {
-    const parsedData = Papa.parse(data, { delimiter: " " });
-    parsedData.data.shift();
-    parsedData.data.pop();
-    return parsedData.data;
+  parseAnalytics = async data => {
+    return new Promise((resolve, reject) => {
+      Papa.parse(data, {
+        delimiter: " ",
+        complete: res => {
+          if (res.errors) return reject(res.errors);
+          const parsedData = res.data;
+          console.log(parsedData);
+          parsedData.shift();
+          parsedData.pop();
+          return resolve(parsedData);
+        }
+      });
+    });
   };
 
   handleBackNav = () => {
