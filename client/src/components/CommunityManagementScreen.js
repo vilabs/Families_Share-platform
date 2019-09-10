@@ -68,6 +68,7 @@ class CommunityInterface extends React.Component {
 
   parseAnalytics = data => {
     const parsedData = Papa.parse(data, { delimiter: " " });
+    console.log(parsedData);
     parsedData.data.shift();
     parsedData.data.pop();
     return parsedData.data;
