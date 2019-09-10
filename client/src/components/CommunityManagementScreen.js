@@ -25,6 +25,8 @@ import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import Log from "./Log";
 
+Papa.RemoteChunkSize = "10MB";
+
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true
@@ -67,11 +69,9 @@ class CommunityInterface extends React.Component {
   }
 
   parseAnalytics = data => {
-    console.log(data);
     const parsedData = Papa.parse(data, { delimiter: " " });
     parsedData.data.shift();
     parsedData.data.pop();
-    console.log(parsedData.data);
     return parsedData.data;
   };
 
