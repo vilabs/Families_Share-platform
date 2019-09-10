@@ -56,8 +56,6 @@ class CommunityInterface extends React.Component {
     const dataResponse = await axios.get("/api/community/data");
     const parsedData = this.parseAnalytics(dataResponse.data);
     const { analytics, configurations } = metricsResponse.data;
-    console.log("initial chart Month");
-    console.log(moment().format("MMMM-YYYY"));
     this.setState({
       analytics,
       configurations,
@@ -69,9 +67,11 @@ class CommunityInterface extends React.Component {
   }
 
   parseAnalytics = data => {
+    console.log(data);
     const parsedData = Papa.parse(data, { delimiter: " " });
     parsedData.data.shift();
     parsedData.data.pop();
+    console.log(parsedData.data);
     return parsedData.data;
   };
 
@@ -151,8 +151,6 @@ class CommunityInterface extends React.Component {
 
   renderCharts = () => {
     const { analyticsData, chartMonth, chartNumber } = this.state;
-    console.log("Analytics Data");
-    console.log(analyticsData);
     const { language } = this.props;
     const texts = Texts[language].communityInterface;
     const charts = [...Array(analyticsData[0].length - 1).keys()];
@@ -160,8 +158,6 @@ class CommunityInterface extends React.Component {
       date: value[0],
       value: parseInt(value[parseInt(chartNumber, 10) + 1], 10)
     }));
-    console.log("charts data");
-    console.log(chartsData);
     const monthlyData = chartsData.filter(
       value => moment(value.date).format("MMMM-YYYY") === chartMonth
     );
@@ -176,14 +172,11 @@ class CommunityInterface extends React.Component {
             onChange={this.handleSelectChange}
             name="chartNumber"
           >
-            {charts.map(d => {
-              console.log(d);
-              return (
-                <option key={d} value={d}>
-                  {texts.charts[d]}
-                </option>
-              );
-            })}
+            {charts.map(d => (
+              <option key={d} value={d}>
+                {texts.charts[d]}
+              </option>
+            ))}
           </select>
           <select
             className="chartsSelect"
@@ -195,14 +188,11 @@ class CommunityInterface extends React.Component {
               ...new Set(
                 chartsData.map(data => moment(data.date).format("MMMM-YYYY"))
               )
-            ].map(d => {
-              console.log(d);
-              return (
-                <option key={d} value={d}>
-                  {d}
-                </option>
-              );
-            })}
+            ].map(d => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
           </select>
         </div>
         <ResponsiveContainer width="80%" height={300}>
