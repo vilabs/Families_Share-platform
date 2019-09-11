@@ -55,6 +55,7 @@ class CommunityInterface extends React.Component {
     const metricsResponse = await axios.get("/api/community");
     const dataResponse = await axios.get("/api/community/data");
     const parsedData = this.parseAnalytics(dataResponse.data);
+    console.log(typeof dataResponse.data);
     const { analytics, configurations } = metricsResponse.data;
     this.setState({
       analytics,
@@ -68,9 +69,10 @@ class CommunityInterface extends React.Component {
 
   parseAnalytics = data => {
     const parsedData = Papa.parse(data, { delimiter: " " });
-    console.log(parsedData);
+    console.log(parsedData.data);
     parsedData.data.shift();
     parsedData.data.pop();
+    console.log(parsedData.data);
     return parsedData.data;
   };
 
