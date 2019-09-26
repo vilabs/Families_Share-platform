@@ -2448,6 +2448,12 @@ a:active {
   text-align: left;
   color: #ffffff;
 }
+
+#myFamiliesShareHeaderContainer .col-6-10 {
+  display: flex;
+  position: relative;
+  align-items: center;
+}
 #myFamiliesShareHeaderContainer i {
   font-size: 2rem;
   color: #ffffff;
@@ -2492,6 +2498,9 @@ a:active {
   height: 100%;
   padding: 0 0;
   max-width: 5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
   max-height: 5rem;
 }
 #drawerMenuContainer i {

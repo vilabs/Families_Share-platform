@@ -432,14 +432,12 @@ class MyFamiliesShareHeader extends React.Component {
             </button>
           </div>
           <div className="col-6-10">
-            <h1 className="verticalCenter" onClick={this.sendMeNotification}>
-              {texts.header}
-            </h1>
+            <h1 onClick={this.sendMeNotification}>{texts.header}</h1>
           </div>
           <div className="col-1-10">
             <button
               type="button"
-              className="transparentButton center"
+              className="transparentButton"
               onClick={this.handlePendingInvites}
             >
               <i className="fas fa-user-friends">
@@ -452,7 +450,7 @@ class MyFamiliesShareHeader extends React.Component {
           <div className="col-1-10">
             <button
               type="button"
-              className="transparentButton center"
+              className="transparentButton"
               onClick={
                 notificationModalIsOpen
                   ? this.handleNotificationsClose
