@@ -34,7 +34,16 @@ class LanguageProvider extends React.Component {
     const { dispatch } = this.props;
     dispatch(languageActions.update(language));
     this.setState({ language });
-    moment.locale(language);
+    if (process.env.REACT_APP_CITYLAB === "Budapest") {
+      moment.locale(language, {
+        week: {
+          dow: 1,
+          doy: 1
+        }
+      });
+    } else {
+      moment.locale(language);
+    }
   };
 
   render() {
