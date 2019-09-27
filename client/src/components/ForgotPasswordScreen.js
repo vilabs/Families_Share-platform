@@ -39,8 +39,8 @@ class ForgotPasswordScreen extends React.Component {
             snackMessage = Texts[language].forgotPasswordScreen.notExistErr;
           } else {
             snackMessage = Texts[language].forgotPasswordScreen.err;
-            enqueueSnackbar(snackMessage, { variant: "error" });
           }
+          enqueueSnackbar(snackMessage, { variant: "error" });
         })
         .then(() => {
           this.setState({ sendingEmail: false });
