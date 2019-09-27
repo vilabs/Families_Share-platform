@@ -381,10 +381,10 @@ router.post('/forgotpassword', async (req, res, next) => {
         token
       })
     }
-    await transporter.sendMail(mailOptions)
+    const mailerRes = await transporter.sendMail(mailOptions)
+    console.log(mailerRes)
     res.status(200).send('Forgot password email was sent')
   } catch (error) {
-    console.log(error)
     next(error)
   }
 })
