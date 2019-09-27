@@ -363,6 +363,7 @@ router.post('/forgotpassword', async (req, res, next) => {
     if (!user) {
       return res.status(404).send("User doesn't exist")
     }
+    console.log(user)
     const token = await jwt.sign({ user_id: user.user_id, email }, process.env.SERVER_SECRET, { expiresIn: 60 * 60 * 24 })
     const mailOptions = {
       from: process.env.SERVER_MAIL,
@@ -371,6 +372,7 @@ router.post('/forgotpassword', async (req, res, next) => {
       html: hf.newForgotPasswordEmail(token)
     }
     const reset = await Password_Reset.findOne({ user_id: user.user_id, email })
+    console.log(reset)
     if (reset) {
       reset.token = token
       await reset.save()
@@ -381,8 +383,11 @@ router.post('/forgotpassword', async (req, res, next) => {
         token
       })
     }
-    const mailerRes = await transporter.sendMail(mailOptions)
-    console.log(mailerRes)
+    console.log(reset)
+    await transporter.sendMail(mailOptions, (err, info) => {
+      if (err) console.log(err)
+      console.log(info)
+    })
     res.status(200).send('Forgot password email was sent')
   } catch (error) {
     next(error)
