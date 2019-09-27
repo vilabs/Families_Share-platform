@@ -359,6 +359,7 @@ router.get('/changepasswordredirect/:token', (req, res) => {
 router.post('/forgotpassword', async (req, res, next) => {
   const { email } = req.body
   try {
+    console.log(email)
     const user = await User.findOne({ email })
     if (!user) {
       return res.status(404).send("User doesn't exist")
