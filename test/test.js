@@ -54,7 +54,9 @@ const initializeDB = async () => {
     visible: true,
     location: 'Kuala lumpur',
     owner_id: user.user_id,
-    invite_ids: []
+    invite_ids: [],
+    contact_type: 'email',
+    contact_info: 'yolo@email.com'
   }
   const group3 = {
     name: 'Test Group 3',
@@ -62,7 +64,9 @@ const initializeDB = async () => {
     visible: true,
     location: 'Kuala lumpur',
     owner_id: user.user_id,
-    invite_ids: []
+    invite_ids: [],
+    contact_type: 'phone',
+    contact_info: '65485748'
   }
   await chai.request(server).post('/api/groups').send(group2).set('Authorization', user.token)
   await chai.request(server).post('/api/groups').send(group3).set('Authorization', user.token)

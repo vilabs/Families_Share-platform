@@ -160,7 +160,9 @@ router.post('/', async (req, res, next) => {
     location,
     name,
     visible,
-    owner_id
+    owner_id,
+    contact_type,
+    contact_info
   } = req.body
   if (
     !(
@@ -168,6 +170,8 @@ router.post('/', async (req, res, next) => {
       description &&
       location &&
       name &&
+      contact_type &&
+      contact_info &&
       visible !== undefined &&
       owner_id
     )
@@ -189,6 +193,8 @@ router.post('/', async (req, res, next) => {
     background: '#00838F',
     location,
     owner_id,
+    contact_info,
+    contact_type,
     settings_id,
     image_id
   }
@@ -308,9 +314,9 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
   }
   const { file } = req
   const { id } = req.params
-  const { visible, name, description, location, background } = req.body
+  const { visible, name, description, location, background, contact_type, contact_info } = req.body
   if (
-    !(visible !== undefined && name && description && location && background)
+    !(visible !== undefined && name && description && location && background && contact_type && contact_info)
   ) {
     return res.status(400).send('Bad Request')
   }
@@ -319,7 +325,9 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
     name,
     description,
     background,
-    location
+    location,
+    contact_info,
+    contact_type
   }
   try {
     const edittingUser = await Member.findOne({

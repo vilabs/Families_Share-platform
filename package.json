@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./src/index.js",
-    "test": "nyc mocha --timeout 20000 --exit",
+    "test": "nyc --reporter=lcov --reporter=text-summary mocha --timeout 20000 --exit",
     "lint": "./node_modules/.bin/eslint src",
     "dev-server": "supervisor src/index.js",
     "dev-client": "npm start --prefix client",

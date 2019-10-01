@@ -46,7 +46,9 @@ const getGroup = groupId => {
         group_id: "",
         image: { path: "" },
         description: "",
-        location: ""
+        location: "",
+        contact_info: "",
+        contact_type: "phone"
       };
     });
 };
@@ -77,6 +79,10 @@ class EditGroupScreen extends React.Component {
     const settings = await getGroupSettings(groupId);
     groups.forEach(item => groupNames.push(item.name));
     groupNames.splice(groupNames.indexOf(group.name), 1);
+    group.contactInfo = group.contact_info;
+    group.contactType = group.contact_type;
+    delete group.contact_info;
+    delete group.contact_type;
     this.setState({
       fetchedGroupData: true,
       ...group,
@@ -140,13 +146,17 @@ class EditGroupScreen extends React.Component {
       name,
       background,
       location,
-      group_id
+      group_id,
+      contactInfo,
+      contactType
     } = this.state;
     const { history } = this.props;
     const bodyFormData = new FormData();
     if (file !== undefined) {
       bodyFormData.append("photo", file);
     }
+    bodyFormData.append("contact_type", contactType);
+    bodyFormData.append("contact_info", contactInfo);
     bodyFormData.append("visible", visible);
     bodyFormData.append("name", name);
     bodyFormData.append("description", description);
@@ -197,6 +207,13 @@ class EditGroupScreen extends React.Component {
     this.setState({ visible });
   };
 
+  handleContactType = event => {
+    const {
+      target: { name, value }
+    } = event;
+    this.setState({ [name]: value, contactInfo: "" });
+  };
+
   handleChange = event => {
     const { language } = this.props;
     const { groupNames } = this.state;
@@ -228,10 +245,13 @@ class EditGroupScreen extends React.Component {
       background,
       location,
       visible,
+      contactInfo,
+      contactType,
       name,
       image,
       description
     } = this.state;
+    console.log(contactType);
     const texts = Texts[language].editGroupScreen;
     const formClass = [];
     if (formIsValidated) {
@@ -384,6 +404,44 @@ class EditGroupScreen extends React.Component {
                     onChange={this.handleChange}
                   />
                   <span className="invalid-feedback" id="locationErr" />
+                </div>
+              </div>
+              <div
+                className="row no-gutters"
+                style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
+              >
+                <div className="col-2-10">
+                  <i
+                    className={`fas fa-${
+                      contactType === "phone" ? "phone" : "envelope"
+                    } center`}
+                  />
+                </div>
+                <div className="col-3-10">
+                  <select
+                    value={contactType}
+                    onChange={this.handleContactType}
+                    className="editGroupInputField center"
+                    name="contactType"
+                  >
+                    <option value="phone">{texts.phone}</option>
+                    <option value="email">{texts.email}</option>
+                  </select>
+                </div>
+                <div className="col-2-10">
+                  <i className="fas fa-info-circle center" />
+                </div>
+                <div className="col-3-10">
+                  <input
+                    type="text"
+                    value={contactInfo}
+                    className="form-control editGroupInputField"
+                    required
+                    name="contactInfo"
+                    placeholder={texts.contactInfo}
+                    onChange={this.handleChange}
+                  />
+                  <span className="invalid-feedback" id="contactInfoErr" />
                 </div>
               </div>
             </div>

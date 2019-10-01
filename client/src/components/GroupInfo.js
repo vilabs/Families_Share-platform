@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import * as path from "lodash.get";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { withSnackbar } from "notistack";
 import GroupAbout from "./GroupAbout";
 import GroupHeader from "./GroupHeader";
 import Card from "./CardWithLink";
@@ -125,6 +127,27 @@ class GroupInfo extends React.Component {
     this.setState({ confirmIsOpen: false });
   };
 
+  handleContact = () => {
+    const { language, enqueueSnackbar } = this.props;
+    const texts = Texts[language].groupInfo;
+    const { contactType, contactInfo } = this.state;
+    if (window.isNative) {
+      if (contactType === "phone") {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({ action: "phoneCall", value: contactInfo })
+        );
+      } else {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({ action: "sendEmail", value: contactInfo })
+        );
+      }
+    } else {
+      enqueueSnackbar(texts.contactMessage, {
+        variant: "info"
+      });
+    }
+  };
+
   renderJoinButton = () => {
     const { language } = this.props;
     const { groupAccepted, userAccepted, group } = this.state;
@@ -173,7 +196,8 @@ class GroupInfo extends React.Component {
       name: groupName,
       group_id: groupId,
       background: groupBackground,
-      description: groupInfo
+      description: groupInfo,
+      contact_info: contactInfo
     } = group;
     const texts = Texts[language].groupInfo;
     return fetchedGroupInfo ? (
@@ -201,6 +225,15 @@ class GroupInfo extends React.Component {
             />
           )}
           {this.renderJoinButton()}
+          <CopyToClipboard text={contactInfo}>
+            <button
+              type="button"
+              onClick={this.handleContact}
+              className="joinGroupButton"
+            >
+              {texts.contact}
+            </button>
+          </CopyToClipboard>
           <ConfirmDialog
             isOpen={confirmIsOpen}
             title={texts.confirm}
@@ -213,12 +246,13 @@ class GroupInfo extends React.Component {
     );
   }
 }
-export default withLanguage(GroupInfo);
+export default withSnackbar(withLanguage(GroupInfo));
 
 GroupInfo.propTypes = {
   enableNavigation: PropTypes.func,
   group: PropTypes.object,
   language: PropTypes.string,
   history: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
 };

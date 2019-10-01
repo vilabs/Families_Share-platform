@@ -40,8 +40,15 @@ const groupSchema = new mongoose.Schema({
   owner_id: {
     type: String,
     required: true
+  },
+  contact_info: {
+    type: String,
+    required: true
+  },
+  contact_type: {
+    type: String,
+    required: true
   }
-
 }, { timestamps: true, toJSON: { virtuals: true } })
 
 groupSchema.index({ name: 1 })

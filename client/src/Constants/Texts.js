@@ -661,6 +661,8 @@ const en = {
     kids: "Kids"
   },
   groupInfo: {
+    contact: "CONTACT GROUP",
+    contactMessage: "Copied info to clipboard",
     startGuideHeader: "Don't know where to start?",
     startGuideInfo: "Look up the 7-step start-up guide",
     join: "JOIN GROUP",
@@ -836,8 +838,14 @@ const en = {
       "Provide a name and description",
       "Set the visibility",
       "Provide the location",
+      "Provide contact information",
       "Invite people"
     ],
+    contactTypes: {
+      phone: "Phone",
+      email: "E-mail"
+    },
+    contactInfo: "Please fill your contact information",
     name: "Name",
     description: "Description",
     visibleGroup: "Others can find my group",
@@ -883,6 +891,8 @@ const en = {
     requiredErr: "Please fill out this field."
   },
   editGroupScreen: {
+    phone: "Phone",
+    email: "E-mail",
     save: "SAVE",
     header: "Edit group",
     name: "Name",
@@ -1809,6 +1819,8 @@ const nl = {
     kids: "Kinderen"
   },
   groupInfo: {
+    contact: "CONTACTGROEP",
+    contactMessage: "Info gekopieerd naar klembord",
     startGuideHeader: "Geen idee waar te beginnen?",
     startGuideInfo: "Neem een kijkje in de 7-stappen gids",
     join: "Sluit je aan bij de groep",
@@ -1929,6 +1941,11 @@ const nl = {
   },
   createGroup: { backNavTitle: "Start een groep" },
   createGroupStepper: {
+    contactTypes: {
+      phone: "Telefoon",
+      email: "E-mail"
+    },
+    contactInfo: "Vul alstublieft uw contactgegevens in",
     continue: "Ga verder",
     cancel: "Annuleer",
     finish: "Voltooien",
@@ -1936,6 +1953,7 @@ const nl = {
       "Voorzie een naam en beschrijving",
       "Zet je zichtbaarheid",
       "Geef je locatie mee",
+      "Geef contactgegevens op",
       "Nodig mensen uit"
     ],
     name: "Naam",
@@ -1979,6 +1997,8 @@ const nl = {
     requiredErr: "Vul alstublieft dit veld in."
   },
   editGroupScreen: {
+    phone: "Telefoon",
+    email: "E-mail",
     save: "Opslaan",
     header: "Groep bewerken",
     name: "Naam",
@@ -2883,6 +2903,8 @@ const it = {
     kids: "Bambini"
   },
   groupInfo: {
+    contact: "GRUPPO DI CONTATTO",
+    contactMessage: "Informazioni copiate negli appunti",
     startGuideHeader: "Non sai da dove iniziare?",
     startGuideInfo: "Segui i sette passi per avviare al meglio il gruppo",
     join: "UNISCITI AL GRUPPO",
@@ -3001,6 +3023,11 @@ const it = {
   },
   createGroup: { backNavTitle: "Crea un gruppo" },
   createGroupStepper: {
+    contactInfo: "Si prega di compilare le informazioni di contatto",
+    contactTypes: {
+      email: "E-mail",
+      phone: "Telefono"
+    },
     continue: "Continua",
     cancel: "Cancella",
     finish: "Termina",
@@ -3008,6 +3035,7 @@ const it = {
       "Fornisci nome e descrizione",
       "Imposta la visibilità del gruppo",
       "Indica un luogo",
+      "Fornire informazioni di contatto",
       "Invita persone"
     ],
     name: "Nome",
@@ -3055,6 +3083,8 @@ const it = {
     requiredErr: "Perfavore compila questo campo."
   },
   editGroupScreen: {
+    email: "E-mail",
+    phone: "Telefono",
     save: "SALVA",
     header: "Modifica gruppo ",
     name: "Nome ",
@@ -3981,6 +4011,8 @@ const el = {
     kids: "Παιδιά"
   },
   groupInfo: {
+    contact: "ΕΠΙΚΟΙΝΩΝΙΑ",
+    contactMessage: "Τα στοιχεία επικοινωίας αντιγράφηκαν στο πρόχειρο",
     startGuideHeader: "Δεν ξέρετε από πού να ξεκινήσετε;",
     startGuideInfo: "Αναζητήστε τον οδηγό έναρξης 7 βημάτων",
     join: "Συμμετοχή στην ομάδα",
@@ -4108,6 +4140,11 @@ const el = {
   },
   createGroup: { backNavTitle: "Δημιουργία ομάδας" },
   createGroupStepper: {
+    contactInfo: "Παρακαλώ συμπληρώσετε τα στοιχεία επικοινωνίας σας",
+    contactTypes: {
+      email: "E-mail",
+      phone: "Τηλέφωνο"
+    },
     continue: "Συνέχεια",
     cancel: "Ακύρωση",
     finish: "Τέλος",
@@ -4115,6 +4152,7 @@ const el = {
       "Δώστε ένα όνομα και μια περιγραφή",
       "Ορίστε την ορατότητα",
       "Δώστε την τοποθεσία",
+      "Δώστε στοιχεία επικοινωνίας",
       "Προσκαλέστε άτομα"
     ],
     name: "Όνομα",
@@ -4156,6 +4194,8 @@ const el = {
     requiredErr: "Παρακαλούμε συμπληρώσετε αυτό το πεδίο."
   },
   editGroupScreen: {
+    email: "E-mail",
+    phone: "Τηλέφωνο",
     save: "ΑΠΟΘΗΚΕΥΣΗ",
     header: "Επεξεργασία ομάδας",
     name: "Όνομα",
@@ -5080,6 +5120,8 @@ const hu = {
     kids: "Gyermekek"
   },
   groupInfo: {
+    contactMessage: "Az információ másolása a vágólapra",
+    contact: "KOZLES",
     startGuideHeader: "Nem tudja hogyan kezdje el?",
     startGuideInfo:
       "Nézze meg a kezdő felhasználóknak szóló,  7 lépéses útmutatónkat!",
@@ -5239,6 +5281,11 @@ const hu = {
     backNavTitle: "Csoport létrehozása"
   },
   createGroupStepper: {
+    contactTypes: {
+      phone: "Telefon",
+      email: "E-mail"
+    },
+    contactInfo: "Kérjük, töltse ki elérhetőségét",
     continue: "Folytatás",
     cancel: "Visszavonás",
     finish: "Befejezés",
@@ -5246,6 +5293,7 @@ const hu = {
       "Adjon meg címet és leírást",
       "Adja meg a láthatóságra vonatkozó beállításokat",
       "Adjon meg helyszínt",
+      "Adjon meg elérhetőségi adatokat",
       "Emberek meghívása"
     ],
     name: "Név",
@@ -5294,6 +5342,8 @@ const hu = {
     requiredErr: "Kérjük, töltse ki ezt a mezőt"
   },
   editGroupScreen: {
+    phone: "Telefon",
+    email: "E-mail",
     save: "Mentés",
     header: "Csoport szerkesztése",
     name: "Név",

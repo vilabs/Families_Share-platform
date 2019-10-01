@@ -117,7 +117,9 @@ class CreateGroupStepper extends React.Component {
     inviteIds: [],
     groupNames: [],
     groupVisibility: false,
-    creatingGroup: false
+    creatingGroup: false,
+    contactType: "",
+    contactInfo: ""
   };
 
   componentDidMount() {
@@ -163,6 +165,8 @@ class CreateGroupStepper extends React.Component {
       groupVisibility: visible,
       inviteIds: invite_ids,
       location,
+      contactType,
+      contactInfo,
       name
     } = this.state;
     axios
@@ -172,6 +176,8 @@ class CreateGroupStepper extends React.Component {
         description,
         location,
         background: "#00838F",
+        contact_type: contactType,
+        contact_info: contactInfo,
         visible,
         owner_id: user.id,
         email: user.email,
@@ -190,7 +196,7 @@ class CreateGroupStepper extends React.Component {
   handleContinue = () => {
     const { activeStep } = this.state;
     if (this.validate()) {
-      if (activeStep === 3) {
+      if (activeStep === 4) {
         this.createGroup();
       }
       this.setState(state => ({
@@ -277,13 +283,16 @@ class CreateGroupStepper extends React.Component {
 
   getStepContent = () => {
     const { classes, language } = this.props;
+    const contactTypes = ["phone", "email"];
     const {
       activeStep,
       name,
       location,
       description,
       inviteModalIsOpen,
-      groupVisibility
+      groupVisibility,
+      contactType,
+      contactInfo
     } = this.state;
     const texts = Texts[language].createGroupStepper;
     switch (activeStep) {
@@ -353,6 +362,34 @@ class CreateGroupStepper extends React.Component {
           </div>
         );
       case 3:
+        return (
+          <div>
+            <select
+              value={contactType}
+              style={{ width: "20%!important" }}
+              className="createGroupSelectInput "
+              onChange={this.handleChange}
+              name="contactType"
+            >
+              {contactTypes.map(d => (
+                <option key={d} value={d}>
+                  {texts.contactTypes[d]}
+                </option>
+              ))}
+            </select>
+            <input
+              type="text"
+              name="contactInfo"
+              className="createGroupInput form-control"
+              placeholder={texts.contactInfo}
+              onChange={this.handleChange}
+              required
+              value={contactInfo}
+            />
+            <span className="invalid-feedback" id="contactInfoErr" />
+          </div>
+        );
+      case 4:
         return (
           <div className="row no-gutters" id="createGroupScreenInvites">
             <InviteDialog
