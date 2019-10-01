@@ -130,7 +130,9 @@ class GroupInfo extends React.Component {
   handleContact = () => {
     const { language, enqueueSnackbar } = this.props;
     const texts = Texts[language].groupInfo;
-    const { contactType, contactInfo } = this.state;
+    const {
+      group: { contact_type: contactType, contact_info: contactInfo }
+    } = this.state;
     if (window.isNative) {
       if (contactType === "phone") {
         window.ReactNativeWebView.postMessage(
@@ -224,16 +226,18 @@ class GroupInfo extends React.Component {
               }}
             />
           )}
+          {!(userAccepted && groupAccepted) && (
+            <CopyToClipboard text={contactInfo}>
+              <button
+                type="button"
+                onClick={this.handleContact}
+                className="joinGroupButton"
+              >
+                {texts.contact}
+              </button>
+            </CopyToClipboard>
+          )}
           {this.renderJoinButton()}
-          <CopyToClipboard text={contactInfo}>
-            <button
-              type="button"
-              onClick={this.handleContact}
-              className="joinGroupButton"
-            >
-              {texts.contact}
-            </button>
-          </CopyToClipboard>
           <ConfirmDialog
             isOpen={confirmIsOpen}
             title={texts.confirm}
