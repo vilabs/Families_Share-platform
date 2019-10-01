@@ -81,20 +81,14 @@ const DayHeader = () => {
 const MyMonthEvent = ({ event, history }) => {
   const { activityId } = event.extendedProperties.shared;
   const timeslotId = event.id;
-  const { groupId, status } = event.extendedProperties.shared;
+  const { groupId } = event.extendedProperties.shared;
   const pathname = `/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}`;
-  let indicatorColor = "grey";
-  if (status === "confirmed") {
-    indicatorColor = "#00FF00	";
-  } else if (status === "proposed") {
-    indicatorColor = "#FF0707";
-  }
+  // let indicatorColor = "grey";
+  // if (status === "completed") {
+  //   indicatorColor = "#00FF00	";
+  // }
   return (
     <div role="button" tabIndex={-42} onClick={() => history.push(pathname)}>
-      <div
-        className="eventStatusIndicator"
-        style={{ backgroundColor: indicatorColor }}
-      />
       {event.title}
     </div>
   );
@@ -239,7 +233,7 @@ const CustomToolbar = (
             className="transparentButton filterActivitiesButton"
             onClick={() =>
               filter === "all"
-                ? filterActivities("confirmed")
+                ? filterActivities("ongoing")
                 : filterActivities("all")
             }
           >
@@ -276,7 +270,7 @@ class Calendar extends React.Component {
           filter === "all"
             ? userEvents
             : userEvents.filter(
-                event => event.extendedProperties.shared === "confirmed"
+                event => event.extendedProperties.shared === "ongoing"
               );
         this.setState({
           events: userEvents,
@@ -294,7 +288,7 @@ class Calendar extends React.Component {
           filter === "all"
             ? groupEvents
             : groupEvents.filter(
-                event => event.extendedProperties.shared === "confirmed"
+                event => event.extendedProperties.shared === "ongoing"
               );
         this.setState({
           events: groupEvents,
@@ -372,7 +366,7 @@ class Calendar extends React.Component {
       filter === "all"
         ? events
         : events.filter(
-            event => event.extendedProperties.shared.status === "confirmed"
+            event => event.extendedProperties.shared.status === "ongoing"
           );
     this.setState({ filter, filteredEvents });
   };

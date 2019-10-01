@@ -44,7 +44,7 @@ describe('/Post/api/groups/id/activities', () => {
                 cost: 10,
                 parents: JSON.stringify([]),
                 children: JSON.stringify([]),
-                status: 'proposed',
+                status: 'ongoing',
                 activityColor: '#00838F',
                 groupId: group.group_id,
                 repetition: 'weekly'
@@ -70,7 +70,7 @@ describe('/Post/api/groups/id/activities', () => {
                 cost: 10,
                 parents: JSON.stringify([]),
                 children: JSON.stringify([]),
-                status: 'proposed',
+                status: 'ongoing',
                 activityColor: '#00838F',
                 groupId: group.group_id,
                 repetition: 'weekly'
@@ -96,7 +96,7 @@ describe('/Post/api/groups/id/activities', () => {
                 cost: 10,
                 parents: JSON.stringify([]),
                 children: JSON.stringify([]),
-                status: 'proposed',
+                status: 'ongoing',
                 activityColor: '#00838F',
                 groupId: group.group_id,
                 repetition: 'weekly'
@@ -122,7 +122,7 @@ describe('/Post/api/groups/id/activities', () => {
                 cost: 10,
                 parents: JSON.stringify([]),
                 children: JSON.stringify([]),
-                status: 'proposed',
+                status: 'ongoing',
                 activityColor: '#00838F',
                 groupId: group.group_id,
                 repetition: 'weekly'
@@ -700,7 +700,7 @@ describe('/Patch/api/groups/groupId/activities/activityId/timeslots/timeslotId',
       )
       .set('Authorization', user.token)
     const timeslots = timeslotResp.body
-    timeslots[0].extendedProperties.shared.status = 'confirmed'
+    timeslots[0].extendedProperties.shared.status = 'completed'
     const parents = JSON.parse(timeslots[0].extendedProperties.shared.parents)
     const children = JSON.parse(
       timeslots[0].extendedProperties.shared.children

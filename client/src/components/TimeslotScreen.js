@@ -227,21 +227,25 @@ class TimeslotScreen extends React.Component {
   handleSubscribe = (id, type) => {
     const { language, enqueueSnackbar } = this.props;
     const { timeslot, childrenProfiles } = this.state;
-    const texts = Texts[language].timeslotScreen;
     let snackMessage;
-    if (type === "parent") {
-      timeslot.extendedProperties.shared.parents.push(id);
-      snackMessage = texts.userSubscribe;
+    const texts = Texts[language].timeslotScreen;
+    if (timeslot.extendedProperties.shared.status !== "completed") {
+      if (type === "parent") {
+        timeslot.extendedProperties.shared.parents.push(id);
+        snackMessage = texts.userSubscribe;
+      } else {
+        const childName = childrenProfiles.filter(
+          profile => profile.child_id === id
+        )[0].given_name;
+        timeslot.extendedProperties.shared.children.push(id);
+        snackMessage = `${texts.childSubscribe1} ${childName} ${
+          texts.childSubscribe2
+        }`;
+      }
+      this.setState({ timeslot, madeChanges: true });
     } else {
-      const childName = childrenProfiles.filter(
-        profile => profile.child_id === id
-      )[0].given_name;
-      timeslot.extendedProperties.shared.children.push(id);
-      snackMessage = `${texts.childSubscribe1} ${childName} ${
-        texts.childSubscribe2
-      }`;
+      snackMessage = texts.cannotEdit;
     }
-    this.setState({ timeslot, madeChanges: true });
     enqueueSnackbar(snackMessage, {
       variant: "info"
     });
@@ -252,23 +256,27 @@ class TimeslotScreen extends React.Component {
     const { timeslot, childrenProfiles } = this.state;
     const texts = Texts[language].timeslotScreen;
     let snackMessage;
-    if (type === "parent") {
-      timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(
-        subId => subId !== id
-      );
-      snackMessage = texts.userUnsubscribe;
+    if (timeslot.extendedProperties.shared.status !== "completed") {
+      if (type === "parent") {
+        timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(
+          subId => subId !== id
+        );
+        snackMessage = texts.userUnsubscribe;
+      } else {
+        const childName = childrenProfiles.filter(
+          profile => profile.child_id === id
+        )[0].given_name;
+        timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(
+          subId => subId !== id
+        );
+        snackMessage = `${texts.childUnsubscribe1} ${childName} ${
+          texts.childUnsubscribe2
+        }`;
+      }
+      this.setState({ timeslot, madeChanges: true });
     } else {
-      const childName = childrenProfiles.filter(
-        profile => profile.child_id === id
-      )[0].given_name;
-      timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(
-        subId => subId !== id
-      );
-      snackMessage = `${texts.childUnsubscribe1} ${childName} ${
-        texts.childUnsubscribe2
-      }`;
+      snackMessage = texts.cannotEdit;
     }
-    this.setState({ timeslot, madeChanges: true });
     enqueueSnackbar(snackMessage, {
       variant: "info"
     });
@@ -366,7 +374,7 @@ class TimeslotScreen extends React.Component {
     return (
       <TimeslotSubcribe
         name={texts.you}
-        image={userProfile.image}
+        image={path(userProfile, ["image"])}
         subscribed={parentParticipants.includes(userId)}
         id={userId}
         type="parent"
@@ -435,28 +443,31 @@ class TimeslotScreen extends React.Component {
             <h1 className="center">{this.getBackNavTitle()}</h1>
           </div>
           <div className="col-1-10">
-            {timeslot.userCanEdit && (
+            {timeslot.userCanEdit &&
+              timeslot.extendedProperties.shared.status !== "completed" && (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handleEdit}
+                >
+                  <i className="fas fa-pencil-alt" />
+                </button>
+              )}
+          </div>
+          <div className="col-1-10">
+            {timeslot.extendedProperties.shared.status !== "completed" && (
               <button
                 type="button"
                 className="transparentButton center"
-                onClick={this.handleEdit}
+                onClick={() =>
+                  madeChanges
+                    ? this.handleConfirmDialogOpen("save")
+                    : history.goBack()
+                }
               >
-                <i className="fas fa-pencil-alt" />
+                <i className="fas fa-check" />
               </button>
             )}
-          </div>
-          <div className="col-1-10">
-            <button
-              type="button"
-              className="transparentButton center"
-              onClick={() =>
-                madeChanges
-                  ? this.handleConfirmDialogOpen("save")
-                  : history.goBack()
-              }
-            >
-              <i className="fas fa-check" />
-            </button>
           </div>
         </div>
         <div id="activityMainContainer">
