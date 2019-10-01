@@ -837,7 +837,7 @@ const en = {
     stepLabels: [
       "Provide a name and description",
       "Set the visibility",
-      "Provide the location",
+      "Provide the area",
       "Provide contact information",
       "Invite people"
     ],
@@ -1948,7 +1948,7 @@ const nl = {
     stepLabels: [
       "Voorzie een naam en beschrijving",
       "Zet je zichtbaarheid",
-      "Geef je locatie mee",
+      "Geef het gebied op",
       "Geef contactgegevens op",
       "Nodig mensen uit"
     ],
@@ -3026,7 +3026,7 @@ const it = {
     stepLabels: [
       "Fornisci nome e descrizione",
       "Imposta la visibilità del gruppo",
-      "Indica un luogo",
+      "Fornire l'area",
       "Fornire informazioni di contatto",
       "Invita persone"
     ],
@@ -4139,7 +4139,7 @@ const el = {
     stepLabels: [
       "Δώστε ένα όνομα και μια περιγραφή",
       "Ορίστε την ορατότητα",
-      "Δώστε την τοποθεσία",
+      "Δώστε την περιοχή",
       "Δώστε στοιχεία επικοινωνίας",
       "Προσκαλέστε άτομα"
     ],
@@ -5276,7 +5276,7 @@ const hu = {
     stepLabels: [
       "Adjon meg címet és leírást",
       "Adja meg a láthatóságra vonatkozó beállításokat",
-      "Adjon meg helyszínt",
+      "Adja meg a területet",
       "Adjon meg elérhetőségi adatokat",
       "Emberek meghívása"
     ],
