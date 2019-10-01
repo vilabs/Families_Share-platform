@@ -353,7 +353,7 @@ class CreateGroupStepper extends React.Component {
               type="text"
               name="location"
               className="createGroupInput form-control"
-              placeholder={texts.city}
+              placeholder={texts.area}
               onChange={this.handleChange}
               required
               value={location}

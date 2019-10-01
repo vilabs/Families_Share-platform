@@ -400,7 +400,7 @@ class EditGroupScreen extends React.Component {
                     className="form-control editGroupInputField"
                     required
                     name="location"
-                    placeholder={texts.city}
+                    placeholder={texts.area}
                     onChange={this.handleChange}
                   />
                   <span className="invalid-feedback" id="locationErr" />
