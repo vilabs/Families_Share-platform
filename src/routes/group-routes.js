@@ -1087,10 +1087,6 @@ router.patch(
       if (!member) {
         return res.status(401).send('Unauthorized')
       }
-      let community = await Community.findOne({})
-      if (!community) {
-        community = await Community.create({})
-      }
       const {
         summary,
         description,
@@ -1118,21 +1114,11 @@ router.patch(
         parents.length >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
-      if (community.timeslot_autoconfirm) {
-        if (extendedProperties.shared.status !== 'completed') {
-          if (parentsReq && childrenReq) {
-            extendedProperties.shared.status = 'confirmed'
-          } else {
-            extendedProperties.shared.status = 'proposed'
-          }
-        }
-      }
-      const fixedReq = extendedProperties.shared.status === 'confirmed'
       if (notifyUsers) {
         extendedProperties.shared.parents = JSON.stringify([])
         extendedProperties.shared.children = JSON.stringify([])
         await nh.timeslotChangedNotification(summary, parents)
-      } else if (parentsReq && childrenReq && fixedReq) {
+      } else if (parentsReq && childrenReq) {
         await nh.timeslotRequirementsNotification(summary, parents, group_id, activity_id, timeslot_id)
       }
       const timeslotPatch = {

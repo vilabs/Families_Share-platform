@@ -44,9 +44,9 @@ router.get('/', async (req, res, next) => {
           }
       }
     ])
-    const { timeslot_autoconfirm, auto_admin } = community
+    const { auto_admin } = community
     const response = {
-      configurations: { timeslot_autoconfirm, auto_admin },
+      configurations: { auto_admin },
       analytics: {
         totalNumberOfUsers,
         totalNumberOfGroups,
@@ -85,8 +85,8 @@ router.patch('/', async (req, res, next) => {
     if (user.role !== 'manager') {
       return res.status(401).send('Unauthorized')
     }
-    const { timeslot_autoconfirm, auto_admin } = req.body
-    if (timeslot_autoconfirm === undefined && auto_admin === undefined) {
+    const { auto_admin } = req.body
+    if (auto_admin === undefined) {
       return res.status(400).send('Bad request')
     }
     await Community.updateOne({}, { ...req.body })

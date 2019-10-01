@@ -569,8 +569,7 @@ class EditTimeslotScreen extends React.Component {
                   className="expandedTimeslotInput"
                   name="status"
                 >
-                  <option value="proposed">{texts.proposed}</option>
-                  <option value="confirmed">{texts.confirmed}</option>
+                  <option value="ongoing">{texts.ongoing}</option>
                   <option value="completed">{texts.completed}</option>
                 </select>
               </div>

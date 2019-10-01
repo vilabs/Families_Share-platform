@@ -102,7 +102,7 @@ const initializeDB = async () => {
           cost: 10,
           parents: JSON.stringify([]),
           children: JSON.stringify([]),
-          status: 'proposed',
+          status: 'ongoing',
           activityColor: '#00838F',
           groupId: group.group_id,
           repetition: 'weekly'
@@ -128,7 +128,7 @@ const initializeDB = async () => {
           cost: 10,
           parents: JSON.stringify([]),
           children: JSON.stringify([]),
-          status: 'proposed',
+          status: 'ongoing',
           activityColor: '#00838F',
           groupId: group.group_id,
           repetition: 'weekly'
@@ -154,7 +154,7 @@ const initializeDB = async () => {
           cost: 10,
           parents: JSON.stringify([]),
           children: JSON.stringify([]),
-          status: 'proposed',
+          status: 'ongoing',
           activityColor: '#00838F',
           groupId: group.group_id,
           repetition: 'weekly'
@@ -180,7 +180,7 @@ const initializeDB = async () => {
           cost: 10,
           parents: JSON.stringify([]),
           children: JSON.stringify([]),
-          status: 'proposed',
+          status: 'ongoing',
           activityColor: '#00838F',
           groupId: group.group_id,
           repetition: 'weekly'
