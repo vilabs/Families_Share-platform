@@ -69,10 +69,6 @@ const ChildProfileScreen = Loadable({
   loader: () => import("./components/ChildProfileScreen"),
   loading: () => Loading
 });
-const NotificationScreen = Loadable({
-  loader: () => import("./components/NotificationScreen"),
-  loading: () => Loading
-});
 const CreateChildScreen = Loadable({
   loader: () => import("./components/CreateChildScreen"),
   loading: () => Loading
@@ -286,10 +282,6 @@ class App extends React.Component {
               <PrivateRoute
                 path="/groups/:groupId/members/pending"
                 component={PendingRequestsScreen}
-              />
-              <PrivateRoute
-                path="/groups/:groupId/news/notifications/:notificationId"
-                component={NotificationScreen}
               />
               <PrivateRoute
                 exact

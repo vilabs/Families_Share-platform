@@ -88,7 +88,7 @@ async function newAnnouncementNotification (group_id, user_id) {
         sound: 'default',
         title: texts[language]['announcements'][0]['header'],
         body: `${subject.given_name} ${subject.family_name} ${texts[language]['announcements'][0]['description']} ${object.name}`,
-        data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/news/announcements` }
+        data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/chat` }
       })
     })
     await sendPushNotifications(messages)

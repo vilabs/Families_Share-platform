@@ -160,6 +160,7 @@ class TimeslotScreen extends React.Component {
       childrenProfiles,
       children
     });
+    console.log(timeslot);
   }
 
   componentWillUnmount() {

@@ -671,7 +671,7 @@ const en = {
     confirm: "Are you sure you want to leave the group?"
   },
   groupNavbar: {
-    newsTab: "News",
+    chatTab: "Chat",
     activitiesTab: "Activities",
     membersTab: "Members",
     infoTab: "About",
@@ -1825,7 +1825,7 @@ const nl = {
     confirm: "Ben je zeker dat je de groep wilt verlaten"
   },
   groupNavbar: {
-    newsTab: "Nieuws",
+    chatTab: "Berichten",
     activitiesTab: "Activiteiten",
     membersTab: "Leden",
     infoTab: "Over",
@@ -2905,7 +2905,7 @@ const it = {
     confirm: "Sei sicuro/a di voler abbandonare il gruppo?"
   },
   groupNavbar: {
-    newsTab: "Messaggi",
+    chatTab: "Messaggi",
     activitiesTab: "Attività  ",
     membersTab: "Membri",
     infoTab: "Info",
@@ -4009,7 +4009,7 @@ const el = {
     confirm: "Είστε βέβαιοι ότι θέλετε να αποχωρήσετε από την ομάδα;"
   },
   groupNavbar: {
-    newsTab: "Νέα",
+    chatTab: "Μηνύματα",
     activitiesTab: "Δραστηριότητες",
     membersTab: "Μέλη",
     infoTab: "Σχετικά με",
@@ -5115,7 +5115,7 @@ const hu = {
     confirm: "Biztosan ki szeretne lépni a csoportból?"
   },
   groupNavbar: {
-    newsTab: "Hírek",
+    chatTab: "Uzenetek",
     activitiesTab: "Tevékenységek",
     membersTab: "Tagok",
     infoTab: "A csoportról",

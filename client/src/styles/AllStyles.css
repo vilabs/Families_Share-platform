@@ -1816,11 +1816,11 @@
 /*GROUP MESSAGES */
 #announcementsContainer {
   background-color: #afdddd;
-  min-height: calc(100vh - 20.3rem);
+  min-height: calc(100vh - 16.8rem);
   padding-bottom: 11.2rem;
   overflow-y: auto;
   position: relative;
-  top: 9.1rem;
+  top: 5.6rem;
 }
 
 #announcementContainer {

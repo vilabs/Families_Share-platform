@@ -48,32 +48,23 @@ const GroupNavbar = ({ history, language, match, allowNavigation }) => {
   const handleChange = (event, value) => {
     const { groupId } = match.params;
     if (allowNavigation) {
-      if (value === "news") {
-        history.replace(
-          `/groups/${match.params.groupId}/${value}/notifications`
-        );
-      } else {
-        history.replace(`/groups/${groupId}/${value}`);
-      }
+      history.replace(`/groups/${groupId}/${value}`);
     }
   };
   const texts = Texts[language].groupNavbar;
 
   const { pathname } = history.location;
-  let activeTab = pathname.slice(
+  const activeTab = pathname.slice(
     pathname.lastIndexOf("/") + 1,
     pathname.length
   );
-  if (activeTab === "notifications" || activeTab === "announcements") {
-    activeTab = "news";
-  }
   const disabled = !allowNavigation;
   const flags = [
     activeTab === "info",
     activeTab === "calendar",
     activeTab === "activities",
     activeTab === "members",
-    activeTab === "news"
+    activeTab === "chat"
   ];
   return (
     <MuiThemeProvider theme={muiTheme}>
@@ -134,9 +125,9 @@ const GroupNavbar = ({ history, language, match, allowNavigation }) => {
           }
         />
         <BottomNavigationAction
-          value="news"
+          value="chat"
           disabled={disabled}
-          label={texts.newsTab}
+          label={texts.chatTab}
           icon={
             flags[4] ? (
               <i className="fas fa-envelope groupNavbarIcon" />

@@ -23,8 +23,8 @@ const GroupCalendar = Loadable({
   loader: () => import("./GroupCalendar"),
   loading: () => <div />
 });
-const GroupNews = Loadable({
-  loader: () => import("./GroupNews"),
+const GroupChat = Loadable({
+  loader: () => import("./GroupChat"),
   loading: () => <div />
 });
 
@@ -57,16 +57,8 @@ const getGroup = groupId => {
 export default class GroupMainScreen extends React.Component {
   constructor(props) {
     super(props);
-    const { history, match } = this.props;
-    const { pathname } = history.location;
+    const { match } = this.props;
     const { groupId } = match.params;
-    let activeTab = pathname.substr(
-      pathname.lastIndexOf("/") + 1,
-      pathname.length - 1
-    );
-    if (activeTab === "notifications" || activeTab === "announcements") {
-      activeTab = "news";
-    }
     this.state = {
       groupId,
       allowNavigation: false,
@@ -118,9 +110,9 @@ export default class GroupMainScreen extends React.Component {
             )}
           />
           <Route
-            path={`${currentPath}/news`}
+            path={`${currentPath}/chat`}
             render={props => (
-              <GroupNews {...props} group={group} userIsAdmin={userIsAdmin} />
+              <GroupChat {...props} group={group} userIsAdmin={userIsAdmin} />
             )}
           />
           <Route
