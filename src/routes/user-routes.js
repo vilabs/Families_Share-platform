@@ -114,7 +114,8 @@ router.post('/', async (req, res, next) => {
       visible,
       image_id,
       address_id,
-      suspended: false
+      suspended: false,
+      description: ''
     }
     const image = {
       image_id,
@@ -313,7 +314,8 @@ router.post('/authenticate/google', async (req, res, next) => {
         visible: true,
         image_id,
         address_id,
-        suspended: false
+        suspended: false,
+        description: ''
       }
       const image = {
         image_id,
@@ -721,7 +723,7 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
   const user_id = req.params.id
   const { file } = req
   const {
-    given_name, family_name, email, phone, phone_type, visible, street, number, city
+    given_name, family_name, email, phone, phone_type, visible, street, number, city, description
   } = req.body
   if (!(given_name || family_name || email || phone || phone_type || visible !== undefined || street || number || city)) {
     return res.status(400).send('Bad Request')
@@ -732,6 +734,7 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
     email,
     phone,
     phone_type,
+    description,
     visible
   }
   const addressPatch = {

@@ -46,6 +46,17 @@ const ProfileInfo = ({ language, profile }) => {
           </div>
         </div>
       </div>
+      <div className="row no-gutters  profileInfoContainer">
+        <div className="col-2-10">
+          <i className="fas fa-info-circle center" />
+        </div>
+        <div className="col-8-10">
+          <div className="verticalCenter">
+            <h1>{profile.description}</h1>
+            <h2>{texts.description}</h2>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -15,7 +15,6 @@ const calendar = google.calendar({
 })
 
 const checkCompletedTimeslots = async () => {
-  console.log('starting scheduled job')
   try {
     const calendarsResponse = await calendar.calendarList.list({})
     const calendars = calendarsResponse.data.items

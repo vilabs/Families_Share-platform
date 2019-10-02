@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import * as path from "lodash.get";
+import autosize from "autosize";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import LoadingSpinner from "./LoadingSpinner";
@@ -94,7 +95,8 @@ class EditProfileScreen extends React.Component {
       visible,
       phone,
       phone_type,
-      address
+      address,
+      description
     } = this.state;
     const { city, street, number, address_id } = address;
     const bodyFormData = new FormData();
@@ -111,6 +113,7 @@ class EditProfileScreen extends React.Component {
     bodyFormData.append("street", street);
     bodyFormData.append("number", number);
     bodyFormData.append("address_id", address_id);
+    bodyFormData.append("description", description);
     axios
       .patch(`/api/users/${userId}/profile`, bodyFormData, {
         headers: {
@@ -187,7 +190,8 @@ class EditProfileScreen extends React.Component {
       phone,
       phone_type,
       email,
-      address
+      address,
+      description
     } = this.state;
     const bottomBorder = { borderBottom: "1px solid rgba(0,0,0,0.5)" };
     const texts = Texts[language].editProfileScreen;
@@ -366,6 +370,24 @@ class EditProfileScreen extends React.Component {
                 value={email}
               />
               <span className="invalid-feedback" id="emailErr" />
+            </div>
+          </div>
+          <div className="row no-gutters" style={bottomBorder}>
+            <div className="col-2-10">
+              <i className="fas fa-info-circle center" />
+            </div>
+            <div className="col-8-10">
+              <textarea
+                rows="3"
+                name="description"
+                className="editProfileInputField form-control "
+                placeholder={texts.description}
+                onChange={event => {
+                  this.handleChange(event);
+                  autosize(document.querySelectorAll("textarea"));
+                }}
+                value={description}
+              />
             </div>
           </div>
           <div className="row no-gutters">

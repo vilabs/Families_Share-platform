@@ -862,6 +862,7 @@ const en = {
   },
   profileInfo: {
     adress: "Address",
+    description: "Description",
     email: "Personal",
     mobile: "Mobile",
     home: "Home",
@@ -881,6 +882,7 @@ const en = {
     streetNumber: "Number",
     country: "Country",
     city: "City",
+    description: "Provide an optional description...",
     email: "Email address",
     mobile: "Mobile",
     home: "Home",
@@ -1963,6 +1965,7 @@ const nl = {
   },
   profileNavbar: { framily: "Vrienden", info: "Info", children: "Kinderen" },
   profileInfo: {
+    description: "Omschrijving",
     adress: "Adres",
     email: "Persoonlijk",
     mobile: "Mobiel",
@@ -1973,6 +1976,7 @@ const nl = {
     privateProfile: "Profiel is privé"
   },
   editProfileScreen: {
+    description: "Geef een optionele beschrijving op...",
     save: "Opslaan",
     header: "Profiel bewerken",
     name: "Naam",
@@ -3046,6 +3050,7 @@ const it = {
   },
   profileInfo: {
     adress: "Indirizzo",
+    description: "Descrizione",
     email: "Contatto personale ",
     mobile: "Cellulare",
     home: "Telefono",
@@ -3055,6 +3060,7 @@ const it = {
     privateProfile: "Il profilo è privato"
   },
   editProfileScreen: {
+    description: "Fornire una descrizione facoltativa",
     save: "SALVA",
     header: "Modifica il profilo",
     name: "Nome",
@@ -4154,6 +4160,7 @@ const el = {
   },
   profileNavbar: { framily: "ΦΙΛΟΙ", info: "ΠΛΗΡΟΦΟΡΙΕΣ", children: "ΠΑΙΔΙΑ" },
   profileInfo: {
+    description: "Περιγραφή",
     adress: "Διεύθυνση",
     email: "Προσωπικό",
     mobile: "Κινητό (τηλέφωνο)",
@@ -4162,6 +4169,7 @@ const el = {
   },
   profileScreen: { privateProfile: "Το προφίλ είναι ιδιωτικό" },
   editProfileScreen: {
+    description: "Συμπληρώσετε μια προαιρετική περιγραφή",
     save: "ΑΠΟΘΗΚΕΥΣΗ",
     header: "Επεξεργασία προφίλ",
     name: "Όνομα",
@@ -5296,6 +5304,7 @@ const hu = {
     children: "Gyermekek"
   },
   profileInfo: {
+    description: "Leírás",
     adress: "Cím",
     email: "Személyes",
     mobile: "Mobil telefonszám",
@@ -5306,6 +5315,7 @@ const hu = {
     privateProfile: "Magán profil"
   },
   editProfileScreen: {
+    description: "Adjon meg választható leírást",
     save: "Mentés",
     header: "Profil szerkesztése",
     name: "Név",

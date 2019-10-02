@@ -18,6 +18,7 @@ const profileSchema = new mongoose.Schema(
     },
     phone: String,
     phone_type: String,
+    description: String,
     image_id: {
       type: String,
       required: true
