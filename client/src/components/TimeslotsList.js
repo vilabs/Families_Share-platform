@@ -105,9 +105,11 @@ class TimeslotsList extends React.Component {
   };
 
   filterTimeslot = timeslot => {
-    const { filter } = this.state;
+    const { filter, usersChildren } = this.state;
     const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
+    const children = JSON.parse(timeslot.extendedProperties.shared.children);
     const userId = JSON.parse(localStorage.getItem("user")).id;
+
     switch (filter) {
       case "all":
         return true;
@@ -115,8 +117,13 @@ class TimeslotsList extends React.Component {
         return this.enoughParticipants(timeslot);
       case "notEnough":
         return !this.enoughParticipants(timeslot);
-      case "signed":
+      case "mySigned":
         return parents.indexOf(userId) !== -1;
+      case "myChildrenSigned":
+        return (
+          usersChildren.filter(c => children.indexOf(c.child_id) !== -1)
+            .length > 0
+        );
       default:
         return true;
     }

@@ -1075,14 +1075,16 @@ const en = {
     timeslots: "Timeslots",
     available: " available",
     all: "All timeslots",
-    signed: "My signed up",
+    mySigned: "My signed up",
+    myChildrenSigned: "My children signed up",
     enough: "With enough participants",
     notEnough: "Without enough participants"
   },
   filterTimeslotsDrawer: {
     header: "Filter timeslots",
     all: "All timeslots",
-    signed: "My signed up",
+    mySigned: "My signed up",
+    myChildrenSigned: "My children signed up",
     enough: "With enough participants",
     notEnough: "Without enough participants"
   },
@@ -2169,7 +2171,8 @@ const nl = {
     timeslots: "Timeslots",
     available: " beschikbaar",
     all: "Alle timeslots",
-    signed: "Mijn ingeschreven timeslots",
+    mySigned: "Mijn ingeschreven timeslots",
+    myChildrenSigned: "Mijn kinderen ingeschreven timeslots",
     enough: "Met genoeg deelnemers",
     notEnough: "Met te weinig deelnemers",
     notEnoughParticipants: "Tekort aantal deelnemers"
@@ -2177,7 +2180,8 @@ const nl = {
   filterTimeslotsDrawer: {
     header: "Filter timeslots",
     all: "Alle timeslots",
-    signed: "Mijn ingeschreven timeslots",
+    mySigned: "Mijn ingeschreven timeslots",
+    myChildrenSigned: "Mijn kinderen ingeschreven timeslots",
     enough: "Met genoeg deelnemers",
     notEnough: "Met te weining deelnemers"
   },
@@ -3266,7 +3270,8 @@ const it = {
     timeslots: "Orari",
     available: "disponibile",
     all: "Tutti gli orari",
-    signed: "Le mie adesioni",
+    mySigned: "Le mie adesioni",
+    myChildrenSigned: "Le mie bambini adesioni",
     enough: "Con abbastanza partecipanti",
     notEnough: "Non ci sono abbastanza volontari",
     notEnoughParticipants: "Non ci sono abbastanza partecipanti"
@@ -3274,7 +3279,8 @@ const it = {
   filterTimeslotsDrawer: {
     header: "Filtra orari",
     all: "Tutti gli orari",
-    signed: "Le mie adesioni",
+    mySigned: "Le mie adesioni",
+    myChildrenSigned: "Le mie bambini adesioni",
     enough: "Con abbastanza partecipanti",
     notEnough: "Senza abbastanza partecipanti"
   },
@@ -4372,7 +4378,8 @@ const el = {
     timeslots: "Χρονικές περίοδοι",
     available: "Διαθέσιμο",
     all: "Όλες οι χρονικές περίοδοι",
-    signed: "Εγγραφή μου",
+    mySigned: "Η εγγραφή μου",
+    myChildrenSigned: "Οι εγγραφές των παιδιών μου",
     enough: "Με αρκετούς συμμετέχοντες",
     notEnough: "Χωρίς αρκετούς συμμετέχοντες",
     notEnoughParticipants: "Δεν υπάρχουν αρκετοί συμμετέχοντες"
@@ -4380,7 +4387,8 @@ const el = {
   filterTimeslotsDrawer: {
     header: "Φίλτρα χρονικής περιόδου",
     all: "Όλες οι χρονικές περίοδοι",
-    signed: "Η εγγραφή μου",
+    mySigned: "Η εγγραφή μου",
+    myChildrenSigned: "Οι εγγραφές των παιδιών μου",
     enough: "Με αρκετούς συμμετέχοντες",
     notEnough: "Χωρίς αρκετούς συμμετέχοντες"
   },
@@ -5518,14 +5526,16 @@ const hu = {
     timeslots: "Időpontok",
     available: "elérhető",
     all: "Minden időpont",
-    signed: "Feliratkozásaim",
+    mySigned: "Feliratkozásaim",
+    myChildrenSigned: "Gyerekeim előfizetései",
     enough: "Résztvevők száma elegendő",
     notEnough: "Résztvevők száma nem elengedő"
   },
   filterTimeslotsDrawer: {
     header: "Időpontok szűrése",
     all: "Minden időpont",
-    signed: "Feliratkozásaim",
+    mySigned: "Feliratkozásaim",
+    myChildrenSigned: "Gyerekeim előfizetései",
     enough: "Résztvevők száma elegendő",
     notEnough: "Résztvevők száma nem elengedő"
   },

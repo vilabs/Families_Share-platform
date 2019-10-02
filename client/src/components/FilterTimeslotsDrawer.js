@@ -24,6 +24,7 @@ class FilterTimeslotsDrawer extends React.Component {
         closable={false}
         onClose={this.onClose}
         visible={isOpen}
+        height="300px"
       >
         <div id="filterTimeslotsDrawer">
           <div className="row no-gutters">
@@ -122,13 +123,13 @@ class FilterTimeslotsDrawer extends React.Component {
                 </div>
               </div>
             </Menu.Item>
-            <Menu.Item key="signed" onClick={this.handleDrawerClick}>
+            <Menu.Item key="mySigned" onClick={this.handleDrawerClick}>
               <div className="row no-gutters">
                 <div className="col-1-10">
                   <i
                     className=" fas fa-user-check"
                     style={
-                      activeOption === "signed" ? { color: "#00838f" } : {}
+                      activeOption === "mySigned" ? { color: "#00838f" } : {}
                     }
                   />
                 </div>
@@ -136,17 +137,53 @@ class FilterTimeslotsDrawer extends React.Component {
                   <h1
                     className="verticalCenter"
                     style={
-                      activeOption === "signed" ? { color: "#00838f" } : {}
+                      activeOption === "mySigned" ? { color: "#00838f" } : {}
                     }
                   >
-                    {texts.signed}
+                    {texts.mySigned}
                   </h1>
                 </div>
                 <div className="col-1-10">
                   <i
                     className="fas fa-check"
                     style={
-                      activeOption === "signed"
+                      activeOption === "mySigned"
+                        ? { color: "#00838f" }
+                        : { display: "none" }
+                    }
+                  />
+                </div>
+              </div>
+            </Menu.Item>
+            <Menu.Item key="myChildrenSigned" onClick={this.handleDrawerClick}>
+              <div className="row no-gutters">
+                <div className="col-1-10">
+                  <i
+                    className=" fas fa-child"
+                    style={
+                      activeOption === "myChildrenSigned"
+                        ? { color: "#00838f" }
+                        : {}
+                    }
+                  />
+                </div>
+                <div className="col-8-10">
+                  <h1
+                    className="verticalCenter"
+                    style={
+                      activeOption === "myChildrenSigned"
+                        ? { color: "#00838f" }
+                        : {}
+                    }
+                  >
+                    {texts.myChildrenSigned}
+                  </h1>
+                </div>
+                <div className="col-1-10">
+                  <i
+                    className="fas fa-check"
+                    style={
+                      activeOption === "myChildrenSigned"
                         ? { color: "#00838f" }
                         : { display: "none" }
                     }

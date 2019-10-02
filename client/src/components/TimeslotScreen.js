@@ -160,7 +160,6 @@ class TimeslotScreen extends React.Component {
       childrenProfiles,
       children
     });
-    console.log(timeslot);
   }
 
   componentWillUnmount() {
@@ -312,7 +311,6 @@ class TimeslotScreen extends React.Component {
         participants.includes(profile.user_id)
       );
       showing = showParents;
-      console.log(participants);
       participantsHeader = `${participants.length} ${
         participants.length === 1 ? texts.volunteer : texts.volunteers
       } ${texts.signup}`;
