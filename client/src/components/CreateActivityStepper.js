@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import { withSnackbar } from "notistack";
 import {
   withStyles,
   MuiThemeProvider,
@@ -181,7 +182,8 @@ class CreateActivityStepper extends React.Component {
   };
 
   createActivity = () => {
-    const { match, history } = this.props;
+    const { match, history, enqueueSnackbar, language } = this.props;
+    const texts = Texts[language].createActivityStepper;
     const { groupId } = match.params;
     const { information, dates, timeslots } = this.state;
     const userId = JSON.parse(localStorage.getItem("user")).id;
@@ -202,6 +204,11 @@ class CreateActivityStepper extends React.Component {
     axios
       .post(`/api/groups/${groupId}/activities`, { activity, events })
       .then(response => {
+        if (response.data.status === "pending") {
+          enqueueSnackbar(texts.pendingMessage, {
+            variant: "info"
+          });
+        }
         Log.info(response);
         history.goBack();
       })
@@ -479,8 +486,9 @@ CreateActivityStepper.propTypes = {
   classes: PropTypes.object,
   match: PropTypes.object,
   history: PropTypes.object,
-  language: PropTypes.string
+  language: PropTypes.string,
+  enqueueSnackbar: PropTypes.func
 };
-export default withRouter(
-  withLanguage(withStyles(styles)(CreateActivityStepper))
+export default withSnackbar(
+  withRouter(withLanguage(withStyles(styles)(CreateActivityStepper)))
 );

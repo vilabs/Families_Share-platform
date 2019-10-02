@@ -797,7 +797,7 @@ router.post('/:id/activities', async (req, res, next) => {
     if (member.admin) {
       await nh.newActivityNotification(group_id, user_id)
     }
-    res.status(200).send('Activity was created')
+    res.json({ status: activity.status })
   } catch (error) {
     next(error)
   }

@@ -1018,6 +1018,7 @@ const en = {
     backNavTitle: "New activity"
   },
   createActivityStepper: {
+    pendingMessage: "The activity is pending confirmation from an admin",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Create",
@@ -2110,6 +2111,7 @@ const nl = {
   },
   createActivityScreen: { backNavTitle: "Nieuwe activiteit" },
   createActivityStepper: {
+    pendingMessage: "De activiteit wacht op bevestiging van een beheerder",
     continue: "Ga verder",
     cancel: "Annuleer",
     finish: "Maak aan",
@@ -3205,6 +3207,8 @@ const it = {
     backNavTitle: "Nuova attività"
   },
   createActivityStepper: {
+    pendingMessage:
+      "L'attività è in attesa di conferma da parte di un amministratore",
     continue: "Continua",
     cancel: "Cancella",
     finish: "Crea",
@@ -4306,6 +4310,8 @@ const el = {
   },
   createActivityScreen: { backNavTitle: "Νέα δραστηριότητα" },
   createActivityStepper: {
+    pendingMessage:
+      "Η δραστηριότητα επίκειται επιβεβαίωσης από κάποιον διαχειριστή",
     continue: "Συνέχεια",
     cancel: "Ακύρωση",
     finish: "Δημιουργία",
@@ -5455,6 +5461,7 @@ const hu = {
     backNavTitle: "Új tevékenység"
   },
   createActivityStepper: {
+    pendingMessage: "A tevékenység a rendszergazda megerősítésétől függ",
     continue: "Folytatás",
     cancel: "Visszavonás",
     finish: "Létrehozás",
