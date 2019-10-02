@@ -118,7 +118,7 @@ class CreateGroupStepper extends React.Component {
     groupNames: [],
     groupVisibility: false,
     creatingGroup: false,
-    contactType: "",
+    contactType: "phone",
     contactInfo: ""
   };
 
