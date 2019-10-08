@@ -756,40 +756,47 @@ const en = {
     backNavTitle: "FAQs",
     faqs: [
       {
-        question: "How does a group work practically?",
+        question: "Info for groups",
         dropdowns: [
           {
-            title: "Which agreements apply to a group?",
+            title: "How does the group work?",
             paragraph:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-              "Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu," +
-              " vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla " +
-              "consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc" +
-              " nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat" +
-              " augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum." +
-              " Vivamus cursus sit amet dui ut sodales."
+              "Each group can decide how to organize the shifts and manage the schedule rotation. In general, within a group the time put at the disposal by every parent should be as balanced as possible, with every parent offering about the same amount of time. However, every different or additional rule has to be discussed offline and approved by all group members ."
           },
           {
-            title: "What if I am unexpectedly prevented during my turn?",
-            paragraph:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-              "Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu," +
-              " vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla " +
-              "consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc" +
-              " nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat" +
-              " augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum." +
-              " Vivamus cursus sit amet dui ut sodales."
+            title: "What happens if I am not able to comply with my shift?",
+            paragraph: `In case you cannot participate, first of all you have to immediately contact the group administrator(s) to find a solution. The preferred solution is to find a parent of the group who  can substitute you. In case it is not feasible, it is possible to involve external childcare professional or cancel the turn and activity. However, this last option should be adopted only in the case other solutions are not possible, in order not to cause difficulties to the other families. 
+            However, it is recommended to groups to decide in advance, once the group is formed, how to deal with such inconvenientes (for instance decide if the involvement of external professional can be an option or not).`
           },
           {
-            title: "What if I do not have experience with a group of children?",
+            title:
+              "What happens if I don’t have any experience in managing groups of children?",
             paragraph:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-              "Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu," +
-              " vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla " +
-              "consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc" +
-              " nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat" +
-              " augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum." +
-              " Vivamus cursus sit amet dui ut sodales."
+              "In case you are afraid in managing a group of children, our experience with the parents who took part to previous Families Share activities taught us that the worry is understandable but not real, since in reality everything  is easier than how it seems. Listen to the stories of the parents who last summer took part to Families Share activities in our YouTube channel Families - Share EU"
+          },
+          {
+            title: "Which is the ideal ratio of parents and children?",
+            paragraph:
+              "For an optimal group management and for insurance reasons, we recommend not to exceed the ratio parents-children 1:6."
+          },
+          {
+            title: "How can I create a new group?",
+            paragraph:
+              "The first step to enter the Families Share world is to create a new group of parents. You can involve your personal network and set up your own group, by selecting “create a group” and inviting your friends to join, or search for an existing group in the area (selecting the option ‘search group’) and ask to join it, as a single parent or with your group, by contacting the administrator."
+          },
+          {
+            title: "Which activities can I organize?",
+            paragraph: `Through the app Families Share every kind of childcare activity can be organized: co-playing week or days during school holidays, activities of accompanying/picking up children to/from school, extra school or after school activities, touristic visits, etc.
+            Through the app parents schedule the activities identifying different timeslots. Later you can register yourself and your children for joining the activities. 
+            `
+          },
+          {
+            title: "Which is the role of the group administrator?",
+            paragraph: `The group administrator plays a central role within the Families Share platform. First of all, he/she creates the group and he/she is the contact person who can be contacted by users, external to the group, to ask information about it. The group administrator also adds new members to the group. 
+            Moreover, the administrator can edit the activities and the timeslots, he/she can export  the group’s information as well as the activity’s details, also once the activity has taken place.
+            The administrator sets the group features (visible/invisible) and he/she has the control on the advanced planning activity.
+            Finally, the administrator can decide to make administrator some other members. There isn’t a maximum number of administrators within a group, every member can be set as such. We suggest to have at least two people with the administrative role within a group.
+            `
           }
         ]
       },
