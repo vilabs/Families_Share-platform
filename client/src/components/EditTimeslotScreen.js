@@ -47,20 +47,40 @@ class EditTimeslotScreen extends React.Component {
 
   async componentDidMount() {
     document.addEventListener("message", this.handleMessage, false);
-    const { history } = this.props;
+    const { history, action } = this.props;
     let { pathname } = history.location;
     pathname = pathname.substring(0, pathname.length - 5);
-    const timeslot = await getTimeslot(`/api${pathname}`);
-    timeslot.date = moment(timeslot.start.dateTime).format("YYYY-MM-DD");
-    timeslot.startTime = moment(timeslot.start.dateTime).format("HH:mm");
-    timeslot.endTime = moment(timeslot.end.dateTime).format("HH:mm");
-    const { shared } = timeslot.extendedProperties;
-    timeslot.requiredChildren = shared.requiredChildren;
-    timeslot.requiredParents = shared.requiredParents;
-    timeslot.cost = shared.cost;
-    timeslot.status = shared.status;
-    timeslot.parents = JSON.parse(shared.parents);
-    timeslot.children = JSON.parse(shared.children);
+    let timeslot;
+    if (action === "edit") {
+      timeslot = await getTimeslot(`/api${pathname}`);
+
+      timeslot.date = moment(timeslot.start.dateTime).format("YYYY-MM-DD");
+      timeslot.startTime = moment(timeslot.start.dateTime).format("HH:mm");
+      timeslot.endTime = moment(timeslot.end.dateTime).format("HH:mm");
+      const { shared } = timeslot.extendedProperties;
+      timeslot.requiredChildren = shared.requiredChildren;
+      timeslot.requiredParents = shared.requiredParents;
+      timeslot.cost = shared.cost;
+      timeslot.status = shared.status;
+      timeslot.parents = JSON.parse(shared.parents);
+      timeslot.children = JSON.parse(shared.children);
+    } else {
+      timeslot = {
+        start: { dateTime: new Date() },
+        end: { dateTime: new Date() },
+        date: new Date(),
+        startTime: "00:00",
+        endTime: "00:00",
+        requiredChildren: 2,
+        requiredParents: 2,
+        cost: "",
+        description: "",
+        summary: "",
+        parents: [],
+        children: [],
+        status: "ongoing"
+      };
+    }
     this.setState({ fetchedTimeslot: true, ...timeslot });
   }
 
@@ -167,7 +187,7 @@ class EditTimeslotScreen extends React.Component {
   };
 
   handleSave = () => {
-    const { history } = this.props;
+    const { history, action } = this.props;
     const { start } = this.state;
     const { dateTime } = start;
     const {
@@ -225,16 +245,29 @@ class EditTimeslotScreen extends React.Component {
       }
     };
     let { pathname } = history.location;
-    pathname = `/api${pathname.substring(0, pathname.length - 5)}`;
-    axios
-      .patch(pathname, timeslot)
-      .then(response => {
-        Log.info(response);
-        history.goBack();
-      })
-      .catch(error => {
-        Log.error(error);
-      });
+    if (action === "edit") {
+      pathname = `/api${pathname.substring(0, pathname.length - 5)}`;
+      axios
+        .patch(pathname, timeslot)
+        .then(response => {
+          Log.info(response);
+          history.goBack();
+        })
+        .catch(error => {
+          Log.error(error);
+        });
+    } else {
+      pathname = `/api${pathname.substring(0, pathname.length - 5)}/add`;
+      axios
+        .post(pathname, timeslot)
+        .then(response => {
+          Log.info(response);
+          history.goBack();
+        })
+        .catch(error => {
+          Log.error(error);
+        });
+    }
   };
 
   handleConfirmDialogClose = choice => {
@@ -296,7 +329,7 @@ class EditTimeslotScreen extends React.Component {
   };
 
   render() {
-    const { language, history } = this.props;
+    const { language, history, action } = this.props;
     const {
       date,
       startTime,
@@ -344,15 +377,17 @@ class EditTimeslotScreen extends React.Component {
           <div className="col-6-10">
             <h1 className="center">{this.getBackNavTitle()}</h1>
           </div>
-          <div className="col-1-10">
-            <button
-              type="button"
-              className="transparentButton center"
-              onClick={() => this.handleConfirmDialogOpen("delete")}
-            >
-              <i className="fas fa-trash-alt" />
-            </button>
-          </div>
+          {action === "edit" && (
+            <div className="col-1-10">
+              <button
+                type="button"
+                className="transparentButton center"
+                onClick={() => this.handleConfirmDialogOpen("delete")}
+              >
+                <i className="fas fa-trash-alt" />
+              </button>
+            </div>
+          )}
           <div className="col-1-10">
             <button
               type="button"
@@ -587,5 +622,6 @@ export default withLanguage(EditTimeslotScreen);
 
 EditTimeslotScreen.propTypes = {
   language: PropTypes.string,
-  history: PropTypes.object
+  history: PropTypes.object,
+  action: PropTypes.string
 };

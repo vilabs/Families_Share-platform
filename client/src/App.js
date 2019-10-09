@@ -295,8 +295,15 @@ class App extends React.Component {
               />
               <PrivateRoute
                 exact
+                path="/groups/:groupId/activities/:activityId/timeslots/add"
+                component={EditTimeslotScreen}
+                extraProps={{ action: "add" }}
+              />
+              <PrivateRoute
+                exact
                 path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId/edit"
                 component={EditTimeslotScreen}
+                extraProps={{ action: "edit" }}
               />
               <PrivateRoute
                 path="/groups/:groupId/activities/:activityId/timeslots/:timeslotId"

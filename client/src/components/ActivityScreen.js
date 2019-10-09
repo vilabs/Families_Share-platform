@@ -2,6 +2,8 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import PropTypes from "prop-types";
+import Fab from "@material-ui/core/Fab";
+import { withStyles } from "@material-ui/core/styles";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
@@ -10,6 +12,21 @@ import OptionsModal from "./OptionsModal";
 import LoadingSpinner from "./LoadingSpinner";
 import Images from "../Constants/Images";
 import Log from "./Log";
+
+const styles = {
+  add: {
+    position: "fixed",
+    bottom: "3rem",
+    right: "5%",
+    height: "5rem",
+    width: "5rem",
+    borderRadius: "50%",
+    border: "solid 0.5px #999",
+    backgroundColor: "#ff6f00",
+    zIndex: 100,
+    fontSize: "2rem"
+  }
+};
 
 const getActivityTimeslots = (activityId, groupId) => {
   return axios
@@ -102,6 +119,12 @@ class ActivityScreen extends React.Component {
     this.setState({ activity, fetchedActivityData: true, userCanEdit });
   }
 
+  addActivity = () => {
+    const { history } = this.props;
+    const { pathname } = history.location;
+    history.push(`${pathname}/timeslots/add`);
+  };
+
   getDatesString = () => {
     const { language } = this.props;
     const { activity } = this.state;
@@ -193,7 +216,7 @@ class ActivityScreen extends React.Component {
   };
 
   render() {
-    const { history, language } = this.props;
+    const { history, language, classes } = this.props;
     const {
       activity,
       fetchedActivityData,
@@ -319,6 +342,14 @@ class ActivityScreen extends React.Component {
             </div>
           </div>
         </div>
+        <Fab
+          color="primary"
+          aria-label="Add"
+          className={classes.add}
+          onClick={this.addActivity}
+        >
+          <i className="fas fa-plus" />
+        </Fab>
         <TimeslotsList dates={activity.dates} timeslots={activity.timeslots} />
       </React.Fragment>
     ) : (
@@ -327,10 +358,11 @@ class ActivityScreen extends React.Component {
   }
 }
 
-export default withLanguage(ActivityScreen);
+export default withStyles(styles)(withLanguage(ActivityScreen));
 
 ActivityScreen.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
-  match: PropTypes.object
+  match: PropTypes.object,
+  classes: PropTypes.object
 };
