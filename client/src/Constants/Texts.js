@@ -799,33 +799,6 @@ const en = {
             `
           }
         ]
-      },
-      {
-        question: "Info for schools and organisation",
-        dropdowns: [
-          {
-            title: "Organization specific info",
-            paragraph:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-              "Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu," +
-              " vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla " +
-              "consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc" +
-              " nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat" +
-              " augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum." +
-              " Vivamus cursus sit amet dui ut sodales."
-          },
-          {
-            title: "School specific info",
-            paragraph:
-              "Lorem ipsum dolor sit amet, consectetur adipiscing elit." +
-              "Cras a feugiat mauris. Pellentesque et diam pharetra, mollis tellus eu," +
-              " vulputate ante. Suspendisse imperdiet viverra lorem id fringilla. Nulla " +
-              "consectetur pellentesque rutrum. Pellentesque non justo euismod, commodo nunc" +
-              " nec, convallis ante. Vestibulum tempor, risus et luctus laoreet, odio lacus placerat" +
-              " augue, at vehicula arcu turpis eu enim. Vivamus vel nisl a justo lacinia bibendum." +
-              " Vivamus cursus sit amet dui ut sodales."
-          }
-        ]
       }
     ]
   },
@@ -850,7 +823,8 @@ const en = {
     ],
     contactTypes: {
       phone: "Phone",
-      email: "E-mail"
+      email: "E-mail",
+      none: " - "
     },
     contactInfo: "Please fill your contact information",
     name: "Name",
@@ -902,6 +876,7 @@ const en = {
   editGroupScreen: {
     phone: "Phone",
     email: "E-mail",
+    none: " - ",
     save: "SAVE",
     header: "Edit group",
     name: "Name",
@@ -1950,8 +1925,9 @@ const nl = {
   createGroup: { backNavTitle: "Start een groep" },
   createGroupStepper: {
     contactTypes: {
-      phone: "Telefoon",
-      email: "E-mail"
+      phone: " - ",
+      email: "E-mail",
+      none: "Geen"
     },
     contactInfo: "Vul alstublieft uw contactgegevens in",
     continue: "Ga verder",
@@ -2008,6 +1984,7 @@ const nl = {
   },
   editGroupScreen: {
     phone: "Telefoon",
+    none: " - ",
     email: "E-mail",
     save: "Opslaan",
     header: "Groep bewerken",
@@ -3034,6 +3011,7 @@ const it = {
   createGroupStepper: {
     contactInfo: "Si prega di compilare le informazioni di contatto",
     contactTypes: {
+      none: " - ",
       email: "E-mail",
       phone: "Telefono"
     },
@@ -3095,6 +3073,7 @@ const it = {
   },
   editGroupScreen: {
     email: "E-mail",
+    none: " - ",
     phone: "Telefono",
     save: "SALVA",
     header: "Modifica gruppo ",
@@ -4153,6 +4132,7 @@ const el = {
   createGroupStepper: {
     contactInfo: "Παρακαλώ συμπληρώσετε τα στοιχεία επικοινωνίας σας",
     contactTypes: {
+      none: " - ",
       email: "E-mail",
       phone: "Τηλέφωνο"
     },
@@ -4210,6 +4190,7 @@ const el = {
     email: "E-mail",
     phone: "Τηλέφωνο",
     save: "ΑΠΟΘΗΚΕΥΣΗ",
+    none: " - ",
     header: "Επεξεργασία ομάδας",
     name: "Όνομα",
     description: "Περιγραφή",
@@ -5296,6 +5277,7 @@ const hu = {
   createGroupStepper: {
     contactTypes: {
       phone: "Telefon",
+      none: " - ",
       email: "E-mail"
     },
     contactInfo: "Kérjük, töltse ki elérhetőségét",
@@ -5358,6 +5340,7 @@ const hu = {
   },
   editGroupScreen: {
     phone: "Telefon",
+    none: " - ",
     email: "E-mail",
     save: "Mentés",
     header: "Csoport szerkesztése",

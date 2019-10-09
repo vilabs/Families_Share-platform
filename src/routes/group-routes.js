@@ -177,7 +177,6 @@ router.post('/', async (req, res, next) => {
       location &&
       name &&
       contact_type &&
-      contact_info &&
       visible !== undefined &&
       owner_id
     )
@@ -199,10 +198,12 @@ router.post('/', async (req, res, next) => {
     background: '#00838F',
     location,
     owner_id,
-    contact_info,
     contact_type,
     settings_id,
     image_id
+  }
+  if (contact_type !== 'none') {
+    group.contact_info = contact_info
   }
   const image = {
     image_id,
@@ -322,7 +323,7 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
   const { id } = req.params
   const { visible, name, description, location, background, contact_type, contact_info } = req.body
   if (
-    !(visible !== undefined && name && description && location && background && contact_type && contact_info)
+    !(visible !== undefined && name && description && location && background && contact_type)
   ) {
     return res.status(400).send('Bad Request')
   }
@@ -332,8 +333,10 @@ router.patch('/:id', groupUpload.single('photo'), async (req, res, next) => {
     description,
     background,
     location,
-    contact_info,
     contact_type
+  }
+  if (contact_type !== 'none') {
+    groupPatch.contact_info = contact_info
   }
   try {
     const edittingUser = await Member.findOne({
@@ -977,7 +980,7 @@ router.post(
       const activityTimeslots = calendarEvents.filter(
         event => event.extendedProperties.shared.activityId === activity_id
       )
-      exportActivity.createPdf(activity, activityTimeslots, () => {
+      exportActivity.createExcel(activity, activityTimeslots, () => {
         const mailOptions = {
           from: process.env.SERVER_MAIL,
           to: req.email,
@@ -985,17 +988,17 @@ router.post(
           html: exportActivity.newExportEmail(activity.name),
           attachments: [
             {
-              filename: `${activity.name.toUpperCase()}.pdf`,
+              filename: `${activity.name.toUpperCase()}.xlsx`,
               path: path.join(
                 __dirname,
-                `../../${activity.name.toUpperCase()}.pdf`
+                `../../${activity.name.toUpperCase()}.xlsx`
               )
             }
           ]
         }
         transporter.sendMail(mailOptions, (err, info) => {
           if (err) next(err)
-          fr('../', { files: `${activity.name.toUpperCase()}.pdf` })
+          fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
         })
         res.status(200).send('Exported activity successfully')
       })

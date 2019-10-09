@@ -818,7 +818,7 @@
   font-family: 'Roboto', sans-serif !important;
 }
 .createGroupSelectInput {
-  width: 20% !important;
+  width: 20%;
   background-color: #dcdcdc !important;
   border: none;
   height: 5.6rem !important;

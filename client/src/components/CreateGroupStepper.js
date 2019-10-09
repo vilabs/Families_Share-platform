@@ -118,7 +118,7 @@ class CreateGroupStepper extends React.Component {
     groupNames: [],
     groupVisibility: false,
     creatingGroup: false,
-    contactType: "phone",
+    contactType: "none",
     contactInfo: ""
   };
 
@@ -283,7 +283,7 @@ class CreateGroupStepper extends React.Component {
 
   getStepContent = () => {
     const { classes, language } = this.props;
-    const contactTypes = ["phone", "email"];
+    const contactTypes = ["phone", "email", "none"];
     const {
       activeStep,
       name,
@@ -366,7 +366,7 @@ class CreateGroupStepper extends React.Component {
           <div>
             <select
               value={contactType}
-              style={{ width: "20%!important" }}
+              style={{ width: "100px" }}
               className="createGroupSelectInput "
               onChange={this.handleChange}
               name="contactType"
@@ -377,16 +377,16 @@ class CreateGroupStepper extends React.Component {
                 </option>
               ))}
             </select>
-            <input
-              type="text"
-              name="contactInfo"
-              className="createGroupInput form-control"
-              placeholder={texts.contactInfo}
-              onChange={this.handleChange}
-              required
-              value={contactInfo}
-            />
-            <span className="invalid-feedback" id="contactInfoErr" />
+            {contactType !== "none" && (
+              <input
+                type="text"
+                name="contactInfo"
+                className="createGroupInput form-control"
+                placeholder={texts.contactInfo}
+                onChange={this.handleChange}
+                value={contactInfo}
+              />
+            )}
           </div>
         );
       case 4:

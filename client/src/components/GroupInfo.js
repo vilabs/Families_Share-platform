@@ -199,6 +199,7 @@ class GroupInfo extends React.Component {
       group_id: groupId,
       background: groupBackground,
       description: groupInfo,
+      contact_type: contactType,
       contact_info: contactInfo
     } = group;
     const texts = Texts[language].groupInfo;
@@ -226,7 +227,7 @@ class GroupInfo extends React.Component {
               }}
             />
           )}
-          {!(userAccepted && groupAccepted) && (
+          {!(userAccepted && groupAccepted) && contactType !== "none" && (
             <CopyToClipboard text={contactInfo}>
               <button
                 type="button"

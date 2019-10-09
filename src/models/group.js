@@ -42,8 +42,7 @@ const groupSchema = new mongoose.Schema({
     required: true
   },
   contact_info: {
-    type: String,
-    required: true
+    type: String
   },
   contact_type: {
     type: String,

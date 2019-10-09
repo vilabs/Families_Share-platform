@@ -47,7 +47,7 @@ const getGroup = groupId => {
         image: { path: "" },
         description: "",
         location: "",
-        contact_info: "",
+        contact_info: "none",
         contact_type: "phone"
       };
     });
@@ -79,10 +79,14 @@ class EditGroupScreen extends React.Component {
     const settings = await getGroupSettings(groupId);
     groups.forEach(item => groupNames.push(item.name));
     groupNames.splice(groupNames.indexOf(group.name), 1);
-    group.contactInfo = group.contact_info;
     group.contactType = group.contact_type;
-    delete group.contact_info;
     delete group.contact_type;
+    if (group.contactType !== "none") {
+      group.contactInfo = group.contact_info;
+      delete group.contact_info;
+    } else {
+      group.contactInfo = "";
+    }
     this.setState({
       fetchedGroupData: true,
       ...group,
@@ -251,7 +255,6 @@ class EditGroupScreen extends React.Component {
       image,
       description
     } = this.state;
-    console.log(contactType);
     const texts = Texts[language].editGroupScreen;
     const formClass = [];
     if (formIsValidated) {
@@ -411,11 +414,7 @@ class EditGroupScreen extends React.Component {
                 style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
               >
                 <div className="col-2-10">
-                  <i
-                    className={`fas fa-${
-                      contactType === "phone" ? "phone" : "envelope"
-                    } center`}
-                  />
+                  <i className="fas fa-info-cirlce center" />
                 </div>
                 <div className="col-3-10">
                   <select
@@ -424,25 +423,28 @@ class EditGroupScreen extends React.Component {
                     className="editGroupInputField center"
                     name="contactType"
                   >
+                    <option value="none">{texts.none}</option>
                     <option value="phone">{texts.phone}</option>
                     <option value="email">{texts.email}</option>
                   </select>
                 </div>
-                <div className="col-2-10">
-                  <i className="fas fa-info-circle center" />
-                </div>
-                <div className="col-3-10">
-                  <input
-                    type="text"
-                    value={contactInfo}
-                    className="form-control editGroupInputField"
-                    required
-                    name="contactInfo"
-                    placeholder={texts.contactInfo}
-                    onChange={this.handleChange}
-                  />
-                  <span className="invalid-feedback" id="contactInfoErr" />
-                </div>
+                {contactType !== "none" && (
+                  <div className="col-2-10">
+                    <i className="fas fa-info-circle center" />
+                  </div>
+                )}
+                {contactType !== "none" && (
+                  <div className="col-3-10">
+                    <input
+                      type="text"
+                      value={contactInfo}
+                      className="form-control editGroupInputField"
+                      name="contactInfo"
+                      placeholder={texts.contactInfo}
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </form>
