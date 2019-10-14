@@ -3,35 +3,54 @@ import PropTypes from "prop-types";
 import { Skeleton } from "antd";
 import axios from "axios";
 import MemberContact from "./MemberContact";
+import ChildContact from "./ChildContact";
 import Log from "./Log";
 
 export default class GroupMembersList extends React.Component {
-  state = { fetchedUsers: false };
+  state = { fetchedResources: false };
 
   componentDidMount() {
-    const { members } = this.props;
-    const memberIds = members.map(member => member.user_id);
-    axios
-      .get("/api/profiles", {
-        params: {
-          ids: memberIds,
-          searchBy: "ids"
-        }
-      })
-      .then(response => {
-        const users = response.data;
-        users.forEach(user => {
-          const temp = members.filter(
-            member => user.user_id === member.user_id
-          )[0];
-          user.admin = temp.admin;
+    const { members, list } = this.props;
+    if (list === "parents") {
+      const memberIds = members.map(member => member.user_id);
+      axios
+        .get("/api/profiles", {
+          params: {
+            ids: memberIds,
+            searchBy: "ids"
+          }
+        })
+        .then(response => {
+          const users = response.data;
+          users.forEach(user => {
+            const temp = members.filter(
+              member => user.user_id === member.user_id
+            )[0];
+            user.admin = temp.admin;
+          });
+          this.setState({ fetchedResources: true, items: users });
+        })
+        .catch(error => {
+          Log.error(error);
+          this.setState({ fetchedResources: true, items: [] });
         });
-        this.setState({ fetchedUsers: true, users });
-      })
-      .catch(error => {
-        Log.error(error);
-        this.setState({ fetchedUsers: true, users: [] });
-      });
+    } else {
+      axios
+        .get("/api/children", {
+          params: {
+            ids: members,
+            searchBy: "ids"
+          }
+        })
+        .then(response => {
+          const children = response.data;
+          this.setState({ fetchedResources: true, items: children });
+        })
+        .catch(error => {
+          Log.error(error);
+          this.setState({ fetchedResources: true, items: [] });
+        });
+    }
   }
 
   handleAddAdmin = userId => {
@@ -70,9 +89,9 @@ export default class GroupMembersList extends React.Component {
   };
 
   renderLetters = () => {
-    const { users: members } = this.state;
-    const { userIsAdmin, groupId } = this.props;
-    const sortedMembers = [].concat(members).sort((a, b) => {
+    const { items } = this.state;
+    const { userIsAdmin, groupId, list } = this.props;
+    const sortedItems = [].concat(items).sort((a, b) => {
       if (
         `${a.given_name} ${a.family_name}` < `${b.given_name} ${b.family_name}`
       ) {
@@ -80,11 +99,11 @@ export default class GroupMembersList extends React.Component {
       }
       return 1;
     });
-    const membersLength = members.length;
+    const itemsLength = items.length;
     const letterIndices = {};
     const letters = [];
-    for (let i = 0; i < membersLength; i += 1) {
-      const name = sortedMembers[i].given_name;
+    for (let i = 0; i < itemsLength; i += 1) {
+      const name = sortedItems[i].given_name;
       const letter = name[0].toUpperCase();
       if (letters.indexOf(letter) === -1) {
         letters.push(letter);
@@ -96,16 +115,20 @@ export default class GroupMembersList extends React.Component {
       <li key={letter}>
         <div className="contactLetter">{letter}</div>
         <ul>
-          {letterIndices[letter].map(memberIndex => (
-            <li key={memberIndex} className="contactLiContainer">
-              <MemberContact
-                member={sortedMembers[memberIndex]}
-                groupId={groupId}
-                userIsAdmin={userIsAdmin}
-                handleRemoveUser={this.handleRemoveUser}
-                handleAddAdmin={this.handleAddAdmin}
-                handleRemoveAdmin={this.handleRemoveAdmin}
-              />
+          {letterIndices[letter].map(itemIndex => (
+            <li key={itemIndex} className="contactLiContainer">
+              {list === "parents" ? (
+                <MemberContact
+                  member={sortedItems[itemIndex]}
+                  groupId={groupId}
+                  userIsAdmin={userIsAdmin}
+                  handleRemoveUser={this.handleRemoveUser}
+                  handleAddAdmin={this.handleAddAdmin}
+                  handleRemoveAdmin={this.handleRemoveAdmin}
+                />
+              ) : (
+                <ChildContact member={sortedItems[itemIndex]} />
+              )}
             </li>
           ))}
         </ul>
@@ -114,11 +137,11 @@ export default class GroupMembersList extends React.Component {
   };
 
   render() {
-    const { fetchedUsers } = this.state;
+    const { fetchedResources } = this.state;
     const { members } = this.props;
     return (
       <div className="membersContainer">
-        {fetchedUsers ? (
+        {fetchedResources ? (
           <ul>{this.renderLetters()}</ul>
         ) : (
           <ul>
@@ -137,5 +160,6 @@ export default class GroupMembersList extends React.Component {
 GroupMembersList.propTypes = {
   members: PropTypes.array,
   groupId: PropTypes.string,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  list: PropTypes.oneOf(["parents", "children"])
 };

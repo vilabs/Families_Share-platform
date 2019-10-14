@@ -40,6 +40,7 @@ const en = {
     backNavTitle: "My Calendar"
   },
   editTimeslotScreen: {
+    addTimeslotTitle: "New Timeslot",
     from: "From",
     date: "Date",
     to: "To",
@@ -695,8 +696,8 @@ const en = {
   },
 
   groupNewsNavbar: {
-    notifications: "NOTIFICATIONS",
-    messages: "MESSAGES"
+    parents: "PARENTS",
+    children: "CHILDREN"
   },
   cardWithLink: {
     learnMore: "LEARN MORE"
@@ -1193,6 +1194,7 @@ const nl = {
     backNavTitle: "Mijn Kalender"
   },
   editTimeslotScreen: {
+    addTimeslotTitle: "Nieuw Tijdslot",
     timeErr: "Ongeldige combinatie van begin- en eindtijd",
     from: "Van",
     to: "Tot",
@@ -1835,8 +1837,8 @@ const nl = {
     search: "Zoek"
   },
   groupNewsNavbar: {
-    notifications: "Notificaties",
-    messages: "Berichten"
+    children: "KINDEREN",
+    parents: "OUDERS"
   },
   cardWithLink: { learnMore: "Kom meer te weten" },
   memberContact: {
@@ -2285,6 +2287,7 @@ const it = {
     backNavTitle: "Il mio calendario"
   },
   editTimeslotScreen: {
+    addTimeslotTitle: "Nuovo orario",
     timeErr: "Combinazione di inizio e fine ora non valida",
     details: "Dettagli",
     from: "Da",
@@ -2921,7 +2924,10 @@ const it = {
     cancel: "CANCELLA",
     search: "Cerca"
   },
-  groupNewsNavbar: { notifications: "NOTIFICHE", messages: "MESSAGGI" },
+  groupNewsNavbar: {
+    parents: "GENITORI",
+    children: "BAMBINI"
+  },
   cardWithLink: { learnMore: "PER SAPERNE DI PIÙ" },
   memberContact: {
     administrator: "Amministratore del gruppo",
@@ -3394,6 +3400,7 @@ const el = {
     backNavTitle: "Το ημερολόγιο μου"
   },
   editTimeslotScreen: {
+    addTimeslotTitle: "Νέα Χρονική Περίοδος",
     timeErr: "Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης",
     details: "Λεπτομέρειες",
     from: "Από",
@@ -4033,7 +4040,10 @@ const el = {
     cancel: "ΑΚΥΡΩΣΗ",
     search: "Αναζήτηση"
   },
-  groupNewsNavbar: { notifications: "ΕΙΔΟΠΟΙΗΣΕΙΣ", messages: "ΜΗΝΥΜΑΤΑ" },
+  groupNewsNavbar: {
+    parents: "ΓΟΝΕΙΣ",
+    children: "ΠΑΙΔΙΑ"
+  },
   cardWithLink: { learnMore: "ΜΑΘΕΤΕ ΠΕΡΙΣΣΟΤΕΡΑ" },
   memberContact: {
     administrator: "Διαχειριστής ομάδας",
@@ -4499,6 +4509,7 @@ const hu = {
     backNavTitle: "Eseménynaptáram"
   },
   editTimeslotScreen: {
+    addTimeslotTitle: "Uj Időszak",
     from: "Tól",
     date: "Időpont",
     to: "Ig",
@@ -5148,8 +5159,8 @@ const hu = {
     search: "Keresés"
   },
   groupNewsNavbar: {
-    notifications: "Értesítések",
-    messages: "Üzenetek"
+    parents: "SZÜLŐK",
+    children: "GYERMEKEK"
   },
   cardWithLink: {
     learnMore: "További információ"

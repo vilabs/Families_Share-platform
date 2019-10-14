@@ -72,6 +72,7 @@ class EditTimeslotScreen extends React.Component {
         startTime: "00:00",
         endTime: "00:00",
         requiredChildren: 2,
+        location: "",
         requiredParents: 2,
         cost: "",
         description: "",
@@ -155,13 +156,17 @@ class EditTimeslotScreen extends React.Component {
 
   handleSubmit = event => {
     const { madeChanges } = this.state;
-    const { history } = this.props;
+    const { history, action } = this.props;
     event.preventDefault();
     if (this.validate()) {
-      if (madeChanges) {
-        this.handleConfirmDialogOpen("save");
+      if (action === "edit") {
+        if (madeChanges) {
+          this.handleConfirmDialogOpen("save");
+        } else {
+          history.goBack();
+        }
       } else {
-        history.goBack();
+        this.handleSave();
       }
     } else {
       this.setState({ formIsValidated: true });
@@ -257,7 +262,7 @@ class EditTimeslotScreen extends React.Component {
           Log.error(error);
         });
     } else {
-      pathname = `/api${pathname.substring(0, pathname.length - 5)}/add`;
+      pathname = `/api${pathname.substring(0, pathname.length - 4)}/add`;
       axios
         .post(pathname, timeslot)
         .then(response => {
@@ -309,7 +314,12 @@ class EditTimeslotScreen extends React.Component {
   };
 
   getBackNavTitle = () => {
+    const { action, language } = this.props;
+    const texts = Texts[language].editTimeslotScreen;
     const { start, end } = this.state;
+    if (action === "add") {
+      return texts.addTimeslotTitle;
+    }
     return `${moment(start.dateTime).format("DD MMM")} ${moment(
       start.dateTime
     ).format("HH:mm")}-${moment(end.dateTime).format("HH:mm")}`;
@@ -317,14 +327,19 @@ class EditTimeslotScreen extends React.Component {
 
   handleChange = event => {
     const { notifyUsers } = this.state;
+    const { action } = this.props;
     const { name, value } = event.target;
-    if (
-      (name === "startTime" || name === "endTime" || name === "date") &&
-      !notifyUsers
-    ) {
-      this.setState({ [name]: value, notifyUsers: true, madeChanges: true });
+    if (action === "edit") {
+      if (
+        (name === "startTime" || name === "endTime" || name === "date") &&
+        !notifyUsers
+      ) {
+        this.setState({ [name]: value, notifyUsers: true, madeChanges: true });
+      } else {
+        this.setState({ [name]: value, madeChanges: true });
+      }
     } else {
-      this.setState({ [name]: value, madeChanges: true });
+      this.setState({ [name]: value });
     }
   };
 

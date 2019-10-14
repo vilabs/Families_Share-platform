@@ -384,9 +384,7 @@ class CreateActivityStepper extends React.Component {
     let completedLabel = "";
     if (repetitionType === "monthly") {
       const selectedDay = moment(selectedDays[0]);
-      completedLabel = `Every ${selectedDay.format(
-        "Do "
-      )} of ${selectedDay.format("MMMM")}`;
+      completedLabel = `Every ${selectedDay.format("Do ")}`;
     } else {
       const eachMonthsDates = {};
       selectedDays.forEach(selectedDay => {

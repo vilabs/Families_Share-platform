@@ -48,16 +48,23 @@ const GroupNavbar = ({ history, language, match, allowNavigation }) => {
   const handleChange = (event, value) => {
     const { groupId } = match.params;
     if (allowNavigation) {
-      history.replace(`/groups/${groupId}/${value}`);
+      if (value === "members") {
+        history.replace(`/groups/${match.params.groupId}/${value}/parents`);
+      } else {
+        history.replace(`/groups/${groupId}/${value}`);
+      }
     }
   };
   const texts = Texts[language].groupNavbar;
 
   const { pathname } = history.location;
-  const activeTab = pathname.slice(
+  let activeTab = pathname.slice(
     pathname.lastIndexOf("/") + 1,
     pathname.length
   );
+  if (activeTab === "parents" || activeTab === "children") {
+    activeTab = "members";
+  }
   const disabled = !allowNavigation;
   const flags = [
     activeTab === "info",

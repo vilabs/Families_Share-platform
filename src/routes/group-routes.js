@@ -433,6 +433,16 @@ router.get('/:id/members', (req, res, next) => {
     .catch(next)
 })
 
+router.get('/:id/children', async (req, res, next) => {
+  const { id } = req.params
+  const members = await Member.find({ group_id: id, user_accepted: true, group_accepted: true }).distinct('user_id')
+  const children = await Parent.find({ parent_id: { $in: members } }).distinct('child_id')
+  if (children.length === 0) {
+    return res.status(404).send('Group has no children')
+  }
+  return res.json([...new Set(children)])
+})
+
 router.patch('/:id/members', async (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')
@@ -588,30 +598,6 @@ router.post('/:id/members', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
-})
-
-router.get('/:id/kids', (req, res, next) => {
-  const { id } = req.params
-  Member.find({ group_id: id, group_accepted: true, user_accepted: true })
-    .then(members => {
-      if (members.length === 0) {
-        return res.status(404).send('Group has no members')
-      }
-      const memberIds = members.map(member => member.user_id)
-      return Parent.find({ parent_id: { $in: memberIds } }).then(parents => {
-        if (parents.length === 0) {
-          return res.status(404).send('Group has no kids')
-        }
-        const kidIds = []
-        parents.forEach(parent => {
-          if (kidIds.indexOf(parent.child_id) === -1) {
-            kidIds.push(parent.child_id)
-          }
-        })
-        res.json(kidIds)
-      })
-    })
-    .catch(next)
 })
 
 router.get('/:id/notifications', async (req, res, next) => {
@@ -1150,6 +1136,67 @@ router.patch(
     }
   }
 )
+
+router.post(
+  '/:groupId/activities/:activityId/timeslots/add',
+  async (req, res, next) => {
+    if (!req.user_id) {
+      return res.status(401).send('Not authenticated')
+    }
+    const { groupId: group_id, activityId: activity_id } = req.params
+    const user_id = req.user_id
+    try {
+      const member = await Member.findOne({
+        group_id,
+        user_id,
+        group_accepted: true,
+        user_accepted: true
+      })
+      if (!member) {
+        return res.status(401).send('Unauthorized')
+      }
+      const {
+        summary,
+        description,
+        location,
+        start,
+        end,
+        extendedProperties
+      } = req.body
+      if (
+        !(
+          summary ||
+          description ||
+          location ||
+          start ||
+          end ||
+          extendedProperties
+        )
+      ) {
+        return res.status(400).send('Bad Request')
+      }
+      const event = {
+        summary,
+        description,
+        location,
+        start,
+        end,
+        extendedProperties
+      }
+      event.extendedProperties.shared.activityId = activity_id
+      event.extendedProperties.shared.groupId = group_id
+      const group = await Group.findOne({ group_id })
+      await calendar.events.insert({
+        calendarId: group.calendar_id,
+        resource: event
+      })
+      res.status(200).send('Timeslot was created')
+    } catch (error) {
+      next(error)
+    }
+  }
+)
+
 router.delete(
   '/:groupId/activities/:activityId/timeslots/:timeslotId',
   async (req, res, next) => {

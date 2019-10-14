@@ -57,8 +57,16 @@ const getGroup = groupId => {
 export default class GroupMainScreen extends React.Component {
   constructor(props) {
     super(props);
-    const { match } = this.props;
+    const { history, match } = this.props;
+    const { pathname } = history.location;
     const { groupId } = match.params;
+    let activeTab = pathname.substr(
+      pathname.lastIndexOf("/") + 1,
+      pathname.length - 1
+    );
+    if (activeTab === "parents" || activeTab === "children") {
+      activeTab = "members";
+    }
     this.state = {
       groupId,
       allowNavigation: false,

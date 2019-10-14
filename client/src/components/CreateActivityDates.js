@@ -81,22 +81,20 @@ class CreateActivityDates extends React.Component {
     const { handleSubmit } = this.props;
     switch (repetitionType) {
       case "weekly":
-        const days = await this.handleRepetition(day);
+        const days = await this.handleWeeklyRepetition(day);
         state.lastSelect = day;
         state.selectedDays = days;
         this.setState(state);
         handleSubmit(state, selectedDays.length > 0);
         break;
       case "monthly":
-        if (!selected) {
-          state.lastSelect = day;
-          state.selectedDays = [day];
-        } else {
-          state.lastSelect = undefined;
-          state.selectedDays = [];
-        }
+        state.lastSelect = day;
+        state.selectedDays = this.handleMonthlyRepetition(day);
         this.setState(state);
-        handleSubmit(state, selectedDays.length > 0);
+        handleSubmit(
+          { ...state, selectedDays: [day] },
+          selectedDays.length > 0
+        );
         break;
       default:
         if (!selected) {
@@ -115,6 +113,15 @@ class CreateActivityDates extends React.Component {
         this.setState(state);
         handleSubmit(this.state, state.selectedDays.length > 0);
     }
+  };
+
+  handleMonthlyRepetition = day => {
+    const dates = [day];
+    const weekday = moment(day);
+    for (let i = 1; i <= 100; i += 1) {
+      dates.push(weekday.add(1, "M").toDate());
+    }
+    return dates;
   };
 
   handleSwitch = async () => {
@@ -144,7 +151,7 @@ class CreateActivityDates extends React.Component {
     }
   };
 
-  handleRepetition = day => {
+  handleWeeklyRepetition = day => {
     return new Promise(resolve => {
       const dates = [];
       const weekdays = moment.weekdays();

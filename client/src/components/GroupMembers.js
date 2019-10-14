@@ -1,10 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Route, Switch } from "react-router-dom";
 import axios from "axios";
 import GroupMembersList from "./GroupMembersList";
 import GroupMembersAdminOptions from "./GroupMembersAdminOptions";
 import LoadingSpinner from "./LoadingSpinner";
 import Log from "./Log";
+import GroupMembersNavbar from "./GroupMembersNavbar";
+
+const getGroupChildren = groupId => {
+  return axios
+    .get(`/api/groups/${groupId}/children`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      Log.error(error);
+      return [];
+    });
+};
 
 const getGroupMembers = groupId => {
   return axios
@@ -43,6 +57,7 @@ class GroupMembers extends React.Component {
     const { group } = this.state;
     const { group_id: groupId } = group;
     const members = await getGroupMembers(groupId);
+    const children = await getGroupChildren(groupId);
     const acceptedMembers = [];
     let pendingRequests = 0;
     members.forEach(member => {
@@ -55,6 +70,7 @@ class GroupMembers extends React.Component {
     const settings = await getGroupSettings(groupId);
     this.setState({
       members: acceptedMembers,
+      children,
       settings,
       userIsAdmin,
       pendingRequests,
@@ -77,50 +93,78 @@ class GroupMembers extends React.Component {
       members,
       userIsAdmin,
       settings,
+      children,
       pendingRequests
     } = this.state;
+    const membersPath = `/groups/${group.group_id}/members`;
     return fetchedGroupMembers ? (
-      <div id="groupMembersContainer">
-        <div className="row no-gutters" id="groupMembersHeaderContainer">
-          <div className="col-2-10">
-            <button
-              type="button"
-              className="transparentButton center"
-              onClick={() => history.goBack()}
-            >
-              <i className="fas fa-arrow-left" />
-            </button>
-          </div>
-          <div className="col-5-10 ">
-            <h1 className="verticalCenter">{group.name}</h1>
-          </div>
-          <div className="col-3-10 ">
-            {userIsAdmin && (
+      <React.Fragment>
+        <GroupMembersNavbar />
+        <div id="groupMembersContainer">
+          <div className="row no-gutters" id="groupMembersHeaderContainer">
+            <div className="col-2-10">
               <button
                 type="button"
                 className="transparentButton center"
-                onClick={this.handlePendingRequests}
+                onClick={() => history.goBack()}
               >
-                <i className="fas fa-user-friends" />
-                {pendingRequests > 0 && (
-                  <span className="members-badge">{pendingRequests}</span>
-                )}
+                <i className="fas fa-arrow-left" />
               </button>
-            )}
+            </div>
+            <div className="col-5-10 ">
+              <h1 className="verticalCenter">{group.name}</h1>
+            </div>
+            <div className="col-3-10 ">
+              {userIsAdmin && (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handlePendingRequests}
+                >
+                  <i className="fas fa-user-friends" />
+                  {pendingRequests > 0 && (
+                    <span className="members-badge">{pendingRequests}</span>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
+          {userIsAdmin && (
+            <GroupMembersAdminOptions
+              groupIsOpen={settings.open}
+              groupId={group.group_id}
+            />
+          )}
+          <Switch>
+            <Route
+              path={`${membersPath}/parents`}
+              render={props => (
+                <GroupMembersList
+                  key="parents"
+                  {...props}
+                  members={members}
+                  groupId={group.group_id}
+                  userIsAdmin={userIsAdmin}
+                  list="parents"
+                />
+              )}
+            />
+            <Route
+              path={`${membersPath}/children`}
+              render={props => (
+                <GroupMembersList
+                  key="children"
+                  {...props}
+                  members={children}
+                  groupId={group.group_id}
+                  userIsAdmin={userIsAdmin}
+                  list="children"
+                />
+              )}
+            />
+          </Switch>
         </div>
-        {userIsAdmin && (
-          <GroupMembersAdminOptions
-            groupIsOpen={settings.open}
-            groupId={group.group_id}
-          />
-        )}
-        <GroupMembersList
-          members={members}
-          groupId={group.group_id}
-          userIsAdmin={userIsAdmin}
-        />
-      </div>
+      </React.Fragment>
     ) : (
       <LoadingSpinner />
     );
