@@ -129,24 +129,26 @@ class GroupMembers extends React.Component {
               )}
             </div>
           </div>
-          {userIsAdmin && (
-            <GroupMembersAdminOptions
-              groupIsOpen={settings.open}
-              groupId={group.group_id}
-            />
-          )}
           <Switch>
             <Route
               path={`${membersPath}/parents`}
               render={props => (
-                <GroupMembersList
-                  key="parents"
-                  {...props}
-                  members={members}
-                  groupId={group.group_id}
-                  userIsAdmin={userIsAdmin}
-                  list="parents"
-                />
+                <React.Fragment>
+                  {userIsAdmin && (
+                    <GroupMembersAdminOptions
+                      groupIsOpen={settings.open}
+                      groupId={group.group_id}
+                    />
+                  )}
+                  <GroupMembersList
+                    key="parents"
+                    {...props}
+                    members={members}
+                    groupId={group.group_id}
+                    userIsAdmin={userIsAdmin}
+                    list="parents"
+                  />
+                </React.Fragment>
               )}
             />
             <Route

@@ -4,6 +4,7 @@ import moment from "moment";
 import PropTypes from "prop-types";
 import Fab from "@material-ui/core/Fab";
 import { withStyles } from "@material-ui/core/styles";
+import * as path from "lodash.get";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
@@ -12,6 +13,7 @@ import OptionsModal from "./OptionsModal";
 import LoadingSpinner from "./LoadingSpinner";
 import Images from "../Constants/Images";
 import Log from "./Log";
+import Avatar from "./Avatar";
 
 const styles = {
   add: {
@@ -25,6 +27,10 @@ const styles = {
     backgroundColor: "#ff6f00",
     zIndex: 100,
     fontSize: "2rem"
+  },
+  avatar: {
+    width: "3rem!important",
+    height: "3rem!important"
   }
 };
 
@@ -71,6 +77,23 @@ const getGroupMembers = groupId => {
     });
 };
 
+const getActivityChildren = ids => {
+  return axios
+    .get("/api/children", {
+      params: {
+        ids,
+        searchBy: "ids"
+      }
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      Log.error(error);
+      return [];
+    });
+};
+
 class ActivityScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -83,6 +106,7 @@ class ActivityScreen extends React.Component {
       userCanEdit: false,
       optionsModalIsOpen: false,
       action: "",
+      showChildren: false,
       groupId,
       activityId
     };
@@ -93,6 +117,15 @@ class ActivityScreen extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const activity = await getActivity(activityId, groupId);
     activity.timeslots = await getActivityTimeslots(activityId, groupId);
+    let childIds = [];
+    activity.timeslots.forEach(timeslot => {
+      const childParticipants = JSON.parse(
+        timeslot.extendedProperties.shared.children
+      );
+      childIds = childIds.concat(childParticipants);
+    });
+    const uniqueIds = [...new Set(childIds)];
+    activity.children = await getActivityChildren(uniqueIds);
     let dates = activity.timeslots.map(timeslot => timeslot.start.dateTime);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
@@ -118,6 +151,67 @@ class ActivityScreen extends React.Component {
     const userCanEdit = userIsAdmin || userIsCreator;
     this.setState({ activity, fetchedActivityData: true, userCanEdit });
   }
+
+  handleRedirect = (suspended, child_id) => {
+    const { history } = this.props;
+    if (!suspended) {
+      history.push(`/profiles/groupmember/children/${child_id}`);
+    }
+  };
+
+  renderChildren = () => {
+    const { language, classes } = this.props;
+    const {
+      activity: { children },
+      showChildren
+    } = this.state;
+    const texts = Texts[language].timeslotScreen;
+    const childrenHeader = `${children.length} ${
+      children.length === 1 ? texts.child : texts.children
+    } ${texts.signup}`;
+    return (
+      <div className="participantsContainer">
+        <div className="participantsHeaderContainer">
+          <div className="participantsHeaderText">{childrenHeader}</div>
+          <button
+            type="button"
+            className="transparentButton participantsHeaderButton"
+            onClick={() => this.setState({ showChildren: !showChildren })}
+          >
+            <i
+              className={
+                showChildren ? "fas fa-chevron-up" : "fas fa-chevron-down"
+              }
+            />
+          </button>
+        </div>
+        <ul style={showChildren ? {} : { display: "none" }}>
+          {children.map((profile, index) => (
+            <li key={index} style={{ display: "block" }}>
+              <div className="row" style={{ margin: "1rem 0" }}>
+                <Avatar
+                  route={`/profiles/groupmember/children/${profile.child_id}`}
+                  className={classes.avatar}
+                  thumbnail={path(profile, ["image", "path"])}
+                  disabled={profile.suspended}
+                />
+                <div
+                  role="button"
+                  tabIndex={-42}
+                  className="participantsText"
+                  onClick={() =>
+                    this.handleRedirect(profile.suspended, profile.child_id)
+                  }
+                >
+                  {`${profile.given_name} ${profile.family_name}`}
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
   addActivity = () => {
     const { history } = this.props;
@@ -340,6 +434,7 @@ class ActivityScreen extends React.Component {
                 </div>
               </div>
             </div>
+            {this.renderChildren()}
           </div>
         </div>
         <Fab
