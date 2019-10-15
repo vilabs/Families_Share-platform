@@ -796,6 +796,21 @@
 }
 /*CREATE CHILD SCREEN END*/
 
+/*CREATE PLAN SCREEN*/
+.createPlanDateInput {
+  width: 17rem;
+  background-color: #dcdcdc !important;
+  border: none;
+  height: 5.6rem !important;
+  margin-top: 2rem !important;
+  border-radius: 3px !important;
+  font-size: 1.5rem !important;
+  padding-left: 1.7rem !important;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+/*CREATE PLAN SCREEN END*/
+
 /*CREATE GROUP SCREEN*/
 .groupVisibility {
   width: 20rem;

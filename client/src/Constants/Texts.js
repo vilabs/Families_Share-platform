@@ -1000,6 +1000,25 @@ const en = {
   createActivityScreen: {
     backNavTitle: "New activity"
   },
+  createPlanScreen: { backNavTitle: "New Planning" },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide the location"
+    ]
+  },
   createActivityStepper: {
     pendingMessage: "The activity is pending confirmation from an admin",
     continue: "Continue",
@@ -1008,6 +1027,7 @@ const en = {
     save: "Save",
     stepLabels: ["Information", "Dates", "Timeslots"]
   },
+
   createActivityInformation: {
     color: "Color of the activity",
     description: "Description (optional)",
@@ -2098,6 +2118,7 @@ const nl = {
       "Ik erken dat deze info meegedeeld zal worden met groepsleden die direct betrokken zijn bij de kinderactiviteiten."
   },
   createActivityScreen: { backNavTitle: "Nieuwe activiteit" },
+  createPlanScreen: { backNavTitle: "Nieuwe Plan" },
   createActivityStepper: {
     pendingMessage: "De activiteit wacht op bevestiging van een beheerder",
     continue: "Ga verder",
@@ -3202,6 +3223,7 @@ const it = {
   createActivityScreen: {
     backNavTitle: "Nuova attività"
   },
+  createPlanScreen: { backNavTitle: "Nuova Plan" },
   createActivityStepper: {
     pendingMessage:
       "L'attività è in attesa di conferma da parte di un amministratore",
@@ -4313,6 +4335,7 @@ const el = {
       "Αναγνωρίζω ότι αυτές οι πληροφορίες θα γνωστοποιηθούν στα μέλη της ομάδας που συμμετέχουν άμεσα στις δραστηριότητες παιδικής μέριμνας."
   },
   createActivityScreen: { backNavTitle: "Νέα δραστηριότητα" },
+  createPlanScreen: { backNavTitle: "Νεο Πρόγραμμα" },
   createActivityStepper: {
     pendingMessage:
       "Η δραστηριότητα επίκειται επιβεβαίωσης από κάποιον διαχειριστή",
@@ -5469,6 +5492,7 @@ const hu = {
   createActivityScreen: {
     backNavTitle: "Új tevékenység"
   },
+  createPlanScreen: { backNavTitle: "Új terv" },
   createActivityStepper: {
     pendingMessage: "A tevékenység a rendszergazda megerősítésétől függ",
     continue: "Folytatás",

@@ -58,6 +58,9 @@ input[type='number'] {
   top: 50%;
   transform: translateY(-50%);
 }
+#avatarContainer {
+  height: 100%;
+}
 #avatarContainer img {
   cursor: pointer;
   width: 5rem;

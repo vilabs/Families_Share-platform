@@ -11,9 +11,33 @@ import Log from "./Log";
 
 const styles = {
   add: {
-    position: "fixed",
-    bottom: "8rem",
-    right: "5%",
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    height: "5rem",
+    width: "5rem",
+    borderRadius: "50%",
+    border: "solid 0.5px #999",
+    backgroundColor: "#ff6f00",
+    zIndex: 100,
+    fontSize: "2rem"
+  },
+  addPlan: {
+    position: "absolute",
+    left: "6rem",
+    top: "0",
+    height: "5rem",
+    width: "5rem",
+    borderRadius: "50%",
+    border: "solid 0.5px #999",
+    backgroundColor: "#ff6f00",
+    zIndex: 100,
+    fontSize: "2rem"
+  },
+  addActivity: {
+    position: "absoloute",
+    top: "4rem",
+    left: "2rem",
     height: "5rem",
     width: "5rem",
     borderRadius: "50%",
@@ -30,6 +54,7 @@ class GroupActivities extends React.Component {
     const { group } = this.props;
     this.state = {
       group,
+      showAddOptions: false,
       fetchedActivities: false,
       optionsModalIsOpen: false
     };
@@ -58,10 +83,18 @@ class GroupActivities extends React.Component {
       });
   }
 
-  addActivity = () => {
+  add = type => {
     const { history } = this.props;
-    const { pathname } = history.location;
-    history.push(`${pathname}/create`);
+    const {
+      group: { group_id: groupId }
+    } = this.state;
+    const path = `/groups/${groupId}/${type}/create`;
+    history.push(path);
+  };
+
+  toggleAdd = () => {
+    const { showAddOptions } = this.state;
+    this.setState({ showAddOptions: !showAddOptions });
   };
 
   renderActivities = () => {
@@ -113,6 +146,7 @@ class GroupActivities extends React.Component {
       optionsModalIsOpen,
       group,
       pendingActivities,
+      showAddOptions,
       fetchedActivities
     } = this.state;
     const { name } = group;
@@ -171,15 +205,44 @@ class GroupActivities extends React.Component {
             </button>
           </div>
         </div>
-        <div style={{ position: "relative", top: "5.6rem" }} />
-        <Fab
-          color="primary"
-          aria-label="Add"
-          className={classes.add}
-          onClick={this.addActivity}
+        <div
+          style={{
+            position: "fixed",
+            bottom: "8rem",
+            right: "7%",
+            height: "11rem",
+            width: "13rem"
+          }}
         >
-          <i className="fas fa-plus" />
-        </Fab>
+          <Fab
+            color="primary"
+            aria-label="Add"
+            className={classes.add}
+            onClick={this.toggleAdd}
+          >
+            <i className={showAddOptions ? "fas fa-times" : "fas fa-plus"} />
+          </Fab>
+          {showAddOptions && (
+            <React.Fragment>
+              <Fab
+                color="primary"
+                aria-label="addActivity"
+                className={classes.addActivity}
+                onClick={() => this.add("activities")}
+              >
+                <i className="fas fa-certificate" />
+              </Fab>
+              <Fab
+                color="primary"
+                aria-label="addPlan"
+                className={classes.addPlan}
+                onClick={() => this.add("plans")}
+              >
+                <i className="fas fa-calendar" />
+              </Fab>
+            </React.Fragment>
+          )}
+        </div>
         <div id="groupActivitiesContainer" className="horizontalCenter">
           <h1 className="">{texts.header}</h1>
           {fetchedActivities ? this.renderActivities() : <div />}
