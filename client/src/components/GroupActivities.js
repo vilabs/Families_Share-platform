@@ -7,6 +7,7 @@ import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import ActivityOptionsModal from "./OptionsModal";
 import ActivityListItem from "./ActivityListItem";
+import PlanListItem from "./PlanListItem";
 import Log from "./Log";
 
 const styles = {
@@ -48,6 +49,30 @@ const styles = {
   }
 };
 
+const fetchActivites = groupId => {
+  return axios
+    .get(`/api/groups/${groupId}/activities`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      Log.error(error);
+      return [];
+    });
+};
+
+const fetchPlans = groupId => {
+  return axios
+    .get(`/api/groups/${groupId}/plans`)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      Log.error(error);
+      return [];
+    });
+};
+
 class GroupActivities extends React.Component {
   constructor(props) {
     super(props);
@@ -55,32 +80,26 @@ class GroupActivities extends React.Component {
     this.state = {
       group,
       showAddOptions: false,
-      fetchedActivities: false,
+      fetchedData: false,
       optionsModalIsOpen: false
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { group } = this.state;
     const { group_id: groupId } = group;
-    axios
-      .get(`/api/groups/${groupId}/activities`)
-      .then(response => {
-        const acceptedActivities = response.data.filter(
-          activity => activity.status === "accepted"
-        );
-        const pendingActivities =
-          response.data.length - acceptedActivities.length;
-        this.setState({
-          fetchedActivities: true,
-          activities: acceptedActivities,
-          pendingActivities
-        });
-      })
-      .catch(error => {
-        Log.error(error);
-        this.setState({ fetchedActivities: true, activities: [] });
-      });
+    const activities = await fetchActivites(groupId);
+    const plans = await fetchPlans(groupId);
+    const acceptedActivities = activities.filter(
+      activity => activity.status === "accepted"
+    );
+    const pendingActivities = activities.length - acceptedActivities.length;
+    this.setState({
+      fetchedData: true,
+      activities: acceptedActivities,
+      pendingActivities,
+      plans
+    });
   }
 
   add = type => {
@@ -105,6 +124,20 @@ class GroupActivities extends React.Component {
         {activities.map((activity, index) => (
           <li key={index}>
             <ActivityListItem activity={activity} groupId={groupId} />
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  renderPlans = () => {
+    const { group, plans } = this.state;
+    const { group_id: groupId } = group;
+    return (
+      <ul>
+        {plans.map((plan, index) => (
+          <li key={index}>
+            <PlanListItem plan={plan} groupId={groupId} />
           </li>
         ))}
       </ul>
@@ -147,7 +180,7 @@ class GroupActivities extends React.Component {
       group,
       pendingActivities,
       showAddOptions,
-      fetchedActivities
+      fetchedData
     } = this.state;
     const { name } = group;
     const texts = Texts[language].groupActivities;
@@ -218,7 +251,9 @@ class GroupActivities extends React.Component {
             color="primary"
             aria-label="Add"
             className={classes.add}
-            onClick={this.toggleAdd}
+            onClick={() =>
+              userIsAdmin ? this.toggleAdd() : this.add("activities")
+            }
           >
             <i className={showAddOptions ? "fas fa-times" : "fas fa-plus"} />
           </Fab>
@@ -245,7 +280,12 @@ class GroupActivities extends React.Component {
         </div>
         <div id="groupActivitiesContainer" className="horizontalCenter">
           <h1 className="">{texts.header}</h1>
-          {fetchedActivities ? this.renderActivities() : <div />}
+          {fetchedData && (
+            <React.Fragment>
+              {this.renderActivities()}
+              {this.renderPlans()}
+            </React.Fragment>
+          )}
         </div>
       </React.Fragment>
     );

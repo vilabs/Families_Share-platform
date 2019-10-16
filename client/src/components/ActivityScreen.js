@@ -94,6 +94,23 @@ const getActivityChildren = ids => {
     });
 };
 
+const getActivityParents = ids => {
+  return axios
+    .get("/api/profiles", {
+      params: {
+        ids,
+        searchBy: "ids"
+      }
+    })
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      Log.error(error);
+      return [];
+    });
+};
+
 class ActivityScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -106,7 +123,7 @@ class ActivityScreen extends React.Component {
       userCanEdit: false,
       optionsModalIsOpen: false,
       action: "",
-      showChildren: false,
+      showParticipants: false,
       groupId,
       activityId
     };
@@ -118,14 +135,29 @@ class ActivityScreen extends React.Component {
     const activity = await getActivity(activityId, groupId);
     activity.timeslots = await getActivityTimeslots(activityId, groupId);
     let childIds = [];
+    let parentIds = [];
     activity.timeslots.forEach(timeslot => {
       const childParticipants = JSON.parse(
         timeslot.extendedProperties.shared.children
       );
+      const parentParticipants = JSON.parse(
+        timeslot.extendedProperties.shared.parents
+      );
       childIds = childIds.concat(childParticipants);
+      parentIds = parentIds.concat(parentParticipants);
     });
-    const uniqueIds = [...new Set(childIds)];
-    activity.children = await getActivityChildren(uniqueIds);
+    const childUniqueIds = [...new Set(childIds)];
+    const parentUniqueIds = [...new Set(parentIds)];
+    activity.children = await getActivityChildren(childUniqueIds);
+    activity.parents = await getActivityParents(parentUniqueIds);
+    activity.children = activity.children.sort(
+      (a, b) =>
+        `${a.given_name} ${a.family_name}` - `${b.given_name} ${b.family_name}`
+    );
+    activity.parents = activity.parents.sort(
+      (a, b) =>
+        `${a.given_name} ${a.family_name}` - `${b.given_name} ${b.family_name}`
+    );
     let dates = activity.timeslots.map(timeslot => timeslot.start.dateTime);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
@@ -159,55 +191,68 @@ class ActivityScreen extends React.Component {
     }
   };
 
-  renderChildren = () => {
-    const { language, classes } = this.props;
+  renderList = (list, type) => {
+    const { classes } = this.props;
+    return list.map((profile, index) => (
+      <li key={index} style={{ display: "block" }}>
+        <div className="row" style={{ margin: "1rem 0" }}>
+          <Avatar
+            route={
+              type === "parents"
+                ? `/profiles/groupmember/children/${profile.child_id}`
+                : `/profiles/${profile.user_id}/info`
+            }
+            className={classes.avatar}
+            thumbnail={path(profile, ["image", "path"])}
+            disabled={profile.suspended}
+          />
+          <div
+            role="button"
+            tabIndex={-42}
+            className="participantsText"
+            onClick={() =>
+              this.handleRedirect(profile.suspended, profile.child_id)
+            }
+          >
+            {`${profile.given_name} ${profile.family_name}`}
+          </div>
+        </div>
+      </li>
+    ));
+  };
+
+  renderParticipants = () => {
+    const { language } = this.props;
     const {
-      activity: { children },
-      showChildren
+      activity: { children, parents },
+      showParticipants
     } = this.state;
-    const texts = Texts[language].timeslotScreen;
-    const childrenHeader = `${children.length} ${
-      children.length === 1 ? texts.child : texts.children
+    const participantsLength = children.length + parents.length;
+    const texts = Texts[language].activityScreen;
+    const participantsHeader = `${participantsLength} ${
+      participantsLength === 1 ? texts.participant : texts.participants
     } ${texts.signup}`;
     return (
       <div className="participantsContainer">
         <div className="participantsHeaderContainer">
-          <div className="participantsHeaderText">{childrenHeader}</div>
+          <div className="participantsHeaderText">{participantsHeader}</div>
           <button
             type="button"
             className="transparentButton participantsHeaderButton"
-            onClick={() => this.setState({ showChildren: !showChildren })}
+            onClick={() =>
+              this.setState({ showParticipants: !showParticipants })
+            }
           >
             <i
               className={
-                showChildren ? "fas fa-chevron-up" : "fas fa-chevron-down"
+                showParticipants ? "fas fa-chevron-up" : "fas fa-chevron-down"
               }
             />
           </button>
         </div>
-        <ul style={showChildren ? {} : { display: "none" }}>
-          {children.map((profile, index) => (
-            <li key={index} style={{ display: "block" }}>
-              <div className="row" style={{ margin: "1rem 0" }}>
-                <Avatar
-                  route={`/profiles/groupmember/children/${profile.child_id}`}
-                  className={classes.avatar}
-                  thumbnail={path(profile, ["image", "path"])}
-                  disabled={profile.suspended}
-                />
-                <div
-                  role="button"
-                  tabIndex={-42}
-                  className="participantsText"
-                  onClick={() =>
-                    this.handleRedirect(profile.suspended, profile.child_id)
-                  }
-                >
-                  {`${profile.given_name} ${profile.family_name}`}
-                </div>
-              </div>
-            </li>
-          ))}
+        <ul style={showParticipants ? {} : { display: "none" }}>
+          {this.renderList(parents, "parents")}
+          {this.renderList(children, "children")}
         </ul>
       </div>
     );
@@ -434,7 +479,7 @@ class ActivityScreen extends React.Component {
                 </div>
               </div>
             </div>
-            {this.renderChildren()}
+            {this.renderParticipants()}
           </div>
         </div>
         <Fab

@@ -89,6 +89,7 @@ const Reply = require('../models/reply')
 const Group_Settings = require('../models/group-settings')
 const Member = require('../models/member')
 const Group = require('../models/group')
+const Plan = require('../models/plan')
 const Notification = require('../models/notification')
 const Announcement = require('../models/announcement')
 const Parent = require('../models/parent')
@@ -639,21 +640,6 @@ router.get('/:id/notifications', async (req, res, next) => {
   }
 })
 
-router.get('/:groupId/notifications/:notificationId', (req, res) => {
-  // if (!req.user_id) return res.status(401).send('Not authenticated')
-  // const { notificationId } = req.params
-  // Notification.findOne({ notification_id: notificationId }, (error, notification) => {
-  //   if (error) {
-  //     res.status(400).send('Something went wrong')
-  //   }
-  //   if (notification) {
-  //     res.json(notification)
-  //   } else {
-  //     res.status(400).send('Something went wrong')
-  //   }
-  // })
-})
-
 router.get('/:id/events', async (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')
@@ -745,6 +731,98 @@ router.post('/:id/agenda/export', async (req, res, next) => {
     })
   } catch (error) {
     next(error)
+  }
+})
+
+router.post('/:id/plans', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const user_id = req.user_id
+  const group_id = req.params.id
+  try {
+    const { from, to, description, name, location } = req.body
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!member.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!(from || to || description || name || location)) {
+      return res.status(400).send('Bad request')
+    }
+    await Plan.create({
+      plan_id: objectid(),
+      from,
+      to,
+      description,
+      name,
+      location,
+      creator_id: user_id,
+      group_id
+    })
+    res.status(200).send('Plan was created')
+  } catch (err) {
+    console.log(err)
+    next(err)
+  }
+})
+
+router.get('/:groupId/plans', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const userId = req.user_id
+  const { groupId } = req.params
+  try {
+    const member = await Member.findOne({
+      group_id: groupId,
+      user_id: userId,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    const plans = await Plan.find({ group_id: groupId })
+    if (plans.length === 0) {
+      return res.status(404).send('Group has no ongoing plans')
+    }
+    return res.json(plans)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.get('/:groupId/plans/:planId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const userId = req.user_id
+  const { groupId, planId } = req.params
+  try {
+    const member = await Member.findOne({
+      group_id: groupId,
+      user_id: userId,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    const plan = await Plan.findOne({ group_id: groupId, plan_id: planId })
+    if (!plan) {
+      return res.status(404).send('Plan doesnt exist')
+    }
+    return res.json(plan)
+  } catch (err) {
+    next(err)
   }
 })
 

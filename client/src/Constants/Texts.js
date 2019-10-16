@@ -3,6 +3,9 @@
 import React from "react";
 
 const en = {
+  planListItem: {
+    open: "Open for planning"
+  },
   communityInterface: {
     backNavTitle: "Community Interface",
     totalNumberOfUsers: "Total number of Users",
@@ -1062,6 +1065,9 @@ const en = {
     cancel: "CANCEL"
   },
   activityScreen: {
+    participant: "participant",
+    participants: "participants",
+    signup: "signed up",
     color: "Color",
     deleteDialogTitle: "Are you sure you want to delete this activity?",
     exportDialogTitle: "Are you sure you want to export this activity?",
@@ -1177,6 +1183,27 @@ const en = {
 };
 
 const nl = {
+  createPlanStepper: {
+    name: "Naam",
+    from: "Van",
+    to: "Aan",
+    description: "Description",
+    location: "Locatie",
+    requiredErr: "Vul dit veld in.",
+    rangeErr: "Ongeldige begin- en einddatumcombinatie",
+    continue: "Doorgaan",
+    cancel: "Annuleren",
+    finish: "Maken",
+    save: "Opslaan",
+    stepLabels: [
+      "Geef een titel op voor de geplande activiteit",
+      "Stel datumbereik in",
+      "Geef de locatie op"
+    ]
+  },
+  planListItem: {
+    open: "Open voor planning"
+  },
   communityInterface: {
     backNavTitle: "Gemeenschaps interface",
     totalNumberOfUsers: "Totaal aantal gebruikers",
@@ -2271,6 +2298,27 @@ const nl = {
 };
 
 const it = {
+  createPlanStepper: {
+    name: "Nome",
+    from: "Da",
+    to: "A",
+    description: "Descrizione",
+    location: "Posizione",
+    requiredErr: "Compila questo campo.",
+    rangeErr: "Combinazione di date di inizio e fine non valide",
+    continue: "Continua",
+    cancel: "Annulla",
+    finish: "Crea",
+    save: "Salva",
+    stepLabels: [
+      "Fornisci un titolo per l'attività pianificata",
+      "Imposta intervallo di date",
+      "Fornisci la posizione"
+    ]
+  },
+  planListItem: {
+    open: "Aperto per la pianificazione"
+  },
   communityInterface: {
     backNavTitle: "Interfaccia della comunità",
     totalNumberOfUsers: "Numero totale di utenti",
@@ -3385,6 +3433,27 @@ const it = {
 };
 
 const el = {
+  createPlanStepper: {
+    name: "Όνομα",
+    from: "Από",
+    to: "Έως",
+    description: "Περιγραφή",
+    location: "Τοποθεσία",
+    requiredErr: "Παρακαλώ συμπληρώσετε αυτό το πεδίο",
+    rangeErr: "Μη έγκυρος συνδυασμός ημερομηνιών",
+    continue: "Συνέχεια",
+    cancel: "Ακύρωση",
+    finish: "Δημιουργία",
+    save: "Αποθήκευση",
+    stepLabels: [
+      "Παρέχετε ένα τίτλο για τη δραστηριότητα",
+      "Ορίστε το εύρος των ημερομηνιών",
+      "Παρέχετε τη τοποθεσία"
+    ]
+  },
+  planListItem: {
+    open: "Ανοιχτό για προγραμματισμό"
+  },
   communityInterface: {
     backNavTitle: "Community Interface",
     totalNumberOfUsers: "Συνολικός αριθμός χρηστών",
@@ -4495,6 +4564,27 @@ const el = {
 };
 
 const hu = {
+  createPlanStepper: {
+    name: "Név",
+    from: "Tól",
+    to: "To",
+    description: "Leírás",
+    location: "Hely",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt.",
+    rangeErr: "Érvénytelen kezdési és befejezési dátum kombináció",
+    continue: "Folytatás",
+    cancel: "Cancel",
+    finish: "Létrehozás",
+    save: "Mentés",
+    stepLabels: [
+      "Adjon címet a tervezett tevékenységnek",
+      "Dátumtartomány beállítása",
+      "Adja meg a helyet"
+    ]
+  },
+  planListItem: {
+    open: "Nyitva a tervezéshez"
+  },
   communityInterface: {
     backNavTitle: "Közösségi felület",
     totalNumberOfUsers: "Összes felhasználó száma",
