@@ -520,6 +520,16 @@ class TimeslotScreen extends React.Component {
           )}
           <div className="row no-gutters" style={rowStyle}>
             <div className="col-2-10">
+              <i className="fas fa-bookmark activityInfoIcon" />
+            </div>
+            <div className="col-8-10">
+              <div className="activityInfoDescription">
+                {timeslot.extendedProperties.shared.category}
+              </div>
+            </div>
+          </div>
+          <div className="row no-gutters" style={rowStyle}>
+            <div className="col-2-10">
               <img
                 className="activityInfoImage"
                 alt="thumbtacack icon"

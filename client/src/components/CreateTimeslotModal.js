@@ -2,6 +2,18 @@ import Modal from "react-modal";
 import React from "react";
 import PropTypes from "prop-types";
 import autosize from "autosize";
+import { Select, MenuItem } from "@material-ui/core";
+import {
+  MenuBook,
+  EmojiNature,
+  Museum,
+  SportsBaseball,
+  Commute,
+  Mood,
+  Cake,
+  Event,
+  ChildCare
+} from "@material-ui/icons";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import Images from "../Constants/Images";
@@ -112,6 +124,7 @@ class CreateTimeslotModal extends React.Component {
       description,
       name,
       location,
+      category,
       cost
     } = this.state;
     const timeslot = {
@@ -122,7 +135,8 @@ class CreateTimeslotModal extends React.Component {
       description,
       name,
       cost,
-      location
+      location,
+      category
     };
     const { handleSave } = this.props;
     handleSave(timeslot);
@@ -132,6 +146,7 @@ class CreateTimeslotModal extends React.Component {
   render() {
     const {
       formIsValidated,
+      category,
       expanded,
       startTime,
       endTime,
@@ -151,7 +166,7 @@ class CreateTimeslotModal extends React.Component {
     const texts = Texts[language].expandedTimeslotEdit;
     const modalStyle = {
       overlay: {
-        zIndex: 1500,
+        zIndex: 10,
         position: "fixed",
         top: 0,
         left: 0,
@@ -348,6 +363,57 @@ class CreateTimeslotModal extends React.Component {
                 <div className="col-2-10" />
                 <div className="col-8-10">
                   <span className="invalid-feedback" id="requiredChildrenErr" />
+                </div>
+              </div>
+              <div className="row no-gutters" style={rowStyle}>
+                <div className="col-2-10">
+                  <i className="fas fa-bookmark center" />
+                </div>
+                <div className="col-8-10">
+                  <Select
+                    value={category}
+                    onChange={this.handleChange}
+                    inputProps={{
+                      name: "category"
+                    }}
+                  >
+                    <MenuItem value="learning">
+                      <MenuBook />
+                      <div className="categoryText">{texts.learning}</div>
+                    </MenuItem>
+                    <MenuItem value="nature">
+                      <EmojiNature />
+                      <div className="categoryText">{texts.nature}</div>
+                    </MenuItem>
+                    <MenuItem value="tourism">
+                      <Museum />
+                      <div className="categoryText">{texts.tourism}</div>
+                    </MenuItem>
+                    <MenuItem value="hobby">
+                      <SportsBaseball />
+                      <div className="categoryText">{texts.hobby}</div>
+                    </MenuItem>
+                    <MenuItem value="accompanying">
+                      <Commute />
+                      <div className="categoryText">{texts.accompanying}</div>
+                    </MenuItem>
+                    <MenuItem value="entertainment">
+                      <Mood />
+                      <div className="categoryText">{texts.entertainment}</div>
+                    </MenuItem>
+                    <MenuItem value="parties">
+                      <Cake />
+                      <div className="categoryText">{texts.parties}</div>
+                    </MenuItem>
+                    <MenuItem value="coplaying">
+                      <Event />
+                      <div className="categoryText">{texts.coplaying}</div>
+                    </MenuItem>
+                    <MenuItem value="other">
+                      <ChildCare />
+                      <div className="categoryText">{texts.other}</div>
+                    </MenuItem>
+                  </Select>
                 </div>
               </div>
               <div className="row no-gutters" style={rowStyle}>

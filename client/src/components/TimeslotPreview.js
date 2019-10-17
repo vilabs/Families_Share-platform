@@ -2,11 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 import moment from "moment";
-import Texts from "../Constants/Texts";
-import withLanguage from "./LanguageContext";
+import Images from "../Constants/Images";
 
-const TimeslotPreview = ({ language, timeslot, history }) => {
-  const texts = Texts[language].timeslotPreview;
+const TimeslotPreview = ({ timeslot, history }) => {
   const getPreviewStyle = () => {
     let previewStyle = "normalPreview";
     if (timeslot.extendedProperties.shared.status === "completed") {
@@ -20,24 +18,17 @@ const TimeslotPreview = ({ language, timeslot, history }) => {
       `/groups/${groupId}/activities/${activityId}/timeslots/${timeslot.id}`
     );
   };
-  const getParticipationMessage = () => {
-    let participationMessage;
-    if (timeslot.userSubcribed && timeslot.childrenSubscribed) {
-      participationMessage = texts.participating;
-    } else if (timeslot.userSubcribed) {
-      participationMessage = texts.parentParticipating;
-    } else {
-      participationMessage = texts.notParticipating;
-    }
-    return participationMessage;
-  };
+
   const startTime = moment(timeslot.start.dateTime).format("HH:mm");
   const endTime = moment(timeslot.end.dateTime).format("HH:mm");
+  const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
+  const children = JSON.parse(timeslot.extendedProperties.shared.children);
+  const previewStyle = getPreviewStyle();
   return (
     <div
       role="button"
       tabIndex={-42}
-      className={`timeslotPreview ${getPreviewStyle()}`}
+      className={`timeslotPreview ${previewStyle}`}
       onClick={navigateToTimeslot}
     >
       <div className="row no-gutters">
@@ -60,13 +51,29 @@ const TimeslotPreview = ({ language, timeslot, history }) => {
           </div>
           <div className="row no-gutters">
             <div className="col-1-10">
-              <i className="fas fa-clipboard-check timeslotPreviewIcon" />
+              <img
+                src={
+                  previewStyle === "timeslotPreviewSuccess"
+                    ? Images.coupleWhite
+                    : Images.couple
+                }
+                alt="couple icon"
+                className="timeslotPreviewIcon"
+              />
             </div>
-            <div className="col-9-10">
-              <div className="timeslotPreviewText">
-                {getParticipationMessage()}
-              </div>
+            <div className="timeslotPreviewParticipants">{parents.length}</div>
+            <div className="col-1-10">
+              <img
+                src={
+                  previewStyle === "timeslotPreviewSuccess"
+                    ? Images.babyFaceWhite
+                    : Images.babyFace
+                }
+                alt="baby icon"
+                className="timeslotPreviewIcon"
+              />
             </div>
+            <div className="timeslotPreviewParticipants">{children.length}</div>
           </div>
         </div>
         <div className="col-1-10">
@@ -84,10 +91,9 @@ const TimeslotPreview = ({ language, timeslot, history }) => {
   );
 };
 
-export default withRouter(withLanguage(TimeslotPreview));
+export default withRouter(TimeslotPreview);
 
 TimeslotPreview.propTypes = {
   timeslot: PropTypes.object,
-  language: PropTypes.string,
   history: PropTypes.object
 };

@@ -40,6 +40,7 @@ class TimeslotsContainer extends React.Component {
           description: "",
           name: activityName,
           cost: "",
+          category: "other",
           location: activityLocation
         }
       }

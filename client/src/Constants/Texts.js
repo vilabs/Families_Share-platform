@@ -60,6 +60,16 @@ const en = {
     backNavTitle: "My Calendar"
   },
   editTimeslotScreen: {
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
     addTimeslotTitle: "New Timeslot",
     from: "From",
     date: "Date",
@@ -1140,7 +1150,17 @@ const en = {
     completed: "Completed",
     timeErr: "Invalid start and end time combination",
     requiredErr: "Please fill out this field.",
-    rangeErr: "Please select a value greater than zero."
+    rangeErr: "Please select a value greater than zero.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity"
   },
   editActivityScreen: {
     backNavTitle: "Edit activity",

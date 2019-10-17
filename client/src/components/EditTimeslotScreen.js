@@ -1,8 +1,20 @@
 import React from "react";
 import axios from "axios";
 import moment from "moment";
+import { Select, MenuItem } from "@material-ui/core";
 import autosize from "autosize";
 import PropTypes from "prop-types";
+import {
+  MenuBook,
+  EmojiNature,
+  Museum,
+  SportsBaseball,
+  Commute,
+  Mood,
+  Cake,
+  Event,
+  ChildCare
+} from "@material-ui/icons";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
@@ -53,11 +65,12 @@ class EditTimeslotScreen extends React.Component {
     let timeslot;
     if (action === "edit") {
       timeslot = await getTimeslot(`/api${pathname}`);
-
+      console.log(timeslot);
       timeslot.date = moment(timeslot.start.dateTime).format("YYYY-MM-DD");
       timeslot.startTime = moment(timeslot.start.dateTime).format("HH:mm");
       timeslot.endTime = moment(timeslot.end.dateTime).format("HH:mm");
       const { shared } = timeslot.extendedProperties;
+      timeslot.category = shared.category;
       timeslot.requiredChildren = shared.requiredChildren;
       timeslot.requiredParents = shared.requiredParents;
       timeslot.cost = shared.cost;
@@ -79,7 +92,8 @@ class EditTimeslotScreen extends React.Component {
         summary: "",
         parents: [],
         children: [],
-        status: "ongoing"
+        status: "ongoing",
+        category: ""
       };
     }
     this.setState({ fetchedTimeslot: true, ...timeslot });
@@ -206,6 +220,7 @@ class EditTimeslotScreen extends React.Component {
       requiredChildren,
       requiredParents,
       status,
+      category,
       parents,
       children,
       notifyUsers
@@ -245,7 +260,8 @@ class EditTimeslotScreen extends React.Component {
           parents: JSON.stringify(parents),
           children: JSON.stringify(children),
           start: startTime.substr(0, startTime.indexOf(":")),
-          end: endTime.substr(0, endTime.indexOf(":"))
+          end: endTime.substr(0, endTime.indexOf(":")),
+          category
         }
       }
     };
@@ -360,7 +376,8 @@ class EditTimeslotScreen extends React.Component {
       formIsValidated,
       confirmDialogIsOpen,
       confirmDialogTitle,
-      madeChanges
+      madeChanges,
+      category
     } = this.state;
     const formClass = [];
     if (formIsValidated) {
@@ -513,6 +530,57 @@ class EditTimeslotScreen extends React.Component {
                     autosize(document.querySelectorAll("textarea"));
                   }}
                 />
+              </div>
+            </div>
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-2-10">
+                <i className="fas fa-bookmark" />
+              </div>
+              <div className="col-8-10">
+                <Select
+                  value={category}
+                  onChange={this.handleChange}
+                  inputProps={{
+                    name: "category"
+                  }}
+                >
+                  <MenuItem value="learning">
+                    <MenuBook />
+                    <div className="categoryText">{texts.learning}</div>
+                  </MenuItem>
+                  <MenuItem value="nature">
+                    <EmojiNature />
+                    <div className="categoryText">{texts.nature}</div>
+                  </MenuItem>
+                  <MenuItem value="tourism">
+                    <Museum />
+                    <div className="categoryText">{texts.tourism}</div>
+                  </MenuItem>
+                  <MenuItem value="hobby">
+                    <SportsBaseball />
+                    <div className="categoryText">{texts.hobby}</div>
+                  </MenuItem>
+                  <MenuItem value="accompanying">
+                    <Commute />
+                    <div className="categoryText">{texts.accompanying}</div>
+                  </MenuItem>
+                  <MenuItem value="entertainment">
+                    <Mood />
+                    <div className="categoryText">{texts.entertainment}</div>
+                  </MenuItem>
+                  <MenuItem value="parties">
+                    <Cake />
+                    <div className="categoryText">{texts.parties}</div>
+                  </MenuItem>
+                  <MenuItem value="coplaying">
+                    <Event />
+                    <div className="categoryText">{texts.coplaying}</div>
+                  </MenuItem>
+                  <MenuItem value="other">
+                    <ChildCare />
+                    <div className="categoryText">{texts.other}</div>
+                  </MenuItem>
+                </Select>
               </div>
             </div>
             <div className="row no-gutters" style={rowStyle}>

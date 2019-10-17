@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.0.0",
+    "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "^4.0.0",
     "@sentry/browser": "^5.3.0",
     "ajv-keywords": "^3.4.0",

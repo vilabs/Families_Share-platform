@@ -274,6 +274,7 @@ class CreateActivityStepper extends React.Component {
               children: JSON.stringify([]),
               status: "ongoing",
               activityColor: information.color,
+              category: timeslot.category,
               groupId,
               repetition: dates.repetition ? dates.repetitionType : "none",
               start: startTime.substr(0, startTime.indexOf(":")),
