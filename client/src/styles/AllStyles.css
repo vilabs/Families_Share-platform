@@ -811,6 +811,47 @@
 
 /*CREATE PLAN SCREEN END*/
 
+/*MANAGE PLAN SCREEN*/
+.needHeader {
+  font-weight: 600;
+  width: 100%;
+  font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif !important;
+}
+.needContainer {
+  margin-top: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border-bottom: 2px solid #e0e0e0;
+}
+.meridiemBox {
+  width: 6rem;
+  height: 3rem;
+  line-height: 3rem;
+  text-align: center;
+  background-color: #e0e0e0;
+  font-size: 1.6rem;
+  color: black;
+  font-weight: 500;
+}
+.availabilityContainer {
+  margin-top: 1rem;
+  padding: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  border-bottom: 2px solid #e0e0e0;
+}
+.availabilityHeader {
+  font-weight: 600;
+  font-size: 1.6rem;
+  font-family: 'Roboto', sans-serif !important;
+}
+
+/*MANAGE PLAN SCREEN END*/
+
 /*CREATE GROUP SCREEN*/
 .groupVisibility {
   width: 20rem;

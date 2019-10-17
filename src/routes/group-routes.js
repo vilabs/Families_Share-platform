@@ -765,7 +765,8 @@ router.post('/:id/plans', async (req, res, next) => {
       name,
       location,
       creator_id: user_id,
-      group_id
+      group_id,
+      participants: []
     })
     res.status(200).send('Plan was created')
   } catch (err) {
@@ -821,6 +822,30 @@ router.get('/:groupId/plans/:planId', async (req, res, next) => {
       return res.status(404).send('Plan doesnt exist')
     }
     return res.json(plan)
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.patch('/:groupId/plans/:planId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const userId = req.user_id
+  const { groupId, planId } = req.params
+  const { plan } = req.body
+  try {
+    const member = await Member.findOne({
+      group_id: groupId,
+      user_id: userId,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    await Plan.updateOne({ plan_id: planId }, { ...plan })
+    return res.status(200).send('Plan was updated')
   } catch (err) {
     next(err)
   }

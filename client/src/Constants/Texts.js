@@ -3,8 +3,25 @@
 import React from "react";
 
 const en = {
+  managePlanScreen: {
+    backNavTitle: "Manage Planning"
+  },
+  managePlanStepper: {
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Submit",
+    stepLabels: [
+      "Add needs",
+      "Customize needs",
+      "Add availabilities",
+      "Customize availabilities"
+    ],
+    availabilityError: "Missing availability for date",
+    needError: "Missing child assignemnt for date"
+  },
   planListItem: {
-    open: "Open for planning"
+    participants: "members have specified needs and availabilities",
+    participant: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -1183,6 +1200,22 @@ const en = {
 };
 
 const nl = {
+  managePlanScreen: {
+    backNavTitle: "Manage Planning"
+  },
+  managePlanStepper: {
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Submit",
+    stepLabels: [
+      "Add needs",
+      "Customize needs",
+      "Add availabilities",
+      "Customize availabilities"
+    ],
+    availabilityError: "Missing availability for date",
+    needError: "Missing child assignemnt for date"
+  },
   createPlanStepper: {
     name: "Naam",
     from: "Van",
@@ -2298,6 +2331,22 @@ const nl = {
 };
 
 const it = {
+  managePlanScreen: {
+    backNavTitle: "Manage Planning"
+  },
+  managePlanStepper: {
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Submit",
+    stepLabels: [
+      "Add needs",
+      "Customize needs",
+      "Add availabilities",
+      "Customize availabilities"
+    ],
+    availabilityError: "Missing availability for date",
+    needError: "Missing child assignemnt for date"
+  },
   createPlanStepper: {
     name: "Nome",
     from: "Da",
@@ -3433,6 +3482,22 @@ const it = {
 };
 
 const el = {
+  managePlanScreen: {
+    backNavTitle: "Manage Planning"
+  },
+  managePlanStepper: {
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Submit",
+    stepLabels: [
+      "Add needs",
+      "Customize needs",
+      "Add availabilities",
+      "Customize availabilities"
+    ],
+    availabilityError: "Missing availability for date",
+    needError: "Missing child assignemnt for date"
+  },
   createPlanStepper: {
     name: "Όνομα",
     from: "Από",
@@ -4564,6 +4629,22 @@ const el = {
 };
 
 const hu = {
+  managePlanScreen: {
+    backNavTitle: "Manage Planning"
+  },
+  managePlanStepper: {
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Submit",
+    stepLabels: [
+      "Add needs",
+      "Customize needs",
+      "Add availabilities",
+      "Customize availabilities"
+    ],
+    availabilityError: "Missing availability for date",
+    needError: "Missing child assignemnt for date"
+  },
   createPlanStepper: {
     name: "Név",
     from: "Tól",
