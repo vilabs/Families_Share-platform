@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
-import BackNavigation from "./BackNavigation";
+import ConfirmDialog from "./ConfirmDialog";
 import ManagePlanStepper from "./ManagePlanStepper";
 import LoadingSpinner from "./LoadingSpinner";
 import Log from "./Log";
@@ -26,6 +26,19 @@ const fetchPlan = (groupId, planId) => {
         availabilities: [],
         needs: []
       };
+    });
+};
+
+const fetchGroupMembers = groupId => {
+  return axios
+    .get(`/api/groups/${groupId}/members`)
+    .then(response => {
+      return response.data;
+    })
+
+    .catch(err => {
+      Log.error(err);
+      return [];
     });
 };
 
@@ -64,7 +77,9 @@ class ManagePlanScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fetchedPlan: false
+      fetchedPlan: false,
+      confirmDialogIsOpen: false,
+      confirmDialogTitle: ""
     };
   }
 
@@ -72,28 +87,123 @@ class ManagePlanScreen extends React.Component {
     const { match } = this.props;
     const { groupId, planId } = match.params;
     const userId = JSON.parse(localStorage.getItem("user")).id;
+    const members = await fetchGroupMembers(groupId);
     const plan = await fetchPlan(groupId, planId);
     const childIds = await fetchMyChildren(userId);
     const children = await fetchChildProfiles(childIds);
-    this.setState({ fetchedPlan: true, plan, children });
+    const userIsAdmin = members.find(m => m.user_id === userId).admin;
+    this.setState({ fetchedPlan: true, plan, children, userIsAdmin });
   }
+
+  handleDelete = () => {
+    const { match, history } = this.props;
+    const { planId, groupId } = match.params;
+    axios
+      .delete(`/api/groups/${groupId}/plans/${planId}`)
+      .then(response => {
+        Log.info(response);
+        history.goBack();
+      })
+      .catch(err => {
+        Log.error(err);
+      });
+  };
+
+  handleConfirmDialogClose = choice => {
+    if (choice === "agree") {
+      this.handleDelete();
+    }
+    this.setState({
+      confirmDialogIsOpen: false,
+      confirmDialogTitle: ""
+    });
+  };
+
+  handleConfirmDialogOpen = () => {
+    const { language } = this.props;
+    const texts = Texts[language].managePlanScreen;
+    const confirmDialogTitle = texts.deleteConfirm;
+    this.setState({
+      confirmDialogTitle,
+      confirmDialogIsOpen: true
+    });
+  };
+
+  handleEdit = () => {
+    const { history } = this.props;
+    const { pathname } = history.location;
+    history.push(`${pathname}/edit`);
+  };
 
   render() {
     const { language, history } = this.props;
-    const { fetchedPlan, plan, children } = this.state;
+    const {
+      fetchedPlan,
+      plan,
+      children,
+      userIsAdmin,
+      confirmDialogTitle,
+      confirmDialogIsOpen
+    } = this.state;
     const texts = Texts[language].managePlanScreen;
     return (
-      <div id="createPlanContainer">
-        <BackNavigation
-          title={texts.backNavTitle}
-          onClick={() => history.goBack()}
+      <React.Fragment>
+        <ConfirmDialog
+          title={confirmDialogTitle}
+          isOpen={confirmDialogIsOpen}
+          handleClose={this.handleConfirmDialogClose}
         />
-        {fetchedPlan ? (
-          <ManagePlanStepper plan={plan} myChildren={children} />
-        ) : (
-          <LoadingSpinner />
-        )}
-      </div>
+        <div id="createPlanContainer">
+          <div id="activityHeaderContainer" className="row no-gutters">
+            <div className="col-2-10">
+              <button
+                type="button"
+                className="transparentButton center"
+                onClick={() => history.goBack()}
+              >
+                <i className="fas fa-arrow-left" />
+              </button>
+            </div>
+            <div className="col-6-10">
+              <h1 className="center">{texts.backNavTitle}</h1>
+            </div>
+
+            <div className="col-1-10">
+              {userIsAdmin && (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handleEdit}
+                >
+                  <i className="fas fa-pencil-alt" />
+                </button>
+              )}
+            </div>
+            <div className="col-1-10">
+              {userIsAdmin && (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handleConfirmDialogOpen}
+                >
+                  <i className="fas fa-trash-alt" />
+                </button>
+              )}
+            </div>
+          </div>
+          <div className="createPlanMainContainer">
+            {fetchedPlan ? (
+              <ManagePlanStepper
+                plan={plan}
+                myChildren={children}
+                userIsAdmin={userIsAdmin}
+              />
+            ) : (
+              <LoadingSpinner />
+            )}
+          </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

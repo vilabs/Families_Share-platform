@@ -741,7 +741,7 @@ router.post('/:id/plans', async (req, res, next) => {
   const user_id = req.user_id
   const group_id = req.params.id
   try {
-    const { from, to, description, name, location } = req.body
+    const { from, to, description, name, location, deadline } = req.body
     const member = await Member.findOne({
       group_id,
       user_id,
@@ -754,11 +754,12 @@ router.post('/:id/plans', async (req, res, next) => {
     if (!member.admin) {
       return res.status(401).send('Unauthorized')
     }
-    if (!(from || to || description || name || location)) {
+    if (!(from || to || description || name || location || deadline)) {
       return res.status(400).send('Bad request')
     }
     await Plan.create({
       plan_id: objectid(),
+      state: 'needs',
       from,
       to,
       description,
@@ -766,7 +767,11 @@ router.post('/:id/plans', async (req, res, next) => {
       location,
       creator_id: user_id,
       group_id,
-      participants: []
+      deadline,
+      ratio: 2,
+      min_volunteers: 2,
+      participants: [],
+      category: ''
     })
     res.status(200).send('Plan was created')
   } catch (err) {
@@ -846,6 +851,32 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
     }
     await Plan.updateOne({ plan_id: planId }, { ...plan })
     return res.status(200).send('Plan was updated')
+  } catch (err) {
+    next(err)
+  }
+})
+
+router.delete('/:groupId/plans/:planId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const { groupId: group_id, planId: plan_id } = req.params
+  const { user_id } = req
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!member.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    await Plan.deleteOne({ plan_id })
+    res.status(200).send('Plan was deleted successfully')
   } catch (err) {
     next(err)
   }

@@ -180,7 +180,8 @@ class GroupActivities extends React.Component {
       group,
       pendingActivities,
       showAddOptions,
-      fetchedData
+      fetchedData,
+      plans
     } = this.state;
     const { name } = group;
     const texts = Texts[language].groupActivities;
@@ -192,7 +193,7 @@ class GroupActivities extends React.Component {
       }
     ];
     return (
-      <React.Fragment>
+      <div style={{ paddingBottom: "6rem" }}>
         <ActivityOptionsModal
           isOpen={optionsModalIsOpen}
           options={options}
@@ -278,16 +279,19 @@ class GroupActivities extends React.Component {
             </React.Fragment>
           )}
         </div>
-        <div id="groupActivitiesContainer" className="horizontalCenter">
-          <h1 className="">{texts.header}</h1>
-          {fetchedData && (
-            <React.Fragment>
-              {this.renderActivities()}
-              {this.renderPlans()}
-            </React.Fragment>
-          )}
-        </div>
-      </React.Fragment>
+        {fetchedData && (
+          <div id="groupActivitiesContainer" className="horizontalCenter">
+            <h1 className="">{texts.activitiesHeader}</h1>
+            {this.renderActivities()}
+          </div>
+        )}
+        {fetchedData && plans.length > 0 && (
+          <div id="groupActivitiesContainer" className="horizontalCenter">
+            <h1 className="">{texts.plansHeader}</h1>
+            {this.renderPlans()}
+          </div>
+        )}
+      </div>
     );
   }
 }

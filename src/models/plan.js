@@ -29,6 +29,10 @@ const participantSchema = new mongoose.Schema({
 })
 
 const planSchema = new mongoose.Schema({
+  state: {
+    type: String,
+    required: true
+  },
   plan_id: {
     type: String,
     unique: true,
@@ -52,6 +56,21 @@ const planSchema = new mongoose.Schema({
   to: {
     type: Date,
     required: true
+  },
+  deadline: {
+    type: Date,
+    required: true
+  },
+  ratio: {
+    type: Number,
+    required: true
+  },
+  min_volunteers: {
+    type: Number,
+    required: true
+  },
+  category: {
+    type: String
   },
   participants: [participantSchema]
 }, { timestamps: true, toJSON: { virtuals: true } })

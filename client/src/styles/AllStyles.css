@@ -823,6 +823,10 @@
   font-family: 'Roboto', sans-serif !important;
 }
 
+.createPlanMainContainer {
+  padding-top: 6rem;
+}
+
 /*CREATE PLAN SCREEN END*/
 
 /*MANAGE PLAN SCREEN*/
@@ -1560,7 +1564,7 @@
 #groupActivitiesContainer {
   width: 94%;
   top: 6rem;
-  padding-bottom: 7rem;
+  padding-bottom: 1rem;
 }
 #groupActivitiesContainer h1 {
   font-size: 1.6rem;

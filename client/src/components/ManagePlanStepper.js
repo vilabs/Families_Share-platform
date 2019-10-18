@@ -26,10 +26,6 @@ import TimeslotSubscribe from "./TimeslotSubcribe";
 const modifiersStyles = {
   selected: {
     backgroundColor: "#00838F"
-  },
-  needs: {
-    color: "white",
-    backgroundColor: "#FF0000"
   }
 };
 
@@ -83,6 +79,15 @@ const styles = theme => ({
       backgroundColor: "#00838f"
     }
   },
+  phaseButton: {
+    backgroundColor: "#ff6f00",
+    color: "#ffffff",
+    marginTop: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    "&:hover": {
+      backgroundColor: "#ff6f00"
+    }
+  },
   stepLabel: {
     root: {
       color: "#ffffff",
@@ -134,12 +139,25 @@ class ManagePlanStepper extends React.Component {
     plan.participant.availabilities.forEach(availability => {
       availability.day = new Date(availability.day);
     });
-    console.log(plan);
+    let activeStep;
     plan.participants = plan.participants.filter(p => p.user_id !== userId);
+    switch (plan.state) {
+      case "needs":
+        activeStep = 0;
+        plan.step = 0;
+        break;
+      case "availabilities":
+        activeStep = 2;
+        plan.step = 2;
+        break;
+      default:
+        activeStep = 4;
+        plan.step = 4;
+    }
     this.state = {
       plan,
-      activeStep: 0,
-      updatingPlan: false
+      updatingPlan: false,
+      activeStep
     };
   }
 
@@ -225,9 +243,12 @@ class ManagePlanStepper extends React.Component {
   };
 
   handleContinue = () => {
-    const { activeStep } = this.state;
+    const {
+      activeStep,
+      plan: { step: planStep }
+    } = this.state;
     if (this.validate()) {
-      if (activeStep === 3) {
+      if (activeStep === 3 || (planStep === 0 && activeStep === 1)) {
         this.updatePlan();
       }
       this.setState(state => ({
@@ -323,26 +344,31 @@ class ManagePlanStepper extends React.Component {
   getStepContent = () => {
     const { language, myChildren } = this.props;
     const { activeStep, plan } = this.state;
-    const modifiers = {
-      needs: plan.participant.needs.map(n => n.day)
-    };
+    const texts = Texts[language].managePlanStepper;
     switch (activeStep) {
       case 0:
         return (
-          <DayPicker
-            className="horizontalCenter"
-            disabledDays={[
-              {
-                before: new Date(plan.from),
-                after: new Date(plan.to)
-              }
-            ]}
-            localeUtils={MomentLocaleUtils}
-            locale={language}
-            selectedDays={plan.participant.needs.map(n => n.day)}
-            onDayClick={this.handleNeedDayClick}
-            modifiersStyles={modifiersStyles}
-          />
+          <div>
+            <div className="deadlineHEader">
+              {`${texts.needsDeadline} ${moment(plan.deadline).format(
+                "MMM Do"
+              )}`}
+            </div>
+            <DayPicker
+              className="horizontalCenter"
+              disabledDays={[
+                {
+                  before: new Date(plan.from),
+                  after: new Date(plan.to)
+                }
+              ]}
+              localeUtils={MomentLocaleUtils}
+              locale={language}
+              selectedDays={plan.participant.needs.map(n => n.day)}
+              onDayClick={this.handleNeedDayClick}
+              modifiersStyles={modifiersStyles}
+            />
+          </div>
         );
       case 1:
         return (
@@ -350,7 +376,7 @@ class ManagePlanStepper extends React.Component {
             {plan.participant.needs.map(need => (
               <li key={need.day.getTime()} className="needContainer">
                 <div className="needHeader">
-                  {moment(need.day).format("MMM DD")}
+                  {moment(need.day).format("MMM Do")}
                 </div>
                 {myChildren.map(child => (
                   <TimeslotSubscribe
@@ -374,21 +400,27 @@ class ManagePlanStepper extends React.Component {
         );
       case 2:
         return (
-          <DayPicker
-            className="horizontalCenter"
-            disabledDays={[
-              {
-                before: new Date(plan.from),
-                after: new Date(plan.to)
-              }
-            ]}
-            localeUtils={MomentLocaleUtils}
-            locale={language}
-            selectedDays={plan.participant.availabilities.map(n => n.day)}
-            onDayClick={this.handleAvailabilityDayClick}
-            modifiersStyles={modifiersStyles}
-            modifiers={modifiers}
-          />
+          <div>
+            <div className="deadlineHeader">
+              {`${texts.availabilitiesDeadline} ${moment(plan.deadline).format(
+                "MMM DD"
+              )}`}
+            </div>
+            <DayPicker
+              className="horizontalCenter"
+              disabledDays={[
+                {
+                  before: new Date(plan.from),
+                  after: new Date(plan.to)
+                }
+              ]}
+              localeUtils={MomentLocaleUtils}
+              locale={language}
+              selectedDays={plan.participant.availabilities.map(n => n.day)}
+              onDayClick={this.handleAvailabilityDayClick}
+              modifiersStyles={modifiersStyles}
+            />
+          </div>
         );
       case 3:
         return (
@@ -442,7 +474,11 @@ class ManagePlanStepper extends React.Component {
     const { classes, language } = this.props;
     const texts = Texts[language].managePlanStepper;
     const steps = texts.stepLabels;
-    const { activeStep, updatingPlan } = this.state;
+    const {
+      activeStep,
+      updatingPlan,
+      plan: { step: planStep }
+    } = this.state;
 
     return !updatingPlan ? (
       <div className={classes.root}>
@@ -462,12 +498,13 @@ class ManagePlanStepper extends React.Component {
                           onClick={this.handleContinue}
                           className={classes.continueButton}
                         >
-                          {activeStep === steps.length - 1
+                          {activeStep === steps.length - 1 ||
+                          (activeStep === 1 && planStep === 0)
                             ? texts.finish
                             : texts.continue}
                         </Button>
                         <Button
-                          disabled={activeStep === 0}
+                          disabled={activeStep === 0 || activeStep <= planStep}
                           onClick={this.handleCancel}
                           className={classes.cancelButton}
                         >

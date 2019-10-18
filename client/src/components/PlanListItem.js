@@ -18,11 +18,27 @@ class PlanListItem extends React.Component {
     history.push(`/groups/${groupId}/plans/${planId}`);
   };
 
-  render() {
+  renderParticipantText = () => {
     const { plan } = this.state;
     const { language } = this.props;
     const texts = Texts[language].planListItem;
     const participantsLength = plan.participants.length;
+    if (plan.step === 0) {
+      return `${participantsLength} ${
+        participantsLength === 1
+          ? texts.participantNeeds
+          : texts.participantsNeeds
+      }`;
+    }
+    return `${participantsLength} ${
+      participantsLength === 1
+        ? texts.participantAvailabilities
+        : texts.participantsAvailabilities
+    }`;
+  };
+
+  render() {
+    const { plan } = this.state;
     return (
       <React.Fragment>
         <div
@@ -56,13 +72,7 @@ class PlanListItem extends React.Component {
                   className="far fa-calendar-alt"
                   style={{ marginRight: "1rem" }}
                 />
-                <h2>
-                  {`${participantsLength} ${
-                    participantsLength === 1
-                      ? texts.participant
-                      : texts.participants
-                  }`}
-                </h2>
+                <h2>{this.renderParticipantText()}</h2>
               </div>
             </div>
           </div>

@@ -3,10 +3,64 @@
 import React from "react";
 
 const en = {
+  editPlanScreen: {
+    requiredErr: "Please fill out this field.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
+    backNavTitle: "Edit Plan",
+    ratio: "Children to parents ratio",
+    minVolunteers: "Minimum Volunteers",
+    deadline: "Deadline",
+    needsState: "Provide Needs",
+    availabilitiesState: "Provide Availabilities",
+    planningState: "Create Plan",
+    creationState: "Create Activities",
+    state: "Plan State",
+    needsStateHelper:
+      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+    availabilitiesStateHelper:
+      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+    planningStateHelper:
+      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+    creationStateHelper:
+      "In creation phase the optimal plan gets transformed into activities."
+  },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    deadlineErr: "Deadline must be inside date range",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide needs deadline",
+      "Provide the location"
+    ]
+  },
   managePlanScreen: {
-    backNavTitle: "Manage Planning"
+    backNavTitle: "Manage Planning",
+    deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    nextPhase: "Next phase",
+    previousPhase: "Previous phase",
+    finishPlan: "Create Activities",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
@@ -16,12 +70,17 @@ const en = {
       "Add availabilities",
       "Customize availabilities"
     ],
+    needsDeadline: "You have to provide your needs until",
+    availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
     needError: "Missing child assignemnt for date"
   },
   planListItem: {
-    participants: "members have specified needs and availabilities",
-    participant: "member has specified needs and availabilities"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities:
+      "members have specified needs and availabilities",
+    participantAvailabilities: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -678,7 +737,8 @@ const en = {
     memberHeader: "About"
   },
   groupActivities: {
-    header: "Activities of the group",
+    activitiesHeader: "Activities of the group",
+    plansHeader: "Pending plans",
     export: "Export agenda"
   },
   activityListItem: {
@@ -1031,24 +1091,6 @@ const en = {
     backNavTitle: "New activity"
   },
   createPlanScreen: { backNavTitle: "New Planning" },
-  createPlanStepper: {
-    name: "Name",
-    from: "From",
-    to: "To",
-    description: "Description",
-    location: "Location",
-    requiredErr: "Please fill out this field.",
-    rangeErr: "Invalid start and end date combination",
-    continue: "Continue",
-    cancel: "Cancel",
-    finish: "Create",
-    save: "Save",
-    stepLabels: [
-      "Provide a title for the planned activity",
-      "Set date range",
-      "Provide the location"
-    ]
-  },
   createActivityStepper: {
     pendingMessage: "The activity is pending confirmation from an admin",
     continue: "Continue",
@@ -1220,10 +1262,64 @@ const en = {
 };
 
 const nl = {
+  editPlanScreen: {
+    requiredErr: "Please fill out this field.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
+    backNavTitle: "Edit Plan",
+    ratio: "Children to parents ratio",
+    minVolunteers: "Minimum Volunteers",
+    deadline: "Deadline",
+    needsState: "Provide Needs",
+    availabilitiesState: "Provide Availabilities",
+    planningState: "Create Plan",
+    creationState: "Create Activities",
+    state: "Plan State",
+    needsStateHelper:
+      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+    availabilitiesStateHelper:
+      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+    planningStateHelper:
+      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+    creationStateHelper:
+      "In creation phase the optimal plan gets transformed into activities."
+  },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    deadlineErr: "Deadline must be inside date range",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide needs deadline",
+      "Provide the location"
+    ]
+  },
   managePlanScreen: {
-    backNavTitle: "Manage Planning"
+    backNavTitle: "Manage Planning",
+    deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    nextPhase: "Next phase",
+    previousPhase: "Previous phase",
+    finishPlan: "Create Activities",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
@@ -1233,29 +1329,17 @@ const nl = {
       "Add availabilities",
       "Customize availabilities"
     ],
+    needsDeadline: "You have to provide your needs until",
+    availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
     needError: "Missing child assignemnt for date"
   },
-  createPlanStepper: {
-    name: "Naam",
-    from: "Van",
-    to: "Aan",
-    description: "Description",
-    location: "Locatie",
-    requiredErr: "Vul dit veld in.",
-    rangeErr: "Ongeldige begin- en einddatumcombinatie",
-    continue: "Doorgaan",
-    cancel: "Annuleren",
-    finish: "Maken",
-    save: "Opslaan",
-    stepLabels: [
-      "Geef een titel op voor de geplande activiteit",
-      "Stel datumbereik in",
-      "Geef de locatie op"
-    ]
-  },
   planListItem: {
-    open: "Open voor planning"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities:
+      "members have specified needs and availabilities",
+    participantAvailabilities: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Gemeenschaps interface",
@@ -1294,6 +1378,16 @@ const nl = {
     backNavTitle: "Mijn Kalender"
   },
   editTimeslotScreen: {
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
     addTimeslotTitle: "Nieuw Tijdslot",
     timeErr: "Ongeldige combinatie van begin- en eindtijd",
     from: "Van",
@@ -1890,7 +1984,8 @@ const nl = {
     memberHeader: "Informatie"
   },
   groupActivities: {
-    header: "Activiteiten van de groep",
+    activitiesHeader: "Activiteiten van de groep",
+    plansHeader: "In afwachting van plannen",
     export: "Exporteer agenda"
   },
   activityListItem: {
@@ -2298,7 +2393,17 @@ const nl = {
     fixed: "Vastgelegd",
     completed: "Voltooid",
     requiredErr: "Vul alstublieft dit veld in.",
-    rangeErr: "Selecteer een waarde groter dan nul."
+    rangeErr: "Selecteer een waarde groter dan nul.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity"
   },
   editActivityScreen: {
     backNavTitle: "Bewerk activiteit",
@@ -2351,10 +2456,64 @@ const nl = {
 };
 
 const it = {
+  editPlanScreen: {
+    requiredErr: "Please fill out this field.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
+    backNavTitle: "Edit Plan",
+    ratio: "Children to parents ratio",
+    minVolunteers: "Minimum Volunteers",
+    deadline: "Deadline",
+    needsState: "Provide Needs",
+    availabilitiesState: "Provide Availabilities",
+    planningState: "Create Plan",
+    creationState: "Create Activities",
+    state: "Plan State",
+    needsStateHelper:
+      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+    availabilitiesStateHelper:
+      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+    planningStateHelper:
+      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+    creationStateHelper:
+      "In creation phase the optimal plan gets transformed into activities."
+  },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    deadlineErr: "Deadline must be inside date range",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide needs deadline",
+      "Provide the location"
+    ]
+  },
   managePlanScreen: {
-    backNavTitle: "Manage Planning"
+    backNavTitle: "Manage Planning",
+    deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    nextPhase: "Next phase",
+    previousPhase: "Previous phase",
+    finishPlan: "Create Activities",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
@@ -2364,29 +2523,17 @@ const it = {
       "Add availabilities",
       "Customize availabilities"
     ],
+    needsDeadline: "You have to provide your needs until",
+    availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
     needError: "Missing child assignemnt for date"
   },
-  createPlanStepper: {
-    name: "Nome",
-    from: "Da",
-    to: "A",
-    description: "Descrizione",
-    location: "Posizione",
-    requiredErr: "Compila questo campo.",
-    rangeErr: "Combinazione di date di inizio e fine non valide",
-    continue: "Continua",
-    cancel: "Annulla",
-    finish: "Crea",
-    save: "Salva",
-    stepLabels: [
-      "Fornisci un titolo per l'attività pianificata",
-      "Imposta intervallo di date",
-      "Fornisci la posizione"
-    ]
-  },
   planListItem: {
-    open: "Aperto per la pianificazione"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities:
+      "members have specified needs and availabilities",
+    participantAvailabilities: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Interfaccia della comunità",
@@ -2425,6 +2572,16 @@ const it = {
     backNavTitle: "Il mio calendario"
   },
   editTimeslotScreen: {
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
     addTimeslotTitle: "Nuovo orario",
     timeErr: "Combinazione di inizio e fine ora non valida",
     details: "Dettagli",
@@ -3016,7 +3173,8 @@ const it = {
     header: "Informazioni sul gruppo"
   },
   groupActivities: {
-    header: "Attività del gruppo",
+    activitiesHeader: "Attività del gruppo",
+    plansHeader: "Piani in sospeso",
     export: "Esporta l'agenda"
   },
   activityListItem: {
@@ -3441,7 +3599,17 @@ const it = {
     fixed: "Confermata",
     completed: "Completata",
     requiredErr: "Perfavore compila questo campo.",
-    rangeErr: "Perfavore seleziona un valore maggiore di zero"
+    rangeErr: "Perfavore seleziona un valore maggiore di zero",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity"
   },
   editActivityScreen: {
     backNavTitle: "Modifica attività",
@@ -3502,10 +3670,64 @@ const it = {
 };
 
 const el = {
+  editPlanScreen: {
+    requiredErr: "Please fill out this field.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
+    backNavTitle: "Edit Plan",
+    ratio: "Children to parents ratio",
+    minVolunteers: "Minimum Volunteers",
+    deadline: "Deadline",
+    needsState: "Provide Needs",
+    availabilitiesState: "Provide Availabilities",
+    planningState: "Create Plan",
+    creationState: "Create Activities",
+    state: "Plan State",
+    needsStateHelper:
+      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+    availabilitiesStateHelper:
+      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+    planningStateHelper:
+      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+    creationStateHelper:
+      "In creation phase the optimal plan gets transformed into activities."
+  },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    deadlineErr: "Deadline must be inside date range",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide needs deadline",
+      "Provide the location"
+    ]
+  },
   managePlanScreen: {
-    backNavTitle: "Manage Planning"
+    backNavTitle: "Manage Planning",
+    deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    nextPhase: "Next phase",
+    previousPhase: "Previous phase",
+    finishPlan: "Create Activities",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
@@ -3515,29 +3737,17 @@ const el = {
       "Add availabilities",
       "Customize availabilities"
     ],
+    needsDeadline: "You have to provide your needs until",
+    availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
     needError: "Missing child assignemnt for date"
   },
-  createPlanStepper: {
-    name: "Όνομα",
-    from: "Από",
-    to: "Έως",
-    description: "Περιγραφή",
-    location: "Τοποθεσία",
-    requiredErr: "Παρακαλώ συμπληρώσετε αυτό το πεδίο",
-    rangeErr: "Μη έγκυρος συνδυασμός ημερομηνιών",
-    continue: "Συνέχεια",
-    cancel: "Ακύρωση",
-    finish: "Δημιουργία",
-    save: "Αποθήκευση",
-    stepLabels: [
-      "Παρέχετε ένα τίτλο για τη δραστηριότητα",
-      "Ορίστε το εύρος των ημερομηνιών",
-      "Παρέχετε τη τοποθεσία"
-    ]
-  },
   planListItem: {
-    open: "Ανοιχτό για προγραμματισμό"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities:
+      "members have specified needs and availabilities",
+    participantAvailabilities: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -3576,6 +3786,16 @@ const el = {
     backNavTitle: "Το ημερολόγιο μου"
   },
   editTimeslotScreen: {
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
     addTimeslotTitle: "Νέα Χρονική Περίοδος",
     timeErr: "Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης",
     details: "Λεπτομέρειες",
@@ -4170,7 +4390,8 @@ const el = {
   },
   groupAbout: { memberHeader: "Πληροφορίες", header: "Σχετικά με την ομάδα" },
   groupActivities: {
-    header: "Δραστηριότητες της ομάδας",
+    activitiesHeader: "Δραστηριότητες της ομάδας",
+    plansHeader: "Εκκρεμή σχέδια",
     export: "Εξαγωγή Ημερολογίου"
   },
   activityListItem: {
@@ -4593,7 +4814,17 @@ const el = {
     fixed: "Κανονισμένο",
     completed: "Ολοκληρωμένο ",
     requiredErr: "Παρακαλούμε συμπληρώσετε αυτό το πεδίο.",
-    rangeErr: "Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός."
+    rangeErr: "Παρακαλούμε επιλέξετε μια τιμή μεγαλύτερη του μηδενός.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity"
   },
   editActivityScreen: {
     backNavTitle: "Επεξεργασία δραστηριότητας",
@@ -4649,10 +4880,64 @@ const el = {
 };
 
 const hu = {
+  editPlanScreen: {
+    requiredErr: "Please fill out this field.",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
+    backNavTitle: "Edit Plan",
+    ratio: "Children to parents ratio",
+    minVolunteers: "Minimum Volunteers",
+    deadline: "Deadline",
+    needsState: "Provide Needs",
+    availabilitiesState: "Provide Availabilities",
+    planningState: "Create Plan",
+    creationState: "Create Activities",
+    state: "Plan State",
+    needsStateHelper:
+      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+    availabilitiesStateHelper:
+      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+    planningStateHelper:
+      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+    creationStateHelper:
+      "In creation phase the optimal plan gets transformed into activities."
+  },
+  createPlanStepper: {
+    name: "Name",
+    from: "From",
+    to: "To",
+    description: "Description",
+    location: "Location",
+    requiredErr: "Please fill out this field.",
+    deadlineErr: "Deadline must be inside date range",
+    rangeErr: "Invalid start and end date combination",
+    continue: "Continue",
+    cancel: "Cancel",
+    finish: "Create",
+    save: "Save",
+    stepLabels: [
+      "Provide a title for the planned activity",
+      "Set date range",
+      "Provide needs deadline",
+      "Provide the location"
+    ]
+  },
   managePlanScreen: {
-    backNavTitle: "Manage Planning"
+    backNavTitle: "Manage Planning",
+    deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    nextPhase: "Next phase",
+    previousPhase: "Previous phase",
+    finishPlan: "Create Activities",
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
@@ -4662,29 +4947,17 @@ const hu = {
       "Add availabilities",
       "Customize availabilities"
     ],
+    needsDeadline: "You have to provide your needs until",
+    availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
     needError: "Missing child assignemnt for date"
   },
-  createPlanStepper: {
-    name: "Név",
-    from: "Tól",
-    to: "To",
-    description: "Leírás",
-    location: "Hely",
-    requiredErr: "Kérjük, töltse ki ezt a mezőt.",
-    rangeErr: "Érvénytelen kezdési és befejezési dátum kombináció",
-    continue: "Folytatás",
-    cancel: "Cancel",
-    finish: "Létrehozás",
-    save: "Mentés",
-    stepLabels: [
-      "Adjon címet a tervezett tevékenységnek",
-      "Dátumtartomány beállítása",
-      "Adja meg a helyet"
-    ]
-  },
   planListItem: {
-    open: "Nyitva a tervezéshez"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities:
+      "members have specified needs and availabilities",
+    participantAvailabilities: "member has specified needs and availabilities"
   },
   communityInterface: {
     backNavTitle: "Közösségi felület",
@@ -4723,6 +4996,16 @@ const hu = {
     backNavTitle: "Eseménynaptáram"
   },
   editTimeslotScreen: {
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity",
     addTimeslotTitle: "Uj Időszak",
     from: "Tól",
     date: "Időpont",
@@ -5325,7 +5608,8 @@ const hu = {
     memberHeader: "Rólunk"
   },
   groupActivities: {
-    header: "A csoport tevékenységei",
+    activitiesHeader: "A csoport tevékenységei",
+    plansHeader: "Függőben lévő tervek",
     export: "Program exportálása"
   },
   activityListItem: {
@@ -5781,7 +6065,17 @@ const hu = {
     completed: "Befejezve",
     timeErr: "Érvénytelen a kezdő és a záró idöpont kombinációja",
     requiredErr: "Kérjük, töltse ki ezt a mezőt",
-    rangeErr: "Kérjük, adjon meg null"
+    rangeErr: "Kérjük, adjon meg null",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
+    category: "Type of activity"
   },
   editActivityScreen: {
     backNavTitle: "Tevékenység szerkesztése",

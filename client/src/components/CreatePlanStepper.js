@@ -112,7 +112,8 @@ class CreatePlanStepper extends React.Component {
     location: "",
     creatingPlan: false,
     from: "",
-    to: ""
+    to: "",
+    deadline: ""
   };
 
   componentDidMount() {
@@ -140,14 +141,15 @@ class CreatePlanStepper extends React.Component {
     const { history, match } = this.props;
     const { groupId } = match.params;
     this.setState({ creatingPlan: true });
-    const { description, name, location, from, to } = this.state;
+    const { description, name, location, from, to, deadline } = this.state;
     axios
       .post(`/api/groups/${groupId}/plans`, {
         name,
         description,
         location,
         from,
-        to
+        to,
+        deadline
       })
       .then(response => {
         Log.info(response);
@@ -161,7 +163,7 @@ class CreatePlanStepper extends React.Component {
   handleContinue = () => {
     const { activeStep } = this.state;
     if (this.validate()) {
-      if (activeStep === 2) {
+      if (activeStep === 3) {
         this.createPlan();
       }
       this.setState(state => ({
@@ -182,7 +184,7 @@ class CreatePlanStepper extends React.Component {
   handleChange = event => {
     const { name, value } = event.target;
     const { language } = this.props;
-    const { from } = this.state;
+    const { from, to } = this.state;
     if (name === "to") {
       if (new Date(from) - new Date(value) > 0) {
         event.target.setCustomValidity(
@@ -191,6 +193,21 @@ class CreatePlanStepper extends React.Component {
       } else {
         event.target.setCustomValidity("");
       }
+    } else if (name === "deadline") {
+      if (
+        !(
+          new Date(value) - new Date(from) > 0 &&
+          new Date(to) - new Date(value) > 0
+        )
+      ) {
+        event.target.setCustomValidity(
+          Texts[language].createPlanStepper.deadlineErr
+        );
+      } else {
+        event.target.setCustomValidity("");
+      }
+    } else {
+      event.target.setCustomValidity("");
     }
     this.setState({ [name]: value });
   };
@@ -207,7 +224,11 @@ class CreatePlanStepper extends React.Component {
             if (elem.validity.valueMissing) {
               errorLabel.textContent = texts.requiredErr;
             } else if (elem.validity.customError) {
-              errorLabel.textContent = texts.rangeErr;
+              if (elem.name === "deadline") {
+                errorLabel.textContent = texts.deadlineErr;
+              } else {
+                errorLabel.textContent = texts.rangeErr;
+              }
             }
           } else {
             errorLabel.textContent = "";
@@ -228,7 +249,15 @@ class CreatePlanStepper extends React.Component {
 
   getStepContent = () => {
     const { language } = this.props;
-    const { activeStep, name, location, description, from, to } = this.state;
+    const {
+      activeStep,
+      name,
+      location,
+      description,
+      from,
+      to,
+      deadline
+    } = this.state;
     const texts = Texts[language].createPlanStepper;
     switch (activeStep) {
       case 0:
@@ -283,6 +312,20 @@ class CreatePlanStepper extends React.Component {
           </div>
         );
       case 2:
+        return (
+          <div>
+            <input
+              className="createPlanDateInput form-control"
+              type="date"
+              onChange={this.handleChange}
+              value={deadline}
+              required
+              name="deadline"
+            />
+            <span className="invalid-feedback" id="deadlineErr" />
+          </div>
+        );
+      case 3:
         return (
           <div>
             <input
