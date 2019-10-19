@@ -186,6 +186,18 @@ class TimeslotScreen extends React.Component {
     history.push(route);
   };
 
+  handleEmergency = () => {
+    const { history } = this.props;
+    const { pathname } = history.location;
+    const { timeslot } = this.state;
+    history.push({
+      pathname: `${pathname}/emergency`,
+      state: {
+        timeslot
+      }
+    });
+  };
+
   handleSave = () => {
     const { history } = this.props;
     const { pathname } = history.location;
@@ -304,27 +316,29 @@ class TimeslotScreen extends React.Component {
     let profiles;
     let showing;
     let participantsHeader;
-    let minimum;
+    // let minimum;
     if (type === "parents") {
       participants = timeslot.extendedProperties.shared.parents;
       profiles = parentProfiles.filter(profile =>
         participants.includes(profile.user_id)
       );
       showing = showParents;
-      participantsHeader = `${participants.length} ${
-        participants.length === 1 ? texts.volunteer : texts.volunteers
-      } ${texts.signup}`;
-      minimum = timeslot.extendedProperties.shared.requiredParents;
+      // participantsHeader = `${participants.length} ${
+      //   participants.length === 1 ? texts.volunteer : texts.volunteers
+      // } ${texts.signup}`;
+      // minimum = timeslot.extendedProperties.shared.requiredParents;
+      participantsHeader = texts.volunteers;
     } else {
       participants = timeslot.extendedProperties.shared.children;
       profiles = childrenProfiles.filter(profile =>
         participants.includes(profile.child_id)
       );
       showing = showChildren;
-      participantsHeader = `${participants.length} ${
-        participants.length === 1 ? texts.child : texts.children
-      } ${texts.signup}`;
-      minimum = timeslot.extendedProperties.shared.requiredChildren;
+      // participantsHeader = `${participants.length} ${
+      //   participants.length === 1 ? texts.child : texts.children
+      // } ${texts.signup}`;
+      // minimum = timeslot.extendedProperties.shared.requiredChildren;
+      participantsHeader = texts.children;
     }
     return (
       <div className="participantsContainer">
@@ -345,9 +359,9 @@ class TimeslotScreen extends React.Component {
           </button>
         </div>
         <ul style={showing ? {} : { display: "none" }}>
-          <div className="participantsMinimum">
+          {/* <div className="participantsMinimum">
             {`${texts.minimum} ${minimum}`}
-          </div>
+          </div> */}
           {profiles.map((profile, index) => (
             <li key={index} style={{ display: "block" }}>
               <div className="row" style={{ margin: "1rem 0" }}>
@@ -518,16 +532,18 @@ class TimeslotScreen extends React.Component {
               </div>
             </div>
           )}
-          <div className="row no-gutters" style={rowStyle}>
-            <div className="col-2-10">
-              <i className="fas fa-bookmark activityInfoIcon" />
-            </div>
-            <div className="col-8-10">
-              <div className="activityInfoDescription">
-                {timeslot.extendedProperties.shared.category}
+          {timeslot.extendedProperties.shared.category && (
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-2-10">
+                <i className="fas fa-bookmark activityInfoIcon" />
+              </div>
+              <div className="col-8-10">
+                <div className="activityInfoDescription">
+                  {timeslot.extendedProperties.shared.category}
+                </div>
               </div>
             </div>
-          </div>
+          )}
           <div className="row no-gutters" style={rowStyle}>
             <div className="col-2-10">
               <img
@@ -545,17 +561,34 @@ class TimeslotScreen extends React.Component {
         </div>
         <div id="activityMainContainer" style={{ marginTop: 0 }}>
           <div className="row no-gutters" style={rowStyle}>
-            <div className="activityInfoHeader">{texts.userAvailability}</div>
-            {this.getUserSubscribe()}
+            <button
+              className="emergencyButton"
+              type="button"
+              onClick={this.handleEmergency}
+            >
+              {texts.emergency}
+            </button>
+          </div>
+          <div className="row no-gutters" style={rowStyle}>
+            {timeslot.extendedProperties.shared.status === "ongoing" && (
+              <React.Fragment>
+                <div className="activityInfoHeader">
+                  {texts.userAvailability}
+                </div>
+                {this.getUserSubscribe()}
+              </React.Fragment>
+            )}
             {this.renderParticipants("parents")}
           </div>
-        </div>
-        <div id="activityMainContainer" style={{ marginTop: 0 }}>
           <div className="row no-gutters" style={rowStyle}>
-            <div className="activityInfoHeader">
-              {texts.childrenAvailability}
-            </div>
-            {this.getChildrenSubscribes()}
+            {timeslot.extendedProperties.shared.status === "ongoing" && (
+              <React.Fragment>
+                <div className="activityInfoHeader">
+                  {texts.childrenAvailability}
+                </div>
+                {this.getChildrenSubscribes()}
+              </React.Fragment>
+            )}
             {this.renderParticipants("children")}
           </div>
         </div>

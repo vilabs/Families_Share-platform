@@ -3,6 +3,17 @@
 import React from "react";
 
 const en = {
+  timeslotEmergencyScreen: {
+    copy: "Copied emergency number to clipboard",
+    call: "Call",
+    header: "Emergency Numbers:",
+    services: {
+      general: "General Emergency",
+      ambulance: "Ambulance",
+      police: "Police",
+      fire: "Fire Departmnet"
+    }
+  },
   editPlanScreen: {
     requiredErr: "Please fill out this field.",
     learning: "learning or educational activities/homework",
@@ -156,9 +167,10 @@ const en = {
     userAvailability: "Add your availability:",
     childrenAvailability: "Add your children availability:",
     volunteer: "volunteer",
-    volunteers: "volunteers",
+    volunteers: "Volunteers",
     child: "child",
-    children: "children",
+    children: "Children",
+    emergency: "EMERGENCY",
     signup: "signed up",
     userSubscribe: "You have added yourself to the activity",
     userUnsubscribe: "You have removed yourself from the activity",
@@ -1262,6 +1274,17 @@ const en = {
 };
 
 const nl = {
+  timeslotEmergencyScreen: {
+    copy: "Copied emergency number to clipboard",
+    call: "Call",
+    header: "Emergency Numbers:",
+    services: {
+      general: "General Emergency",
+      ambulance: "Ambulance",
+      police: "Police",
+      fire: "Fire Departmnet"
+    }
+  },
   editPlanScreen: {
     requiredErr: "Please fill out this field.",
     learning: "learning or educational activities/homework",
@@ -1410,6 +1433,7 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    emergency: "NOODGEVAL",
     minimum: "minimum antaal",
     userAvailability: "Voeg uw beschikbaarheid toe:",
     childrenAvailability: "Voeg uw kinderenbeschikbaarheid toe:",
@@ -2456,6 +2480,17 @@ const nl = {
 };
 
 const it = {
+  timeslotEmergencyScreen: {
+    copy: "Copied emergency number to clipboard",
+    call: "Call",
+    header: "Emergency Numbers:",
+    services: {
+      general: "General Emergency",
+      ambulance: "Ambulance",
+      police: "Police",
+      fire: "Fire Departmnet"
+    }
+  },
   editPlanScreen: {
     requiredErr: "Please fill out this field.",
     learning: "learning or educational activities/homework",
@@ -2605,6 +2640,7 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    emergency: "EMERGENZA",
     minimum: "numero minimo",
     userAvailability: "Aggiungi la tua disponibilità:",
     childrenAvailability: "Aggiungi la disponibilità dei tuoi bambini:",
@@ -3670,6 +3706,17 @@ const it = {
 };
 
 const el = {
+  timeslotEmergencyScreen: {
+    copy: "Copied emergency number to clipboard",
+    call: "Call",
+    header: "Emergency Numbers:",
+    services: {
+      general: "General Emergency",
+      ambulance: "Ambulance",
+      police: "Police",
+      fire: "Fire Departmnet"
+    }
+  },
   editPlanScreen: {
     requiredErr: "Please fill out this field.",
     learning: "learning or educational activities/homework",
@@ -3820,6 +3867,7 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
+    emergency: "ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ",
     minimum: "ελάχιστος αριθμός",
     userAvailability: "Προσθέσετε τη διαθεσιμότητα σας:",
     childrenAvailability: "Προσθέσετε τη διαθεσιμότητα των παιδιών σας:",
@@ -4880,6 +4928,17 @@ const el = {
 };
 
 const hu = {
+  timeslotEmergencyScreen: {
+    copy: "Copied emergency number to clipboard",
+    call: "Call",
+    header: "Emergency Numbers:",
+    services: {
+      general: "General Emergency",
+      ambulance: "Ambulance",
+      police: "Police",
+      fire: "Fire Departmnet"
+    }
+  },
   editPlanScreen: {
     requiredErr: "Please fill out this field.",
     learning: "learning or educational activities/homework",
@@ -5029,6 +5088,7 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    emergency: "VESZHELYZET",
     minimum: "minimum érték",
     userAvailability: "Adja meg saját elérhetőségét",
     childrenAvailability: "Adja meg gyermeke elérhetőségét",
