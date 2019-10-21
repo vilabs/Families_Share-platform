@@ -6,6 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import * as path from "lodash.get";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import ConfirmDialog from "./ConfirmDialog";
@@ -81,6 +82,20 @@ const getChildrenProfiles = ids => {
     });
 };
 
+const getGroupAdmins = groupId => {
+  return axios
+    .get(`/api/groups/${groupId}/members`)
+    .then(response => {
+      return response.data.filter(
+        m => m.user_accepted && m.group_accepted && m.admin
+      );
+    })
+    .catch(err => {
+      Log.error(err);
+      return [];
+    });
+};
+
 const getParentProfiles = ids => {
   return axios
     .get("/api/profiles", {
@@ -94,7 +109,8 @@ const getParentProfiles = ids => {
         return {
           user_id: parent.user_id,
           image: path(parent, ["image", "path"]),
-          name: `${parent.given_name} ${parent.family_name}`
+          name: `${parent.given_name} ${parent.family_name}`,
+          phone: parent.phone
         };
       });
     })
@@ -115,8 +131,11 @@ class TimeslotScreen extends React.Component {
     fetchedTimeslot: false,
     madeChanges: false,
     confirmDialogIsOpen: false,
+    confirmTrigger: "",
+    confirmData: {},
     showParents: false,
     showChildren: false,
+    showAdmins: false,
     children: [],
     parentProfiles: [],
     childrenProfiles: [],
@@ -133,7 +152,8 @@ class TimeslotScreen extends React.Component {
   async componentDidMount() {
     document.addEventListener("message", this.handleMessage, false);
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const { history } = this.props;
+    const { history, match } = this.props;
+    const { groupId } = match.params;
     const { pathname } = history.location;
     const timeslot = await getTimeslot(`/api${pathname}`);
     timeslot.extendedProperties.shared.parents = JSON.parse(
@@ -149,7 +169,11 @@ class TimeslotScreen extends React.Component {
       childrenIds.push(child);
     });
     parentIds.push(userId);
-    const parentProfiles = await getParentProfiles([...new Set(parentIds)]);
+    const admins = await getGroupAdmins(groupId);
+    const adminIds = admins.map(a => a.user_id);
+    const parentProfiles = await getParentProfiles([
+      ...new Set(parentIds.concat(adminIds))
+    ]);
     const childrenProfiles = await getChildrenProfiles([
       ...new Set(childrenIds)
     ]);
@@ -158,7 +182,8 @@ class TimeslotScreen extends React.Component {
       timeslot,
       parentProfiles,
       childrenProfiles,
-      children
+      children,
+      admins: adminIds
     });
   }
 
@@ -198,6 +223,39 @@ class TimeslotScreen extends React.Component {
     });
   };
 
+  handleParticipantIcon = (profile, type) => {
+    if (
+      (type === "parents" || type === "admins") &&
+      profile.phone !== undefined
+    ) {
+      return "fas fa-phone emergencyNumber";
+    }
+    if (type === "children") {
+      return "fas fa-info-circle emergencyNumber";
+    }
+    return "";
+  };
+
+  handleParticipantClick = (profile, type) => {
+    const { history, enqueueSnackbar, language } = this.props;
+    const texts = Texts[language].timeslotScreen;
+    if (type === "children") {
+      history.push(`/profiles/groupmember/children/${profile.child_id}`);
+    } else if (profile.phone !== undefined) {
+      if (window.isNative) {
+        this.setState({
+          confirmDialogIsOpen: true,
+          confirmTrigger: "phone",
+          confirmData: profile
+        });
+      } else {
+        enqueueSnackbar(texts.copy, {
+          variant: "info"
+        });
+      }
+    }
+  };
+
   handleSave = () => {
     const { history } = this.props;
     const { pathname } = history.location;
@@ -222,10 +280,19 @@ class TimeslotScreen extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
-    const { confirmTrigger } = this.state;
+    const { confirmTrigger, confirmData } = this.state;
     const { history } = this.props;
     if (choice === "agree") {
-      this.handleSave();
+      if (confirmTrigger === "phone") {
+        window.ReactNativeWebView.postMessage(
+          JSON.stringify({
+            action: "phoneCall",
+            value: confirmData.phone
+          })
+        );
+      } else {
+        this.handleSave();
+      }
     } else if (confirmTrigger === "back") {
       history.goBack();
     }
@@ -302,6 +369,23 @@ class TimeslotScreen extends React.Component {
     ).format("HH:mm")}-${moment(end.dateTime).format("HH:mm")}`;
   };
 
+  handleShowList = type => {
+    const { showParents, showAdmins, showChilden } = this.state;
+    switch (type) {
+      case "parents":
+        this.setState({ showParents: !showParents });
+        break;
+      case "children":
+        this.setState({ showChildren: !showChilden });
+        break;
+      case "admins":
+        this.setState({ showAdmins: !showAdmins });
+        break;
+
+      default:
+    }
+  };
+
   renderParticipants = type => {
     const { language, classes } = this.props;
     const {
@@ -309,7 +393,9 @@ class TimeslotScreen extends React.Component {
       parentProfiles,
       showParents,
       childrenProfiles,
-      showChildren
+      showChildren,
+      showAdmins,
+      admins
     } = this.state;
     const texts = Texts[language].timeslotScreen;
     let participants;
@@ -328,7 +414,7 @@ class TimeslotScreen extends React.Component {
       // } ${texts.signup}`;
       // minimum = timeslot.extendedProperties.shared.requiredParents;
       participantsHeader = texts.volunteers;
-    } else {
+    } else if (type === "children") {
       participants = timeslot.extendedProperties.shared.children;
       profiles = childrenProfiles.filter(profile =>
         participants.includes(profile.child_id)
@@ -339,6 +425,12 @@ class TimeslotScreen extends React.Component {
       // } ${texts.signup}`;
       // minimum = timeslot.extendedProperties.shared.requiredChildren;
       participantsHeader = texts.children;
+    } else {
+      showing = showAdmins;
+      participantsHeader = texts.admins;
+      profiles = parentProfiles.filter(profile =>
+        admins.includes(profile.user_id)
+      );
     }
     return (
       <div className="participantsContainer">
@@ -347,11 +439,7 @@ class TimeslotScreen extends React.Component {
           <button
             type="button"
             className="transparentButton participantsHeaderButton"
-            onClick={() =>
-              type === "parents"
-                ? this.setState({ showParents: !showParents })
-                : this.setState({ showChildren: !showChildren })
-            }
+            onClick={() => this.handleShowList(type)}
           >
             <i
               className={showing ? "fas fa-chevron-up" : "fas fa-chevron-down"}
@@ -365,8 +453,26 @@ class TimeslotScreen extends React.Component {
           {profiles.map((profile, index) => (
             <li key={index} style={{ display: "block" }}>
               <div className="row" style={{ margin: "1rem 0" }}>
-                <Avatar className={classes.avatar} src={profile.image} />
-                <div className="participantsText">{profile.name}</div>
+                <div className="col-2-10">
+                  <Avatar className={classes.avatar} src={profile.image} />
+                </div>
+                <div className="col-7-10">
+                  <div className="participantsText">{profile.name}</div>
+                </div>
+                <div className="col-1-10">
+                  <CopyToClipboard text={profile.phone}>
+                    <button
+                      className="transparentButton"
+                      type="button"
+                      onClick={() => this.handleParticipantClick(profile, type)}
+                    >
+                      <i
+                        style={{ color: "rgba(0,0,0,0.6)" }}
+                        className={this.handleParticipantIcon(profile, type)}
+                      />
+                    </button>
+                  </CopyToClipboard>
+                </div>
               </div>
             </li>
           ))}
@@ -429,12 +535,18 @@ class TimeslotScreen extends React.Component {
       timeslot,
       fetchedTimeslot,
       confirmDialogIsOpen,
-      madeChanges
+      madeChanges,
+      confirmTrigger,
+      confirmData
     } = this.state;
     return fetchedTimeslot ? (
       <React.Fragment>
         <ConfirmDialog
-          title={texts.editConfirm}
+          title={
+            confirmTrigger === "phone"
+              ? `${texts.phoneConfirm} ${confirmData.name}?`
+              : texts.editConfirm
+          }
           isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
         />
@@ -591,6 +703,9 @@ class TimeslotScreen extends React.Component {
             )}
             {this.renderParticipants("children")}
           </div>
+          <div className="row no-gutters" style={rowStyle}>
+            {this.renderParticipants("admins")}
+          </div>
         </div>
       </React.Fragment>
     ) : (
@@ -605,5 +720,6 @@ TimeslotScreen.propTypes = {
   language: PropTypes.string,
   history: PropTypes.object,
   enqueueSnackbar: PropTypes.func,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  match: PropTypes.object
 };

@@ -1,14 +1,14 @@
 /* EMERGENCY SCREEN */
 .emergencyContainer {
-  width: 92%;
-  padding: 0 4%;
+  width: 100%;
+  padding: 0 3%;
   padding-top: 3rem;
 }
-.emergencyHeader{ 
- font-size: 2rem;
- font-weight: 600;
- font-family: 'Roboto', sans-serif;
- margin-bottom: 2rem;
+.emergencyHeader {
+  font-size: 2rem;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  margin-bottom: 2rem;
 }
 .emergencyServiceContainer {
   height: 5.6rem;
@@ -1485,7 +1485,7 @@
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  background-color:#be1622;
+  background-color: #be1622;
 }
 .participantsText {
   font-size: 1.6rem;

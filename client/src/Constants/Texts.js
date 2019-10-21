@@ -163,6 +163,9 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
+    admins: "Group Administrators",
+    phoneConfirm: "Call",
+    copy: "Copied number to clipboard",
     minimum: "minimum number",
     userAvailability: "Add your availability:",
     childrenAvailability: "Add your children availability:",
@@ -1433,6 +1436,8 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    phoneConfirm: "Telefoontje",
+    copy: "Nummer naar klembord gekopieerd",
     emergency: "NOODGEVAL",
     minimum: "minimum antaal",
     userAvailability: "Voeg uw beschikbaarheid toe:",
@@ -2640,6 +2645,8 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    phoneConfirm: "Chiamata",
+    copy: "Numero copiato negli appunti",
     emergency: "EMERGENZA",
     minimum: "numero minimo",
     userAvailability: "Aggiungi la tua disponibilità:",
@@ -3867,6 +3874,8 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
+    phoneConfirm: "Κλήση προς",
+    copy: "Ο αριθμός αντιγράφηκε στο πρόχειρο",
     emergency: "ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ",
     minimum: "ελάχιστος αριθμός",
     userAvailability: "Προσθέσετε τη διαθεσιμότητα σας:",
@@ -5088,6 +5097,8 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    phoneConfirm: "Hívás",
+    copy: "A számot a vágólapra másolta",
     emergency: "VESZHELYZET",
     minimum: "minimum érték",
     userAvailability: "Adja meg saját elérhetőségét",
