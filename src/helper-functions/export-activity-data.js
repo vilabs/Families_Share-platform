@@ -1,8 +1,11 @@
 const Excel = require('exceljs')
 const Profile = require('../models/profile')
 const Child = require('../models/child')
+const path = require('path')
 const emergencyNumbers = require('../constants/emergency-numbers')
 const citylab = process.env.CITYLAB
+var PdfMake = require('pdfmake')
+const fs = require('fs')
 
 let citylabEmergencyNumbers
 
@@ -23,7 +26,7 @@ switch (citylab) {
 }
 
 function newExportEmail (activity_name) {
-  return (`<div
+  return `<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
   <div style="width:300px">
@@ -37,7 +40,6 @@ function newExportEmail (activity_name) {
     </div>
   </div>
 </div>`
-  )
 }
 
 async function createExcel (activity, timeslots, cb) {
@@ -111,7 +113,9 @@ async function createExcel (activity, timeslots, cb) {
       key: 'status'
     }
   ]
-  const sortedTimeslots = timeslots.sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
+  const sortedTimeslots = timeslots.sort(
+    (a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime)
+  )
   let specialNeedsProfiles = []
   for (const timeslot of sortedTimeslots) {
     const additionalInfo = timeslot.extendedProperties.shared
@@ -121,13 +125,20 @@ async function createExcel (activity, timeslots, cb) {
     const children = JSON.parse(additionalInfo.children)
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
-    const childrenWithSpecialNeeds = childrenProfiles.filter(c => c.allergies || c.special_needs || c.other.info)
-    specialNeedsProfiles = specialNeedsProfiles.concat(childrenWithSpecialNeeds)
+    const childrenWithSpecialNeeds = childrenProfiles.filter(
+      c => c.allergies || c.special_needs || c.other.info
+    )
+    specialNeedsProfiles = specialNeedsProfiles.concat(
+      childrenWithSpecialNeeds
+    )
     const start = new Date(timeslot.start.dateTime)
     const end = new Date(timeslot.end.dateTime)
-    const originalStart = timeslot.extendedProperties.shared.start || start.getHours()
-    const originalEnd = timeslot.extendedProperties.shared.end || end.getHours()
-    const date = `${start.getMonth() + 1}-${start.getDate()}-${start.getFullYear()}`
+    const originalStart =
+      timeslot.extendedProperties.shared.start || start.getHours()
+    const originalEnd =
+      timeslot.extendedProperties.shared.end || end.getHours()
+    const date = `${start.getMonth() +
+      1}-${start.getDate()}-${start.getFullYear()}`
     activitySheet.addRow({
       activity: activity.name,
       activityDescription: activity.description,
@@ -180,8 +191,10 @@ async function createExcel (activity, timeslots, cb) {
     }
   ]
   specialNeedsProfiles
-    .filter((profile, index, self) => index === self.findIndex((obj) => (
-      profile['child_id'] === obj['child_id'])))
+    .filter(
+      (profile, index, self) =>
+        index === self.findIndex(obj => profile['child_id'] === obj['child_id'])
+    )
     .forEach(profile => {
       needsSheet.addRow({
         child: `${profile.given_name} ${profile.family_name}`,
@@ -207,14 +220,186 @@ async function createExcel (activity, timeslots, cb) {
       number: emergency.number
     })
   })
-  workBook.xlsx.writeFile(`${activity.name.toUpperCase()}.xlsx`)
-    .then(() => {
-      console.log('Excel created')
-      cb()
-    })
+  workBook.xlsx.writeFile(`${activity.name.toUpperCase()}.xlsx`).then(() => {
+    console.log('Excel created')
+    cb()
+  })
+}
+
+async function createPdf (activity, timeslots, cb) {
+  const fonts = {
+    Roboto: {
+      normal: path.join(__dirname, '../fonts', 'Roboto-Regular.ttf'),
+      bold: path.join(__dirname, '../fonts', 'Roboto-Bold.ttf'),
+      italics: path.join(__dirname, '../fonts', 'Roboto-Italic.ttf'),
+      bolditalics: path.join(__dirname, '../fonts', 'Roboto-BoldItalic.ttf')
+    }
+  }
+  const printer = new PdfMake(fonts)
+  const sortedTimeslots = timeslots.sort(
+    (a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime)
+  )
+  const values = []
+  let specialNeedsProfiles = []
+  for (const timeslot of sortedTimeslots) {
+    const additionalInfo = timeslot.extendedProperties.shared
+    const requiredParents = additionalInfo.requiredParents
+    const requiredChildren = additionalInfo.requiredChildren
+    const parents = JSON.parse(additionalInfo.parents)
+    const children = JSON.parse(additionalInfo.children)
+    const parentProfiles = await Profile.find({ user_id: { $in: parents } })
+    const childrenProfiles = await Child.find({ child_id: { $in: children } })
+    const childrenWithSpecialNeeds = childrenProfiles.filter(
+      c => c.allergies || c.special_needs || c.other.info
+    )
+    specialNeedsProfiles = specialNeedsProfiles.concat(
+      childrenWithSpecialNeeds
+    )
+    const start = new Date(timeslot.start.dateTime)
+    const end = new Date(timeslot.end.dateTime)
+    const originalStart =
+      timeslot.extendedProperties.shared.start || start.getHours()
+    const originalEnd =
+      timeslot.extendedProperties.shared.end || end.getHours()
+    const date = `${start.getMonth() +
+      1}-${start.getDate()}-${start.getFullYear()}`
+    values.push([
+      timeslot.summary,
+      timeslot.description,
+      date,
+      `${originalStart}:${start.getMinutes()} - ${originalEnd}:${end.getMinutes()}`,
+      timeslot.location,
+      additionalInfo.cost,
+      requiredParents,
+      requiredChildren,
+      additionalInfo.status,
+      parentProfiles.map(p => `${p.given_name} ${p.family_name}`).toString(),
+      childrenProfiles.map(c => `${c.given_name} ${c.family_name}`).toString()
+    ])
+  }
+  const docDefinition = {
+    pageMargins: 50,
+    pageOrientation: 'landscape',
+    header: {
+      columns: [
+        { text: 'Families Share Platform', alignment: 'right', opacity: 0.5, margin: 5 }
+      ]
+    },
+    content: [
+      {
+        text: activity.name,
+        alignment: 'center',
+        fontSize: 16,
+        margin: [0, 0, 0, 50]
+      },
+      {
+        margin: [0, 0, 0, 50],
+        ul: [
+          {
+            text: ['Description: ', { text: activity.description, bold: true }]
+          },
+          {
+            text: [
+              'Repetitive Activity: ',
+              { text: activity.repetition ? 'YES' : 'NO', bold: true }
+            ]
+          },
+          {
+            text: [
+              'Kind of repetition: ',
+              {
+                text: activity.repetition ? activity.repetition_type : '-',
+                bold: true
+              }
+            ]
+          }
+        ]
+      },
+      {
+        text: 'SUB-ACTIVITIES/TIMESLOTS',
+        alignment: 'center',
+        fontSize: 16,
+        margin: [0, 0, 0, 50]
+      },
+      {
+        margin: [0, 0, 0, 50],
+        alignment: 'center',
+        table: {
+          headerRows: 1,
+          widths: [
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto',
+            'auto'
+          ],
+          body: [
+            [
+              'Timeslots',
+              'Description',
+              'Date',
+              'Starting & Ending Time',
+              'Place',
+              'Cost',
+              'Min n. of arents',
+              'Min n. of children',
+              'Status',
+              'Participating Parents',
+              'Participating Children'
+            ],
+            ...values
+          ]
+        }
+      },
+      {
+        text: 'CHILDREN THAT NEED EXTRA ATTENTION',
+        alignment: 'center',
+        fontSize: 16,
+        margin: [0, 0, 0, 50]
+      },
+      {
+        margin: [0, 0, 0, 50],
+        alignment: 'center',
+        table: {
+          headerRows: 1,
+          widths: [
+            'auto',
+            'auto',
+            'auto',
+            'auto'
+          ],
+          body: [
+            [
+              'Name',
+              'Allergies',
+              'Special Needs',
+              'Other Info'
+            ],
+            ...specialNeedsProfiles.map(c => [
+              `${c.given_name} ${c.family_name}`,
+              c.allergies,
+              c.specialNeeds,
+              c.additionalInfo
+            ])
+          ]
+        }
+      }
+    ]
+  }
+  const pdfDoc = printer.createPdfKitDocument(docDefinition)
+  pdfDoc.pipe(fs.createWriteStream(`${activity.name.toUpperCase()}.pdf`))
+  pdfDoc.end()
+  cb()
 }
 
 module.exports = {
   newExportEmail,
-  createExcel
+  createExcel,
+  createPdf
 }

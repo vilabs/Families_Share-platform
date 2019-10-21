@@ -1075,6 +1075,7 @@ router.post(
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
+    const { format } = req.body
     const group_id = req.params.groupId
     const user_id = req.user_id
     const activity_id = req.params.activityId
@@ -1100,28 +1101,57 @@ router.post(
       const activityTimeslots = calendarEvents.filter(
         event => event.extendedProperties.shared.activityId === activity_id
       )
-      exportActivity.createExcel(activity, activityTimeslots, () => {
-        const mailOptions = {
-          from: process.env.SERVER_MAIL,
-          to: req.email,
-          subject: `Activity: ${activity.name} `,
-          html: exportActivity.newExportEmail(activity.name),
-          attachments: [
-            {
-              filename: `${activity.name.toUpperCase()}.xlsx`,
-              path: path.join(
-                __dirname,
-                `../../${activity.name.toUpperCase()}.xlsx`
-              )
+      if (format === 'pdf') {
+        exportActivity.createPdf(activity, activityTimeslots, () => {
+          const mailOptions = {
+            from: process.env.SERVER_MAIL,
+            to: req.email,
+            subject: `Activity: ${activity.name} `,
+            html: exportActivity.newExportEmail(activity.name),
+            attachments: [
+              {
+                filename: `${activity.name.toUpperCase()}.pdf`,
+                path: path.join(
+                  __dirname,
+                  `../../${activity.name.toUpperCase()}.pdf`
+                )
+              }
+            ]
+          }
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) next(err)
+            if (format === 'excel') {
+              fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
+            } else {
+              fr('../../', { files: `${activity.name.toUpperCase()}.pdf` })
             }
-          ]
-        }
-        transporter.sendMail(mailOptions, (err, info) => {
-          if (err) next(err)
-          fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
+          })
+          res.status(200).send('Exported activity successfully')
         })
-        res.status(200).send('Exported activity successfully')
-      })
+      } else if (format === 'excel') {
+        exportActivity.createExcel(activity, activityTimeslots, () => {
+          const mailOptions = {
+            from: process.env.SERVER_MAIL,
+            to: req.email,
+            subject: `Activity: ${activity.name} `,
+            html: exportActivity.newExportEmail(activity.name),
+            attachments: [
+              {
+                filename: `${activity.name.toUpperCase()}.xlsx`,
+                path: path.join(
+                  __dirname,
+                  `../../${activity.name.toUpperCase()}.xlsx`
+                )
+              }
+            ]
+          }
+          transporter.sendMail(mailOptions, (err, info) => {
+            if (err) next(err)
+            fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
+          })
+          res.status(200).send('Exported activity successfully')
+        })
+      }
     } catch (error) {
       next(error)
     }

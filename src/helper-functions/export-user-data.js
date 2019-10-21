@@ -26,7 +26,6 @@ function createPdf (profile, groups, children, events, cb) {
   const doc = new PDFDocument({ autoFirstPage: false })
   doc.pipe(fs.createWriteStream(`${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`))
   doc.addPage({ margin: 50 })
-  doc.font(path.join(__dirname, `../fonts/Roboto-Regular.ttf`))
 
   doc.fontSize(18).text(`User's Profile`, {
     align: 'center'

@@ -308,8 +308,11 @@ class ActivityScreen extends React.Component {
         case "delete":
           this.handleDelete();
           break;
-        case "export":
-          this.handleExport();
+        case "exportPdf":
+          this.handleExport("pdf");
+          break;
+        case "exportExcel":
+          this.handleExport("excel");
           break;
         default:
       }
@@ -341,11 +344,13 @@ class ActivityScreen extends React.Component {
       });
   };
 
-  handleExport = () => {
+  handleExport = format => {
     const { match } = this.props;
     const { activityId, groupId } = match.params;
     axios
-      .post(`/api/groups/${groupId}/activities/${activityId}/export`)
+      .post(`/api/groups/${groupId}/activities/${activityId}/export`, {
+        format
+      })
       .then(response => {
         Log.info(response);
       })
@@ -374,10 +379,17 @@ class ActivityScreen extends React.Component {
         }
       },
       {
-        label: texts.export,
+        label: texts.exportPdf,
         style: "optionsModalButton",
         handle: () => {
-          this.handleConfirmDialogOpen("export");
+          this.handleConfirmDialogOpen("exportPdf");
+        }
+      },
+      {
+        label: texts.exportExcel,
+        style: "optionsModalButton",
+        handle: () => {
+          this.handleConfirmDialogOpen("exportExcel");
         }
       }
     ];
