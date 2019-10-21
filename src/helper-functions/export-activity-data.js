@@ -240,6 +240,7 @@ async function createPdf (activity, timeslots, cb) {
     (a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime)
   )
   const values = []
+  const needsValues = []
   let specialNeedsProfiles = []
   for (const timeslot of sortedTimeslots) {
     const additionalInfo = timeslot.extendedProperties.shared
@@ -277,12 +278,30 @@ async function createPdf (activity, timeslots, cb) {
       childrenProfiles.map(c => `${c.given_name} ${c.family_name}`).toString()
     ])
   }
+  specialNeedsProfiles
+    .filter(
+      (profile, index, self) =>
+        index === self.findIndex(obj => profile['child_id'] === obj['child_id'])
+    )
+    .forEach(profile => {
+      needsValues.push({
+        name: `${profile.given_name} ${profile.family_name}`,
+        allergies: profile.allergies,
+        specialNeeds: profile.special_needs,
+        otherInfo: profile.other_info
+      })
+    })
   const docDefinition = {
     pageMargins: 50,
     pageOrientation: 'landscape',
     header: {
       columns: [
-        { text: 'Families Share Platform', alignment: 'right', opacity: 0.5, margin: 5 }
+        {
+          text: 'Families Share Platform',
+          alignment: 'right',
+          opacity: 0.5,
+          margin: 5
+        }
       ]
     },
     content: [
@@ -364,31 +383,17 @@ async function createPdf (activity, timeslots, cb) {
         margin: [0, 0, 0, 50]
       },
       {
-        margin: [0, 0, 0, 50],
-        alignment: 'center',
-        table: {
-          headerRows: 1,
-          widths: [
-            'auto',
-            'auto',
-            'auto',
-            'auto'
-          ],
-          body: [
-            [
-              'Name',
-              'Allergies',
-              'Special Needs',
-              'Other Info'
-            ],
-            ...specialNeedsProfiles.map(c => [
-              `${c.given_name} ${c.family_name}`,
-              c.allergies,
-              c.specialNeeds,
-              c.additionalInfo
-            ])
-          ]
-        }
+        ul: [
+          ...needsValues.map(child => ({
+            margin: [0, 0, 0, 50],
+            text: [
+              { text: `${child.name}\n`, bold: true, fontSize: 14 },
+              { text: `Allergies: ${child.allergies} \n`, fontSize: 14 },
+              { text: `Special Needs: ${child.specialNeeds} \n`, fontSize: 14 },
+              { text: `Other Info: ${child.otherInfo} \n`, fontSize: 14 }
+            ]
+          }))
+        ]
       }
     ]
   }
