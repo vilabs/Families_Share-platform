@@ -2,6 +2,7 @@ import React from "react";
 import autosize from "autosize";
 import axios from "axios";
 import PropTypes from "prop-types";
+import moment from "moment";
 import { Select, MenuItem } from "@material-ui/core";
 import {
   MenuBook,
@@ -50,7 +51,7 @@ class EditPlanScreen extends React.Component {
           ratio,
           minVolunteers: min_volunteers,
           state,
-          deadline: new Date(deadline)
+          deadline: moment(deadline).format("YYYY-MM-DD")
         });
       })
       .catch(error => {
@@ -148,7 +149,7 @@ class EditPlanScreen extends React.Component {
         description,
         state,
         ratio,
-        deadline,
+        deadline: new Date(deadline),
         category,
         min_volunteers: minVolunteers
       }
