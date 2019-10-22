@@ -513,6 +513,7 @@ describe('/Post/api/groups/groupId/activities/activityId/export', () => {
             activity.activity_id
           }/export`
         )
+        .send({ format: 'pdf' })
         .set('Authorization', user.token)
       res.should.have.status(200)
     } catch (err) {

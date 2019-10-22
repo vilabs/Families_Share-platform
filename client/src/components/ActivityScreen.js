@@ -222,34 +222,12 @@ class ActivityScreen extends React.Component {
   };
 
   renderParticipants = () => {
-    const { language } = this.props;
     const {
       activity: { children, parents },
       showParticipants
     } = this.state;
-    const participantsLength = children.length + parents.length;
-    const texts = Texts[language].activityScreen;
-    const participantsHeader = `${participantsLength} ${
-      participantsLength === 1 ? texts.participant : texts.participants
-    } ${texts.signup}`;
     return (
       <div className="participantsContainer">
-        <div className="participantsHeaderContainer">
-          <div className="participantsHeaderText">{participantsHeader}</div>
-          <button
-            type="button"
-            className="transparentButton participantsHeaderButton"
-            onClick={() =>
-              this.setState({ showParticipants: !showParticipants })
-            }
-          >
-            <i
-              className={
-                showParticipants ? "fas fa-chevron-up" : "fas fa-chevron-down"
-              }
-            />
-          </button>
-        </div>
         <ul style={showParticipants ? {} : { display: "none" }}>
           {this.renderList(parents, "parents")}
           {this.renderList(children, "children")}
@@ -367,6 +345,7 @@ class ActivityScreen extends React.Component {
       userCanEdit,
       action,
       confirmDialogIsOpen,
+      showParticipants,
       optionsModalIsOpen
     } = this.state;
     const texts = Texts[language].activityScreen;
@@ -491,7 +470,37 @@ class ActivityScreen extends React.Component {
                 </div>
               </div>
             </div>
-            {this.renderParticipants()}
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-1-10">
+                <i className="fas fa-user-friends" />
+              </div>
+              <div className="col-8-10">
+                <div className="activityInfoDescription">
+                  {texts.volunteers}
+                </div>
+              </div>
+              <div className="col-1-10">
+                <button
+                  type="button"
+                  className="transparentButton participantsHeaderButton"
+                  onClick={() =>
+                    this.setState({ showParticipants: !showParticipants })
+                  }
+                >
+                  <i
+                    className={
+                      showParticipants
+                        ? "fas fa-chevron-up activityInfoIcon"
+                        : "fas fa-chevron-down activityInfoIcon"
+                    }
+                  />
+                </button>
+              </div>
+            </div>
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-1-10" />
+              <div className="col-9-10">{this.renderParticipants()}</div>
+            </div>
           </div>
         </div>
         <Fab

@@ -22,6 +22,7 @@ const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')
 const nh = require('../helper-functions/notification-helpers')
 const ah = require('../helper-functions/activity-helpers')
+const ph = require('../helper-functions/plan-helpers')
 const schedule = require('node-schedule')
 
 schedule.scheduleJob('10 3 * * *', () => {
@@ -849,7 +850,10 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    await Plan.updateOne({ plan_id: planId }, { ...plan })
+    const updatedPlan = await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
+    if (plan.state === 'planning') {
+      ph.findOptimalSolution(updatedPlan)
+    }
     return res.status(200).send('Plan was updated')
   } catch (err) {
     next(err)

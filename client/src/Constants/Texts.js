@@ -1149,6 +1149,7 @@ const en = {
     cancel: "CANCEL"
   },
   activityScreen: {
+    volunteers: "Volunteers",
     participant: "participant",
     participants: "participants",
     signup: "signed up",
