@@ -31,13 +31,13 @@ function googleLogin(googleResponse, origin, deviceToken) {
   const properResponse = {};
   if (origin === "web") {
     properResponse.user = {
-      original: googleResponse,
       givenName: googleResponse.profileObj.givenName,
       familyName: googleResponse.profileObj.familyName,
       photo: googleResponse.profileObj.imageUrl,
       email: googleResponse.profileObj.email
     };
     properResponse.idToken = googleResponse.tokenObj.id_token;
+    properResponse.original = googleResponse;
   } else {
     properResponse.user = {
       original: googleResponse,
@@ -47,6 +47,7 @@ function googleLogin(googleResponse, origin, deviceToken) {
       email: googleResponse.email
     };
     properResponse.idToken = googleResponse.auth.idToken;
+    properResponse.original = googleResponse;
   }
   const data = {
     response: properResponse,
