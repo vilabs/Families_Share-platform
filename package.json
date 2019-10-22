@@ -39,7 +39,6 @@
     "nodemailer": "^4.7.0",
     "objectid": "^3.2.1",
     "path": "^0.12.7",
-    "pdfkit": "^0.9.0",
     "pdfmake": "^0.1.60",
     "sharp": "^0.22.1"
   },
