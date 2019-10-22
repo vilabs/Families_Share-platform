@@ -40,10 +40,9 @@ function googleLogin(googleResponse, origin, deviceToken) {
     properResponse.original = googleResponse;
   } else {
     properResponse.user = {
-      original: googleResponse,
       givenName: googleResponse.firstName,
       familyName: googleResponse.lastName,
-      photo: googleResponse.photoUrl,
+      photo: googleResponse.photoURL,
       email: googleResponse.email
     };
     properResponse.idToken = googleResponse.auth.idToken;
