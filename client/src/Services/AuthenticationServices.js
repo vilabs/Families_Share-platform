@@ -31,6 +31,7 @@ function googleLogin(googleResponse, origin, deviceToken) {
   const properResponse = {};
   if (origin === "web") {
     properResponse.user = {
+      original: googleResponse,
       givenName: googleResponse.profileObj.givenName,
       familyName: googleResponse.profileObj.familyName,
       photo: googleResponse.profileObj.imageUrl,
@@ -39,6 +40,7 @@ function googleLogin(googleResponse, origin, deviceToken) {
     properResponse.idToken = googleResponse.tokenObj.id_token;
   } else {
     properResponse.user = {
+      original: googleResponse,
       givenName: googleResponse.firstName,
       familyName: googleResponse.lastName,
       photo: googleResponse.photoUrl,
