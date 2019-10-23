@@ -228,6 +228,7 @@ router.post('/authenticate/email', async (req, res, next) => {
 
 router.post('/authenticate/google', async (req, res, next) => {
   const { deviceToken, language, origin, response } = req.body
+  console.log(req.body)
   const { user: googleProfile, idToken: googleToken } = response
   try {
     const user = await User.findOne({ email: googleProfile.email })
