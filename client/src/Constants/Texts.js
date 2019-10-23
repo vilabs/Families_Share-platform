@@ -11,7 +11,7 @@ const en = {
       general: "General Emergency",
       ambulance: "Ambulance",
       police: "Police",
-      fire: "Fire Departmnet"
+      fire: "Fire Department"
     }
   },
   editPlanScreen: {
@@ -1280,94 +1280,95 @@ const en = {
 
 const nl = {
   timeslotEmergencyScreen: {
-    copy: "Copied emergency number to clipboard",
-    call: "Call",
-    header: "Emergency Numbers:",
+    copy: "Noodnummer naar klembord gekopieerd",
+    call: "Telefoontje",
+    header: "Alarmnummers:",
     services: {
-      general: "General Emergency",
+      general: "Algemene noodsituatie",
       ambulance: "Ambulance",
-      police: "Police",
-      fire: "Fire Departmnet"
+      police: "Politie",
+      fire: "Brandweer"
     }
   },
   editPlanScreen: {
-    requiredErr: "Please fill out this field.",
-    learning: "learning or educational activities/homework",
-    nature: "nature",
-    tourism: "tourism and culture",
-    hobby: "hobby and sport",
-    accompanying: "accompanying(car sharing or pedibus)",
-    entertainment: "entertainment",
-    parties: "parties or events",
-    coplaying: "co-playing day(s)",
-    other: "other",
-    category: "Type of activity",
-    backNavTitle: "Edit Plan",
-    ratio: "Children to parents ratio",
-    minVolunteers: "Minimum Volunteers",
+    requiredErr: "Vul alstublieft dit veld in.",
+    learning: "leer- of educatieve activiteiten / huiswerk",
+    nature: "natuur",
+    tourism: "toerisme en cultuur",
+    hobby: "hobby en sport",
+    accompanying: "begeleidend (autodelen of pedibus)",
+    entertainment: "vermaak",
+    parties: "feesten of evenementen",
+    coplaying: "co-speeldag",
+    other: "anders",
+    category: "Soort activiteit",
+    backNavTitle: "Plan bewerken",
+    ratio: "ratio kinderen tot ouders",
+    minVolunteers: "Minimum vrijwilligers",
     deadline: "Deadline",
-    needsState: "Provide Needs",
-    availabilitiesState: "Provide Availabilities",
-    planningState: "Create Plan",
-    creationState: "Create Activities",
-    state: "Plan State",
+    needsState: "Zorg voor behoeften",
+    availabilitiesState: "Beschikbaarheid bieden",
+    planningState: "Plan maken",
+    creationState: "Activiteiten maken",
+    state: "Planstaat",
     needsStateHelper:
-      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+      "In de behoeftenfase selecteren de gebruikers de datums waarop zij kinderopvang nodig hebben. In deze status is de beschikbaarheidsfase vergrendeld.",
     availabilitiesStateHelper:
-      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+      "In de beschikbaarheidsfase selecteren de gebruikers de datums dat ze beschikbaar zijn voor kinderopvang. In deze fase is de behoeftenfase vergrendeld.",
     planningStateHelper:
-      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+      "In de planningsfase creëert het Families Share-algoritme een optimaal plan op basis van de gegeven behoeften en beschikbaarheid.",
     creationStateHelper:
-      "In creation phase the optimal plan gets transformed into activities."
+      "In de aanmaakfase wordt het optimale plan omgezet in activiteiten."
   },
   createPlanStepper: {
-    name: "Name",
-    from: "From",
-    to: "To",
+    name: "Naam",
+    from: "Van",
+    to: "Aan",
     description: "Description",
-    location: "Location",
-    requiredErr: "Please fill out this field.",
-    deadlineErr: "Deadline must be inside date range",
-    rangeErr: "Invalid start and end date combination",
-    continue: "Continue",
-    cancel: "Cancel",
-    finish: "Create",
-    save: "Save",
+    location: "Locatie",
+    requiredErr: "Vul dit veld in.",
+    deadlineErr: "Deadline moet binnen datumbereik vallen",
+    rangeErr: "Ongeldige begin- en einddatumcombinatie",
+    continue: "Doorgaan",
+    cancel: "Annuleren",
+    finish: "Maken",
+    save: "Opslaan",
     stepLabels: [
-      "Provide a title for the planned activity",
-      "Set date range",
-      "Provide needs deadline",
-      "Provide the location"
+      "Geef een titel op voor de geplande activiteit",
+      "Stel datumbereik in",
+      "Zorg voor een deadline",
+      "Geef de locatie op"
     ]
   },
   managePlanScreen: {
-    backNavTitle: "Manage Planning",
-    deleteConfirm: "Are you sure you want to delete this plan?"
+    backNavTitle: "Planning beheren",
+    deleteConfirm: "Weet u zeker dat u dit plan wilt verwijderen?"
   },
   managePlanStepper: {
-    nextPhase: "Next phase",
-    previousPhase: "Previous phase",
-    finishPlan: "Create Activities",
-    continue: "Continue",
-    cancel: "Cancel",
-    finish: "Submit",
+    nextPhase: "Volgende fase",
+    previousPhase: "Vorige fase",
+    finishPlan: "Activiteiten maken",
+    continue: "Doorgaan",
+    cancel: "Annuleren",
+    finish: "Verzenden",
     stepLabels: [
-      "Add needs",
-      "Customize needs",
-      "Add availabilities",
-      "Customize availabilities"
+      "Benodigdheden toevoegen",
+      "Aanpassen behoeften",
+      "Beschikbaarheid toevoegen",
+      "Beschikbaarheden aanpassen"
     ],
-    needsDeadline: "You have to provide your needs until",
-    availabilitiesDeadline: "You have to provide your availabilities until",
-    availabilityError: "Missing availability for date",
-    needError: "Missing child assignemnt for date"
+    needsDeadline: "Je moet tot in je behoeften voorzien tot",
+    availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
+    availabilityError: "Beschikbaarheid ontbreekt voor datum",
+    needError: "Ontbrekende kindopdracht voor datum"
   },
   planListItem: {
-    participantsNeeds: "members have specified needs",
-    participantNeeds: "member has specified needs",
+    participantsNeeds: "leden hebben behoeften gespecificeerd",
+    participantNeeds: "lid heeft behoeften gespecificeerd",
     participantsAvailabilities:
-      "members have specified needs and availabilities",
-    participantAvailabilities: "member has specified needs and availabilities"
+      "leden hebben behoeften en beschikbaarheden gespecificeerd",
+    participantAvailabilities:
+      "lid heeft gespecificeerde behoeften en beschikbaarheid"
   },
   communityInterface: {
     backNavTitle: "Gemeenschaps interface",
