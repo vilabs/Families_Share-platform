@@ -5,13 +5,16 @@ import GroupMessages from "./GroupMessages";
 
 const GroupChat = props => {
   const { history, userIsAdmin, group } = props;
+  const handleGoBack = () => {
+    if (history.length === 1) {
+      history.replace("/myfamiliesshare");
+    } else {
+      history.goBack();
+    }
+  };
   return (
     <React.Fragment>
-      <BackNavigation
-        title={group.name}
-        fixed
-        onClick={() => history.goBack()}
-      />
+      <BackNavigation title={group.name} fixed onClick={() => handleGoBack()} />
       <GroupMessages groupId={group.group_id} userIsAdmin={userIsAdmin} />
     </React.Fragment>
   );

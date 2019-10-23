@@ -46,6 +46,7 @@ const findOptimalSolution = async plan => {
       }
     })
   )
+  console.log('subscriptions\n', subscriptions)
   // remove unnecessary slots
   subscriptions = subscriptions.filter((sub, index) => {
     if (sub.includes('c')) {
@@ -56,6 +57,7 @@ const findOptimalSolution = async plan => {
     }
   })
   slots = slots.filter(s => s !== null)
+  console.log('filtered subscription\n', subscriptions)
   // find fullfilled
   const fullfilled = subscriptions.map(sub => {
     const totalParents = sub.filter(s => s === 'p').length
@@ -65,7 +67,7 @@ const findOptimalSolution = async plan => {
     }
     return 0
   })
-  console.log(fullfilled)
+  console.log('fullfilled', fullfilled)
 }
 
 module.exports = {

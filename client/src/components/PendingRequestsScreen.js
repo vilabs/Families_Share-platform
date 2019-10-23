@@ -278,8 +278,17 @@ class PendingRequestsScreen extends React.Component {
     );
   };
 
+  handleGoBack = () => {
+    const { history } = this.props;
+    if (history.length === 1) {
+      history.replace("/myfamiliesshare");
+    } else {
+      history.goBack();
+    }
+  };
+
   render() {
-    const { language, history } = this.props;
+    const { language } = this.props;
     const { requests_type, fetchedRequests, requests } = this.state;
     const texts = Texts[language].pendingRequestsScreen;
     let backNavTitle;
@@ -294,7 +303,10 @@ class PendingRequestsScreen extends React.Component {
     const confirmStyle = { backgroundColor: "#00838F", color: "#ffffff" };
     return fetchedRequests ? (
       <React.Fragment>
-        <BackNavigation title={backNavTitle} onClick={() => history.goBack()} />
+        <BackNavigation
+          title={backNavTitle}
+          onClick={() => this.handleGoBack()}
+        />
         <ul id="groupMembersRequestsContainer">
           {requests.map((request, index) => (
             <li key={index}>

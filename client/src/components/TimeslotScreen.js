@@ -191,15 +191,23 @@ class TimeslotScreen extends React.Component {
     document.removeEventListener("message", this.handleMessage, false);
   }
 
+  handleGoBack = () => {
+    const { history } = this.props;
+    if (history.length === 1) {
+      history.replace("/myfamiliesshare");
+    } else {
+      history.goBack();
+    }
+  };
+
   handleMessage = event => {
     const { madeChanges } = this.state;
-    const { history } = this.props;
     const data = JSON.parse(event.data);
     if (data.action === "confirmGoBack") {
       if (madeChanges) {
         this.handleConfirmDialogOpen("back");
       } else {
-        history.goBack();
+        this.handleGoBack();
       }
     }
   };
@@ -272,7 +280,7 @@ class TimeslotScreen extends React.Component {
       })
       .then(response => {
         Log.info(response);
-        history.goBack();
+        this.handleGoBack();
       })
       .catch(error => {
         Log.error(error);
@@ -281,7 +289,6 @@ class TimeslotScreen extends React.Component {
 
   handleConfirmDialogClose = choice => {
     const { confirmTrigger, confirmData } = this.state;
-    const { history } = this.props;
     if (choice === "agree") {
       if (confirmTrigger === "phone") {
         window.ReactNativeWebView.postMessage(
@@ -294,7 +301,7 @@ class TimeslotScreen extends React.Component {
         this.handleSave();
       }
     } else if (confirmTrigger === "back") {
-      history.goBack();
+      this.handleGoBack();
     }
     this.setState({ confirmDialogIsOpen: false, confirmTrigger: "" });
   };
@@ -528,7 +535,7 @@ class TimeslotScreen extends React.Component {
   };
 
   render() {
-    const { language, history } = this.props;
+    const { language } = this.props;
     const rowStyle = { minHeight: "5rem" };
     const texts = Texts[language].timeslotScreen;
     const {
@@ -558,7 +565,7 @@ class TimeslotScreen extends React.Component {
               onClick={() =>
                 madeChanges
                   ? this.handleConfirmDialogOpen("back")
-                  : history.goBack()
+                  : this.handleGoBack()
               }
             >
               <i className="fas fa-arrow-left" />
@@ -587,7 +594,7 @@ class TimeslotScreen extends React.Component {
                 onClick={() =>
                   madeChanges
                     ? this.handleConfirmDialogOpen("save")
-                    : history.goBack()
+                    : this.handleGoBack()
                 }
               >
                 <i className="fas fa-check" />
