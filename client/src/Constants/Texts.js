@@ -51,7 +51,7 @@ const en = {
     description: "Description",
     location: "Location",
     requiredErr: "Please fill out this field.",
-    deadlineErr: "Deadline must be inside date range",
+    deadlineErr: "Deadline must be before the specified date range",
     rangeErr: "Invalid start and end date combination",
     continue: "Continue",
     cancel: "Cancel",
@@ -752,6 +752,7 @@ const en = {
     memberHeader: "About"
   },
   groupActivities: {
+    exportConfirm: "Are you sure you want to export the group agenda?",
     activitiesHeader: "Activities of the group",
     plansHeader: "Pending plans",
     export: "Export agenda"
@@ -959,6 +960,9 @@ const en = {
     privateProfile: "Profile is private"
   },
   editProfileScreen: {
+    whatsappOption: "WhatsApp",
+    viberOption: "Viber",
+    emailOption: "Email",
     save: "SAVE",
     header: "Edit profile",
     name: "Name",
@@ -1149,6 +1153,10 @@ const en = {
     cancel: "CANCEL"
   },
   activityScreen: {
+    pdfToaster:
+      "The activity is being exported in pdf format. You will shorty receive it via e-mail",
+    excelToaster:
+      "The activity is being exported in excel format. You will shorty receive it via e-mail",
     volunteers: "Volunteers",
     participant: "participant",
     participants: "participants",
@@ -1327,7 +1335,7 @@ const nl = {
     description: "Description",
     location: "Locatie",
     requiredErr: "Vul dit veld in.",
-    deadlineErr: "Deadline moet binnen datumbereik vallen",
+    deadlineErr: "De deadline moet vóór de opgegeven periode liggen",
     rangeErr: "Ongeldige begin- en einddatumcombinatie",
     continue: "Doorgaan",
     cancel: "Annuleren",
@@ -2016,6 +2024,7 @@ const nl = {
     memberHeader: "Informatie"
   },
   groupActivities: {
+    exportConfirm: "Weet u zeker dat u de groepsagenda wilt exporteren?",
     activitiesHeader: "Activiteiten van de groep",
     plansHeader: "In afwachting van plannen",
     export: "Exporteer agenda"
@@ -2191,6 +2200,9 @@ const nl = {
     privateProfile: "Profiel is privé"
   },
   editProfileScreen: {
+    whatsappOption: "WhatsApp",
+    viberOption: "Viber",
+    emailOption: "Email",
     description: "Geef een optionele beschrijving op...",
     save: "Opslaan",
     header: "Profiel bewerken",
@@ -2369,6 +2381,10 @@ const nl = {
     cancel: "Annuleer"
   },
   activityScreen: {
+    pdfToaster:
+      "De activiteit wordt geëxporteerd in pdf-formaat. U ontvangt deze binnenkort via e-mail.",
+    excelToaster:
+      "De activiteit wordt geëxporteerd in Excel-indeling. U ontvangt deze binnenkort via e-mail.",
     color: "Kleur",
     confirmDialogTitle: "Weet je zeker dat je deze activiteit wilt exporteren?",
     exportPdf: "Exporteren PDF",
@@ -3220,6 +3236,7 @@ const it = {
     header: "Informazioni sul gruppo"
   },
   groupActivities: {
+    exportConfirm: "Sei sicuro di voler esportare l'agenda del gruppo?",
     activitiesHeader: "Attività del gruppo",
     plansHeader: "Piani in sospeso",
     export: "Esporta l'agenda"
@@ -3400,6 +3417,9 @@ const it = {
     privateProfile: "Il profilo è privato"
   },
   editProfileScreen: {
+    whatsappOption: "WhatsApp",
+    viberOption: "Viber",
+    emailOption: "Email",
     description: "Fornire una descrizione facoltativa",
     save: "SALVA",
     header: "Modifica il profilo",
@@ -3590,6 +3610,10 @@ const it = {
     cancel: "CANCELLA"
   },
   activityScreen: {
+    pdfToaster:
+      "L'attività viene esportata in formato pdf. Lo riceverai a breve via e-mail.",
+    excelToaster:
+      "L'attività viene esportata in formato Excel. Lo riceverai a breve via e-mail.",
     color: "Colore",
     exportDialogTitle: "Sei sicuro di voler esportare questa attività?",
     delete: "Elimina",
@@ -4452,6 +4476,8 @@ const el = {
   },
   groupAbout: { memberHeader: "Πληροφορίες", header: "Σχετικά με την ομάδα" },
   groupActivities: {
+    exportConfirm:
+      "Είστε σίγουροι ότι θέλετε να εξάγετε το ημερολόγιο της ομάδας",
     activitiesHeader: "Δραστηριότητες της ομάδας",
     plansHeader: "Εκκρεμή σχέδια",
     export: "Εξαγωγή Ημερολογίου"
@@ -4635,6 +4661,9 @@ const el = {
   },
   profileScreen: { privateProfile: "Το προφίλ είναι ιδιωτικό" },
   editProfileScreen: {
+    whatsappOption: "WhatsApp",
+    viberOption: "Viber",
+    emailOption: "Email",
     description: "Συμπληρώσετε μια προαιρετική περιγραφή",
     save: "ΑΠΟΘΗΚΕΥΣΗ",
     header: "Επεξεργασία προφίλ",
@@ -4818,6 +4847,10 @@ const el = {
     cancel: "ΑΚΥΡΩΣΗ"
   },
   activityScreen: {
+    pdfToaster:
+      "Η δραστηριότητα εξάγεται σε μορφή pdf. Θα τη παραλάβετε σύντομα μέσω e-mail.",
+    excelToaster:
+      "Η δραστηριότητα εξάγεται σε μορφή excel. Θα τη παραλάβετε σύντομα μέσω e-mail.",
     color: "Χρώμα δραστηριότητας",
     exportDialogTitle:
       "Είστε σίγουροι ότι θέλετε να εξάγετε αυτήν τη δραστηριότητα;",
@@ -4991,7 +5024,7 @@ const hu = {
     description: "Description",
     location: "Location",
     requiredErr: "Please fill out this field.",
-    deadlineErr: "Deadline must be inside date range",
+    deadlineErr: "Deadline must be before the specified date range",
     rangeErr: "Invalid start and end date combination",
     continue: "Continue",
     cancel: "Cancel",
@@ -5685,6 +5718,7 @@ const hu = {
     memberHeader: "Rólunk"
   },
   groupActivities: {
+    exportConfirm: "Biztosan exportálni akarja a csoport napirendjét?",
     activitiesHeader: "A csoport tevékenységei",
     plansHeader: "Függőben lévő tervek",
     export: "Program exportálása"
@@ -5904,6 +5938,9 @@ const hu = {
     privateProfile: "Magán profil"
   },
   editProfileScreen: {
+    whatsappOption: "WhatsApp",
+    viberOption: "Viber",
+    emailOption: "Email",
     description: "Adjon meg választható leírást",
     save: "Mentés",
     header: "Profil szerkesztése",
@@ -6087,6 +6124,10 @@ const hu = {
     cancel: "Visszavonás"
   },
   activityScreen: {
+    pdfToaster:
+      "A tevékenységet pdf formátumban exportálják. Hamarosan megkapja e-mailben.",
+    excelToaster:
+      "A tevékenységet exportálják excel formátumban. Hamarosan megkapja e-mailben.",
     color: "Szín",
     deleteDialogTitle: "Biztosan törölni szeretné ezt a tevékenységet?",
     exportDialogTitle: "Biztosan exportálni szeretné ezt a tevékenységet?",

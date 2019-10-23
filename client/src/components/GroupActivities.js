@@ -8,6 +8,7 @@ import Texts from "../Constants/Texts";
 import ActivityOptionsModal from "./OptionsModal";
 import ActivityListItem from "./ActivityListItem";
 import PlanListItem from "./PlanListItem";
+import ConfirmDialog from "./ConfirmDialog";
 import Log from "./Log";
 
 const styles = {
@@ -95,6 +96,7 @@ class GroupActivities extends React.Component {
     );
     const pendingActivities = activities.length - acceptedActivities.length;
     this.setState({
+      confirmDialogIsOpen: false,
       fetchedData: true,
       activities: acceptedActivities,
       pendingActivities,
@@ -173,10 +175,22 @@ class GroupActivities extends React.Component {
     history.push(`/groups/${groupId}/activities/pending`);
   };
 
+  handleConfirmDialogOpen = () => {
+    this.setState({ confirmDialogIsOpen: true, optionsModalIsOpen: false });
+  };
+
+  handleConfirmDialogClose = choice => {
+    if (choice === "agree") {
+      this.handleExport();
+    }
+    this.setState({ confirmDialogIsOpen: false });
+  };
+
   render() {
     const { classes, language, history, userIsAdmin } = this.props;
     const {
       optionsModalIsOpen,
+      confirmDialogIsOpen,
       group,
       pendingActivities,
       showAddOptions,
@@ -189,7 +203,7 @@ class GroupActivities extends React.Component {
       {
         label: texts.export,
         style: "optionsModalButton",
-        handle: this.handleExport
+        handle: this.handleConfirmDialogOpen
       }
     ];
     return (
@@ -198,6 +212,11 @@ class GroupActivities extends React.Component {
           isOpen={optionsModalIsOpen}
           options={options}
           handleClose={this.handleModalClose}
+        />
+        <ConfirmDialog
+          title={texts.exportConfirm}
+          isOpen={confirmDialogIsOpen}
+          handleClose={this.handleConfirmDialogClose}
         />
         <div className="row no-gutters" id="groupMembersHeaderContainer">
           <div className="col-2-10">

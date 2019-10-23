@@ -18,6 +18,10 @@ const profileSchema = new mongoose.Schema(
     },
     phone: String,
     phone_type: String,
+    contact_option: {
+      type: String,
+      default: 'email'
+    },
     description: String,
     image_id: {
       type: String,

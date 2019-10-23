@@ -184,7 +184,7 @@ class CreatePlanStepper extends React.Component {
   handleChange = event => {
     const { name, value } = event.target;
     const { language } = this.props;
-    const { from, to } = this.state;
+    const { from } = this.state;
     if (name === "to") {
       if (new Date(from) - new Date(value) > 0) {
         event.target.setCustomValidity(
@@ -194,12 +194,7 @@ class CreatePlanStepper extends React.Component {
         event.target.setCustomValidity("");
       }
     } else if (name === "deadline") {
-      if (
-        !(
-          new Date(value) - new Date(from) > 0 &&
-          new Date(to) - new Date(value) > 0
-        )
-      ) {
+      if (new Date(value) - new Date(from) > 0) {
         event.target.setCustomValidity(
           Texts[language].createPlanStepper.deadlineErr
         );

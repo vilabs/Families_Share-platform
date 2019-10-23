@@ -21,10 +21,11 @@ const checkCompletedTimeslots = async () => {
     const eventResponses = await Promise.all(calendars.map(cal => calendar.events.list({ calendarId: cal.id })))
     const events = [].concat(...eventResponses.map(e => e.data.items))
     const filteredEvents = events.filter(event => {
-      const start = new Date(event.start.dateTime)
-      const now = new Date()
+      const start = new Date(event.start.dateTime).getTime()
+      const now = new Date().getTime()
       return start < now
     })
+    console.log(filteredEvents.length)
     const timeslotPatch = {
       extendedProperties: {
         shared: {
@@ -32,13 +33,13 @@ const checkCompletedTimeslots = async () => {
         }
       }
     }
-    filteredEvents.forEach(event => calendar.events.patch({
-      calendarId: event.organizer.email,
-      eventId: event.id,
-      resource: timeslotPatch
-    }), (err, resp) => {
-      if (err) console.log(err)
-    })
+    for (const event of filteredEvents) {
+      await calendar.events.patch({
+        calendarId: event.organizer.email,
+        eventId: event.id,
+        resource: timeslotPatch
+      })
+    }
   } catch (err) {
     console.error(err)
   }

@@ -228,7 +228,6 @@ router.post('/authenticate/email', async (req, res, next) => {
 
 router.post('/authenticate/google', async (req, res, next) => {
   const { deviceToken, language, origin, response } = req.body
-  console.log(req.body)
   const { user: googleProfile, idToken: googleToken } = response
   try {
     const user = await User.findOne({ email: googleProfile.email })
@@ -724,9 +723,9 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
   const user_id = req.params.id
   const { file } = req
   const {
-    given_name, family_name, email, phone, phone_type, visible, street, number, city, description
+    given_name, family_name, email, phone, phone_type, visible, street, number, city, description, contact_option
   } = req.body
-  if (!(given_name || family_name || email || phone || phone_type || visible !== undefined || street || number || city)) {
+  if (!(given_name || family_name || email || phone || phone_type || visible !== undefined || street || number || city || contact_option)) {
     return res.status(400).send('Bad Request')
   }
   const profilePatch = {
@@ -736,7 +735,8 @@ router.patch('/:id/profile', profileUpload.single('photo'), async (req, res, nex
     phone,
     phone_type,
     description,
-    visible
+    visible,
+    contact_option
   }
   const addressPatch = {
     street,

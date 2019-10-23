@@ -68,6 +68,11 @@ class ChildProfileInfo extends React.Component {
     this.setState({ modalIsOpen: false });
   };
 
+  handleRedirectToParent = parent => {
+    const { history } = this.props;
+    history.push(`/profiles/${parent.user_id}/info`);
+  };
+
   render() {
     const {
       match,
@@ -124,7 +129,7 @@ class ChildProfileInfo extends React.Component {
             <div className="col-3-10">
               {parents[0] ? (
                 <div>
-                  <h1>
+                  <h1 onClick={() => this.handleRedirectToParent(parents[0])}>
                     {`${parents[0].given_name} ${parents[0].family_name}`}
                   </h1>
                 </div>
@@ -154,7 +159,7 @@ class ChildProfileInfo extends React.Component {
             <div className="col-3-10">
               {parents[1] ? (
                 <div>
-                  <h1>
+                  <h1 onClick={() => this.handleRedirectToParent(parents[1])}>
                     {`${parents[1].given_name} ${parents[1].family_name}`}
                   </h1>
                 </div>
@@ -224,6 +229,7 @@ class ChildProfileInfo extends React.Component {
 }
 
 ChildProfileInfo.propTypes = {
+  history: PropTypes.object,
   parents: PropTypes.array,
   birthdate: PropTypes.string,
   gender: PropTypes.string,

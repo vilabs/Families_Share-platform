@@ -94,6 +94,7 @@ class EditProfileScreen extends React.Component {
       family_name,
       visible,
       phone,
+      contact_option,
       phone_type,
       address,
       description
@@ -109,6 +110,7 @@ class EditProfileScreen extends React.Component {
     bodyFormData.append("email", email);
     bodyFormData.append("phone", phone);
     bodyFormData.append("phone_type", phone_type);
+    bodyFormData.append("contact_option", contact_option);
     bodyFormData.append("city", city);
     bodyFormData.append("street", street);
     bodyFormData.append("number", number);
@@ -178,6 +180,13 @@ class EditProfileScreen extends React.Component {
     this.setState({ visible });
   };
 
+  handleContact = event => {
+    const {
+      target: { value }
+    } = event;
+    this.setState({ contact_option: value });
+  };
+
   render() {
     const { language } = this.props;
     const {
@@ -186,6 +195,7 @@ class EditProfileScreen extends React.Component {
       image,
       given_name,
       family_name,
+      contact_option,
       visible,
       phone,
       phone_type,
@@ -286,7 +296,7 @@ class EditProfileScreen extends React.Component {
           </div>
         </div>
         <div id="editProfileInfoContainer">
-          <div className="row no-gutters" style={bottomBorder}>
+          <div className="row no-gutters">
             <div className="col-2-10">
               <i className="fas fa-phone center" />
             </div>
@@ -311,6 +321,23 @@ class EditProfileScreen extends React.Component {
                 <option value="mobile">{texts.mobile}</option>
                 <option value="home">{texts.home}</option>
                 <option value="unspecified">{texts.unspecified}</option>
+              </select>
+            </div>
+          </div>
+          <div className="row no-gutters" style={bottomBorder}>
+            <div className="col-2-10">
+              <i className="fas address-book" />
+            </div>
+            <div className="col-8-10">
+              <select
+                value={contact_option}
+                onChange={this.handleContact}
+                className="editProfileInputField"
+                name="contact"
+              >
+                <option value="whatsapp">{texts.whatsappOption}</option>
+                <option value="viber">{texts.viberOption}</option>
+                <option value="email">{texts.emailOption}</option>
               </select>
             </div>
           </div>

@@ -538,6 +538,8 @@ class TimeslotScreen extends React.Component {
     const { language } = this.props;
     const rowStyle = { minHeight: "5rem" };
     const texts = Texts[language].timeslotScreen;
+    const now = new Date().getTime();
+    const oneDay = 86400000;
     const {
       timeslot,
       fetchedTimeslot,
@@ -680,15 +682,6 @@ class TimeslotScreen extends React.Component {
         </div>
         <div id="activityMainContainer" style={{ marginTop: 0 }}>
           <div className="row no-gutters" style={rowStyle}>
-            <button
-              className="emergencyButton"
-              type="button"
-              onClick={this.handleEmergency}
-            >
-              {texts.emergency}
-            </button>
-          </div>
-          <div className="row no-gutters" style={rowStyle}>
             {timeslot.extendedProperties.shared.status === "ongoing" && (
               <React.Fragment>
                 <div className="activityInfoHeader">
@@ -714,6 +707,20 @@ class TimeslotScreen extends React.Component {
             {this.renderParticipants("admins")}
           </div>
         </div>
+        {timeslot.extendedProperties.shared.status !== "completed" &&
+          new Date(timeslot.start.dateTime).getTime() - now < oneDay && (
+            <div id="activityMainContainer" style={{ margin: 0 }}>
+              <div className="row no-gutters" style={rowStyle}>
+                <button
+                  className="emergencyButton"
+                  type="button"
+                  onClick={this.handleEmergency}
+                >
+                  {texts.emergency}
+                </button>
+              </div>
+            </div>
+          )}
       </React.Fragment>
     ) : (
       <LoadingSpinner />

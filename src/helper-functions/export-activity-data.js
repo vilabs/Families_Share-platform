@@ -266,16 +266,16 @@ async function createPdf (activity, timeslots, cb) {
       1}-${start.getDate()}-${start.getFullYear()}`
     values.push([
       timeslot.summary,
-      timeslot.description,
+      timeslot.description || '-',
       date,
       `${originalStart}:${start.getMinutes()} - ${originalEnd}:${end.getMinutes()}`,
-      timeslot.location,
-      additionalInfo.cost,
+      timeslot.location || '-',
+      additionalInfo.cost || '-',
       requiredParents,
       requiredChildren,
       additionalInfo.status,
-      parentProfiles.map(p => `${p.given_name} ${p.family_name}`).toString(),
-      childrenProfiles.map(c => `${c.given_name} ${c.family_name}`).toString()
+      parentProfiles.map(p => `${p.given_name} ${p.family_name}`).toString() || '-',
+      childrenProfiles.map(c => `${c.given_name} ${c.family_name}`).toString() || '-'
     ])
   }
   specialNeedsProfiles

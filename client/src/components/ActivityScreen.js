@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Fab from "@material-ui/core/Fab";
 import { withStyles } from "@material-ui/core/styles";
 import * as path from "lodash.get";
+import { withSnackbar } from "notistack";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 import TimeslotsList from "./TimeslotsList";
@@ -323,13 +324,18 @@ class ActivityScreen extends React.Component {
   };
 
   handleExport = format => {
-    const { match } = this.props;
+    const { match, enqueueSnackbar, language } = this.props;
+    const texts = Texts[language].activityScreen;
+    const snackMessage = texts[`${format}Toaster`];
     const { activityId, groupId } = match.params;
     axios
       .post(`/api/groups/${groupId}/activities/${activityId}/export`, {
         format
       })
       .then(response => {
+        enqueueSnackbar(snackMessage, {
+          variant: "info"
+        });
         Log.info(response);
       })
       .catch(error => {
@@ -519,11 +525,12 @@ class ActivityScreen extends React.Component {
   }
 }
 
-export default withStyles(styles)(withLanguage(ActivityScreen));
+export default withSnackbar(withStyles(styles)(withLanguage(ActivityScreen)));
 
 ActivityScreen.propTypes = {
   history: PropTypes.object,
   language: PropTypes.string,
   match: PropTypes.object,
-  classes: PropTypes.object
+  classes: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
 };
