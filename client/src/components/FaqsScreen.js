@@ -5,35 +5,31 @@ import PropTypes from "prop-types";
 import BackNavigation from "./BackNavigation";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import Faqs from "../Constants/Faqs";
 
 const FaqsScreen = ({ language, history }) => {
   const texts = Texts[language].faqsScreen;
-  const { faqs } = texts;
+  const faqs = Faqs[process.env.REACT_APP_CITYLAB_NAME][language];
   return (
     <div>
       <BackNavigation
         title={texts.backNavTitle}
         onClick={() => history.goBack()}
       />
-      <ul id="faqsContainer">
-        {faqs.map((faq, index) => (
-          <li className="faq" key={index}>
-            <h1>{faq.question}</h1>
-            <Collapse accordion bordered={false}>
-              {faq.dropdowns.map((collapsible, collapsibleIndex) => (
-                <Collapse.Panel
-                  header={collapsible.title}
-                  style={{ border: "none" }}
-                  className="collapsibleTitle"
-                  key={collapsibleIndex}
-                >
-                  <p>{collapsible.paragraph}</p>
-                </Collapse.Panel>
-              ))}
-            </Collapse>
-          </li>
-        ))}
-      </ul>
+      <div id="faqsContainer">
+        <Collapse accordion bordered={false}>
+          {faqs.map((faq, index) => (
+            <Collapse.Panel
+              header={faq.question}
+              style={{ border: "none" }}
+              className="collapsibleTitle"
+              key={index}
+            >
+              {faq.answer}
+            </Collapse.Panel>
+          ))}
+        </Collapse>
+      </div>
     </div>
   );
 };

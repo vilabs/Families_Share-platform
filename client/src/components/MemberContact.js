@@ -99,7 +99,7 @@ class MemberContact extends React.Component {
     }
   };
 
-  handeContact = () => {
+  handleContact = () => {
     const {
       member: { contact_option: contact },
       enqueueSnackbar
@@ -225,7 +225,9 @@ class MemberContact extends React.Component {
               <CopyToClipboard text={profile.email}>
                 <button
                   type="button"
-                  onClick={this.handleContact}
+                  onClick={() => {
+                    this.handleContact();
+                  }}
                   className="transparentButton verticalCenter"
                 >
                   <i className={this.getContactIcon(contact)} />

@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import moment from "moment";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
 
@@ -70,6 +71,17 @@ class PlanListItem extends React.Component {
               <div className="row no-gutters">
                 <i
                   className="far fa-calendar-alt"
+                  style={{ marginRight: "1rem" }}
+                />
+                <h2>
+                  {`${moment(plan.from).format("DD MMM YYYY")}-${moment(
+                    plan.to
+                  ).format("DD MMM YYYY")}`}
+                </h2>
+              </div>
+              <div className="row no-gutters">
+                <i
+                  className="fas fa-user-friends"
                   style={{ marginRight: "1rem" }}
                 />
                 <h2>{this.renderParticipantText()}</h2>
