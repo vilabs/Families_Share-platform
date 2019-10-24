@@ -99,11 +99,17 @@ class MemberContact extends React.Component {
     }
   };
 
-  handleEmail = email => {
-    const { enqueueSnackbar } = this.props;
+  handeContact = () => {
+    const {
+      member: { contact_option: contact },
+      enqueueSnackbar
+    } = this.props;
     if (window.isNative) {
       window.ReactNativeWebView.postMessage(
-        JSON.stringify({ action: "sendEmail", value: email })
+        JSON.stringify({
+          action: `send${contact}`,
+          value: this.getContactValue()
+        })
       );
     } else {
       enqueueSnackbar("Copied e-mail to clipboard", {
@@ -112,10 +118,47 @@ class MemberContact extends React.Component {
     }
   };
 
+  getContactValue = () => {
+    const {
+      member: { contact_option: contact, phone, email }
+    } = this.props;
+    let value;
+    switch (contact) {
+      case "viber":
+      case "whatsapp":
+        value = phone;
+        break;
+      case "email":
+      default:
+        value = email;
+    }
+    return value;
+  };
+
+  getContactIcon = contact => {
+    let icon;
+    switch (contact) {
+      case "viber":
+        icon = "fab fa-viber";
+        break;
+      case "whatsapp":
+        icon = "fab fa-whatsapp";
+        break;
+      case "email":
+      default:
+        icon = "fas fa-envelope";
+    }
+    if (window.isNative) {
+      return icon;
+    }
+    return "fas fa-envelope";
+  };
+
   render() {
     const { language, member: profile, userIsAdmin } = this.props;
     const { top, right, modalIsOpen } = this.state;
     const texts = Texts[language].memberContact;
+    const { contact_option: contact } = profile;
     const options = [
       profile.admin
         ? {
@@ -178,14 +221,14 @@ class MemberContact extends React.Component {
             )}
           </div>
           <div id="contactIconsContainer" className="col-1-10">
-            {profile.email && !profile.suspended && (
+            {!profile.suspended && (
               <CopyToClipboard text={profile.email}>
                 <button
                   type="button"
-                  onClick={() => this.handleEmail(profile.email)}
+                  onClick={this.handleContact}
                   className="transparentButton verticalCenter"
                 >
-                  <i className="fas fa-envelope" />
+                  <i className={this.getContactIcon(contact)} />
                 </button>
               </CopyToClipboard>
             )}
