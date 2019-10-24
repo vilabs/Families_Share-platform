@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import autosize from "autosize";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
 import LoadingSpinner from "./LoadingSpinner";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
@@ -292,6 +293,7 @@ class CreatePlanStepper extends React.Component {
               onChange={this.handleChange}
               value={from}
               required
+              min={moment().format("YYYY-MM-DD")}
               name="from"
             />
             <span className="invalid-feedback" id="fromErr" />
@@ -300,6 +302,7 @@ class CreatePlanStepper extends React.Component {
               type="date"
               onChange={this.handleChange}
               value={to}
+              min={moment(from).format("YYYY-MM-DD")}
               required
               name="to"
             />
