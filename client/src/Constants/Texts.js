@@ -163,6 +163,8 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
+    allUsersAvailabilities: "Add user availabilities",
+    allChildrenAvailabilities: "Add children Availabilities",
     admins: "Group Administrators",
     phoneConfirm: "Call",
     copy: "Copied number to clipboard",
@@ -177,6 +179,10 @@ const en = {
     signup: "signed up",
     userSubscribe: "You have added yourself to the activity",
     userUnsubscribe: "You have removed yourself from the activity",
+    parentSubscribe1: "You have added",
+    parentSubscribe2: "to the activity",
+    parentUnsubscribe1: "You have removed",
+    parentUnsubscribe2: "from the activity",
     cannotEdit: "A timeslot cannot be editted after it has been completed",
     childSubscribe1: "You have added",
     childSubscribe2: "to the activity",
