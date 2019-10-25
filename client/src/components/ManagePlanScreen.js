@@ -1,11 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
+import { withSnackbar } from "notistack";
 import withLanguage from "./LanguageContext";
 import Texts from "../Constants/Texts";
 import ConfirmDialog from "./ConfirmDialog";
 import ManagePlanStepper from "./ManagePlanStepper";
 import LoadingSpinner from "./LoadingSpinner";
+import PlanOptionsModal from "./OptionsModal";
+
 import Log from "./Log";
 
 const fetchPlan = (groupId, planId) => {
@@ -79,7 +82,8 @@ class ManagePlanScreen extends React.Component {
     this.state = {
       fetchedPlan: false,
       confirmDialogIsOpen: false,
-      confirmDialogTitle: ""
+      confirmDialogTitle: "",
+      optionsModalIsOpen: false
     };
   }
 
@@ -110,22 +114,31 @@ class ManagePlanScreen extends React.Component {
   };
 
   handleConfirmDialogClose = choice => {
+    const { confirmDialogAction } = this.state;
     if (choice === "agree") {
-      this.handleDelete();
+      if (confirmDialogAction === "delete") {
+        this.handleDelete();
+      } else {
+        this.handleExport();
+      }
     }
     this.setState({
       confirmDialogIsOpen: false,
-      confirmDialogTitle: ""
+      confirmDialogTitle: "",
+      confirmDialogAction: ""
     });
   };
 
-  handleConfirmDialogOpen = () => {
+  handleConfirmDialogOpen = action => {
     const { language } = this.props;
     const texts = Texts[language].managePlanScreen;
-    const confirmDialogTitle = texts.deleteConfirm;
+    const confirmDialogTitle =
+      action === "delete" ? texts.deleteConfirm : texts.exportConfirm;
     this.setState({
       confirmDialogTitle,
-      confirmDialogIsOpen: true
+      confirmDialogAction: action,
+      confirmDialogIsOpen: true,
+      optionsModalIsOpen: false
     });
   };
 
@@ -133,6 +146,27 @@ class ManagePlanScreen extends React.Component {
     const { history } = this.props;
     const { pathname } = history.location;
     history.push(`${pathname}/edit`);
+  };
+
+  handleExport = () => {
+    const { match, enqueueSnackbar, language } = this.props;
+    const { planId, groupId } = match.params;
+    const texts = Texts[language].managePlanScreen;
+    axios
+      .post(`/api/groups/${groupId}/plans/${planId}/export`)
+      .then(response => {
+        Log.info(response);
+        enqueueSnackbar(texts.exportToaster, {
+          variant: "info"
+        });
+      })
+      .catch(err => {
+        Log.error(err);
+      });
+  };
+
+  handleOptionsModalClose = () => {
+    this.setState({ optionsModalIsOpen: false });
   };
 
   render() {
@@ -143,15 +177,38 @@ class ManagePlanScreen extends React.Component {
       children,
       userIsAdmin,
       confirmDialogTitle,
-      confirmDialogIsOpen
+      confirmDialogIsOpen,
+      optionsModalIsOpen
     } = this.state;
     const texts = Texts[language].managePlanScreen;
+    const options = [
+      {
+        label: texts.edit,
+        style: "optionsModalButton",
+        handle: this.handleEdit
+      },
+      {
+        label: texts.export,
+        style: "optionsModalButton",
+        handle: () => this.handleConfirmDialogOpen("export")
+      },
+      {
+        label: texts.delete,
+        style: "optionsModalButton",
+        handle: () => this.handleConfirmDialogOpen("delete")
+      }
+    ];
     return (
       <React.Fragment>
         <ConfirmDialog
           title={confirmDialogTitle}
           isOpen={confirmDialogIsOpen}
           handleClose={this.handleConfirmDialogClose}
+        />
+        <PlanOptionsModal
+          isOpen={optionsModalIsOpen}
+          options={options}
+          handleClose={this.handleOptionsModalClose}
         />
         <div id="createPlanContainer">
           <div id="activityHeaderContainer" className="row no-gutters">
@@ -164,7 +221,7 @@ class ManagePlanScreen extends React.Component {
                 <i className="fas fa-arrow-left" />
               </button>
             </div>
-            <div className="col-6-10">
+            <div className="col-7-10">
               <h1 className="center">{texts.backNavTitle}</h1>
             </div>
 
@@ -173,20 +230,9 @@ class ManagePlanScreen extends React.Component {
                 <button
                   type="button"
                   className="transparentButton center"
-                  onClick={this.handleEdit}
+                  onClick={() => this.setState({ optionsModalIsOpen: true })}
                 >
-                  <i className="fas fa-pencil-alt" />
-                </button>
-              )}
-            </div>
-            <div className="col-1-10">
-              {userIsAdmin && (
-                <button
-                  type="button"
-                  className="transparentButton center"
-                  onClick={this.handleConfirmDialogOpen}
-                >
-                  <i className="fas fa-trash-alt" />
+                  <i className="fas fa-ellipsis-v" />
                 </button>
               )}
             </div>
@@ -211,7 +257,8 @@ class ManagePlanScreen extends React.Component {
 ManagePlanScreen.propTypes = {
   language: PropTypes.string,
   history: PropTypes.object,
-  match: PropTypes.object
+  match: PropTypes.object,
+  enqueueSnackbar: PropTypes.func
 };
 
-export default withLanguage(ManagePlanScreen);
+export default withSnackbar(withLanguage(ManagePlanScreen));

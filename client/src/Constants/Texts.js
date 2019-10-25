@@ -65,6 +65,12 @@ const en = {
     ]
   },
   managePlanScreen: {
+    export: "Export plan",
+    edit: "Edit plan",
+    delete: "Delete plan",
+    exportConfirm: "Are you sure you want to export this plan?",
+    exportToaster:
+      "The plan is being exported in xls format. You will shorty receive it via e-mail",
     backNavTitle: "Manage Planning",
     deleteConfirm: "Are you sure you want to delete this plan?"
   },
@@ -1308,6 +1314,12 @@ const nl = {
     ]
   },
   managePlanScreen: {
+    export: "Exportplan",
+    edit: "Plan bewerken",
+    delete: "Plan verwijderen",
+    exportConfirm: "Weet u zeker dat u dit plan wilt exporteren?",
+    exportToaster:
+      "Het plan wordt geëxporteerd in xls-formaat. U ontvangt het binnenkort via e-mail",
     backNavTitle: "Planning beheren",
     deleteConfirm: "Weet u zeker dat u dit plan wilt verwijderen?"
   },
@@ -1406,6 +1418,12 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    allUsersAvailabilities: "Beschikbaarheid van gebruikers toevoegen",
+    allChildrenAvailabilities: "Beschikbaarheid voor kinderen toevoegen",
+    parentSubscribe1: "Je hebt toegevoegd",
+    parentSubscribe2: "naar de activiteit",
+    parentUnsubscribe1: "Je hebt verwijderd",
+    parentUnsubscribe2: "van de activiteit",
     phoneConfirm: "Telefoontje",
     copy: "Nummer naar klembord gekopieerd",
     emergency: "NOODGEVAL",
@@ -2500,6 +2518,12 @@ const it = {
     ]
   },
   managePlanScreen: {
+    export: "Esporta piano",
+    edit: "Modifica piano",
+    delete: "Elimina piano",
+    exportConfirm: "Sei sicuro di voler esportare questo piano?",
+    exportToaster:
+      "Il piano viene esportato in formato xls. Lo riceverai a breve via e-mail",
     backNavTitle: "Manage Planning",
     deleteConfirm: "Are you sure you want to delete this plan?"
   },
@@ -2598,6 +2622,12 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    allUsersAvailabilities: "Aggiungi disponibilità utenti",
+    allChildrenAvailabilities: "Aggiungi disponibilità bambini",
+    parentSubscribe1: "Hai aggiunto",
+    parentSubscribe2: "all'attività",
+    parentUnsubscribe1: "Hai rimosso",
+    parentUnsubscribe2: "dall'attività",
     phoneConfirm: "Chiamata",
     copy: "Numero copiato negli appunti",
     emergency: "EMERGENZA",
@@ -3710,8 +3740,14 @@ const el = {
     ]
   },
   managePlanScreen: {
-    backNavTitle: "Manage Planning",
-    deleteConfirm: "Are you sure you want to delete this plan?"
+    export: "ΕΞαγωγή Σχεδίου",
+    edit: "Τροποποίηση Σχεδίου",
+    delete: "Διαγραφή Σχεδίου",
+    exportConfirm: "Είστε σίγουρος ότι θέλετε να εξάγετε αυτό το σχέδιο;?",
+    exportToaster:
+      "Το σχέδιο εξάγεται σε μορφή xls.Θα το λάβετε σύντομα μέσω email.",
+    backNavTitle: "Διαχείριση Σχεδίου",
+    deleteConfirm: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το σχέδιο;"
   },
   managePlanStepper: {
     nextPhase: "Next phase",
@@ -3809,6 +3845,12 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
+    allUsersAvailabilities: "Προσθέσετε τη διαθεσιμότητα των εθελοντών",
+    allChildrenAvailabilities: "Προσθέσετε τη διαθεσιμότητα των παιδιών",
+    parentSubscribe1: "Έχετε προσθέσει",
+    parentSubscribe2: "στη δραστηριότητα",
+    parentUnsubscribe1: "Έχετε αφαιρέσει",
+    parentUnsubscribe2: "από τη δραστηριότητα",
     phoneConfirm: "Κλήση προς",
     copy: "Ο αριθμός αντιγράφηκε στο πρόχειρο",
     emergency: "ΕΚΤΑΚΤΗ ΑΝΑΓΚΗ",
@@ -4911,6 +4953,12 @@ const hu = {
     ]
   },
   managePlanScreen: {
+    export: "Export terv",
+    edit: "Terv szerkesztése",
+    delete: "Terv törlése",
+    exportConfirm: "Biztosan exportálni akarja ezt a tervet?",
+    exportToaster:
+      "A tervet xls formátumban exportálják. Ön rövid időn belül megkapja e-mailbenl",
     backNavTitle: "Manage Planning",
     deleteConfirm: "Are you sure you want to delete this plan?"
   },
@@ -5009,6 +5057,12 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    allUsersAvailabilities: "Felhasználói elérhetőségek hozzáadása",
+    allChildrenAvailabilities: "Gyerekek elérhetőségének hozzáadása",
+    parentSubscribe1: "Hozzáadta",
+    parentSubscribe2: "a tevékenységhez",
+    parentUnsubscribe1: "Leiratkozott",
+    parentUnsubscribe2: "a tevékenységről",
     phoneConfirm: "Hívás",
     copy: "A számot a vágólapra másolta",
     emergency: "VESZHELYZET",

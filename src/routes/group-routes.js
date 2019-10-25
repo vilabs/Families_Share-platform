@@ -886,6 +886,53 @@ router.delete('/:groupId/plans/:planId', async (req, res, next) => {
   }
 })
 
+router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const { groupId: group_id, planId: plan_id } = req.params
+  const { user_id } = req
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!member.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    const plan = await Plan.findOne({ plan_id })
+    ph.createExcel(plan, () => {
+      const mailOptions = {
+        from: process.env.SERVER_MAIL,
+        to: req.email,
+        subject: `Plan: ${plan.name} `,
+        html: ph.newExportEmail(plan.name),
+        attachments: [
+          {
+            filename: `${plan.name.toUpperCase()}.xlsx`,
+            path: path.join(
+              __dirname,
+              `../../${plan.name.toUpperCase()}.xlsx`
+            )
+          }
+        ]
+      }
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) next(err)
+        fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
+      })
+      res.status(200).send('Exported pan successfully')
+    })
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/:id/activities', async (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')
