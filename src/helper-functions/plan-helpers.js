@@ -119,6 +119,7 @@ async function createExcel (plan, cb) {
   const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
   const planSheet = workBook.addWorksheet('Plan details')
   const slotsSheet = workBook.addWorksheet('Needs and Availabilities')
+  const solutionSheet = workBook.addWorksheet('Optimal Timeslots Solution')
   planSheet.columns = [
     {
       key: 'name',
@@ -171,6 +172,7 @@ async function createExcel (plan, cb) {
       header: s
     }))
   ]
+  solutionSheet.columns = slotsSheet.columns
   people.forEach(person => {
     let profile
     if (person.type === 'parent') {
@@ -215,6 +217,9 @@ async function createExcel (plan, cb) {
     category: plan.category,
     state: plan.state
   })
+  if (plan.state === 'planning') {
+    findOptimalSolution(plan)
+  }
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
   })

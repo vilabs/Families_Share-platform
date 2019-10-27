@@ -850,10 +850,7 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    const updatedPlan = await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
-    if (plan.state === 'planning') {
-      ph.findOptimalSolution(updatedPlan)
-    }
+    await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
     return res.status(200).send('Plan was updated')
   } catch (err) {
     next(err)
