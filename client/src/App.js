@@ -33,6 +33,10 @@ const CommunityInterface = Loadable({
   loader: () => import("./components/CommunityManagementScreen"),
   loading: () => Loading
 });
+const GroupManagementScreen = Loadable({
+  loader: () => import("./components/GroupManagementScreen"),
+  loading: () => Loading
+});
 const MyCalendarScreen = Loadable({
   loader: () => import("./components/MyCalendarScreen"),
   loading: () => Loading
@@ -294,6 +298,11 @@ class App extends React.Component {
                     />
                   )
                 }
+              />
+              <PrivateRoute
+                exact
+                path="/groups/:groupId/management"
+                component={GroupManagementScreen}
               />
               <PrivateRoute
                 path="/groups/:groupId/members/pending"

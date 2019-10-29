@@ -414,7 +414,7 @@ class EditGroupScreen extends React.Component {
                 style={{ borderBottom: "1px solid rgba(0,0,0,0.5)" }}
               >
                 <div className="col-2-10">
-                  <i className="fas fa-info-cirlce center" />
+                  <i className="fas fa-info-circle center" />
                 </div>
                 <div className="col-3-10">
                   <select
@@ -430,7 +430,13 @@ class EditGroupScreen extends React.Component {
                 </div>
                 {contactType !== "none" && (
                   <div className="col-2-10">
-                    <i className="fas fa-info-circle center" />
+                    <i
+                      className={
+                        contactType === "phone"
+                          ? "fas fa-phone center"
+                          : "fa fa-envelope center"
+                      }
+                    />
                   </div>
                 )}
                 {contactType !== "none" && (

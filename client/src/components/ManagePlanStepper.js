@@ -341,6 +341,30 @@ class ManagePlanStepper extends React.Component {
     this.setState({ plan });
   };
 
+  getDisabledAvailabilityDates = () => {
+    const {
+      plan: { participants, participant, from, to }
+    } = this.state;
+    let needDates = [];
+    [...participants, participant].forEach(p => {
+      p.needs.forEach(n => {
+        needDates.push(moment(n.day).format("DD-MMMM-YYYY"));
+      });
+    });
+    needDates = [...new Set(needDates)];
+    const start = moment(from);
+    const end = moment(to);
+    const allDates = [start.format("DD-MMNM-YYYY")];
+    while (start.add(1, "days").diff(end) <= 0) {
+      allDates.push(start.clone().format("DD-MMMM-YYYY"));
+    }
+    allDates.push(end.format("DDMMYY"));
+    const disabledDates = allDates
+      .filter(d => needDates.indexOf(d) === -1)
+      .map(d => moment(d).toDate());
+    return disabledDates;
+  };
+
   getStepContent = () => {
     const { language, myChildren } = this.props;
     const { activeStep, plan } = this.state;
@@ -409,6 +433,7 @@ class ManagePlanStepper extends React.Component {
             <DayPicker
               className="horizontalCenter"
               disabledDays={[
+                ...this.getDisabledAvailabilityDates(),
                 {
                   before: new Date(plan.from),
                   after: new Date(plan.to)

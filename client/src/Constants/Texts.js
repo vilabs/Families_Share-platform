@@ -3,6 +3,17 @@
 import React from "react";
 
 const en = {
+  groupManagementScreen: {
+    backNavTitle: "Group Management",
+    totalVolunteers: "Total number of Volunteers",
+    totalKids: "Total number of kids",
+    totalEvents: "Total number of events",
+    totalCompletedEvents: "Total number of completed events",
+    metricsHeader: "Group Metrics",
+    metricsColumn: "Metric",
+    valuesColumn: "Value",
+    chartHeader: "Total contribution per user"
+  },
   timeslotEmergencyScreen: {
     copy: "Copied emergency number to clipboard",
     call: "Call",
@@ -95,9 +106,12 @@ const en = {
   planListItem: {
     participantsNeeds: "members have specified needs",
     participantNeeds: "member has specified needs",
-    participantsAvailabilities:
-      "members have specified needs and availabilities",
-    participantAvailabilities: "member has specified needs and availabilities"
+    participantsAvailabilities: "members have specified  availabilities",
+    participantAvailabilities: "member has specified availabilities",
+    needsPhase: "Declaring needs",
+    availabilitiesPhase: "Declaring availabilities",
+    planningPhase: "Finding optimal solution",
+    creationPhase: "Transforming plan to activities"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -1342,12 +1356,14 @@ const nl = {
     needError: "Ontbrekende kindopdracht voor datum"
   },
   planListItem: {
-    participantsNeeds: "leden hebben behoeften gespecificeerd",
-    participantNeeds: "lid heeft behoeften gespecificeerd",
-    participantsAvailabilities:
-      "leden hebben behoeften en beschikbaarheden gespecificeerd",
-    participantAvailabilities:
-      "lid heeft gespecificeerde behoeften en beschikbaarheid"
+    participantsNeeds: "members have specified needs",
+    participantNeeds: "member has specified needs",
+    participantsAvailabilities: "members have specified  availabilities",
+    participantAvailabilities: "member has specified availabilities",
+    needsPhase: "Declaring needs",
+    availabilitiesPhase: "Declaring availabilities",
+    planningPhase: "Finding optimal solution",
+    creationPhase: "Transforming plan to activities"
   },
   communityInterface: {
     backNavTitle: "Gemeenschaps interface",
@@ -2548,9 +2564,12 @@ const it = {
   planListItem: {
     participantsNeeds: "members have specified needs",
     participantNeeds: "member has specified needs",
-    participantsAvailabilities:
-      "members have specified needs and availabilities",
-    participantAvailabilities: "member has specified needs and availabilities"
+    participantsAvailabilities: "members have specified  availabilities",
+    participantAvailabilities: "member has specified availabilities",
+    needsPhase: "Declaring needs",
+    availabilitiesPhase: "Declaring availabilities",
+    planningPhase: "Finding optimal solution",
+    creationPhase: "Transforming plan to activities"
   },
   communityInterface: {
     backNavTitle: "Interfaccia della comunità",
@@ -3770,9 +3789,12 @@ const el = {
   planListItem: {
     participantsNeeds: "members have specified needs",
     participantNeeds: "member has specified needs",
-    participantsAvailabilities:
-      "members have specified needs and availabilities",
-    participantAvailabilities: "member has specified needs and availabilities"
+    participantsAvailabilities: "members have specified  availabilities",
+    participantAvailabilities: "member has specified availabilities",
+    needsPhase: "Declaring needs",
+    availabilitiesPhase: "Declaring availabilities",
+    planningPhase: "Finding optimal solution",
+    creationPhase: "Transforming plan to activities"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -4983,9 +5005,12 @@ const hu = {
   planListItem: {
     participantsNeeds: "members have specified needs",
     participantNeeds: "member has specified needs",
-    participantsAvailabilities:
-      "members have specified needs and availabilities",
-    participantAvailabilities: "member has specified needs and availabilities"
+    participantsAvailabilities: "members have specified  availabilities",
+    participantAvailabilities: "member has specified availabilities",
+    needsPhase: "Declaring needs",
+    availabilitiesPhase: "Declaring availabilities",
+    planningPhase: "Finding optimal solution",
+    creationPhase: "Transforming plan to activities"
   },
   communityInterface: {
     backNavTitle: "Közösségi felület",

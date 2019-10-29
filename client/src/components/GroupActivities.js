@@ -260,6 +260,7 @@ class GroupActivities extends React.Component {
         </div>
         <div
           style={{
+            zIndex: 100,
             position: "fixed",
             bottom: "8rem",
             right: "7%",

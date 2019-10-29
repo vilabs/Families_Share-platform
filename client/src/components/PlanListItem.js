@@ -23,16 +23,17 @@ class PlanListItem extends React.Component {
     const { plan } = this.state;
     const { language } = this.props;
     const texts = Texts[language].planListItem;
-    const participantsLength = plan.participants.length;
-    if (plan.step === 0) {
-      return `${participantsLength} ${
-        participantsLength === 1
-          ? texts.participantNeeds
-          : texts.participantsNeeds
+    if (plan.state === "needs") {
+      const needsLength = plan.participants.length;
+      return `${needsLength} ${
+        needsLength === 1 ? texts.participantNeeds : texts.participantsNeeds
       }`;
     }
-    return `${participantsLength} ${
-      participantsLength === 1
+    const availabilitiesLength = plan.participants.filter(
+      p => p.needs.length > 0
+    ).length;
+    return `${availabilitiesLength} ${
+      availabilitiesLength === 1
         ? texts.participantAvailabilities
         : texts.participantsAvailabilities
     }`;
@@ -40,6 +41,8 @@ class PlanListItem extends React.Component {
 
   render() {
     const { plan } = this.state;
+    const { language } = this.props;
+    const texts = Texts[language].planListItem;
     return (
       <React.Fragment>
         <div
@@ -80,12 +83,18 @@ class PlanListItem extends React.Component {
                 </h2>
               </div>
               <div className="row no-gutters">
-                <i
-                  className="fas fa-user-friends"
-                  style={{ marginRight: "1rem" }}
-                />
-                <h2>{this.renderParticipantText()}</h2>
+                <i className="fas fa-tasks" style={{ marginRight: "1rem" }} />
+                <h2>{texts[`${plan.state}Phase`]}</h2>
               </div>
+              {(plan.state === "needs" || plan.state === "availabilities") && (
+                <div className="row no-gutters">
+                  <i
+                    className="fas fa-user-friends"
+                    style={{ marginRight: "1rem" }}
+                  />
+                  <h2>{this.renderParticipantText()}</h2>
+                </div>
+              )}
             </div>
           </div>
           <div

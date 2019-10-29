@@ -366,7 +366,7 @@ async function createPdf (activity, timeslots, cb) {
               'Starting & Ending Time',
               'Place',
               'Cost',
-              'Min n. of arents',
+              'Min n. of parents',
               'Min n. of children',
               'Status',
               'Participating Parents',
