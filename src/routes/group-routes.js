@@ -906,7 +906,9 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
       const oldPlan = await Plan.findOne({ plan_id: planId })
       plan.participants = [ plan.participants.find(p => p.user_id === userId), ...oldPlan.participants.filter(p => p.user_id !== userId) ]
     }
-    plan.participants = await ph.syncChildSubscriptions(plan.participants)
+    if (plan.participants) {
+      plan.participants = await ph.syncChildSubscriptions(plan.participants)
+    }
     const updatedPlan = await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
     if (updatedPlan.state === 'planning') {
       ph.findOptimalSolution(updatedPlan)
