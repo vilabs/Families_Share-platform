@@ -183,8 +183,9 @@ class ManagePlanStepper extends React.Component {
   };
 
   updatePlan = () => {
-    const { history, match } = this.props;
+    const { history, match, enqueueSnackbar, language } = this.props;
     const { groupId, planId } = match.params;
+    const texts = Texts[language].managePlanStepper;
     this.setState({ updatingPlan: true });
     const { plan } = this.state;
     plan.participants.push(plan.participant);
@@ -195,7 +196,17 @@ class ManagePlanStepper extends React.Component {
       })
       .then(response => {
         Log.info(response);
-        history.goBack();
+        if (plan.state === "needs" || plan.state === "availabilities") {
+          enqueueSnackbar(
+            plan.state === "needs"
+              ? texts.needsSuccess
+              : texts.availabilitiesSuccess,
+            {
+              variant: "info"
+            }
+          );
+          history.goBack();
+        }
       })
       .catch(error => {
         Log.error(error);

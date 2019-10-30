@@ -1,10 +1,45 @@
 const Excel = require('exceljs')
 const Profile = require('../models/profile')
 const Child = require('../models/child')
+const Parent = require('../models/parent')
 const moment = require('moment')
 
-const findOptimalSolution = async plan => {
-  const { ratio, min_volunteeers: minVolunteers, participants } = plan
+const syncChildSubscriptions = async participants => {
+  const currentChildSuscriptions = [...new Set(participants[0].needs.reduce((a, b) => a.concat(b.children), []))]
+  for (const childSubscription of currentChildSuscriptions) {
+    const parent = await Parent.findOne({ child_id: childSubscription, parent_id: { $ne: participants[0].user_id } })
+    participants.forEach((participant) => {
+      if (parent && participant.user_id === parent.parent_id) {
+        if (participant.needs.length > 0) {
+          participant.needs.forEach(otherParentNeed => {
+            if (otherParentNeed.children.includes(childSubscription)) {
+              otherParentNeed.children.splice(otherParentNeed.children.indexOf(childSubscription), 1)
+            }
+          })
+          participant.needs = participant.needs.filter(n => n.children.length > 0)
+          participants[0].needs
+            .filter(n => n.children.includes(childSubscription))
+            .forEach(myNeed => {
+              const needIndex = participant.needs.findIndex(n => moment(n.day).format('DDMMYY') === moment(myNeed.day).format('DDMMYY'))
+              if (needIndex === -1) {
+                participant.needs.push({
+                  day: myNeed.day,
+                  children: [childSubscription]
+                })
+              } else {
+                participant.needs[needIndex].children.push(childSubscription)
+              }
+            })
+          participant.needs = participant.needs.sort((a, b) => new Date(a) - new Date(b))
+        }
+      }
+    })
+  }
+  return participants
+}
+
+const findOptimalSolution = async (plan) => {
+  const { ratio, min_volunteers: minVolunteers, participants } = plan
   let people = []
   let slots = []
   // create array with people and array with slots
@@ -91,6 +126,148 @@ function newExportEmail (plan_name) {
 </div>`
 }
 
+const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, people, plan) => {
+  const needsSheet = workBook.addWorksheet('Children Needs')
+  needsSheet.columns = [
+    {
+      key: 'child'
+    },
+    {
+      key: 'parent'
+    },
+    ...slots.map(s => ({
+      key: s
+    }))
+  ]
+  let row = {
+    child: ' ',
+    parent: ' '
+  }
+  slots.forEach(s => {
+    row[s] = moment(s).format('dddd')
+  })
+  needsSheet.addRow(row)
+  row = {
+    child: 'Child name',
+    parent: 'Parent name'
+  }
+  slots.forEach(s => {
+    row[s] = moment(s).format('DD/MM/YYYY')
+  })
+  const headersRow = needsSheet.addRow(row)
+  headersRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  headersRow.height = 20
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.font = { bold: true }
+
+  needsSheet.getColumn('B').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  needsSheet.getCell('B2').border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } },
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  people.filter(p => p.type === 'child').forEach(child => {
+    const childProfile = childrenProfiles.find(c => c.child_id === child.id)
+    const parentProfile = parentProfiles.find(p => p.user_id === child.parent)
+    row = {
+      child: childProfile.given_name,
+      parent: `${parentProfile.given_name} ${parentProfile.family_name}`
+    }
+    slots.forEach(s => {
+      row[s] = ''
+      plan.participants.forEach(p => {
+        const need = p.needs.find(n => moment(n.day).format('DD MMM YYYY') === s)
+        if (need) {
+          if (need.children.includes(child.id)) {
+            row[s] = 'x'
+          }
+        }
+      })
+    })
+    needsSheet.addRow(row)
+  })
+}
+
+const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan) => {
+  const availabilitiesSheet = workBook.addWorksheet('Parent Availabilities')
+  let columns = [
+    {
+      key: 'parent'
+    }
+  ]
+  slots.forEach((s, index) => {
+    columns.push({
+      key: `${s}-AM`
+    })
+    columns.push({
+      key: `${s}-PM`
+    })
+    availabilitiesSheet.mergeCells(1, 2 * index + 2, 1, 2 * index + 3)
+    availabilitiesSheet.mergeCells(2, 2 * index + 2, 2, 2 * index + 3)
+  })
+  const weekdaysRow = availabilitiesSheet.getRow(1)
+  const datesRow = availabilitiesSheet.getRow(2)
+  const meridiemRow = availabilitiesSheet.getRow(3)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = datesRow.fill
+  slots.forEach((s, index) => {
+    weekdaysRow.getCell(index + 2).alignment = { horizontal: 'center' }
+    datesRow.getCell(index + 2).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    weekdaysRow.getCell(index + 2).value = moment(s).format('dddd')
+    datesRow.getCell(index + 2).value = moment(s).format('DD/MM/YYYY')
+    meridiemRow.getCell(index * 2 + 2).value = 'AM'
+    meridiemRow.getCell(index * 2 + 3).value = 'PM'
+  })
+  // headersRow.height = 20
+  // headersRow.border = {
+  //   bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  // }
+  // headersRow.font = { bold: true }
+
+  // needsSheet.getColumn('B').border = {
+  //   right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  // }
+  // needsSheet.getCell('B2').border = {
+  //   bottom: { style: 'thick', color: { argb: 'FFDADFE9' } },
+  //   right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  // }
+  // people.filter(p => p.type === 'child').forEach(child => {
+  //   const childProfile = childrenProfiles.find(c => c.child_id === child.id)
+  //   const parentProfile = parentProfiles.find(p => p.user_id === child.parent)
+  //   row = {
+  //     child: childProfile.given_name,
+  //     parent: `${parentProfile.given_name} ${parentProfile.family_name}`
+  //   }
+  //   slots.forEach(s => {
+  //     row[s] = ''
+  //     plan.participants.forEach(p => {
+  //       const need = p.needs.find(n => moment(n.day).format('DD MMM YYYY') === s)
+  //       if (need) {
+  //         if (need.children.includes(child.id)) {
+  //           row[s] = 'x'
+  //         }
+  //       }
+  //     })
+  //   })
+  //   needsSheet.addRow(row)
+  // })
+}
+
 async function createExcel (plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
@@ -107,7 +284,7 @@ async function createExcel (plan, cb) {
     people.push({ id: p.user_id, type: 'parent' })
     p.needs.forEach(n => {
       n.children.forEach(c => {
-        people.push({ id: c, type: 'child' })
+        people.push({ id: c, type: 'child', parent: p.user_id })
       })
     })
   })
@@ -118,6 +295,8 @@ async function createExcel (plan, cb) {
   const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
   const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
   const planSheet = workBook.addWorksheet('Plan details')
+  createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
+  createAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
   const slotsSheet = workBook.addWorksheet('Needs and Availabilities')
   const solutionSheet = workBook.addWorksheet('Optimal Timeslots Solution')
   planSheet.columns = [
@@ -228,5 +407,6 @@ async function createExcel (plan, cb) {
 module.exports = {
   findOptimalSolution,
   newExportEmail,
-  createExcel
+  createExcel,
+  syncChildSubscriptions
 }

@@ -101,7 +101,9 @@ const en = {
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
-    needError: "Missing child assignemnt for date"
+    needError: "Missing child assignemnt for date",
+    needsSuccess: "You have successfully added your needs",
+    availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
     participantsNeeds: "members have specified needs",
@@ -1353,7 +1355,9 @@ const nl = {
     needsDeadline: "Je moet tot in je behoeften voorzien tot",
     availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
     availabilityError: "Beschikbaarheid ontbreekt voor datum",
-    needError: "Ontbrekende kindopdracht voor datum"
+    needError: "Ontbrekende kindopdracht voor datum",
+    needsSuccess: "You have successfully added your needs",
+    availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
     participantsNeeds: "members have specified needs",
@@ -2559,7 +2563,9 @@ const it = {
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
-    needError: "Missing child assignemnt for date"
+    needError: "Missing child assignemnt for date",
+    needsSuccess: "You have successfully added your needs",
+    availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
     participantsNeeds: "members have specified needs",
@@ -3784,7 +3790,9 @@ const el = {
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
-    needError: "Missing child assignemnt for date"
+    needError: "Missing child assignemnt for date",
+    needsSuccess: "You have successfully added your needs",
+    availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
     participantsNeeds: "members have specified needs",
@@ -5000,7 +5008,9 @@ const hu = {
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
     availabilityError: "Missing availability for date",
-    needError: "Missing child assignemnt for date"
+    needError: "Missing child assignemnt for date",
+    needsSuccess: "You have successfully added your needs",
+    availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
     participantsNeeds: "members have specified needs",
