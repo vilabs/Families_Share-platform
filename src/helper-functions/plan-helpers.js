@@ -231,12 +231,12 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
     right: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
   slots.forEach((s, index) => {
-    weekdaysRow.getCell(index + 2).alignment = { horizontal: 'center' }
-    datesRow.getCell(index + 2).alignment = { horizontal: 'center' }
+    weekdaysRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
+    datesRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
     meridiemRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
     meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
-    weekdaysRow.getCell(index + 2).value = moment(s).format('dddd')
-    datesRow.getCell(index + 2).value = moment(s).format('DD/MM/YYYY')
+    weekdaysRow.getCell(index * 2 + 2).value = moment(s).format('dddd')
+    datesRow.getCell(index * 2 + 2).value = moment(s).format('DD/MM/YYYY')
     meridiemRow.getCell(index * 2 + 2).value = 'AM'
     meridiemRow.getCell(index * 2 + 3).value = 'PM'
   })
@@ -246,7 +246,7 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
   headersRow.border = {
     bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
-  parentProfiles.filter((profile, index) => {
+  parentProfiles.forEach((profile, index) => {
     let row = availabilitiesSheet.getRow(5 + index)
     row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
     row.getCell(1).fill = {
@@ -271,35 +271,108 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
   })
 }
 
-async function createExcel (plan, cb) {
-  const workBook = new Excel.Workbook()
-  workBook.creator = 'Families Share'
-  workBook.created = new Date()
-  let people = []
-  const start = moment(plan.start)
-  const end = moment(plan.to)
-  const slots = [start.format('DD MMMM YYYY')]
-  while (start.add(1, 'days').diff(end) <= 0) {
-    slots.push(start.clone().format('DD MMMM YYYY'))
+const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan) => {
+  const needsAndAvailabilitiesSheet = workBook.addWorksheet('Needs And Availabilities')
+  let columns = [
+    {
+      key: 'parent'
+    },
+    {
+      key: 'babysitter'
+    }
+  ]
+  slots.forEach((s, index) => {
+    columns.push({
+      key: `${s}-AM`
+    })
+    columns.push({
+      key: `${s}-PM`
+    })
+    needsAndAvailabilitiesSheet.mergeCells(1, 2 * index + 3, 1, 2 * index + 4)
+    needsAndAvailabilitiesSheet.mergeCells(2, 2 * index + 3, 2, 2 * index + 4)
+  })
+  const weekdaysRow = needsAndAvailabilitiesSheet.getRow(1)
+  const datesRow = needsAndAvailabilitiesSheet.getRow(2)
+  const meridiemRow = needsAndAvailabilitiesSheet.getRow(3)
+  const headersRow = needsAndAvailabilitiesSheet.getRow(4)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
   }
-  slots.push(end.format('DD MMMM YYYY'))
-  plan.participants.forEach(p => {
-    people.push({ id: p.user_id, type: 'parent' })
-    p.needs.forEach(n => {
-      n.children.forEach(c => {
-        people.push({ id: c, type: 'child', parent: p.user_id })
-      })
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFB7E1CD' }
+  }
+  headersRow.fill = datesRow.fill
+  headersRow.font = datesRow.font
+  headersRow.getCell(1).value = 'Parent name'
+  headersRow.getCell(2).value = 'Babysistter'
+  headersRow.getCell(2).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  slots.forEach((s, index) => {
+    weekdaysRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    datesRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 4).alignment = { horizontal: 'center' }
+    weekdaysRow.getCell(index * 2 + 3).value = moment(s).format('dddd')
+    datesRow.getCell(index * 2 + 3).value = moment(s).format('DD/MM/YYYY')
+    meridiemRow.getCell(index * 2 + 3).value = 'AM'
+    meridiemRow.getCell(index * 2 + 4).value = 'PM'
+  })
+  needsAndAvailabilitiesSheet.getColumn('B').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  parentProfiles.forEach((profile, index) => {
+    let row = needsAndAvailabilitiesSheet.getRow(5 + index)
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFB7E1CD' }
+    }
+    slots.forEach((s, index) => {
+      const participant = plan.participants.find(p => p.user_id === profile.user_id)
+      const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
+      if (availability) {
+        if (availability.meridiem === 'both') {
+          row.getCell(2 * index + 3).value = 'x'
+          row.getCell(2 * index + 4).value = 'x'
+        } else if (availability.meridiem === 'am') {
+          row.getCell(2 * index + 3).value = 'x'
+        } else {
+          row.getCell(2 * index + 4).value = 'x'
+        }
+      }
     })
   })
-  people = people.filter(
-    (person, index, self) =>
-      index === self.findIndex(obj => person.id === obj.id)
-  )
-  const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
-  const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
+  plan.participants.forEach((participant, participantIndex) => {
+    participant.needs.forEach(need => {
+      const index = slots.indexOf(moment(need.day).format('DD MMMM YYYYY'))
+      const row = needsAndAvailabilitiesSheet.getRow(participantIndex + 5)
+      row.getCell(index * 2 + 3).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFEFEFEF' }
+      }
+      row.getCell(index * 2 + 4).fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFEFEFEF' }
+      }
+    })
+  })
+}
+
+const createPlanSheet = (workBook, plan) => {
   const planSheet = workBook.addWorksheet('Plan details')
-  createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
-  createAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
   planSheet.columns = [
     {
       key: 'name',
@@ -354,9 +427,39 @@ async function createExcel (plan, cb) {
     category: plan.category,
     state: plan.state
   })
-  if (plan.state === 'planning') {
-    findOptimalSolution(plan)
+}
+
+async function createExcel (plan, cb) {
+  const workBook = new Excel.Workbook()
+  workBook.creator = 'Families Share'
+  workBook.created = new Date()
+  let people = []
+  const start = moment(plan.start)
+  const end = moment(plan.to)
+  const slots = [start.format('DD MMMM YYYY')]
+  while (start.add(1, 'days').diff(end) <= 0) {
+    slots.push(start.clone().format('DD MMMM YYYY'))
   }
+  slots.push(end.format('DD MMMM YYYY'))
+  plan.participants.forEach(p => {
+    people.push({ id: p.user_id, type: 'parent' })
+    p.needs.forEach(n => {
+      n.children.forEach(c => {
+        people.push({ id: c, type: 'child', parent: p.user_id })
+      })
+    })
+  })
+  people = people.filter(
+    (person, index, self) =>
+      index === self.findIndex(obj => person.id === obj.id)
+  )
+  const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
+  const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
+
+  createPlanSheet(workBook, plan)
+  createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
+  createAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
+  createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
   })
