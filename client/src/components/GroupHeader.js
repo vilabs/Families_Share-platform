@@ -15,7 +15,7 @@ class GroupHeader extends React.Component {
     history.push(`/groups/${groupId}/edit`);
   };
 
-  handleBackNav = () => {
+  handleBack = () => {
     const { history } = this.props;
     history.goBack();
   };

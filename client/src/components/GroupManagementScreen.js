@@ -105,7 +105,11 @@ class GroupManagementScreen extends React.Component {
     return (
       <div className="chartsContainer">
         <ResponsiveContainer width="80%" height={300}>
-          <BarChart data={chartData} maxBarSize={50}>
+          <BarChart
+            data={chartData}
+            maxBarSize={50}
+            className="usersContributionChart"
+          >
             <XAxis dataKey="volunteer" />
             <YAxis domain={[min, max]} />
             <Tooltip />

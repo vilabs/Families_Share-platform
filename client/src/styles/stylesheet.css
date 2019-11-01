@@ -252,11 +252,9 @@ input:checked + .slider:before {
 
 /****Break Points****/
 /**** Mobile Portrait****/
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
-  .recharts-xAxis.xAxis .recharts-text {
-    visibility: hidden;
-    display: none;
-  }
+.usersContributionChart .recharts-xAxis.xAxis .recharts-text {
+  visibility: hidden;
+  display: none;
 }
 select:focus {
   outline: 0;
