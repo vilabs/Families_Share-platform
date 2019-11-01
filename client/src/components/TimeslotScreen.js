@@ -573,6 +573,8 @@ class TimeslotScreen extends React.Component {
     ));
   };
 
+  getExternalSubscribes = () => {};
+
   render() {
     const { language } = this.props;
     const rowStyle = { minHeight: "5rem" };
@@ -735,6 +737,12 @@ class TimeslotScreen extends React.Component {
                     : texts.childrenAvailability}
                 </div>
                 {this.getChildrenSubscribes()}
+                {timeslot.userCanEdit && (
+                  <div className="activityInfoHeader">
+                    {texts.babysitterAvailabilities}
+                  </div>
+                )}
+                {timeslot.userCanEdit && this.getExternalSubscribes()}
               </React.Fragment>
             )}
             {this.renderParticipants("parents")}

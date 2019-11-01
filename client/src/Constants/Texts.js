@@ -185,6 +185,7 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
+    externalAvailabilities: "Add external availabilities",
     allUsersAvailabilities: "Add user availabilities",
     allChildrenAvailabilities: "Add children Availabilities",
     admins: "Group Administrators",
@@ -1438,6 +1439,7 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    externalAvailabilities: "Add external availabilities",
     allUsersAvailabilities: "Beschikbaarheid van gebruikers toevoegen",
     allChildrenAvailabilities: "Beschikbaarheid voor kinderen toevoegen",
     parentSubscribe1: "Je hebt toegevoegd",
@@ -2647,6 +2649,8 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    externalAvailabilities: "Add external availabilities",
+
     allUsersAvailabilities: "Aggiungi disponibilità utenti",
     allChildrenAvailabilities: "Aggiungi disponibilità bambini",
     parentSubscribe1: "Hai aggiunto",
@@ -3875,6 +3879,8 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
+    externalAvailabilities: "Add external availabilities",
+
     allUsersAvailabilities: "Προσθέσετε τη διαθεσιμότητα των εθελοντών",
     allChildrenAvailabilities: "Προσθέσετε τη διαθεσιμότητα των παιδιών",
     parentSubscribe1: "Έχετε προσθέσει",
@@ -5092,6 +5098,8 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    externalAvailabilities: "Add external availabilities",
+
     allUsersAvailabilities: "Felhasználói elérhetőségek hozzáadása",
     allChildrenAvailabilities: "Gyerekek elérhetőségének hozzáadása",
     parentSubscribe1: "Hozzáadta",
