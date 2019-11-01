@@ -11,16 +11,18 @@ class GroupHeader extends React.Component {
   state = { confirmDialogIsOpen: false };
 
   handleEdit = () => {
-    const { history } = this.props;
-    const { pathname } = history.location;
-    const parentPath = pathname.slice(0, pathname.lastIndexOf("/"));
-    const newPath = `${parentPath}/edit`;
-    history.push(newPath);
+    const { history, groupId } = this.props;
+    history.push(`/groups/${groupId}/edit`);
   };
 
   handleBackNav = () => {
     const { history } = this.props;
     history.goBack();
+  };
+
+  handleManagement = () => {
+    const { history, groupId } = this.props;
+    history.push(`/groups/${groupId}/management`);
   };
 
   handleConfirmDialogOpen = () => {
@@ -75,12 +77,12 @@ class GroupHeader extends React.Component {
               <button
                 type="button"
                 className="transparentButton center"
-                onClick={this.handleBackNav}
+                onClick={this.handleBack}
               >
                 <i className="fas fa-arrow-left" />
               </button>
             </div>
-            <div className="col-6-10" />
+            <div className="col-5-10" />
             <div className="col-1-10">
               {userIsAdmin ? (
                 <button
@@ -89,6 +91,19 @@ class GroupHeader extends React.Component {
                   onClick={this.handleConfirmDialogOpen}
                 >
                   <i className="fas fa-trash-alt" />
+                </button>
+              ) : (
+                <div />
+              )}
+            </div>
+            <div className="col-1-10">
+              {userIsAdmin ? (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handleManagement}
+                >
+                  <i className="fas fa-dragon" style={{ color: "black" }} />
                 </button>
               ) : (
                 <div />

@@ -97,8 +97,7 @@ class GroupManagementScreen extends React.Component {
       metrics: { contributions }
     } = this.state;
     const chartData = contributions.map(c => ({
-      volunteer: `${c.given_name[0]} ${c.family_name[0]}`,
-      name: `${c.given_name} ${c.family_name}`,
+      volunteer: `${c.given_name} ${c.family_name}`,
       value: c.contribution
     }));
     const min = 0;

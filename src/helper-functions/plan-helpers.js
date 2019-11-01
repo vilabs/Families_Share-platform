@@ -130,10 +130,12 @@ const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, peo
   const needsSheet = workBook.addWorksheet('Children Needs')
   needsSheet.columns = [
     {
-      key: 'child'
+      key: 'child',
+      width: 20
     },
     {
-      key: 'parent'
+      key: 'parent',
+      width: 20
     },
     ...slots.map(s => ({
       key: s
@@ -144,7 +146,7 @@ const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, peo
     parent: ' '
   }
   slots.forEach(s => {
-    row[s] = moment(s).format('dddd')
+    row[s] = moment(new Date(s)).format('dddd')
   })
   needsSheet.addRow(row)
   row = {
@@ -152,7 +154,7 @@ const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, peo
     parent: 'Parent name'
   }
   slots.forEach(s => {
-    row[s] = moment(s).format('DD/MM/YYYY')
+    row[s] = moment(new Date(s)).format('DD/MM/YYYY')
   })
   const headersRow = needsSheet.addRow(row)
   headersRow.fill = {
@@ -191,12 +193,14 @@ const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, peo
         }
       })
     })
-    needsSheet.addRow(row)
+    const needRow = needsSheet.addRow(row)
+    needRow.alignment = { horizontal: 'center' }
   })
 }
 
-const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan) => {
+const createAvailabilitiesSheet = (workBook, parentProfiles, slots, plan) => {
   const availabilitiesSheet = workBook.addWorksheet('Parent Availabilities')
+  availabilitiesSheet.getColumn('A').width = 20
   let columns = [
     {
       key: 'parent'
@@ -213,8 +217,11 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
     availabilitiesSheet.mergeCells(2, 2 * index + 2, 2, 2 * index + 3)
   })
   const weekdaysRow = availabilitiesSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
   const datesRow = availabilitiesSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
   const meridiemRow = availabilitiesSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
   const headersRow = availabilitiesSheet.getRow(4)
   datesRow.fill = {
     type: 'pattern',
@@ -226,17 +233,17 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
   meridiemRow.fill = datesRow.fill
   headersRow.fill = datesRow.fill
   headersRow.font = datesRow.font
+  headersRow.alignment = weekdaysRow.alignment
   headersRow.getCell(1).value = 'Parent name'
   headersRow.getCell(1).border = {
     right: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
+  availabilitiesSheet.getCell('A4').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
   slots.forEach((s, index) => {
-    weekdaysRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
-    datesRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
-    meridiemRow.getCell(index * 2 + 2).alignment = { horizontal: 'center' }
-    meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
-    weekdaysRow.getCell(index * 2 + 2).value = moment(s).format('dddd')
-    datesRow.getCell(index * 2 + 2).value = moment(s).format('DD/MM/YYYY')
+    weekdaysRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('dddd')
+    datesRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('DD/MM/YYYY')
     meridiemRow.getCell(index * 2 + 2).value = 'AM'
     meridiemRow.getCell(index * 2 + 3).value = 'PM'
   })
@@ -248,6 +255,7 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
   }
   parentProfiles.forEach((profile, index) => {
     let row = availabilitiesSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
     row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
     row.getCell(1).fill = {
       type: 'pattern',
@@ -273,6 +281,9 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan
 
 const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan) => {
   const needsAndAvailabilitiesSheet = workBook.addWorksheet('Needs And Availabilities')
+  needsAndAvailabilitiesSheet.getColumn('A').width = 20
+  needsAndAvailabilitiesSheet.getColumn('B').width = 20
+
   let columns = [
     {
       key: 'parent'
@@ -292,8 +303,11 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
     needsAndAvailabilitiesSheet.mergeCells(2, 2 * index + 3, 2, 2 * index + 4)
   })
   const weekdaysRow = needsAndAvailabilitiesSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
   const datesRow = needsAndAvailabilitiesSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
   const meridiemRow = needsAndAvailabilitiesSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
   const headersRow = needsAndAvailabilitiesSheet.getRow(4)
   datesRow.fill = {
     type: 'pattern',
@@ -308,10 +322,14 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
     fgColor: { argb: 'FFB7E1CD' }
   }
   headersRow.fill = datesRow.fill
+  headersRow.alignment = weekdaysRow.alignment
   headersRow.font = datesRow.font
   headersRow.getCell(1).value = 'Parent name'
   headersRow.getCell(2).value = 'Babysistter'
   headersRow.getCell(2).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  needsAndAvailabilitiesSheet.getCell('B4').border = {
     right: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
   slots.forEach((s, index) => {
@@ -319,8 +337,8 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
     datesRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
     meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
     meridiemRow.getCell(index * 2 + 4).alignment = { horizontal: 'center' }
-    weekdaysRow.getCell(index * 2 + 3).value = moment(s).format('dddd')
-    datesRow.getCell(index * 2 + 3).value = moment(s).format('DD/MM/YYYY')
+    weekdaysRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('dddd')
+    datesRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('DD/MM/YYYY')
     meridiemRow.getCell(index * 2 + 3).value = 'AM'
     meridiemRow.getCell(index * 2 + 4).value = 'PM'
   })
@@ -332,6 +350,7 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
   }
   parentProfiles.forEach((profile, index) => {
     let row = needsAndAvailabilitiesSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
     row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
     row.getCell(1).fill = {
       type: 'pattern',
@@ -345,30 +364,34 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
         if (availability.meridiem === 'both') {
           row.getCell(2 * index + 3).value = 'x'
           row.getCell(2 * index + 4).value = 'x'
+          row.getCell(2 * index + 3).alignment = { horizontal: 'center' }
+          row.getCell(2 * index + 4).alignment = { horizontal: 'center' }
         } else if (availability.meridiem === 'am') {
           row.getCell(2 * index + 3).value = 'x'
+          row.getCell(2 * index + 3).alignment = { horizontal: 'center' }
         } else {
           row.getCell(2 * index + 4).value = 'x'
+          row.getCell(2 * index + 4).alignment = { horizontal: 'center' }
         }
       }
     })
   })
-  plan.participants.forEach((participant, participantIndex) => {
-    participant.needs.forEach(need => {
-      const index = slots.indexOf(moment(need.day).format('DD MMMM YYYYY'))
-      const row = needsAndAvailabilitiesSheet.getRow(participantIndex + 5)
-      row.getCell(index * 2 + 3).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFEFEFEF' }
-      }
-      row.getCell(index * 2 + 4).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFEFEFEF' }
-      }
-    })
-  })
+  // plan.participants.forEach((participant, participantIndex) => {
+  //   participant.needs.forEach(need => {
+  //     const index = slots.indexOf(moment(need.day).format('DD MMMM YYYY'))
+  //     const row = needsAndAvailabilitiesSheet.getRow(participantIndex + 5)
+  // row.getCell(index * 2 + 3).fill = {
+  //   type: 'pattern',
+  //   pattern: 'solid',
+  //   fgColor: { argb: 'FFEFEFEF' }
+  // }
+  // row.getCell(index * 2 + 4).fill = {
+  //   type: 'pattern',
+  //   pattern: 'solid',
+  //   fgColor: { argb: 'FFEFEFEF' }
+  // }
+  //   })
+  // })
 }
 
 const createPlanSheet = (workBook, plan) => {
@@ -449,6 +472,15 @@ async function createExcel (plan, cb) {
       })
     })
   })
+  const filteredSlots = slots.filter(slot => {
+    let found = false
+    plan.participants.forEach(pa => {
+      if (pa.needs.map(need => moment(need.day).format('DD MMMM YYYY')).includes(slot)) {
+        found = true
+      }
+    })
+    return found
+  })
   people = people.filter(
     (person, index, self) =>
       index === self.findIndex(obj => person.id === obj.id)
@@ -458,8 +490,8 @@ async function createExcel (plan, cb) {
 
   createPlanSheet(workBook, plan)
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
-  createAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
-  createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, slots, people, plan)
+  createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
+  createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
   })
