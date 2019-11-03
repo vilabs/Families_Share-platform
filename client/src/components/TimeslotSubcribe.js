@@ -18,7 +18,8 @@ const TimeslotSubscribe = ({
   handleUnsubscribe,
   id,
   classes,
-  type
+  type,
+  disabled
 }) => {
   const handleClick = () => {
     if (subscribed) {
@@ -37,14 +38,16 @@ const TimeslotSubscribe = ({
     >
       <Avatar src={image} alt="users thumbnail" className={classes.avatar} />
       <div className="subscribeText">{name}</div>
-      <i
-        className={
-          subscribed
-            ? "fas fa-times subscribeIcon"
-            : "fas fa-plus subscribeIcon"
-        }
-        style={subscribed ? { color: "#ffffff" } : { color: "#808080" }}
-      />
+      {!disabled && (
+        <i
+          className={
+            subscribed
+              ? "fas fa-times subscribeIcon"
+              : "fas fa-plus subscribeIcon"
+          }
+          style={subscribed ? { color: "#ffffff" } : { color: "#808080" }}
+        />
+      )}
     </div>
   );
 };
@@ -52,6 +55,7 @@ const TimeslotSubscribe = ({
 export default withStyles(styles)(TimeslotSubscribe);
 
 TimeslotSubscribe.propTypes = {
+  disabled: PropTypes.bool,
   image: PropTypes.string,
   name: PropTypes.string,
   subscribed: PropTypes.bool,
@@ -60,4 +64,8 @@ TimeslotSubscribe.propTypes = {
   handleUnsubscribe: PropTypes.func,
   type: PropTypes.string,
   classes: PropTypes.object
+};
+
+TimeslotSubscribe.defaultProps = {
+  disabled: false
 };

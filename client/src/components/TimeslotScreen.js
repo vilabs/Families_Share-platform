@@ -168,14 +168,11 @@ class TimeslotScreen extends React.Component {
     const { groupId } = match.params;
     const { pathname } = history.location;
     const timeslot = await getTimeslot(`/api${pathname}`);
-    timeslot.extendedProperties.shared.parents = JSON.parse(
-      timeslot.extendedProperties.shared.parents
-    );
-    timeslot.extendedProperties.shared.children = JSON.parse(
-      timeslot.extendedProperties.shared.children
-    );
-    let parentIds = [...timeslot.extendedProperties.shared.parents];
-    let childrenIds = [...timeslot.extendedProperties.shared.children];
+    const { shared } = timeslot.extendedProperties;
+    shared.parents = JSON.parse(shared.parents);
+    shared.children = JSON.parse(shared.children);
+    let parentIds = [...shared.parents];
+    let childrenIds = [...shared.children];
     let children;
     let parents;
     const members = await getGroupMembers(groupId);
@@ -186,6 +183,11 @@ class TimeslotScreen extends React.Component {
     } else {
       children = await getUsersChildren(userId);
       parents = [userId];
+    }
+    if (shared.externals) {
+      shared.externals = JSON.parse(shared.externals);
+    } else {
+      shared.externals = ["takis o sougias"];
     }
     childrenIds = childrenIds.concat(children);
     parentIds = parentIds.concat(parents);
@@ -200,7 +202,8 @@ class TimeslotScreen extends React.Component {
       childrenProfiles,
       children,
       parents,
-      admins
+      admins,
+      externa: ""
     });
   }
 
@@ -384,7 +387,7 @@ class TimeslotScreen extends React.Component {
         } else {
           snackMessage = texts.userUnsubscribe;
         }
-      } else {
+      } else if (type === "child") {
         const childName = childrenProfiles.filter(
           profile => profile.child_id === id
         )[0].given_name;
@@ -393,6 +396,13 @@ class TimeslotScreen extends React.Component {
         );
         snackMessage = `${texts.childUnsubscribe1} ${childName} ${
           texts.childUnsubscribe2
+        }`;
+      } else {
+        timeslot.extendedProperties.shared.externals = timeslot.extendedProperties.shared.externals.filter(
+          e => e !== id
+        );
+        snackMessage = `${texts.parentUnsubscribe1} ${id} ${
+          texts.parentUnsubscribe2
         }`;
       }
       this.setState({ timeslot, madeChanges: true });
@@ -573,7 +583,70 @@ class TimeslotScreen extends React.Component {
     ));
   };
 
-  getExternalSubscribes = () => {};
+  getExternalSubscribes = () => {
+    const { timeslot, external: externalInput } = this.state;
+    const { externals } = timeslot.extendedProperties.shared;
+    const { language } = this.props;
+    const texts = Texts[language].timeslotScreen;
+    return (
+      <React.Fragment>
+        {timeslot.userCanEdit && (
+          <div style={{ display: "flex", width: "100%" }}>
+            <input
+              type="text"
+              name="external"
+              value={externalInput}
+              className="expandedTimeslotInput form-control"
+              onChange={event =>
+                this.setState({ external: event.target.value })
+              }
+              placeholder={texts.externalPlaceholder}
+              required
+            />
+            <button
+              type="button"
+              className="transparentButton addExternalButton"
+              onClick={this.handleExternalAdd}
+            >
+              <i className="fas fa-plus" />
+            </button>
+          </div>
+        )}
+        {externals.map(external => (
+          <TimeslotSubcribe
+            disabled={!timeslot.userCanEdit}
+            key={external}
+            name={external}
+            image="/images/profiles/user_default_photo.png"
+            subscribed
+            id={external}
+            type="external"
+            handleUnsubscribe={
+              timeslot.userCanEdit ? this.handleUnsubscribe : () => {}
+            }
+          />
+        ))}
+      </React.Fragment>
+    );
+  };
+
+  handleExternalAdd = () => {
+    const { external, timeslot } = this.state;
+    const { externals } = timeslot.extendedProperties.shared;
+    const { enqueueSnackbar, language } = this.props;
+    const texts = Texts[language].timeslotScreen;
+    const snackMessage = `${texts.parentSubscribe1} ${external} ${
+      texts.parentSubscribe2
+    }`;
+    if (external) {
+      enqueueSnackbar(snackMessage, {
+        variant: "info"
+      });
+      externals.push(external);
+      timeslot.extendedProperties.shared.externals = [...new Set(externals)];
+      this.setState({ external: "", timeslot });
+    }
+  };
 
   render() {
     const { language } = this.props;
@@ -737,12 +810,10 @@ class TimeslotScreen extends React.Component {
                     : texts.childrenAvailability}
                 </div>
                 {this.getChildrenSubscribes()}
-                {timeslot.userCanEdit && (
-                  <div className="activityInfoHeader">
-                    {texts.babysitterAvailabilities}
-                  </div>
-                )}
-                {timeslot.userCanEdit && this.getExternalSubscribes()}
+                <div className="activityInfoHeader">
+                  {texts.externalAvailabilities}
+                </div>
+                {this.getExternalSubscribes()}
               </React.Fragment>
             )}
             {this.renderParticipants("parents")}
