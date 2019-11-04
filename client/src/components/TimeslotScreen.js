@@ -610,41 +610,34 @@ class TimeslotScreen extends React.Component {
     const texts = Texts[language].timeslotScreen;
     return (
       <React.Fragment>
-        {timeslot.userCanEdit && (
-          <div style={{ display: "flex", width: "100%" }}>
-            <input
-              style={{ maxWidth: "20rem" }}
-              type="text"
-              name="external"
-              value={externalInput}
-              className="expandedTimeslotInput form-control"
-              onChange={event =>
-                this.setState({ external: event.target.value })
-              }
-              placeholder={texts.externalPlaceholder}
-              required
-            />
-            <button
-              type="button"
-              className="transparentButton addExternalButton"
-              onClick={this.handleExternalAdd}
-            >
-              <i className="fas fa-plus" />
-            </button>
-          </div>
-        )}
+        <div style={{ display: "flex", width: "100%" }}>
+          <input
+            style={{ maxWidth: "20rem" }}
+            type="text"
+            name="external"
+            value={externalInput}
+            className="expandedTimeslotInput form-control"
+            onChange={event => this.setState({ external: event.target.value })}
+            placeholder={texts.externalPlaceholder}
+            required
+          />
+          <button
+            type="button"
+            className="transparentButton addExternalButton"
+            onClick={this.handleExternalAdd}
+          >
+            <i className="fas fa-plus" />
+          </button>
+        </div>
         {externals.map(external => (
           <TimeslotSubcribe
-            disabled={!timeslot.userCanEdit}
             key={external}
             name={external}
             image="/images/profiles/user_default_photo.png"
             subscribed
             id={external}
             type="external"
-            handleUnsubscribe={
-              timeslot.userCanEdit ? this.handleUnsubscribe : () => {}
-            }
+            handleUnsubscribe={this.handleUnsubscribe}
           />
         ))}
       </React.Fragment>
@@ -831,10 +824,12 @@ class TimeslotScreen extends React.Component {
                     : texts.childrenAvailability}
                 </div>
                 {this.getChildrenSubscribes()}
-                <div className="activityInfoHeader">
-                  {texts.externalAvailabilities}
-                </div>
-                {this.getExternalSubscribes()}
+                {timeslot.userCanEdit && (
+                  <div className="activityInfoHeader">
+                    {texts.externalAvailabilities}
+                  </div>
+                )}
+                {timeslot.userCanEdit && this.getExternalSubscribes()}
               </React.Fragment>
             )}
             {this.renderParticipants("parents")}
