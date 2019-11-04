@@ -101,6 +101,10 @@ async function createExcel (activity, timeslots, cb) {
       key: 'parents'
     },
     {
+      header: 'Externals',
+      key: 'externals'
+    },
+    {
       header: 'Children',
       key: 'children'
     },
@@ -123,6 +127,7 @@ async function createExcel (activity, timeslots, cb) {
     const requiredChildren = additionalInfo.requiredChildren
     const parents = JSON.parse(additionalInfo.parents)
     const children = JSON.parse(additionalInfo.children)
+    const externals = JSON.parse(additionalInfo.externals || [])
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
     const childrenWithSpecialNeeds = childrenProfiles.filter(
@@ -152,11 +157,13 @@ async function createExcel (activity, timeslots, cb) {
       requiredParents,
       requiredChildren,
       enoughParticipants:
-        parents.length >= requiredParents && children.length >= requiredChildren
+        (parents.length + externals.length) >= requiredParents && children.length >= requiredChildren
           ? 'YES'
           : 'NO',
       parents: parentProfiles
         .map(p => `${p.given_name} ${p.family_name}`)
+        .toString(),
+      externals: externals
         .toString(),
       children: childrenProfiles
         .map(c => `${c.given_name} ${c.family_name}`)
@@ -248,6 +255,7 @@ async function createPdf (activity, timeslots, cb) {
     const requiredChildren = additionalInfo.requiredChildren
     const parents = JSON.parse(additionalInfo.parents)
     const children = JSON.parse(additionalInfo.children)
+    const externals = JSON.parse(additionalInfo.externals || [])
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
     const childrenWithSpecialNeeds = childrenProfiles.filter(
@@ -275,6 +283,7 @@ async function createPdf (activity, timeslots, cb) {
       requiredChildren,
       additionalInfo.status,
       parentProfiles.map(p => `${p.given_name} ${p.family_name}`).toString() || '-',
+      externals.toString(),
       childrenProfiles.map(c => `${c.given_name} ${c.family_name}`).toString() || '-'
     ])
   }
@@ -370,6 +379,7 @@ async function createPdf (activity, timeslots, cb) {
               'Min n. of children',
               'Status',
               'Participating Parents',
+              'Participating Externals',
               'Participating Children'
             ],
             ...values

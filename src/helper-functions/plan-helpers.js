@@ -362,36 +362,16 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
       const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
       if (availability) {
         if (availability.meridiem === 'both') {
-          row.getCell(2 * index + 3).value = 'x'
-          row.getCell(2 * index + 4).value = 'x'
-          row.getCell(2 * index + 3).alignment = { horizontal: 'center' }
-          row.getCell(2 * index + 4).alignment = { horizontal: 'center' }
+          row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
+          row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
         } else if (availability.meridiem === 'am') {
-          row.getCell(2 * index + 3).value = 'x'
-          row.getCell(2 * index + 3).alignment = { horizontal: 'center' }
+          row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
         } else {
-          row.getCell(2 * index + 4).value = 'x'
-          row.getCell(2 * index + 4).alignment = { horizontal: 'center' }
+          row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
         }
       }
     })
   })
-  // plan.participants.forEach((participant, participantIndex) => {
-  //   participant.needs.forEach(need => {
-  //     const index = slots.indexOf(moment(need.day).format('DD MMMM YYYY'))
-  //     const row = needsAndAvailabilitiesSheet.getRow(participantIndex + 5)
-  // row.getCell(index * 2 + 3).fill = {
-  //   type: 'pattern',
-  //   pattern: 'solid',
-  //   fgColor: { argb: 'FFEFEFEF' }
-  // }
-  // row.getCell(index * 2 + 4).fill = {
-  //   type: 'pattern',
-  //   pattern: 'solid',
-  //   fgColor: { argb: 'FFEFEFEF' }
-  // }
-  //   })
-  // })
 }
 
 const createPlanSheet = (workBook, plan) => {

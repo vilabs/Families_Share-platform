@@ -77,6 +77,10 @@ async function createExcel (group, activities, events, cb) {
       key: 'children'
     },
     {
+      header: 'Externals',
+      key: 'externals'
+    },
+    {
       header: 'Status',
       key: 'status'
     }
@@ -88,6 +92,7 @@ async function createExcel (group, activities, events, cb) {
       const requiredChildren = event.extendedProperties.shared.requiredChildren
       const parents = JSON.parse(event.extendedProperties.shared.parents)
       const children = JSON.parse(event.extendedProperties.shared.children)
+      const externals = JSON.parse(event.extendedProperties.shared.externals || [])
       const start = new Date(event.start.dateTime)
       const end = new Date(event.end.dateTime)
       const originalStart = event.extendedProperties.shared.start || start.getHours()
@@ -103,9 +108,10 @@ async function createExcel (group, activities, events, cb) {
         cost: event.extendedProperties.shared.cost,
         requiredParents: requiredParents,
         requiredChildren: requiredChildren,
-        enoughParticipants: (parents.length >= requiredParents && children.length >= requiredChildren ? 'YES' : 'NO'),
-        parents: parents,
-        children: children,
+        enoughParticipants: ((parents.length + externals.length) >= requiredParents && children.length >= requiredChildren ? 'YES' : 'NO'),
+        parents: parents.toString(),
+        externals: externals.toString(),
+        children: children.toString(),
         status: event.extendedProperties.shared.status
       })
     }

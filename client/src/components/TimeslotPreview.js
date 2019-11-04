@@ -22,6 +22,9 @@ const TimeslotPreview = ({ timeslot, history }) => {
   const startTime = moment(timeslot.start.dateTime).format("HH:mm");
   const endTime = moment(timeslot.end.dateTime).format("HH:mm");
   const parents = JSON.parse(timeslot.extendedProperties.shared.parents);
+  const externals = JSON.parse(
+    timeslot.extendedProperties.shared.externals || "[]"
+  );
   const children = JSON.parse(timeslot.extendedProperties.shared.children);
   const previewStyle = getPreviewStyle();
   return (
@@ -61,7 +64,9 @@ const TimeslotPreview = ({ timeslot, history }) => {
                 className="timeslotPreviewIcon"
               />
             </div>
-            <div className="timeslotPreviewParticipants">{parents.length}</div>
+            <div className="timeslotPreviewParticipants">
+              {parents.length + externals.length}
+            </div>
             <div className="col-1-10">
               <img
                 src={

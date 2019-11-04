@@ -148,6 +148,7 @@ class TimeslotScreen extends React.Component {
     showParents: false,
     showChildren: false,
     showAdmins: false,
+    showExternals: false,
     children: [],
     parentProfiles: [],
     childrenProfiles: [],
@@ -187,7 +188,7 @@ class TimeslotScreen extends React.Component {
     if (shared.externals) {
       shared.externals = JSON.parse(shared.externals);
     } else {
-      shared.externals = ["takis o sougias"];
+      shared.externals = [];
     }
     childrenIds = childrenIds.concat(children);
     parentIds = parentIds.concat(parents);
@@ -203,7 +204,7 @@ class TimeslotScreen extends React.Component {
       children,
       parents,
       admins,
-      externa: ""
+      external: ""
     });
   }
 
@@ -269,7 +270,7 @@ class TimeslotScreen extends React.Component {
     const texts = Texts[language].timeslotScreen;
     if (type === "children") {
       history.push(`/profiles/groupmember/children/${profile.child_id}`);
-    } else if (profile.phone !== undefined) {
+    } else if (type !== "externals" && profile.phone !== undefined) {
       if (window.isNative) {
         this.setState({
           confirmDialogIsOpen: true,
@@ -293,6 +294,9 @@ class TimeslotScreen extends React.Component {
     );
     timeslot.extendedProperties.shared.parents = JSON.stringify(
       timeslot.extendedProperties.shared.parents
+    );
+    timeslot.extendedProperties.shared.externals = JSON.stringify(
+      timeslot.extendedProperties.shared.externals
     );
     axios
       .patch(`/api${pathname}`, {
@@ -339,7 +343,6 @@ class TimeslotScreen extends React.Component {
       if (type === "parent") {
         timeslot.extendedProperties.shared.parents.push(id);
         if (timeslot.userCanEdit) {
-          console.log(parentProfiles);
           const parentName = parentProfiles.filter(
             profile => profile.user_id === id
           )[0].given_name;
@@ -423,7 +426,7 @@ class TimeslotScreen extends React.Component {
   };
 
   handleShowList = type => {
-    const { showParents, showAdmins, showChildren } = this.state;
+    const { showParents, showAdmins, showChildren, showExternals } = this.state;
     switch (type) {
       case "parents":
         this.setState({ showParents: !showParents });
@@ -434,7 +437,9 @@ class TimeslotScreen extends React.Component {
       case "admins":
         this.setState({ showAdmins: !showAdmins });
         break;
-
+      case "externals":
+        this.setState({ showExternals: !showExternals });
+        break;
       default:
     }
   };
@@ -448,6 +453,7 @@ class TimeslotScreen extends React.Component {
       childrenProfiles,
       showChildren,
       showAdmins,
+      showExternals,
       admins
     } = this.state;
     const texts = Texts[language].timeslotScreen;
@@ -456,34 +462,48 @@ class TimeslotScreen extends React.Component {
     let showing;
     let participantsHeader;
     // let minimum;
-    if (type === "parents") {
-      participants = timeslot.extendedProperties.shared.parents;
-      profiles = parentProfiles.filter(profile =>
-        participants.includes(profile.user_id)
-      );
-      showing = showParents;
-      // participantsHeader = `${participants.length} ${
-      //   participants.length === 1 ? texts.volunteer : texts.volunteers
-      // } ${texts.signup}`;
-      // minimum = timeslot.extendedProperties.shared.requiredParents;
-      participantsHeader = texts.volunteers;
-    } else if (type === "children") {
-      participants = timeslot.extendedProperties.shared.children;
-      profiles = childrenProfiles.filter(profile =>
-        participants.includes(profile.child_id)
-      );
-      showing = showChildren;
-      // participantsHeader = `${participants.length} ${
-      //   participants.length === 1 ? texts.child : texts.children
-      // } ${texts.signup}`;
-      // minimum = timeslot.extendedProperties.shared.requiredChildren;
-      participantsHeader = texts.children;
-    } else {
-      showing = showAdmins;
-      participantsHeader = texts.admins;
-      profiles = parentProfiles.filter(profile =>
-        admins.includes(profile.user_id)
-      );
+    switch (type) {
+      case "parents":
+        participants = timeslot.extendedProperties.shared.parents;
+        profiles = parentProfiles.filter(profile =>
+          participants.includes(profile.user_id)
+        );
+        showing = showParents;
+        // participantsHeader = `${participants.length} ${
+        //   participants.length === 1 ? texts.volunteer : texts.volunteers
+        // } ${texts.signup}`;
+        // minimum = timeslot.extendedProperties.shared.requiredParents;
+        participantsHeader = texts.volunteers;
+        break;
+      case "children":
+        participants = timeslot.extendedProperties.shared.children;
+        profiles = childrenProfiles.filter(profile =>
+          participants.includes(profile.child_id)
+        );
+        showing = showChildren;
+        // participantsHeader = `${participants.length} ${
+        //   participants.length === 1 ? texts.child : texts.children
+        // } ${texts.signup}`;
+        // minimum = timeslot.extendedProperties.shared.requiredChildren;
+        participantsHeader = texts.children;
+        break;
+      case "admins":
+        showing = showAdmins;
+        participantsHeader = texts.admins;
+        profiles = parentProfiles.filter(profile =>
+          admins.includes(profile.user_id)
+        );
+        break;
+      case "externals":
+        participants = timeslot.extendedProperties.shared.externals;
+        showing = showExternals;
+        participantsHeader = texts.externals;
+        profiles = participants.map(name => ({
+          name,
+          image: "/images/profiles/user_default_photo.png"
+        }));
+        break;
+      default:
     }
     return (
       <div className="participantsContainer">
@@ -593,6 +613,7 @@ class TimeslotScreen extends React.Component {
         {timeslot.userCanEdit && (
           <div style={{ display: "flex", width: "100%" }}>
             <input
+              style={{ maxWidth: "20rem" }}
               type="text"
               name="external"
               value={externalInput}
@@ -644,7 +665,7 @@ class TimeslotScreen extends React.Component {
       });
       externals.push(external);
       timeslot.extendedProperties.shared.externals = [...new Set(externals)];
-      this.setState({ external: "", timeslot });
+      this.setState({ external: "", timeslot, madeChanges: true });
     }
   };
 
@@ -820,6 +841,9 @@ class TimeslotScreen extends React.Component {
           </div>
           <div className="row no-gutters" style={rowStyle}>
             {this.renderParticipants("children")}
+          </div>
+          <div className="row no-gutters" style={rowStyle}>
+            {this.renderParticipants("externals")}
           </div>
           <div className="row no-gutters" style={rowStyle}>
             {this.renderParticipants("admins")}

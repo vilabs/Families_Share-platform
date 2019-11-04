@@ -1,8 +1,9 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+const React = require("react");
 
 const en = {
+  createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
     backNavTitle: "Group Management",
     totalVolunteers: "Total number of Volunteers",
@@ -185,6 +186,7 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
+    externals: "Externals",
     externalPlaceholder: "Add external volunteer",
     externalAvailabilities: "Add external availabilities",
     allUsersAvailabilities: "Add user availabilities",
@@ -1092,7 +1094,6 @@ const en = {
   createActivityScreen: {
     backNavTitle: "New activity"
   },
-  createPlanScreen: { backNavTitle: "New Planning" },
   createActivityStepper: {
     pendingMessage: "The activity is pending confirmation from an admin",
     continue: "Continue",
@@ -1101,7 +1102,6 @@ const en = {
     save: "Save",
     stepLabels: ["Information", "Dates", "Timeslots"]
   },
-
   createActivityInformation: {
     color: "Color of the activity",
     description: "Description (optional)",
@@ -1270,6 +1270,17 @@ const en = {
 };
 
 const nl = {
+  groupManagementScreen: {
+    backNavTitle: "Csoportkezelés",
+    totalVolunteers: "Önkéntesek összes száma",
+    totalKids: "A gyerekek teljes száma",
+    totalEvents: "Események összes száma",
+    totalCompletedEvents: "A befejezett események összes száma",
+    metricsHeader: "Csoportos mutatók",
+    metricsColumn: "Metrika",
+    rightsColumn: "Érték",
+    chartHeader: "Felhasználónkénti összes hozzájárulás"
+  },
   timeslotEmergencyScreen: {
     copy: "Noodnummer naar klembord gekopieerd",
     call: "Telefoontje",
@@ -1362,14 +1373,14 @@ const nl = {
     availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
-    participantsNeeds: "members have specified needs",
-    participantNeeds: "member has specified needs",
-    participantsAvailabilities: "members have specified  availabilities",
-    participantAvailabilities: "member has specified availabilities",
-    needsPhase: "Declaring needs",
-    availabilitiesPhase: "Declaring availabilities",
-    planningPhase: "Finding optimal solution",
-    creationPhase: "Transforming plan to activities"
+    participantsNeeds: "leden hebben specifieke behoeften",
+    participantNeeds: "lid heeft behoeften aangegeven",
+    participantsAvailabilities: "leden hebben beschikbaarheid opgegeven",
+    participantAvailabilities: "lid heeft gespecificeerde beschikbaarheden",
+    needsPhase: "Behoeften aangeven",
+    availabilitiesPhase: "Beschikbaarheden aangeven",
+    planningPhase: "Optimale oplossing vinden",
+    creationPhase: "Plan omzetten in activiteiten"
   },
   communityInterface: {
     backNavTitle: "Gemeenschaps interface",
@@ -1440,6 +1451,7 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    externals: "Uiterlijkheden",
     externalPlaceholder: "Externe vrijwilliger toevoegen",
     externalAvailabilities: "Add external availabilities",
     allUsersAvailabilities: "Beschikbaarheid van gebruikers toevoegen",
@@ -2480,46 +2492,57 @@ const nl = {
 };
 
 const it = {
+  groupManagementScreen: {
+    backNavTitle: "Gestione gruppi",
+    totalVolunteers: "Numero totale di volontari",
+    totalKids: "Numero totale di bambini",
+    totalEvents: "Numero totale di eventi",
+    totalCompletedEvents: "Numero totale di eventi completati",
+    metricsHeader: "Group Metrics",
+    metricsColumn: "Metric",
+    valoriColonna: "Valore",
+    chartHeader: "Contributo totale per utente"
+  },
   timeslotEmergencyScreen: {
-    copy: "Copied emergency number to clipboard",
-    call: "Call",
-    header: "Emergency Numbers:",
+    copy: "Numero di emergenza copiato negli appunti",
+    call: "Chiama",
+    header: "Numeri di emergenza:",
     services: {
-      general: "General Emergency",
-      ambulance: "Ambulance",
-      police: "Police",
-      fire: "Fire Departmnet"
+      general: "Emergenza generale",
+      ambulance: "Ambulanza",
+      police: "Polizia",
+      fire: "Vigili del fuoco"
     }
   },
   editPlanScreen: {
-    requiredErr: "Please fill out this field.",
-    learning: "learning or educational activities/homework",
-    nature: "nature",
-    tourism: "tourism and culture",
-    hobby: "hobby and sport",
-    accompanying: "accompanying(car sharing or pedibus)",
-    entertainment: "entertainment",
-    parties: "parties or events",
-    coplaying: "co-playing day(s)",
-    other: "other",
-    category: "Type of activity",
-    backNavTitle: "Edit Plan",
-    ratio: "Children to parents ratio",
-    minVolunteers: "Minimum Volunteers",
-    deadline: "Deadline",
-    needsState: "Provide Needs",
-    availabilitiesState: "Provide Availabilities",
-    planningState: "Create Plan",
-    creationState: "Create Activities",
+    requiredErr: "Compila questo campo.",
+    learning: "attività di apprendimento / istruzione / compiti a casa",
+    nature: "natura",
+    tourism: "turismo e cultura",
+    hobby: "hobby e sport",
+    accompanying: "accompagnamento (car sharing o pedibus)",
+    entertainment: "intrattenimento",
+    parties: "feste o eventi",
+    coplaying: "co-play day (s)",
+    other: "altro",
+    category: "Tipo di attività",
+    backNavTitle: "Modifica piano",
+    ratio: "Rapporto figli / genitori",
+    minVolunteers: "Volontari minimi",
+    deadline: "Scadenza",
+    needsState: "Fornire bisogni",
+    availabilitiesState: "Fornire disponibilità",
+    planningState: "Crea piano",
+    creationState: "Crea attività",
     state: "Plan State",
     needsStateHelper:
-      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+      "Nella fase di necessità gli utenti selezionano le date in cui avranno bisogno di assistenza all'infanzia. In questa fase la disponibilità è bloccata.",
     availabilitiesStateHelper:
-      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+      "Nella fase di disponibilità gli utenti selezionano le date in cui sono disponibili per l'assistenza all'infanzia. In questo stato è necessario bloccare la fase.",
     planningStateHelper:
-      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+      "Nella fase di pianificazione, l'algoritmo di condivisione delle famiglie crea un piano ottimale basato sulle esigenze e le disponibilità fornite.",
     creationStateHelper:
-      "In creation phase the optimal plan gets transformed into activities."
+      "Nella fase di creazione il piano ottimale si trasforma in attività"
   },
   createPlanStepper: {
     name: "Name",
@@ -2572,14 +2595,14 @@ const it = {
     availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
-    participantsNeeds: "members have specified needs",
-    participantNeeds: "member has specified needs",
-    participantsAvailabilities: "members have specified  availabilities",
-    participantAvailabilities: "member has specified availabilities",
-    needsPhase: "Declaring needs",
-    availabilitiesPhase: "Declaring availabilities",
-    planningPhase: "Finding optimal solution",
-    creationPhase: "Transforming plan to activities"
+    participantsNeeds: "i membri hanno esigenze specifiche",
+    participantNeeds: "membro ha esigenze specifiche",
+    participantsAvailabilities: "i membri hanno specificato le disponibilità",
+    participantAvailabilities: "il membro ha specificato le disponibilità",
+    needsPhase: "dichiarare i bisogni",
+    availabilitiesPhase: "dichiarazione di disponibilità",
+    planningPhase: "Trovare la soluzione ottimale",
+    creationPhase: "Trasformazione del piano in attività"
   },
   communityInterface: {
     backNavTitle: "Interfaccia della comunità",
@@ -2651,6 +2674,7 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    externals: "Esterni",
     externalPlaceholder: "Aggiungi volontario esterno",
     externalAvailabilities: "Add external availabilities",
     allUsersAvailabilities: "Aggiungi disponibilità utenti",
@@ -3709,28 +3733,39 @@ const it = {
 };
 
 const el = {
+  groupManagementScreen: {
+    backNavTitle: "Διαχείριση Ομάδας",
+    totalVolunteers: "Συνολικός αριθμός εθελοντών",
+    totalKids: "Συνολικός αριθμός παιδιών",
+    totalEvents: "Συνολικός αριθμός δραστηριοτήτων",
+    totalCompletedEvents: "Συνολικός αριθμός  ολοκληρωμένων δραστηριοτήτων",
+    metricsHeader: "Μετρικές Ομάδας",
+    metricsColumn: "Μετρική",
+    valuesColumn: "Τιμή",
+    chartHeader: "Συνολική συεισφορά ανά εθελοντή"
+  },
   timeslotEmergencyScreen: {
-    copy: "Copied emergency number to clipboard",
-    call: "Call",
-    header: "Emergency Numbers:",
+    copy: "Ο αριθμός έκτακτης ανάγκης αντιγράφηκε στο πρόχειρο",
+    call: "Κλήση",
+    header: "Αριθμοί Έκτακτης Ανάγκης:",
     services: {
-      general: "General Emergency",
-      ambulance: "Ambulance",
-      police: "Police",
-      fire: "Fire Departmnet"
+      general: "Έκτακτη ανάγκη",
+      ambulance: "Νοσοκομείο",
+      police: "Αστυνομία",
+      fire: "Πυροσβεστική"
     }
   },
   editPlanScreen: {
-    requiredErr: "Please fill out this field.",
-    learning: "learning or educational activities/homework",
-    nature: "nature",
-    tourism: "tourism and culture",
-    hobby: "hobby and sport",
-    accompanying: "accompanying(car sharing or pedibus)",
-    entertainment: "entertainment",
-    parties: "parties or events",
-    coplaying: "co-playing day(s)",
-    other: "other",
+    requiredErr: "Παρακαλώ συμπληρώσετε το πεδίο",
+    learning: "Εκπαιδευτικές δραστηριότητες",
+    nature: "Φύση",
+    tourism: "Τουρισμός και πολιτισμός",
+    hobby: "Χόμπι και αθλήματα",
+    accompanying: "Συνοδεία",
+    entertainment: "Διασκέδαση",
+    parties: "Πάρτι ή εκδηλώσεις",
+    coplaying: "Μέρες co-playing",
+    other: "Άλλη",
     category: "Type of activity",
     backNavTitle: "Edit Plan",
     ratio: "Children to parents ratio",
@@ -3801,14 +3836,14 @@ const el = {
     availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
-    participantsNeeds: "members have specified needs",
-    participantNeeds: "member has specified needs",
-    participantsAvailabilities: "members have specified  availabilities",
-    participantAvailabilities: "member has specified availabilities",
-    needsPhase: "Declaring needs",
-    availabilitiesPhase: "Declaring availabilities",
-    planningPhase: "Finding optimal solution",
-    creationPhase: "Transforming plan to activities"
+    participantsNeeds: "μέλη έχουν δηλώσει ανάγκες",
+    participantNeeds: "μέλος έχει δηλώσει ανάγκες",
+    participantsAvailabilities: "μέλη έχουν δηλώσει διαθεσιμότητες",
+    participantAvailabilities: "μέλος έχει δηλώσει διαθεσιμότητες",
+    needsPhase: "Δήλωση αναγκών",
+    availabilitiesPhase: "Δήλωση διαθεσιμοτήτων",
+    planningPhase: "Εύρεση καλύτερης λύσης",
+    creationPhase: "Μετατροπή σχεδίου σε δραστηριότητες"
   },
   communityInterface: {
     backNavTitle: "Community Interface",
@@ -3881,7 +3916,8 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
-    externalAvailabilities: "Add external availabilities",
+    externals: "ΕΞωτερικοί εθελοντές",
+    externalAvailabilities: "Προσθέσετε διαθεσιμότητα εξωτερικών εθελοντών",
     externalPlaceholder: "Προσθέσετε εξωτερικό εθελοντή",
     allUsersAvailabilities: "Προσθέσετε τη διαθεσιμότητα των εθελοντών",
     allChildrenAvailabilities: "Προσθέσετε τη διαθεσιμότητα των παιδιών",
@@ -4929,46 +4965,57 @@ const el = {
 };
 
 const hu = {
+  groupManagementScreen: {
+    backNavTitle: "Csoportkezelés",
+    totalVolunteers: "Önkéntesek összes száma",
+    totalKids: "A gyerekek teljes száma",
+    totalEvents: "Események összes száma",
+    totalCompletedEvents: "A befejezett események összes száma",
+    metricsHeader: "Csoportos mutatók",
+    metricsColumn: "Metrika",
+    rightsColumn: "Érték",
+    chartHeader: "Felhasználónkénti összes hozzájárulás"
+  },
   timeslotEmergencyScreen: {
-    copy: "Copied emergency number to clipboard",
-    call: "Call",
-    header: "Emergency Numbers:",
+    copy: "A segélyhívó szám másolása a vágólapra",
+    call: "Hívás",
+    header: "Sürgősségi számok:",
     services: {
-      general: "General Emergency",
-      ambulance: "Ambulance",
-      police: "Police",
-      fire: "Fire Departmnet"
+      general: "Altalános vészhelyzet",
+      ambulance: "Mentő",
+      police: "Rendőrség",
+      fire: "Tűzoltóság"
     }
   },
   editPlanScreen: {
-    requiredErr: "Please fill out this field.",
-    learning: "learning or educational activities/homework",
-    nature: "nature",
-    tourism: "tourism and culture",
-    hobby: "hobby and sport",
-    accompanying: "accompanying(car sharing or pedibus)",
-    entertainment: "entertainment",
-    parties: "parties or events",
-    coplaying: "co-playing day(s)",
-    other: "other",
-    category: "Type of activity",
-    backNavTitle: "Edit Plan",
-    ratio: "Children to parents ratio",
-    minVolunteers: "Minimum Volunteers",
-    deadline: "Deadline",
-    needsState: "Provide Needs",
-    availabilitiesState: "Provide Availabilities",
-    planningState: "Create Plan",
-    creationState: "Create Activities",
-    state: "Plan State",
+    requiredErr: "Kérjük, töltse ki ezt a mezőt.",
+    learning: "tanulási vagy oktatási tevékenységek / házi feladatok",
+    nature: "természet",
+    tourism: "turizmus és kultúra",
+    hobby: "hobbi és sport",
+    accompanying: "kísérő (autómegosztó vagy pedibusz)",
+    entertainment: "szórakozás",
+    parties: "partik vagy rendezvények",
+    coplaying: "együttjátszó nap (ok)",
+    other: "egyéb",
+    category: "tevékenység típusa",
+    backNavTitle: "Terv szerkesztése",
+    ratio: "gyermekek és szülők aránya",
+    minVolunteers: "Minimális önkéntesek",
+    deadline: "határidő",
+    needsState: "Igények biztosítása",
+    availabilitiesState: "A rendelkezésre állás biztosítása",
+    planningState: "Terv létrehozása",
+    creationState: "Tevékenységek létrehozása",
+    state: "terv állam",
     needsStateHelper:
-      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+      "A szükségleti szakaszban a felhasználók kiválasztják azokat a dátumokat, amelyekre szükségük lesz gyermekgondozásra. Ebben az állapotban a rendelkezésre állási szakasz zárolva van.",
     availabilitiesStateHelper:
-      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+      "A rendelkezésre állási fázisban a felhasználók kiválasztják azokat a dátumokat, amelyekben elérhetőek a gyermekgondozáshoz. Ebben az állapotban a szükséglet fázis zárolva van.",
     planningStateHelper:
-      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+      "A tervezési szakaszban a családok megosztási algoritmusa optimális tervet készít az adott igények és rendelkezésre állások alapján.",
     creationStateHelper:
-      "In creation phase the optimal plan gets transformed into activities."
+      "A létrehozási szakaszban az optimális terv tevékenységekké alakul."
   },
   createPlanStepper: {
     name: "Name",
@@ -5021,14 +5068,14 @@ const hu = {
     availabilitiesSuccess: "You have successfully added your availabilities"
   },
   planListItem: {
-    participantsNeeds: "members have specified needs",
-    participantNeeds: "member has specified needs",
-    participantsAvailabilities: "members have specified  availabilities",
-    participantAvailabilities: "member has specified availabilities",
-    needsPhase: "Declaring needs",
-    availabilitiesPhase: "Declaring availabilities",
-    planningPhase: "Finding optimal solution",
-    creationPhase: "Transforming plan to activities"
+    participantsNeeds: "a tagok meghatározták az igényeiket",
+    participantNeeds: "a tagnak meghatározott igényei vannak",
+    participantsAvailabilities: "a tagok meghatározták a elérhetőségeket",
+    participantAvailabilities: "a tag megadta a elérhetőségeket",
+    needsPhase: "Igények deklarálása",
+    availabilitiesPhase: "elérhetőségek deklarálása",
+    planningPhase: "Optimális megoldás keresése",
+    creationPhase: "Terv átalakítása tevékenységekre"
   },
   communityInterface: {
     backNavTitle: "Közösségi felület",
@@ -5100,6 +5147,7 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    externals: "Külső",
     externalAvailabilities: "Add external availabilities",
     externalPlaceholder: "Adjon hozzá egy külső önkéntes",
     allUsersAvailabilities: "Felhasználói elérhetőségek hozzáadása",

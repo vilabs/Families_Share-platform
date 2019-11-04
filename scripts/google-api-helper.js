@@ -3,8 +3,9 @@ require('dotenv').config()
 const config = require('config')
 const googleEmail = config.get('google.email')
 const googleKey = config.get('google.key')
+
 const scopes = 'https://www.googleapis.com/auth/calendar'
-const jwt = new google.auth.JWT(googleEmail, null, googleKey.replace(/\\n/g, '\n'), scopes)
+const jwt = new google.auth.JWT(process.env[googleEmail], null, process.env[googleKey].replace(/\\n/g, '\n'), scopes)
 
 const calendar = google.calendar({
   version: 'v3',
@@ -46,23 +47,25 @@ const calendar = google.calendar({
 // 	});
 // })
 
-// Patch All evens
+// Patch All events
 // calendar.calendarList.list({ }, async (error, response) => {
-// 	if (error) console.log(error);
-// 	for (const cal of response.data.items) {
-// 		calendar.events.list({ calendarId: cal.id }, async (err, resp) => {
-// 			if (err) console.log(err)
-// 			resp.data.items.forEach( item => {
-// 				const timeslotPatch = {
-// 					extendedProperties: {
-// 						shared: {
-// 							parents: JSON.stringify([]),
-// 							children: JSON.stringify([])
-// 						}
-// 					}
-// 				}
-// 				calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
-// 			})
-// 		})
-// 	}
+//   if (error) console.log(error)
+//   for (const cal of response.data.items) {
+//     try {
+//       const eventsResp = await calendar.events.list({ calendarId: cal.id })
+//       for (const item of eventsResp.data.items) {
+//         const timeslotPatch = {
+//           extendedProperties: {
+//             shared: {
+//               externals: JSON.stringify([])
+//             }
+//           }
+//         }
+//         console.log(item.summary)
+//         const patchResp = await calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
+//       }
+//     } catch (err) {
+//       console.log(err)
+//     }
+//   }
 // })

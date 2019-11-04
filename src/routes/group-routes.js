@@ -1379,15 +1379,17 @@ router.patch(
       }
       const parents = JSON.parse(extendedProperties.shared.parents)
       const children = JSON.parse(extendedProperties.shared.children)
-      const parentsReq =
-        parents.length >= extendedProperties.shared.requiredParents
+      const externals = JSON.parse(extendedProperties.shared.externals || [])
+      const volunteersReq =
+       (parents.length + externals.length) >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
       if (notifyUsers) {
         extendedProperties.shared.parents = JSON.stringify([])
         extendedProperties.shared.children = JSON.stringify([])
+        extendedProperties.shared.externals = JSON.stringify([])
         await nh.timeslotChangedNotification(summary, parents)
-      } else if (parentsReq && childrenReq) {
+      } else if (volunteersReq && childrenReq) {
         await nh.timeslotRequirementsNotification(summary, parents, group_id, activity_id, timeslot_id)
       }
       const timeslotPatch = {
