@@ -41,6 +41,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.0.1",
     "react-swipeable": "^5.2.2",
+    "react-table": "^6.10.3",
     "react-timekeeper": "^1.1.0",
     "react-waypoint": "^9.0.2",
     "recharts": "^1.6.2",

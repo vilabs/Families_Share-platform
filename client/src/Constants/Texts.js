@@ -93,11 +93,13 @@ const en = {
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
+    create: "Create activities",
     stepLabels: [
       "Add needs",
       "Customize needs",
       "Add availabilities",
-      "Customize availabilities"
+      "Customize availabilities",
+      "Manage Solution"
     ],
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
@@ -1359,11 +1361,13 @@ const nl = {
     continue: "Doorgaan",
     cancel: "Annuleren",
     finish: "Verzenden",
+    create: "Create activities",
     stepLabels: [
       "Benodigdheden toevoegen",
       "Aanpassen behoeften",
       "Beschikbaarheid toevoegen",
-      "Beschikbaarheden aanpassen"
+      "Beschikbaarheden aanpassen",
+      "Manage Solution"
     ],
     needsDeadline: "Je moet tot in je behoeften voorzien tot",
     availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
@@ -2581,11 +2585,13 @@ const it = {
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
+    create: "Create activities",
     stepLabels: [
       "Add needs",
       "Customize needs",
       "Add availabilities",
-      "Customize availabilities"
+      "Customize availabilities",
+      "Manage Solution"
     ],
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
@@ -3822,11 +3828,13 @@ const el = {
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
+    create: "Create activities",
     stepLabels: [
       "Add needs",
       "Customize needs",
       "Add availabilities",
-      "Customize availabilities"
+      "Customize availabilities",
+      "Manage Solution"
     ],
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
@@ -5054,11 +5062,13 @@ const hu = {
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
+    create: "Create activities",
     stepLabels: [
       "Add needs",
       "Customize needs",
       "Add availabilities",
-      "Customize availabilities"
+      "Customize availabilities",
+      "Manage Solution"
     ],
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
