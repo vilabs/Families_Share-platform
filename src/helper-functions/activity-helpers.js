@@ -18,27 +18,28 @@ const checkCompletedTimeslots = async () => {
   try {
     const calendarsResponse = await calendar.calendarList.list({})
     const calendars = calendarsResponse.data.items
-    const eventResponses = await Promise.all(calendars.map(cal => calendar.events.list({ calendarId: cal.id })))
-    const events = [].concat(...eventResponses.map(e => e.data.items))
-    const filteredEvents = events.filter(event => {
-      const start = new Date(event.start.dateTime).getTime()
-      const now = new Date().getTime()
-      return start < now
-    })
-    console.log(filteredEvents.length)
-    const timeslotPatch = {
-      extendedProperties: {
-        shared: {
-          status: 'completed'
+    for (const cal of calendars) {
+      const eventResponse = await calendar.events.list({ calendarId: cal.id })
+      const events = eventResponse.data.items
+      const filteredEvents = events.filter(event => {
+        const start = new Date(event.start.dateTime).getTime()
+        const now = new Date().getTime()
+        return start < now
+      })
+      const timeslotPatch = {
+        extendedProperties: {
+          shared: {
+            status: 'completed'
+          }
         }
       }
-    }
-    for (const event of filteredEvents) {
-      await calendar.events.patch({
-        calendarId: event.organizer.email,
-        eventId: event.id,
-        resource: timeslotPatch
-      })
+      for (const event of filteredEvents) {
+        await calendar.events.patch({
+          calendarId: event.organizer.email,
+          eventId: event.id,
+          resource: timeslotPatch
+        })
+      }
     }
   } catch (err) {
     console.error(err)

@@ -424,9 +424,6 @@ class EditPlanScreen extends React.Component {
                   <MenuItem value="planning">
                     <div className="categoryText">{texts.planningState}</div>
                   </MenuItem>
-                  <MenuItem value="creation">
-                    <div className="categoryText">{texts.creationState}</div>
-                  </MenuItem>
                 </Select>
               </div>
             </div>

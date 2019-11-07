@@ -150,9 +150,11 @@ class ManagePlanStepper extends React.Component {
         activeStep = 2;
         plan.step = 2;
         break;
-      default:
+      case "planning":
         activeStep = 4;
         plan.step = 4;
+        break;
+      default:
     }
     this.state = {
       plan,
@@ -180,6 +182,11 @@ class ManagePlanStepper extends React.Component {
         history.goBack();
       }
     }
+  };
+
+  createSolution = () => {
+    const { history } = this.props;
+    history.goBack();
   };
 
   updatePlan = () => {
@@ -261,6 +268,9 @@ class ManagePlanStepper extends React.Component {
     if (this.validate()) {
       if (activeStep === 3 || (planStep === 0 && activeStep === 1)) {
         this.updatePlan();
+      }
+      if (activeStep === 4) {
+        this.createSolution();
       }
       this.setState(state => ({
         activeStep: state.activeStep + 1
@@ -501,9 +511,26 @@ class ManagePlanStepper extends React.Component {
             ))}
           </ul>
         );
+      case 4:
+        return <div />;
       default:
         return <div>Lorem Ipsum</div>;
     }
+  };
+
+  getContinueText = (activeStep, planStep) => {
+    const { language } = this.props;
+    const texts = Texts[language].managePlanStepper;
+    if (
+      (activeStep === 1 && planStep === 0) ||
+      (activeStep === 3 && planStep === 2)
+    ) {
+      return texts.finish;
+    }
+    if (activeStep === 4 && planStep === 4) {
+      return texts.create;
+    }
+    return texts.continue;
   };
 
   render() {
@@ -534,10 +561,7 @@ class ManagePlanStepper extends React.Component {
                           onClick={this.handleContinue}
                           className={classes.continueButton}
                         >
-                          {activeStep === steps.length - 1 ||
-                          (activeStep === 1 && planStep === 0)
-                            ? texts.finish
-                            : texts.continue}
+                          {this.getContinueText(activeStep, planStep)}
                         </Button>
                         <Button
                           disabled={activeStep === 0 || activeStep <= planStep}
