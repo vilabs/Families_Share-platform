@@ -911,7 +911,8 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
     }
     const updatedPlan = await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
     if (updatedPlan.state === 'planning') {
-      ph.findOptimalSolution(updatedPlan)
+      updatedPlan.solution = ph.findOptimalSolution(updatedPlan)
+      await updatedPlan.save()
     }
     return res.status(200).send('Plan was updated')
   } catch (err) {

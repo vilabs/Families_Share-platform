@@ -76,6 +76,24 @@ const fetchChildProfiles = ids => {
     });
 };
 
+const fetchParentsProfiles = ids => {
+  return axios
+    .get("/api/profiles", {
+      params: {
+        ids,
+        searchBy: "ids"
+      }
+    })
+    .then(response => {
+      return response.data;
+    })
+
+    .catch(err => {
+      Log.error(err);
+      return [];
+    });
+};
+
 class ManagePlanScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -93,10 +111,26 @@ class ManagePlanScreen extends React.Component {
     const userId = JSON.parse(localStorage.getItem("user")).id;
     const members = await fetchGroupMembers(groupId);
     const plan = await fetchPlan(groupId, planId);
-    const childIds = await fetchMyChildren(userId);
+    let childIds = [];
+    let parents = [];
+    if (plan.state === "planning") {
+      let parentIds = members
+        .filter(m => m.user_accepted && m.group_accepted)
+        .map(m => m.user_id);
+      plan.solution.forEach(slot => {
+        slot.children.forEach(child => {
+          childIds.push(child);
+        });
+      });
+      parentIds = [...new Set(parentIds)];
+      childIds = [...new Set(childIds)];
+      parents = await fetchParentsProfiles(parentIds);
+    } else {
+      childIds = await fetchMyChildren(userId);
+    }
     const children = await fetchChildProfiles(childIds);
     const userIsAdmin = members.find(m => m.user_id === userId).admin;
-    this.setState({ fetchedPlan: true, plan, children, userIsAdmin });
+    this.setState({ fetchedPlan: true, plan, children, parents, userIsAdmin });
   }
 
   handleDelete = () => {
@@ -175,6 +209,7 @@ class ManagePlanScreen extends React.Component {
       fetchedPlan,
       plan,
       children,
+      parents,
       userIsAdmin,
       confirmDialogTitle,
       confirmDialogIsOpen,
@@ -242,6 +277,8 @@ class ManagePlanScreen extends React.Component {
               <ManagePlanStepper
                 plan={plan}
                 myChildren={children}
+                childrenProfiles={children}
+                parentsProfiles={parents}
                 userIsAdmin={userIsAdmin}
               />
             ) : (

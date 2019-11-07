@@ -19,6 +19,15 @@ const needSchema = new mongoose.Schema({
   }
 })
 
+const subscriptionsSchema = new mongoose.Schema({
+  children: [String],
+  volunteers: [String],
+  slot: {
+    type: String,
+    required: true
+  }
+})
+
 const participantSchema = new mongoose.Schema({
   user_id: {
     type: String,
@@ -72,6 +81,7 @@ const planSchema = new mongoose.Schema({
   category: {
     type: String
   },
+  solution: [subscriptionsSchema],
   participants: [participantSchema]
 }, { timestamps: true, toJSON: { virtuals: true } })
 

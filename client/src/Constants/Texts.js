@@ -3,6 +3,9 @@
 const React = require("react");
 
 const en = {
+  managePlanSolution: {
+    needsHeader: "SLOT NEEDS"
+  },
   createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
     backNavTitle: "Group Management",
@@ -94,6 +97,11 @@ const en = {
     cancel: "Cancel",
     finish: "Submit",
     create: "Create activities",
+    link: "Receive link",
+    linkSuccess:
+      "You will shortly receive an e-mail with the corresponding link.",
+    desktopPrompt:
+      "In order to edit the provided solution you need to access the platform via a desktop or a laptop.Press the button to receive an e-mail with the platforms address.",
     stepLabels: [
       "Add needs",
       "Customize needs",
@@ -1272,6 +1280,9 @@ const en = {
 };
 
 const nl = {
+  managePlanSolution: {
+    needsHeader: "SLOT NEEDS"
+  },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
     totalVolunteers: "Önkéntesek összes száma",
@@ -1355,19 +1366,23 @@ const nl = {
     deleteConfirm: "Weet u zeker dat u dit plan wilt verwijderen?"
   },
   managePlanStepper: {
+    linkSuccess: "U ontvangt binnenkort een e-mail met de bijbehorende link.",
     nextPhase: "Volgende fase",
     previousPhase: "Vorige fase",
     finishPlan: "Activiteiten maken",
     continue: "Doorgaan",
     cancel: "Annuleren",
     finish: "Verzenden",
-    create: "Create activities",
+    create: "Maak activiteiten",
+    link: "Ontvang link",
+    desktopPrompt:
+      "Om de geboden oplossing te bewerken, moet u het platform openen via een desktop of laptop. Druk op de knop om een ​​e-mail met het platformadres te ontvangen.",
     stepLabels: [
       "Benodigdheden toevoegen",
       "Aanpassen behoeften",
       "Beschikbaarheid toevoegen",
       "Beschikbaarheden aanpassen",
-      "Manage Solution"
+      "Beheer oplossing"
     ],
     needsDeadline: "Je moet tot in je behoeften voorzien tot",
     availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
@@ -2497,6 +2512,9 @@ const nl = {
 };
 
 const it = {
+  managePlanSolution: {
+    needsHeader: "SLOT NEEDS"
+  },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
     totalVolunteers: "Numero totale di volontari",
@@ -2581,17 +2599,23 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo piano??"
   },
   managePlanStepper: {
+    linkSuccess: "A breve riceverai un'e-mail con il link corrispondente.",
     nextPhase: "Next phase",
     previousPhase: "Fase precedente",
     finishPlan: "Crea attività",
     continue: "Continua",
     cancel: "Annulla",
     finish: "Invia",
+    create: "Crea attività",
+    link: "Ricevere link",
+    desktopPrompt:
+      "Per modificare la soluzione fornita è necessario accedere alla piattaforma tramite un desktop o un laptop. Premere il pulsante per ricevere un'e-mail con l'indirizzo della piattaforma.",
     stepLabels: [
       "Aggiungi esigenze",
       "Personalizza le esigenze",
       "Aggiungi disponibilità",
-      "Personalizza disponibilità"
+      "Personalizza disponibilità",
+      "Gestisci soluzione"
     ],
     needsDeadline: "Devi fornire le tue esigenze fino al",
     availabilitiesDeadline: "Devi fornire le tue disponibilità fino al",
@@ -3739,6 +3763,9 @@ const it = {
 };
 
 const el = {
+  managePlanSolution: {
+    needsHeader: "SLOT NEEDS"
+  },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
     totalVolunteers: "Συνολικός αριθμός εθελοντών",
@@ -3823,17 +3850,23 @@ const el = {
     deleteConfirm: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το σχέδιο;"
   },
   managePlanStepper: {
+    linkSuccess: "Θα λάβετε σύντομα ένα e-mail με τον αντίστοιχο σύνδεσμο.",
     nextPhase: "Επόμενη φάση",
     previousPhase: "Προηγούμενη φάση",
     finishPlan: "Δημιουργία δραστηριοτήτων",
     continue: "Συνέχεια",
     cancel: "Ακύρωση",
     finish: "Υποβολή",
+    create: "Δημιουργία δραστηριοτήτων",
+    link: "Λήψη συνδέσμου",
+    desktopPrompt:
+      "Για να επεξεργαστείτε την λύση του σχεδίου θα πρέπει να επισκεφθείτε τη πλατφόρμα από τον υπολογιστή.Πατήστε για λάβετε e-mail με τη διεύθυνση της πλατφόρμας.",
     stepLabels: [
       "Προσθήκη αναγκών",
       "Προσαρμογή αναγκών",
       "Προσθήκη διαθεσιμοτήτων",
-      "Προσαρμογή διαθεσιμοτήτων"
+      "Προσαρμογή διαθεσιμοτήτων",
+      "Διαχείριση λύσης"
     ],
     needsDeadline: "Πρέπει να υποβάλετε τις ανάγκες σας μέχρι",
     availabilitiesDeadline: "Πρέπει να υποβάλετε τις διαθεσιμότητες σας μέχρι",
@@ -4973,6 +5006,9 @@ const el = {
 };
 
 const hu = {
+  managePlanSolution: {
+    needsHeader: "SLOT NEEDS"
+  },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
     totalVolunteers: "Önkéntesek összes száma",
@@ -5056,17 +5092,23 @@ const hu = {
     deleteConfirm: "Biztosan törli ezt a tervet?"
   },
   managePlanStepper: {
+    linkSuccess: "Hamarosan e-mailt fog kapni a megfelelő hivatkozással.",
     nextPhase: "Következő szakasz",
     previousPhase: "Előző szakasz",
     finishPlan: "Tevékenységek létrehozása",
     continue: "Folytatás",
     cancel: "Cancel",
     finish: "Küldés",
+    create: "Tevékenységek létrehozása",
+    link: "Fogadási link",
+    desktopPrompt:
+      "A biztosított megoldás szerkesztéséhez asztalra vagy laptopra kell férnie a platformon. Nyomja meg a gombot, hogy e-mailt kapjon a platform címével.",
     stepLabels: [
       "Új igények",
       "Igények testreszabása",
       "Hozzáférhetőség hozzáadása",
-      "A rendelkezésre állás testreszabása"
+      "A rendelkezésre állás testreszabása",
+      "Kezelje a megoldást"
     ],
     needsDeadline: "Addig kell teljesítenie igényeit",
     availabilitiesDeadline: "A rendelkezésre állását addig kell megadnia",

@@ -11,6 +11,7 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import StepContent from "@material-ui/core/StepContent";
 import Button from "@material-ui/core/Button";
+import { isMobile } from "react-device-detect";
 import { withSnackbar } from "notistack";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
@@ -19,6 +20,7 @@ import moment from "moment";
 import LoadingSpinner from "./LoadingSpinner";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import ManagePlanSoluton from "./ManagePlanSolution";
 import Log from "./Log";
 import "../styles/DayPicker.css";
 import TimeslotSubscribe from "./TimeslotSubcribe";
@@ -127,7 +129,7 @@ class ManagePlanStepper extends React.Component {
   constructor(props) {
     super(props);
     const userId = JSON.parse(localStorage.getItem("user")).id;
-    const { plan } = props;
+    const { plan, parentsProfiles, childrenProfiles } = props;
     plan.participant = plan.participants.find(p => p.user_id === userId) || {
       user_id: userId,
       needs: [],
@@ -159,7 +161,9 @@ class ManagePlanStepper extends React.Component {
     this.state = {
       plan,
       updatingPlan: false,
-      activeStep
+      activeStep,
+      parentsProfiles: parentsProfiles || [],
+      childrenProfiles: childrenProfiles || []
     };
   }
 
@@ -187,6 +191,26 @@ class ManagePlanStepper extends React.Component {
   createSolution = () => {
     const { history } = this.props;
     history.goBack();
+  };
+
+  sendLink = () => {
+    const { history, enqueueSnackbar, language } = this.props;
+    const texts = Texts[language].managePlanStepper;
+    const userId = JSON.parse(localStorage.getItem("user")).id;
+    axios
+      .post(`/api/users/${userId}/requestlink`, {
+        link: history.location.pathname
+      })
+      .then(response => {
+        Log.info(response);
+        enqueueSnackbar(texts.linkSuccess, {
+          variant: "info"
+        });
+        history.goBack();
+      })
+      .catch(error => {
+        Log.error(error);
+      });
   };
 
   updatePlan = () => {
@@ -270,7 +294,11 @@ class ManagePlanStepper extends React.Component {
         this.updatePlan();
       }
       if (activeStep === 4) {
-        this.createSolution();
+        if (isMobile) {
+          this.sendLink();
+        } else {
+          this.createSolution();
+        }
       }
       this.setState(state => ({
         activeStep: state.activeStep + 1
@@ -388,7 +416,7 @@ class ManagePlanStepper extends React.Component {
 
   getStepContent = () => {
     const { language, myChildren } = this.props;
-    const { activeStep, plan } = this.state;
+    const { activeStep, plan, parentsProfiles, childrenProfiles } = this.state;
     const texts = Texts[language].managePlanStepper;
     switch (activeStep) {
       case 0:
@@ -512,7 +540,17 @@ class ManagePlanStepper extends React.Component {
           </ul>
         );
       case 4:
-        return <div />;
+        return isMobile ? (
+          <div className="row no-gutters">
+            <p>{texts.desktopPrompt}</p>
+          </div>
+        ) : (
+          <ManagePlanSoluton
+            plan={plan}
+            parentsProfiles={parentsProfiles}
+            childrenProfiles={childrenProfiles}
+          />
+        );
       default:
         return <div>Lorem Ipsum</div>;
     }
@@ -528,6 +566,9 @@ class ManagePlanStepper extends React.Component {
       return texts.finish;
     }
     if (activeStep === 4 && planStep === 4) {
+      if (isMobile) {
+        return texts.link;
+      }
       return texts.create;
     }
     return texts.continue;
@@ -592,7 +633,9 @@ ManagePlanStepper.propTypes = {
   match: PropTypes.object,
   plan: PropTypes.object,
   myChildren: PropTypes.array,
-  enqueueSnackbar: PropTypes.func
+  enqueueSnackbar: PropTypes.func,
+  parentsProfiles: PropTypes.array,
+  childrenProfiles: PropTypes.array
 };
 export default withSnackbar(
   withRouter(withLanguage(withStyles(styles)(ManagePlanStepper)))

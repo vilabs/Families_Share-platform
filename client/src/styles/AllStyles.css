@@ -7,7 +7,7 @@
 .emergencyHeader {
   font-size: 2rem;
   font-weight: 600;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   margin-bottom: 2rem;
 }
 .emergencyServiceContainer {
@@ -19,7 +19,7 @@
 }
 .emergencyServiceTitle {
   font-size: 1.6rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 600;
 }
 .emergencyNumber {
@@ -329,7 +329,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
   outline: none !important;
   box-shadow: none;
@@ -369,7 +369,7 @@
 }
 #calendarTitle {
   font-weight: 500;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
   color: rgba(1, 1, 1, 1);
 }
@@ -653,10 +653,10 @@
 }
 .dayPickerPrevNav {
   margin-right: 1.5em;
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAVVJREFUWAnN2G0KgjAYwPHpGfRkaZeqvgQaK+hY3SUHrk1YzNLay/OiEFp92I+/Mp2F2Mh2lLISWnflFjzH263RQjzMZ19wgs73ez0o1WmtW+dgA01VxrE3p6l2GLsnBy1VYQOtVSEH/atCCgqpQgKKqYIOiq2CBkqtggLKqQIKgqgCBjpJ2Y5CdJ+zrT9A7HHSTA1dxUdHgzCqJIEwq0SDsKsEg6iqBIEoq/wEcVRZBXFV+QJxV5mBtlDFB5VjYTaGZ2sf4R9PM7U9ZU+lLuaetPP/5Die3ToO1+u+MKtHs06qODB2zBnI/jBd4MPQm1VkY79Tb18gB+C62FdBFsZR6yeIo1YQiLJWMIiqVjQIu1YSCLNWFgijVjYIuhYYCKoWKAiiFgoopxYaKLUWOii2FgkophYp6F3r42W5A9s9OcgNvva8xQaysKXlFytoqdYmQH6tF3toSUo0INq9AAAAAElFTkSuQmCC");
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAVVJREFUWAnN2G0KgjAYwPHpGfRkaZeqvgQaK+hY3SUHrk1YzNLay/OiEFp92I+/Mp2F2Mh2lLISWnflFjzH263RQjzMZ19wgs73ez0o1WmtW+dgA01VxrE3p6l2GLsnBy1VYQOtVSEH/atCCgqpQgKKqYIOiq2CBkqtggLKqQIKgqgCBjpJ2Y5CdJ+zrT9A7HHSTA1dxUdHgzCqJIEwq0SDsKsEg6iqBIEoq/wEcVRZBXFV+QJxV5mBtlDFB5VjYTaGZ2sf4R9PM7U9ZU+lLuaetPP/5Die3ToO1+u+MKtHs06qODB2zBnI/jBd4MPQm1VkY79Tb18gB+C62FdBFsZR6yeIo1YQiLJWMIiqVjQIu1YSCLNWFgijVjYIuhYYCKoWKAiiFgoopxYaKLUWOii2FgkophYp6F3r42W5A9s9OcgNvva8xQaysKXlFytoqdYmQH6tF3toSUo0INq9AAAAAElFTkSuQmCC');
 }
 .dayPickerNextNav {
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAXRJREFUWAnN119ugjAcwPHWzJ1gnmxzB/BBE0n24m4xfNkTaOL7wOtsl3AXMMb+Vjaa1BG00N8fSEibPpAP3xAKKs2yjzTPH9RAjhEo9WzPr/Vm8zgE0+gXATAxxuxtqeJ9t5tIwv5AtQAApsfT6TPdbp+kUBcgVwvO51KqVhMkXKsVJFXrOkigVhCIs1Y4iKlWZxB1rX4gwlpRIIpa8SDkWmggrFq4IIRaJKCYWnSgnrXIQV1r8YD+1Vrn+bReagysIFfLABRt31v8oBu1xEBttfRbltmfjgEcWh9snUS2kNdBK6WN1vrOWxObWsz+fjxevsxmB1GQDfINWiev83nhaoiB/CoOU438oPrhXS0WpQ9xc1ZQWxWHqUYe0I0qrKCQKjygDlXIQV2r0IF6ViEBxVTBBSFUQQNhVYkHIVeJAtkNsbQ7c1LtzP6FsObhb2rCKv7NBIGoq4SDmKoEgTirXAcJVGkFSVVpgoSrXICGUMUH/QBZNSUy5XWUhwAAAABJRU5ErkJggg==");
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAwCAYAAAB5R9gVAAAABGdBTUEAALGPC/xhBQAAAXRJREFUWAnN119ugjAcwPHWzJ1gnmxzB/BBE0n24m4xfNkTaOL7wOtsl3AXMMb+Vjaa1BG00N8fSEibPpAP3xAKKs2yjzTPH9RAjhEo9WzPr/Vm8zgE0+gXATAxxuxtqeJ9t5tIwv5AtQAApsfT6TPdbp+kUBcgVwvO51KqVhMkXKsVJFXrOkigVhCIs1Y4iKlWZxB1rX4gwlpRIIpa8SDkWmggrFq4IIRaJKCYWnSgnrXIQV1r8YD+1Vrn+bReagysIFfLABRt31v8oBu1xEBttfRbltmfjgEcWh9snUS2kNdBK6WN1vrOWxObWsz+fjxevsxmB1GQDfINWiev83nhaoiB/CoOU438oPrhXS0WpQ9xc1ZQWxWHqUYe0I0qrKCQKjygDlXIQV2r0IF6ViEBxVTBBSFUQQNhVYkHIVeJAtkNsbQ7c1LtzP6FsObhb2rCKv7NBIGoq4SDmKoEgTirXAcJVGkFSVVpgoSrXICGUMUH/QBZNSUy5XWUhwAAAABJRU5ErkJggg==');
 }
 /*CREATE ACTIVITY SCREEN END*/
 
@@ -791,7 +791,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
   outline: none !important;
   box-shadow: none;
@@ -828,7 +828,7 @@
   width: 100%;
   font-size: 1.5rem !important;
   padding-left: 1rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
   background-color: transparent !important;
   outline: none !important;
@@ -856,7 +856,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 .createPlanMainContainer {
@@ -870,7 +870,7 @@
   font-weight: 600;
   width: 100%;
   font-size: 1.6rem;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 .needContainer {
   margin-top: 1rem;
@@ -901,7 +901,7 @@
 .availabilityHeader {
   font-weight: 600;
   font-size: 1.6rem;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 /*MANAGE PLAN SCREEN END*/
@@ -910,7 +910,7 @@
 .groupVisibility {
   width: 20rem;
   font-size: 1.4rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   letter-spacing: 0.2px;
   text-align: left;
   margin-right: 2.5rem;
@@ -925,7 +925,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 .createGroupSelectInput {
   width: 20%;
@@ -936,7 +936,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 .textareaInput {
   padding-top: 1.5rem !important;
@@ -1105,7 +1105,7 @@
   display: block;
   font-size: 1.5rem !important;
   padding-left: 1rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
   background-color: transparent !important;
   outline: none !important;
@@ -1141,7 +1141,7 @@
   width: 100%;
   font-size: 1.5rem !important;
   padding-left: 1rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
   background-color: transparent !important;
   outline: none !important;
@@ -1251,7 +1251,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 
 #editGroupInfoContainer .row {
@@ -1344,7 +1344,7 @@
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   border: none !important;
 }
 .inputSelectField {
@@ -1556,7 +1556,7 @@
 }
 
 .collapsibleTitle {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
   line-height: 1.5;
   text-align: right!;
@@ -1696,7 +1696,7 @@
   color: #ffffff;
 }
 #groupHeaderContainer h1 {
-  font-family: "Roboto", sans-serif, sans-serif;
+  font-family: 'Roboto', sans-serif, sans-serif;
   font-size: 2.4rem;
   font-weight: 500;
   bottom: 10%;
@@ -1762,7 +1762,7 @@
   height: 4rem;
   border-radius: 50%;
   border: 1px solid #ff6f01;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
   line-height: 4rem;
   text-align: center;
@@ -1932,7 +1932,7 @@
 }
 .contactLetter {
   color: #347cff;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.4rem;
   margin-left: 2.4rem;
   padding-top: 1rem;
@@ -2194,7 +2194,7 @@
   padding-left: 2rem;
   width: 100%;
   margin-top: 2rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 .inviteDialogTitle {
   font-size: 1.8rem;
@@ -2308,7 +2308,7 @@
 }
 
 .cityName {
-  font-family: "Lilita One";
+  font-family: 'Lilita One';
   font-size: 2.4rem;
   text-align: left;
   color: #ffffff;
@@ -2414,7 +2414,7 @@
   color: #ff6f00;
 }
 .dontHaveAccountText {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   float: left;
   font-size: 1.4rem;
   letter-spacing: 0.1px;
@@ -2492,7 +2492,7 @@ a:active {
   margin-top: 2rem !important;
   border-radius: 3px !important;
   font-size: 1.6rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
   max-width: 45rem;
 }
 /*LOGGING SCREEN END*/
@@ -2645,7 +2645,7 @@ a:active {
   max-height: 5rem;
 }
 #drawerMenuContainer i {
-  line-height: "";
+  line-height: '';
   font-size: 2.5rem;
   opacity: 0.7;
   color: rgba(0, 0, 0, 0.5);
@@ -2790,7 +2790,7 @@ a:active {
 }
 #profileNavbarContainer h1 {
   cursor: pointer;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.4rem;
   font-weight: 500;
   color: #ffffff;
@@ -2812,7 +2812,7 @@ a:active {
 }
 #framilyMemberContainer h1 {
   text-align: left;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.6rem;
   color: #010101;
   opacity: 0.87;
@@ -2821,14 +2821,14 @@ a:active {
 
 #childInfoContainer h2 {
   text-align: left;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.6rem;
   color: #010101;
   opacity: 0.47;
 }
 #childInfoContainer h1 {
   text-align: left;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.6rem;
   color: #010101;
   opacity: 0.87;
@@ -2860,7 +2860,7 @@ a:active {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.6rem;
 }
 #addFramilyThumbnail img {
@@ -2909,7 +2909,7 @@ a:active {
 .profileInfoContainer h2 {
   display: block;
   opacity: 0.54;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.4rem;
   text-align: left;
   color: #010101;
@@ -2917,7 +2917,7 @@ a:active {
 .profileInfoContainer h1 {
   display: block;
   opacity: 0.87;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.6rem;
   text-align: left;
   color: #010101;
@@ -2956,7 +2956,7 @@ a:active {
   margin: 0;
   font-size: 1.5rem;
   text-align: left;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: 700;
   height: 30%;
   display: flex;
@@ -2984,7 +2984,7 @@ a:active {
 }
 .ratingGuide {
   font-size: 1.4rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   opacity: 0.8;
 }
 .ratingButton {
@@ -3034,7 +3034,7 @@ a:active {
   padding-left: 2rem;
 }
 #searchGroupBarContainer h1 {
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 2rem;
   color: #ffffff;
   margin: 0;
@@ -3042,7 +3042,7 @@ a:active {
 }
 #searchGroupSuggestionsContainer h1 {
   opacity: 0.87;
-  font-family: "Roboto";
+  font-family: 'Roboto';
   font-size: 1.4rem;
   text-align: left;
   color: #000000;
@@ -3147,7 +3147,7 @@ a:active {
   border-radius: 3px !important;
   font-size: 1.5rem !important;
   padding-left: 1.7rem !important;
-  font-family: "Roboto", sans-serif !important;
+  font-family: 'Roboto', sans-serif !important;
 }
 .line {
   height: 1px;
@@ -3202,4 +3202,58 @@ a:active {
   font-size: 1.6rem;
   color: rgba(0, 0, 0, 0.87);
   font-weight: 400;
+}
+
+/* COMMUNITY MANAGEMENT SCREEN END*/
+
+/* MANAGE PLAN SOLUTION SCREEN*/
+
+.solutionContainer {
+  display: flex;
+  flex: 1;
+}
+
+.childrenNeedsList {
+  padding: 2rem;
+  border: 2px solid #00838f;
+  border-radius: 0.5rem;
+  min-height: 20rem;
+  margin: 0 3rem;
+  background-color: #f1f2f2;
+}
+
+.childrenNeedsListHeader {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-align: center;
+  border-bottom: 1px solid #00838f;
+}
+
+.childNeedItem {
+  font-size: 1.4rem;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.columnHeader {
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+.emptyCell {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.ReactTable .rt-table {
+  background-color: #f1f2f2;
+  border-radius: 0.5rem;
+  border: 2px solid #00838f;
+}
+
+.ReactTable .rt-table .rt-thead .rt-tr .rt-th {
+  height: 20;
+  padding: 0;
 }

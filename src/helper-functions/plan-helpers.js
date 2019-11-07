@@ -38,16 +38,20 @@ const syncChildSubscriptions = async participants => {
   return participants
 }
 
-const findOptimalSolution = async (plan) => {
-  const { ratio, min_volunteers: minVolunteers, participants } = plan
+const findOptimalSolution = (plan) => {
+  const { participants } = plan
   let people = []
   let slots = []
   // create array with people and array with slots
   participants.forEach(p => {
     people.push({ id: p.user_id, type: 'parent' })
-    p.availabilities.forEach(a => slots.push(a.day.getTime()))
+    p.availabilities.forEach(a => {
+      slots.push(`${moment(a.day).format('DD MMM YYYY')}-AM`)
+      slots.push(`${moment(a.day).format('DD MMM YYYY')}-PM`)
+    })
     p.needs.forEach(n => {
-      slots.push(n.day.getTime())
+      slots.push(`${moment(n.day).format('DD MMM YYYY')}-AM`)
+      slots.push(`${moment(n.day).format('DD MMM YYYY')}-PM`)
       n.children.forEach(c => {
         people.push({ id: c, type: 'child' })
       })
@@ -59,54 +63,52 @@ const findOptimalSolution = async (plan) => {
       index === self.findIndex(obj => person.id === obj.id)
   )
   slots = [...new Set(slots)]
+  // sorts slots by date
+  slots = slots.sort((a, b) => {
+    return new Date(a.split('-')[0]) - new Date(b.split('-')[0])
+  })
   // assign people to slots
-  let subscriptions = slots.map(s =>
-    people.map(p => {
+  let subscriptions = slots.map(s => {
+    const tmp = {
+      slot: s,
+      children: [],
+      volunteers: []
+    }
+    people.forEach(p => {
       if (p.type === 'parent') {
-        if (
-          participants
-            .find(pa => pa.user_id === p.id)
-            .availabilities
-            .map(a => a.day.getTime())
-            .includes(s)
-        ) {
-          return 'p'
+        const availability = participants
+          .find(pa => pa.user_id === p.id)
+          .availabilities
+          .find(a => s.includes(moment(a.day).format('DD MMM YYYY')))
+        if (availability) {
+          if (availability.meridiem === 'both') {
+            const day = s.split('-')[0]
+            if (day === moment(availability.day).format('DD MMM YYYY')) {
+              tmp.volunteers.push(p.id)
+            }
+          } else if (s === `${moment(availability.day).format('DD MMM YYYY')}-${availability.meridiem}`) {
+            tmp.volunteers.push(p.id)
+          }
         }
-        return '-'
       } else {
         for (const pa of participants) {
           for (const ne of pa.needs) {
-            if (ne.day.getTime() === s && ne.children.includes(p.id)) {
-              return 'c'
+            const d = moment(ne.day).format('DD MMM YYYY')
+            if ((`${d}-AM` === s || `${d}-PM` === s) && ne.children.includes(p.id)) {
+              if (!tmp.children.includes(p.id)) {
+                tmp.children.push(p.id)
+              }
             }
           }
         }
-        return '-'
       }
     })
-  )
-  console.log('subscriptions\n', subscriptions)
-  // remove unnecessary slots
-  subscriptions = subscriptions.filter((sub, index) => {
-    if (sub.includes('c')) {
-      return true
-    } else {
-      slots[index] = null
-      return false
-    }
+    return tmp
   })
-  slots = slots.filter(s => s !== null)
-  console.log('filtered subscription\n', subscriptions)
-  // find fullfilled
-  const fullfilled = subscriptions.map(sub => {
-    const totalParents = sub.filter(s => s === 'p').length
-    const totalChildren = sub.filter(s => s === 'c').length
-    if (totalParents >= minVolunteers && Math.ceil(totalChildren / totalParents) <= ratio) {
-      return 1
-    }
-    return 0
-  })
-  console.log('fullfilled', fullfilled)
+  // filter subscriptions to remove unnecessary slots
+  subscriptions = subscriptions.filter(s => s.children.length > 0)
+  console.log(subscriptions)
+  return subscriptions
 }
 
 function newExportEmail (plan_name) {

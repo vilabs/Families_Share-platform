@@ -10,6 +10,7 @@ const path = require('path')
 const nh = require('../helper-functions/notification-helpers')
 const uh = require('../helper-functions/user-helpers')
 const hf = require('../helper-functions/forgot-password-email')
+const rl = require('../helper-functions/request-link-email')
 const wt = require('../helper-functions/walthrough-email')
 const exportData = require('../helper-functions/export-user-data.js')
 const texts = require('../constants/notification-texts')
@@ -504,6 +505,25 @@ router.delete('/:id', async (req, res, next) => {
     }))
     await Member.deleteMany({ user_id })
     res.status(200).send('account deleted')
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:id/requestlink', async (req, res, next) => {
+  if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
+  try {
+    const { link } = req.body
+    console.log(link)
+    const mailOptions = {
+      from: process.env.SERVER_MAIL,
+      to: req.email,
+      subject: 'Families Share Platform Link',
+      html: rl.newEmail(link)
+    }
+    await transporter.sendMail(mailOptions)
+
+    res.status(200).send('Email sent successfully')
   } catch (error) {
     next(error)
   }
