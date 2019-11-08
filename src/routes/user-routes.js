@@ -12,7 +12,6 @@ const uh = require('../helper-functions/user-helpers')
 const hf = require('../helper-functions/forgot-password-email')
 const rl = require('../helper-functions/request-link-email')
 const wt = require('../helper-functions/walthrough-email')
-const exportData = require('../helper-functions/export-user-data.js')
 const texts = require('../constants/notification-texts')
 const { google } = require('googleapis')
 const googleEmail = config.get('google.email')
@@ -679,12 +678,12 @@ router.post('/:id/export', async (req, res, next) => {
     const children = await Child.find({ child_id: { $in: childIds } }).populate('image').lean().exec()
     const responses = await Promise.all(groups.map(group => uh.getUsersGroupEvents(group.calendar_id, user_id, childIds)))
     const events = [].concat(...responses)
-    exportData.createPdf(profile, groups, children, events, () => {
+    uh.createPdf(profile, groups, children, events, () => {
       const mailOptions = {
         from: process.env.SERVER_MAIL,
         to: email,
         subject: `${profile.given_name} ${profile.family_name} Families Share Data`,
-        html: exportData.newExportEmail(profile.given_name),
+        html: uh.newExportEmail(profile.given_name),
         attachments: [
           {
             filename: `${profile.given_name.toUpperCase()}_${profile.family_name.toUpperCase()}.pdf`,
