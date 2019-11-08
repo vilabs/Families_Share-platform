@@ -205,7 +205,7 @@ class ManagePlanSolution extends React.Component {
             />
           ),
         accessor: subscriptions.slot,
-        width: 120
+        minWidth: 120
       };
     });
     return (
