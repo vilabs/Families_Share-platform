@@ -3,6 +3,7 @@ const Profile = require('../models/profile')
 const Child = require('../models/child')
 const Parent = require('../models/parent')
 const moment = require('moment')
+const objectid = require('objectid')
 
 const syncChildSubscriptions = async participants => {
   const currentChildSuscriptions = [...new Set(participants[0].needs.reduce((a, b) => a.concat(b.children), []))]
@@ -479,9 +480,71 @@ async function createExcel (plan, cb) {
   })
 }
 
+const getRandomColor = () => {
+  var letters = '0123456789ABCDEF'
+  var color = '#'
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
+}
+
+const transformPlanToActivities = (plan, group, userId) => {
+  const events = []
+  const activity = {}
+  const activity_id = objectid()
+  activity.status = 'accepted'
+  activity.activity_id = activity_id
+  activity.group_id = group.group_id
+  activity.group_name = group.name
+  activity.name = plan.name
+  activity.color = getRandomColor()
+  activity.description = plan.description
+  activity.creator_id = userId
+  activity.repetition = false
+  activity.repetition_type = 'none'
+  activity.different_timeslots = true
+  plan.solution.forEach(slot => {
+    const event = {
+      description: plan.description,
+      location: plan.location,
+      summary: plan.name,
+      start: {
+        date: null,
+        dateTime: slot.start
+      },
+      end: {
+        date: null,
+        dateTime: slot.end
+      },
+      extendedProperties: {
+        shared: {
+          requiredParents: plan.min_volunteers,
+          requiredChildren: 2,
+          cost: '',
+          parents: JSON.stringify(slot.volunteers),
+          children: JSON.stringify(slot.children),
+          externals: JSON.stringify([]),
+          status: 'ongoing',
+          activityColor: activity.color,
+          category: plan.category,
+          activityId: activity.activity_id,
+          groupId: group.group_id,
+          repetition: 'none',
+          start: slot.startHour,
+          end: slot.endHour
+        }
+      }
+    }
+    events.push(event)
+  })
+  return [activity, events]
+}
+
 module.exports = {
   findOptimalSolution,
   newExportEmail,
   createExcel,
-  syncChildSubscriptions
+  syncChildSubscriptions,
+  transformPlanToActivities
 }

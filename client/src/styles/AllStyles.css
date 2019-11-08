@@ -3211,11 +3211,14 @@ a:active {
 .solutionContainer {
   display: flex;
   flex: 1;
+  margin: 3rem 0;
 }
 
 .childrenNeedsList {
   padding: 2rem;
-  border: 2px solid #00838f;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 2px 4px rgba(16, 22, 26, 0.2),
+    0 8px 24px rgba(16, 22, 26, 0.2);
   border-radius: 0.5rem;
   min-height: 20rem;
   margin: 0 3rem;
@@ -3226,7 +3229,7 @@ a:active {
   font-size: 1.4rem;
   font-weight: 400;
   text-align: center;
-  border-bottom: 1px solid #00838f;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.54);
 }
 
 .childNeedItem {
@@ -3250,7 +3253,9 @@ a:active {
 .ReactTable .rt-table {
   background-color: #f1f2f2;
   border-radius: 0.5rem;
-  border: 2px solid #00838f;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1), 0 2px 4px rgba(16, 22, 26, 0.2),
+    0 8px 24px rgba(16, 22, 26, 0.2);
 }
 
 .ReactTable .rt-table .rt-thead .rt-tr .rt-th {

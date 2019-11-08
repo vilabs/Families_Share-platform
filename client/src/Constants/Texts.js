@@ -4,7 +4,11 @@ const React = require("react");
 
 const en = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS"
+    needsHeader: "SLOT NEEDS",
+    selectFrom: "Select availabilities from",
+    participating: "Plan participating members",
+    available: "Slot available members",
+    all: "All group members"
   },
   createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
@@ -1281,7 +1285,11 @@ const en = {
 
 const nl = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS"
+    needsHeader: "SLOT NEEDS",
+    selectFrom: "Select availabilities from",
+    participating: "Plan participating members",
+    available: "Slot available members",
+    all: "All group members"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -2513,7 +2521,11 @@ const nl = {
 
 const it = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS"
+    needsHeader: "SLOT NEEDS",
+    selectFrom: "Select availabilities from",
+    participating: "Plan participating members",
+    available: "Slot available members",
+    all: "All group members"
   },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
@@ -3764,7 +3776,11 @@ const it = {
 
 const el = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS"
+    needsHeader: "SLOT NEEDS",
+    selectFrom: "Select availabilities from",
+    participating: "Plan participating members",
+    available: "Slot available members",
+    all: "All group members"
   },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
@@ -5007,7 +5023,11 @@ const el = {
 
 const hu = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS"
+    needsHeader: "SLOT NEEDS",
+    selectFrom: "Select availabilities from",
+    participating: "Plan participating members",
+    available: "Slot available members",
+    all: "All group members"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",

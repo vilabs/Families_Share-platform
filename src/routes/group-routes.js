@@ -993,6 +993,44 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
   }
 })
 
+router.post('/:groupId/plans/:planId/activities', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const { planId: plan_id, groupId: group_id } = req.params
+  const { plan } = req.body
+  const { user_id } = req
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!member.admin) {
+      return res.status(401).send('Unauthorized')
+    }
+    const group = await Group.findOne({ group_id })
+    const [activity, events] = ph.transformPlanToActivities(plan, group, user_id)
+    await Promise.all(
+      events.map(event =>
+        calendar.events.insert({
+          calendarId: group.calendar_id,
+          resource: event
+        })
+      )
+    )
+    await Activity.create(activity)
+    await Plan.deleteOne({ plan_id })
+    res.status(200).send('Plan successfully transformed to activities')
+  } catch (err) {
+    next(err)
+  }
+})
+
 router.post('/:id/activities', async (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')

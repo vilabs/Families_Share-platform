@@ -20,7 +20,7 @@ import moment from "moment";
 import LoadingSpinner from "./LoadingSpinner";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
-import ManagePlanSoluton from "./ManagePlanSolution";
+import ManagePlanSolution from "./ManagePlanSolution";
 import Log from "./Log";
 import "../styles/DayPicker.css";
 import TimeslotSubscribe from "./TimeslotSubcribe";
@@ -189,8 +189,55 @@ class ManagePlanStepper extends React.Component {
   };
 
   createSolution = () => {
-    const { history } = this.props;
-    history.goBack();
+    const { history, enqueueSnackbar, match, language } = this.props;
+    const { groupId, planId } = match.params;
+    const texts = Texts[language].managePlanStepper;
+    const { editedSolution, parentsProfiles, plan } = this.state;
+    plan.solution.forEach(s => {
+      const [date, meridiem] = s.slot.split("-");
+      s.start = new Date(date);
+      s.end = new Date(date);
+      if (meridiem === "AM") {
+        s.start.setHours(9);
+        s.end.setHours(15);
+        s.startHour = "09";
+        s.endHour = "15";
+      } else {
+        s.start.setHours(15);
+        s.end.setHours(21);
+        s.startHour = "15";
+        s.endHour = "21";
+      }
+      s.volunteers = [];
+    });
+    editedSolution.forEach(row => {
+      const keys = Object.keys(row);
+      keys.forEach(slot => {
+        const subscription = parentsProfiles.find(
+          p => `${p.given_name} ${p.family_name}` === row[slot]
+        );
+        if (subscription) {
+          plan.solution
+            .find(s => s.slot === slot)
+            .volunteers.push(subscription.user_id);
+        }
+      });
+    });
+    this.setState({ updatingPlan: true });
+    axios
+      .post(`/api/groups/${groupId}/plans/${planId}/activities`, {
+        plan
+      })
+      .then(response => {
+        Log.info(response);
+        enqueueSnackbar(texts.activitiesSuccess, {
+          variant: "info"
+        });
+        history.goBack();
+      })
+      .catch(error => {
+        Log.error(error);
+      });
   };
 
   sendLink = () => {
@@ -414,6 +461,10 @@ class ManagePlanStepper extends React.Component {
     return disabledDates;
   };
 
+  handleSolutionEditing = data => {
+    this.setState({ editedSolution: data });
+  };
+
   getStepContent = () => {
     const { language, myChildren } = this.props;
     const { activeStep, plan, parentsProfiles, childrenProfiles } = this.state;
@@ -545,10 +596,11 @@ class ManagePlanStepper extends React.Component {
             <p>{texts.desktopPrompt}</p>
           </div>
         ) : (
-          <ManagePlanSoluton
+          <ManagePlanSolution
             plan={plan}
             parentsProfiles={parentsProfiles}
             childrenProfiles={childrenProfiles}
+            handleEdits={this.handleSolutionEditing}
           />
         );
       default:

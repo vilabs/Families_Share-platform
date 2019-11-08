@@ -19,11 +19,6 @@ const theme = createMuiTheme({
       root: {
         width: "100%"
       }
-    },
-    MuiSelect: {
-      input: {
-        padding: 0
-      }
     }
   }
 });
@@ -34,10 +29,11 @@ const Cell = ({ value, handleSelect, profiles }) => {
       {profiles.map(profile => {
         return (
           <MenuItem
+            key={profile.user_id}
             value={`${profile.given_name} ${profile.family_name}`}
             disabled={profile.assigned}
           >
-            <div className="categoryText">
+            <div style={{ fontSize: "1.2rem" }}>
               {`${profile.given_name} ${profile.family_name}`}
             </div>
           </MenuItem>
@@ -64,14 +60,14 @@ const Header = ({ header, setShowingSlot, fullfilled }) => {
 class ManagePlanSolution extends React.Component {
   constructor(props) {
     super(props);
-    const { plan, parentsProfiles, childrenProfiles } = this.props;
+    const { plan, parentsProfiles, childrenProfiles, handleEdits } = this.props;
     const pageSize = this.getPageSize(
       plan.solution,
       plan.min_volunteers,
       plan.ratio
     );
     const data = [];
-    for (let i = 0; i <= pageSize; i += 1) {
+    for (let i = 0; i < pageSize; i += 1) {
       const row = [];
       plan.solution.forEach(subscriptions => {
         const required = Math.ceil(subscriptions.children.length / plan.ratio);
@@ -91,10 +87,12 @@ class ManagePlanSolution extends React.Component {
       });
       data.push(row);
     }
+    handleEdits(data);
     this.state = {
       data,
       plan,
-      profiles: parentsProfiles,
+      profilesFilter: "available",
+      parentsProfiles,
       childrenProfiles,
       pageSize,
       showingSlot: 0
@@ -122,16 +120,43 @@ class ManagePlanSolution extends React.Component {
 
   handleSelect = (value, row, column) => {
     const { data } = this.state;
+    const { handleEdits } = this.props;
     data[row][column] = value;
+    handleEdits(data);
     this.setState({ data });
   };
 
-  getRemainingOptions = slot => {
-    const { profiles, data } = this.state;
+  getProfiles = slot => {
+    const {
+      data,
+      profilesFilter,
+      parentsProfiles,
+      plan: { participants, participant, solution }
+    } = this.state;
     const alreadyAssigned = [];
     data.forEach(row => {
       alreadyAssigned.push(row[slot]);
     });
+    let profiles;
+    switch (profilesFilter) {
+      case "all":
+        profiles = parentsProfiles;
+        break;
+      case "participating":
+        const participating = [...participants, participant].map(
+          p => p.user_id
+        );
+        profiles = parentsProfiles.filter(p =>
+          participating.includes(p.user_id)
+        );
+        break;
+      case "available":
+        const available = solution.find(s => s.slot === slot).volunteers;
+        profiles = parentsProfiles.filter(p => available.includes(p.user_id));
+        break;
+      default:
+        profiles = [];
+    }
     return profiles.map(p => ({
       ...p,
       assigned: alreadyAssigned.includes(`${p.given_name} ${p.family_name}`)
@@ -144,6 +169,7 @@ class ManagePlanSolution extends React.Component {
     const {
       childrenProfiles,
       showingSlot,
+      profilesFilter,
       pageSize,
       data,
       plan: { solution, ratio, min_volunteers: minVolunteers }
@@ -168,7 +194,7 @@ class ManagePlanSolution extends React.Component {
           ) : (
             <Cell
               {...props}
-              profiles={this.getRemainingOptions(subscriptions.slot)}
+              profiles={this.getProfiles(subscriptions.slot)}
               handleSelect={event =>
                 this.handleSelect(
                   event.target.value,
@@ -179,7 +205,7 @@ class ManagePlanSolution extends React.Component {
             />
           ),
         accessor: subscriptions.slot,
-        style: { width: "140px" }
+        width: 120
       };
     });
     return (
@@ -194,6 +220,27 @@ class ManagePlanSolution extends React.Component {
               columns={columns}
               data={data}
             />
+            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
+              <div className="categoryText">{texts.selectFrom}</div>
+              <div style={{ width: "100" }}>
+                <Select
+                  value={profilesFilter}
+                  onChange={event => {
+                    this.setState({ profilesFilter: event.target.value });
+                  }}
+                >
+                  <MenuItem value="available">
+                    <div className="categoryText">{texts.available}</div>
+                  </MenuItem>
+                  <MenuItem value="participating">
+                    <div className="categoryText">{texts.participating}</div>
+                  </MenuItem>
+                  <MenuItem value="all">
+                    <div className="categoryText">{texts.all}</div>
+                  </MenuItem>
+                </Select>
+              </div>
+            </div>
           </div>
           <div className="col-2-10">
             <ul className="childrenNeedsList">
@@ -217,7 +264,8 @@ ManagePlanSolution.propTypes = {
   language: PropTypes.string,
   parentsProfiles: PropTypes.array,
   childrenProfiles: PropTypes.array,
-  plan: PropTypes.object
+  plan: PropTypes.object,
+  handleEdits: PropTypes.func
 };
 
 Cell.propTypes = {
@@ -228,6 +276,6 @@ Cell.propTypes = {
 
 Header.propTypes = {
   header: PropTypes.string,
-  setShowingSlot: PropTypes.number,
+  setShowingSlot: PropTypes.func,
   fullfilled: PropTypes.bool
 };
