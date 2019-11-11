@@ -265,7 +265,7 @@ class TimeslotScreen extends React.Component {
     return "";
   };
 
-  handleParticipantClick = (profile, type) => {
+  handleParticipantIconClick = (profile, type) => {
     const { history, enqueueSnackbar, language } = this.props;
     const texts = Texts[language].timeslotScreen;
     if (type === "children") {
@@ -444,6 +444,15 @@ class TimeslotScreen extends React.Component {
     }
   };
 
+  handleParticipantClick = (type, profile) => {
+    const { history } = this.props;
+    if (type === "children") {
+      history.push(`/profiles/groupmember/children/${profile.child_id}`);
+    } else if (type !== "externals") {
+      history.push(`/profiles/${profile.user_id}/info`);
+    }
+  };
+
   renderParticipants = type => {
     const { language, classes } = this.props;
     const {
@@ -527,17 +536,30 @@ class TimeslotScreen extends React.Component {
             <li key={index} style={{ display: "block" }}>
               <div className="row" style={{ margin: "1rem 0" }}>
                 <div className="col-2-10">
-                  <Avatar className={classes.avatar} src={profile.image} />
+                  <Avatar
+                    className={classes.avatar}
+                    src={profile.image}
+                    onClick={() => this.handleParticipantClick(type, profile)}
+                  />
                 </div>
                 <div className="col-7-10">
-                  <div className="participantsText">{profile.name}</div>
+                  <div
+                    className="participantsText"
+                    role="button"
+                    tabIndex={-42}
+                    onClick={() => this.handleParticipantClick(type, profile)}
+                  >
+                    {profile.name}
+                  </div>
                 </div>
                 <div className="col-1-10">
                   <CopyToClipboard text={profile.phone}>
                     <button
                       className="transparentButton"
                       type="button"
-                      onClick={() => this.handleParticipantClick(profile, type)}
+                      onClick={() =>
+                        this.handleParticipantIconClick(profile, type)
+                      }
                     >
                       <i
                         style={{ color: "rgba(0,0,0,0.6)" }}

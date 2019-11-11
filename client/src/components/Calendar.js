@@ -83,10 +83,6 @@ const MyMonthEvent = ({ event, history }) => {
   const timeslotId = event.id;
   const { groupId } = event.extendedProperties.shared;
   const pathname = `/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}`;
-  // let indicatorColor = "grey";
-  // if (status === "completed") {
-  //   indicatorColor = "#00FF00	";
-  // }
   return (
     <div role="button" tabIndex={-42} onClick={() => history.push(pathname)}>
       {event.title}

@@ -192,7 +192,12 @@ class ManagePlanStepper extends React.Component {
     const { history, enqueueSnackbar, match, language } = this.props;
     const { groupId, planId } = match.params;
     const texts = Texts[language].managePlanStepper;
-    const { editedSolution, parentsProfiles, plan } = this.state;
+    const {
+      editedSolution,
+      parentsProfiles,
+      plan,
+      timeslotsFilter
+    } = this.state;
     plan.solution.forEach(s => {
       const [date, meridiem] = s.slot.split("-");
       s.start = new Date(date);
@@ -223,6 +228,9 @@ class ManagePlanStepper extends React.Component {
         }
       });
     });
+    if (timeslotsFilter === "discard") {
+      plan.solution = plan.solution.filter(s => s.volunteers.length > 0);
+    }
     this.setState({ updatingPlan: true });
     axios
       .post(`/api/groups/${groupId}/plans/${planId}/activities`, {
@@ -465,6 +473,10 @@ class ManagePlanStepper extends React.Component {
     this.setState({ editedSolution: data });
   };
 
+  handleTimeslotsFilter = filter => {
+    this.setState({ timeslotsFilter: filter });
+  };
+
   getStepContent = () => {
     const { language, myChildren } = this.props;
     const { activeStep, plan, parentsProfiles, childrenProfiles } = this.state;
@@ -601,6 +613,7 @@ class ManagePlanStepper extends React.Component {
             parentsProfiles={parentsProfiles}
             childrenProfiles={childrenProfiles}
             handleEdits={this.handleSolutionEditing}
+            handleFilter={this.handleTimeslotsFilter}
           />
         );
       default:

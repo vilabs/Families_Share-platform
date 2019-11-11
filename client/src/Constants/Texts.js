@@ -8,7 +8,11 @@ const en = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members"
+    all: "All group members",
+    create: "Create",
+    discard: "Discard",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
+    activitiesSuccess: "Plan was successfully transformed to activities"
   },
   createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
@@ -1157,6 +1161,7 @@ const en = {
     volunteers: "Volunteers",
     participant: "participant",
     participants: "participants",
+    children: "Children",
     signup: "signed up",
     color: "Color",
     deleteDialogTitle: "Are you sure you want to delete this activity?",
@@ -1289,7 +1294,11 @@ const nl = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members"
+    all: "All group members",
+    create: "Create",
+    discard: "Discard",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
+    activitiesSuccess: "Plan was successfully transformed to activities"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -2396,6 +2405,7 @@ const nl = {
     cancel: "Annuleer"
   },
   activityScreen: {
+    volunteers: "Vrijwilligers",
     pdfToaster:
       "De activiteit wordt geëxporteerd in pdf-formaat. U ontvangt deze binnenkort via e-mail.",
     excelToaster:
@@ -2403,6 +2413,7 @@ const nl = {
     color: "Kleur",
     confirmDialogTitle: "Weet je zeker dat je deze activiteit wilt exporteren?",
     exportPdf: "Exporteren PDF",
+    children: "Kinderen",
     exportExcel: "Exporteren Excel",
     delete: "Verwijder",
     every: "Elk",
@@ -2525,7 +2536,11 @@ const it = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members"
+    all: "All group members",
+    create: "Create",
+    discard: "Discard",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
+    activitiesSuccess: "Plan was successfully transformed to activities"
   },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
@@ -3643,6 +3658,8 @@ const it = {
     cancel: "CANCELLA"
   },
   activityScreen: {
+    children: "Babmini",
+    volunteers: "Volontari",
     pdfToaster:
       "L'attività viene esportata in formato pdf. Lo riceverai a breve via e-mail.",
     excelToaster:
@@ -3780,7 +3797,11 @@ const el = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members"
+    all: "All group members",
+    create: "Create",
+    discard: "Discard",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
+    activitiesSuccess: "Plan was successfully transformed to activities"
   },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
@@ -4893,6 +4914,8 @@ const el = {
     cancel: "ΑΚΥΡΩΣΗ"
   },
   activityScreen: {
+    children: "Παιδιά",
+    volunteers: "Εθελοντές",
     pdfToaster:
       "Η δραστηριότητα εξάγεται σε μορφή pdf. Θα τη παραλάβετε σύντομα μέσω e-mail.",
     excelToaster:
@@ -5027,7 +5050,11 @@ const hu = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members"
+    all: "All group members",
+    create: "Create",
+    discard: "Discard",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
+    activitiesSuccess: "Plan was successfully transformed to activities"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -6176,6 +6203,8 @@ const hu = {
     cancel: "Visszavonás"
   },
   activityScreen: {
+    volunteers: "Onkéntesek",
+    children: "Gyermekek",
     pdfToaster:
       "A tevékenységet pdf formátumban exportálják. Hamarosan megkapja e-mailben.",
     excelToaster:
