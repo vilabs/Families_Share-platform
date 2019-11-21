@@ -299,18 +299,20 @@ class GroupActivities extends React.Component {
             </React.Fragment>
           )}
         </div>
-        {fetchedData && (
-          <div id="groupActivitiesContainer" className="horizontalCenter">
-            <h1 className="">{texts.activitiesHeader}</h1>
-            {this.renderActivities()}
-          </div>
-        )}
-        {fetchedData && plans.length > 0 && (
-          <div id="groupActivitiesContainer" className="horizontalCenter">
-            <h1 className="">{texts.plansHeader}</h1>
-            {this.renderPlans()}
-          </div>
-        )}
+        <div style={{ paddingBottom: "6rem" }}>
+          {fetchedData && (
+            <div id="groupActivitiesContainer" className="horizontalCenter">
+              <h1 className="">{texts.activitiesHeader}</h1>
+              {this.renderActivities()}
+            </div>
+          )}
+          {fetchedData && plans.length > 0 && (
+            <div id="groupActivitiesContainer" className="horizontalCenter">
+              <h1 className="">{texts.plansHeader}</h1>
+              {this.renderPlans()}
+            </div>
+          )}
+        </div>
       </div>
     );
   }

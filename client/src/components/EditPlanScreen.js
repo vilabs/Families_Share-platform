@@ -188,7 +188,11 @@ class EditPlanScreen extends React.Component {
     const texts = Texts[language].editPlanScreen;
     return fetchedPlan ? (
       <React.Fragment>
-        <div className="row no-gutters" id="editActivityHeaderContainer">
+        <div
+          className="row no-gutters"
+          id="editActivityHeaderContainer"
+          style={{ position: "fixed", width: "100%", height: "5.6rem" }}
+        >
           <div className="col-2-10">
             <button
               className="transparentButton center"
@@ -211,7 +215,7 @@ class EditPlanScreen extends React.Component {
             </button>
           </div>
         </div>
-        <div id="editActivityMainContainer" style={{ paddingBottom: "5rem" }}>
+        <div id="editActivityMainContainer" style={{ padding: "8rem 0" }}>
           <form
             ref={form => {
               this.formEl = form;
