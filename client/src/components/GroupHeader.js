@@ -103,7 +103,7 @@ class GroupHeader extends React.Component {
                   className="transparentButton center"
                   onClick={this.handleManagement}
                 >
-                  <i className="fas fa-dragon" style={{ color: "black" }} />
+                  <i className="fas fa-chart-bar" />
                 </button>
               ) : (
                 <div />
