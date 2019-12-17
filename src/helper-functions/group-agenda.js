@@ -92,7 +92,7 @@ async function createExcel (group, activities, events, cb) {
       const requiredChildren = event.extendedProperties.shared.requiredChildren
       const parents = JSON.parse(event.extendedProperties.shared.parents)
       const children = JSON.parse(event.extendedProperties.shared.children)
-      const externals = JSON.parse(event.extendedProperties.shared.externals || [])
+      const externals = JSON.parse(event.extendedProperties.shared.externals || '[]')
       const start = new Date(event.start.dateTime)
       const end = new Date(event.end.dateTime)
       const originalStart = event.extendedProperties.shared.start || start.getHours()

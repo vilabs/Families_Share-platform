@@ -1418,7 +1418,7 @@ router.patch(
       }
       const parents = JSON.parse(extendedProperties.shared.parents)
       const children = JSON.parse(extendedProperties.shared.children)
-      const externals = JSON.parse(extendedProperties.shared.externals || [])
+      const externals = JSON.parse(extendedProperties.shared.externals || '[]')
       const volunteersReq =
        (parents.length + externals.length) >= extendedProperties.shared.requiredParents
       const childrenReq =

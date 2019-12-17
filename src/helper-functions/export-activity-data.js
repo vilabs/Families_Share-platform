@@ -127,7 +127,7 @@ async function createExcel (activity, timeslots, cb) {
     const requiredChildren = additionalInfo.requiredChildren
     const parents = JSON.parse(additionalInfo.parents)
     const children = JSON.parse(additionalInfo.children)
-    const externals = JSON.parse(additionalInfo.externals || [])
+    const externals = JSON.parse(additionalInfo.externals || '[]')
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
     const childrenWithSpecialNeeds = childrenProfiles.filter(
@@ -255,11 +255,11 @@ async function createPdf (activity, timeslots, cb) {
     const requiredChildren = additionalInfo.requiredChildren
     const parents = JSON.parse(additionalInfo.parents)
     const children = JSON.parse(additionalInfo.children)
-    const externals = JSON.parse(additionalInfo.externals || [])
+    const externals = JSON.parse(additionalInfo.externals || '[]')
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
     const childrenWithSpecialNeeds = childrenProfiles.filter(
-      c => c.allergies || c.special_needs || c.other.info
+      c => c.allergies || c.special_needs || c.other_info
     )
     specialNeedsProfiles = specialNeedsProfiles.concat(
       childrenWithSpecialNeeds
@@ -355,6 +355,7 @@ async function createPdf (activity, timeslots, cb) {
         table: {
           headerRows: 1,
           widths: [
+            'auto',
             'auto',
             'auto',
             'auto',

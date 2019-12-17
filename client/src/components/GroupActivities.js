@@ -25,11 +25,9 @@ const styles = {
     fontSize: "2rem"
   },
   addPlan: {
-    position: "absolute",
-    left: "6rem",
-    top: "0",
-    height: "5rem",
-    width: "5rem",
+    right: "0.5rem",
+    height: "4rem",
+    width: "4rem",
     borderRadius: "50%",
     border: "solid 0.5px #999",
     backgroundColor: "#ff6f00",
@@ -37,11 +35,9 @@ const styles = {
     fontSize: "2rem"
   },
   addActivity: {
-    position: "absoloute",
-    top: "4rem",
-    left: "2rem",
-    height: "5rem",
-    width: "5rem",
+    right: "0.5rem",
+    height: "4rem",
+    width: "4rem",
     borderRadius: "50%",
     border: "solid 0.5px #999",
     backgroundColor: "#ff6f00",
@@ -259,13 +255,12 @@ class GroupActivities extends React.Component {
           </div>
         </div>
         <div
+          className="row no-gutters"
           style={{
-            zIndex: 100,
-            position: "fixed",
             bottom: "8rem",
             right: "7%",
-            height: "11rem",
-            width: "13rem"
+            zIndex: 100,
+            position: "fixed"
           }}
         >
           <Fab
@@ -278,8 +273,20 @@ class GroupActivities extends React.Component {
           >
             <i className={showAddOptions ? "fas fa-times" : "fas fa-plus"} />
           </Fab>
-          {showAddOptions && (
-            <React.Fragment>
+        </div>
+        {showAddOptions && (
+          <React.Fragment>
+            <div
+              className="row no-gutters"
+              style={{
+                bottom: "14rem",
+                right: "7%",
+                zIndex: 100,
+                position: "fixed",
+                alignItems: "center"
+              }}
+            >
+              <div className=" activitiesFabLabel">New activity</div>
               <Fab
                 color="primary"
                 aria-label="addActivity"
@@ -288,6 +295,18 @@ class GroupActivities extends React.Component {
               >
                 <i className="fas fa-certificate" />
               </Fab>
+            </div>
+            <div
+              className="row no-gutters"
+              style={{
+                bottom: "20rem",
+                zIndex: 100,
+                position: "fixed",
+                right: "7%",
+                alignItems: "center"
+              }}
+            >
+              <div className=" activitiesFabLabel">Advanced planning</div>
               <Fab
                 color="primary"
                 aria-label="addPlan"
@@ -296,9 +315,9 @@ class GroupActivities extends React.Component {
               >
                 <i className="fas fa-calendar" />
               </Fab>
-            </React.Fragment>
-          )}
-        </div>
+            </div>
+          </React.Fragment>
+        )}
         <div style={{ paddingBottom: "6rem" }}>
           {fetchedData && (
             <div id="groupActivitiesContainer" className="horizontalCenter">

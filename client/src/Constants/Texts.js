@@ -3658,7 +3658,7 @@ const it = {
     cancel: "CANCELLA"
   },
   activityScreen: {
-    children: "Babmini",
+    children: "Bambini",
     volunteers: "Volontari",
     pdfToaster:
       "L'attività viene esportata in formato pdf. Lo riceverai a breve via e-mail.",
