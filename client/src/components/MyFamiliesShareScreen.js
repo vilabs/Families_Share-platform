@@ -66,7 +66,10 @@ class MyFamiliesShareScreen extends React.Component {
       group => group.group_accepted && !group.user_accepted
     ).length;
     const unreadNotifications = await getMyUnreadNotifications(userId);
-    const myTimeslots = await getMyTimeslots(userId);
+    let myTimeslots = await getMyTimeslots(userId);
+    myTimeslots = myTimeslots.filter(
+      t => new Date(t.start.dateTime).getTime() - new Date().getTime() > 0
+    );
     let dates = myTimeslots.map(timeslot => timeslot.start.dateTime);
     dates = dates.sort((a, b) => {
       return new Date(a) - new Date(b);
