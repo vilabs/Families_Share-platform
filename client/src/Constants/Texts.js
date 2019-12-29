@@ -1490,7 +1490,7 @@ const nl = {
   timeslotScreen: {
     externals: "Uiterlijkheden",
     externalPlaceholder: "Externe vrijwilliger toevoegen",
-    externalAvailabilities: "Add external availabilities",
+    externalAvailabilities: "Voeg externe beschikbaarheden toe",
     allUsersAvailabilities: "Beschikbaarheid van gebruikers toevoegen",
     allChildrenAvailabilities: "Beschikbaarheid voor kinderen toevoegen",
     parentSubscribe1: "Je hebt toegevoegd",
@@ -2720,7 +2720,7 @@ const it = {
     description: "Descritzione (facoltativo)",
     cost: "Costo (facoltativo)",
     status: "Stato di questa attività",
-    ongoing: "Incorsa",
+    ongoing: "In corso",
     completed: "Completata",
     requiredErr: "Perfavore compila questo campo.",
     rangeErr: "Perfavore seleziona un valore maggiore di zero",
@@ -2733,7 +2733,7 @@ const it = {
   timeslotScreen: {
     externals: "Esterni",
     externalPlaceholder: "Aggiungi volontario esterno",
-    externalAvailabilities: "Add external availabilities",
+    externalAvailabilities: "Aggiungi disponibilità volontari esterni",
     allUsersAvailabilities: "Aggiungi disponibilità utenti",
     allChildrenAvailabilities: "Aggiungi disponibilità bambini",
     parentSubscribe1: "Hai aggiunto",
@@ -2746,11 +2746,12 @@ const it = {
     minimum: "numero minimo",
     userAvailability: "Aggiungi la tua disponibilità:",
     childrenAvailability: "Aggiungi la disponibilità dei tuoi bambini:",
-    volunteer: "volontario",
-    volunteers: "volontari",
+    volunteer: "Volontario",
+    volunteers: "Volontari",
     signup: "registrato",
-    child: "bambino",
-    children: "bambini",
+    child: "Bambino",
+    admins: "Amministratori",
+    children: "Bambini",
     userSubscribe: "Ti sei aggiunto all'attività",
     userUnsubscribe: "Ti sei rimosso dall'attività",
     childSubscribe1: "Hai aggiunto",
@@ -3410,8 +3411,8 @@ const it = {
       "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
     myActivitiesPrompt:
       "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
-    joinPrompt: "UNIRSI AL GRUPPO",
-    createPrompt: "CREARE UN GRUPPO"
+    joinPrompt: "UNISCITI AD UN GRUPPO",
+    createPrompt: "CREA UN GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs"
@@ -5245,7 +5246,7 @@ const hu = {
   },
   timeslotScreen: {
     externals: "Külső",
-    externalAvailabilities: "Add external availabilities",
+    externalAvailabilities: "Adjon hozzá külső elérhetőségeket",
     externalPlaceholder: "Adjon hozzá egy külső önkéntes",
     allUsersAvailabilities: "Felhasználói elérhetőségek hozzáadása",
     allChildrenAvailabilities: "Gyerekek elérhetőségének hozzáadása",

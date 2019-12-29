@@ -2893,7 +2893,7 @@ a:active {
   width: 100%;
   z-index: 1;
   background-color: Transparent;
-  position: absolute;
+  position: fixed;
   top: 0;
 }
 #profileHeaderOptions button {
