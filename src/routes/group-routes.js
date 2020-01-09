@@ -1416,8 +1416,31 @@ router.patch(
       ) {
         return res.status(400).send('Bad Request')
       }
+      const group = await Group.findOne({ group_id })
+      const myChildren = await Parent.distinct('child_id', { parent_id: req.user_id })
+      const event = await calendar.events.get({
+        calendarId: group.calendar_id,
+        eventId: req.params.timeslotId
+      })
+      const oldParents = JSON.parse(event.data.extendedProperties.shared.parents)
+      const oldChildren = JSON.parse(event.data.extendedProperties.shared.children)
       const parents = JSON.parse(extendedProperties.shared.parents)
       const children = JSON.parse(extendedProperties.shared.children)
+      if (!member.admin) {
+        if (parents.includes(req.user_id)) {
+          extendedProperties.shared.parents = JSON.stringify([...new Set([ ...oldParents, req.user_id ])])
+        } else {
+          extendedProperties.shared.parents = JSON.stringify(oldParents.filter(u => u !== req.user_id))
+        }
+        myChildren.forEach(c => {
+          if (children.includes(c) && !oldChildren.includes(c)) {
+            oldChildren.push(c)
+          } else if (!children.includes(c) && oldChildren.includes(c)) {
+            oldChildren.splice(oldChildren.indexOf(c), 1)
+          }
+        })
+        extendedProperties.shared.children = JSON.stringify(oldChildren)
+      }
       const externals = JSON.parse(extendedProperties.shared.externals || '[]')
       const volunteersReq =
        (parents.length + externals.length) >= extendedProperties.shared.requiredParents
@@ -1439,7 +1462,6 @@ router.patch(
         end,
         extendedProperties
       }
-      const group = await Group.findOne({ group_id })
       await calendar.events.patch({
         calendarId: group.calendar_id,
         eventId: req.params.timeslotId,

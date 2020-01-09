@@ -1036,6 +1036,7 @@ module.exports = router
 router.post('/:userId/sendmenotification', async (req, res, next) => {
   try {
     const devices = await Device.find({ user_id: req.params.userId })
+    console.log(devices)
     if (devices.length === 0) {
       return res.status(404).send('User has no registered devices')
     }
@@ -1064,6 +1065,7 @@ router.post('/:userId/sendmenotification', async (req, res, next) => {
     await Device.deleteMany({ device_id: { $in: invalidTokens } })
     res.status(200).send('Push notification sent')
   } catch (err) {
+    console.log(err)
     next(err)
   }
 })
