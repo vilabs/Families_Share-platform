@@ -355,7 +355,7 @@ router.post('/authenticate/google', async (req, res, next) => {
 })
 
 router.get('/changepasswordredirect/:token', (req, res) => {
-  res.redirect(`${process.env.CITYLAB_SCHEME}://changepsw/${req.params.token}`)
+  res.redirect(`families-share://changepsw/${req.params.token}`)
 })
 
 router.post('/forgotpassword', async (req, res, next) => {

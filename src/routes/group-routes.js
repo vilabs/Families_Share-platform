@@ -892,6 +892,7 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
   const userId = req.user_id
   const { groupId, planId } = req.params
   const { plan } = req.body
+  const oldPlan = await Plan.findOne({ plan_id: planId })
   try {
     const member = await Member.findOne({
       group_id: groupId,
@@ -903,13 +904,15 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     if (plan.participants) {
-      const oldPlan = await Plan.findOne({ plan_id: planId })
       plan.participants = [ plan.participants.find(p => p.user_id === userId), ...oldPlan.participants.filter(p => p.user_id !== userId) ]
     }
     if (plan.participants) {
       plan.participants = await ph.syncChildSubscriptions(plan.participants)
     }
     const updatedPlan = await Plan.findOneAndUpdate({ plan_id: planId }, { ...plan }, { new: true })
+    if (oldPlan.state !== updatedPlan.state) {
+      nh.planStateNotification(plan.name, updatedPlan.participants.map(p => p.user_id), updatedPlan.state, groupId, planId)
+    }
     if (updatedPlan.state === 'planning') {
       updatedPlan.solution = ph.findOptimalSolution(updatedPlan)
       await updatedPlan.save()
@@ -1446,11 +1449,14 @@ router.patch(
        (parents.length + externals.length) >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
+      if (event.data.extendedProperties.shared.status !== extendedProperties.shared.status) {
+        nh.timeslotStatusChangeNotification(summary, extendedProperties.shared.status, oldParents, group_id, activity_id, timeslot_id)
+      }
       if (notifyUsers) {
         extendedProperties.shared.parents = JSON.stringify([])
         extendedProperties.shared.children = JSON.stringify([])
         extendedProperties.shared.externals = JSON.stringify([])
-        await nh.timeslotChangedNotification(summary, parents)
+        await nh.timeslotMajorChangeNotification(summary, oldParents, group_id, activity_id, timeslot_id)
       } else if (volunteersReq && childrenReq) {
         await nh.timeslotRequirementsNotification(summary, parents, group_id, activity_id, timeslot_id)
       }

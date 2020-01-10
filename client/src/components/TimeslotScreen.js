@@ -159,7 +159,8 @@ class TimeslotScreen extends React.Component {
           children: []
         }
       }
-    }
+    },
+    adminChanges: {}
   };
 
   async componentDidMount() {
@@ -192,6 +193,7 @@ class TimeslotScreen extends React.Component {
     }
     childrenIds = childrenIds.concat(children);
     parentIds = parentIds.concat(parents);
+
     const parentProfiles = await getParentProfiles([...new Set(parentIds)]);
     const childrenProfiles = await getChildrenProfiles([
       ...new Set(childrenIds)
@@ -335,17 +337,28 @@ class TimeslotScreen extends React.Component {
   };
 
   handleSubscribe = (id, type) => {
+    const userId = JSON.parse(localStorage.getItem("user")).id;
     const { language, enqueueSnackbar } = this.props;
-    const { timeslot, childrenProfiles, parentProfiles } = this.state;
+    const {
+      timeslot,
+      childrenProfiles,
+      parentProfiles,
+      adminChanges
+    } = this.state;
     let snackMessage;
     const texts = Texts[language].timeslotScreen;
     if (timeslot.extendedProperties.shared.status !== "completed") {
       if (type === "parent") {
         timeslot.extendedProperties.shared.parents.push(id);
-        if (timeslot.userCanEdit) {
-          const parentName = parentProfiles.filter(
+        if (timeslot.userCanEdit && userId !== id) {
+          if (adminChanges[id]) {
+            adminChanges[id] += 2;
+          } else {
+            adminChanges[id] = 2;
+          }
+          const parentName = parentProfiles.find(
             profile => profile.user_id === id
-          )[0].given_name;
+          ).given_name;
           snackMessage = `${texts.parentSubscribe1} ${parentName} ${
             texts.parentSubscribe2
           }`;
@@ -353,9 +366,9 @@ class TimeslotScreen extends React.Component {
           snackMessage = texts.userSubscribe;
         }
       } else {
-        const childName = childrenProfiles.filter(
+        const childName = childrenProfiles.find(
           profile => profile.child_id === id
-        )[0].given_name;
+        ).given_name;
         timeslot.extendedProperties.shared.children.push(id);
         snackMessage = `${texts.childSubscribe1} ${childName} ${
           texts.childSubscribe2
@@ -371,8 +384,14 @@ class TimeslotScreen extends React.Component {
   };
 
   handleUnsubscribe = (id, type) => {
+    const userId = JSON.parse(localStorage.getItem("user")).id;
     const { language, enqueueSnackbar } = this.props;
-    const { timeslot, childrenProfiles, parentProfiles } = this.state;
+    const {
+      timeslot,
+      childrenProfiles,
+      parentProfiles,
+      adminChanges
+    } = this.state;
     const texts = Texts[language].timeslotScreen;
     let snackMessage;
     if (timeslot.extendedProperties.shared.status !== "completed") {
@@ -380,10 +399,15 @@ class TimeslotScreen extends React.Component {
         timeslot.extendedProperties.shared.parents = timeslot.extendedProperties.shared.parents.filter(
           subId => subId !== id
         );
-        if (timeslot.userCanEdit) {
-          const parentName = parentProfiles.filter(
+        if (timeslot.userCanEdit && userId !== id) {
+          if (adminChanges[id]) {
+            adminChanges[id] -= 2;
+          } else {
+            adminChanges[id] = -2;
+          }
+          const parentName = parentProfiles.find(
             profile => profile.user_id === id
-          )[0].given_name;
+          ).given_name;
           snackMessage = `${texts.parentUnsubscribe1} ${parentName} ${
             texts.parentUnsubscribe2
           }`;
@@ -391,9 +415,9 @@ class TimeslotScreen extends React.Component {
           snackMessage = texts.userUnsubscribe;
         }
       } else if (type === "child") {
-        const childName = childrenProfiles.filter(
+        const childName = childrenProfiles.find(
           profile => profile.child_id === id
-        )[0].given_name;
+        ).given_name;
         timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(
           subId => subId !== id
         );

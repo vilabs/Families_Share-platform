@@ -67,6 +67,17 @@ const en = {
       header: 'Group Activities',
       description:
         'has deleted timeslot'
+    },
+    {
+      header: 'Group Activities',
+      description:
+        ' status has now changed to '
+    }
+  ],
+  plans: [
+    {
+      header: 'Group Plans',
+      description: ' has proceeded to '
     }
   ],
   announcements: [
@@ -132,6 +143,17 @@ const it = {
       header: 'Attività del gruppo',
       description:
         `ha cancellato Orario`
+    },
+    {
+      header: 'Attività del gruppo',
+      description:
+        ' è ora cambiato in '
+    }
+  ],
+  plans: [
+    {
+      header: 'Piani di gruppo',
+      description: ' ha proceduto a '
     }
   ],
   announcements: [
@@ -197,6 +219,17 @@ const nl = {
       header: 'Groepsactiviteiten',
       description:
         'heeft timeslot verwijderd'
+    },
+    {
+      header: 'Groepsactiviteiten',
+      description:
+        ' is nu gewijzigd in '
+    }
+  ],
+  plans: [
+    {
+      header: 'Groepsplannen',
+      description: ' is overgegaan naar '
     }
   ],
   announcements: [
@@ -274,6 +307,17 @@ const el = {
       header: 'Ομαδικές δραστηριότητες',
       description:
         'διέγραψε τη χρονική περίοδο'
+    },
+    {
+      header: 'Ομαδικές δραστηριότητες',
+      description:
+        ' άλλαξε κατάσταση σε '
+    }
+  ],
+  plans: [
+    {
+      header: 'Σχέδια Ομάδας',
+      description: ' προχώρησε στη φαση '
     }
   ],
   announcements: [
@@ -284,7 +328,7 @@ const el = {
   ]
 }
 const hu = {
-  'group': [
+  group: [
     {
       'header': 'Csoport beállítások',
       'description': 'Megváltoztatta a csoport képét'
@@ -306,7 +350,7 @@ const hu = {
       'description': 'Megváltoztatta a csoport leírását'
     }
   ],
-  'members': [
+  members: [
     {
       'header': 'Új tag',
       'description': 'Belépett a csoportba'
@@ -328,7 +372,7 @@ const hu = {
       description: 'csatlakozni kell a csoporthoz'
     }
   ],
-  'activities': [
+  activities: [
     {
       'header': 'Csoporttevékenységek',
       'description': 'Új tevékenységet hozott létre a csoporton belül'
@@ -350,9 +394,20 @@ const hu = {
       header: 'Csoporttevékenységek',
       description:
         'törölte a Időpont'
+    },
+    {
+      header: 'Csoporttevékenységek',
+      description:
+        ' most megváltozott '
     }
   ],
-  'announcements': [
+  plans: [
+    {
+      header: 'Csoportos tervek',
+      description: ' folytatta '
+    }
+  ],
+  announcements: [
     {
       'header': 'Csoport bejelentések',
       'description': 'Új bejegyzést osztott meg a csoporton belül'

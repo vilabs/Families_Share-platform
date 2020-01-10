@@ -43,8 +43,10 @@ const findOptimalSolution = (plan) => {
   const { participants } = plan
   let people = []
   let slots = []
-  // create array with people and array with slots
+  const connections = {}
+  // create array with people and array with slots and parent-children needs object
   participants.forEach(p => {
+    connections[p.user_id] = []
     people.push({ id: p.user_id, type: 'parent' })
     p.availabilities.forEach(a => {
       slots.push(`${moment(a.day).format('DD MMM YYYY')}-AM`)
@@ -54,6 +56,7 @@ const findOptimalSolution = (plan) => {
       slots.push(`${moment(n.day).format('DD MMM YYYY')}-AM`)
       slots.push(`${moment(n.day).format('DD MMM YYYY')}-PM`)
       n.children.forEach(c => {
+        connections[p.user_id].push(c)
         people.push({ id: c, type: 'child' })
       })
     })
@@ -108,7 +111,70 @@ const findOptimalSolution = (plan) => {
   })
   // filter subscriptions to remove unnecessary slots
   subscriptions = subscriptions.filter(s => s.children.length > 0)
-  console.log(subscriptions)
+
+  // Create useful statistics
+  const needCoverage = {} // percentage of parents needs that have been covered
+  const totalContribution = {} // parents total contribution % to all slots
+  const fulfilledContribution = {}// parents total contribution % to optimal-fulfilled slots
+  Object.keys(connections).forEach(parentId => {
+    needCoverage[parentId] = 0
+    fulfilledContribution[parentId] = 0
+    totalContribution[parentId] = 0
+  })
+  subscriptions.forEach(slot => {
+    slot.isOptimal = slot.volunteers.length >= plan.min_volunteers && (slot.volunteers.length / slot.children.length) >= (1 / plan.ratio)
+    slot.volunteers.forEach(parent => {
+      if (slot.isOptimal) {
+        fulfilledContribution[parent] += 1
+        slot.children.forEach(child => {
+          if (connections[parent].includes(child)) {
+            needCoverage[parent] += 1
+          }
+        })
+      } else {
+        totalContribution[parent] += 1
+      }
+    })
+  })
+  // turning metric values to percentages
+  const optimalSlots = subscriptions.filter(s => s.isOptimal).length
+  Object.keys(connections).forEach(parent => {
+    if (connections[parent].length) {
+      needCoverage[parent] /= connections[parent].length
+      totalContribution[parent] /= slots.length
+      if (optimalSlots) {
+        fulfilledContribution[parent] /= optimalSlots
+      } else {
+        fulfilledContribution[parent] = 0
+      }
+    } else {
+      needCoverage[parent] = 100 // should further elaborate on this
+    }
+  })
+  // removing redundant parents
+  subscriptions.forEach(slot => {
+    const redundantParents = Math.floor(slot.volunteers.length - slot.children.length * (1 / plan.ratio))
+    if (redundantParents > 0) {
+      slot.volunteers = slot.volunteers.sort((a, b) => {
+      // ranking parents . can abstract code to a different function
+      // remove parent that has greate contribution
+        const fulfilledContributionRanking = fulfilledContribution[a] - fulfilledContribution[b]
+        if (fulfilledContributionRanking > 0) {
+          return 1
+        } else if (fulfilledContributionRanking < 0) {
+          return -1
+        } else {
+          // remove parent that has lower need coverage
+          const needCoverageRanking = needCoverage[b] - needCoverage[a]
+          if (needCoverageRanking > 0) {
+            return 1
+          } else {
+            return -1
+          }
+        }
+      }).splice(0, slot.volunteers.length - redundantParents)
+    }
+  })
   return subscriptions
 }
 
