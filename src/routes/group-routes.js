@@ -1017,18 +1017,44 @@ router.post('/:groupId/plans/:planId/activities', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const group = await Group.findOne({ group_id })
-    const [activity, events] = ph.transformPlanToActivities(plan, group, user_id)
-    await Promise.all(
-      events.map(event =>
-        calendar.events.insert({
-          calendarId: group.calendar_id,
-          resource: event
-        })
+    if (plan.activitiesCreation === 'automatically') {
+      const [activity, events] = ph.transformPlanToActivities(plan, group, user_id)
+      await Promise.all(
+        events.map(event =>
+          calendar.events.insert({
+            calendarId: group.calendar_id,
+            resource: event
+          })
+        )
       )
-    )
-    await Activity.create(activity)
-    await Plan.deleteOne({ plan_id })
-    res.status(200).send('Plan successfully transformed to activities')
+      await Activity.create(activity)
+      await Plan.deleteOne({ plan_id })
+      res.status(200).send('Plan successfully transformed to activities')
+    } else {
+      ph.createSolutionExcel(plan, async () => {
+        const mailOptions = {
+          from: process.env.SERVER_MAIL,
+          to: req.email,
+          subject: `Plan: ${plan.name} `,
+          html: ph.newExportEmail(plan.name),
+          attachments: [
+            {
+              filename: `${plan.name.toUpperCase()} SOLUTION.xlsx`,
+              path: path.join(
+                __dirname,
+                `../../${plan.name.toUpperCase()} SOLUTION.xlsx`
+              )
+            }
+          ]
+        }
+        transporter.sendMail(mailOptions, (err, info) => {
+          if (err) next(err)
+          fr('../', { files: `${plan.name.toUpperCase()} SOLUTION.xlsx` })
+        })
+        await Plan.deleteOne({ plan_id })
+        res.status(200).send('Exported plan solution successfully')
+      })
+    }
   } catch (err) {
     next(err)
   }

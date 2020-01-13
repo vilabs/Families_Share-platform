@@ -65,7 +65,8 @@ class ManagePlanSolution extends React.Component {
       parentsProfiles,
       childrenProfiles,
       handleEdits,
-      handleFilter
+      handleFilter,
+      handleCreation
     } = this.props;
     const pageSize = this.getPageSize(
       plan.solution,
@@ -95,10 +96,12 @@ class ManagePlanSolution extends React.Component {
     }
     handleEdits(data);
     handleFilter("create");
+    handleCreation("automatically");
     this.state = {
       data,
       plan,
       profilesFilter: "available",
+      activitiesCreation: "automatically",
       timeslotsFilter: "create",
       parentsProfiles,
       childrenProfiles,
@@ -172,7 +175,7 @@ class ManagePlanSolution extends React.Component {
   };
 
   render() {
-    const { language, handleFilter } = this.props;
+    const { language, handleFilter, handleCreation } = this.props;
     const texts = Texts[language].managePlanSolution;
     const {
       childrenProfiles,
@@ -181,6 +184,7 @@ class ManagePlanSolution extends React.Component {
       timeslotsFilter,
       pageSize,
       data,
+      activitiesCreation,
       plan: { solution, ratio, min_volunteers: minVolunteers }
     } = this.state;
     const columns = solution.map((subscriptions, index) => {
@@ -271,6 +275,25 @@ class ManagePlanSolution extends React.Component {
                 </Select>
               </div>
             </div>
+            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
+              <div className="categoryText">{texts.activitiesCreation}</div>
+              <div style={{ width: "100" }}>
+                <Select
+                  value={activitiesCreation}
+                  onChange={event => {
+                    this.setState({ activitiesCreation: event.target.value });
+                    handleCreation(event.target.value);
+                  }}
+                >
+                  <MenuItem value="automatically">
+                    <div className="categoryText">{texts.automatically}</div>
+                  </MenuItem>
+                  <MenuItem value="manually">
+                    <div className="categoryText">{texts.manually}</div>
+                  </MenuItem>
+                </Select>
+              </div>
+            </div>
           </div>
           <div className="col-2-10">
             <ul className="childrenNeedsList">
@@ -296,7 +319,8 @@ ManagePlanSolution.propTypes = {
   childrenProfiles: PropTypes.array,
   plan: PropTypes.object,
   handleEdits: PropTypes.func,
-  handleFilter: PropTypes.func
+  handleFilter: PropTypes.func,
+  handleCreation: PropTypes.func
 };
 
 Cell.propTypes = {

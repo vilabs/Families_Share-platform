@@ -11,8 +11,10 @@ const en = {
     all: "All group members",
     create: "Create",
     discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    activitiesSuccess: "Plan was successfully transformed to activities"
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers"
   },
   createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
@@ -98,6 +100,9 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    automaticSuccess: "Plan was successfully transformed to activities",
+    manualSuccess:
+      "You will soon receive the final solution of the plan via email",
     nextPhase: "Next phase",
     previousPhase: "Previous phase",
     finishPlan: "Create Activities",
@@ -1293,12 +1298,17 @@ const nl = {
     needsHeader: "SLOT NEEDS",
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
     available: "Slot available members",
     all: "All group members",
     create: "Create",
     discard: "Discard",
     zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    activitiesSuccess: "Plan was successfully transformed to activities"
+    automaticSuccess: "Plan was successfully transformed to activities",
+    manualSuccess:
+      "You will soon receive the final solution of the plan via email"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -1383,6 +1393,9 @@ const nl = {
     deleteConfirm: "Weet u zeker dat u dit plan wilt verwijderen?"
   },
   managePlanStepper: {
+    automaticSuccess: "Plan is met succes omgezet in activiteiten",
+    manualSuccess:
+      "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail",
     linkSuccess: "U ontvangt binnenkort een e-mail met de bijbehorende link.",
     nextPhase: "Volgende fase",
     previousPhase: "Vorige fase",
@@ -2535,12 +2548,17 @@ const it = {
     needsHeader: "SLOT NEEDS",
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
     available: "Slot available members",
     all: "All group members",
     create: "Create",
     discard: "Discard",
     zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    activitiesSuccess: "Plan was successfully transformed to activities"
+    automaticSuccess: "Plan was successfully transformed to activities",
+    manualSuccess:
+      "You will soon receive the final solution of the plan via email"
   },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
@@ -2626,6 +2644,8 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo piano??"
   },
   managePlanStepper: {
+    automaticSuccess: "Il piano è stato trasformato con successo in attività",
+    manualSuccess: "Riceverai presto la soluzione finale del piano via e-mail",
     linkSuccess: "A breve riceverai un'e-mail con il link corrispondente.",
     nextPhase: "Next phase",
     previousPhase: "Fase precedente",
@@ -3797,12 +3817,17 @@ const el = {
     needsHeader: "SLOT NEEDS",
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
     available: "Slot available members",
     all: "All group members",
     create: "Create",
     discard: "Discard",
     zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    activitiesSuccess: "Plan was successfully transformed to activities"
+    automaticSuccess: "Plan was successfully transformed to activities",
+    manualSuccess:
+      "You will soon receive the final solution of the plan via email"
   },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
@@ -3888,6 +3913,9 @@ const el = {
     deleteConfirm: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το σχέδιο;"
   },
   managePlanStepper: {
+    automaticSuccess: "Το σχέδιο μετατράπηκε με επιτυχία σε δραστηριότητες",
+    manualSuccess:
+      "Θα λάβετε σύντομα ένα e-mail με την τελική λύση του σχεδίου",
     linkSuccess: "Θα λάβετε σύντομα ένα e-mail με τον αντίστοιχο σύνδεσμο.",
     nextPhase: "Επόμενη φάση",
     previousPhase: "Προηγούμενη φάση",
@@ -5054,8 +5082,13 @@ const hu = {
     all: "All group members",
     create: "Create",
     discard: "Discard",
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
     zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    activitiesSuccess: "Plan was successfully transformed to activities"
+    automaticSuccess: "Plan was successfully transformed to activities",
+    manualSuccess:
+      "You will soon receive the final solution of the plan via email"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -5140,6 +5173,8 @@ const hu = {
     deleteConfirm: "Biztosan törli ezt a tervet?"
   },
   managePlanStepper: {
+    automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
+    manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását",
     linkSuccess: "Hamarosan e-mailt fog kapni a megfelelő hivatkozással.",
     nextPhase: "Következő szakasz",
     previousPhase: "Előző szakasz",

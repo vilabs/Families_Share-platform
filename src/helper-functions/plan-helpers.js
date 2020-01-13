@@ -501,6 +501,106 @@ const createPlanSheet = (workBook, plan) => {
   })
 }
 
+const createSolutionSheet = (workBook, solution, parents, children) => {
+  const solutionSheet = workBook.addWorksheet('Solution')
+  solutionSheet.getColumn('A').width = 20
+
+  let columns = [
+    {
+      key: 'name'
+    }
+  ]
+  solution.forEach(({ slot }, index) => {
+    columns.push({
+      key: slot
+    })
+    if (index % 2 === 0) {
+      solutionSheet.mergeCells(1, index + 2, 1, index + 3)
+      solutionSheet.mergeCells(2, index + 2, 2, index + 3)
+    }
+  })
+  const weekdaysRow = solutionSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
+  const datesRow = solutionSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
+  const meridiemRow = solutionSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
+  const headersRow = solutionSheet.getRow(4)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFB7E1CD' }
+  }
+  headersRow.fill = datesRow.fill
+  headersRow.alignment = weekdaysRow.alignment
+  headersRow.font = datesRow.font
+  headersRow.getCell(1).value = 'Parent name'
+  headersRow.getCell(2).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  solutionSheet.getCell('A4').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  solution.forEach(({ slot }, index) => {
+    if (index % 2 === 0) {
+      weekdaysRow.getCell(index + 2).alignment = { horizontal: 'center' }
+      datesRow.getCell(index + 2).alignment = { horizontal: 'center' }
+      datesRow.getCell(index + 2).value = slot
+      weekdaysRow.getCell(index + 2).value = moment(new Date(slot.split('-')[0])).format('dddd')
+    }
+    meridiemRow.getCell(index + 2).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index + 2).value = slot.split('-')[1]
+  })
+  solutionSheet.getColumn('B').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  parents.forEach((profile, index) => {
+    let row = solutionSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFB7E1CD' }
+    }
+    solution.forEach(({ volunteers }, index) => {
+      if (volunteers.includes(profile.user_id)) {
+        row.getCell(index + 2).value = 'X'
+      }
+    })
+  })
+  const childHeaderRow = solutionSheet.getRow(5 + parents.length)
+  childHeaderRow.getCell(1).value = 'Child name'
+  childHeaderRow.font = datesRow.font
+  childHeaderRow.fill = datesRow.fill
+  childHeaderRow.alignment = weekdaysRow.alignment
+  children.forEach((profile, index) => {
+    let row = solutionSheet.getRow(5 + parents.length + 1 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFB7E1CD' }
+    }
+    solution.forEach(({ children }, index) => {
+      if (children.includes(profile.child_id)) {
+        row.getCell(index + 2).value = 'X'
+      }
+    })
+  })
+}
+
 async function createExcel (plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
@@ -542,6 +642,20 @@ async function createExcel (plan, cb) {
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
+    cb()
+  })
+}
+
+async function createSolutionExcel (plan, cb) {
+  const workBook = new Excel.Workbook()
+  workBook.creator = 'Families Share'
+  workBook.created = new Date()
+  const parents = [...new Set(plan.solution.map(slot => slot.volunteers).flat())]
+  const children = [...new Set(plan.solution.map(slot => slot.children).flat())]
+  const parentProfiles = await Profile.find({ user_id: { $in: parents } })
+  const childrenProfiles = await Child.find({ child_id: { $in: children } })
+  createSolutionSheet(workBook, plan.solution, parentProfiles, childrenProfiles)
+  workBook.xlsx.writeFile(`${plan.name.toUpperCase()} SOLUTION.xlsx`).then(() => {
     cb()
   })
 }
@@ -611,6 +725,7 @@ module.exports = {
   findOptimalSolution,
   newExportEmail,
   createExcel,
+  createSolutionExcel,
   syncChildSubscriptions,
   transformPlanToActivities
 }

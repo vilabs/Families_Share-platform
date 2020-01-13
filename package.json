@@ -6,6 +6,7 @@
     "start": "node ./src/index.js",
     "test": "nyc --reporter=lcov --reporter=text-summary mocha --timeout 20000 --exit",
     "lint": "./node_modules/.bin/eslint src",
+    "lint:fix": "./node_modules/.bin/eslint src --fix",
     "dev-server": "supervisor src/index.js",
     "dev-client": "npm start --prefix client",
     "dev": "concurrently \"npm run dev-server\" \"npm run dev-client\""
