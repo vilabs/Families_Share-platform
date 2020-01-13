@@ -1463,17 +1463,19 @@ router.patch(
           extendedProperties.shared.parents = JSON.stringify(oldParents.filter(u => u !== req.user_id))
         }
       } else {
-        if (Object.keys(adminChanges).length > 0) {
-          Object.keys(adminChanges).forEach(id => {
-            if (adminChanges[id] > 0) {
-              adminChanges[id] = 'add'
-            } else if (adminChanges[id] < 0) {
-              adminChanges[id] = 'remove'
-            } else {
-              delete adminChanges[id]
-            }
-          })
-          nh.timeslotAdminChangesNotification(summary, adminChanges, req.user_id, group_id, activity_id, timeslot_id)
+        if (adminChanges) {
+          if (Object.keys(adminChanges).length > 0) {
+            Object.keys(adminChanges).forEach(id => {
+              if (adminChanges[id] > 0) {
+                adminChanges[id] = 'add'
+              } else if (adminChanges[id] < 0) {
+                adminChanges[id] = 'remove'
+              } else {
+                delete adminChanges[id]
+              }
+            })
+            nh.timeslotAdminChangesNotification(summary, adminChanges, req.user_id, group_id, activity_id, timeslot_id)
+          }
         }
         myChildren.forEach(c => {
           if (children.includes(c) && !oldChildren.includes(c)) {
