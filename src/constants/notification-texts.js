@@ -72,7 +72,18 @@ const en = {
       header: 'Group Activities',
       description:
         ' status has now changed to '
+    },
+    {
+      header: 'Group Activities',
+      description:
+        ' has added you to timeslot '
+    },
+    {
+      header: 'Group Activities',
+      description:
+        ' has removed you from timeslot '
     }
+
   ],
   plans: [
     {
@@ -148,6 +159,16 @@ const it = {
       header: 'Attività del gruppo',
       description:
         ' è ora cambiato in '
+    },
+    {
+      header: 'Attività del gruppo',
+      description:
+        ' ti ha aggiunto alla fascia oraria '
+    },
+    {
+      header: 'Attività del gruppo',
+      description:
+        ' ti ha rimosso dalla finestra temporale '
     }
   ],
   plans: [
@@ -224,6 +245,16 @@ const nl = {
       header: 'Groepsactiviteiten',
       description:
         ' is nu gewijzigd in '
+    },
+    {
+      header: 'Groepsactiviteiten',
+      description:
+        ' heeft je toegevoegd aan tijdslot '
+    },
+    {
+      header: 'Groepsactiviteiten',
+      description:
+        ' heeft je uit het tijdslot verwijderd '
     }
   ],
   plans: [
@@ -312,6 +343,16 @@ const el = {
       header: 'Ομαδικές δραστηριότητες',
       description:
         ' άλλαξε κατάσταση σε '
+    },
+    {
+      header: 'Group Activities',
+      description:
+        ' σας πρόσθεσε στη δραστηριότητα '
+    },
+    {
+      header: 'Group Activities',
+      description:
+        ' σας αφαίρεσε από τη δραστηριότητα '
     }
   ],
   plans: [
@@ -399,6 +440,16 @@ const hu = {
       header: 'Csoporttevékenységek',
       description:
         ' most megváltozott '
+    },
+    {
+      header: 'Csoporttevékenységek',
+      description:
+        ' felvette Önt az időrészbe '
+    },
+    {
+      header: 'Csoporttevékenységek',
+      description:
+        ' eltávolította az időrésből '
     }
   ],
   plans: [

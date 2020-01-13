@@ -245,6 +245,39 @@ async function timeslotMajorChangeNotification (timeslotName, participants, grou
   await sendPushNotifications(messages)
 }
 
+async function timeslotAdminChangesNotification (timeslotName, changes, userId, groupId, activityId, timeslotId) {
+  const participants = Object.keys(changes)
+  const devices = await Device.find({ user_id: { $in: participants } })
+  const users = await User.find({ user_id: { $in: participants } })
+  const profile = await Profile.findOne({ user_id: userId })
+  const notifications = users.map(user => ({
+    owner_type: 'user',
+    owner_id: user.user_id,
+    type: 'activities',
+    code: changes[user.user_id] === 'add' ? 6 : 7,
+    read: false,
+    subject: `${profile.given_name} ${profile.family_name}`,
+    object: timeslotName
+  }))
+  await Notification.create(notifications)
+  const messages = []
+  devices.forEach(device => {
+    const language = users.find(user => user.user_id === device.user_id).language
+    messages.push({
+      to: device.device_id,
+      sound: 'default',
+      title: texts[language]['activities'][6]['header'],
+      body: `${profile.given_name} ${profile.family_name} ${
+        texts[language]['activities'][changes[device.user_id] === 'add' ? 6 : 7]['description']
+      } ${timeslotName}`,
+      data: {
+        url: `$${process.env.CITYLAB_URI}/groups/${groupId}/activities/${activityId}/timeslots/${timeslotId}`
+      }
+    })
+  })
+  await sendPushNotifications(messages)
+}
+
 async function timeslotStatusChangeNotification (timeslotName, status, participants, groupId, activityId, timeslotId) {
   const devices = await Device.find({ user_id: { $in: participants } })
   const users = await User.find({ user_id: { $in: participants } })
@@ -446,6 +479,10 @@ function getNotificationDescription (notification, language) {
           return `${subject} ${description} ${object}.`
         case 5:
           return `${subject} ${description} ${object}.`
+        case 6:
+          return `${subject} ${description} ${object}.`
+        case 7:
+          return `${subject} ${description} ${object}.`
         default:
           return ''
       }
@@ -500,5 +537,6 @@ module.exports = {
   timeslotMajorChangeNotification,
   timeslotStatusChangeNotification,
   deleteTimeslotNotification,
+  timeslotAdminChangesNotification,
   newRequestNotification
 }
