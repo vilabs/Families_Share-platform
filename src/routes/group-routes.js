@@ -25,7 +25,7 @@ const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
 const schedule = require('node-schedule')
 
-schedule.scheduleJob('10 3 * * *', () => {
+schedule.scheduleJob('10 5 * * *', () => {
   ah.checkCompletedTimeslots()
 })
 

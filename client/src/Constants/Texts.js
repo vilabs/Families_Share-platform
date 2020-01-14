@@ -1295,20 +1295,20 @@ const en = {
 
 const nl = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
+    needsHeader: "SLOT BEHOEFTEN",
+    selectFrom: "Selecteer beschikbaarheid van",
+    participating: "Plan deelnemende leden",
+    activitiesCreation: "Activiteiten maken",
+    automatically: "automatisch",
+    manually: "Handmatig",
+    available: "Slot beschikbare leden",
+    all: "Alle groepsleden",
     create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
+    discard: "Wegdoen",
+    zeroVolunteersTimeslots: "Omgaan met tijdsloten zonder vrijwilligers",
+    automaticSuccess: "Plan is met succes omgezet in activiteiten",
     manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+      "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -2545,20 +2545,19 @@ const nl = {
 
 const it = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
-    manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+    needsHeader: "ESIGENZE SLOT",
+    selectFrom: "Seleziona disponibilità da",
+    participating: "Pianifica membri partecipanti",
+    activitiesCreation: "Crea attività",
+    automatically: "Automaticamente",
+    manually: "Manualmente",
+    available: "Membri disponibili slot",
+    all: "Tutti i membri del gruppo",
+    create: "Crea",
+    discard: "Scarta",
+    zeroVolunteersTimeslots: "Gestisci timeslot senza volontari",
+    automaticSuccess: "Il piano è stato trasformato con successo in attività",
+    manualSuccess: "Presto riceverai la soluzione finale del piano via e-mail"
   },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
@@ -3814,20 +3813,20 @@ const it = {
 
 const el = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
+    needsHeader: "Ανάγκες",
+    selectFrom: "Επιλογή διαθεσιμότητας από",
+    participating: "Σχεδιάστε τα συμμετέχοντα μέλη",
+    activitiesCreation: "Δημιουργία δραστηριοτήτων",
+    automatically: "Αυτόματα",
+    manually: "Μη αυτόματα",
+    available: "διαθέσιμα μέλη υποδοχής",
+    all: "Όλα τα μέλη της ομάδας",
+    create: "Δημιουργία",
+    discard: "Απόρριψη",
+    zeroVolunteersTimeslots: "Χειριστείτε timeslots χωρίς εθελοντές",
+    automaticSuccess: "Το σχέδιο μετατράπηκε με επιτυχία σε δραστηριότητες",
     manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+      "Θα λάβετε σύντομα την τελική λύση του σχεδίου μέσω ηλεκτρονικού ταχυδρομείου"
   },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
@@ -5075,20 +5074,19 @@ const el = {
 
 const hu = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
-    manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+    needsHeader: "SLOT SZÜKSÉGEK",
+    selectFrom: "Válassza ki a elérhetőségeket a következőből",
+    participating: "A részt vevő tagok tervezése",
+    activitiesCreation: "tevékenységek létrehozása",
+    automatically: "Automatikusan",
+    manually: "Kézzel",
+    available: "rendelkezésre álló helyek tagjai",
+    all: "Összes csoport tagja",
+    create: "Létrehozás",
+    discard: "megsemmisítés",
+    zeroVolunteersTimeslots: "Időtáblák kezelése önkéntesek nélkül",
+    automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
+    manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
