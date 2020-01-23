@@ -810,7 +810,9 @@ const en = {
     exportConfirm: "Are you sure you want to export the group agenda?",
     activitiesHeader: "Activities of the group",
     plansHeader: "Pending plans",
-    export: "Export agenda"
+    export: "Export agenda",
+    newPlan: "Advanced planning",
+    newActivity: "New activity"
   },
   activityListItem: {
     every: "Every",
@@ -1141,7 +1143,8 @@ const en = {
   createActivityTimeslots: {
     header: "Add time slots to the selected days",
     differentTimeslots: "DIFFERENT TIMESLOTS FOR EACH DAY?",
-    sameTimeslots: "SAME TIMESLOTS FOR EACH DAY?"
+    sameTimeslots: "SAME TIMESLOTS FOR EACH DAY?",
+    selected: "dates selected"
   },
   timeslotsContainer: {
     addTimeslot: "ADD TIMESLOT",
@@ -1295,20 +1298,20 @@ const en = {
 
 const nl = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
+    needsHeader: "SLOT BEHOEFTEN",
+    selectFrom: "Selecteer beschikbaarheid van",
+    participating: "Plan deelnemende leden",
+    activitiesCreation: "Activiteiten maken",
+    automatically: "automatisch",
+    manually: "Handmatig",
+    available: "Slot beschikbare leden",
+    all: "Alle groepsleden",
     create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
+    discard: "Wegdoen",
+    zeroVolunteersTimeslots: "Omgaan met tijdsloten zonder vrijwilligers",
+    automaticSuccess: "Plan is met succes omgezet in activiteiten",
     manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+      "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -1414,7 +1417,7 @@ const nl = {
       "Beschikbaarheden aanpassen",
       "Beheer oplossing"
     ],
-    needsDeadline: "Je moet tot in je behoeften voorzien tot",
+    needsDeadline: "Geef je opvangnoden aan voor",
     availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
     availabilityError: "Beschikbaarheid ontbreekt voor datum",
     needError: "Ontbrekende kindopdracht voor datum",
@@ -1476,7 +1479,7 @@ const nl = {
     accompanying: "begeleidend (autodelen of pedibus)",
     entertainment: "entertainment",
     parties: "partijen of evenementen",
-    coplaying: "dag (en) samen spelen",
+    coplaying: "Bijspelen",
     other: "andere",
     category: "Type activiteit",
     addTimeslotTitle: "Nieuw Tijdslot",
@@ -1491,7 +1494,7 @@ const nl = {
     description: "Beschrijving (optioneel)",
     cost: "Kost (optioneel)",
     status: "Tijdslot status",
-    ongoing: "Voortgaande",
+    ongoing: "Bezig",
     completed: "Voltooid",
     requiredErr: "Vul alstublieft dit veld in.",
     rangeErr: "Selecteer een waarde groter dan nul.",
@@ -1501,7 +1504,7 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
-    externals: "Uiterlijkheden",
+    externals: "Externen",
     externalPlaceholder: "Externe vrijwilliger toevoegen",
     externalAvailabilities: "Voeg externe beschikbaarheden toe",
     allUsersAvailabilities: "Beschikbaarheid van gebruikers toevoegen",
@@ -1515,16 +1518,16 @@ const nl = {
     emergency: "NOODGEVAL",
     minimum: "minimum antaal",
     userAvailability: "Voeg uw beschikbaarheid toe:",
-    childrenAvailability: "Voeg uw kinderenbeschikbaarheid toe:",
-    volunteer: "vrijwilligers",
-    volunteers: "volunteers",
+    childrenAvailability: "Voeg uw kinderen toe:",
+    volunteer: "Vrijwilliger",
+    volunteers: "Vrijwilligers",
     signup: "aangemeld",
     child: "kind",
     children: "kinderen",
     userSubscribe: "Je hebt jezelf aan de activiteit toegevoegd",
     userUnsubscribe: "Je hebt jezelf van de activiteit verwijderd",
-    childSubscribe1: "Je hebt toegevoegd",
-    childSubscribe2: "naar de activiteit",
+    childSubscribe1: "Je hebt",
+    childSubscribe2: "aan de activiteit toegevoegd",
     childUnsubscribe1: "Je hebt verwijderd",
     childUnsubscribe2: "van de activiteit",
     childSubscribeConfirm1: "Weet je zeker dat je wilt toevoegen",
@@ -2089,8 +2092,10 @@ const nl = {
   groupActivities: {
     exportConfirm: "Weet u zeker dat u de groepsagenda wilt exporteren?",
     activitiesHeader: "Activiteiten van de groep",
-    plansHeader: "In afwachting van plannen",
-    export: "Exporteer agenda"
+    plansHeader: "In afwachting",
+    export: "Exporteer agenda",
+    newPlan: "Planning tool",
+    newActivity: "Nieuwe activiteit"
   },
   activityListItem: {
     every: "Elk",
@@ -2400,7 +2405,8 @@ const nl = {
   createActivityTimeslots: {
     header: "Voeg een timeslot toe aan de geselecteerde dagen",
     differentTimeslots: "Verschillende timeslots voor iedere dag?",
-    sameTimeslots: "Zelfde timeslots voor iedere dag?"
+    sameTimeslots: "Zelfde timeslots voor iedere dag?",
+    selected: "datums geselecteerd"
   },
   timeslotsContainer: {
     addTimeslot: "Voeg timeslot toe",
@@ -2489,7 +2495,7 @@ const nl = {
     accompanying: "begeleidend (autodelen of pedibus)",
     entertainment: "entertainment",
     parties: "partijen of evenementen",
-    coplaying: "dag (en) samen spelen",
+    coplaying: "Bijspelen",
     other: "andere",
     category: "Type activiteit"
   },
@@ -2513,8 +2519,8 @@ const nl = {
   confirmDialog: { agree: "Ok", disagree: "Annuleren" },
   pendingRequestsScreen: {
     requests: "Lopende verzoeken",
-    invites: "Lopende nodigt",
-    activities: "Lopende activiteiten",
+    invites: "Lopende verzoeken",
+    activities: "Activiteit aanvragen",
     confirm: "Bevestig",
     delete: "Verwijder"
   },
@@ -2545,20 +2551,19 @@ const nl = {
 
 const it = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
-    manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+    needsHeader: "ESIGENZE SLOT",
+    selectFrom: "Seleziona disponibilità da",
+    participating: "Pianifica membri partecipanti",
+    activitiesCreation: "Crea attività",
+    automatically: "Automaticamente",
+    manually: "Manualmente",
+    available: "Membri disponibili slot",
+    all: "Tutti i membri del gruppo",
+    create: "Crea",
+    discard: "Scarta",
+    zeroVolunteersTimeslots: "Gestisci timeslot senza volontari",
+    automaticSuccess: "Il piano è stato trasformato con successo in attività",
+    manualSuccess: "Presto riceverai la soluzione finale del piano via e-mail"
   },
   groupManagementScreen: {
     backNavTitle: "Gestione gruppi",
@@ -2591,7 +2596,7 @@ const it = {
     accompanying: "accompagnamento (car sharing o pedibus)",
     entertainment: "intrattenimento",
     parties: "feste o eventi",
-    coplaying: "co-play day (s)",
+    coplaying: "Giochi di gruppo",
     other: "altro",
     category: "Tipo di attività",
     backNavTitle: "Modifica piano",
@@ -2725,7 +2730,7 @@ const it = {
     accompanying: "accompagnamento (car sharing o pedibus)",
     entertainment: "intrattenimento",
     parties: "feste o eventi",
-    coplaying: "co-play day (s)",
+    coplaying: "Giochi di gruppo",
     other: "altro",
     category: "Tipo di attività",
     addTimeslotTitle: "Nuovo orario",
@@ -3335,7 +3340,9 @@ const it = {
     exportConfirm: "Sei sicuro di voler esportare l'agenda del gruppo?",
     activitiesHeader: "Attività del gruppo",
     plansHeader: "Piani in sospeso",
-    export: "Esporta l'agenda"
+    export: "Esporta l'agenda",
+    newPlan: "Pianificazione avanzata",
+    newActivity: "Nuova attività"
   },
   activityListItem: {
     every: "Ogni",
@@ -3431,8 +3438,8 @@ const it = {
       "Non sei ancora in un gruppo, usa il menu laterale per trovarne uno",
     myActivitiesPrompt:
       "Qui vedrai le tue attività future dopo esserti registrato per uno o più gruppi",
-    joinPrompt: "UNISCITI AD UN GRUPPO",
-    createPrompt: "CREA UN GRUPPO"
+    joinPrompt: "UNISCITI A UN GRUPPO",
+    createPrompt: "CREA UN NUOVO GRUPPO"
   },
   faqsScreen: {
     backNavTitle: "FAQs"
@@ -3661,7 +3668,8 @@ const it = {
   createActivityTimeslots: {
     header: "Aggiungi una fascia oraria nei giorni selezionati",
     differentTimeslots: "AGGIUNGERE ORARI DIFFERENTI PER OGNI GIORNATA?",
-    sameTimeslots: "STESSI ORARI PER OGNI GIORNATA?"
+    sameTimeslots: "STESSI ORARI PER OGNI GIORNATA?",
+    selected: "date selezionate"
   },
   timeslotsContainer: {
     addTimeslot: "AGGIUNGI ORARI",
@@ -3703,7 +3711,7 @@ const it = {
     available: "disponibile",
     all: "Tutti gli orari",
     mySigned: "Le mie adesioni",
-    myChildrenSigned: "Le mie bambini adesioni",
+    myChildrenSigned: "Le adesioni dei miei bambini",
     enough: "Con abbastanza partecipanti",
     notEnough: "Non ci sono abbastanza volontari",
     notEnoughParticipants: "Non ci sono abbastanza partecipanti"
@@ -3750,7 +3758,7 @@ const it = {
     accompanying: "accompagnamento (car sharing o pedibus)",
     entertainment: "intrattenimento",
     parties: "feste o eventi",
-    coplaying: "co-play day (s)",
+    coplaying: "Giochi di gruppo",
     other: "altro",
     category: "Tipo di attività"
   },
@@ -3814,20 +3822,20 @@ const it = {
 
 const el = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
+    needsHeader: "Ανάγκες",
+    selectFrom: "Επιλογή διαθεσιμότητας από",
+    participating: "Σχεδιάστε τα συμμετέχοντα μέλη",
+    activitiesCreation: "Δημιουργία δραστηριοτήτων",
+    automatically: "Αυτόματα",
+    manually: "Μη αυτόματα",
+    available: "διαθέσιμα μέλη υποδοχής",
+    all: "Όλα τα μέλη της ομάδας",
+    create: "Δημιουργία",
+    discard: "Απόρριψη",
+    zeroVolunteersTimeslots: "Χειριστείτε timeslots χωρίς εθελοντές",
+    automaticSuccess: "Το σχέδιο μετατράπηκε με επιτυχία σε δραστηριότητες",
     manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+      "Θα λάβετε σύντομα την τελική λύση του σχεδίου μέσω ηλεκτρονικού ταχυδρομείου"
   },
   groupManagementScreen: {
     backNavTitle: "Διαχείριση Ομάδας",
@@ -3862,24 +3870,24 @@ const el = {
     parties: "Πάρτι ή εκδηλώσεις",
     coplaying: "Μέρες co-playing",
     other: "Άλλη",
-    category: "Type of activity",
-    backNavTitle: "Edit Plan",
-    ratio: "Children to parents ratio",
-    minVolunteers: "Minimum Volunteers",
-    deadline: "Deadline",
-    needsState: "Provide Needs",
-    availabilitiesState: "Provide Availabilities",
-    planningState: "Create Plan",
-    creationState: "Create Activities",
-    state: "Plan State",
+    category: "Κατηγορία δραστηριότητας",
+    backNavTitle: "Επεξεργασία Σχεδίου",
+    ratio: "Αναλογία γονένων - παιδιών",
+    minVolunteers: "Ελάχιστος αριθμός εθελοντών",
+    deadline: "Διορία",
+    needsState: "Συμπλήρωση αναγκών",
+    availabilitiesState: "Συμπλήρωση διαθεσιμοτήτων",
+    planningState: "Δημιουργία σχεδίου",
+    creationState: "Δημιουργία Δραστηριοτήτων",
+    state: "Κατάσταση σχεδίου",
     needsStateHelper:
-      "In needs phase the users select the dates that they will need childcare. In this state availabilities phase is locked.",
+      "Στη φάση συμπλήρωσης αναγκών οι χρήστες επιλέγουν τις ημερομηνίες που χρειάζονται παιδική μέριμνα. Σε αυτή τη φάση οι διαθεσιμότητες είναι κλειδωμένες.",
     availabilitiesStateHelper:
-      "In availabilities phase the users select the dates that they are available for childcare. In this state needs phase is locked.",
+      "Στη φάση συμπλήρωσης διαθεσιμοτήτων οι χρήστες επιλέγουν τις ημερομηνίες που είναι διαθέσιμοι για παιδική μέριμνα. Σε αυτή τη φάση οι ανάγκες είναι κλειδωμένες.",
     planningStateHelper:
-      "In planning phase the Families Share Algorithm creates an optimal plan based on the given needs and availabilities.",
+      "Σε αυτή τη φάση ο αλγόριθμος δημιουργεί ένα βέλτιστο σχέδιο με βάση τις ανάγκες και τις διαθεσιμότητες.",
     creationStateHelper:
-      "In creation phase the optimal plan gets transformed into activities."
+      "Στη φάση της δημιουργίας το βέλτιστο σχέδιο μετατρέπεται σε δραστηριότητες."
   },
   createPlanStepper: {
     name: "Όνομα",
@@ -4609,7 +4617,9 @@ const el = {
       "Είστε σίγουροι ότι θέλετε να εξάγετε το ημερολόγιο της ομάδας",
     activitiesHeader: "Δραστηριότητες της ομάδας",
     plansHeader: "Εκκρεμή σχέδια",
-    export: "Εξαγωγή Ημερολογίου"
+    export: "Εξαγωγή Ημερολογίου",
+    newPlan: "Νέο σχέδιο",
+    newActivity: "Νέα δραστηριότητα"
   },
   activityListItem: {
     every: "Κάθε",
@@ -4924,7 +4934,8 @@ const el = {
   createActivityTimeslots: {
     header: "Προσθέστε χρονική περίοδο στις επιλεγμένες ημέρες",
     differentTimeslots: "ΔΙΑΦΟΡΕΤΙΚΗ ΧΡΟΝΙΚΗ ΠΕΡΙΟΔΟΣ ΓΙΑ ΚΑΘΕ ΗΜΕΡΑ;",
-    sameTimeslots: "ΙΔΙΑ ΧΡΟΝΙΚΗ ΠΕΡΙΟΔΟΣ ΓΙΑ ΚΆΘΕ ΗΜΕΡΑ;"
+    sameTimeslots: "ΙΔΙΑ ΧΡΟΝΙΚΗ ΠΕΡΙΟΔΟΣ ΓΙΑ ΚΆΘΕ ΗΜΕΡΑ;",
+    selected: "ημερομηνίες επιλέχθηκαν"
   },
   timeslotsContainer: {
     addTimeslot: "Προσθήκη χρονικής περιόδου",
@@ -5075,20 +5086,19 @@ const el = {
 
 const hu = {
   managePlanSolution: {
-    needsHeader: "SLOT NEEDS",
-    selectFrom: "Select availabilities from",
-    participating: "Plan participating members",
-    available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
-    automaticSuccess: "Plan was successfully transformed to activities",
-    manualSuccess:
-      "You will soon receive the final solution of the plan via email"
+    needsHeader: "SLOT SZÜKSÉGEK",
+    selectFrom: "Válassza ki a elérhetőségeket a következőből",
+    participating: "A részt vevő tagok tervezése",
+    activitiesCreation: "tevékenységek létrehozása",
+    automatically: "Automatikusan",
+    manually: "Kézzel",
+    available: "rendelkezésre álló helyek tagjai",
+    all: "Összes csoport tagja",
+    create: "Létrehozás",
+    discard: "megsemmisítés",
+    zeroVolunteersTimeslots: "Időtáblák kezelése önkéntesek nélkül",
+    automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
+    manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását"
   },
   groupManagementScreen: {
     backNavTitle: "Csoportkezelés",
@@ -5874,7 +5884,9 @@ const hu = {
     exportConfirm: "Biztosan exportálni akarja a csoport napirendjét?",
     activitiesHeader: "A csoport tevékenységei",
     plansHeader: "Függőben lévő tervek",
-    export: "Program exportálása"
+    export: "Program exportálása",
+    newPlan: "Speciális tervezés",
+    newActivity: "Új tevékenység"
   },
   activityListItem: {
     every: "Mindegyik",
@@ -6221,7 +6233,8 @@ const hu = {
   createActivityTimeslots: {
     header: "Adjon hozzá időpontokat a kiválasztott napokhoz",
     differentTimeslots: "Naponta különböző időpontok?",
-    sameTimeslots: "Ugyanazon időpontok minden nap?"
+    sameTimeslots: "Ugyanazon időpontok minden nap?",
+    selected: "dátumok kiválasztása"
   },
   timeslotsContainer: {
     addTimeslot: "Időpont hozzáadása",

@@ -57,6 +57,7 @@ const findOptimalSolution = (plan) => {
       slots.push(`${moment(n.day).format('DD MMM YYYY')}-PM`)
       n.children.forEach(c => {
         connections[p.user_id].push(c)
+        connections[p.user_id].push(c)
         people.push({ id: c, type: 'child' })
       })
     })
@@ -111,7 +112,6 @@ const findOptimalSolution = (plan) => {
   })
   // filter subscriptions to remove unnecessary slots
   subscriptions = subscriptions.filter(s => s.children.length > 0)
-
   // Create useful statistics
   const needCoverage = {} // percentage of parents needs that have been covered
   const totalContribution = {} // parents total contribution % to all slots
@@ -122,7 +122,7 @@ const findOptimalSolution = (plan) => {
     totalContribution[parentId] = 0
   })
   subscriptions.forEach(slot => {
-    slot.isOptimal = slot.volunteers.length >= plan.min_volunteers && (slot.volunteers.length / slot.children.length) >= (1 / plan.ratio)
+    slot.isOptimal = (slot.volunteers.length >= plan.min_volunteers) && (slot.volunteers.length / slot.children.length) >= (1 / plan.ratio)
     slot.volunteers.forEach(parent => {
       if (slot.isOptimal) {
         fulfilledContribution[parent] += 1
@@ -131,9 +131,8 @@ const findOptimalSolution = (plan) => {
             needCoverage[parent] += 1
           }
         })
-      } else {
-        totalContribution[parent] += 1
       }
+      totalContribution[parent] += 1
     })
   })
   // turning metric values to percentages
@@ -148,12 +147,15 @@ const findOptimalSolution = (plan) => {
         fulfilledContribution[parent] = 0
       }
     } else {
-      needCoverage[parent] = 100 // should further elaborate on this
+      needCoverage[parent] = 1 // should further elaborate on this
     }
   })
   // removing redundant parents
   subscriptions.forEach(slot => {
-    const redundantParents = Math.floor(slot.volunteers.length - slot.children.length * (1 / plan.ratio))
+    const redundantParents = Math.min(
+      plan.min_volunteers - slot.volunteers.length,
+      Math.floor(slot.volunteers.length - slot.children.length * (1 / plan.ratio))
+    )
     if (redundantParents > 0) {
       slot.volunteers = slot.volunteers.sort((a, b) => {
       // ranking parents . can abstract code to a different function
@@ -168,8 +170,10 @@ const findOptimalSolution = (plan) => {
           const needCoverageRanking = needCoverage[b] - needCoverage[a]
           if (needCoverageRanking > 0) {
             return 1
-          } else {
+          } else if (needCoverageRanking < 0) {
             return -1
+          } else {
+            return 0
           }
         }
       }).splice(0, slot.volunteers.length - redundantParents)

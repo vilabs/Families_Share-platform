@@ -653,7 +653,7 @@ class ManagePlanStepper extends React.Component {
   };
 
   render() {
-    const { classes, language } = this.props;
+    const { classes, language, userIsAdmin } = this.props;
     const texts = Texts[language].managePlanStepper;
     const steps = texts.stepLabels;
     const {
@@ -666,35 +666,38 @@ class ManagePlanStepper extends React.Component {
       <div className={classes.root}>
         <MuiThemeProvider theme={muiTheme}>
           <Stepper activeStep={activeStep} orientation="vertical">
-            {steps.map(label => {
-              return (
-                <Step key={label}>
-                  <StepLabel className={classes.stepLabel}>{label}</StepLabel>
-                  <StepContent>
-                    {this.getStepContent()}
-                    <div className={classes.actionsContainer}>
-                      <div>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={this.handleContinue}
-                          className={classes.continueButton}
-                        >
-                          {this.getContinueText(activeStep, planStep)}
-                        </Button>
-                        <Button
-                          disabled={activeStep === 0 || activeStep <= planStep}
-                          onClick={this.handleCancel}
-                          className={classes.cancelButton}
-                        >
-                          {texts.cancel}
-                        </Button>
+            {steps.map(
+              (label, index) =>
+                (index < 4 || userIsAdmin) && (
+                  <Step key={label}>
+                    <StepLabel className={classes.stepLabel}>{label}</StepLabel>
+                    <StepContent>
+                      {this.getStepContent()}
+                      <div className={classes.actionsContainer}>
+                        <div>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={this.handleContinue}
+                            className={classes.continueButton}
+                          >
+                            {this.getContinueText(activeStep, planStep)}
+                          </Button>
+                          <Button
+                            disabled={
+                              activeStep === 0 || activeStep <= planStep
+                            }
+                            onClick={this.handleCancel}
+                            className={classes.cancelButton}
+                          >
+                            {texts.cancel}
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  </StepContent>
-                </Step>
-              );
-            })}
+                    </StepContent>
+                  </Step>
+                )
+            )}
           </Stepper>
         </MuiThemeProvider>
       </div>
@@ -713,7 +716,8 @@ ManagePlanStepper.propTypes = {
   myChildren: PropTypes.array,
   enqueueSnackbar: PropTypes.func,
   parentsProfiles: PropTypes.array,
-  childrenProfiles: PropTypes.array
+  childrenProfiles: PropTypes.array,
+  userIsAdmin: PropTypes.bool
 };
 export default withSnackbar(
   withRouter(withLanguage(withStyles(styles)(ManagePlanStepper)))

@@ -25,7 +25,7 @@ const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
 const schedule = require('node-schedule')
 
-schedule.scheduleJob('10 3 * * *', () => {
+schedule.scheduleJob('10 5 * * *', () => {
   ah.checkCompletedTimeslots()
 })
 
@@ -914,7 +914,8 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
       nh.planStateNotification(plan.name, updatedPlan.participants.map(p => p.user_id), updatedPlan.state, groupId, planId)
     }
     if (updatedPlan.state === 'planning') {
-      updatedPlan.solution = ph.findOptimalSolution(updatedPlan)
+      const updatedPlanObj = await updatedPlan.toJSON()
+      updatedPlan.solution = ph.findOptimalSolution(updatedPlanObj)
       await updatedPlan.save()
     }
     return res.status(200).send('Plan was updated')

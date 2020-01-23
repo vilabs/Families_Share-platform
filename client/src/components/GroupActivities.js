@@ -286,7 +286,7 @@ class GroupActivities extends React.Component {
                 alignItems: "center"
               }}
             >
-              <div className=" activitiesFabLabel">New activity</div>
+              <div className=" activitiesFabLabel">{texts.newActivity}</div>
               <Fab
                 color="primary"
                 aria-label="addActivity"
@@ -306,7 +306,7 @@ class GroupActivities extends React.Component {
                 alignItems: "center"
               }}
             >
-              <div className=" activitiesFabLabel">Advanced planning</div>
+              <div className=" activitiesFabLabel">{texts.newPlan}</div>
               <Fab
                 color="primary"
                 aria-label="addPlan"

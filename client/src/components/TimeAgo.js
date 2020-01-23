@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import withLanguage from "./LanguageContext";
 
-moment.locale("en");
-
 const TimeAgo = ({ date }) => {
   return <h2 className="timeAgo">{moment(date).fromNow()}</h2>;
 };

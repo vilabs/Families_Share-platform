@@ -27,7 +27,8 @@ class CreateActivityTimeslots extends React.Component {
       differentTimeslots,
       activityTimeslots
     } = this.state;
-    const { activityName, activityLocation } = this.props;
+    const { activityName, activityLocation, language } = this.props;
+    const texts = Texts[language].createActivityTimeslots;
     let header = "";
     if (numberOfDays > 1) {
       if (differentTimeslots) {
@@ -51,7 +52,7 @@ class CreateActivityTimeslots extends React.Component {
           </ul>
         );
       }
-      header = `${dates.length} dates selected`;
+      header = `${dates.length} ${texts.selected}`;
       return (
         <TimeslotsContainer
           activityName={activityName}

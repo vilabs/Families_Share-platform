@@ -209,7 +209,7 @@ class TimeslotsContainer extends React.Component {
           <div className="col-3-10">
             <h1 className="verticalCenter">
               {`${timeslots.length} ${
-                timeslots.length > 1 ? texts.timeslots : texts.timeslot
+                timeslots.length === 1 ? texts.timeslot : texts.timeslots
               }`}
             </h1>
           </div>
