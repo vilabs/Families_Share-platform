@@ -400,10 +400,13 @@ class ManagePlanStepper extends React.Component {
     }
     const { plan } = this.state;
     if (!selected) {
-      plan.participant.availabilities.push({
-        day,
-        meridiem: "both"
-      });
+      plan.participant.availabilities = [
+        ...plan.participant.availabilities,
+        {
+          day,
+          meridiem: "both"
+        }
+      ].sort((a, b) => new Date(a.day) - new Date(b.day));
     } else {
       plan.participant.availabilities = plan.participant.availabilities.filter(
         n => n.day.getTime() !== day.getTime()
@@ -466,7 +469,7 @@ class ManagePlanStepper extends React.Component {
     needDates = [...new Set(needDates)];
     const start = moment(from);
     const end = moment(to);
-    const allDates = [start.format("DD-MMNM-YYYY")];
+    const allDates = [start.format("DD-MMMM-YYYY")];
     while (start.add(1, "days").diff(end) <= 0) {
       allDates.push(start.clone().format("DD-MMMM-YYYY"));
     }

@@ -346,10 +346,7 @@ class EditTimeslotScreen extends React.Component {
     const { action } = this.props;
     const { name, value } = event.target;
     if (action === "edit") {
-      if (
-        (name === "startTime" || name === "endTime" || name === "date") &&
-        !notifyUsers
-      ) {
+      if (name === "date" && !notifyUsers) {
         this.setState({ [name]: value, notifyUsers: true, madeChanges: true });
       } else {
         this.setState({ [name]: value, madeChanges: true });
