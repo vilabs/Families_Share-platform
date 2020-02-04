@@ -95,6 +95,41 @@ async function newAnnouncementNotification (group_id, user_id) {
   }
 };
 
+async function newReplyNotification (group_id, user_id) {
+  const object = await Group.findOne({ group_id })
+  const subject = await Profile.findOne({ user_id })
+  const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true }).distinct('user_id')
+  const users = await User.find({ user_id: { $in: members } })
+  const devices = await Device.find({ user_id: { $in: members } })
+  if (subject && object) {
+    const notifications = []
+    members.forEach(member => {
+      notifications.push({
+        owner_type: 'user',
+        owner_id: member,
+        type: 'announcements',
+        code: 1,
+        read: false,
+        subject: `${subject.given_name} ${subject.family_name}`,
+        object: `${object.name}`
+      })
+    })
+    await Notification.create(notifications)
+    const messages = []
+    devices.forEach(device => {
+      const language = users.filter(user => user.user_id === device.user_id)[0].language
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: texts[language]['announcements'][1]['header'],
+        body: `${subject.given_name} ${subject.family_name} ${texts[language]['announcements'][1]['description']} ${object.name}`,
+        data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/chat` }
+      })
+    })
+    await sendPushNotifications(messages)
+  }
+};
+
 async function editGroupNotification (group_id, user_id, changes) {
   const group = await Group.findOne({ group_id })
   const settings = await Settings.findOne({ group_id })
@@ -497,6 +532,8 @@ function getNotificationDescription (notification, language) {
       switch (code) {
         case 0:
           return `${subject} ${description} ${object}.`
+        case 1:
+          return `${subject} ${description} ${object}.`
         default:
           return ''
       }
@@ -538,5 +575,6 @@ module.exports = {
   timeslotStatusChangeNotification,
   deleteTimeslotNotification,
   timeslotAdminChangesNotification,
-  newRequestNotification
+  newRequestNotification,
+  newReplyNotification
 }

@@ -95,6 +95,10 @@ const en = {
     {
       header: 'Group Announcements',
       description: ' posted a new announcement in group '
+    },
+    {
+      header: 'Group Announcements',
+      description: ' posted a new reply in group '
     }
   ]
 }
@@ -181,6 +185,10 @@ const it = {
     {
       header: 'Avvisi del gruppo',
       description: 'ha inserito un nuovo avviso nel gruppo'
+    },
+    {
+      header: 'Avvisi del gruppo',
+      description: 'ha pubblicato una nuova risposta '
     }
   ]
 }
@@ -267,6 +275,10 @@ const nl = {
     {
       header: 'Groepsmededelingen ',
       description: ' heeft een nieuwe mededeling geplaatst in de groep'
+    },
+    {
+      header: 'Groepsmededelingen ',
+      description: ' heeft een nieuw antwoord geplaatst '
     }
   ]
 }
@@ -365,6 +377,10 @@ const el = {
     {
       header: 'Ανακοινώσεις Ομάδας',
       description: '  δημοσίευσε μια νέα ανακοίνωση στην ομάδα'
+    },
+    {
+      header: 'Ανακοινώσεις Ομάδας',
+      description: '  δημοσίευσε ένα νέο σχόλιο στην ομάδα'
     }
   ]
 }
@@ -462,6 +478,10 @@ const hu = {
     {
       'header': 'Csoport bejelentések',
       'description': 'Új bejegyzést osztott meg a csoporton belül'
+    },
+    {
+      'header': 'Csoport bejelentések',
+      'description': ' új választ írt '
     }
   ]
 }

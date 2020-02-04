@@ -1745,38 +1745,38 @@ router.delete(
 
 router.post(
   '/:groupId/announcements/:announcementId/replies',
-  (req, res, next) => {
+  async (req, res, next) => {
     if (!req.user_id) {
       return res.status(401).send('Not authenticated')
     }
     const announcement_id = req.params.announcementId
     const group_id = req.params.groupId
     const user_id = req.user_id
-    Member.findOne({
-      group_id,
-      user_id,
-      group_accepted: true,
-      user_accepted: true
-    })
-      .then(member => {
-        if (!member) {
-          return res.status(401).send('Unauthorized')
-        }
-        if (!req.body.message) {
-          return res.status(400).send('Bad Request')
-        }
-        const reply = {
-          announcement_id,
-          body: req.body.message,
-          user_id
-        }
-        return Reply.create(reply).then(() => {
-          res.status(200).send('Reply was posted')
-        })
+    try {
+      const member = await Member.findOne({
+        group_id,
+        user_id,
+        group_accepted: true,
+        user_accepted: true
       })
-      .catch(next)
-  }
-)
+      if (!member) {
+        return res.status(401).send('Unauthorized')
+      }
+      if (!req.body.message) {
+        return res.status(400).send('Bad Request')
+      }
+      const reply = {
+        announcement_id,
+        body: req.body.message,
+        user_id
+      }
+      await Reply.create(reply)
+      await nh.newReplyNotification(group_id, req.user_id)
+      res.status(200).send('Reply was posted')
+    } catch (error) {
+      next(error)
+    }
+  })
 
 router.get(
   '/:groupId/announcements/:announcementId/replies',
