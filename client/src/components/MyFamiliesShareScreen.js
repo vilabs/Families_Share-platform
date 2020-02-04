@@ -45,6 +45,18 @@ const getMyUnreadNotifications = userId => {
       return 0;
     });
 };
+
+const updateDeviceToken = (userId, deviceToken) => {
+  return axios
+    .post(`/api/users/${userId}/deviceToken`, {
+      body: { deviceToken }
+    })
+    .then()
+    .catch(error => {
+      Log.error(error);
+    });
+};
+
 class MyFamiliesShareScreen extends React.Component {
   constructor() {
     super();
@@ -57,7 +69,11 @@ class MyFamiliesShareScreen extends React.Component {
   }
 
   async componentDidMount() {
+    const deviceToken = localStorage.getItem("deviceToken");
     const userId = JSON.parse(localStorage.getItem("user")).id;
+    if (deviceToken !== undefined && deviceToken !== "undefined") {
+      await updateDeviceToken(userId, deviceToken);
+    }
     const groups = await getMyGroups(userId);
     const myGroups = groups
       .filter(group => group.user_accepted && group.group_accepted)

@@ -509,6 +509,18 @@ router.delete('/:id', async (req, res, next) => {
   }
 })
 
+router.post('/:id/deviceToken', async (req, res, next) => {
+  const { id: user_id } = req.params
+  const { deviceToken: device_id } = req.body
+  const token = await Device.findOne({ user_id, device_id })
+  if (token) {
+    return res.status(409).send('Token exists')
+  } else {
+    await Device.create({ user_id, device_id })
+    res.status(200).send('Token updated successfully')
+  }
+})
+
 router.post('/:id/requestlink', async (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
   try {
