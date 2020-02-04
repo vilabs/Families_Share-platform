@@ -49,7 +49,7 @@ const getMyUnreadNotifications = userId => {
 const updateDeviceToken = (userId, deviceToken) => {
   return axios
     .post(`/api/users/${userId}/deviceToken`, {
-      body: { deviceToken }
+      deviceToken
     })
     .then()
     .catch(error => {
