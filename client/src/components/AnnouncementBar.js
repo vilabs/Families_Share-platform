@@ -157,7 +157,7 @@ class AnnouncementBar extends React.Component {
                     tabIndex="-1"
                     className="fas fa-camera"
                     onClick={() =>
-                      window.isNative ? this.handleNativeImageChange : {}
+                      window.isNative ? this.handleNativeImageChange() : {}
                     }
                   />
                   {!window.isNative && (
