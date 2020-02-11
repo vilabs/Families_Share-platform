@@ -1351,11 +1351,11 @@ const nl = {
     ratio: "ratio kinderen tot ouders",
     minVolunteers: "Minimum vrijwilligers",
     deadline: "Deadline",
-    needsState: "Zorg voor behoeften",
-    availabilitiesState: "Beschikbaarheid bieden",
+    needsState: "Behoeften aangeven",
+    availabilitiesState: "Beschikbaarheid aangeven",
     planningState: "Plan maken",
     creationState: "Activiteiten maken",
-    state: "Planstaat",
+    state: "Planingsfase",
     needsStateHelper:
       "In de behoeftenfase selecteren de gebruikers de datums waarop zij kinderopvang nodig hebben. In deze status is de beschikbaarheidsfase vergrendeld.",
     availabilitiesStateHelper:
@@ -1425,9 +1425,9 @@ const nl = {
     availabilitiesSuccess: "U hebt met succes uw beschikbaarheden toegevoegd"
   },
   planListItem: {
-    participantsNeeds: "leden hebben specifieke behoeften",
+    participantsNeeds: "leden hebben hun behoeften aangegeven",
     participantNeeds: "lid heeft behoeften aangegeven",
-    participantsAvailabilities: "leden hebben beschikbaarheid opgegeven",
+    participantsAvailabilities: "leden hebben hun beschikbaarheid aangegeven",
     participantAvailabilities: "lid heeft gespecificeerde beschikbaarheden",
     needsPhase: "Behoeften aangeven",
     availabilitiesPhase: "Beschikbaarheden aangeven",
@@ -1488,7 +1488,7 @@ const nl = {
     to: "Tot",
     date: "Datum",
     parents: "Benodigde ouders",
-    children: "Benodigde kinderen",
+    children: "Min. aantal kinderen",
     name: "Titel",
     location: "Locatie",
     description: "Beschrijving (optioneel)",
@@ -1539,7 +1539,8 @@ const nl = {
     userSubscribeConfirm:
       "Weet je zeker dat je jezelf wilt toevoegen aan de activiteit?",
     userUnsubscribeConfirm:
-      "Weet u zeker dat u uzelf uit de activiteit wilt verwijderen?"
+      "Weet u zeker dat u uzelf uit de activiteit wilt verwijderen?",
+    admins: "Groep admins"
   },
   timeslotPreview: {
     confirmed: "Bevestigd",
