@@ -9,7 +9,7 @@ import Faqs from "../Constants/Faqs";
 
 const FaqsScreen = ({ language, history }) => {
   const texts = Texts[language].faqsScreen;
-  const faqs = Faqs[process.env.REACT_APP_CITYLAB_NAME][language];
+  const faqs = Faqs[process.env.REACT_APP_CITYLAB][language];
   return (
     <div>
       <BackNavigation
