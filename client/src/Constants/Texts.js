@@ -5168,9 +5168,9 @@ const hu = {
     save: "Mentés",
     stepLabels: [
       "Adjon címet a tervezett tevékenységnek",
-      "Dátumtartomány beállítása",
-      "Biztosítson határidőt",
-      "Adja meg a helyet"
+      "Állítsa be a tevékenység(ek) tervezett időszakát!",
+      "Adjon meg egy határidőt, amíg visszajelezhetnek a csoporttagok!",
+      "Adja meg a tevékenység tervezett helyszínét!"
     ]
   },
   managePlanScreen: {
@@ -5191,7 +5191,7 @@ const hu = {
     previousPhase: "Előző szakasz",
     finishPlan: "Tevékenységek létrehozása",
     continue: "Folytatás",
-    cancel: "Cancel",
+    cancel: "Visszavonás",
     finish: "Küldés",
     create: "Tevékenységek létrehozása",
     link: "Fogadási link",
@@ -5302,7 +5302,7 @@ const hu = {
     parentUnsubscribe2: "a tevékenységről",
     phoneConfirm: "Hívás",
     copy: "A számot a vágólapra másolta",
-    emergency: "VESZHELYZET",
+    emergency: "Vészhelyzet",
     minimum: "minimum érték",
     userAvailability: "Adja meg saját elérhetőségét",
     childrenAvailability: "Adja meg gyermeke elérhetőségét",
@@ -5902,16 +5902,15 @@ const hu = {
   groupInfo: {
     contactMessage: "Az információ másolása a vágólapra",
     contact: "KOZLES",
-    startGuideHeader: "Nem tudja hogyan kezdje el?",
-    startGuideInfo:
-      "Nézze meg a kezdő felhasználóknak szóló,  7 lépéses útmutatónkat!",
+    startGuideHeader: "Segítségre van szüksége a kezdéshez?",
+    startGuideInfo: "Nézze meg 7 lépéses útmutatónkat!",
     join: "Csatlakozás",
     leave: "Kilépés",
     pending: "Igénylés visszavonása",
     confirm: "Biztosan ki szeretne lépni a csoportból?"
   },
   groupNavbar: {
-    chatTab: "Uzenetek",
+    chatTab: "Üzenetek",
     activitiesTab: "Tevékenységek",
     membersTab: "Tagok",
     infoTab: "A csoportról",
@@ -5950,19 +5949,20 @@ const hu = {
     backNavTitle: "Kezdő felhasználóknak szóló útmutató",
     guide: [
       {
-        main: "Hírdesse meg a kezdeményezést baráti körében",
+        main:
+          "Hírdesse meg a kezdeményezést barátai, ismerősei, munkatársai, szomszédai körében",
         secondary: null
       },
       {
-        main: "Egyesítse az első érdeklődőket",
+        main: "Kapcsolja össze az érdeklődőket egy csoportban",
         secondary: null
       },
       {
-        main: "Határozza meg a helyszínt!",
+        main: "Határozza meg a programok helyszínét",
         secondary: null
       },
       {
-        main: "Kezdeményezzen belső egyeztetéseket",
+        main: "Egyeztessen a csoporttagokkal a részletekről",
         secondary: null
       },
       {
@@ -5970,11 +5970,11 @@ const hu = {
         secondary: null
       },
       {
-        main: "Indulás!",
+        main: "Tegye közzé a tevékenységet!",
         secondary: null
       },
       {
-        main: "Üdvözöljük!",
+        main: "Indulhat a program, jó szórakozást!",
         secondary: null
       }
     ]
@@ -5983,8 +5983,8 @@ const hu = {
     backNavTitle: "Értesítés"
   },
   myFamiliesShareHeader: {
-    confirmDialogTitle: "Küldjünk Önnek összefoglalót e-mail címére?",
-    walkthrough: "Útmutató kezdő felhasználók számára",
+    confirmDialogTitle: "Küldjünk Önnek egy bemutató anyagot e-mail címére?",
+    walkthrough: "Útmutató a használathoz",
     rating: "Értékeljen minket!",
     header: "Saját Families_Share-m",
     homeButton: "Főoldal",
@@ -6247,7 +6247,7 @@ const hu = {
   clockModal: {
     am: "Délelőtt",
     pm: "Délután",
-    start: "Indulás! / Kezdés",
+    start: "Tegye közzé a tevékenységet! / Kezdés",
     end: "Szerkesztés",
     confirm: "OK",
     cancel: "Visszavonás"
@@ -6302,8 +6302,8 @@ const hu = {
     details: "Részletek",
     from: "tól ",
     to: "ig",
-    parents: "Szükséges szülők száma",
-    children: "Szükséges gyermekek száma",
+    parents: "A tevékenységhez szükséges szülők száma",
+    children: "A tevékenységhez szükséges gyermekek száma",
     footer: null,
     name:
       "A változtatások csak az időszakot érintik és nem vonatkoznak a tevékenységre",
