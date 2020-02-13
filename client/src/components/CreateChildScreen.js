@@ -182,8 +182,19 @@ class CreateChildScreen extends React.Component {
       acceptTerms
     } = this.state;
     const formClass = [];
+    console.log(
+      `01 ${moment()
+        .month(month)
+        .format("MMM")} ${year}`
+    );
     const dates = [
-      ...Array(moment(`${year}-${month}-01`).daysInMonth()).keys()
+      ...Array(
+        moment(`
+          01 
+          ${moment()
+            .month(month - 1)
+            .format("MMM")} ${year}`).daysInMonth()
+      ).keys()
     ].map(x => x + 1);
     const months = [...Array(12).keys()].map(x => x + 1);
     const years = [...Array(18).keys()].map(x => x + (moment().year() - 17));
