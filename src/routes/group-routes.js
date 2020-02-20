@@ -1463,6 +1463,14 @@ router.patch(
         } else {
           extendedProperties.shared.parents = JSON.stringify(oldParents.filter(u => u !== req.user_id))
         }
+        myChildren.forEach(c => {
+          if (children.includes(c) && !oldChildren.includes(c)) {
+            oldChildren.push(c)
+          } else if (!children.includes(c) && oldChildren.includes(c)) {
+            oldChildren.splice(oldChildren.indexOf(c), 1)
+          }
+        })
+        extendedProperties.shared.children = JSON.stringify(oldChildren)
       } else {
         if (adminChanges) {
           if (Object.keys(adminChanges).length > 0) {
@@ -1478,14 +1486,6 @@ router.patch(
             nh.timeslotAdminChangesNotification(summary, adminChanges, req.user_id, group_id, activity_id, timeslot_id)
           }
         }
-        myChildren.forEach(c => {
-          if (children.includes(c) && !oldChildren.includes(c)) {
-            oldChildren.push(c)
-          } else if (!children.includes(c) && oldChildren.includes(c)) {
-            oldChildren.splice(oldChildren.indexOf(c), 1)
-          }
-        })
-        extendedProperties.shared.children = JSON.stringify(oldChildren)
       }
       const externals = JSON.parse(extendedProperties.shared.externals || '[]')
       const volunteersReq =

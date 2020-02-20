@@ -4,12 +4,23 @@ import { withRouter } from "react-router-dom";
 import moment from "moment";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+import ParticipantsDialog from "./ParticipantsDialog";
 
 class PlanListItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { plan: props.plan };
+    this.state = { plan: props.plan, participantsModalIsOpen: false };
   }
+
+  handleParticipantsModalClose = () => {
+    this.setState({ participantsModalIsOpen: false });
+  };
+
+  handleParticipantsModalOpen = e => {
+    e.stopPropagation();
+
+    this.setState({ participantsModalIsOpen: true });
+  };
 
   handlePlanClick = () => {
     const { history, groupId } = this.props;
@@ -24,13 +35,14 @@ class PlanListItem extends React.Component {
     const { language } = this.props;
     const texts = Texts[language].planListItem;
     if (plan.state === "needs") {
-      const needsLength = plan.participants.length;
+      const needsLength = plan.participants.filter(p => p.needs.length > 0)
+        .length;
       return `${needsLength} ${
         needsLength === 1 ? texts.participantNeeds : texts.participantsNeeds
       }`;
     }
     const availabilitiesLength = plan.participants.filter(
-      p => p.needs.length > 0
+      p => p.availabilities.length > 0
     ).length;
     return `${availabilitiesLength} ${
       availabilitiesLength === 1
@@ -40,15 +52,18 @@ class PlanListItem extends React.Component {
   };
 
   render() {
-    const { plan } = this.state;
+    const { plan, participantsModalIsOpen } = this.state;
     const { language } = this.props;
     const texts = Texts[language].planListItem;
+    const participants = (plan.state === "availabilities"
+      ? plan.participants.filter(p => p.availabilities.length > 0)
+      : plan.participants.filter(p => p.needs.length > 0)
+    ).map(participant => participant.user_id);
     return (
       <React.Fragment>
         <div
           role="button"
           tabIndex="0"
-          onKeyPress={this.handleActivityClick}
           className="row no-gutters"
           style={{ minHheight: "7rem", cursor: "pointer" }}
           id={plan.plan_id}
@@ -93,6 +108,15 @@ class PlanListItem extends React.Component {
                     style={{ marginRight: "1rem" }}
                   />
                   <h2>{this.renderParticipantText()}</h2>
+                  {participants.length > 0 && (
+                    <i
+                      className="fas fa-eye"
+                      style={{ marginLeft: "1rem" }}
+                      onClick={this.handleParticipantsModalOpen}
+                      role="button"
+                      tabIndex={-42}
+                    />
+                  )}
                 </div>
               )}
             </div>
@@ -107,6 +131,11 @@ class PlanListItem extends React.Component {
             />
           </div>
         </div>
+        <ParticipantsDialog
+          isOpen={participantsModalIsOpen}
+          handleClose={this.handleParticipantsModalClose}
+          participants={participants}
+        />
       </React.Fragment>
     );
   }

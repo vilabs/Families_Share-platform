@@ -3,6 +3,10 @@
 const React = require("react");
 
 const en = {
+  participantsModal: {
+    header: "Participants",
+    cancel: "Close"
+  },
   managePlanSolution: {
     needsHeader: "SLOT NEEDS",
     selectFrom: "Select availabilities from",
@@ -1297,6 +1301,10 @@ const en = {
 };
 
 const nl = {
+  participantsModal: {
+    header: "Deelnemers",
+    cancel: "Sluiten"
+  },
   managePlanSolution: {
     needsHeader: "SLOT BEHOEFTEN",
     selectFrom: "Selecteer beschikbaarheid van",
@@ -2551,6 +2559,10 @@ const nl = {
 };
 
 const it = {
+  participantsModal: {
+    header: "Partecipanti",
+    cancel: "Chiudi"
+  },
   managePlanSolution: {
     needsHeader: "ESIGENZE SLOT",
     selectFrom: "Seleziona disponibilità da",
@@ -3822,6 +3834,10 @@ const it = {
 };
 
 const el = {
+  participantsModal: {
+    header: "Συμμετέχοντες",
+    cancel: "Απόκρυψη"
+  },
   managePlanSolution: {
     needsHeader: "Ανάγκες",
     selectFrom: "Επιλογή διαθεσιμότητας από",
@@ -5086,6 +5102,10 @@ const el = {
 };
 
 const hu = {
+  participantsModal: {
+    header: "Résztvevők",
+    cancel: "Bezár"
+  },
   managePlanSolution: {
     needsHeader: "SLOT SZÜKSÉGEK",
     selectFrom: "Válassza ki a elérhetőségeket a következőből",
