@@ -164,7 +164,11 @@ class EditChildProfileScreen extends React.Component {
       allergies
     } = this.state;
     const bodyFormData = new FormData();
-    const birthdate = new Date(`${year}-${month}-${date}`);
+    const birthdate = moment().set({
+      year,
+      month,
+      date
+    });
     if (file !== undefined) {
       bodyFormData.append("photo", file);
     }
@@ -235,11 +239,10 @@ class EditChildProfileScreen extends React.Component {
     const formClass = [];
     const dates = [
       ...Array(
-        moment(`
-          01 
-          ${moment()
-            .month(month - 1)
-            .format("MMM")} ${year}`).daysInMonth()
+        moment()
+          .month(month - 1)
+          .year(year)
+          .daysInMonth()
       ).keys()
     ].map(x => x + 1);
     const months = [...Array(12).keys()].map(x => x + 1);
