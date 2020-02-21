@@ -234,7 +234,13 @@ class EditChildProfileScreen extends React.Component {
     const texts = Texts[language].editChildProfileScreen;
     const formClass = [];
     const dates = [
-      ...Array(moment(`${year}-${month}`).daysInMonth()).keys()
+      ...Array(
+        moment(`
+          01 
+          ${moment()
+            .month(month - 1)
+            .format("MMM")} ${year}`).daysInMonth()
+      ).keys()
     ].map(x => x + 1);
     const months = [...Array(12).keys()].map(x => x + 1);
     const years = [...Array(18).keys()].map(x => x + (moment().year() - 17));
