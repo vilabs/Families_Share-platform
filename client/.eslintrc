@@ -11,6 +11,7 @@
     "jest": true
   },
   "rules": {
+    "prefer-destructuring": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "global-require": 0,
     "react/require-default-props": 0,

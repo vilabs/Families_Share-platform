@@ -60,14 +60,7 @@ const Header = ({ header, setShowingSlot, fullfilled }) => {
 class ManagePlanSolution extends React.Component {
   constructor(props) {
     super(props);
-    const {
-      plan,
-      parentsProfiles,
-      childrenProfiles,
-      handleEdits,
-      handleFilter,
-      handleCreation
-    } = this.props;
+    const { plan, parentsProfiles, childrenProfiles, handleEdits } = this.props;
     const pageSize = this.getPageSize(
       plan.solution,
       plan.min_volunteers,
@@ -95,14 +88,10 @@ class ManagePlanSolution extends React.Component {
       data.push(row);
     }
     handleEdits(data);
-    handleFilter("create");
-    handleCreation("automatically");
     this.state = {
       data,
       plan,
       profilesFilter: "available",
-      activitiesCreation: "automatically",
-      timeslotsFilter: "create",
       parentsProfiles,
       childrenProfiles,
       pageSize,
@@ -175,16 +164,14 @@ class ManagePlanSolution extends React.Component {
   };
 
   render() {
-    const { language, handleFilter, handleCreation } = this.props;
+    const { language } = this.props;
     const texts = Texts[language].managePlanSolution;
     const {
       childrenProfiles,
       showingSlot,
       profilesFilter,
-      timeslotsFilter,
       pageSize,
       data,
-      activitiesCreation,
       plan: { solution, ratio, min_volunteers: minVolunteers }
     } = this.state;
     const columns = solution.map((subscriptions, index) => {
@@ -254,46 +241,6 @@ class ManagePlanSolution extends React.Component {
                 </Select>
               </div>
             </div>
-            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
-              <div className="categoryText">
-                {texts.zeroVolunteersTimeslots}
-              </div>
-              <div style={{ width: "100" }}>
-                <Select
-                  value={timeslotsFilter}
-                  onChange={event => {
-                    this.setState({ timeslotsFilter: event.target.value });
-                    handleFilter(event.target.value);
-                  }}
-                >
-                  <MenuItem value="create">
-                    <div className="categoryText">{texts.create}</div>
-                  </MenuItem>
-                  <MenuItem value="discard">
-                    <div className="categoryText">{texts.discard}</div>
-                  </MenuItem>
-                </Select>
-              </div>
-            </div>
-            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
-              <div className="categoryText">{texts.activitiesCreation}</div>
-              <div style={{ width: "100" }}>
-                <Select
-                  value={activitiesCreation}
-                  onChange={event => {
-                    this.setState({ activitiesCreation: event.target.value });
-                    handleCreation(event.target.value);
-                  }}
-                >
-                  <MenuItem value="automatically">
-                    <div className="categoryText">{texts.automatically}</div>
-                  </MenuItem>
-                  <MenuItem value="manually">
-                    <div className="categoryText">{texts.manually}</div>
-                  </MenuItem>
-                </Select>
-              </div>
-            </div>
           </div>
           <div className="col-2-10">
             <ul className="childrenNeedsList">
@@ -318,9 +265,7 @@ ManagePlanSolution.propTypes = {
   parentsProfiles: PropTypes.array,
   childrenProfiles: PropTypes.array,
   plan: PropTypes.object,
-  handleEdits: PropTypes.func,
-  handleFilter: PropTypes.func,
-  handleCreation: PropTypes.func
+  handleEdits: PropTypes.func
 };
 
 Cell.propTypes = {
