@@ -14,6 +14,7 @@ import Button from "@material-ui/core/Button";
 import { isMobile } from "react-device-detect";
 import { withSnackbar } from "notistack";
 import { withRouter } from "react-router-dom";
+import { Select, MenuItem } from "@material-ui/core";
 import axios from "axios";
 import DayPicker from "react-day-picker";
 import moment from "moment";
@@ -162,8 +163,14 @@ class ManagePlanStepper extends React.Component {
       plan,
       updatingPlan: false,
       activeStep,
+      activitiesCreation: "automatically",
+      timeslotsFilter: "create",
       parentsProfiles: parentsProfiles || [],
-      childrenProfiles: childrenProfiles || []
+      childrenProfiles: childrenProfiles || [],
+      amStartTime: "09:00",
+      amEndTime: "12:00",
+      pmStartTime: "15:00",
+      pmEndTime: "18:00"
     };
   }
 
@@ -197,22 +204,34 @@ class ManagePlanStepper extends React.Component {
       parentsProfiles,
       plan,
       timeslotsFilter,
-      activitiesCreation
+      activitiesCreation,
+      amStartTime,
+      amEndTime,
+      pmStartTime,
+      pmEndTime
     } = this.state;
     plan.solution.forEach(s => {
       const [date, meridiem] = s.slot.split("-");
       s.start = new Date(date);
       s.end = new Date(date);
       if (meridiem === "AM") {
-        s.start.setHours(9);
-        s.end.setHours(15);
-        s.startHour = "09";
-        s.endHour = "15";
+        const amStart = amStartTime.split(":");
+        const amEnd = amEndTime.split(":");
+        s.start.setHours(amStart[0]);
+        s.start.setMinutes(amStart[1]);
+        s.end.setHours(amEnd[0]);
+        s.end.setMinutes(amEnd[1]);
+        s.startHour = amStart[0];
+        s.endHour = amEnd[0];
       } else {
-        s.start.setHours(15);
-        s.end.setHours(21);
-        s.startHour = "15";
-        s.endHour = "21";
+        const pmStart = pmStartTime.split(":");
+        const pmEnd = pmEndTime.split(":");
+        s.start.setHours(pmStart[0]);
+        s.start.setMinutes(pmStart[1]);
+        s.end.setHours(pmEnd[0]);
+        s.end.setMinutes(pmEnd[1]);
+        s.startHour = pmStart[0];
+        s.endHour = pmEnd[0];
       }
       s.volunteers = [];
     });
@@ -353,19 +372,20 @@ class ManagePlanStepper extends React.Component {
       plan: { step: planStep }
     } = this.state;
     if (this.validate()) {
-      if (activeStep === 3 || (planStep === 0 && activeStep === 1)) {
+      if (
+        (activeStep === 3 && planStep === 2) ||
+        (planStep === 0 && activeStep === 1)
+      ) {
         this.updatePlan();
+      } else if (activeStep === 4 && isMobile) {
+        this.sendLink();
+      } else if (activeStep === 5) {
+        this.createSolution();
+      } else {
+        this.setState(state => ({
+          activeStep: state.activeStep + 1
+        }));
       }
-      if (activeStep === 4) {
-        if (isMobile) {
-          this.sendLink();
-        } else {
-          this.createSolution();
-        }
-      }
-      this.setState(state => ({
-        activeStep: state.activeStep + 1
-      }));
     }
   };
 
@@ -492,9 +512,26 @@ class ManagePlanStepper extends React.Component {
     this.setState({ activitiesCreation: option });
   };
 
+  handleTimeChange = event => {
+    const { name } = event.target;
+    const { value } = event.target;
+    this.setState({ [name]: value });
+  };
+
   getStepContent = () => {
     const { language, myChildren } = this.props;
-    const { activeStep, plan, parentsProfiles, childrenProfiles } = this.state;
+    const {
+      activeStep,
+      plan,
+      parentsProfiles,
+      childrenProfiles,
+      activitiesCreation,
+      timeslotsFilter,
+      amStartTime,
+      amEndTime,
+      pmStartTime,
+      pmEndTime
+    } = this.state;
     const texts = Texts[language].managePlanStepper;
     switch (activeStep) {
       case 0:
@@ -632,6 +669,95 @@ class ManagePlanStepper extends React.Component {
             handleCreation={this.handleActivitesCreation}
           />
         );
+      case 5:
+        return (
+          <div>
+            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
+              <div className="categoryText">
+                {texts.zeroVolunteersTimeslots}
+              </div>
+              <div style={{ width: "100" }}>
+                <Select
+                  value={timeslotsFilter}
+                  onChange={event => {
+                    this.setState({ timeslotsFilter: event.target.value });
+                  }}
+                >
+                  <MenuItem value="create">
+                    <div className="categoryText">{texts.create}</div>
+                  </MenuItem>
+                  <MenuItem value="discard">
+                    <div className="categoryText">{texts.discard}</div>
+                  </MenuItem>
+                </Select>
+              </div>
+            </div>
+            <div className="row no-gutters" style={{ marginTop: "2rem" }}>
+              <div className="categoryText">{texts.activitiesCreation}</div>
+              <div style={{ width: "100" }}>
+                <Select
+                  value={activitiesCreation}
+                  onChange={event => {
+                    this.setState({ activitiesCreation: event.target.value });
+                  }}
+                >
+                  <MenuItem value="automatically">
+                    <div className="categoryText">{texts.automatically}</div>
+                  </MenuItem>
+                  <MenuItem value="manually">
+                    <div className="categoryText">{texts.manually}</div>
+                  </MenuItem>
+                </Select>
+              </div>
+            </div>
+            <div
+              className="row no-gutters"
+              style={{ marginTop: "2rem", alignItems: "center" }}
+            >
+              <div className="categoryText">{texts.amTimeslotFrom}</div>
+              <input
+                name="amStartTime"
+                type="time"
+                value={amStartTime}
+                onChange={this.handleTimeChange}
+                className="expandedTimeslotTimeInput form-control"
+                required
+              />
+              <div className="categoryText">{texts.amTimeslotTo}</div>
+              <input
+                name="amEndTime"
+                type="time"
+                value={amEndTime}
+                onChange={this.handleTimeChange}
+                className="expandedTimeslotTimeInput form-control"
+                required
+              />
+            </div>
+            <div
+              className="row no-gutters"
+              style={{ marginTop: "2rem", alignItems: "center" }}
+            >
+              <div className="categoryText">{texts.pmTimeslotFrom}</div>
+              <input
+                name="pmStartTime"
+                type="time"
+                value={pmStartTime}
+                onChange={this.handleTimeChange}
+                className="expandedTimeslotTimeInput form-control"
+                required
+              />
+              <div className="categoryText">{texts.pmTimeslotTo}</div>
+              <input
+                name="pmEndTime"
+                type="time"
+                value={pmEndTime}
+                onChange={this.handleTimeChange}
+                className="expandedTimeslotTimeInput form-control"
+                required
+              />
+            </div>
+          </div>
+        );
       default:
         return <div>Lorem Ipsum</div>;
     }
@@ -646,11 +772,13 @@ class ManagePlanStepper extends React.Component {
     ) {
       return texts.finish;
     }
-    if (activeStep === 4 && planStep === 4) {
-      if (isMobile) {
+    if (planStep === 4) {
+      if (activeStep === 4 && isMobile) {
         return texts.link;
       }
-      return texts.create;
+      if (activeStep === 5) {
+        return texts.activitiesCreation;
+      }
     }
     return texts.continue;
   };

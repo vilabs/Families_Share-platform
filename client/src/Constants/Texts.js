@@ -12,13 +12,7 @@ const en = {
     selectFrom: "Select availabilities from",
     participating: "Plan participating members",
     available: "Slot available members",
-    all: "All group members",
-    create: "Create",
-    discard: "Discard",
-    activitiesCreation: "Create activities",
-    automatically: "Automatically",
-    manually: "Manually",
-    zeroVolunteersTimeslots: "Handle timeslots with no volunteers"
+    all: "All group members"
   },
   createPlanScreen: { backNavTitle: "New Planning" },
   groupManagementScreen: {
@@ -104,6 +98,16 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this plan?"
   },
   managePlanStepper: {
+    pmTimeslotFrom: "PM timeslot from",
+    pmTimeslotTo: "To",
+    amTimeslotFrom: "AM timeslot From",
+    amTimeslotTo: "To",
+    create: "Create",
+    discard: "Discard",
+    activitiesCreation: "Create activities",
+    automatically: "Automatically",
+    manually: "Manually",
+    zeroVolunteersTimeslots: "Handle timeslots with no volunteers",
     automaticSuccess: "Plan was successfully transformed to activities",
     manualSuccess:
       "You will soon receive the final solution of the plan via email",
@@ -113,7 +117,6 @@ const en = {
     continue: "Continue",
     cancel: "Cancel",
     finish: "Submit",
-    create: "Create activities",
     link: "Receive link",
     linkSuccess:
       "You will shortly receive an e-mail with the corresponding link.",
@@ -124,7 +127,8 @@ const en = {
       "Customize needs",
       "Add availabilities",
       "Customize availabilities",
-      "Manage Solution"
+      "Manage Solution",
+      "Manage activity details"
     ],
     needsDeadline: "You have to provide your needs until",
     availabilitiesDeadline: "You have to provide your availabilities until",
@@ -417,7 +421,7 @@ const en = {
               you have read, understood and agree to this privacy policy. If you
               do not agree to this policy, please do not use any of the
               Services. If you have any queries, please email us at
-              <bold> info@families-share.eu </bold>
+              <bold> contact@families-share.eu </bold>
             </p>
           </li>
           <li>
@@ -740,7 +744,7 @@ const en = {
               remedy.
             </p>
             <p>
-              You may email us at <bold> info@families-share.eu</bold>
+              You may email us at <bold> contact@families-share.eu</bold>
             </p>
             <p>
               All users can alter their personal information as they wish, have
@@ -756,8 +760,8 @@ const en = {
               further processing should have disappeared.
             </p>
             <p>
-              You may also email us at info@families-share.eu to request that we
-              delete your personal information from our database.
+              You may also email us at contact@families-share.eu to request that
+              we delete your personal information from our database.
             </p>
           </li>
           <li>
@@ -1309,14 +1313,8 @@ const nl = {
     needsHeader: "SLOT BEHOEFTEN",
     selectFrom: "Selecteer beschikbaarheid van",
     participating: "Plan deelnemende leden",
-    activitiesCreation: "Activiteiten maken",
-    automatically: "automatisch",
-    manually: "Handmatig",
     available: "Slot beschikbare leden",
     all: "Alle groepsleden",
-    create: "Create",
-    discard: "Wegdoen",
-    zeroVolunteersTimeslots: "Omgaan met tijdsloten zonder vrijwilligers",
     automaticSuccess: "Plan is met succes omgezet in activiteiten",
     manualSuccess:
       "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail"
@@ -1404,6 +1402,16 @@ const nl = {
     deleteConfirm: "Weet u zeker dat u dit plan wilt verwijderen?"
   },
   managePlanStepper: {
+    pmTimeslotFrom: "PM tijdslot van",
+    pmTimeslotTo: "Naar",
+    amTimeslotFrom: "AM tijdslot van",
+    amTimeslotTo: "Naar",
+    create: "Create",
+    discard: "Wegdoen",
+    activitiesCreation: "Activiteiten maken",
+    automatically: "automatisch",
+    manually: "Handmatig",
+    zeroVolunteersTimeslots: "Omgaan met tijdsloten zonder vrijwilligers",
     automaticSuccess: "Plan is met succes omgezet in activiteiten",
     manualSuccess:
       "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail",
@@ -1414,7 +1422,6 @@ const nl = {
     continue: "Doorgaan",
     cancel: "Annuleren",
     finish: "Verzenden",
-    create: "Maak activiteiten",
     link: "Ontvang link",
     desktopPrompt:
       "Om de geboden oplossing te bewerken, moet u het platform openen via een desktop of laptop. Druk op de knop om een ​​e-mail met het platformadres te ontvangen.",
@@ -1423,7 +1430,8 @@ const nl = {
       "Aanpassen behoeften",
       "Beschikbaarheid toevoegen",
       "Beschikbaarheden aanpassen",
-      "Beheer oplossing"
+      "Beheer oplossing",
+      "Beheer activiteitsgegevens"
     ],
     needsDeadline: "Geef je opvangnoden aan voor",
     availabilitiesDeadline: "U moet uw beschikbaarheden opgeven tot",
@@ -1668,7 +1676,7 @@ const nl = {
               gelezen, het hebt begrepen en akkoord gaat. Als je niet akkoord,
               gelieve dan ook geen gebruik te maken van onze diensten. Voor
               vragen kan je altijd terecht bij
-              <bold> info@families-share.eu </bold>
+              <bold> contact@families-share.eu </bold>
             </p>
           </li>
           <li>
@@ -2026,7 +2034,7 @@ const nl = {
               rechtsmiddel.
             </p>
             <p>
-              U kunt ons e-mailen op <bold> info@families-share.eu</bold>
+              U kunt ons e-mailen op <bold> contact@families-share.eu</bold>
             </p>
             <p>
               Alle gebruikers kunnen hun persoonlijke gegevens naar wens
@@ -2043,8 +2051,8 @@ const nl = {
               wettelijke basis voor verdere verwerking had moeten verdwijnen.
             </p>
             <p>
-              U kunt ons ook e-mailen op info@families-share.eu om te vragen dat
-              wij uw persoonlijke gegevens uit onze database verwijderen.
+              U kunt ons ook e-mailen op contact@families-share.eu om te vragen
+              dat wij uw persoonlijke gegevens uit onze database verwijderen.
             </p>
           </li>
           <li>
@@ -2067,7 +2075,7 @@ const nl = {
               Neem ook gerust contact met ons op als u vragen heeft over het
               privacybeleid van Families_Share of de informatie praktijken van
               de diensten. U kunt als volgt contact met ons opnemen:
-              info@families-share.eu
+              contact@families-share.eu
             </p>
           </li>
           <li>
@@ -2567,14 +2575,8 @@ const it = {
     needsHeader: "ESIGENZE SLOT",
     selectFrom: "Seleziona disponibilità da",
     participating: "Pianifica membri partecipanti",
-    activitiesCreation: "Crea attività",
-    automatically: "Automaticamente",
-    manually: "Manualmente",
     available: "Membri disponibili slot",
     all: "Tutti i membri del gruppo",
-    create: "Crea",
-    discard: "Scarta",
-    zeroVolunteersTimeslots: "Gestisci timeslot senza volontari",
     automaticSuccess: "Il piano è stato trasformato con successo in attività",
     manualSuccess: "Presto riceverai la soluzione finale del piano via e-mail"
   },
@@ -2662,6 +2664,16 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo piano??"
   },
   managePlanStepper: {
+    create: "Crea",
+    discard: "Scarta",
+    zeroVolunteersTimeslots: "Gestisci timeslot senza volontari",
+    activitiesCreation: "Crea attività",
+    automatically: "Automaticamente",
+    manually: "Manualmente",
+    pmTimeslotFrom: "PM timeslot da",
+    pmTimeslotTo: "A",
+    amTimeslotFrom: "AM timeslot da",
+    amTimeslotTo: "A",
     automaticSuccess: "Il piano è stato trasformato con successo in attività",
     manualSuccess: "Riceverai presto la soluzione finale del piano via e-mail",
     linkSuccess: "A breve riceverai un'e-mail con il link corrispondente.",
@@ -2671,7 +2683,6 @@ const it = {
     continue: "Continua",
     cancel: "Annulla",
     finish: "Invia",
-    create: "Crea attività",
     link: "Ricevere link",
     desktopPrompt:
       "Per modificare la soluzione fornita è necessario accedere alla piattaforma tramite un desktop o un laptop. Premere il pulsante per ricevere un'e-mail con l'indirizzo della piattaforma.",
@@ -2680,7 +2691,8 @@ const it = {
       "Personalizza le esigenze",
       "Aggiungi disponibilità",
       "Personalizza disponibilità",
-      "Gestisci soluzione"
+      "Gestisci soluzione",
+      "Gestisci i dettagli dell'attività"
     ],
     needsDeadline: "Devi fornire le tue esigenze fino al",
     availabilitiesDeadline: "Devi fornire le tue disponibilità fino al",
@@ -2926,7 +2938,7 @@ const it = {
               la presente informativa sulla privacy. Se non accetti la presente
               policy, sei pregato di non utilizzare i nostri Servizi. In caso di
               domande, ti preghiamo di contattarci via email a
-              <bold>info@families-Share.eu</bold>
+              <bold>contact@families-share.eu</bold>
             </p>
           </li>
           <li>
@@ -3276,7 +3288,7 @@ const it = {
               al ricorso giurisdizionale effettivo.
             </p>
             <p>
-              Puoi inviarci un'e-mail a <bold>info@families-share.eu</bold>
+              Puoi inviarci un'e-mail a <bold>contact@families-share.eu</bold>
             </p>
             <p>
               Tutti gli utenti possono modificare le loro informazioni personali
@@ -3293,9 +3305,9 @@ const it = {
               per ulteriore trattamento viene a cessare.
             </p>
             <p>
-              Puoi anche inviarci un'e-mail a info@families-share.eu chiedendoci
-              di procedere alla cancellazione delle tue informazioni personali
-              dal nostro database.
+              Puoi anche inviarci un'e-mail a contact@families-share.eu
+              chiedendoci di procedere alla cancellazione delle tue informazioni
+              personali dal nostro database.
             </p>
           </li>
           <li>
@@ -3317,7 +3329,7 @@ const it = {
             <p>
               Non esitare a contattarci in caso di domande sull'Informativa
               sulla privacy di Families_Share o sulle pratiche di informazione
-              dei Servizi. Puoi contattarci a: info@families-share.eu
+              dei Servizi. Puoi contattarci a: contact@families-share.eu
             </p>
           </li>
           <li>
@@ -3842,14 +3854,8 @@ const el = {
     needsHeader: "Ανάγκες",
     selectFrom: "Επιλογή διαθεσιμότητας από",
     participating: "Σχεδιάστε τα συμμετέχοντα μέλη",
-    activitiesCreation: "Δημιουργία δραστηριοτήτων",
-    automatically: "Αυτόματα",
-    manually: "Μη αυτόματα",
     available: "διαθέσιμα μέλη υποδοχής",
     all: "Όλα τα μέλη της ομάδας",
-    create: "Δημιουργία",
-    discard: "Απόρριψη",
-    zeroVolunteersTimeslots: "Χειριστείτε timeslots χωρίς εθελοντές",
     automaticSuccess: "Το σχέδιο μετατράπηκε με επιτυχία σε δραστηριότητες",
     manualSuccess:
       "Θα λάβετε σύντομα την τελική λύση του σχεδίου μέσω ηλεκτρονικού ταχυδρομείου"
@@ -3938,6 +3944,16 @@ const el = {
     deleteConfirm: "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτό το σχέδιο;"
   },
   managePlanStepper: {
+    amTimeslotFrom: "ΠΜ δραστηριότητα από",
+    amTimeslotTo: "Έως",
+    pmTimeslotFrom: "ΜΜ δραστηριότητα από",
+    pmTimeslotTo: "Έως",
+    create: "Δημιουργία",
+    discard: "Απόρριψη",
+    zeroVolunteersTimeslots: "Χειριστείτε timeslots χωρίς εθελοντές",
+    activitiesCreation: "Δημιουργία δραστηριοτήτων",
+    automatically: "Αυτόματα",
+    manually: "Μη αυτόματα",
     automaticSuccess: "Το σχέδιο μετατράπηκε με επιτυχία σε δραστηριότητες",
     manualSuccess:
       "Θα λάβετε σύντομα ένα e-mail με την τελική λύση του σχεδίου",
@@ -3948,7 +3964,6 @@ const el = {
     continue: "Συνέχεια",
     cancel: "Ακύρωση",
     finish: "Υποβολή",
-    create: "Δημιουργία δραστηριοτήτων",
     link: "Λήψη συνδέσμου",
     desktopPrompt:
       "Για να επεξεργαστείτε την λύση του σχεδίου θα πρέπει να επισκεφθείτε τη πλατφόρμα από τον υπολογιστή.Πατήστε για λάβετε e-mail με τη διεύθυνση της πλατφόρμας.",
@@ -3957,7 +3972,8 @@ const el = {
       "Προσαρμογή αναγκών",
       "Προσθήκη διαθεσιμοτήτων",
       "Προσαρμογή διαθεσιμοτήτων",
-      "Διαχείριση λύσης"
+      "Διαχείριση λύσης",
+      "Διαχείριση δραστηριοτήτων"
     ],
     needsDeadline: "Πρέπει να υποβάλετε τις ανάγκες σας μέχρι",
     availabilitiesDeadline: "Πρέπει να υποβάλετε τις διαθεσιμότητες σας μέχρι",
@@ -4205,7 +4221,7 @@ const el = {
               διαβάσει, κατανοήσει και αποδέχεστε αυτήν την πολιτική απορρήτου.
               Εάν δεν συμφωνείτε με αυτήν την πολιτική, παρακαλώ μην
               χρησιμοποιήσετε καμία από τις Υπηρεσίες. Αν έχετε ερωτήσεις,
-              στείλτε μας email στο <bold>info@families-Share.eu</bold>
+              στείλτε μας email στο <bold>contact@families-share.eu</bold>
             </p>
           </li>
           <li>
@@ -4557,7 +4573,7 @@ const el = {
             </p>
             <p>
               Μπορείτε να μας στείλετε email στο
-              <bold>info@families-share.eu</bold>
+              <bold>contact@families-share.eu</bold>
             </p>
             <p>
               Όλοι οι χρήστες μπορούν να αλλάξουν τα προσωπικά τους στοιχεία
@@ -4575,9 +4591,9 @@ const el = {
             </p>
             <p>
               Μπορείτε επίσης να μας στείλετε μήνυμα ηλεκτρονικού ταχυδρομείου
-              στη διεύθυνση <bold>info@families-share.eu</bold> για να ζητήσετε
-              να διαγράψουμε τα προσωπικά σας στοιχεία από τη βάση δεδομένων
-              μας.
+              στη διεύθυνση <bold>contact@families-share.eu</bold> για να
+              ζητήσετε να διαγράψουμε τα προσωπικά σας στοιχεία από τη βάση
+              δεδομένων μας.
             </p>
           </li>
           <li>
@@ -4600,7 +4616,7 @@ const el = {
               Επίσης, παρακαλούμε να επικοινωνήσετε μαζί μας αν έχετε ερωτήσεις
               σχετικά με την Πολιτική Απορρήτου του Families_Share ή τις
               πρακτικές πληροφόρησης των Υπηρεσιών. Μπορείτε να επικοινωνήσετε
-              μαζί μας ως εξής: info@families-share.eu
+              μαζί μας ως εξής: contact@families-share.eu
             </p>
           </li>
           <li>
@@ -5110,14 +5126,8 @@ const hu = {
     needsHeader: "SLOT SZÜKSÉGEK",
     selectFrom: "Válassza ki a elérhetőségeket a következőből",
     participating: "A részt vevő tagok tervezése",
-    activitiesCreation: "tevékenységek létrehozása",
-    automatically: "Automatikusan",
-    manually: "Kézzel",
     available: "rendelkezésre álló helyek tagjai",
     all: "Összes csoport tagja",
-    create: "Létrehozás",
-    discard: "megsemmisítés",
-    zeroVolunteersTimeslots: "Időtáblák kezelése önkéntesek nélkül",
     automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
     manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását"
   },
@@ -5204,6 +5214,16 @@ const hu = {
     deleteConfirm: "Biztosan törli ezt a tervet?"
   },
   managePlanStepper: {
+    amTimeslotFrom: "AM időtáblák tól",
+    amTimeslotTo: "Ig",
+    pmTimeslotFrom: "PM időtáblák tól",
+    pmTimeslotTo: "Ig",
+    create: "Létrehozás",
+    discard: "megsemmisítés",
+    zeroVolunteersTimeslots: "Időtáblák kezelése önkéntesek nélkül",
+    activitiesCreation: "tevékenységek létrehozása",
+    automatically: "Automatikusan",
+    manually: "Kézzel",
     automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
     manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását",
     linkSuccess: "Hamarosan e-mailt fog kapni a megfelelő hivatkozással.",
@@ -5213,7 +5233,6 @@ const hu = {
     continue: "Folytatás",
     cancel: "Visszavonás",
     finish: "Küldés",
-    create: "Tevékenységek létrehozása",
     link: "Fogadási link",
     desktopPrompt:
       "A biztosított megoldás szerkesztéséhez asztalra vagy laptopra kell férnie a platformon. Nyomja meg a gombot, hogy e-mailt kapjon a platform címével.",
@@ -5222,7 +5241,8 @@ const hu = {
       "Igények testreszabása",
       "Hozzáférhetőség hozzáadása",
       "A rendelkezésre állás testreszabása",
-      "Kezelje a megoldást"
+      "Kezelje a megoldást",
+      "Kezelje a tevékenységek részleteit"
     ],
     needsDeadline: "Addig kell teljesítenie igényeit",
     availabilitiesDeadline: "A rendelkezésre állását addig kell megadnia",
@@ -5467,7 +5487,7 @@ const hu = {
               Irányelveinket, kérjük, ne használja a Szolgáltatásainkat. Az
               Adatvédelmi Irányelvekkel kapcsolatban felmerülő kérdéseit,
               észrevételeit, kérjük, küldje el az{" "}
-              <bold>info@families-share.eu</bold> címre.
+              <bold>contact@families-share.eu</bold> címre.
             </p>
           </li>
           <li>
@@ -5827,7 +5847,7 @@ const hu = {
             </p>
             <p>
               Bármikor felkereshet minket emailen keresztül:
-              <bold>info@families-share.eu</bold>
+              <bold>contact@families-share.eu</bold>
             </p>
             <p>
               Minden felhasználónak lehetősége van megváltoztatni a róla szóló
@@ -5847,7 +5867,7 @@ const hu = {
             <p>
               Lehetősége van emailben kérelmezni, hogy töröljük személyes
               adatait az adatbázisunkból. Ezt bármikor megteheti az
-              <bold>info@families-share.eu</bold> címen keresztül.
+              <bold>contact@families-share.eu</bold> címen keresztül.
             </p>
           </li>
           <li>
@@ -5870,7 +5890,7 @@ const hu = {
               A Families_Share Adatvédelmi Irányelveivel, vagy az adatkezelési
               gyakorlatunkkal kapcsolatban felmerülő kérdéseit, észrevételeit
               örömmel fogadjuk emailen keresztül, a következő elérhetőségen:
-              info@families-share.eu
+              contact@families-share.eu
             </p>
           </li>
           <li>
