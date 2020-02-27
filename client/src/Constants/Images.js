@@ -8,6 +8,7 @@ const landingImage = {
   Thessaloniki: require("../images/thessalonikiImage.png"),
   Hamburg: require("../images/hamburgImage.png"),
   Pescara: require("../images/pescaraImage.png"),
+  Rome: require("../images/romeImage.png"),
   Development: require("../images/developmentImage.png")
 };
 
