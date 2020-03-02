@@ -3380,7 +3380,7 @@ const it = {
     kids: "Bambini"
   },
   groupInfo: {
-    contact: "GRUPPO DI CONTATTO",
+    contact: "CONTATTA IL GRUPPO",
     contactMessage: "Informazioni copiate negli appunti",
     startGuideHeader: "Non sai da dove iniziare?",
     startGuideInfo: "Segui i sette passi per avviare al meglio il gruppo",
