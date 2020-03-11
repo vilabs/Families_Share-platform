@@ -57,6 +57,10 @@ async function createExcel (group, activities, events, cb) {
       key: 'cost'
     },
     {
+      header: 'Link',
+      key: 'link'
+    },
+    {
       header: 'No of Required Parents',
       key: 'requiredParents'
     },
@@ -106,6 +110,7 @@ async function createExcel (group, activities, events, cb) {
         description: event.description,
         location: event.location,
         cost: event.extendedProperties.shared.cost,
+        link: event.extendedProperties.shared.link,
         requiredParents: requiredParents,
         requiredChildren: requiredChildren,
         enoughParticipants: ((parents.length + externals.length) >= requiredParents && children.length >= requiredChildren ? 'YES' : 'NO'),

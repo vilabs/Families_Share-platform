@@ -85,6 +85,10 @@ async function createExcel (activity, timeslots, cb) {
       key: 'cost'
     },
     {
+      header: 'Link',
+      key: 'link'
+    },
+    {
       header: 'No of Required Parents',
       key: 'requiredParents'
     },
@@ -154,6 +158,7 @@ async function createExcel (activity, timeslots, cb) {
       timeslotDescription: timeslot.description,
       location: timeslot.location,
       cost: additionalInfo.cost,
+      link: additionalInfo.link,
       requiredParents,
       requiredChildren,
       enoughParticipants:
@@ -205,7 +210,7 @@ async function createExcel (activity, timeslots, cb) {
     .forEach(profile => {
       needsSheet.addRow({
         child: `${profile.given_name} ${profile.family_name}`,
-        allergies: profile.allergie,
+        allergies: profile.allergies,
         specialNeeds: profile.special_needs,
         otherInfo: profile.other_info
       })
@@ -279,6 +284,7 @@ async function createPdf (activity, timeslots, cb) {
       `${originalStart}:${start.getMinutes()} - ${originalEnd}:${end.getMinutes()}`,
       timeslot.location || '-',
       additionalInfo.cost || '-',
+      additionalInfo.link || '-',
       requiredParents,
       requiredChildren,
       additionalInfo.status,
@@ -366,6 +372,7 @@ async function createPdf (activity, timeslots, cb) {
             'auto',
             'auto',
             'auto',
+            'auto',
             'auto'
           ],
           body: [
@@ -376,6 +383,7 @@ async function createPdf (activity, timeslots, cb) {
               'Starting & Ending Time',
               'Place',
               'Cost',
+              'Link',
               'Min n. of parents',
               'Min n. of children',
               'Status',

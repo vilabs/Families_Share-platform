@@ -274,6 +274,7 @@ class CreateActivityStepper extends React.Component {
               children: JSON.stringify([]),
               externals: JSON.stringify([]),
               status: "ongoing",
+              link: timeslot.link,
               activityColor: information.color,
               category: timeslot.category,
               groupId,

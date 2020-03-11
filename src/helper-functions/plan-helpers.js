@@ -713,6 +713,7 @@ const transformPlanToActivities = (plan, group, userId) => {
           requiredParents: plan.min_volunteers,
           requiredChildren: 2,
           cost: '',
+          link: '',
           parents: JSON.stringify(slot.volunteers),
           children: JSON.stringify(slot.children),
           externals: JSON.stringify([]),

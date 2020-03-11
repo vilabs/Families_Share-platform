@@ -235,6 +235,16 @@ class TimeslotScreen extends React.Component {
     }
   };
 
+  handleLink = link => {
+    const message = {
+      action: "link",
+      value: link
+    };
+    if (window.isNative) {
+      window.ReactNativeWebView.postMessage(JSON.stringify(message));
+    }
+  };
+
   handleEdit = () => {
     const { history } = this.props;
     const { pathname } = history.location;
@@ -838,6 +848,34 @@ class TimeslotScreen extends React.Component {
                 <div className="activityInfoDescription">
                   {timeslot.extendedProperties.shared.category}
                 </div>
+              </div>
+            </div>
+          )}
+          {timeslot.extendedProperties.shared.link && (
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-2-10">
+                <i className="fas fa-link activityInfoIcon" />
+              </div>
+              <div className="col-8-10">
+                {window.isNative ? (
+                  <div
+                    className="activityInfoDescription"
+                    role="button"
+                    tabIndex={-42}
+                    onClick={() =>
+                      this.handleLink(timeslot.extendedProperties.shared.link)
+                    }
+                  >
+                    {timeslot.extendedProperties.shared.link}
+                  </div>
+                ) : (
+                  <a
+                    className="activityInfoDescription"
+                    href={timeslot.extendedProperties.shared.link}
+                  >
+                    {timeslot.extendedProperties.shared.link}
+                  </a>
+                )}
               </div>
             </div>
           )}

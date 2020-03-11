@@ -184,6 +184,7 @@ const en = {
     backNavTitle: "My Calendar"
   },
   editTimeslotScreen: {
+    link: "Link",
     learning: "learning or educational activities/homework",
     nature: "nature",
     tourism: "tourism and culture",
@@ -1219,6 +1220,7 @@ const en = {
     completed: "Completed"
   },
   expandedTimeslotEdit: {
+    link: "Link",
     details: "Details",
     from: "From",
     to: "To",
@@ -1487,6 +1489,7 @@ const nl = {
     backNavTitle: "Mijn Kalender"
   },
   editTimeslotScreen: {
+    link: "Koppeling",
     details: "Gegevens",
     learning: "leer- of educatieve activiteiten / huiswerk",
     nature: "natuur",
@@ -2488,6 +2491,7 @@ const nl = {
     completed: "Voltooid"
   },
   expandedTimeslotEdit: {
+    link: "Koppeling",
     timeErr: "Ongeldige combinatie van begin- en eindtijd",
     details: "Details",
     from: "Van",
@@ -2748,6 +2752,7 @@ const it = {
     backNavTitle: "Il mio calendario"
   },
   editTimeslotScreen: {
+    link: "Collegamento",
     learning: "attività di apprendimento / istruzione / compiti a casa",
     nature: "natura",
     tourism: "turismo e cultura",
@@ -3759,6 +3764,7 @@ const it = {
     completed: "Completata"
   },
   expandedTimeslotEdit: {
+    link: "Collegamento",
     timeErr: "Combinazione di inizio e fine ora non valida",
     details: "Dettagli",
     from: "Da",
@@ -4030,6 +4036,7 @@ const el = {
     backNavTitle: "Το ημερολόγιο μου"
   },
   editTimeslotScreen: {
+    link: "Σύνδεσμος",
     learning: "Εκπαιδευτικές δραστηριότητες",
     nature: "Φύση",
     tourism: "Τουρισμός και πολιτισμός",
@@ -5036,6 +5043,7 @@ const el = {
     completed: "Ολοκληρωμένο "
   },
   expandedTimeslotEdit: {
+    link: "Σύνδεσμος",
     timeErr: "Μη έγκυρος συνδυασμός ώρας έναρξης και λήξης",
     details: "Λεπτομέρειες",
     from: "Από",
@@ -5298,6 +5306,7 @@ const hu = {
     backNavTitle: "Eseménynaptáram"
   },
   editTimeslotScreen: {
+    link: "Kapcsolat",
     learning: "tanulási vagy oktatási tevékenységek / házi feladatok",
     nature: "természet",
     tourism: "turizmus és kultúra",
@@ -6339,6 +6348,7 @@ const hu = {
     completed: "Befejezve"
   },
   expandedTimeslotEdit: {
+    link: "Kapcsolat",
     details: "Részletek",
     from: "tól ",
     to: "ig",

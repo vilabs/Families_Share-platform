@@ -41,7 +41,8 @@ class TimeslotsContainer extends React.Component {
           name: activityName,
           cost: "",
           category: "other",
-          location: activityLocation
+          location: activityLocation,
+          link: ""
         }
       }
     });

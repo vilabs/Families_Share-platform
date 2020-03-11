@@ -75,6 +75,7 @@ class EditTimeslotScreen extends React.Component {
       timeslot.requiredParents = shared.requiredParents;
       timeslot.cost = shared.cost;
       timeslot.status = shared.status;
+      timeslot.link = shared.link;
       timeslot.parents = JSON.parse(shared.parents);
       timeslot.children = JSON.parse(shared.children);
     } else {
@@ -92,6 +93,7 @@ class EditTimeslotScreen extends React.Component {
         summary: "",
         parents: [],
         children: [],
+        link: "",
         status: "ongoing",
         category: ""
       };
@@ -223,7 +225,8 @@ class EditTimeslotScreen extends React.Component {
       category,
       parents,
       children,
-      notifyUsers
+      notifyUsers,
+      link
     } = this.state;
     const timeslot = {
       notifyUsers,
@@ -261,7 +264,8 @@ class EditTimeslotScreen extends React.Component {
           children: JSON.stringify(children),
           start: startTime.substr(0, startTime.indexOf(":")),
           end: endTime.substr(0, endTime.indexOf(":")),
-          category
+          category,
+          link
         }
       }
     };
@@ -374,6 +378,7 @@ class EditTimeslotScreen extends React.Component {
       confirmDialogIsOpen,
       confirmDialogTitle,
       madeChanges,
+      link,
       category
     } = this.state;
     const formClass = [];
@@ -661,12 +666,27 @@ class EditTimeslotScreen extends React.Component {
               </div>
               <div className="col-8-10">
                 <input
-                  type="string"
+                  type="text"
                   name="cost"
                   value={cost}
                   className="expandedTimeslotInput"
                   onChange={this.handleChange}
                   placeholder={texts.cost}
+                />
+              </div>
+            </div>
+            <div className="row no-gutters" style={rowStyle}>
+              <div className="col-2-10">
+                <i className="fas fa-link activityInfoIcon" />
+              </div>
+              <div className="col-8-10">
+                <input
+                  type="text"
+                  name="link"
+                  value={link}
+                  className="expandedTimeslotInput"
+                  onChange={this.handleChange}
+                  placeholder={texts.link}
                 />
               </div>
             </div>

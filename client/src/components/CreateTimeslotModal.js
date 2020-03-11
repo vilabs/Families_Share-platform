@@ -125,7 +125,8 @@ class CreateTimeslotModal extends React.Component {
       name,
       location,
       category,
-      cost
+      cost,
+      link
     } = this.state;
     const timeslot = {
       startTime,
@@ -136,7 +137,8 @@ class CreateTimeslotModal extends React.Component {
       name,
       cost,
       location,
-      category
+      category,
+      link
     };
     const { handleSave } = this.props;
     handleSave(timeslot);
@@ -155,7 +157,8 @@ class CreateTimeslotModal extends React.Component {
       location,
       requiredChildren,
       requiredParents,
-      cost
+      cost,
+      link
     } = this.state;
     const { language } = this.props;
     const formClass = [];
@@ -446,6 +449,21 @@ class CreateTimeslotModal extends React.Component {
                     className="expandedTimeslotInput"
                     onChange={this.handleChange}
                     placeholder={texts.cost}
+                  />
+                </div>
+              </div>
+              <div className="row no-gutters" style={rowStyle}>
+                <div className="col-2-10">
+                  <i className="fas fa-link center" />
+                </div>
+                <div className="col-8-10">
+                  <input
+                    type="text"
+                    name="link"
+                    value={link}
+                    className="expandedTimeslotInput"
+                    onChange={this.handleChange}
+                    placeholder={texts.link}
                   />
                 </div>
               </div>
