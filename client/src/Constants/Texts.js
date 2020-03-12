@@ -1137,6 +1137,7 @@ const en = {
     stepLabels: ["Information", "Dates", "Timeslots"]
   },
   createActivityInformation: {
+    link: "Link (optional)",
     color: "Color of the activity",
     description: "Description (optional)",
     name: "Name of the activity",
@@ -2409,6 +2410,7 @@ const nl = {
     stepLabels: ["Informatie", "Datums", "Timeslots"]
   },
   createActivityInformation: {
+    link: "Koppeling (optioneel)",
     color: "Kleur van de activiteit",
     description: "Beschrijving (optioneel)",
     name: "Naam van de activiteit",
@@ -3682,6 +3684,7 @@ const it = {
     stepLabels: ["Informazioni", "Date", "Orari"]
   },
   createActivityInformation: {
+    link: "Collegamento (facoltativo)",
     color: "Colore dell'attività",
     description: "Descrizione (facoltativo)",
     name: "Titolo dell'attività",
@@ -6268,6 +6271,7 @@ const hu = {
     stepLabels: ["Információ", "Dátumok", "Időpontok"]
   },
   createActivityInformation: {
+    link: "Kapcsolat (opcionális)",
     color: "Színezze be a tevékenységet",
     description: "Leírás (opcionális)",
     name: "Nevezze meg a tevékenységet",

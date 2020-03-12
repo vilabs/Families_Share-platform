@@ -27,7 +27,7 @@ class TimeslotsContainer extends React.Component {
 
   handleAddTimeslot = () => {
     const { timeslots } = this.state;
-    const { activityName, activityLocation } = this.props;
+    const { activityName, activityLocation, activityLink } = this.props;
     this.setState({
       expandedTimeslot: {
         expanded: true,
@@ -42,7 +42,7 @@ class TimeslotsContainer extends React.Component {
           cost: "",
           category: "other",
           location: activityLocation,
-          link: ""
+          link: activityLink
         }
       }
     });
@@ -251,5 +251,6 @@ TimeslotsContainer.propTypes = {
   handleTimeslots: PropTypes.func,
   activityLocation: PropTypes.string,
   activityName: PropTypes.string,
-  language: PropTypes.string
+  language: PropTypes.string,
+  activityLink: PropTypes.string
 };

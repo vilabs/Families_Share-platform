@@ -27,7 +27,12 @@ class CreateActivityTimeslots extends React.Component {
       differentTimeslots,
       activityTimeslots
     } = this.state;
-    const { activityName, activityLocation, language } = this.props;
+    const {
+      activityName,
+      activityLocation,
+      language,
+      activityLink
+    } = this.props;
     const texts = Texts[language].createActivityTimeslots;
     let header = "";
     if (numberOfDays > 1) {
@@ -40,6 +45,7 @@ class CreateActivityTimeslots extends React.Component {
                 <li key={index}>
                   <TimeslotsContainer
                     activityName={activityName}
+                    activityLink={activityLink}
                     timeslots={activityTimeslots[index]}
                     activityLocation={activityLocation}
                     dateIndex={index}
@@ -55,6 +61,7 @@ class CreateActivityTimeslots extends React.Component {
       header = `${dates.length} ${texts.selected}`;
       return (
         <TimeslotsContainer
+          activityLink={activityLink}
           activityName={activityName}
           timeslots={activityTimeslots[0]}
           activityLocation={activityLocation}
@@ -68,6 +75,7 @@ class CreateActivityTimeslots extends React.Component {
     return (
       <TimeslotsContainer
         activityName={activityName}
+        activityLink={activityLink}
         activityLocation={activityLocation}
         timeslots={activityTimeslots[0]}
         dateIndex={0}
@@ -163,5 +171,6 @@ CreateActivityTimeslots.propTypes = {
   handleSubmit: PropTypes.func,
   activityTimeslots: PropTypes.array,
   differentTimeslots: PropTypes.bool,
-  language: PropTypes.string
+  language: PropTypes.string,
+  activityLink: PropTypes.string
 };

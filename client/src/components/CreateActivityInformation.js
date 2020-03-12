@@ -14,9 +14,10 @@ class CreateActivityInformation extends React.Component {
       location,
       description,
       cost,
-      color
+      color,
+      link
     } = this.props;
-    this.state = { color, cost, description, location, name };
+    this.state = { color, cost, description, link, location, name };
     handleSubmit(this.state, this.validate(this.state));
     autosize(document.querySelectorAll("textarea"));
   }
@@ -47,7 +48,7 @@ class CreateActivityInformation extends React.Component {
 
   render() {
     const { language } = this.props;
-    const { name, color, description, location } = this.state;
+    const { name, color, description, location, link } = this.state;
     const texts = Texts[language].createActivityInformation;
     const rowStyle = { minHeight: "7rem" };
     return (
@@ -102,6 +103,21 @@ class CreateActivityInformation extends React.Component {
         </div>
         <div className="row no-gutters" style={rowStyle}>
           <div className="col-2-10">
+            <i className="fas fa-link center" />
+          </div>
+          <div className="col-8-10">
+            <input
+              type="text"
+              name="link"
+              placeholder={texts.link}
+              value={link}
+              className="center"
+              onChange={this.handleChange}
+            />
+          </div>
+        </div>
+        <div className="row no-gutters" style={rowStyle}>
+          <div className="col-2-10">
             <i
               className="fas fa-palette center"
               style={{ color }}
@@ -136,7 +152,8 @@ CreateActivityInformation.propTypes = {
   cost: PropTypes.number,
   color: PropTypes.string,
   handleSubmit: PropTypes.func,
-  language: PropTypes.string
+  language: PropTypes.string,
+  link: PropTypes.string
 };
 
 export default withLanguage(CreateActivityInformation);
