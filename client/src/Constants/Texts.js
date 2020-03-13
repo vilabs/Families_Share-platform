@@ -3734,7 +3734,7 @@ const it = {
     every: "Ogni",
     of: "di",
     deleteDialogTitle: "Confermi di eliminare questa attività?",
-    infoHeader: "Attività informative"
+    infoHeader: "Informazioni"
   },
   timeslotsList: {
     fixed: "fisso",
