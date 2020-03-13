@@ -561,7 +561,7 @@ async function sendPushNotifications (messages) {
     }
     await Device.deleteMany({ device_id: { $in: invalidTokens } })
   } catch (e) {
-    console.log(e)
+    console.error(e)
   }
 }
 

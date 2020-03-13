@@ -75,7 +75,7 @@ if (config.util.getEnv('NODE_ENV') === 'production') {
 app.all('*', (req, res) => res.status(404).send('Invalid endpoint'))
 
 app.use((err, req, res, next) => {
-  console.log(err)
+  console.error(err.stack)
   res.status(500).send('Something went wrong!')
 })
 
