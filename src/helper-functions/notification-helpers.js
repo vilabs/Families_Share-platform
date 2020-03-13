@@ -543,22 +543,26 @@ function getNotificationDescription (notification, language) {
 }
 
 async function sendPushNotifications (messages) {
-  const invalidTokens = []
-  const notifications = []
-  messages.forEach(message => {
-    if (Expo.isExpoPushToken(message.to)) {
-      notifications.push(message)
-    } else {
-      invalidTokens.push(message.to)
+  try {
+    const invalidTokens = []
+    const notifications = []
+    messages.forEach(message => {
+      if (Expo.isExpoPushToken(message.to)) {
+        notifications.push(message)
+      } else {
+        invalidTokens.push(message.to)
+      }
+    })
+    let chunks = expo.chunkPushNotifications(messages)
+    let tickets = []
+    for (let chunk of chunks) {
+      let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
+      tickets.push(...ticketChunk)
     }
-  })
-  let chunks = expo.chunkPushNotifications(messages)
-  let tickets = []
-  for (let chunk of chunks) {
-    let ticketChunk = await expo.sendPushNotificationsAsync(chunk)
-    tickets.push(...ticketChunk)
+    await Device.deleteMany({ device_id: { $in: invalidTokens } })
+  } catch (e) {
+    console.log(e)
   }
-  await Device.deleteMany({ device_id: { $in: invalidTokens } })
 }
 
 module.exports = {
