@@ -5134,143 +5134,153 @@ const hu = {
     cancel: "Bezár"
   },
   managePlanSolution: {
-    needsHeader: "SLOT SZÜKSÉGEK",
-    selectFrom: "Válassza ki a elérhetőségeket a következőből",
-    participating: "A részt vevő tagok tervezése",
-    available: "rendelkezésre álló helyek tagjai",
-    all: "Összes csoport tagja",
-    automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
-    manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását"
+    needsHeader: "Igények kigyűjtése",
+    selectFrom: "Ráérések kiválasztása ettől",
+    participating: "Résztvevő tagok tervezése",
+    available: "Elérhető tagok kigyűjtése",
+    all: "Összes csoporttag"
+  },
+  createPlanScreen: {
+    backNavTitle: "Új tervezés"
   },
   groupManagementScreen: {
-    backNavTitle: "Csoportkezelés",
-    totalVolunteers: "Önkéntesek összes száma",
-    totalKids: "A gyerekek teljes száma",
-    totalEvents: "Események összes száma",
-    totalCompletedEvents: "A befejezett események összes száma",
-    metricsHeader: "Csoportos mutatók",
-    metricsColumn: "Metrika",
-    rightsColumn: "Érték",
-    chartHeader: "Felhasználónkénti összes hozzájárulás"
+    backNavTitle: "Csoport kezelése",
+    totalVolunteers: "Az önkéntesek száma összesen",
+    totalKids: "A gyerekek száma összesen",
+    totalEvents: "Az események száma összesen",
+    totalCompletedEvents: "A befejezett események száma összesen",
+    metricsHeader: "Csoport mérőszámai",
+    metricsColumn: "Mérőszám",
+    valuesColumn: "Érték",
+    chartHeader: "Felhasználónkénti hozzájárulás"
   },
   timeslotEmergencyScreen: {
-    copy: "A segélyhívó szám másolása a vágólapra",
+    copy: "Vágólapra másolt segélyhívó szám",
     call: "Hívás",
-    header: "Sürgősségi számok:",
+    header: "Vész esetén hívható telefonszámok:",
     services: {
-      general: "Altalános vészhelyzet",
+      general: "Általános segélyhívás",
       ambulance: "Mentő",
-      police: "Rendőrség",
-      fire: "Tűzoltóság"
+      police: "Rendőr",
+      fire: "Tűzoltó"
     }
   },
   editPlanScreen: {
-    requiredErr: "Kérjük, töltse ki ezt a mezőt.",
-    learning: "tanulási vagy oktatási tevékenységek / házi feladatok",
-    nature: "természet",
-    tourism: "turizmus és kultúra",
-    hobby: "hobbi és sport",
-    accompanying: "kísérő (autómegosztó vagy pedibusz)",
+    requiredErr: "Kérjük, töltsd ki ezt a mezőt!",
+    learning: "tanulás/oktatási tevékenység",
+    nature: "természetjárás",
+    tourism: "kultúra és turizmus",
+    hobby: "sport és hobbi",
+    accompanying: "kíséret (autómegosztás vagy gyalogos gyerekkíséret)",
     entertainment: "szórakozás",
-    parties: "partik vagy rendezvények",
-    coplaying: "együttjátszó nap (ok)",
+    parties: "bulik és különleges alkalmak",
+    coplaying: "játszóház/közös gyerekfelügyelet",
     other: "egyéb",
-    category: "tevékenység típusa",
+    category: "Tevékenység típusa",
     backNavTitle: "Terv szerkesztése",
-    ratio: "gyermekek és szülők aránya",
-    minVolunteers: "Minimális önkéntesek",
-    deadline: "határidő",
-    needsState: "Igények biztosítása",
-    availabilitiesState: "A rendelkezésre állás biztosítása",
+    ratio: "Gyerek/felnőtt arány",
+    minVolunteers: "Résztvevő önkéntesek száma minimum",
+    deadline: "Határidő",
+    needsState:
+      "[Igények] Add meg az időpontokat, amikor gyermekfelügyeletre van szükséged!",
+    availabilitiesState:
+      "[Ráérés] Add meg az időpontokat, amikor segíteni tudsz másoknak! ",
     planningState: "Terv létrehozása",
     creationState: "Tevékenységek létrehozása",
-    state: "terv állam",
+    state: "Tevékenység állapota",
     needsStateHelper:
-      "A szükségleti szakaszban a felhasználók kiválasztják azokat a dátumokat, amelyekre szükségük lesz gyermekgondozásra. Ebben az állapotban a rendelkezésre állási szakasz zárolva van.",
+      'Az "igények megadása" szakaszban a felhasználók megjelölhetik a dátumokat, amikor szükségük van gyermekfelügyeletre. Ebben a szakaszban a ráérések megadása még nem érhető el.',
     availabilitiesStateHelper:
-      "A rendelkezésre állási fázisban a felhasználók kiválasztják azokat a dátumokat, amelyekben elérhetőek a gyermekgondozáshoz. Ebben az állapotban a szükséglet fázis zárolva van.",
+      'Az "ráérések megadása" szakaszban a felhasználók megjelölik a dátumokat, amikor ráérnek gyermekfelügyelettel kapcsolatos feladatokat vállalni. Ebben a szakaszban az "igények megadása" szakasz már nem érhető el.',
     planningStateHelper:
-      "A tervezési szakaszban a családok megosztási algoritmusa optimális tervet készít az adott igények és rendelkezésre állások alapján.",
+      "A tervezési fázisban a Families_Share algoritmusa elkészít egy optimális megoldási javaslatot a tevékenység lebonyolításához (dátumok, résztvevők) a felhasználók által megadott igények és ráérések alapján.",
     creationStateHelper:
-      "A létrehozási szakaszban az optimális terv tevékenységekké alakul."
+      "A létrehozás fázisban az algoritmus által elkészített terv konkrét tevékenységekké alakul."
   },
   createPlanStepper: {
-    name: "Név",
-    from: "Tól",
-    to: "To",
+    name: "A tevékenység neve",
+    from: "Mettől",
+    to: "Meddig",
     description: "Leírás",
-    location: "Hely",
-    requiredErr: "Kérjük, töltse ki ezt a mezőt.",
-    dateErr: "A határidőnek a megadott dátumtartomány előtt kell lennie",
-    rangeErr: "Érvénytelen kezdési és befejezési dátum kombináció",
+    location: "Helyszín",
+    requiredErr: "Kérjük, töltsd ki ezt a mezőt!",
+    deadlineErr:
+      "A határidőnek meg kell előznie a tevékenység tervezett idejét.",
+    rangeErr:
+      "A tevékenység kezdő és záró időpontjának kombinációja nem érvényes.",
     continue: "Folytatás",
-    cancel: "Cancel",
-    finish: "Létrehozás",
+    cancel: "Mégse",
+    finish: "Elkészít",
     save: "Mentés",
     stepLabels: [
-      "Adjon címet a tervezett tevékenységnek",
-      "Állítsa be a tevékenység(ek) tervezett időszakát!",
-      "Adjon meg egy határidőt, amíg visszajelezhetnek a csoporttagok!",
-      "Adja meg a tevékenység tervezett helyszínét!"
+      "Adj meg egy címet a tervezett tevékenységnek!",
+      "Állíts be egy idősávot (add meg a kezdő és a záró dátumot)!",
+      "Jelöld meg, meddig adhatják le a csoporttagok a szükségleteiket!",
+      "Add meg a tevékenység helyszínét!"
     ]
   },
   managePlanScreen: {
-    export: "Export terv",
+    export: "Terv exportálása",
     edit: "Terv szerkesztése",
     delete: "Terv törlése",
-    exportConfirm: "Biztosan exportálni akarja ezt a tervet?",
+    exportConfirm: "Biztosan exportálni szeretnéd ezt a tervet?",
     exportToaster:
-      "A tervet xls formátumban exportálják. Ön rövid időn belül megkapja e-mailbenl",
+      "A terv .xls formátumban exportálódik, és pár percen belül megérkezik hozzád emailben.",
     backNavTitle: "Tervezés kezelése",
-    deleteConfirm: "Biztosan törli ezt a tervet?"
+    deleteConfirm: "Biztosan törölni szeretnéd ezt a tervet?"
   },
   managePlanStepper: {
-    amTimeslotFrom: "AM időtáblák tól",
-    amTimeslotTo: "Ig",
-    pmTimeslotFrom: "PM időtáblák tól",
-    pmTimeslotTo: "Ig",
-    create: "Létrehozás",
-    discard: "megsemmisítés",
-    zeroVolunteersTimeslots: "Időtáblák kezelése önkéntesek nélkül",
-    activitiesCreation: "tevékenységek létrehozása",
+    pmTimeslotFrom: "Délutáni időpontok ettől",
+    pmTimeslotTo: "Eddig",
+    amTimeslotFrom: "Délelőtti időpontok ettől",
+    amTimeslotTo: "Eddig",
+    create: "Elkészít",
+    discard: "Visszavon",
+    activitiesCreation: "Tevékenységek létrehozása",
     automatically: "Automatikusan",
-    manually: "Kézzel",
-    automaticSuccess: "A tervet sikeresen átalakították tevékenységekké",
-    manualSuccess: "Hamarosan e-mailben megkapja a terv végleges megoldását",
-    linkSuccess: "Hamarosan e-mailt fog kapni a megfelelő hivatkozással.",
+    manually: "Egyéni beállítás",
+    zeroVolunteersTimeslots:
+      "Önkéntesek részvétele nélküli tevékenységek kezelése",
+    automaticSuccess: "A tervből sikeresen tevékenységeket készítettél!",
+    manualSuccess:
+      "A terv végleges időpontját és résztvevőit tartalmazó összesítést hamarosan megkapod emailben.",
     nextPhase: "Következő szakasz",
     previousPhase: "Előző szakasz",
     finishPlan: "Tevékenységek létrehozása",
     continue: "Folytatás",
-    cancel: "Visszavonás",
-    finish: "Küldés",
-    link: "Fogadási link",
+    cancel: "Mégse",
+    finish: "Elküld",
+    link: "Az eseményhez tartozó link küldése emailben",
+    linkSuccess: "A linket tartalmazó emailt hamarosan megkapod.",
     desktopPrompt:
-      "A biztosított megoldás szerkesztéséhez asztalra vagy laptopra kell férnie a platformon. Nyomja meg a gombot, hogy e-mailt kapjon a platform címével.",
+      "Az elküldött megoldási javaslat szerkesztéséhez asztali számítógépről vagy laptopról kell bejelentkezned. Kattints ide, és elküldjük neked emailben a webes alkalmazás címét!",
     stepLabels: [
-      "Új igények",
+      "Igények megadása",
       "Igények testreszabása",
-      "Hozzáférhetőség hozzáadása",
-      "A rendelkezésre állás testreszabása",
-      "Kezelje a megoldást",
-      "Kezelje a tevékenységek részleteit"
+      "Ráérések megadása",
+      "Ráérések testreszabása",
+      "Megoldási javaslat kezelése",
+      "A tevékenység részleteinek kezelése"
     ],
-    needsDeadline: "Addig kell teljesítenie igényeit",
-    availabilitiesDeadline: "A rendelkezésre állását addig kell megadnia",
-    availabilityError: "Hiányzik a dátum elérhetősége",
-    needError: "Hiányzó gyermekmeghatalmazó dátumra",
-    needsSuccess: "Sikeresen hozzáadta igényeit",
-    availaibilitySuccess: "Sikeresen hozzáadta elérhetőségeit"
+    needsDeadline:
+      "A következő időpontig add meg, mikor lenne szükséged gyermekfelügyeletre:",
+    availabilitiesDeadline:
+      "A következő időpontig add meg, mikor tudnál gyermekfelügyeletet vállalni:",
+    availabilityError:
+      "A következő dátumon még senki nem jelezte, hogy elérhető gyerekfelügyeletre:",
+    needError: "A következő dátumra még hiányos a gyermekek beosztása:",
+    needsSuccess: "Sikeresen megadtad az igényeidet!",
+    availabilitiesSuccess: "Sikeresen megadtad a ráérésed!"
   },
   planListItem: {
-    participantsNeeds: "a tagok meghatározták az igényeiket",
-    participantNeeds: "a tagnak meghatározott igényei vannak",
-    participantsAvailabilities: "a tagok meghatározták a elérhetőségeket",
-    participantAvailabilities: "a tag megadta a elérhetőségeket",
-    needsPhase: "Igények deklarálása",
-    availabilitiesPhase: "elérhetőségek deklarálása",
+    participantsNeeds: "A csoporttagok megadták az igényeiket",
+    participantNeeds: "A csoportag megadta az igényeit",
+    participantsAvailabilities: "A csoporttagok megadták a ráéréseiket",
+    participantAvailabilities: "A csoporttag megadta a ráéréseit",
+    needsPhase: "Igények véglegesítése",
+    availabilitiesPhase: "Ráérérsek véglegesítése",
     planningPhase: "Optimális megoldás keresése",
-    creationPhase: "Terv átalakítása tevékenységekre"
+    creationPhase: "A javasolt terv véglegesítése, tevékenységekké alakítása"
   },
   communityInterface: {
     backNavTitle: "Közösségi felület",
@@ -6261,7 +6271,6 @@ const hu = {
   createActivityScreen: {
     backNavTitle: "Új tevékenység"
   },
-  createPlanScreen: { backNavTitle: "Új terv" },
   createActivityStepper: {
     pendingMessage: "A tevékenység a rendszergazda megerősítésétől függ",
     continue: "Folytatás",
