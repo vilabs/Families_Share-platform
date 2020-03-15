@@ -426,7 +426,7 @@ const hu = {
     },
     {
       header: 'Csoporttagok',
-      description: 'csatlakozni kell a csoporthoz'
+      description: 'csatlakozni szeretne'
     }
   ],
   activities: [

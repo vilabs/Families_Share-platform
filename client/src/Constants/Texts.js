@@ -5963,7 +5963,7 @@ const hu = {
   },
   groupInfo: {
     contactMessage: "Az információ másolása a vágólapra",
-    contact: "KOZLES",
+    contact: "Információk vágólapra másolása",
     startGuideHeader: "Segítségre van szüksége a kezdéshez?",
     startGuideInfo: "Nézze meg 7 lépéses útmutatónkat!",
     join: "Csatlakozás",
@@ -6069,9 +6069,9 @@ const hu = {
     myGroupsPrompt:
       "Még nincs csoportja, használja az alábbi menüt a csoport megtalálására",
     myActivitiesPrompt:
-      "Itt láthatja a jövőbeli tevékenységeit miután feiratkozott egy vagy több csoportba",
-    joinPrompt: "CSAPATHOZ CSATLAKOZNI",
-    createPrompt: "CSOPORT LETREHOZASA"
+      "Itt láthatja a jövőbeli tevékenységeit, miután egy vagy több csoport tagjává vált.",
+    joinPrompt: "Csatlakozás meglévő csoporthoz",
+    createPrompt: "Új csoport létrehozása"
   },
   faqsScreen: {
     backNavTitle: "GYIK"
