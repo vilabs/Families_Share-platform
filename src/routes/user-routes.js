@@ -578,7 +578,7 @@ router.patch('/:id/rating', (req, res, next) => {
 router.get('/:id/groups', (req, res, next) => {
   if (req.user_id !== req.params.id) { return res.status(401).send('Unauthorized') }
   const { user_id } = req
-  Member.find({ user_id }).then(groups => {
+  Member.find({ user_id }).sort({ 'createdAt': -1 }).then(groups => {
     if (groups.length === 0) {
       return res.status(404).send("User hasn't joined any groups")
     }
