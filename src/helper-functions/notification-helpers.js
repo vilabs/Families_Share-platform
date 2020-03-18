@@ -41,7 +41,7 @@ async function newMemberNotification (group_id, user_id) {
 async function newActivityNotification (group_id, user_id) {
   const object = await Group.findOne({ group_id })
   const subject = await Profile.findOne({ user_id })
-  const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true })
+  const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true }).distinct('user_id')
   const users = await User.find({ user_id: { $in: members } })
   const devices = await Device.find({ user_id: { $in: members } })
   if (subject && object) {
@@ -49,7 +49,7 @@ async function newActivityNotification (group_id, user_id) {
     members.forEach(member => {
       notifications.push({
         owner_type: 'user',
-        owner_id: member.user_id,
+        owner_id: user_id,
         type: 'activities',
         code: 0,
         read: false,
