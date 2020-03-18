@@ -1,4 +1,4 @@
-function newForgotPasswordEmail (token) {
+function newForgotPasswordEmail (token, origin) {
   return (`<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -12,7 +12,11 @@ function newForgotPasswordEmail (token) {
         We got a request to change your password.
       </p>
       <a
-        href="${process.env.CITYLAB_URI}/api/users/changepasswordredirect/${token}"
+        href="${
+    origin === 'native'
+      ? `${process.env.CITYLAB_URI}/api/users/changepasswordredirect/${token}`
+      : `${process.env.CITYLAB_URI}/changepsw/${token}`
+    }"
         style="text-decoration:none"
       >
         <button

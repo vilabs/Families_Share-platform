@@ -42,6 +42,8 @@ async function newActivityNotification (group_id, user_id) {
   const object = await Group.findOne({ group_id })
   const subject = await Profile.findOne({ user_id })
   const members = await Member.find({ group_id, user_id: { $ne: user_id }, group_accepted: true, user_accepted: true })
+  const users = await User.find({ user_id: { $in: members } })
+  const devices = await Device.find({ user_id: { $in: members } })
   if (subject && object) {
     const notifications = []
     members.forEach(member => {
@@ -56,7 +58,18 @@ async function newActivityNotification (group_id, user_id) {
       })
     })
     await Notification.create(notifications)
-    console.log('New activity notification created')
+    const messages = []
+    devices.forEach(device => {
+      const language = users.filter(user => user.user_id === device.user_id)[0].language
+      messages.push({
+        to: device.device_id,
+        sound: 'default',
+        title: texts[language]['activities'][0]['header'],
+        body: `${subject.given_name} ${subject.family_name} ${texts[language]['activities'][0]['description']} ${object.name}`,
+        data: { url: `${process.env.CITYLAB_URI}/groups/${group_id}/activities` }
+      })
+    })
+    await sendPushNotifications(messages)
   }
 };
 

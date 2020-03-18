@@ -359,7 +359,7 @@ router.get('/changepasswordredirect/:token', (req, res) => {
 })
 
 router.post('/forgotpassword', async (req, res, next) => {
-  const { email } = req.body
+  const { email, origin } = req.body
   try {
     const user = await User.findOne({ email })
     if (!user) {
@@ -370,7 +370,7 @@ router.post('/forgotpassword', async (req, res, next) => {
       from: process.env.SERVER_MAIL,
       to: email,
       subject: 'Forgot Password',
-      html: hf.newForgotPasswordEmail(token)
+      html: hf.newForgotPasswordEmail(token, origin)
     }
     const reset = await Password_Reset.findOne({ user_id: user.user_id, email })
     if (reset) {
