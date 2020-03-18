@@ -49,7 +49,7 @@ async function newActivityNotification (group_id, user_id) {
     members.forEach(member => {
       notifications.push({
         owner_type: 'user',
-        owner_id: user_id,
+        owner_id: member,
         type: 'activities',
         code: 0,
         read: false,
