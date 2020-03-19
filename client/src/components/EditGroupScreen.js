@@ -47,7 +47,7 @@ const getGroup = groupId => {
         image: { path: "" },
         description: "",
         location: "",
-        contact_info: "none",
+        contact_info: "",
         contact_type: "phone"
       };
     });
@@ -81,12 +81,8 @@ class EditGroupScreen extends React.Component {
     groupNames.splice(groupNames.indexOf(group.name), 1);
     group.contactType = group.contact_type;
     delete group.contact_type;
-    if (group.contactType !== "none") {
-      group.contactInfo = group.contact_info;
-      delete group.contact_info;
-    } else {
-      group.contactInfo = "";
-    }
+    group.contactInfo = group.contact_info || "";
+    delete group.contact_info;
     this.setState({
       fetchedGroupData: true,
       ...group,
@@ -428,29 +424,26 @@ class EditGroupScreen extends React.Component {
                     <option value="email">{texts.email}</option>
                   </select>
                 </div>
-                {contactType !== "none" && (
-                  <div className="col-2-10">
-                    <i
-                      className={
-                        contactType === "phone"
-                          ? "fas fa-phone center"
-                          : "fa fa-envelope center"
-                      }
-                    />
-                  </div>
-                )}
-                {contactType !== "none" && (
-                  <div className="col-3-10">
-                    <input
-                      type="text"
-                      value={contactInfo}
-                      className="form-control editGroupInputField"
-                      name="contactInfo"
-                      placeholder={texts.contactInfo}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                )}
+                <div className="col-2-10">
+                  <i
+                    className={
+                      contactType === "phone"
+                        ? "fas fa-phone center"
+                        : "fa fa-envelope center"
+                    }
+                  />
+                </div>
+                <div className="col-3-10">
+                  <input
+                    required
+                    type="text"
+                    value={contactInfo}
+                    className="form-control editGroupInputField"
+                    name="contactInfo"
+                    placeholder={texts.contactInfo}
+                    onChange={this.handleChange}
+                  />
+                </div>
               </div>
             </div>
           </form>
