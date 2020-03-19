@@ -268,6 +268,7 @@ class PendingRequestsScreen extends React.Component {
     }
     return (
       <h1
+        style={{ cursor: "pointer" }}
         className="verticalCenter"
         onClick={() => {
           history.push(route);
