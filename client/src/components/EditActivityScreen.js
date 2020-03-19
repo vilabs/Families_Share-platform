@@ -152,7 +152,10 @@ class EditActivityScreen extends React.Component {
               />
             </div>
           </div>
-          <div className="row no-gutters">
+          <div
+            className="row no-gutters"
+            style={{ height: "auto", minHeight: "6rem" }}
+          >
             <div className="col-2-10">
               <i className="fas fa-align-left center" />
             </div>
@@ -184,7 +187,7 @@ class EditActivityScreen extends React.Component {
               </h1>
             </div>
           </div>
-          <div className="row no-gutters" style={{ marginBottom: "2rem" }}>
+          <div className="row no-gutters" style={{ marginBottom: "4rem" }}>
             <div className="col-2-10" />
             <div className="col-8-10">
               <CirclePicker
