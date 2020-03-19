@@ -200,7 +200,9 @@ const initializeDB = async () => {
     birthdate: new Date(),
     allergies: 'allergic to peanuts',
     special_needs: 'no',
-    other_info: 'no'
+    other_info: 'no',
+    background: '#00838F',
+    image: '/images/profiles/child_default_photo.jpg'
   }
   await chai.request(server).post(`/api/users/${user.user_id}/children`).send(child).set('Authorization', user.token)
 }
