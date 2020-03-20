@@ -7,8 +7,8 @@ div {
   outline: none;
 }
 
-@import '~antd/dist/antd.css';
-@import 'AllStyles.css';
+@import "~antd/dist/antd.css";
+@import "AllStyles.css";
 
 html {
   box-sizing: border-box;
@@ -29,14 +29,14 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 ::-webkit-scrollbar {
   width: 0px;
   background: transparent;
 }
-input[type='number'] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
 /****Layout Styles****/
@@ -50,7 +50,7 @@ input[type='number'] {
   margin-left: auto;
 }
 .timeAgo {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.2rem;
   color: rgba(0, 0, 0, 0.5);
   position: absolute;
@@ -69,7 +69,7 @@ input[type='number'] {
   object-fit: cover;
 }
 .row:after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -83,7 +83,7 @@ input:focus {
 }
 .alert-message {
   font-size: 1.3rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   text-align: center;
   color: white;
 }
@@ -100,7 +100,7 @@ input:focus {
 .invalid-feedback {
   color: red;
   font-size: 1.4rem !important;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -261,15 +261,15 @@ select:focus {
   border: 1px solid #80bdff;
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 .optionsModalButton {
   min-height: 5rem;
   font-size: 1.4rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   display: flex;
   justify-content: center;
 }
@@ -289,5 +289,23 @@ button,
 label,
 input,
 span {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
+.dont-break-out {
+  /* These are technically the same, but use both */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  /* This is the dangerous one in WebKit, as it breaks things wherever */
+  word-break: break-all;
+  /* Instead use this non-standard one: */
+  word-break: break-word;
+
+  /* Adds a hyphen where the word breaks, if supported (No Blink) */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }

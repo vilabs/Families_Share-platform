@@ -31,7 +31,7 @@ class AnnouncementMain extends React.Component {
           />
         )}
         <div className="row no-gutters">
-          <h1>{message}</h1>
+          <h1 className="dont-break-out">{message}</h1>
         </div>
         <ul>
           {images.map((image, index) => (
