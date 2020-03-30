@@ -3,6 +3,9 @@
 const React = require("react");
 
 const en = {
+  groupMembers: {
+    export: "Export contacts"
+  },
   participantsModal: {
     header: "Participants",
     cancel: "Close"
@@ -1309,6 +1312,9 @@ const en = {
 };
 
 const nl = {
+  groupMembers: {
+    export: "Exporteer contacten"
+  },
   participantsModal: {
     header: "Deelnemers",
     cancel: "Sluiten"
@@ -2575,6 +2581,9 @@ const nl = {
 };
 
 const it = {
+  groupMembers: {
+    export: "Esporta contatti"
+  },
   participantsModal: {
     header: "Partecipanti",
     cancel: "Chiudi"
@@ -3858,6 +3867,9 @@ const it = {
 };
 
 const el = {
+  groupMembers: {
+    export: "Εξαγωγή επαφών"
+  },
   participantsModal: {
     header: "Συμμετέχοντες",
     cancel: "Απόκρυψη"
@@ -5133,6 +5145,9 @@ const el = {
 };
 
 const hu = {
+  groupMembers: {
+    export: "Névjegyek exportálása"
+  },
   participantsModal: {
     header: "Résztvevők",
     cancel: "Bezár"

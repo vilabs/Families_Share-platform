@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Route, Switch } from "react-router-dom";
 import axios from "axios";
+import Texts from "../Constants/Texts";
+import withLanguage from "./LanguageContext";
 import GroupMembersList from "./GroupMembersList";
+import MembersOptionsModal from "./OptionsModal";
 import GroupMembersAdminOptions from "./GroupMembersAdminOptions";
 import LoadingSpinner from "./LoadingSpinner";
 import Log from "./Log";
@@ -49,7 +52,11 @@ class GroupMembers extends React.Component {
   constructor(props) {
     super(props);
     const { group } = this.props;
-    this.state = { fetchedGroupMembers: false, group };
+    this.state = {
+      fetchedGroupMembers: false,
+      group,
+      optionsModalIsOpen: false
+    };
   }
 
   async componentDidMount() {
@@ -78,11 +85,33 @@ class GroupMembers extends React.Component {
     });
   }
 
+  handleExport = () => {
+    const { group } = this.state;
+    const { group_id: groupId } = group;
+    this.setState({ optionsModalIsOpen: false });
+    axios
+      .post(`/api/groups/${groupId}/contacts/export`)
+      .then(response => {
+        Log.info(response);
+      })
+      .catch(error => {
+        Log.error(error);
+      });
+  };
+
   handlePendingRequests = () => {
     const { history } = this.props;
     const { group } = this.state;
     const { group_id: groupId } = group;
     history.push(`/groups/${groupId}/members/pending`);
+  };
+
+  handleModalOpen = () => {
+    this.setState({ optionsModalIsOpen: true });
+  };
+
+  handleModalClose = () => {
+    this.setState({ optionsModalIsOpen: false });
   };
 
   render() {
@@ -94,11 +123,26 @@ class GroupMembers extends React.Component {
       userIsAdmin,
       settings,
       children,
-      pendingRequests
+      pendingRequests,
+      optionsModalIsOpen
     } = this.state;
+    const { language } = this.props;
+    const texts = Texts[language].groupMembers;
+    const options = [
+      {
+        label: texts.export,
+        style: "optionsModalButton",
+        handle: this.handleExport
+      }
+    ];
     const membersPath = `/groups/${group.group_id}/members`;
     return fetchedGroupMembers ? (
       <React.Fragment>
+        <MembersOptionsModal
+          isOpen={optionsModalIsOpen}
+          options={options}
+          handleClose={this.handleModalClose}
+        />
         <GroupMembersNavbar />
         <div id="groupMembersContainer">
           <div className="row no-gutters" id="groupMembersHeaderContainer">
@@ -114,7 +158,7 @@ class GroupMembers extends React.Component {
             <div className="col-5-10 ">
               <h1 className="verticalCenter">{group.name}</h1>
             </div>
-            <div className="col-3-10 ">
+            <div className="col-2-10 ">
               {userIsAdmin && (
                 <button
                   type="button"
@@ -125,6 +169,17 @@ class GroupMembers extends React.Component {
                   {pendingRequests > 0 && (
                     <span className="members-badge">{pendingRequests}</span>
                   )}
+                </button>
+              )}
+            </div>
+            <div className="col-1-10 ">
+              {userIsAdmin && (
+                <button
+                  type="button"
+                  className="transparentButton center"
+                  onClick={this.handleModalOpen}
+                >
+                  <i className="fas fa-ellipsis-v" />
                 </button>
               )}
             </div>
@@ -173,10 +228,11 @@ class GroupMembers extends React.Component {
   }
 }
 
-export default GroupMembers;
+export default withLanguage(GroupMembers);
 
 GroupMembers.propTypes = {
   group: PropTypes.object,
   history: PropTypes.object,
-  userIsAdmin: PropTypes.bool
+  userIsAdmin: PropTypes.bool,
+  language: PropTypes.string
 };

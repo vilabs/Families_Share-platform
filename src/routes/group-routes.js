@@ -20,6 +20,7 @@ const nodemailer = require('nodemailer')
 const texts = require('../constants/notification-texts')
 const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')
+const groupContacts = require('../helper-functions/group-contacts')
 const nh = require('../helper-functions/notification-helpers')
 const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
@@ -719,6 +720,54 @@ router.get('/:id/metrics', async (req, res, next) => {
       totalEvents,
       contributions,
       totalCompletedEvents
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/:id/contacts/export', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.id
+  const user_id = req.user_id
+  try {
+    const group = await Group.findOne({ group_id })
+    if (!group) {
+      return res.status(404).send('Non existing group')
+    }
+    const members = await Member.find({ group_id, user_accepted: true, group_accepted: true })
+    const member = members.find(member => member.user_id === user_id)
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    const profiles = await Profile.find({ user_id: { $in: members.map(m => m.user_id) } })
+    profiles.forEach(profile => {
+      if (members.find(m => m.user_id === profile.user_id).admin) {
+        profile.admin = true
+      } else {
+        profile.admin = false
+      }
+    })
+    groupContacts.createExcel(group, profiles, () => {
+      const mailOptions = {
+        from: process.env.SERVER_MAIL,
+        to: req.email,
+        subject: `${group.name} group contacts`,
+        html: groupAgenda.newGroupAgendaEmail(group.name),
+        attachments: [
+          {
+            filename: `${group.name.toUpperCase()}.xlsx`,
+            path: path.join(__dirname, `../../${group.name}.xlsx`)
+          }
+        ]
+      }
+      transporter.sendMail(mailOptions, (err, info) => {
+        if (err) next(err)
+        fr('../', { files: `${group.name}.xlsx` })
+      })
+      res.status(200).send('Group contacts exported')
     })
   } catch (error) {
     next(error)
