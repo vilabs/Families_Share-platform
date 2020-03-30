@@ -1366,6 +1366,9 @@
 #uploadProfilePhotoContainer input {
   display: none;
 }
+#editProfileInfoContainer textarea {
+  padding-top: 2rem;
+}
 #editProfileInfoContainer i {
   font-size: 2rem;
   color: rgba(0, 0, 0, 0.7);
