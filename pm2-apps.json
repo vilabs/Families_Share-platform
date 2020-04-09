@@ -2,7 +2,8 @@
   "apps": [
     {
       "name": "Families_Share",
-      "script": "src/index.js",
+      "script": "npm",
+      "args": "start",
       "error_file": "logs/err.log",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "log_type": "json",
