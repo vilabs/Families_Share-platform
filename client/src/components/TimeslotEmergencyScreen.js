@@ -62,6 +62,8 @@ class TimeslotEmergencyScreen extends React.Component {
       case "Bologna":
       case "Venice":
       case "Pescara":
+      case "Rome":
+      case "Foscari":
       case "FBK":
         numbers = EmegencyNunbers.Italy;
         break;
