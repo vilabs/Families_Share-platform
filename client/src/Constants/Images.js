@@ -11,7 +11,8 @@ const landingImage = {
   Rome: require("../images/romeImage.png"),
   Foscari: require("../images/foscariImage.png"),
   Ferrara: require("../images/ferraraImage.png"),
-  Development: require("../images/developmentImage.png")
+  Development: require("../images/developmentImage.png"),
+  Parma: require("../images/parmaImage.png")
 };
 
 const Images = {
