@@ -7,7 +7,7 @@
       "error_file": "logs/err.log",
       "log_date_format": "YYYY-MM-DD HH:mm Z",
       "log_type": "json",
-      "instances": "max",
+      "instances": "4",
       "env": {
         "NODE_ENV": "production"
       }

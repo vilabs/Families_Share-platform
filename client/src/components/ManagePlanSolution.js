@@ -78,9 +78,7 @@ class ManagePlanSolution extends React.Component {
           const profile = parentsProfiles.find(
             p => p.user_id === subscriptions.volunteers[i]
           );
-          row[subscriptions.slot] = `${profile.given_name} ${
-            profile.family_name
-          }`;
+          row[subscriptions.slot] = `${profile.given_name} ${profile.family_name}`;
         } else {
           row[subscriptions.slot] = "";
         }
@@ -192,18 +190,18 @@ class ManagePlanSolution extends React.Component {
           props.index > Math.max(required, minVolunteers) - 1 ? (
             <EmptyCell />
           ) : (
-            <Cell
-              {...props}
-              profiles={this.getProfiles(subscriptions.slot)}
-              handleSelect={event =>
-                this.handleSelect(
-                  event.target.value,
-                  props.index,
-                  subscriptions.slot
-                )
-              }
-            />
-          ),
+              <Cell
+                {...props}
+                profiles={this.getProfiles(subscriptions.slot)}
+                handleSelect={event =>
+                  this.handleSelect(
+                    event.target.value,
+                    props.index,
+                    subscriptions.slot
+                  )
+                }
+              />
+            ),
         accessor: subscriptions.slot,
         minWidth: 120
       };

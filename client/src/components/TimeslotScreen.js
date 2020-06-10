@@ -371,9 +371,7 @@ class TimeslotScreen extends React.Component {
           const parentName = parentProfiles.find(
             profile => profile.user_id === id
           ).given_name;
-          snackMessage = `${texts.parentSubscribe1} ${parentName} ${
-            texts.parentSubscribe2
-          }`;
+          snackMessage = `${texts.parentSubscribe1} ${parentName} ${texts.parentSubscribe2}`;
         } else {
           snackMessage = texts.userSubscribe;
         }
@@ -382,9 +380,7 @@ class TimeslotScreen extends React.Component {
           profile => profile.child_id === id
         ).given_name;
         timeslot.extendedProperties.shared.children.push(id);
-        snackMessage = `${texts.childSubscribe1} ${childName} ${
-          texts.childSubscribe2
-        }`;
+        snackMessage = `${texts.childSubscribe1} ${childName} ${texts.childSubscribe2}`;
       }
       this.setState({ timeslot, madeChanges: true });
     } else {
@@ -420,9 +416,7 @@ class TimeslotScreen extends React.Component {
           const parentName = parentProfiles.find(
             profile => profile.user_id === id
           ).given_name;
-          snackMessage = `${texts.parentUnsubscribe1} ${parentName} ${
-            texts.parentUnsubscribe2
-          }`;
+          snackMessage = `${texts.parentUnsubscribe1} ${parentName} ${texts.parentUnsubscribe2}`;
         } else {
           snackMessage = texts.userUnsubscribe;
         }
@@ -433,16 +427,12 @@ class TimeslotScreen extends React.Component {
         timeslot.extendedProperties.shared.children = timeslot.extendedProperties.shared.children.filter(
           subId => subId !== id
         );
-        snackMessage = `${texts.childUnsubscribe1} ${childName} ${
-          texts.childUnsubscribe2
-        }`;
+        snackMessage = `${texts.childUnsubscribe1} ${childName} ${texts.childUnsubscribe2}`;
       } else {
         timeslot.extendedProperties.shared.externals = timeslot.extendedProperties.shared.externals.filter(
           e => e !== id
         );
-        snackMessage = `${texts.parentUnsubscribe1} ${id} ${
-          texts.parentUnsubscribe2
-        }`;
+        snackMessage = `${texts.parentUnsubscribe1} ${id} ${texts.parentUnsubscribe2}`;
       }
       this.setState({ timeslot, madeChanges: true });
     } else {
@@ -707,9 +697,7 @@ class TimeslotScreen extends React.Component {
     const { externals } = timeslot.extendedProperties.shared;
     const { enqueueSnackbar, language } = this.props;
     const texts = Texts[language].timeslotScreen;
-    const snackMessage = `${texts.parentSubscribe1} ${external} ${
-      texts.parentSubscribe2
-    }`;
+    const snackMessage = `${texts.parentSubscribe1} ${external} ${texts.parentSubscribe2}`;
     if (external) {
       enqueueSnackbar(snackMessage, {
         variant: "info"
