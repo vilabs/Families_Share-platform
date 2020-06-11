@@ -157,7 +157,7 @@ class CreateChildScreen extends React.Component {
     }
     const birthdate = moment().set({
       year,
-      month,
+      month: month - 1,
       date
     });
     bodyFormData.append("given_name", given_name);
@@ -419,15 +419,15 @@ class CreateChildScreen extends React.Component {
                       onClick={this.handleNativeImageChange}
                     />
                   ) : (
-                    <input
-                      id="uploadLogoInput"
-                      className="editChildProfileInput"
-                      type="file"
-                      accept="image/*"
-                      name="logo"
-                      onChange={this.handleImageChange}
-                    />
-                  )}
+                      <input
+                        id="uploadLogoInput"
+                        className="editChildProfileInput"
+                        type="file"
+                        accept="image/*"
+                        name="logo"
+                        onChange={this.handleImageChange}
+                      />
+                    )}
                 </div>
               </div>
               <div className="col-2-10">

@@ -13,11 +13,15 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
 import Log from "./Log";
 import AutoComplete from "./AutoComplete";
 import Texts from "../Constants/Texts";
 import withLanguage from "./LanguageContext";
+
+const styles = () => ({
+  paper: { height: "60vh" },
+});
 
 const theme = createMuiTheme({
   typography: {
@@ -39,9 +43,6 @@ const theme = createMuiTheme({
       paperWidthSm: {
         width: "80vw",
         maxWidth: 400
-      },
-      paper: {
-        height: "90vh"
       },
       paperScrollPaper: {
         maxHeight: 800
@@ -160,7 +161,7 @@ class InviteDialog extends React.Component {
       matchingUsers,
       inviteIds
     } = this.state;
-    const { language, isOpen } = this.props;
+    const { language, isOpen, classes } = this.props;
     const texts = Texts[language].inviteModal;
     let addText;
     let header;
@@ -179,12 +180,14 @@ class InviteDialog extends React.Component {
         break;
       default:
     }
+
     return (
       <MuiThemeProvider theme={theme}>
         <Dialog
           onClose={this.handleClose}
           aria-labelledby="invite user dialog"
           open={isOpen}
+          classes={{ paper: classes.paper }}
         >
           <DialogTitle>
             <div className="inviteDialogTitle">{header}</div>
@@ -206,36 +209,36 @@ class InviteDialog extends React.Component {
                 handleSearch={this.handleSearch}
               />
             ) : (
-              <List>
-                {matchingUsers.map(user => {
-                  const selected = inviteIds.includes(user.user_id);
-                  return (
-                    <ListItem
-                      button
-                      onClick={() => this.handleSelect(user.user_id)}
-                      key={user.user_id}
-                      selected={selected}
-                    >
-                      <ListItemAvatar>
-                        <Avatar
-                          src={path(user, ["image", "path"])}
-                          sizes="small"
+                <List>
+                  {matchingUsers.map(user => {
+                    const selected = inviteIds.includes(user.user_id);
+                    return (
+                      <ListItem
+                        button
+                        onClick={() => this.handleSelect(user.user_id)}
+                        key={user.user_id}
+                        selected={selected}
+                      >
+                        <ListItemAvatar>
+                          <Avatar
+                            src={path(user, ["image", "path"])}
+                            sizes="small"
+                          />
+                        </ListItemAvatar>
+                        <ListItemText
+                          primary={`${user.given_name} ${user.family_name}`}
                         />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={`${user.given_name} ${user.family_name}`}
-                      />
-                      <ListItemIcon>
-                        <i
-                          className="fas fa-circle inviteSelect"
-                          style={selected ? {} : { display: "none" }}
-                        />
-                      </ListItemIcon>
-                    </ListItem>
-                  );
-                })}
-              </List>
-            )}
+                        <ListItemIcon>
+                          <i
+                            className="fas fa-circle inviteSelect"
+                            style={selected ? {} : { display: "none" }}
+                          />
+                        </ListItemIcon>
+                      </ListItem>
+                    );
+                  })}
+                </List>
+              )}
           </DialogContent>
           <DialogActions>
             <Button fontSize={20} variant="text" onClick={this.handleClose}>
@@ -257,4 +260,4 @@ InviteDialog.propTypes = {
   language: PropTypes.string
 };
 
-export default withLanguage(InviteDialog);
+export default withStyles(styles)(withLanguage(InviteDialog));
