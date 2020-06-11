@@ -617,15 +617,11 @@ async function createExcel(plan, cb) {
   workBook.creator = 'Families Share'
   workBook.created = new Date()
   let people = []
-  const start = moment(plan.start)
+  const start = moment(plan.from)
   const end = moment(plan.to)
-  console.log(start)
-  console.log(end)
   const slots = [start.format('DD MMMM YYYY')]
-  console.log(slots)
   while (start.add(1, 'days').diff(end) <= 0) {
     slots.push(start.clone().format('DD MMMM YYYY'))
-    console.log(slots)
   }
   slots.push(end.format('DD MMMM YYYY'))
   plan.participants.forEach(p => {
