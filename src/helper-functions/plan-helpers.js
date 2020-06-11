@@ -189,7 +189,7 @@ const findOptimalSolution = (plan) => {
   return subscriptions
 }
 
-function newExportEmail (plan_name) {
+function newExportEmail(plan_name) {
   return `<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -612,7 +612,7 @@ const createSolutionSheet = (workBook, solution, parents, children) => {
   })
 }
 
-async function createExcel (plan, cb) {
+async function createExcel(plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
   workBook.created = new Date()
@@ -632,6 +632,7 @@ async function createExcel (plan, cb) {
       })
     })
   })
+  console.log('slots', slots)
   const filteredSlots = slots.filter(slot => {
     let found = false
     plan.participants.forEach(pa => {
@@ -641,13 +642,15 @@ async function createExcel (plan, cb) {
     })
     return found
   })
+  console.log('filtered slots', filteredSlots)
   people = people.filter(
     (person, index, self) =>
       index === self.findIndex(obj => person.id === obj.id)
   )
   const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
   const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
-
+  console.log(parentProfiles)
+  console.log(childrenProfiles)
   createPlanSheet(workBook, plan)
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
@@ -657,7 +660,7 @@ async function createExcel (plan, cb) {
   })
 }
 
-async function createSolutionExcel (plan, cb) {
+async function createSolutionExcel(plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
   workBook.created = new Date()

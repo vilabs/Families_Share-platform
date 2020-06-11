@@ -47,10 +47,10 @@ const transporter = nodemailer.createTransport({
 })
 
 const groupStorage = multer.diskStorage({
-  destination (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, path.join(__dirname, '../../images/groups'))
   },
-  filename (req, file, cb) {
+  filename(req, file, cb) {
     const fileName = `${req.params.id}-${Date.now()}.${file.mimetype.slice(
       file.mimetype.indexOf('/') + 1,
       file.mimetype.length
@@ -65,10 +65,10 @@ const groupUpload = multer({
 })
 
 const announcementStorage = multer.diskStorage({
-  destination (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, path.join(__dirname, '../../images/announcements'))
   },
-  filename (req, file, cb) {
+  filename(req, file, cb) {
     if (req.params.announcement_id === undefined) {
       req.params.announcement_id = objectid()
     }
@@ -953,7 +953,7 @@ router.patch('/:groupId/plans/:planId', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     if (plan.participants) {
-      plan.participants = [ plan.participants.find(p => p.user_id === userId), ...oldPlan.participants.filter(p => p.user_id !== userId) ]
+      plan.participants = [plan.participants.find(p => p.user_id === userId), ...oldPlan.participants.filter(p => p.user_id !== userId)]
     }
     if (plan.participants) {
       plan.participants = await ph.syncChildSubscriptions(plan.participants)
@@ -1036,7 +1036,8 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
         ]
       }
       transporter.sendMail(mailOptions, (err, info) => {
-        if (err) next(err)
+        if (err) console.log(err)
+        console.log(info)
         fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
       })
       res.status(200).send('Exported pan successfully')
@@ -1508,7 +1509,7 @@ router.patch(
       const children = JSON.parse(extendedProperties.shared.children)
       if (!member.admin) {
         if (parents.includes(req.user_id)) {
-          extendedProperties.shared.parents = JSON.stringify([...new Set([ ...oldParents, req.user_id ])])
+          extendedProperties.shared.parents = JSON.stringify([...new Set([...oldParents, req.user_id])])
         } else {
           extendedProperties.shared.parents = JSON.stringify(oldParents.filter(u => u !== req.user_id))
         }
@@ -1538,7 +1539,7 @@ router.patch(
       }
       const externals = JSON.parse(extendedProperties.shared.externals || '[]')
       const volunteersReq =
-       (parents.length + externals.length) >= extendedProperties.shared.requiredParents
+        (parents.length + externals.length) >= extendedProperties.shared.requiredParents
       const childrenReq =
         children.length >= extendedProperties.shared.requiredChildren
       if (event.data.extendedProperties.shared.status !== extendedProperties.shared.status) {
