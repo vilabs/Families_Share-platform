@@ -619,9 +619,13 @@ async function createExcel(plan, cb) {
   let people = []
   const start = moment(plan.start)
   const end = moment(plan.to)
+  console.log(start)
+  console.log(end)
   const slots = [start.format('DD MMMM YYYY')]
+  console.log(slots)
   while (start.add(1, 'days').diff(end) <= 0) {
     slots.push(start.clone().format('DD MMMM YYYY'))
+    console.log(slots)
   }
   slots.push(end.format('DD MMMM YYYY'))
   plan.participants.forEach(p => {
@@ -632,7 +636,6 @@ async function createExcel(plan, cb) {
       })
     })
   })
-  console.log('slots', slots)
   const filteredSlots = slots.filter(slot => {
     let found = false
     plan.participants.forEach(pa => {
@@ -642,15 +645,13 @@ async function createExcel(plan, cb) {
     })
     return found
   })
-  console.log('filtered slots', filteredSlots)
   people = people.filter(
     (person, index, self) =>
       index === self.findIndex(obj => person.id === obj.id)
   )
   const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
   const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
-  console.log(parentProfiles)
-  console.log(childrenProfiles)
+
   createPlanSheet(workBook, plan)
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
