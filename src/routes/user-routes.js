@@ -518,7 +518,9 @@ router.post('/:id/deviceToken', async (req, res, next) => {
       return res.status(409).send('Token exists')
     } else if (device_id) {
       await Device.create({ user_id, device_id })
-      res.status(200).send('Token updated successfully')
+      return res.status(200).send('Token updated successfully')
+    } else {
+      res.status(400).send('Bad request')
     }
   } catch (error) {
     next(error)
