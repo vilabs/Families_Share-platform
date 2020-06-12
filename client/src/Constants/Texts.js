@@ -1330,15 +1330,15 @@ const nl = {
       "U ontvangt binnenkort de definitieve oplossing van het plan via e-mail"
   },
   groupManagementScreen: {
-    backNavTitle: "Csoportkezelés",
-    totalVolunteers: "Önkéntesek összes száma",
-    totalKids: "A gyerekek teljes száma",
-    totalEvents: "Események összes száma",
-    totalCompletedEvents: "A befejezett események összes száma",
-    metricsHeader: "Csoportos mutatók",
-    metricsColumn: "Metrika",
-    rightsColumn: "Érték",
-    chartHeader: "Felhasználónkénti összes hozzájárulás"
+    backNavTitle: "Groepsbeheer",
+    totalVolunteers: "Totaal aantal vrijwilligers",
+    totalKids: "Totaal aantal kinderen",
+    totalEvents: "Totaal aantal activiteiten",
+    totalCompletedEvents: "Totaal van afgelopen activiteiten",
+    metricsHeader: "Groepsstatistieken ",
+    metricsColumn: "Statistieken",
+    valuesColumn: "Waarden",
+    chartHeader: "Totaal van deelname per gebruiker"
   },
   timeslotEmergencyScreen: {
     copy: "Noodnummer naar klembord gekopieerd",
