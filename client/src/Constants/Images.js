@@ -12,7 +12,8 @@ const landingImage = {
   Foscari: require("../images/foscariImage.png"),
   Ferrara: require("../images/ferraraImage.png"),
   Development: require("../images/developmentImage.png"),
-  Parma: require("../images/parmaImage.png")
+  Parma: require("../images/parmaImage.png"),
+  Nina: require("../images/ninaImage.png")
 };
 
 const Images = {
