@@ -327,6 +327,7 @@ const createAvailabilitiesSheet = (workBook, parentProfiles, slots, plan) => {
     meridiemRow.getCell(index * 2 + 2).value = 'AM'
     meridiemRow.getCell(index * 2 + 3).value = 'PM'
   })
+  console.log(slots)
   availabilitiesSheet.getColumn('A').border = {
     right: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
@@ -422,6 +423,7 @@ const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, peop
     meridiemRow.getCell(index * 2 + 3).value = 'AM'
     meridiemRow.getCell(index * 2 + 4).value = 'PM'
   })
+  console.log(slots)
   needsAndAvailabilitiesSheet.getColumn('B').border = {
     right: { style: 'thick', color: { argb: 'FFDADFE9' } }
   }
@@ -647,7 +649,9 @@ async function createExcel (plan, cb) {
   )
   const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
   const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
-
+  console.log(parentProfiles)
+  console.log(childrenProfiles)
+  console.log(filteredSlots)
   createPlanSheet(workBook, plan)
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
