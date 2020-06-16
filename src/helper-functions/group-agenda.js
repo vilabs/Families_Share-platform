@@ -122,7 +122,7 @@ async function createExcel (group, activities, events, cb) {
     }
     await sheet.addRow({})
   }
-  workBook.xlsx.writeFile(`${group.name}.xlsx`)
+  workBook.xlsx.writeFile(`agenda.xlsx`)
     .then(() => {
       console.log('Excel created')
       cb()

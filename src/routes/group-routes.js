@@ -758,14 +758,14 @@ router.post('/:id/contacts/export', async (req, res, next) => {
         html: groupAgenda.newGroupAgendaEmail(group.name),
         attachments: [
           {
-            filename: `${group.name.toUpperCase()}.xlsx`,
-            path: path.join(__dirname, `../../${group.name}.xlsx`)
+            filename: `contacts.xlsx`,
+            path: path.join(__dirname, `../../contacts.xlsx`)
           }
         ]
       }
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) next(err)
-        fr('../', { files: `${group.name}.xlsx` })
+        fr('../', { files: `contacts.xlsx` })
       })
       res.status(200).send('Group contacts exported')
     })
@@ -820,14 +820,14 @@ router.post('/:id/agenda/export', async (req, res, next) => {
         html: groupAgenda.newGroupAgendaEmail(group.name),
         attachments: [
           {
-            filename: `${group.name.toUpperCase()}.xlsx`,
-            path: path.join(__dirname, `../../${group.name}.xlsx`)
+            filename: `agenda.xlsx`,
+            path: path.join(__dirname, `../../agenda.xlsx`)
           }
         ]
       }
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) next(err)
-        fr('../', { files: `${group.name}.xlsx` })
+        fr('../', { files: `agenda.xlsx` })
       })
       res.status(200).send('Group Agenda sent')
     })
@@ -1038,7 +1038,7 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) console.log(err)
         console.log(info)
-        fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
+        fr('../', { files: `plan.xlsx` })
       })
       res.status(200).send('Exported pan successfully')
     })
@@ -1090,17 +1090,17 @@ router.post('/:groupId/plans/:planId/activities', async (req, res, next) => {
           html: ph.newExportEmail(plan.name),
           attachments: [
             {
-              filename: `${plan.name.toUpperCase()} SOLUTION.xlsx`,
+              filename: `plan_solution.xlsx`,
               path: path.join(
                 __dirname,
-                `../../${plan.name.toUpperCase()} SOLUTION.xlsx`
+                `../../plan_solution.xlsx`
               )
             }
           ]
         }
         transporter.sendMail(mailOptions, (err, info) => {
           if (err) next(err)
-          fr('../', { files: `${plan.name.toUpperCase()} SOLUTION.xlsx` })
+          fr('../', { files: `plan_solution.xlsx` })
         })
         await Plan.deleteOne({ plan_id })
         res.status(200).send('Exported plan solution successfully')
@@ -1339,10 +1339,10 @@ router.post(
             html: exportActivity.newExportEmail(activity.name),
             attachments: [
               {
-                filename: `${activity.name.toUpperCase()}.pdf`,
+                filename: `activity.pdf`,
                 path: path.join(
                   __dirname,
-                  `../../${activity.name.toUpperCase()}.pdf`
+                  `../../activity.pdf`
                 )
               }
             ]
@@ -1350,9 +1350,9 @@ router.post(
           transporter.sendMail(mailOptions, (err, info) => {
             if (err) next(err)
             if (format === 'excel') {
-              fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
+              fr('../', { files: `activity.xlsx` })
             } else {
-              fr('../../', { files: `${activity.name.toUpperCase()}.pdf` })
+              fr('../../', { files: `activity.pdf` })
             }
           })
           res.status(200).send('Exported activity successfully')
@@ -1366,17 +1366,17 @@ router.post(
             html: exportActivity.newExportEmail(activity.name),
             attachments: [
               {
-                filename: `${activity.name.toUpperCase()}.xlsx`,
+                filename: `activity.xlsx`,
                 path: path.join(
                   __dirname,
-                  `../../${activity.name.toUpperCase()}.xlsx`
+                  `../../activity.xlsx`
                 )
               }
             ]
           }
           transporter.sendMail(mailOptions, (err, info) => {
             if (err) next(err)
-            fr('../', { files: `${activity.name.toUpperCase()}.xlsx` })
+            fr('../', { files: `activity.xlsx` })
           })
           res.status(200).send('Exported activity successfully')
         })

@@ -232,7 +232,7 @@ async function createExcel (activity, timeslots, cb) {
       number: emergency.number
     })
   })
-  workBook.xlsx.writeFile(`${activity.name.toUpperCase()}.xlsx`).then(() => {
+  workBook.xlsx.writeFile(`activity.xlsx`).then(() => {
     console.log('Excel created')
     cb()
   })
@@ -417,7 +417,7 @@ async function createPdf (activity, timeslots, cb) {
     ]
   }
   const pdfDoc = printer.createPdfKitDocument(docDefinition)
-  pdfDoc.pipe(fs.createWriteStream(`${activity.name.toUpperCase()}.pdf`))
+  pdfDoc.pipe(fs.createWriteStream(`activity.pdf`))
   pdfDoc.end()
   cb()
 }

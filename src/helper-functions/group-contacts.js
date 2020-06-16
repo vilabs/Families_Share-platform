@@ -96,7 +96,7 @@ async function createExcel (group, profiles, cb) {
     })
   })
   sheet.getRow(1).font = { bold: true }
-  workBook.xlsx.writeFile(`${group.name}.xlsx`)
+  workBook.xlsx.writeFile(`contacts.xlsx`)
     .then(() => {
       console.log('Excel created')
       cb()

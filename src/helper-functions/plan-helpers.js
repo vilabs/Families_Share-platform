@@ -666,7 +666,7 @@ async function createSolutionExcel (plan, cb) {
   const parentProfiles = await Profile.find({ user_id: { $in: parents } })
   const childrenProfiles = await Child.find({ child_id: { $in: children } })
   createSolutionSheet(workBook, plan.solution, parentProfiles, childrenProfiles)
-  workBook.xlsx.writeFile(`${plan.name.toUpperCase()} SOLUTION.xlsx`).then(() => {
+  workBook.xlsx.writeFile(`plan_solution.xlsx`).then(() => {
     cb()
   })
 }
