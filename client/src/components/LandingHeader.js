@@ -11,7 +11,7 @@ const LandingHeader = () => {
           className="landingHeaderLogo"
           alt="family share logo"
         />
-        <h1 className="cityName">{process.env.REACT_APP_CITYLAB_NAME}</h1>
+        <h1 style={{marginBottom:0}} className="cityName">{process.env.REACT_APP_CITYLAB_NAME}</h1>
       </div>
     </div>
   );
