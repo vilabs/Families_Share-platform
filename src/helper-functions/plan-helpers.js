@@ -613,49 +613,52 @@ const createSolutionSheet = (workBook, solution, parents, children) => {
 }
 
 async function createExcel (plan, cb) {
-  const workBook = new Excel.Workbook()
-  workBook.creator = 'Families Share'
-  workBook.created = new Date()
-  let people = []
-  const start = moment(plan.from)
-  const end = moment(plan.to)
-  const slots = [start.format('DD MMMM YYYY')]
-  while (start.add(1, 'days').diff(end) <= 0) {
-    slots.push(start.clone().format('DD MMMM YYYY'))
-  }
-  slots.push(end.format('DD MMMM YYYY'))
-  plan.participants.forEach(p => {
-    people.push({ id: p.user_id, type: 'parent' })
-    p.needs.forEach(n => {
-      n.children.forEach(c => {
-        people.push({ id: c, type: 'child', parent: p.user_id })
+  try {
+    const workBook = new Excel.Workbook()
+    workBook.creator = 'Families Share'
+    workBook.created = new Date()
+    let people = []
+    const start = moment(plan.from)
+    const end = moment(plan.to)
+    const slots = [start.format('DD MMMM YYYY')]
+    while (start.add(1, 'days').diff(end) <= 0) {
+      slots.push(start.clone().format('DD MMMM YYYY'))
+    }
+    slots.push(end.format('DD MMMM YYYY'))
+    plan.participants.forEach(p => {
+      people.push({ id: p.user_id, type: 'parent' })
+      p.needs.forEach(n => {
+        n.children.forEach(c => {
+          people.push({ id: c, type: 'child', parent: p.user_id })
+        })
       })
     })
-  })
-  const filteredSlots = slots.filter(slot => {
-    let found = false
-    plan.participants.forEach(pa => {
-      if (pa.needs.map(need => moment(need.day).format('DD MMMM YYYY')).includes(slot)) {
-        found = true
-      }
+    const filteredSlots = slots.filter(slot => {
+      let found = false
+      plan.participants.forEach(pa => {
+        if (pa.needs.map(need => moment(need.day).format('DD MMMM YYYY')).includes(slot)) {
+          found = true
+        }
+      })
+      return found
     })
-    return found
-  })
-  people = people.filter(
-    (person, index, self) =>
-      index === self.findIndex(obj => person.id === obj.id)
-  )
-  const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
-  const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
+    people = people.filter(
+      (person, index, self) =>
+        index === self.findIndex(obj => person.id === obj.id)
+    )
+    const parentProfiles = await Profile.find({ user_id: { $in: people.filter(p => p.type === 'parent').map(p => p.id) } })
+    const childrenProfiles = await Child.find({ child_id: { $in: people.filter(p => p.type === 'child').map(p => p.id) } })
 
-  createPlanSheet(workBook, plan)
-  createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
-  createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
-  createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
-  workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
-    console.log('file written')
-    cb()
-  })
+    createPlanSheet(workBook, plan)
+    createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
+    createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
+    createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
+    workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
+      cb()
+    })
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 async function createSolutionExcel (plan, cb) {

@@ -1038,11 +1038,7 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) console.log(err)
         console.log(info)
-        try {
-          fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
-        } catch (err) {
-          res.status(400).send('Something went wrong')
-        }
+        fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
       })
       res.status(200).send('Exported pan successfully')
     })
