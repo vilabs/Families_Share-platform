@@ -653,11 +653,9 @@ async function createExcel (plan, cb) {
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
-  let t = await fs.readdirSync('./')
+  let t = await fs.readdirSync('./src/helper-functions')
   console.log(t)
-  t = await fs.readdirSync('../')
-  console.log(t)
-  t = await fs.readdirSync('../../')
+  t = await fs.readdirSync('./src/routes')
   console.log(t)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
