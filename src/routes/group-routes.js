@@ -1027,10 +1027,10 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
         html: ph.newExportEmail(plan.name),
         attachments: [
           {
-            filename: `${plan.name.toUpperCase()}.xlsx`,
+            filename: `plan.xlsx`,
             path: path.join(
               __dirname,
-              `../../${plan.name.toUpperCase()}.xlsx`
+              `../../plan.xlsx`
             )
           }
         ]

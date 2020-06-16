@@ -279,351 +279,337 @@ const createNeedsSheet = (workBook, parentProfiles, childrenProfiles, slots, peo
 }
 
 const createAvailabilitiesSheet = (workBook, parentProfiles, slots, plan) => {
-  try {
-    const availabilitiesSheet = workBook.addWorksheet('Parent Availabilities')
-    availabilitiesSheet.getColumn('A').width = 20
-    let columns = [
-      {
-        key: 'parent'
-      }
-    ]
-    slots.forEach((s, index) => {
-      columns.push({
-        key: `${s}-AM`
-      })
-      columns.push({
-        key: `${s}-PM`
-      })
-      availabilitiesSheet.mergeCells(1, 2 * index + 2, 1, 2 * index + 3)
-      availabilitiesSheet.mergeCells(2, 2 * index + 2, 2, 2 * index + 3)
+  const availabilitiesSheet = workBook.addWorksheet('Parent Availabilities')
+  availabilitiesSheet.getColumn('A').width = 20
+  let columns = [
+    {
+      key: 'parent'
+    }
+  ]
+  slots.forEach((s, index) => {
+    columns.push({
+      key: `${s}-AM`
     })
-    const weekdaysRow = availabilitiesSheet.getRow(1)
-    weekdaysRow.alignment = { horizontal: 'center' }
-    const datesRow = availabilitiesSheet.getRow(2)
-    datesRow.alignment = weekdaysRow.alignment
-    const meridiemRow = availabilitiesSheet.getRow(3)
-    meridiemRow.alignment = weekdaysRow.alignment
-    const headersRow = availabilitiesSheet.getRow(4)
-    datesRow.fill = {
+    columns.push({
+      key: `${s}-PM`
+    })
+    availabilitiesSheet.mergeCells(1, 2 * index + 2, 1, 2 * index + 3)
+    availabilitiesSheet.mergeCells(2, 2 * index + 2, 2, 2 * index + 3)
+  })
+  const weekdaysRow = availabilitiesSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
+  const datesRow = availabilitiesSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
+  const meridiemRow = availabilitiesSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
+  const headersRow = availabilitiesSheet.getRow(4)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = datesRow.fill
+  headersRow.fill = datesRow.fill
+  headersRow.font = datesRow.font
+  headersRow.alignment = weekdaysRow.alignment
+  headersRow.getCell(1).value = 'Parent name'
+  headersRow.getCell(1).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  availabilitiesSheet.getCell('A4').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  slots.forEach((s, index) => {
+    weekdaysRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('dddd')
+    datesRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('DD/MM/YYYY')
+    meridiemRow.getCell(index * 2 + 2).value = 'AM'
+    meridiemRow.getCell(index * 2 + 3).value = 'PM'
+  })
+  availabilitiesSheet.getColumn('A').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  parentProfiles.forEach((profile, index) => {
+    let row = availabilitiesSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
       type: 'pattern',
       pattern: 'solid',
-      fgColor: { argb: 'FFEFEFEF' }
-    }
-    datesRow.font = { bold: true }
-    meridiemRow.font = datesRow.font
-    meridiemRow.fill = datesRow.fill
-    headersRow.fill = datesRow.fill
-    headersRow.font = datesRow.font
-    headersRow.alignment = weekdaysRow.alignment
-    headersRow.getCell(1).value = 'Parent name'
-    headersRow.getCell(1).border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    availabilitiesSheet.getCell('A4').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+      fgColor: { argb: 'FFB7E1CD' }
     }
     slots.forEach((s, index) => {
-      weekdaysRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('dddd')
-      datesRow.getCell(index * 2 + 2).value = moment(new Date(s)).format('DD/MM/YYYY')
-      meridiemRow.getCell(index * 2 + 2).value = 'AM'
-      meridiemRow.getCell(index * 2 + 3).value = 'PM'
-    })
-    availabilitiesSheet.getColumn('A').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    headersRow.border = {
-      bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    parentProfiles.forEach((profile, index) => {
-      let row = availabilitiesSheet.getRow(5 + index)
-      row.alignment = { horizontal: 'center' }
-      row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
-      row.getCell(1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFB7E1CD' }
-      }
-      slots.forEach((s, index) => {
-        const participant = plan.participants.find(p => p.user_id === profile.user_id)
-        const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
-        if (availability) {
-          if (availability.meridiem === 'both') {
-            row.getCell(2 * index + 2).value = 'x'
-            row.getCell(2 * index + 3).value = 'x'
-          } else if (availability.meridiem === 'am') {
-            row.getCell(2 * index + 2).value = 'x'
-          } else {
-            row.getCell(2 * index + 3).value = 'x'
-          }
+      const participant = plan.participants.find(p => p.user_id === profile.user_id)
+      const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
+      if (availability) {
+        if (availability.meridiem === 'both') {
+          row.getCell(2 * index + 2).value = 'x'
+          row.getCell(2 * index + 3).value = 'x'
+        } else if (availability.meridiem === 'am') {
+          row.getCell(2 * index + 2).value = 'x'
+        } else {
+          row.getCell(2 * index + 3).value = 'x'
         }
-      })
+      }
     })
-  } catch (err) {
-    console.log(err)
-  }
+  })
 }
 
 const createNeedsAndAvailabilitiesSheet = (workBook, parentProfiles, slots, people, plan) => {
-  try {
-    const needsAndAvailabilitiesSheet = workBook.addWorksheet('Needs And Availabilities')
-    needsAndAvailabilitiesSheet.getColumn('A').width = 20
-    needsAndAvailabilitiesSheet.getColumn('B').width = 20
+  const needsAndAvailabilitiesSheet = workBook.addWorksheet('Needs And Availabilities')
+  needsAndAvailabilitiesSheet.getColumn('A').width = 20
+  needsAndAvailabilitiesSheet.getColumn('B').width = 20
 
-    let columns = [
-      {
-        key: 'parent'
-      },
-      {
-        key: 'babysitter'
-      }
-    ]
-    slots.forEach((s, index) => {
-      columns.push({
-        key: `${s}-AM`
-      })
-      columns.push({
-        key: `${s}-PM`
-      })
-      needsAndAvailabilitiesSheet.mergeCells(1, 2 * index + 3, 1, 2 * index + 4)
-      needsAndAvailabilitiesSheet.mergeCells(2, 2 * index + 3, 2, 2 * index + 4)
-    })
-    const weekdaysRow = needsAndAvailabilitiesSheet.getRow(1)
-    weekdaysRow.alignment = { horizontal: 'center' }
-    const datesRow = needsAndAvailabilitiesSheet.getRow(2)
-    datesRow.alignment = weekdaysRow.alignment
-    const meridiemRow = needsAndAvailabilitiesSheet.getRow(3)
-    meridiemRow.alignment = weekdaysRow.alignment
-    const headersRow = needsAndAvailabilitiesSheet.getRow(4)
-    datesRow.fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: 'FFEFEFEF' }
+  let columns = [
+    {
+      key: 'parent'
+    },
+    {
+      key: 'babysitter'
     }
-    datesRow.font = { bold: true }
-    meridiemRow.font = datesRow.font
-    meridiemRow.fill = {
+  ]
+  slots.forEach((s, index) => {
+    columns.push({
+      key: `${s}-AM`
+    })
+    columns.push({
+      key: `${s}-PM`
+    })
+    needsAndAvailabilitiesSheet.mergeCells(1, 2 * index + 3, 1, 2 * index + 4)
+    needsAndAvailabilitiesSheet.mergeCells(2, 2 * index + 3, 2, 2 * index + 4)
+  })
+  const weekdaysRow = needsAndAvailabilitiesSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
+  const datesRow = needsAndAvailabilitiesSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
+  const meridiemRow = needsAndAvailabilitiesSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
+  const headersRow = needsAndAvailabilitiesSheet.getRow(4)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFB7E1CD' }
+  }
+  headersRow.fill = datesRow.fill
+  headersRow.alignment = weekdaysRow.alignment
+  headersRow.font = datesRow.font
+  headersRow.getCell(1).value = 'Parent name'
+  headersRow.getCell(2).value = 'Babysistter'
+  headersRow.getCell(2).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  needsAndAvailabilitiesSheet.getCell('B4').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  slots.forEach((s, index) => {
+    weekdaysRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    datesRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index * 2 + 4).alignment = { horizontal: 'center' }
+    weekdaysRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('dddd')
+    datesRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('DD/MM/YYYY')
+    meridiemRow.getCell(index * 2 + 3).value = 'AM'
+    meridiemRow.getCell(index * 2 + 4).value = 'PM'
+  })
+  needsAndAvailabilitiesSheet.getColumn('B').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  parentProfiles.forEach((profile, index) => {
+    let row = needsAndAvailabilitiesSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
       type: 'pattern',
       pattern: 'solid',
       fgColor: { argb: 'FFB7E1CD' }
     }
-    headersRow.fill = datesRow.fill
-    headersRow.alignment = weekdaysRow.alignment
-    headersRow.font = datesRow.font
-    headersRow.getCell(1).value = 'Parent name'
-    headersRow.getCell(2).value = 'Babysistter'
-    headersRow.getCell(2).border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    needsAndAvailabilitiesSheet.getCell('B4').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
     slots.forEach((s, index) => {
-      weekdaysRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
-      datesRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
-      meridiemRow.getCell(index * 2 + 3).alignment = { horizontal: 'center' }
-      meridiemRow.getCell(index * 2 + 4).alignment = { horizontal: 'center' }
-      weekdaysRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('dddd')
-      datesRow.getCell(index * 2 + 3).value = moment(new Date(s)).format('DD/MM/YYYY')
-      meridiemRow.getCell(index * 2 + 3).value = 'AM'
-      meridiemRow.getCell(index * 2 + 4).value = 'PM'
-    })
-    needsAndAvailabilitiesSheet.getColumn('B').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    headersRow.border = {
-      bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    parentProfiles.forEach((profile, index) => {
-      let row = needsAndAvailabilitiesSheet.getRow(5 + index)
-      row.alignment = { horizontal: 'center' }
-      row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
-      row.getCell(1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFB7E1CD' }
-      }
-      slots.forEach((s, index) => {
-        const participant = plan.participants.find(p => p.user_id === profile.user_id)
-        const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
-        if (availability) {
-          if (availability.meridiem === 'both') {
-            row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
-            row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
-          } else if (availability.meridiem === 'am') {
-            row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
-          } else {
-            row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
-          }
+      const participant = plan.participants.find(p => p.user_id === profile.user_id)
+      const availability = participant.availabilities.find(a => moment(a.day).format('DD MMMM YYYY') === s)
+      if (availability) {
+        if (availability.meridiem === 'both') {
+          row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
+          row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
+        } else if (availability.meridiem === 'am') {
+          row.getCell(2 * index + 3).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
+        } else {
+          row.getCell(2 * index + 4).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEFEFEF' } }
         }
-      })
+      }
     })
-  } catch (err) {
-    console.log(err)
-  }
+  })
 }
 
 const createPlanSheet = (workBook, plan) => {
-  try {
-    const planSheet = workBook.addWorksheet('Plan details')
-    planSheet.columns = [
-      {
-        key: 'name',
-        header: 'Name'
-      },
-      {
-        key: 'description',
-        header: 'Description'
-      },
-      {
-        key: 'category',
-        header: 'Category'
-      },
-      {
-        key: 'location',
-        header: 'Location'
-      },
-      {
-        key: 'from',
-        header: 'From'
-      },
-      {
-        key: 'to',
-        header: 'To'
-      },
-      {
-        key: 'deadline',
-        header: 'Deadline'
-      },
-      {
-        key: 'ratio',
-        header: 'Children to Volunteers ratio'
-      },
-      {
-        key: 'min_volunteers',
-        header: 'Min number of volunteers'
-      },
-      {
-        key: 'state',
-        header: 'State'
-      }
-    ]
-    planSheet.addRow({
-      name: plan.name,
-      description: plan.description,
-      location: plan.location,
-      min_volunteers: plan.min_volunteers,
-      ratio: plan.ratio,
-      from: moment(plan.from).format('DD/MM/YYYY'),
-      to: moment(plan.to).format('DD/MM/YYYY'),
-      deadline: moment(plan.deadline).format('DD/MM/YYYY'),
-      category: plan.category,
-      state: plan.state
-    })
-  } catch (err) {
-    console.log(err)
-  }
+  const planSheet = workBook.addWorksheet('Plan details')
+  planSheet.columns = [
+    {
+      key: 'name',
+      header: 'Name'
+    },
+    {
+      key: 'description',
+      header: 'Description'
+    },
+    {
+      key: 'category',
+      header: 'Category'
+    },
+    {
+      key: 'location',
+      header: 'Location'
+    },
+    {
+      key: 'from',
+      header: 'From'
+    },
+    {
+      key: 'to',
+      header: 'To'
+    },
+    {
+      key: 'deadline',
+      header: 'Deadline'
+    },
+    {
+      key: 'ratio',
+      header: 'Children to Volunteers ratio'
+    },
+    {
+      key: 'min_volunteers',
+      header: 'Min number of volunteers'
+    },
+    {
+      key: 'state',
+      header: 'State'
+    }
+  ]
+  planSheet.addRow({
+    name: plan.name,
+    description: plan.description,
+    location: plan.location,
+    min_volunteers: plan.min_volunteers,
+    ratio: plan.ratio,
+    from: moment(plan.from).format('DD/MM/YYYY'),
+    to: moment(plan.to).format('DD/MM/YYYY'),
+    deadline: moment(plan.deadline).format('DD/MM/YYYY'),
+    category: plan.category,
+    state: plan.state
+  })
 }
 
 const createSolutionSheet = (workBook, solution, parents, children) => {
-  try {
-    const solutionSheet = workBook.addWorksheet('Solution')
-    solutionSheet.getColumn('A').width = 20
+  const solutionSheet = workBook.addWorksheet('Solution')
+  solutionSheet.getColumn('A').width = 20
 
-    let columns = [
-      {
-        key: 'name'
-      }
-    ]
-    solution.forEach(({ slot }, index) => {
-      columns.push({
-        key: slot
-      })
-      if (index % 2 === 0) {
-        solutionSheet.mergeCells(1, index + 2, 1, index + 3)
-        solutionSheet.mergeCells(2, index + 2, 2, index + 3)
-      }
-    })
-    const weekdaysRow = solutionSheet.getRow(1)
-    weekdaysRow.alignment = { horizontal: 'center' }
-    const datesRow = solutionSheet.getRow(2)
-    datesRow.alignment = weekdaysRow.alignment
-    const meridiemRow = solutionSheet.getRow(3)
-    meridiemRow.alignment = weekdaysRow.alignment
-    const headersRow = solutionSheet.getRow(4)
-    datesRow.fill = {
-      type: 'pattern',
-      pattern: 'solid',
-      fgColor: { argb: 'FFEFEFEF' }
+  let columns = [
+    {
+      key: 'name'
     }
-    datesRow.font = { bold: true }
-    meridiemRow.font = datesRow.font
-    meridiemRow.fill = {
+  ]
+  solution.forEach(({ slot }, index) => {
+    columns.push({
+      key: slot
+    })
+    if (index % 2 === 0) {
+      solutionSheet.mergeCells(1, index + 2, 1, index + 3)
+      solutionSheet.mergeCells(2, index + 2, 2, index + 3)
+    }
+  })
+  const weekdaysRow = solutionSheet.getRow(1)
+  weekdaysRow.alignment = { horizontal: 'center' }
+  const datesRow = solutionSheet.getRow(2)
+  datesRow.alignment = weekdaysRow.alignment
+  const meridiemRow = solutionSheet.getRow(3)
+  meridiemRow.alignment = weekdaysRow.alignment
+  const headersRow = solutionSheet.getRow(4)
+  datesRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFEFEFEF' }
+  }
+  datesRow.font = { bold: true }
+  meridiemRow.font = datesRow.font
+  meridiemRow.fill = {
+    type: 'pattern',
+    pattern: 'solid',
+    fgColor: { argb: 'FFB7E1CD' }
+  }
+  headersRow.fill = datesRow.fill
+  headersRow.alignment = weekdaysRow.alignment
+  headersRow.font = datesRow.font
+  headersRow.getCell(1).value = 'Parent name'
+  headersRow.getCell(2).border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  solutionSheet.getCell('A4').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  solution.forEach(({ slot }, index) => {
+    if (index % 2 === 0) {
+      weekdaysRow.getCell(index + 2).alignment = { horizontal: 'center' }
+      datesRow.getCell(index + 2).alignment = { horizontal: 'center' }
+      datesRow.getCell(index + 2).value = slot
+      weekdaysRow.getCell(index + 2).value = moment(new Date(slot.split('-')[0])).format('dddd')
+    }
+    meridiemRow.getCell(index + 2).alignment = { horizontal: 'center' }
+    meridiemRow.getCell(index + 2).value = slot.split('-')[1]
+  })
+  solutionSheet.getColumn('B').border = {
+    right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  headersRow.border = {
+    bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  }
+  parents.forEach((profile, index) => {
+    let row = solutionSheet.getRow(5 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
       type: 'pattern',
       pattern: 'solid',
       fgColor: { argb: 'FFB7E1CD' }
     }
-    headersRow.fill = datesRow.fill
-    headersRow.alignment = weekdaysRow.alignment
-    headersRow.font = datesRow.font
-    headersRow.getCell(1).value = 'Parent name'
-    headersRow.getCell(2).border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    solutionSheet.getCell('A4').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    solution.forEach(({ slot }, index) => {
-      if (index % 2 === 0) {
-        weekdaysRow.getCell(index + 2).alignment = { horizontal: 'center' }
-        datesRow.getCell(index + 2).alignment = { horizontal: 'center' }
-        datesRow.getCell(index + 2).value = slot
-        weekdaysRow.getCell(index + 2).value = moment(new Date(slot.split('-')[0])).format('dddd')
+    solution.forEach(({ volunteers }, index) => {
+      if (volunteers.includes(profile.user_id)) {
+        row.getCell(index + 2).value = 'X'
       }
-      meridiemRow.getCell(index + 2).alignment = { horizontal: 'center' }
-      meridiemRow.getCell(index + 2).value = slot.split('-')[1]
     })
-    solutionSheet.getColumn('B').border = {
-      right: { style: 'thick', color: { argb: 'FFDADFE9' } }
+  })
+  const childHeaderRow = solutionSheet.getRow(5 + parents.length)
+  childHeaderRow.getCell(1).value = 'Child name'
+  childHeaderRow.font = datesRow.font
+  childHeaderRow.fill = datesRow.fill
+  childHeaderRow.alignment = weekdaysRow.alignment
+  children.forEach((profile, index) => {
+    let row = solutionSheet.getRow(5 + parents.length + 1 + index)
+    row.alignment = { horizontal: 'center' }
+    row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
+    row.getCell(1).fill = {
+      type: 'pattern',
+      pattern: 'solid',
+      fgColor: { argb: 'FFB7E1CD' }
     }
-    headersRow.border = {
-      bottom: { style: 'thick', color: { argb: 'FFDADFE9' } }
-    }
-    parents.forEach((profile, index) => {
-      let row = solutionSheet.getRow(5 + index)
-      row.alignment = { horizontal: 'center' }
-      row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
-      row.getCell(1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFB7E1CD' }
+    solution.forEach(({ children }, index) => {
+      if (children.includes(profile.child_id)) {
+        row.getCell(index + 2).value = 'X'
       }
-      solution.forEach(({ volunteers }, index) => {
-        if (volunteers.includes(profile.user_id)) {
-          row.getCell(index + 2).value = 'X'
-        }
-      })
     })
-    const childHeaderRow = solutionSheet.getRow(5 + parents.length)
-    childHeaderRow.getCell(1).value = 'Child name'
-    childHeaderRow.font = datesRow.font
-    childHeaderRow.fill = datesRow.fill
-    childHeaderRow.alignment = weekdaysRow.alignment
-    children.forEach((profile, index) => {
-      let row = solutionSheet.getRow(5 + parents.length + 1 + index)
-      row.alignment = { horizontal: 'center' }
-      row.getCell(1).value = `${profile.given_name} ${profile.family_name}`
-      row.getCell(1).fill = {
-        type: 'pattern',
-        pattern: 'solid',
-        fgColor: { argb: 'FFB7E1CD' }
-      }
-      solution.forEach(({ children }, index) => {
-        if (children.includes(profile.child_id)) {
-          row.getCell(index + 2).value = 'X'
-        }
-      })
-    })
-  } catch (err) { console.log(err) }
+  })
 }
 
 async function createExcel (plan, cb) {
@@ -666,7 +652,7 @@ async function createExcel (plan, cb) {
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
-  workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
+  workBook.xlsx.writeFile(`plan.xlsx`).then(() => {
     cb()
   })
 }
