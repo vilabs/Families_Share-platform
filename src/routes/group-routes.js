@@ -47,10 +47,10 @@ const transporter = nodemailer.createTransport({
 })
 
 const groupStorage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination (req, file, cb) {
     cb(null, path.join(__dirname, '../../images/groups'))
   },
-  filename(req, file, cb) {
+  filename (req, file, cb) {
     const fileName = `${req.params.id}-${Date.now()}.${file.mimetype.slice(
       file.mimetype.indexOf('/') + 1,
       file.mimetype.length
@@ -65,10 +65,10 @@ const groupUpload = multer({
 })
 
 const announcementStorage = multer.diskStorage({
-  destination(req, file, cb) {
+  destination (req, file, cb) {
     cb(null, path.join(__dirname, '../../images/announcements'))
   },
-  filename(req, file, cb) {
+  filename (req, file, cb) {
     if (req.params.announcement_id === undefined) {
       req.params.announcement_id = objectid()
     }
@@ -1038,7 +1038,11 @@ router.post('/:groupId/plans/:planId/export', async (req, res, next) => {
       transporter.sendMail(mailOptions, (err, info) => {
         if (err) console.log(err)
         console.log(info)
-        fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
+        try {
+          fr('../', { files: `${plan.name.toUpperCase()}.xlsx` })
+        } catch (err) {
+          res.status(400).send('Something went wrong')
+        }
       })
       res.status(200).send('Exported pan successfully')
     })

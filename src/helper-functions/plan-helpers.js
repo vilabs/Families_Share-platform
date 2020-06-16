@@ -189,7 +189,7 @@ const findOptimalSolution = (plan) => {
   return subscriptions
 }
 
-function newExportEmail(plan_name) {
+function newExportEmail (plan_name) {
   return `<div
   style="height:100%;display:table;margin-left:auto;margin-right:auto"
 >
@@ -612,7 +612,7 @@ const createSolutionSheet = (workBook, solution, parents, children) => {
   })
 }
 
-async function createExcel(plan, cb) {
+async function createExcel (plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
   workBook.created = new Date()
@@ -653,11 +653,12 @@ async function createExcel(plan, cb) {
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
+    console.log('file written')
     cb()
   })
 }
 
-async function createSolutionExcel(plan, cb) {
+async function createSolutionExcel (plan, cb) {
   const workBook = new Excel.Workbook()
   workBook.creator = 'Families Share'
   workBook.created = new Date()
