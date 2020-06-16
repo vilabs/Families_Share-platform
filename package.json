@@ -22,7 +22,7 @@
     "config": "^3.3.1",
     "debug": "~2.6.9",
     "dotenv": "^6.2.0",
-    "exceljs": "^1.15.0",
+    "exceljs": "^1.9.1",
     "expo-server-sdk": "^3.5.0",
     "express": "^4.17.1",
     "find-remove": "^1.2.2",

@@ -3,7 +3,6 @@ const Profile = require('../models/profile')
 const Child = require('../models/child')
 const Parent = require('../models/parent')
 const moment = require('moment')
-const fs = require('fs')
 const objectid = require('objectid')
 
 const syncChildSubscriptions = async participants => {
@@ -653,10 +652,6 @@ async function createExcel (plan, cb) {
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
-  let t = await fs.readdirSync('./src/helper-functions')
-  console.log(t)
-  t = await fs.readdirSync('./src/routes')
-  console.log(t)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
   })
