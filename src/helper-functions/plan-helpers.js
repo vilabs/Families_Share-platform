@@ -652,7 +652,7 @@ async function createExcel (plan, cb) {
   createNeedsSheet(workBook, parentProfiles, childrenProfiles, slots, people, plan)
   createAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, plan)
   createNeedsAndAvailabilitiesSheet(workBook, parentProfiles, filteredSlots, people, plan)
-  console.log(workbook)
+  console.log(workBook)
   workBook.xlsx.writeFile(`${plan.name.toUpperCase()}.xlsx`).then(() => {
     cb()
   }).catch(err => console.log(err))
