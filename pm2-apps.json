@@ -2,8 +2,7 @@
   "apps": [
     {
       "name": "Families_Share",
-      "script": "npm",
-      "args": "start",
+      "script": "src/index.js",
       "instances": "max",
       "exec_mode": "cluster",
       "env": {
