@@ -22,13 +22,13 @@ const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')
 const groupContacts = require('../helper-functions/group-contacts')
 const nh = require('../helper-functions/notification-helpers')
-const ah = require('../helper-functions/activity-helpers')
+// const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
-const schedule = require('node-schedule')
+// const schedule = require('node-schedule')
 
-schedule.scheduleJob('10 5 * * *', () => {
-  ah.checkCompletedTimeslots()
-})
+// schedule.scheduleJob('10 5 * * *', () => {
+//   ah.checkCompletedTimeslots()
+// })
 
 const calendar = google.calendar({
   version: 'v3',
