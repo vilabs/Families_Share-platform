@@ -1255,12 +1255,13 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
       event => event.extendedProperties.shared.activityId === activity_id
     )
     await Promise.all(
-      activityTimeslots.map(event =>
-        calendar.events.delete({
+      activityTimeslots.map(async (event) => {
+        const eventResp = await calendar.events.delete({
           eventId: event.id,
           calendarId: group.calendar_id
         })
-      )
+        return eventResp
+      })
     )
     const activity = await Activity.findOneAndDelete({ activity_id })
     await nh.deleteActivityNotification(user_id, activity.name, activityTimeslots)
