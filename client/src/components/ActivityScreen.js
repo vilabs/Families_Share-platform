@@ -119,6 +119,7 @@ class ActivityScreen extends React.Component {
     const { groupId, activityId } = match.params;
     this.state = {
       fetchedActivityData: false,
+      pendingRequest: false,
       activity: {},
       confirmDialogIsOpen: false,
       userCanEdit: false,
@@ -363,6 +364,7 @@ class ActivityScreen extends React.Component {
   handleDelete = () => {
     const { match, history } = this.props;
     const { groupId, activityId } = match.params;
+    this.setState({pendingRequest: true})
     axios
       .delete(`/api/groups/${groupId}/activities/${activityId}`)
       .then(response => {
@@ -403,7 +405,8 @@ class ActivityScreen extends React.Component {
       userCanEdit,
       action,
       confirmDialogIsOpen,
-      optionsModalIsOpen
+      optionsModalIsOpen,
+      pendingRequest
     } = this.state;
     const texts = Texts[language].activityScreen;
     const options = [
@@ -434,6 +437,7 @@ class ActivityScreen extends React.Component {
     const rowStyle = { minHeight: "5rem" };
     return fetchedActivityData ? (
       <React.Fragment>
+        {pendingRequest && <LoadingSpinner/>}
         <div id="activityContainer">
           <ConfirmDialog
             title={confirmDialogTitle}

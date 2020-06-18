@@ -1254,15 +1254,13 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
     const activityTimeslots = resp.data.items.filter(
       event => event.extendedProperties.shared.activityId === activity_id
     )
-    await Promise.all(
-      activityTimeslots.map(async (event) => {
-        const eventResp = await calendar.events.delete({
-          eventId: event.id,
-          calendarId: group.calendar_id
-        })
-        return eventResp
+    await activityTimeslots.reduce(async (previous, event) => {
+      await previous
+      return calendar.events.delete({
+        eventId: event.id,
+        calendarId: group.calendar_id
       })
-    )
+    }, Promise.resolve())
     const activity = await Activity.findOneAndDelete({ activity_id })
     await nh.deleteActivityNotification(user_id, activity.name, activityTimeslots)
     res.status(200).send('Activity Deleted')
