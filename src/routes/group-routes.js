@@ -1250,10 +1250,8 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
     }
     const group = await Group.findOne({ group_id })
     const activity_id = req.params.activityId
-    const resp = await calendar.events.list({ calendarId: group.calendar_id })
-    const activityTimeslots = resp.data.items.filter(
-      event => event.extendedProperties.shared.activityId === activity_id
-    )
+    const resp = await calendar.events.list({ calendarId: group.calendar_id, sharedExtendedProperty: `activityId=${activity_id}` })
+    const activityTimeslots = resp.data.items
     await activityTimeslots.reduce(async (previous, event) => {
       await previous
       return calendar.events.delete({
@@ -1323,12 +1321,10 @@ router.post(
       }
       const group = await Group.findOne({ group_id })
       const resp = await calendar.events.list({
-        calendarId: group.calendar_id
+        calendarId: group.calendar_id,
+        sharedExtendedProperty: `activityId=${activity_id}`
       })
-      const calendarEvents = resp.data.items
-      const activityTimeslots = calendarEvents.filter(
-        event => event.extendedProperties.shared.activityId === activity_id
-      )
+      const activityTimeslots = resp.data.items
       if (format === 'pdf') {
         exportActivity.createPdf(activity, activityTimeslots, () => {
           const mailOptions = {
@@ -1410,10 +1406,7 @@ router.get(
         calendarId: group.calendar_id,
         sharedExtendedProperty: `activityId=${activity_id}`
       })
-      const calendarEvents = resp.data.items
-      const activityTimeslots = calendarEvents.filter(
-        event => event.extendedProperties.shared.activityId === activity_id
-      )
+      const activityTimeslots = resp.data.items
       res.json(activityTimeslots)
     } catch (error) {
       next(error)
