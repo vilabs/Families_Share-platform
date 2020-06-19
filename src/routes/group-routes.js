@@ -1407,7 +1407,8 @@ router.get(
       }
       const group = await Group.findOne({ group_id })
       const resp = await calendar.events.list({
-        calendarId: group.calendar_id
+        calendarId: group.calendar_id,
+        sharedExtendedProperty: `activityId=${activity_id}`
       })
       const calendarEvents = resp.data.items
       const activityTimeslots = calendarEvents.filter(

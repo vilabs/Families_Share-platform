@@ -47,6 +47,12 @@ const calendar = google.calendar({
 // 	});
 // })
 
+// show events from calendar
+// calendar.events.list({ calendarId: '36c14k3ur2jfqrmsfel4qgm7qo@group.calendar.google.com', sharedExtendedProperty: 'activityId=5eeb4c02dab6d2b705000002' }, (err, resp) => {
+//   if (err) console.log(err)
+//   console.log(resp.data.items.filter(e => e.id === 'hh87c1kra5eigfqo6a73oua0tk'))
+// })
+
 // Patch All events
 // calendar.calendarList.list({ }, async (error, response) => {
 //   if (error) console.log(error)
