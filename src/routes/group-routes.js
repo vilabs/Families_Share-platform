@@ -518,7 +518,8 @@ router.delete('/:groupId/members/:memberId', async (req, res, next) => {
     const usersChildrenIds = children.map(child => child.child_id)
     const group = await Group.findOne({ group_id })
     const response = await calendar.events.list({
-      calendarId: group.calendar_id
+      calendarId: group.calendar_id,
+      maxResults: 2500
     })
     const events = response.data.items.filter(
       event => event.extendedProperties.shared.status !== 'completed'
@@ -663,7 +664,7 @@ router.get('/:id/events', async (req, res, next) => {
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    const resp = await calendar.events.list({ calendarId: group.calendar_id })
+    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
     const events = resp.data.items.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
     if (events.length === 0) {
       return res.status(404).send('Group has no events')
@@ -697,7 +698,7 @@ router.get('/:id/metrics', async (req, res, next) => {
     const pendingActivities = await Activity.find({ status: 'pending' }).distinct('activity_id')
     const children = await Parent.find({ parent_id: { $in: members.map(m => m.user_id) } }).lean()
     const group = await Group.findOne({ group_id })
-    const resp = await calendar.events.list({ calendarId: group.calendar_id })
+    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
     const totalVolunteers = members.length
     const totalKids = [...new Set(children.map(c => c.child_id))].length
     const events = resp.data.items.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
@@ -798,7 +799,7 @@ router.post('/:id/agenda/export', async (req, res, next) => {
     if (activities.length === 0) {
       return res.status(404).send('Group has no agenda')
     }
-    const resp = await calendar.events.list({ calendarId: group.calendar_id })
+    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
     const events = resp.data.items
     for (const event of events) {
       const parentIds = JSON.parse(event.extendedProperties.shared.parents)
