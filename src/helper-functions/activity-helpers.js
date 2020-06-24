@@ -14,6 +14,8 @@ const calendar = google.calendar({
   auth: googleToken
 })
 
+const Activity = require('../models/activity')
+
 const checkCompletedTimeslots = async () => {
   try {
     const calendarsResponse = await calendar.calendarList.list({})
@@ -46,6 +48,27 @@ const checkCompletedTimeslots = async () => {
   }
 }
 
+const fetchAllGroupEvents = async (groupId, calendarId) => {
+  const pendingActivities = await Activity.find({ group_id: groupId, status: 'pending' }).distinct('activity_id')
+  let events = []
+  let nextPageToken = null
+
+  do {
+    let resp
+    if (nextPageToken) {
+      resp = await calendar.events.list({ calendarId, maxResults: 250, pageToken: nextPageToken })
+    } else {
+      resp = await calendar.events.list({ calendarId, maxResults: 250 })
+    }
+    const pageEvents = resp.data.items
+    const pageAcceptedEvents = pageEvents.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
+    events = events.concat(pageAcceptedEvents)
+    nextPageToken = resp.data.nextPageToken
+  } while (nextPageToken)
+  return events
+}
+
 module.exports = {
-  checkCompletedTimeslots
+  checkCompletedTimeslots,
+  fetchAllGroupEvents
 }

@@ -22,7 +22,7 @@ const exportActivity = require('../helper-functions/export-activity-data')
 const groupAgenda = require('../helper-functions/group-agenda')
 const groupContacts = require('../helper-functions/group-contacts')
 const nh = require('../helper-functions/notification-helpers')
-// const ah = require('../helper-functions/activity-helpers')
+const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
 // const schedule = require('node-schedule')
 
@@ -517,40 +517,44 @@ router.delete('/:groupId/members/:memberId', async (req, res, next) => {
     const children = await Parent.find({ parent_id: member_id })
     const usersChildrenIds = children.map(child => child.child_id)
     const group = await Group.findOne({ group_id })
-    const response = await calendar.events.list({
-      calendarId: group.calendar_id,
-      maxResults: 2500
-    })
-    const events = response.data.items.filter(
-      event => event.extendedProperties.shared.status !== 'completed'
-    )
+    let events = await ah.fetchAllGroupEvents(group.group_id, group.calendar_id)
+    events = events.filter(e => e.extendedProperties.shared.status === 'ongoing')
+    const patchedEvents = []
     events.forEach(event => {
+      let patched = false
       const parentIds = JSON.parse(event.extendedProperties.shared.parents)
-      event.extendedProperties.shared.parents = JSON.stringify(
-        parentIds.filter(id => id !== member_id)
-      )
+      if (parentIds.includes(member_id)) {
+        patched = true
+        event.extendedProperties.shared.parents = JSON.stringify(
+          parentIds.filter(id => id !== member_id)
+        )
+      }
       const childrenIds = JSON.parse(event.extendedProperties.shared.children)
-      event.extendedProperties.shared.children = JSON.stringify(
-        childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1)
-      )
+      if (childrenIds.filter(c => usersChildrenIds.includes(c)).length) {
+        patched = true
+        event.extendedProperties.shared.children = JSON.stringify(
+          childrenIds.filter(id => usersChildrenIds.indexOf(id) === -1)
+        )
+      }
+      if (patched) patchedEvents.push(event)
     })
-    Promise.all(
-      events.map(event => {
-        const timeslotPatch = {
-          extendedProperties: {
-            shared: {
-              parents: event.extendedProperties.shared.parents,
-              children: event.extendedProperties.shared.children
-            }
+    await patchedEvents.reduce(async (previous, event) => {
+      await previous
+      const timeslotPatch = {
+        extendedProperties: {
+          shared: {
+            parents: event.extendedProperties.shared.parents,
+            children: event.extendedProperties.shared.children
           }
         }
-        calendar.events.patch({
-          calendarId: group.calendar_id,
-          eventId: event.id,
-          resource: timeslotPatch
-        })
+      }
+      return calendar.events.patch({
+        calendarId: group.calendar_id,
+        eventId: event.id,
+        resource: timeslotPatch
       })
-    )
+    }, Promise.resolve())
+
     await Member.deleteOne({ group_id, user_id: member_id })
     await nh.removeMemberNotification(member_id, group_id)
     res.status(200).send('User removed from group')
@@ -650,7 +654,6 @@ router.get('/:id/events', async (req, res, next) => {
   const group_id = req.params.id
   const user_id = req.user_id
   try {
-    const pendingActivities = await Activity.find({ status: 'pending' }).distinct('activity_id')
     const group = await Group.findOne({ group_id })
     if (!group) {
       return res.status(404).send('Non existing group')
@@ -664,8 +667,7 @@ router.get('/:id/events', async (req, res, next) => {
     if (!member) {
       return res.status(401).send('Unauthorized')
     }
-    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
-    const events = resp.data.items.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
+    const events = await ah.fetchAllGroupEvents(group.group_id, group.calendar_id)
     if (events.length === 0) {
       return res.status(404).send('Group has no events')
     }
@@ -695,13 +697,11 @@ router.get('/:id/metrics', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const profiles = await Profile.find({ user_id: { $in: members.map(m => m.user_id) } }).lean()
-    const pendingActivities = await Activity.find({ status: 'pending' }).distinct('activity_id')
     const children = await Parent.find({ parent_id: { $in: members.map(m => m.user_id) } }).lean()
     const group = await Group.findOne({ group_id })
-    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
+    const events = await ah.fetchAllGroupEvents(group.group_id, group.calendar_id)
     const totalVolunteers = members.length
     const totalKids = [...new Set(children.map(c => c.child_id))].length
-    const events = resp.data.items.filter(event => pendingActivities.indexOf(event.extendedProperties.shared.activityId) === -1)
     const totalEvents = events.length
     const contributions = profiles.map(p => ({ contribution: 0, user_id: p.user_id, given_name: p.given_name, family_name: p.family_name }))
     const completedEvents = events.filter(e => e.extendedProperties.shared.status === 'completed')
@@ -799,8 +799,8 @@ router.post('/:id/agenda/export', async (req, res, next) => {
     if (activities.length === 0) {
       return res.status(404).send('Group has no agenda')
     }
-    const resp = await calendar.events.list({ calendarId: group.calendar_id, maxResults: 2500 })
-    const events = resp.data.items
+    let events = await ah.fetchAllGroupEvents(group.group_id, group.calendar_id)
+    events = events.filter(e => e.extendedProperties.shared.status === 'ongoing')
     for (const event of events) {
       const parentIds = JSON.parse(event.extendedProperties.shared.parents)
       const childIds = JSON.parse(event.extendedProperties.shared.children)
@@ -1251,7 +1251,10 @@ router.delete('/:groupId/activities/:activityId', async (req, res, next) => {
     }
     const group = await Group.findOne({ group_id })
     const activity_id = req.params.activityId
-    const resp = await calendar.events.list({ calendarId: group.calendar_id, sharedExtendedProperty: `activityId=${activity_id}` })
+    const resp = await calendar.events.list({
+      calendarId: group.calendar_id,
+      sharedExtendedProperty: `activityId=${activity_id}`
+    })
     const activityTimeslots = resp.data.items
     await activityTimeslots.reduce(async (previous, event) => {
       await previous
