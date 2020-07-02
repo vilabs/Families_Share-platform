@@ -99,8 +99,8 @@ router.patch('/', async (req, res, next) => {
 })
 
 router.get('/insurance', async (req, res, next) => {
-  const parents = await Profile.find({}).select('user_id given_name family_name')
-  const children = await Child.find({}).select('child_id given_name family_name')
+  const parents = await Profile.find({}).select('user_id given_name family_name -id -_id')
+  const children = await Child.find({}).select('child_id given_name family_name -id -_id')
   const parentIds = parents.map(p => p.user_id)
   const childIds = children.map(c => c.child_id)
   const groups = await Group.find({})
@@ -140,8 +140,14 @@ router.get('/insurance', async (req, res, next) => {
     })
   })
   res.json({
-    parents,
-    children
+    parents: parents.map(p => ({
+      name: `${p.given_name} ${p.family_name}`,
+      events: p.events
+    })),
+    children: children.map(c => ({
+      name: `${c.given_name} ${c.family_name}`,
+      events: c.events
+    }))
   })
 })
 
