@@ -104,13 +104,11 @@ router.get('/insurance', async (req, res, next) => {
   const parentIds = parents.map(p => p.user_id)
   const childIds = children.map(c => c.child_id)
   const groups = await Group.find({})
-  const events = []
+  let events = []
   for (const group of groups) {
     const group_events = await fetchAllGroupEvents(group.group_id, group.calendar_id)
-    console.log(group_events.length)
-    events.concat(group_events)
+    events = events.concat(group_events)
   }
-  console.log(events.length)
   const sortedEvents = events.sort((a, b) => a.start.dateTime - b.start.dateTime)
   sortedEvents.forEach(event => {
     const overview = {
