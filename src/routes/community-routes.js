@@ -99,10 +99,22 @@ router.patch('/', async (req, res, next) => {
 })
 
 router.get('/insurance', async (req, res, next) => {
-  const parents = await Profile.find({}).select('user_id given_name family_name')
-  const children = await Child.find({}).select('child_id given_name family_name')
+  const { user_id } = req
+  const user = await User.findOne({ user_id })
+  if (!user) return res.status(403).send('Insufficient privileges')
+  if (user.role !== 'manager') return res.status(403).send('Insufficient privileges')
+  let parents = await Profile.find({}).select('user_id given_name family_name')
+  let children = await Child.find({}).select('child_id given_name family_name')
   const parentIds = parents.map(p => p.user_id)
   const childIds = children.map(c => c.child_id)
+  parents = parents.map(p => ({
+    name: `${p.given_name} ${p.family_name}`,
+    events: []
+  }))
+  children = children.map(c => ({
+    name: `${c.given_name} ${c.family_name}`,
+    events: []
+  }))
   const groups = await Group.find({})
   let events = []
   for (const group of groups) {
@@ -123,31 +135,19 @@ router.get('/insurance', async (req, res, next) => {
     parentParticipants.forEach(parent_id => {
       const index = parentIds.indexOf(parent_id)
       if (index !== -1) {
-        if (parents[index].events) {
-          parents[index].events.push(overview)
-        }
-        parents[index].events = [overview]
+        parents[index].events.push(overview)
       }
     })
     childParticipants.forEach(child_id => {
       const index = childIds.indexOf(child_id)
       if (index !== -1) {
-        if (children[index].events) {
-          children[index].events.push(overview)
-        }
-        children[index].events = [overview]
+        children[index].events.push(overview)
       }
     })
   })
   res.json({
-    parents: parents.map(p => ({
-      name: `${p.given_name} ${p.family_name}`,
-      events: p.events
-    })),
-    children: children.map(c => ({
-      name: `${c.given_name} ${c.family_name}`,
-      events: c.events
-    }))
+    children,
+    parents
   })
 })
 
