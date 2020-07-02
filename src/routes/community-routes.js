@@ -1,7 +1,7 @@
 const express = require('express')
 const router = new express.Router()
 const path = require('path')
-// const Profile = require('../models/profile')
+const Profile = require('../models/profile')
 const Group = require('../models/group')
 const Member = require('../models/member')
 const User = require('../models/user')
@@ -11,6 +11,7 @@ const Child = require('../models/child')
 const Activity = require('../models/activity')
 const Rating = require('../models/rating')
 const Community = require('../models/community')
+const { fetchAllGroupEvents } = require('../helper-functions/activity-helpers')
 
 router.get('/', async (req, res, next) => {
   if (!req.user_id) { return res.status(401).send('Not authenticated') }
@@ -35,13 +36,14 @@ router.get('/', async (req, res, next) => {
       averageNumberOfActivitiesPerGroup = Math.floor(totalNumberOfActivities / totalNumberOfGroups)
     }
     let averageAppRating = await Rating.aggregate([
-      { '$group':
-          {
-            '_id': null,
-            'avg': {
-              '$avg': '$rating'
-            }
+      {
+        '$group':
+        {
+          '_id': null,
+          'avg': {
+            '$avg': '$rating'
           }
+        }
       }
     ])
     const { auto_admin } = community
@@ -94,6 +96,53 @@ router.patch('/', async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+})
+
+router.get('/insurance', async (req, res, next) => {
+  const parents = await Profile.find({}).select('user_id given_name family_name')
+  const children = await Child.find({}).select('child_id given_name family_name')
+  const parentIds = parents.map(p => p.user_id)
+  const childIds = children.map(c => c.child_id)
+  const groups = await Group.find({})
+  const events = []
+  for (const group of groups) {
+    const group_events = await fetchAllGroupEvents(group.group_id, group.calendar_id)
+    events.concat(group_events)
+  }
+  const sortedEvents = events.sort((a, b) => a.start.dateTime - b.start.dateTime)
+  sortedEvents.forEach(event => {
+    const overview = {
+      title: event.summary,
+      description: event.description || '',
+      location: event.location,
+      start: event.start.dateTime,
+      end: event.end.dateTime
+    }
+    const parentParticipants = JSON.parse(event.extendedProperties.shared.parents || [])
+    const childParticipants = JSON.parse(event.extendedProperties.shared.children || [])
+    parentParticipants.forEach(parent_id => {
+      const index = parentIds.indexOf(parent_id)
+      if (index !== -1) {
+        if (parents[index].events) {
+          parents[index].events.push(overview)
+        }
+        parents[index].events = [overview]
+      }
+    })
+    childParticipants.forEach(child_id => {
+      const index = childIds.indexOf(child_id)
+      if (index !== -1) {
+        if (children[index].events) {
+          children[index].events.push(overview)
+        }
+        children[index].events = [overview]
+      }
+    })
+  })
+  res.json({
+    parents,
+    children
+  })
 })
 
 module.exports = router
