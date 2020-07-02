@@ -11,6 +11,7 @@ const Child = require('../models/child')
 const Activity = require('../models/activity')
 const Rating = require('../models/rating')
 const Community = require('../models/community')
+const moment = require('moment')
 const { fetchAllGroupEvents } = require('../helper-functions/activity-helpers')
 
 router.get('/', async (req, res, next) => {
@@ -99,6 +100,9 @@ router.patch('/', async (req, res, next) => {
 })
 
 router.get('/insurance', async (req, res, next) => {
+  const { user_id } = req
+  const user = await User.findOne({ user_id, role: 'manager' })
+  if (!user) return res.status(403).send('Insufficient privieleges')
   let parents = await Profile.find({}).select('user_id given_name family_name')
   let children = await Child.find({}).select('child_id given_name family_name')
   const parentIds = parents.map(p => p.user_id)
@@ -117,7 +121,7 @@ router.get('/insurance', async (req, res, next) => {
     const group_events = await fetchAllGroupEvents(group.group_id, group.calendar_id)
     events = events.concat(group_events)
   }
-  const sortedEvents = events.sort((a, b) => a.start.dateTime - b.start.dateTime)
+  const sortedEvents = events.sort((a, b) => moment(a.start.dateTime) - moment(b.start.dateTime))
   sortedEvents.forEach(event => {
     const overview = {
       title: event.summary,

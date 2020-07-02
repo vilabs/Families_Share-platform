@@ -38,7 +38,10 @@ if (process.env.CITYLAB !== 'ALL') {
 
 app.use(async (req) => {
   try {
-    const token = req.headers.authorization
+    let token = req.headers.authorization
+    if (token.includes('Bearer')) {
+      token = token.split(' ')[1]
+    }
     const { user_id, email } = await jwt.verify(token, process.env.SERVER_SECRET)
     req.user_id = user_id
     req.email = email
