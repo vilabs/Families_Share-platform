@@ -100,9 +100,8 @@ router.patch('/', async (req, res, next) => {
 
 router.get('/insurance', async (req, res, next) => {
   const { user_id } = req
-  const user = await User.findOne({ user_id })
+  const user = await User.findOne({ user_id, role: 'manager' })
   if (!user) return res.status(403).send('Insufficient privileges')
-  if (user.role !== 'manager') return res.status(403).send('Insufficient privileges')
   let parents = await Profile.find({}).select('user_id given_name family_name')
   let children = await Child.find({}).select('child_id given_name family_name')
   const parentIds = parents.map(p => p.user_id)
