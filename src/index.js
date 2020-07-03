@@ -45,7 +45,6 @@ app.use(async (req) => {
     const { user_id, email } = await jwt.verify(token, process.env.SERVER_SECRET)
     req.user_id = user_id
     req.email = email
-    req.manager = process.env.COMMUNITY_MANAGER_ID === user_id
     return req.next()
   } catch (e) {
     return req.next()
