@@ -1715,6 +1715,11 @@
   left: 5%;
   position: absolute;
   color: #ffffff;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  max-width: 50vw;
+  max-height: 60px;
   z-index: 2;
 }
 #groupAboutContainer {
@@ -1836,6 +1841,9 @@
   padding: 0 0;
 }
 #groupMembersHeaderContainer h1 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   padding-left: 1rem;
 
   font-size: 2rem;

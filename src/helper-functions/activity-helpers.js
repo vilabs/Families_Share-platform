@@ -21,7 +21,7 @@ const checkCompletedTimeslots = async () => {
     const calendarsResponse = await calendar.calendarList.list({})
     const calendars = calendarsResponse.data.items
     for (const cal of calendars) {
-      const eventResponse = await calendar.events.list({ calendarId: cal.id })
+      const eventResponse = await calendar.events.list({ calendarId: cal.id, sharedExtendedProperty: 'status=ongoing' })
       const events = eventResponse.data.items
       const filteredEvents = events.filter(event => {
         const start = new Date(event.start.dateTime).getTime()

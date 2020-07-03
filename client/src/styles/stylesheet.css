@@ -179,6 +179,10 @@ input:focus {
   padding: 0 0;
 }
 #backNavContainer h1 {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: calc(100vw - 60px);
   margin: 0;
   padding: 0 2rem;
   font-size: 2rem;
