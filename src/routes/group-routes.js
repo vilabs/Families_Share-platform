@@ -25,11 +25,12 @@ const nh = require('../helper-functions/notification-helpers')
 const ah = require('../helper-functions/activity-helpers')
 const ph = require('../helper-functions/plan-helpers')
 const schedule = require('node-schedule')
-console.log(process.env.CRONJOB)
 
-schedule.scheduleJob(process.env.CRONJOB, () => {
-  ah.checkCompletedTimeslots()
-})
+if (process.env.NODE_APP_INSTANCE === 0) {
+  schedule.scheduleJob(process.env.CRONJOB, () => {
+    ah.checkCompletedTimeslots()
+  })
+}
 
 const calendar = google.calendar({
   version: 'v3',
