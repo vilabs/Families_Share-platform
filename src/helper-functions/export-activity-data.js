@@ -135,7 +135,7 @@ async function createExcel (activity, timeslots, cb) {
     const parentProfiles = await Profile.find({ user_id: { $in: parents } })
     const childrenProfiles = await Child.find({ child_id: { $in: children } })
     const childrenWithSpecialNeeds = childrenProfiles.filter(
-      c => c.allergies || c.special_needs || c.other.info
+      c => c.allergies || c.special_needs || c.other_info
     )
     specialNeedsProfiles = specialNeedsProfiles.concat(
       childrenWithSpecialNeeds
