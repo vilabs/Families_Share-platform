@@ -361,19 +361,19 @@ async function createPdf (activity, timeslots, cb) {
         table: {
           headerRows: 1,
           widths: [
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto',
-            'auto'
+            60,
+            60,
+            60,
+            50,
+            60,
+            50,
+            60,
+            50,
+            50,
+            60,
+            60,
+            60,
+            60
           ],
           body: [
             [
