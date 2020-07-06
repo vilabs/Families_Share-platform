@@ -307,7 +307,7 @@ async function createPdf (activity, timeslots, cb) {
       })
     })
   const docDefinition = {
-    pageMargins: 50,
+    pageMargins: 15,
     pageOrientation: 'landscape',
     header: {
       columns: [
