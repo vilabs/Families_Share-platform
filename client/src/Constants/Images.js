@@ -14,7 +14,8 @@ const landingImage = {
   Development: require("../images/developmentImage.png"),
   Parma: require("../images/parmaImage.png"),
   Nina: require("../images/ninaImage.png"),
-  Padova: require("../images/padovaImage.png")
+  Padova: require("../images/padovaImage.png"),
+  Verona: require("../images/veronaImage.png")
 };
 
 const Images = {
