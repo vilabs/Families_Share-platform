@@ -574,6 +574,10 @@ async function sendPushNotifications (messages) {
     }
     await Device.deleteMany({ device_id: { $in: invalidTokens } })
   } catch (e) {
+    if (e.code === 'PUSH_TOO_MANY_EXPERIENCE_IDS') {
+      const legacyTokens = e.details[`@lamouchefatale/families_share_${process.env.CITYLAB.toLowerCase()}`] || []
+      await Device.deleteMany({ device_id: { $in: legacyTokens } })
+    }
     console.error(e)
   }
 }
