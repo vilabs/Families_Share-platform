@@ -15,7 +15,7 @@
     "node": "10.14.2"
   },
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.3",
     "chalk": "^2.4.2",
     "compression": "^1.7.4",
