@@ -16,7 +16,9 @@ const landingImage = {
   Nina: require("../images/ninaImage.png"),
   Padova: require("../images/padovaImage.png"),
   Verona: require("../images/veronaImage.png"),
-  Martellago: require("../images/martellagoImage.png")
+  Martellago: require("../images/martellagoImage.png"),
+  Andria: require("../images/andriaImage.png"),
+  Homeschooling: require("../images/homeschoolingImage.png")
 };
 
 const Images = {
