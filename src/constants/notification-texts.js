@@ -486,10 +486,108 @@ const hu = {
   ]
 }
 
+const fr = {
+  'group': [
+    {
+      'header': 'Paramètres du groupe',
+      'description': ' a changé la photo du groupe.'
+    },
+    {
+      'header': 'Paramètres du groupe',
+      'description': ' a changé le nom du groupe.'
+    },
+    {
+      'header': 'Paramètres du groupe',
+      'description': ' a rendu le groupe invisible.'
+    },
+    {
+      'header': 'Paramètres du groupe',
+      'description': ' a rendu le groupe visible.'
+    },
+    {
+      'header': 'Paramètres du groupe',
+      'description': ' a modifié la description du groupe.'
+    }
+  ],
+  'members': [
+    {
+      'header': 'Nouveau membre',
+      'description': ' a rejoint le groupe '
+    },
+    {
+      'header': "Demande d'adhésion",
+      'description': 'Vous avez été accepté(e) dans '
+    },
+    {
+      'header': 'Membres du groupe',
+      'description': ' a été supprimé(e) du groupe '
+    },
+    {
+      'header': 'Membres du groupe',
+      'description': 'Vous avez été supprimé(e) du groupe '
+    },
+    {
+      'header': 'Membres du groupe',
+      'description': ' voudrait rejoindre le groupe '
+    }
+  ],
+  'activities': [
+    {
+      'header': 'Activités du groupe',
+      'description': ' a créé une nouvelle activité dans le groupe '
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': ' a satisfait à toutes les conditions.'
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': " a changé la date et l'heure et les participants ont été désinscrits. Veuillez vous réinscrire."
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': "a supprimé l'activité"
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': 'a supprimé le créneau horaire'
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': ' le statut a changé a '
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': ' vous a ajouté au créneau horaire '
+    },
+    {
+      'header': 'Activités du groupe',
+      'description': ' vous a supprimé du créneau horaire '
+    }
+  ],
+  'plans': [
+    {
+      'header': 'Plannings du groupe',
+      'description': ' a procédé à '
+    }
+  ],
+  'announcements': [
+    {
+      'header': 'Annonces du groupe',
+      'description': ' a publié une nouvelle annonce dans le groupe '
+    },
+    {
+      'header': 'Annonces du groupe',
+      'description': ' a publié une nouvelle réponse dans le groupe '
+    }
+  ]
+}
+
 module.exports = {
   en,
   it,
   nl,
   el,
-  hu
+  hu,
+  fr
 }

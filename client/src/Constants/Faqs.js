@@ -7686,7 +7686,167 @@ const Development = {
       )
     }
   ],
-  el: []
+  el: [],
+  fr: [
+    {
+      question: "Comment fonctionne le groupe ?",
+      answer: (
+        <p>
+          Chaque groupe peut décider comment organiser les tours de garde et gérer la rotation des horaires. En général, au sein d'un groupe, le temps mis à la disposition par chaque parent doit être aussi équilibré que possible, chaque parent offrant à peu près le même temps. Cependant, chaque règle différente ou supplémentaire doit être discutée hors ligne et approuvée par tous les membres du groupe.
+        </p>
+      )
+    },
+    {
+      question: "Que se passe-t-il si je ne suis pas en mesure d'assurer mon tour de garde ?",
+      answer: (
+        <p>
+ Si vous ne pouvez pas participer, vous devez contacter immédiatement le ou les administrateurs du groupe pour trouver une solution. La solution préférée est de trouver un parent du groupe qui peut vous remplacer. Dans le cas où ce n'est pas faisable, il est possible d'impliquer un professionnel de la garde d'enfants externe ou d'annuler le tour et l'activité. Cependant, cette dernière option ne devrait être adoptée que dans le cas où d'autres solutions ne seraient pas possibles, afin de ne pas causer de difficultés aux autres familles. En outre, il est recommandé aux groupes de décider à l'avance, une fois le groupe formé, comment faire face à ces inconvénients (par exemple décider si la participation d'un professionnel externe peut être une option ou non)
+        </p>
+      )
+    },
+    {
+      question:
+        "Que se passe-t-il si je n'ai aucune expérience dans la gestion de groupes d'enfants ?",
+      answer: (
+        <p>
+         Au cas où vous auriez peur de gérer un groupe d'enfants, notre expérience avec les parents qui ont participé aux activités précédentes de Families Share nous a appris que l'inquiétude est compréhensible mais pas réelle, car en réalité tout est plus facile que cela en a l'air. Écoutez les histoires des parents qui ont participé l'été dernier aux activités Families Share sur notre chaîne YouTube <a href="https://www.youtube.com/channel/UCUd_D8PkEic9pPEY3SysmXw">Families - Share EU </a>
+        </p>
+      )
+    },
+    {
+      question:
+        "Quelles mesures dois-je prendre en compte pour mener des activités de garde d'enfants en toute sécurité ?",
+      answer: (
+        <div>
+          <p>
+          Pour une gestion de groupe optimale et pour des raisons de sécurité, nous recommandons de ne pas dépasser le ratio parents-enfants 1:6.
+Jetez un coup d'œil aux besoins spéciaux des enfants participant à des activités communes (p. ex. allergies, intolérances et autres besoins spéciaux) en exportant les informations de l'activité.
+En cas d'urgence, contactez les premiers secours et informez l'administrateur du groupe ainsi que les parents de l'enfant via les contacts disponibles dans la section réservée aux membres de l'application ou de la plateforme. Gardez les numéros d'urgence à portée de main :
+          </p>
+          <ul>
+            <li>Belgique : Ambulance 112</li>
+            <li>Police 101</li>
+            <li>Pompiers 112</li>
+            <li>Numéro unique d'urgence 112</li>
+            <li>Gestion de la communauté : hallo@cokido.org</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      question: "Comment créer un nouveau groupe ?",
+      answer: (
+        <p>
+         La première étape pour entrer dans le monde de Families Share est de créer un nouveau groupe de parents. Vous pouvez impliquer votre réseau personnel et créer votre propre groupe, en sélectionnant « créer un groupe » et en invitant vos amis à le rejoindre, ou en recherchant un groupe existant dans la zone (en sélectionnant l'option « rechercher groupe ») et en demandant à le rejoindre, en tant que parent individuellement ou avec votre groupe, en contactant l'administrateur.
+        </p>
+      )
+    },
+    {
+      question: "Quelles activités puis-je organiser ?",
+      answer: (
+        <p>
+        Grâce à l'application Families Share tous les types d'activités de garde d'enfants peuvent être organisées : semaines ou jours de co-jeu pendant les vacances scolaires, activités d'accompagnement ou de ramassage d'enfants à l'école, activités péri ou parascolaires, visites touristiques, etc. Avec l'application les parents planifient des activités différentes en fonction des créneaux horaires. Ensuite, vous pouvez vous inscrire, et/ou vos enfants, pour participer aux activités. 
+        </p>
+      )
+    },
+    {
+      question: "Quel est le rôle de l'administrateur du groupe ?",
+      answer: (
+        <p>
+       L'administrateur du groupe joue un rôle central au sein de la plateforme Families Share. Tout d'abord, il/elle crée le groupe et il/elle est la personne de contact qui peut être contactée par des utilisateurs, des externes au groupe, pour demander des informations au sujet du groupe. L'administrateur du groupe ajoute également de nouveaux membres au groupe. De plus, l'administrateur peut modifier les activités et les créneaux horaires, il peut exporter les informations du groupe ainsi que les détails de l'activité, même une fois l'activité terminée. L'administrateur définit les caractéristiques du groupe (visible/invisible) et il/elle a le contrôle sur l'activité de planification avancée. Enfin, l'administrateur peut décider de rendre d'autres membres administrateurs. Il n'y a pas un nombre maximum d'administrateurs au sein d'un groupe, chaque membre peut être défini comme tel. Nous suggérons d'avoir au moins deux personnes ayant un rôle administratif au sein d'un groupe.
+        </p>
+      )
+    },
+    {
+      question: "Que faire si un enfant est porté disparu ?",
+      answer: (
+        <div>
+          <p>
+          La première chose à faire lorsqu'un enfant est porté disparu est d'avertir ses parents s'ils n'étaient pas présents à l'activité de co-jeu.
+Cherchez dans les environs immédiats. Les enfants plus âgés ont tendance à aller chez des amis, appelez alors tout ami, parents ou voisins dont l'enfant serait proche. Si l'enfant n'est pas retrouvé, appelez la police, qui est tenue d'intégrer immédiatement le nom et les informations de l'enfant disparu dans le système national, afin d'élargir la recherche.  
+Soyez prêt à fournir autant d'informations clés que possible, comme par exemple :
+          </p>
+          <ul>
+            <li>Nom complet de l'enfant</li>
+            <li>Poids de l'enfant</li>
+            <li>Taille de l'enfant</li>
+            <li>Âge et date de naissance de l'enfant</li>
+            <li>Vêtements que l'enfant portait la dernière fois qu'il a été vu</li>
+            <li>raits caractéristiques d'identification, comme des lunettes ou une tache de naissance</li>
+            <li>Noms et coordonnées des amis ou des connaissances proches de l'enfant</li>
+            <li>Lieux fréquemment visités</li>
+            <li>Problèmes de santé de l'enfant</li>
+            <li>
+            out autre détail éventuellement pertinent sur l'heure ou le lieu où l'enfant a disparu
+Les parents de l'enfant ainsi que les parents co-jouant doivent garder leur ligne téléphonique ouverte.
+(informations réadaptées par safewise.com)
+            </li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      question: "URGENCE : Que faire si un enfant s'est blessé ?",
+      answer: (
+        <div>
+          <p>
+          Si un enfant se blesse, il y a différentes actions possibles à entreprendre. Tout d'abord, vous devez comprendre à quel point la situation est grave.
+          </p>
+          <ol>
+            <li>
+              <p> Appelez une ambulance si l'enfant :</p>
+              <ul>
+                <li>-ne respire plus</li>
+                <li>
+                  - a du mal à respirer (par exemple, si vous remarquez qu'il/elle respire rapidement, en haletant, sa respiration devient très sifflante, ou les muscles juste sous la cage thoracique s'enfoncent quand il/elle respire)
+                </li>
+                <li>
+                  - est inconscient ou semble ne pas avoir conscience de ce qui se passe
+                </li>
+                <li>-  une coupure qui n'arrête pas de saigner ou est fort ouverte</li>
+                <li>- ne se réveille pas</li>
+                <li>
+                  - fait une crise pour la première fois, même si il/elle semble récupérer
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p>Emmenez l'enfant au service de premiers soins s'il:</p>
+              <ul>
+                <li>
+                  - a de la fièvre et demeure léthargique malgré avoir reçu du paracétamol ou de l'ibuprofène
+                </li>
+                <li>- a une douleur sévère au ventre (abdominale)</li>
+                <li>
+                  - a une blessure aux jambes ou aux bras et ne peut pas s'en servir
+                </li>
+                <li>- a avalé du poison ou des comprimés 
+(https://www.health.belgium.be/fr)</li>
+              </ul>
+            </li>
+            <li>
+              <p>Utilisez la trousse de premiers soins en cas de blessures mineures comme :</p>
+              <ul>
+                <li>- coupures</li>
+                <li>- éraflures</li>
+                <li>- écorchure</li>
+                <li>- brûlures et autres blessures mineures</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      )
+    },
+    {
+      question:
+        "URGENCE : Que faire si vous êtes bloqué hors du lieu de co-jeu ?",
+      answer: (
+        <p>
+        Si vous avez votre téléphone avec vous, contactez le(s) autre(s) parent(s) participant à l'activité (s'il(s) est(sont) à l'intérieur) ou le responsable de l'emplacement si le numéro est disponible. Si vous n'avez pas ces numéros, contactez le ou les administrateurs du groupe ou les responsables de la communauté.
+        </p>
+      )
+    }
+  ],
 };
 
 const FBK = {
@@ -8182,7 +8342,167 @@ const Cokido = {
         </p>
       )
     }
-  ]
+  ],
+  fr: [
+    {
+      question: "Comment fonctionne le groupe ?",
+      answer: (
+        <p>
+          Chaque groupe peut décider comment organiser les tours de garde et gérer la rotation des horaires. En général, au sein d'un groupe, le temps mis à la disposition par chaque parent doit être aussi équilibré que possible, chaque parent offrant à peu près le même temps. Cependant, chaque règle différente ou supplémentaire doit être discutée hors ligne et approuvée par tous les membres du groupe.
+        </p>
+      )
+    },
+    {
+      question: "Que se passe-t-il si je ne suis pas en mesure d'assurer mon tour de garde ?",
+      answer: (
+        <p>
+ Si vous ne pouvez pas participer, vous devez contacter immédiatement le ou les administrateurs du groupe pour trouver une solution. La solution préférée est de trouver un parent du groupe qui peut vous remplacer. Dans le cas où ce n'est pas faisable, il est possible d'impliquer un professionnel de la garde d'enfants externe ou d'annuler le tour et l'activité. Cependant, cette dernière option ne devrait être adoptée que dans le cas où d'autres solutions ne seraient pas possibles, afin de ne pas causer de difficultés aux autres familles. En outre, il est recommandé aux groupes de décider à l'avance, une fois le groupe formé, comment faire face à ces inconvénients (par exemple décider si la participation d'un professionnel externe peut être une option ou non)
+        </p>
+      )
+    },
+    {
+      question:
+        "Que se passe-t-il si je n'ai aucune expérience dans la gestion de groupes d'enfants ?",
+      answer: (
+        <p>
+         Au cas où vous auriez peur de gérer un groupe d'enfants, notre expérience avec les parents qui ont participé aux activités précédentes de Families Share nous a appris que l'inquiétude est compréhensible mais pas réelle, car en réalité tout est plus facile que cela en a l'air. Écoutez les histoires des parents qui ont participé l'été dernier aux activités Families Share sur notre chaîne YouTube <a href="https://www.youtube.com/channel/UCUd_D8PkEic9pPEY3SysmXw">Families - Share EU </a>
+        </p>
+      )
+    },
+    {
+      question:
+        "Quelles mesures dois-je prendre en compte pour mener des activités de garde d'enfants en toute sécurité ?",
+      answer: (
+        <div>
+          <p>
+          Pour une gestion de groupe optimale et pour des raisons de sécurité, nous recommandons de ne pas dépasser le ratio parents-enfants 1:6.
+Jetez un coup d'œil aux besoins spéciaux des enfants participant à des activités communes (p. ex. allergies, intolérances et autres besoins spéciaux) en exportant les informations de l'activité.
+En cas d'urgence, contactez les premiers secours et informez l'administrateur du groupe ainsi que les parents de l'enfant via les contacts disponibles dans la section réservée aux membres de l'application ou de la plateforme. Gardez les numéros d'urgence à portée de main :
+          </p>
+          <ul>
+            <li>Belgique : Ambulance 112</li>
+            <li>Police 101</li>
+            <li>Pompiers 112</li>
+            <li>Numéro unique d'urgence 112</li>
+            <li>Gestion de la communauté : hallo@cokido.org</li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      question: "Comment créer un nouveau groupe ?",
+      answer: (
+        <p>
+         La première étape pour entrer dans le monde de Families Share est de créer un nouveau groupe de parents. Vous pouvez impliquer votre réseau personnel et créer votre propre groupe, en sélectionnant « créer un groupe » et en invitant vos amis à le rejoindre, ou en recherchant un groupe existant dans la zone (en sélectionnant l'option « rechercher groupe ») et en demandant à le rejoindre, en tant que parent individuellement ou avec votre groupe, en contactant l'administrateur.
+        </p>
+      )
+    },
+    {
+      question: "Quelles activités puis-je organiser ?",
+      answer: (
+        <p>
+        Grâce à l'application Families Share tous les types d'activités de garde d'enfants peuvent être organisées : semaines ou jours de co-jeu pendant les vacances scolaires, activités d'accompagnement ou de ramassage d'enfants à l'école, activités péri ou parascolaires, visites touristiques, etc. Avec l'application les parents planifient des activités différentes en fonction des créneaux horaires. Ensuite, vous pouvez vous inscrire, et/ou vos enfants, pour participer aux activités. 
+        </p>
+      )
+    },
+    {
+      question: "Quel est le rôle de l'administrateur du groupe ?",
+      answer: (
+        <p>
+       L'administrateur du groupe joue un rôle central au sein de la plateforme Families Share. Tout d'abord, il/elle crée le groupe et il/elle est la personne de contact qui peut être contactée par des utilisateurs, des externes au groupe, pour demander des informations au sujet du groupe. L'administrateur du groupe ajoute également de nouveaux membres au groupe. De plus, l'administrateur peut modifier les activités et les créneaux horaires, il peut exporter les informations du groupe ainsi que les détails de l'activité, même une fois l'activité terminée. L'administrateur définit les caractéristiques du groupe (visible/invisible) et il/elle a le contrôle sur l'activité de planification avancée. Enfin, l'administrateur peut décider de rendre d'autres membres administrateurs. Il n'y a pas un nombre maximum d'administrateurs au sein d'un groupe, chaque membre peut être défini comme tel. Nous suggérons d'avoir au moins deux personnes ayant un rôle administratif au sein d'un groupe.
+        </p>
+      )
+    },
+    {
+      question: "Que faire si un enfant est porté disparu ?",
+      answer: (
+        <div>
+          <p>
+          La première chose à faire lorsqu'un enfant est porté disparu est d'avertir ses parents s'ils n'étaient pas présents à l'activité de co-jeu.
+Cherchez dans les environs immédiats. Les enfants plus âgés ont tendance à aller chez des amis, appelez alors tout ami, parents ou voisins dont l'enfant serait proche. Si l'enfant n'est pas retrouvé, appelez la police, qui est tenue d'intégrer immédiatement le nom et les informations de l'enfant disparu dans le système national, afin d'élargir la recherche.  
+Soyez prêt à fournir autant d'informations clés que possible, comme par exemple :
+          </p>
+          <ul>
+            <li>Nom complet de l'enfant</li>
+            <li>Poids de l'enfant</li>
+            <li>Taille de l'enfant</li>
+            <li>Âge et date de naissance de l'enfant</li>
+            <li>Vêtements que l'enfant portait la dernière fois qu'il a été vu</li>
+            <li>raits caractéristiques d'identification, comme des lunettes ou une tache de naissance</li>
+            <li>Noms et coordonnées des amis ou des connaissances proches de l'enfant</li>
+            <li>Lieux fréquemment visités</li>
+            <li>Problèmes de santé de l'enfant</li>
+            <li>
+            out autre détail éventuellement pertinent sur l'heure ou le lieu où l'enfant a disparu
+Les parents de l'enfant ainsi que les parents co-jouant doivent garder leur ligne téléphonique ouverte.
+(informations réadaptées par safewise.com)
+            </li>
+          </ul>
+        </div>
+      )
+    },
+    {
+      question: "URGENCE : Que faire si un enfant s'est blessé ?",
+      answer: (
+        <div>
+          <p>
+          Si un enfant se blesse, il y a différentes actions possibles à entreprendre. Tout d'abord, vous devez comprendre à quel point la situation est grave.
+          </p>
+          <ol>
+            <li>
+              <p> Appelez une ambulance si l'enfant :</p>
+              <ul>
+                <li>-ne respire plus</li>
+                <li>
+                  - a du mal à respirer (par exemple, si vous remarquez qu'il/elle respire rapidement, en haletant, sa respiration devient très sifflante, ou les muscles juste sous la cage thoracique s'enfoncent quand il/elle respire)
+                </li>
+                <li>
+                  - est inconscient ou semble ne pas avoir conscience de ce qui se passe
+                </li>
+                <li>-  une coupure qui n'arrête pas de saigner ou est fort ouverte</li>
+                <li>- ne se réveille pas</li>
+                <li>
+                  - fait une crise pour la première fois, même si il/elle semble récupérer
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p>Emmenez l'enfant au service de premiers soins s'il:</p>
+              <ul>
+                <li>
+                  - a de la fièvre et demeure léthargique malgré avoir reçu du paracétamol ou de l'ibuprofène
+                </li>
+                <li>- a une douleur sévère au ventre (abdominale)</li>
+                <li>
+                  - a une blessure aux jambes ou aux bras et ne peut pas s'en servir
+                </li>
+                <li>- a avalé du poison ou des comprimés 
+(https://www.health.belgium.be/fr)</li>
+              </ul>
+            </li>
+            <li>
+              <p>Utilisez la trousse de premiers soins en cas de blessures mineures comme :</p>
+              <ul>
+                <li>- coupures</li>
+                <li>- éraflures</li>
+                <li>- écorchure</li>
+                <li>- brûlures et autres blessures mineures</li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      )
+    },
+    {
+      question:
+        "URGENCE : Que faire si vous êtes bloqué hors du lieu de co-jeu ?",
+      answer: (
+        <p>
+        Si vous avez votre téléphone avec vous, contactez le(s) autre(s) parent(s) participant à l'activité (s'il(s) est(sont) à l'intérieur) ou le responsable de l'emplacement si le numéro est disponible. Si vous n'avez pas ces numéros, contactez le ou les administrateurs du groupe ou les responsables de la communauté.
+        </p>
+      )
+    }
+  ],
 };
 
 const Faqs = {

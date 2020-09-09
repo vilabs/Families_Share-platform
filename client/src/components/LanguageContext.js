@@ -8,6 +8,8 @@ import "moment/locale/el";
 import "moment/locale/nl";
 import "moment/locale/it";
 import "moment/locale/hu";
+import "moment/locale/fr";
+
 
 const LanguageContext = React.createContext();
 
@@ -20,9 +22,9 @@ class LanguageProvider extends React.Component {
     } else {
       localStorage.setItem(
         "language",
-        process.env.REACT_APP_CITYLAB_DEFAULT_LANG
+        process.env.REACT_APP_CITYLAB_LANGUAGES.split(' ')[0]
       );
-      language = process.env.REACT_APP_CITYLAB_DEFAULT_LANG;
+      language = process.env.REACT_APP_CITYLAB_LANGUAGES.split(' ')[0]
     }
     this.state = {
       language
