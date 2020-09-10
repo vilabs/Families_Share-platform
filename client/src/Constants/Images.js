@@ -18,7 +18,8 @@ const landingImage = {
   Verona: require("../images/veronaImage.png"),
   Martellago: require("../images/martellagoImage.png"),
   Andria: require("../images/andriaImage.png"),
-  Homeschooling: require("../images/homeschoolingImage.png")
+  Homeschooling: require("../images/homeschoolingImage.png"),
+  Pederobba: require("../images/pederobbaImage.png")
 };
 
 const Images = {
