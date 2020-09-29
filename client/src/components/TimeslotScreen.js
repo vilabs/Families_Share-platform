@@ -834,7 +834,7 @@ class TimeslotScreen extends React.Component {
               </div>
               <div className="col-8-10">
                 <div className="activityInfoDescription">
-                  {timeslot.extendedProperties.shared.category}
+                  {texts[timeslot.extendedProperties.shared.category]}
                 </div>
               </div>
             </div>
@@ -877,7 +877,7 @@ class TimeslotScreen extends React.Component {
             </div>
             <div className="col-8-10">
               <div className="activityInfoDescription">
-                {timeslot.extendedProperties.shared.status}
+                {texts[timeslot.extendedProperties.shared.status]}
               </div>
             </div>
           </div>

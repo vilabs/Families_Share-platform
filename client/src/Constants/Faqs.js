@@ -8907,12 +8907,12 @@ Soyez prêt à fournir autant d'informations clés que possible, comme par exemp
             <li>Taille de l'enfant</li>
             <li>Âge et date de naissance de l'enfant</li>
             <li>Vêtements que l'enfant portait la dernière fois qu'il a été vu</li>
-            <li>raits caractéristiques d'identification, comme des lunettes ou une tache de naissance</li>
+            <li>Traits caractéristiques d'identification, comme des lunettes ou une tache de naissance</li>
             <li>Noms et coordonnées des amis ou des connaissances proches de l'enfant</li>
             <li>Lieux fréquemment visités</li>
             <li>Problèmes de santé de l'enfant</li>
             <li>
-            out autre détail éventuellement pertinent sur l'heure ou le lieu où l'enfant a disparu
+            Tout autre détail éventuellement pertinent sur l'heure ou le lieu où l'enfant a disparu
 Les parents de l'enfant ainsi que les parents co-jouant doivent garder leur ligne téléphonique ouverte.
 (informations réadaptées par safewise.com)
             </li>
@@ -8931,14 +8931,14 @@ Les parents de l'enfant ainsi que les parents co-jouant doivent garder leur lign
             <li>
               <p> Appelez une ambulance si l'enfant :</p>
               <ul>
-                <li>-ne respire plus</li>
+                <li>- ne respire plus</li>
                 <li>
                   - a du mal à respirer (par exemple, si vous remarquez qu'il/elle respire rapidement, en haletant, sa respiration devient très sifflante, ou les muscles juste sous la cage thoracique s'enfoncent quand il/elle respire)
                 </li>
                 <li>
                   - est inconscient ou semble ne pas avoir conscience de ce qui se passe
                 </li>
-                <li>-  une coupure qui n'arrête pas de saigner ou est fort ouverte</li>
+                <li>- une coupure qui n'arrête pas de saigner ou est fort ouverte</li>
                 <li>- ne se réveille pas</li>
                 <li>
                   - fait une crise pour la première fois, même si il/elle semble récupérer

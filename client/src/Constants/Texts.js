@@ -221,6 +221,17 @@ const en = {
     deleteConfirm: "Are you sure you want to delete this timeslot?"
   },
   timeslotScreen: {
+    ongoing: "Ongoing",
+    completed: "Completed",
+    learning: "learning or educational activities/homework",
+    nature: "nature",
+    tourism: "tourism and culture",
+    hobby: "hobby and sport",
+    accompanying: "accompanying(car sharing or pedibus)",
+    entertainment: "entertainment",
+    parties: "parties or events",
+    coplaying: "co-playing day(s)",
+    other: "other",
     externals: "Externals",
     externalPlaceholder: "Add external volunteer",
     externalAvailabilities: "Add external availabilities",
@@ -1531,6 +1542,17 @@ const nl = {
     deleteConfirm: "Weet je zeker dat je dit tijdslot wilt verwijderen?"
   },
   timeslotScreen: {
+    ongoing: "Bezig",
+    completed: "Voltooid",
+    learning: "leer- of educatieve activiteiten / huiswerk",
+    nature: "natuur",
+    tourism: "toerisme en cultuur",
+    hobby: "hobby en sport",
+    accompanying: "begeleidend (autodelen of pedibus)",
+    entertainment: "vermaak",
+    parties: "feesten of evenementen",
+    coplaying: "co-speeldag",
+    other: "anders",
     externals: "Externen",
     externalPlaceholder: "Externe vrijwilliger toevoegen",
     externalAvailabilities: "Voeg externe beschikbaarheden toe",
@@ -2799,6 +2821,17 @@ const it = {
     deleteConfirm: "Sei sicuro di voler eliminare questo periodo di tempo?"
   },
   timeslotScreen: {
+    ongoing: "In corso",
+    completed: "Completata",
+    learning: "attività di apprendimento / istruzione / compiti a casa",
+    nature: "natura",
+    tourism: "turismo e cultura",
+    hobby: "hobby e sport",
+    accompanying: "accompagnamento (car sharing o pedibus)",
+    entertainment: "intrattenimento",
+    parties: "feste o eventi",
+    coplaying: "Giochi di gruppo",
+    other: "altro",
     externals: "Esterni",
     externalPlaceholder: "Aggiungi volontario esterno",
     externalAvailabilities: "Aggiungi disponibilità volontari esterni",
@@ -4089,6 +4122,17 @@ const el = {
       "Είστε σίγουρος ότι θέλετε να διαγράψετε αυτή τη χρονική περίοδο;"
   },
   timeslotScreen: {
+    ongoing: "Σε εξέλιξη",
+    completed: "Ολοκληρωμένο",
+    learning: "Εκπαιδευτικές δραστηριότητες",
+    nature: "Φύση",
+    tourism: "Τουρισμός και πολιτισμός",
+    hobby: "Χόμπι και αθλήματα",
+    accompanying: "Συνοδεία",
+    entertainment: "Διασκέδαση",
+    parties: "Πάρτι ή εκδηλώσεις",
+    coplaying: "Μέρες co-playing",
+    other: "Άλλη",
     externals: "ΕΞωτερικοί εθελοντές",
     externalAvailabilities: "Προσθέσετε διαθεσιμότητα εξωτερικών εθελοντών",
     externalPlaceholder: "Προσθέσετε εξωτερικό εθελοντή",
@@ -5372,6 +5416,17 @@ const hu = {
     deleteConfirm: "Biztosan törölni szeretné ezt az időrést?"
   },
   timeslotScreen: {
+    ongoing: "Folyamatban lévő",
+    completed: "Befejezett",
+    learning: "tanulás/oktatási tevékenység",
+    nature: "természetjárás",
+    tourism: "kultúra és turizmus",
+    hobby: "sport és hobbi",
+    accompanying: "kíséret (autómegosztás vagy gyalogos gyerekkíséret)",
+    entertainment: "szórakozás",
+    parties: "bulik és különleges alkalmak",
+    coplaying: "játszóház/közös gyerekfelügyelet",
+    other: "egyéb",
     externals: "Külső",
     externalAvailabilities: "Adjon hozzá külső elérhetőségeket",
     externalPlaceholder: "Adjon hozzá egy külső önkéntes",
@@ -6469,1080 +6524,1090 @@ const hu = {
 };
 
 const fr = {
-    "groupMembers": {
-        "export": "Exporter les contacts"
-    },
-    "participantsModal": {
-        "header": "Participants",
-        "cancel": "Fermer"
-    },
-    "managePlanSolution": {
-        "needsHeader": "BESOINS DU CRÉNEAU HORAIRE",
-        "selectFrom": "Sélectionnez les disponibilités à partir de",
-        "participating": "Membres participants au planning",
-        "available": "Membres disponibles pour le créneau horaire",
-        "all": "Tous les membres du groupe"
-    },
-    "createPlanScreen": {
-        "backNavTitle": "Nouvelle planification"
-    },
-    "groupManagementScreen": {
-        "backNavTitle": "Gestion du groupe",
-        "totalVolunteers": "Nombre total de volontaires",
-        "totalKids": "Nombre total d'enfants",
-        "totalEvents": "Nombre total d'événements",
-        "totalCompletedEvents": "Nombre total d'événements terminés",
-        "metricsHeader": "Statistiques du groupe",
-        "metricsColumn": "Indicateur",
-        "valuesColumn": "Valeur",
-        "chartHeader": "Contribution totale par utilisateur"
-    },
-    "timeslotEmergencyScreen": {
-        "copy": "Numéro d'urgence copié dans le presse-papiers",
-        "call": "Appeler",
-        "header": "Numéros d'urgence :",
-        "services": {
-            "general": "Urgences générales",
-            "ambulance": "Ambulance",
-            "police": "Police",
-            "fire": "Pompiers"
-        }
-    },
-    "editPlanScreen": {
-        "requiredErr": "Veuillez remplir ce champ.",
-        "learning": "activités d'apprentissage ou éducatives/devoirs",
-        "nature": "nature",
-        "tourism": "tourisme et culture",
-        "hobby": "passe-temps et sport",
-        "accompanying": "accompagnement (covoiturage ou pédibus)",
-        "entertainment": "divertissement",
-        "parties": "fêtes ou événements",
-        "coplaying": "jour(s) de co-jeu",
-        "other": "autre",
-        "category": "Type d'activité",
-        "backNavTitle": "Modifier le planning",
-        "ratio": "Ratio enfants/parents",
-        "minVolunteers": "Nombre minimum de volontaires",
-        "deadline": "Échéance",
-        "needsState": "Indiquer vos besoins",
-        "availabilitiesState": "Indiquer vos disponibilités",
-        "planningState": "Créer un planning",
-        "creationState": "Créer des activités",
-        "state": "Statut du planning",
-        "needsStateHelper": "Dans la phase des besoins, les utilisateurs choisissent les dates pour lesquelles ils auront besoin de garde d'enfants. Dans ce statut, la phase des disponibilités est verrouillée.",
-        "availabilitiesStateHelper": "Dans la phase des disponibilités, les utilisateurs sélectionnent les dates auxquelles ils sont disponibles pour la garde d'enfants. Dans ce statut, la phase des besoins est verrouillée.",
-        "planningStateHelper": "Dans la phase de planification, l'algorithme de Families Share crée un planning optimal en fonction des besoins et des disponibilités donnés.",
-        "creationStateHelper": "Dans la phase de création, le planning optimal se transforme en activités."
-    },
-    "createPlanStepper": {
-        "name": "Nom",
-        "from": "De",
-        "to": "À",
-        "description": "Description",
-        "location": "Lieu",
-        "requiredErr": "Veuillez remplir ce champ.",
-        "deadlineErr": "L'échéance doit être antérieure à la plage de dates spécifiée",
-        "rangeErr": "Combinaison de dates de début et de fin erronée",
-        "continue": "Continuer",
-        "cancel": "Annuler",
-        "finish": "Créer",
-        "save": "Sauvegarder",
-        "stepLabels": [
-            "Attribuer un titre à l'activité planifiée",
-            "Définir la plage de dates",
-            "Définir une échéance des besoins",
-            "Indiquez le lieu"
-        ]
-    },
-    "managePlanScreen": {
-        "export": "Exporter le planning",
-        "edit": "Modifier le planning",
-        "delete": "Supprimer le planning",
-        "exportConfirm": "Êtes-vous sûr de vouloir exporter ce planning ?",
-        "exportToaster": "Le planning est exporté au format xls. Vous le recevrez sous peu par e-mail",
-        "backNavTitle": "Gérer le planning",
-        "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce planning ?"
-    },
-    "managePlanStepper": {
-        "pmTimeslotFrom": "Créneau horaire après-midi de",
-        "pmTimeslotTo": "à",
-        "amTimeslotFrom": "Créneau horaire matin de",
-        "amTimeslotTo": "à",
-        "create": "Créer",
-        "discard": "Abandonner",
-        "activitiesCreation": "Créer des activités",
-        "automatically": "Automatiquement",
-        "manually": "Manuellement",
-        "zeroVolunteersTimeslots": "Gérer les créneaux horaires sans volontaires",
-        "automaticSuccess": "Le planning a été transformé avec succès en activités",
-        "manualSuccess": "Vous recevrez bientôt la solution idéale du planning par e-mail",
-        "nextPhase": "Phase suivante",
-        "previousPhase": "Phase précédente",
-        "finishPlan": "Créer des activités",
-        "continue": "Continuer",
-        "cancel": "Annuler",
-        "finish": "Soumettre",
-        "link": "Recevoir le lien",
-        "linkSuccess": "Vous recevrez sous peu un e-mail avec le lien correspondant.",
-        "desktopPrompt": "Afin de modifier la solution proposée, vous devez accéder à la plateforme via un ordinateur de bureau ou un ordinateur portable. Appuyez sur le bouton pour recevoir un e-mail avec l'adresse de la plateforme.",
-        "stepLabels": [
-            "Ajouter des besoins",
-            "Personnaliser les besoins",
-            "Ajouter des disponibilités",
-            "Personnaliser les disponibilités",
-            "Gérer la solution",
-            "Gérer les détails de l'activité"
-        ],
-        "needsDeadline": "Vous devez indiquer vos besoins jusqu'au",
-        "availabilitiesDeadline": "Vous devez indiquer vos disponibilités jusqu'au",
-        "availabilityError": "Disponibilité manquante pour la date",
-        "needError": "Attribution d'enfant manquante pour la date",
-        "needsSuccess": "Vous avez ajouté vos besoins avec succès",
-        "availabilitiesSuccess": "Vous avez ajouté vos disponibilités avec succès"
-    },
-    "planListItem": {
-        "participantsNeeds": "membres ont spécifié des besoins",
-        "participantNeeds": "membre a spécifié des besoins",
-        "participantsAvailabilities": "membres ont spécifié des disponibilités",
-        "participantAvailabilities": "membre a spécifié des disponibilités",
-        "needsPhase": "Annonce de besoins",
-        "availabilitiesPhase": "Annonce de disponibilités",
-        "planningPhase": "Recherche de la solution idéale",
-        "creationPhase": "Transformation du planning en activités"
-    },
-    "communityInterface": {
-        "backNavTitle": "Interface de la communauté",
-        "totalNumberOfUsers": "Nombre total d'utilisateurs",
-        "totalNumberOfGroups": "Nombre total de groupes",
-        "averageAppRating": "Évaluation de l'application",
-        "averageNumberOfActivitiesPerGroup": "Nombre moyen d'activités par groupe",
-        "averageNumberOfMembersPerGroup": "Nombre moyen de membres par groupe",
-        "totalNumberOfChildren": "Nombre total d'enfants",
-        "analyticsHeader": "Analyse de données",
-        "communityGrowth": "Croissance des utilisateurs de la plateforme (%)",
-        "totalNumberOfGoogleSignups": "Inscrits avec Google",
-        "totalNumberOfPlatformSignups": "Inscrits avec la plateforme Families_Share",
-        "timeslot_autoconfirm": "Confirmation automatique des créneaux horaires",
-        "auto_admin": "Le membre devient automatiquement administrateur",
-        "metricsColumn": "Indicateur",
-        "valuesColumn": "Valeur",
-        "configurationsHeader": "Configurations",
-        "chartsHeader": "Graphiques",
-        "charts": [
-            "Nombre total d'utilisateurs",
-            "Nombre d'utilisateurs inscrits avec la plateforme",
-            "Nombre d'utilisateurs inscrits avec Google",
-            "Nombre total d'enfants",
-            "Nombre total de groupes",
-            "Nombre moyen de membres du groupe",
-            "Nombre moyen d'activités du groupe"
-        ]
-    },
-    "profileChildren": {
-        "addChildPrompt": "Vous n'avez pas encore ajouté d'enfants. Cliquez sur l'icône enfant pour ajouter un nouvel enfant"
-    },
-    "myCalendarScreen": {
-        "backNavTitle": "Mon calendrier"
-    },
-    "editTimeslotScreen": {
-        "link": "Lien",
-        "learning": "activités d'apprentissage ou éducatives/devoirs",
-        "nature": "nature",
-        "tourism": "tourisme et culture",
-        "hobby": "passe-temps et sport",
-        "accompanying": "accompagnement (covoiturage ou pédibus)",
-        "entertainment": "divertissement",
-        "parties": "fêtes ou événements",
-        "coplaying": "jour(s) de co-jeu",
-        "other": "autre",
-        "category": "Type d'activité",
-        "addTimeslotTitle": "Nouveau créneau horaire",
-        "from": "De",
-        "date": "Jour",
-        "to": "À",
-        "details": "Détails",
-        "parents": "Parents requis",
-        "children": "Enfants requis",
-        "name": "Titre",
-        "location": "Lieu",
-        "description": "Description (facultatif)",
-        "cost": "Coût (facultatif)",
-        "status": "Statut du créneau horaire",
-        "ongoing": "En cours",
-        "completed": "Terminé",
-        "timeErr": "Combinaison d'heure de début et de fin erronée",
-        "requiredErr": "Veuillez remplir ce champ.",
-        "rangeErr": "Veuillez sélectionner une valeur supérieure à zéro.",
-        "editConfirm": "Confirmer les modifications ?",
-        "crucialChangeConfirm": "Si vous sauvegardez ces modifications, tous les participants seront désinscrits. Confirmer les modifications ?",
-        "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce créneau horaire ?"
-    },
-    "timeslotScreen": {
-        "externals": "Externes",
-        "externalPlaceholder": "Ajouter un volontaire externe",
-        "externalAvailabilities": "Ajouter des disponibilités externes",
-        "allUsersAvailabilities": "Ajouter des utilisateurs disponibles",
-        "allChildrenAvailabilities": "Ajouter des enfants disponibles",
-        "admins": "Administrateurs du groupe",
-        "phoneConfirm": "Appeler",
-        "copy": "Numéro copié dans le presse-papiers",
-        "minimum": "nombre minimum",
-        "userAvailability": "Ajoutez votre disponibilité :",
-        "childrenAvailability": "Ajoutez la disponibilité de vos enfants :",
-        "volunteer": "Volontaire",
-        "volunteers": "Volontaires",
-        "child": "enfant",
-        "children": "Enfants",
-        "emergency": "URGENCE",
-        "signup": "inscrit(e)",
-        "userSubscribe": "Vous vous êtes ajouté(e) à l'activité",
-        "userUnsubscribe": "Vous vous êtes retiré(e) de l'activité",
-        "parentSubscribe1": "Vous avez ajouté",
-        "parentSubscribe2": "à l'activité",
-        "parentUnsubscribe1": "Vous avez supprimé",
-        "parentUnsubscribe2": "de l'activité",
-        "cannotEdit": "Un créneau horaire ne peut être édité une fois terminé",
-        "childSubscribe1": "Vous avez ajouté",
-        "childSubscribe2": "à l'activité",
-        "childUnsubscribe1": "Vous avez supprimé",
-        "childUnsubscribe2": "de l'activité",
-        "childSubscribeConfirm1": "Êtes-vous sûr de vouloir ajouter",
-        "childSubscribeConfirm2": "à l'activité ?",
-        "childUnsubscribeConfirm1": "Êtes-vous sûr de vouloir supprimer",
-        "childUnsubscribeConfirm2": "de l'activité ?",
-        "editConfirm": "Confirmer les modifications ?",
-        "you": "Vous",
-        "userSubscribeConfirm": "Êtes-vous sûr de vouloir vous ajouter à l'activité ?",
-        "userUnsubscribeConfirm": "Êtes-vous sûr de vouloir vous retirer de l'activité ?"
-    },
-    "timeslotPreview": {
-        "confirmed": "Confirmé",
-        "pending": "En attente de confirmation",
-        "participating": "Vous et vos enfants participerez",
-        "parentParticipating": "Vous participerez",
-        "notParticipating": "Disponible pour de nouvelles inscriptions"
-    },
-    "ratingModal": {
-        "title": "Comment souhaitez-vous évaluer Families Share ?",
-        "rate": "Évaluez",
-        "rateInstruction": "Sélectionnez le nombre d'étoiles que vous souhaitez nous donner sur une échelle de 1 à 5."
-    },
-    "landingHeader": {
-        "communityName": "De Stuyverij"
-    },
-    "landingNavbar": {
-        "logIn": "SE CONNECTER",
-        "signUp": "S'INSCRIRE"
-    },
-    "aboutScreen": {
-        "findOutMore": "EN SAVOIR PLUS – VISITEZ LE SITE",
-        "aboutHeader": "À propos du projet",
-        "privacyPolicy": "Politique de confidentialité",
-        "familyShareSolution": "La solution Families_Share",
-        "firstParagraph": "Financé dans le cadre de la composante Primauté industrielle dans les technologies de l'information et de la communication du programme Horizon 2020 et son appel aux plateformes de sensibilisation collective concernant la durabilité et l'innovation sociale, le projet Families_Share développe une plateforme de réseautage social et de sensibilisation dédiée à encourager l'équilibre entre la garde d'enfants et la vie professionnelle et privée. La plateforme capitalise sur les réseaux de voisinage et permet aux citoyens de se réunir pour partager des tâches, le temps et les compétences nécessaires à la garde d'enfants et à l'éducation/loisirs parascolaires, où ceux-ci sont devenus inabordables en période de stagnation et d'austérité.",
-        "challengeHeader": "Le Défi",
-        "secondParagraph": "L'équilibre entre vie professionnelle et vie familiale est devenu de plus en plus fragile au cours de la dernière décennie en Europe. La crise économique a eu un double effet, affectant les conditions du marché du travail d'une part, et les dispositions sociales d'autre part. En conséquence, le taux de chômage a augmenté (principalement dans les secteurs à prédominance masculine), tandis que davantage de femmes (y compris les mères) travaillent à temps partiel. Les emplois stables ne peuvent plus être considérés comme acquis et les contrats précaires sont de plus en plus répandus, et nombreux sont les travailleurs qui entrent dans des programmes de requalification et sont confrontés à des périodes de chômage. Le nombre décroissant de travailleurs permanents est soumis à des charges de travail accrues et à des heures de travail plus longues, ce qui rend l'équilibre entre le travail et la vie quotidienne plus difficile, et le modèle actuel insoutenable.",
-        "fourthParagraph": "Le projet Families_Share offre une solution ascendante sous la forme d'une plateforme co-conçue pour aider les familles à partager du temps et des tâches liées à la garde d'enfants, à l'éducation des enfants, aux activités parascolaires et de loisirs et à d'autres tâches ménagères, avec un accent particulier sur les familles à faible revenu. Le projet vise également à s'engager auprès des personnes âgées en les faisant participer à des activités de garde d'enfants et en leur offrant un soutien dans leurs tâches administratives et quotidiennes, comme leurs courses, mais aussi en les faisant participer à des événements familiaux. Pour atteindre cet objectif, le projet emprunte et intègre les concepts de banque de temps, en capitalisant sur les innovations sociales numériques existantes des membres du consortium dans le domaine de la garde d'enfants. Il exploite également le potentiel des réseaux de technologies de l'information et de la communication (TIC) pour accroître l'innovation participative en encourageant les quartiers autonomes.",
-        "europeanUnionText": "Ce projet a bénéficié d'un financement du programme Horizon 2020 de l'Union européenne dans le cadre du CAPS Topic: ICT-11-2017 Type of action : IA, Grant agreement No 780783",
-        "backNavTitle": "À propos"
-    },
-    "landingScreen": {
-        "suggestionsHeader": "Groupes dans la communauté",
-        "cardHeader": "À propos du projet",
-        "cardInfo": "  Le projet Families_Share développe une plateforme de réseautage social et de sensibilisation dédiée à encourager l'équilibre entre la garde d'enfants et la vie professionnelle et privée."
-    },
-    "logInScreen": {
-        "backNavTitle": "Se connecter",
-        "forgotPassword": "Mot de passe oublié ?",
-        "orLogInWith": "OU CONNECTEZ-VOUS AVEC",
-        "google": "GOOGLE",
-        "facebook": "FACEBOOK",
-        "dontHaveAccount": "Vous n'avez pas de compte ?",
-        "signUp": "S'inscrire",
-        "agreeWithTerms": "En vous connectant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité"
-    },
-    "logInForm": {
-        "password": "Mot de passe",
-        "email": "E-mail",
-        "confirm": "CONFIRMER",
-        "authenticationErr": "E-mail ou mot de passe incorrect",
-        "requiredErr": "Veuillez remplir ce champ",
-        "tooShortErr": "Veuillez utiliser au moins 8 caractères.",
-        "typeMismatchErr": "Veuillez saisir une adresse e-mail."
-    },
-    "signUpScreen": {
-        "backNavTitle": "S'inscrire",
-        "accountQuestion": "Avez-vous déjà un compte ?",
-        "logIn": "Se connecter"
-    },
-    "signUpForm": {
-        "email": "E-mail",
-        "givenName": "Prénom",
-        "familyName": "Nom de famille",
-        "password": "Mot de passe",
-        "confirmPassword": "Confirmer mot de passe",
-        "confirm": "CONFIRMER",
-        "profileVisibility": "Mon profil apparaît dans les résultats de recherche",
-        "termsPolicy": "Conditions générales et politique",
-        "phoneNumber": "Numéro de téléphone (facultatif)",
-        "confirmPasswordErr": "Les mots de passe ne correspondent pas",
-        "signupErr": "Un autre compte utilise ",
-        "acceptTermsErr": "Veuillez accepter les conditions d'utilisation et la politique de confidentialité",
-        "passwordPrompt": "Le mot de passe doit comporter au moins 8 caractères",
-        "requiredErr": "Veuillez remplir ce champ",
-        "tooShortErr": "Veuillez utiliser au moins 8 caractères.",
-        "typeMismatchErr": "Veuillez saisir une adresse e-mail.",
-        "visibilityPrompt": "Les utilisateurs pourront rechercher mon profil dans l'application"
-    },
-    "privacyPolicyModal": {
-        "privacyPolicy": (
-          <div>
-            <h1>Politique de confidentialité de Families_Share</h1>
-            <p>
-            Cette politique de confidentialité a pour but de vous aider à comprendre quelles informations nous recueillons, pourquoi nous les collectons et comment vous pouvez mettre à jour, gérer, exporter et supprimer vos informations.
+  "groupMembers": {
+    "export": "Exporter les contacts"
+  },
+  "participantsModal": {
+    "header": "Participants",
+    "cancel": "Fermer"
+  },
+  "managePlanSolution": {
+    "needsHeader": "BESOINS DU CRÉNEAU HORAIRE",
+    "selectFrom": "Sélectionnez les disponibilités à partir de",
+    "participating": "Membres participants au planning",
+    "available": "Membres disponibles pour le créneau horaire",
+    "all": "Tous les membres du groupe"
+  },
+  "createPlanScreen": {
+    "backNavTitle": "Nouvelle planification"
+  },
+  "groupManagementScreen": {
+    "backNavTitle": "Gestion du groupe",
+    "totalVolunteers": "Nombre total de volontaires",
+    "totalKids": "Nombre total d'enfants",
+    "totalEvents": "Nombre total d'événements",
+    "totalCompletedEvents": "Nombre total d'événements terminés",
+    "metricsHeader": "Statistiques du groupe",
+    "metricsColumn": "Indicateur",
+    "valuesColumn": "Valeur",
+    "chartHeader": "Contribution totale par utilisateur"
+  },
+  "timeslotEmergencyScreen": {
+    "copy": "Numéro d'urgence copié dans le presse-papiers",
+    "call": "Appeler",
+    "header": "Numéros d'urgence :",
+    "services": {
+      "general": "Urgences générales",
+      "ambulance": "Ambulance",
+      "police": "Police",
+      "fire": "Pompiers"
+    }
+  },
+  "editPlanScreen": {
+    "requiredErr": "Veuillez remplir ce champ.",
+    "learning": "activités d'apprentissage ou éducatives/devoirs",
+    "nature": "nature",
+    "tourism": "tourisme et culture",
+    "hobby": "passe-temps et sport",
+    "accompanying": "accompagnement (covoiturage ou pédibus)",
+    "entertainment": "divertissement",
+    "parties": "fêtes ou événements",
+    "coplaying": "jour(s) de co-jeu",
+    "other": "autre",
+    "category": "Type d'activité",
+    "backNavTitle": "Modifier le planning",
+    "ratio": "Ratio enfants/parents",
+    "minVolunteers": "Nombre minimum de volontaires",
+    "deadline": "Échéance",
+    "needsState": "Indiquer vos besoins",
+    "availabilitiesState": "Indiquer vos disponibilités",
+    "planningState": "Créer un planning",
+    "creationState": "Créer des activités",
+    "state": "Statut du planning",
+    "needsStateHelper": "Dans la phase des besoins, les utilisateurs choisissent les dates pour lesquelles ils auront besoin de garde d'enfants. Dans ce statut, la phase des disponibilités est verrouillée.",
+    "availabilitiesStateHelper": "Dans la phase des disponibilités, les utilisateurs sélectionnent les dates auxquelles ils sont disponibles pour la garde d'enfants. Dans ce statut, la phase des besoins est verrouillée.",
+    "planningStateHelper": "Dans la phase de planification, l'algorithme de Families Share crée un planning optimal en fonction des besoins et des disponibilités donnés.",
+    "creationStateHelper": "Dans la phase de création, le planning optimal se transforme en activités."
+  },
+  "createPlanStepper": {
+    "name": "Nom",
+    "from": "De",
+    "to": "À",
+    "description": "Description",
+    "location": "Lieu",
+    "requiredErr": "Veuillez remplir ce champ.",
+    "deadlineErr": "L'échéance doit être antérieure à la plage de dates spécifiée",
+    "rangeErr": "Combinaison de dates de début et de fin erronée",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "finish": "Créer",
+    "save": "Sauvegarder",
+    "stepLabels": [
+      "Attribuer un titre à l'activité planifiée",
+      "Définir la plage de dates",
+      "Définir une échéance des besoins",
+      "Indiquez le lieu"
+    ]
+  },
+  "managePlanScreen": {
+    "export": "Exporter le planning",
+    "edit": "Modifier le planning",
+    "delete": "Supprimer le planning",
+    "exportConfirm": "Êtes-vous sûr de vouloir exporter ce planning ?",
+    "exportToaster": "Le planning est exporté au format xls. Vous le recevrez sous peu par e-mail",
+    "backNavTitle": "Gérer le planning",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce planning ?"
+  },
+  "managePlanStepper": {
+    "pmTimeslotFrom": "Créneau horaire après-midi de",
+    "pmTimeslotTo": "à",
+    "amTimeslotFrom": "Créneau horaire matin de",
+    "amTimeslotTo": "à",
+    "create": "Créer",
+    "discard": "Abandonner",
+    "activitiesCreation": "Créer des activités",
+    "automatically": "Automatiquement",
+    "manually": "Manuellement",
+    "zeroVolunteersTimeslots": "Gérer les créneaux horaires sans volontaires",
+    "automaticSuccess": "Le planning a été transformé avec succès en activités",
+    "manualSuccess": "Vous recevrez bientôt la solution idéale du planning par e-mail",
+    "nextPhase": "Phase suivante",
+    "previousPhase": "Phase précédente",
+    "finishPlan": "Créer des activités",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "finish": "Soumettre",
+    "link": "Recevoir le lien",
+    "linkSuccess": "Vous recevrez sous peu un e-mail avec le lien correspondant.",
+    "desktopPrompt": "Afin de modifier la solution proposée, vous devez accéder à la plateforme via un ordinateur de bureau ou un ordinateur portable. Appuyez sur le bouton pour recevoir un e-mail avec l'adresse de la plateforme.",
+    "stepLabels": [
+      "Ajouter des besoins",
+      "Personnaliser les besoins",
+      "Ajouter des disponibilités",
+      "Personnaliser les disponibilités",
+      "Gérer la solution",
+      "Gérer les détails de l'activité"
+    ],
+    "needsDeadline": "Vous devez indiquer vos besoins jusqu'au",
+    "availabilitiesDeadline": "Vous devez indiquer vos disponibilités jusqu'au",
+    "availabilityError": "Disponibilité manquante pour la date",
+    "needError": "Attribution d'enfant manquante pour la date",
+    "needsSuccess": "Vous avez ajouté vos besoins avec succès",
+    "availabilitiesSuccess": "Vous avez ajouté vos disponibilités avec succès"
+  },
+  "planListItem": {
+    "participantsNeeds": "membres ont spécifié des besoins",
+    "participantNeeds": "membre a spécifié des besoins",
+    "participantsAvailabilities": "membres ont spécifié des disponibilités",
+    "participantAvailabilities": "membre a spécifié des disponibilités",
+    "needsPhase": "Annonce de besoins",
+    "availabilitiesPhase": "Annonce de disponibilités",
+    "planningPhase": "Recherche de la solution idéale",
+    "creationPhase": "Transformation du planning en activités"
+  },
+  "communityInterface": {
+    "backNavTitle": "Interface de la communauté",
+    "totalNumberOfUsers": "Nombre total d'utilisateurs",
+    "totalNumberOfGroups": "Nombre total de groupes",
+    "averageAppRating": "Évaluation de l'application",
+    "averageNumberOfActivitiesPerGroup": "Nombre moyen d'activités par groupe",
+    "averageNumberOfMembersPerGroup": "Nombre moyen de membres par groupe",
+    "totalNumberOfChildren": "Nombre total d'enfants",
+    "analyticsHeader": "Analyse de données",
+    "communityGrowth": "Croissance des utilisateurs de la plateforme (%)",
+    "totalNumberOfGoogleSignups": "Inscrits avec Google",
+    "totalNumberOfPlatformSignups": "Inscrits avec la plateforme Families_Share",
+    "timeslot_autoconfirm": "Confirmation automatique des créneaux horaires",
+    "auto_admin": "Le membre devient automatiquement administrateur",
+    "metricsColumn": "Indicateur",
+    "valuesColumn": "Valeur",
+    "configurationsHeader": "Configurations",
+    "chartsHeader": "Graphiques",
+    "charts": [
+      "Nombre total d'utilisateurs",
+      "Nombre d'utilisateurs inscrits avec la plateforme",
+      "Nombre d'utilisateurs inscrits avec Google",
+      "Nombre total d'enfants",
+      "Nombre total de groupes",
+      "Nombre moyen de membres du groupe",
+      "Nombre moyen d'activités du groupe"
+    ]
+  },
+  "profileChildren": {
+    "addChildPrompt": "Vous n'avez pas encore ajouté d'enfants. Cliquez sur l'icône enfant pour ajouter un nouvel enfant"
+  },
+  "myCalendarScreen": {
+    "backNavTitle": "Mon calendrier"
+  },
+  "editTimeslotScreen": {
+    "link": "Lien",
+    "learning": "activités d'apprentissage ou éducatives/devoirs",
+    "nature": "nature",
+    "tourism": "tourisme et culture",
+    "hobby": "passe-temps et sport",
+    "accompanying": "accompagnement (covoiturage ou pédibus)",
+    "entertainment": "divertissement",
+    "parties": "fêtes ou événements",
+    "coplaying": "jour(s) de co-jeu",
+    "other": "autre",
+    "category": "Type d'activité",
+    "addTimeslotTitle": "Nouveau créneau horaire",
+    "from": "De",
+    "date": "Jour",
+    "to": "À",
+    "details": "Détails",
+    "parents": "Parents requis",
+    "children": "Enfants requis",
+    "name": "Titre",
+    "location": "Lieu",
+    "description": "Description (facultatif)",
+    "cost": "Coût (facultatif)",
+    "status": "Statut du créneau horaire",
+    "ongoing": "En cours",
+    "completed": "Terminé",
+    "timeErr": "Combinaison d'heure de début et de fin erronée",
+    "requiredErr": "Veuillez remplir ce champ.",
+    "rangeErr": "Veuillez sélectionner une valeur supérieure à zéro.",
+    "editConfirm": "Confirmer les modifications ?",
+    "crucialChangeConfirm": "Si vous sauvegardez ces modifications, tous les participants seront désinscrits. Confirmer les modifications ?",
+    "deleteConfirm": "Êtes-vous sûr de vouloir supprimer ce créneau horaire ?"
+  },
+  "timeslotScreen": {
+    "ongoing": "En cours",
+    "completed": "Terminé",
+    "learning": "activités d'apprentissage ou éducatives/devoirs",
+    "nature": "nature",
+    "tourism": "tourisme et culture",
+    "hobby": "passe-temps et sport",
+    "accompanying": "accompagnement (covoiturage ou pédibus)",
+    "entertainment": "divertissement",
+    "parties": "fêtes ou événements",
+    "coplaying": "jour(s) de co-jeu",
+    "other": "autre",
+    "externals": "Externes",
+    "externalPlaceholder": "Ajouter un volontaire externe",
+    "externalAvailabilities": "Ajouter des disponibilités externes",
+    "allUsersAvailabilities": "Ajouter des utilisateurs disponibles",
+    "allChildrenAvailabilities": "Ajouter des enfants disponibles",
+    "admins": "Administrateurs du groupe",
+    "phoneConfirm": "Appeler",
+    "copy": "Numéro copié dans le presse-papiers",
+    "minimum": "nombre minimum",
+    "userAvailability": "Ajoutez votre disponibilité :",
+    "childrenAvailability": "Ajoutez la disponibilité de vos enfants :",
+    "volunteer": "Volontaire",
+    "volunteers": "Volontaires",
+    "child": "enfant",
+    "children": "Enfants",
+    "emergency": "URGENCE",
+    "signup": "inscrit(e)",
+    "userSubscribe": "Vous vous êtes ajouté(e) à l'activité",
+    "userUnsubscribe": "Vous vous êtes retiré(e) de l'activité",
+    "parentSubscribe1": "Vous avez ajouté",
+    "parentSubscribe2": "à l'activité",
+    "parentUnsubscribe1": "Vous avez supprimé",
+    "parentUnsubscribe2": "de l'activité",
+    "cannotEdit": "Un créneau horaire ne peut être édité une fois terminé",
+    "childSubscribe1": "Vous avez ajouté",
+    "childSubscribe2": "à l'activité",
+    "childUnsubscribe1": "Vous avez supprimé",
+    "childUnsubscribe2": "de l'activité",
+    "childSubscribeConfirm1": "Êtes-vous sûr de vouloir ajouter",
+    "childSubscribeConfirm2": "à l'activité ?",
+    "childUnsubscribeConfirm1": "Êtes-vous sûr de vouloir supprimer",
+    "childUnsubscribeConfirm2": "de l'activité ?",
+    "editConfirm": "Confirmer les modifications ?",
+    "you": "Vous",
+    "userSubscribeConfirm": "Êtes-vous sûr de vouloir vous ajouter à l'activité ?",
+    "userUnsubscribeConfirm": "Êtes-vous sûr de vouloir vous retirer de l'activité ?"
+  },
+  "timeslotPreview": {
+    "confirmed": "Confirmé",
+    "pending": "En attente de confirmation",
+    "participating": "Vous et vos enfants participerez",
+    "parentParticipating": "Vous participerez",
+    "notParticipating": "Disponible pour de nouvelles inscriptions"
+  },
+  "ratingModal": {
+    "title": "Comment souhaitez-vous évaluer Families Share ?",
+    "rate": "Évaluez",
+    "rateInstruction": "Sélectionnez le nombre d'étoiles que vous souhaitez nous donner sur une échelle de 1 à 5."
+  },
+  "landingHeader": {
+    "communityName": "De Stuyverij"
+  },
+  "landingNavbar": {
+    "logIn": "SE CONNECTER",
+    "signUp": "S'INSCRIRE"
+  },
+  "aboutScreen": {
+    "findOutMore": "EN SAVOIR PLUS – VISITEZ LE SITE",
+    "aboutHeader": "À propos du projet",
+    "privacyPolicy": "Politique de confidentialité",
+    "familyShareSolution": "La solution Families_Share",
+    "firstParagraph": "Financé dans le cadre de la composante Primauté industrielle dans les technologies de l'information et de la communication du programme Horizon 2020 et son appel aux plateformes de sensibilisation collective concernant la durabilité et l'innovation sociale, le projet Families_Share développe une plateforme de réseautage social et de sensibilisation dédiée à encourager l'équilibre entre la garde d'enfants et la vie professionnelle et privée. La plateforme capitalise sur les réseaux de voisinage et permet aux citoyens de se réunir pour partager des tâches, le temps et les compétences nécessaires à la garde d'enfants et à l'éducation/loisirs parascolaires, où ceux-ci sont devenus inabordables en période de stagnation et d'austérité.",
+    "challengeHeader": "Le Défi",
+    "secondParagraph": "L'équilibre entre vie professionnelle et vie familiale est devenu de plus en plus fragile au cours de la dernière décennie en Europe. La crise économique a eu un double effet, affectant les conditions du marché du travail d'une part, et les dispositions sociales d'autre part. En conséquence, le taux de chômage a augmenté (principalement dans les secteurs à prédominance masculine), tandis que davantage de femmes (y compris les mères) travaillent à temps partiel. Les emplois stables ne peuvent plus être considérés comme acquis et les contrats précaires sont de plus en plus répandus, et nombreux sont les travailleurs qui entrent dans des programmes de requalification et sont confrontés à des périodes de chômage. Le nombre décroissant de travailleurs permanents est soumis à des charges de travail accrues et à des heures de travail plus longues, ce qui rend l'équilibre entre le travail et la vie quotidienne plus difficile, et le modèle actuel insoutenable.",
+    "fourthParagraph": "Le projet Families_Share offre une solution ascendante sous la forme d'une plateforme co-conçue pour aider les familles à partager du temps et des tâches liées à la garde d'enfants, à l'éducation des enfants, aux activités parascolaires et de loisirs et à d'autres tâches ménagères, avec un accent particulier sur les familles à faible revenu. Le projet vise également à s'engager auprès des personnes âgées en les faisant participer à des activités de garde d'enfants et en leur offrant un soutien dans leurs tâches administratives et quotidiennes, comme leurs courses, mais aussi en les faisant participer à des événements familiaux. Pour atteindre cet objectif, le projet emprunte et intègre les concepts de banque de temps, en capitalisant sur les innovations sociales numériques existantes des membres du consortium dans le domaine de la garde d'enfants. Il exploite également le potentiel des réseaux de technologies de l'information et de la communication (TIC) pour accroître l'innovation participative en encourageant les quartiers autonomes.",
+    "europeanUnionText": "Ce projet a bénéficié d'un financement du programme Horizon 2020 de l'Union européenne dans le cadre du CAPS Topic: ICT-11-2017 Type of action : IA, Grant agreement No 780783",
+    "backNavTitle": "À propos"
+  },
+  "landingScreen": {
+    "suggestionsHeader": "Groupes dans la communauté",
+    "cardHeader": "À propos du projet",
+    "cardInfo": "  Le projet Families_Share développe une plateforme de réseautage social et de sensibilisation dédiée à encourager l'équilibre entre la garde d'enfants et la vie professionnelle et privée."
+  },
+  "logInScreen": {
+    "backNavTitle": "Se connecter",
+    "forgotPassword": "Mot de passe oublié ?",
+    "orLogInWith": "OU CONNECTEZ-VOUS AVEC",
+    "google": "GOOGLE",
+    "facebook": "FACEBOOK",
+    "dontHaveAccount": "Vous n'avez pas de compte ?",
+    "signUp": "S'inscrire",
+    "agreeWithTerms": "En vous connectant, vous acceptez nos Conditions d'utilisation et notre Politique de confidentialité"
+  },
+  "logInForm": {
+    "password": "Mot de passe",
+    "email": "E-mail",
+    "confirm": "CONFIRMER",
+    "authenticationErr": "E-mail ou mot de passe incorrect",
+    "requiredErr": "Veuillez remplir ce champ",
+    "tooShortErr": "Veuillez utiliser au moins 8 caractères.",
+    "typeMismatchErr": "Veuillez saisir une adresse e-mail."
+  },
+  "signUpScreen": {
+    "backNavTitle": "S'inscrire",
+    "accountQuestion": "Avez-vous déjà un compte ?",
+    "logIn": "Se connecter"
+  },
+  "signUpForm": {
+    "email": "E-mail",
+    "givenName": "Prénom",
+    "familyName": "Nom de famille",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer mot de passe",
+    "confirm": "CONFIRMER",
+    "profileVisibility": "Mon profil apparaît dans les résultats de recherche",
+    "termsPolicy": "Conditions générales et politique",
+    "phoneNumber": "Numéro de téléphone (facultatif)",
+    "confirmPasswordErr": "Les mots de passe ne correspondent pas",
+    "signupErr": "Un autre compte utilise ",
+    "acceptTermsErr": "Veuillez accepter les conditions d'utilisation et la politique de confidentialité",
+    "passwordPrompt": "Le mot de passe doit comporter au moins 8 caractères",
+    "requiredErr": "Veuillez remplir ce champ",
+    "tooShortErr": "Veuillez utiliser au moins 8 caractères.",
+    "typeMismatchErr": "Veuillez saisir une adresse e-mail.",
+    "visibilityPrompt": "Les utilisateurs pourront rechercher mon profil dans l'application"
+  },
+  "privacyPolicyModal": {
+    "privacyPolicy": (
+      <div>
+        <h1>Politique de confidentialité de Families_Share</h1>
+        <p>
+          Cette politique de confidentialité a pour but de vous aider à comprendre quelles informations nous recueillons, pourquoi nous les collectons et comment vous pouvez mettre à jour, gérer, exporter et supprimer vos informations.
             </p>
-            <ol type="i">
-              <li>
-                <h2>Politique de confidentialité de Families_Share</h2>
-                <p>
-                Bienvenue sur le site web (le « site ») de Families_Share. Ce Site a été développé pour fournir des informations sur les services de Families_Share. L'application Families_Share, avec le site web, sont les « services » pour les visiteurs et les utilisateurs (« vous » et/ou « votre »).
+        <ol type="i">
+          <li>
+            <h2>Politique de confidentialité de Families_Share</h2>
+            <p>
+              Bienvenue sur le site web (le « site ») de Families_Share. Ce Site a été développé pour fournir des informations sur les services de Families_Share. L'application Families_Share, avec le site web, sont les « services » pour les visiteurs et les utilisateurs (« vous » et/ou « votre »).
                 </p>
-                <p>
-                Cette politique de confidentialité définit la politique de Families_Share en ce qui concerne vos informations, y compris les informations qui vous identifient ou pourraient vous identifier personnellement (appelées « informations personnelles identifiables » aux États-Unis ou « données personnelles » dans l'Union européenne, que nous appellerons « données personnelles ») et d'autres informations collectées auprès des visiteurs et utilisateurs des Services.
-                Veuillez lire attentivement cette politique de confidentialité afin que vous compreniez comment nous traiterons vos données.  En utilisant l'un de nos services, vous confirmez avoir lu, compris et accepté cette politique de confidentialité.  Si vous n'acceptez pas cette politique, veuillez ne pas utiliser les services.  Si vous avez des questions, veuillez nous envoyer un courriel à
+            <p>
+              Cette politique de confidentialité définit la politique de Families_Share en ce qui concerne vos informations, y compris les informations qui vous identifient ou pourraient vous identifier personnellement (appelées « informations personnelles identifiables » aux États-Unis ou « données personnelles » dans l'Union européenne, que nous appellerons « données personnelles ») et d'autres informations collectées auprès des visiteurs et utilisateurs des Services.
+              Veuillez lire attentivement cette politique de confidentialité afin que vous compreniez comment nous traiterons vos données.  En utilisant l'un de nos services, vous confirmez avoir lu, compris et accepté cette politique de confidentialité.  Si vous n'acceptez pas cette politique, veuillez ne pas utiliser les services.  Si vous avez des questions, veuillez nous envoyer un courriel à
                   <bold> contact@families-share.eu </bold>
-                </p>
-              </li>
-              <li>
-                <h2>Qui sommes-nous ?</h2>
-                <p>
-                  Nous sommes ViLabs, le partenaire du projet de l'UE, Families_Share, responsable pour le développement et la maintenance du site Web et des applications Families_Share et des services correspondants, et aussi responsable du traitement et du contrôle des données du dit projet.
+            </p>
+          </li>
+          <li>
+            <h2>Qui sommes-nous ?</h2>
+            <p>
+              Nous sommes ViLabs, le partenaire du projet de l'UE, Families_Share, responsable pour le développement et la maintenance du site Web et des applications Families_Share et des services correspondants, et aussi responsable du traitement et du contrôle des données du dit projet.
                   ViLabs CY (“Versatile Innovations”), ECASTICA Business centre 6, Vasili Vryonides str. Gala Court Chambers, Limassol, Chypre t. +30 2310 365 188, +35 725 760 967, <bold> info@vilabs.eu </bold>.Nous appelons cette équipe « ViLabs », « nous » et/ou « notre ».
                 </p>
-              </li>
-              <li>
-                <h2>Notre statut juridique et les lois applicables en matière de confidentialité des données</h2>
-                <p>
-                ViLabs assume le rôle de responsable du traitement et du contrôle des données en vertu de la législation de l'UE. Toutes les données à caractère personnel sont collectées, utilisées, stockées et traitées en pleine conformité avec le règlement général sur la protection des données (règlement (UE) 679/2016 également connu sous le nom de « RGPD ») et la directive 2002/58/CE du Parlement européen (directive sur la vie privée et les communications électroniques). Seuls les chercheurs Vilabs et les administrateurs système auront accès au répertoire de données. Les services Families_Share sont hébergés sur des serveurs situés dans l'Union européenne et fournis par Contabo (https://contabo.com/).
-                </p>
-              </li>
-              <li>
-                <h2>Informations que nous recueillons</h2>
-                <p>
-                Lorsque vous interagissez avec nous par le biais des services, nous recueillons des données personnelles et autres informations vous concernant, comme décrit ci-dessous :
-
-Nous recueillons des données personnelles auprès de vous lorsque vous fournissez volontairement de telles informations, par exemple lorsque vous nous contactez pour des demandes de renseignements, vous vous inscrivez pour accéder aux services ou vous utilisez certains des services.
-
-                </p>
-                <p>
-                En particulier, dans la plate-forme Families_Share sont recueillies des informations sur les parents, les enfants et les groupes de garde d'enfants. 
-                </p>
-                <ul>
-                  <li>
-                    <p>
-                      &bull; Concernant les parents : prénom, nom, nom de famille, numéro de téléphone, adresse, e-mail et photo/avatar.
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Concernant les enfants : les informations sont collectées uniquement par ceux qui exercent la responsabilité parentale, et ils ont le droit de fournir les informations pertinentes, conformément à la législation applicable. Ces informations sont : nom, date de naissance, sexe, photo/avatar et autres informations directement spécifiées par les parents (allergies, maladies, régime alimentaire spécifique, besoins spéciaux, etc.). 
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Concernant les groupes de garde d'enfants : le nom du groupe, la biographie du groupe, l'emplacement de la garde d'enfants, les périodes de garde d'enfants et les messages du flux de groupe (texte et images). 
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Détails techniques ou autres concernant tout appareil que vous utilisez pour accéder aux services, y compris l'identifiant unique de périphérique (UDID) ou équivalent de l'appareil ; votre système d'exploitation, type de navigateur ou autre logiciel ; les détails de votre matériel ou de votre appareil mobile (y compris le type et le numéro de votre appareil mobile et les informations de votre opérateur mobile), s'il y a lieu ; ou d'autres détails techniques.
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Détails de votre utilisation de nos services : informations statistiques sur le moment et la façon dont vous utilisez les services.
-                    </p>
-                  </li>
-                </ul>
-                <p>
-                En nous fournissant volontairement des données personnelles, vous consentez à ce que nous les utilisions dans le cadre des services et conformément à la présente politique de confidentialité (art. 6, par. 1, let. a, RGPD). Accessoirement, le traitement des données personnelles doit également être conforme à la loi lorsqu'il est nécessaire à l'exécution des services (art. 6, par. 1, let. b, RGPD). En ce qui concerne les catégories particulières de données personnelles, vous donnez votre consentement explicite au traitement de ces données dès leur communication aux fins des services.
-                </p>
-              </li>
-              <li>
-                <h2>Notre utilisation de vos données personnelles et autres informations</h2>
-                <p>
-                Toute information recueillie est immédiatement séparée en (i) une partie contenant des informations personnelles (non sensibles) (telles que le nom, l'adresse électronique, le numéro de téléphone, etc.) sur les participants concernés et (ii) une partie entièrement anonymisée (non identifiable) puis mise à la disposition de l'ensemble du consortium à des fins de recherche. 
-                </p>
-                <p>
-                Les données personnelles des participants à chaque CityLab seront partagées via l'application aux autres membres du groupe pour la gestion des activités Families_Share, sous le contrôle de l'administrateur du groupe. Tout abus de la part d'un membre entraînera l'annulation de son compte. Notez que toute demande d'adhésion à un groupe est soumise à l'approbation de l'administrateur du groupe.
-                </p>
-                <p>
-                Des données personnelles supplémentaires des participants seront collectées si nécessaire et uniquement à des fins scientifiques (par exemple, pour élargir les contacts pour des études longitudinales) et seront supprimées immédiatement après l'achèvement du projet. Les données anonymisées sont stockées dans un dépôt partagé et seront conservées après l'achèvement du projet comme preuves pour les études et les publications. 
-                </p>
-                <p>
-                En particulier, les services peuvent utiliser ces informations et les mettre en commun avec d'autres informations sur une base anonyme et généralisée pour suivre, par exemple, le nombre total d'utilisateurs de nos services, le nombre de visiteurs de chaque page de notre site et les noms de domaine des fournisseurs de services Internet de nos visiteurs (aucune donnée personnelle est concernée dans ce cas).
-                </p>
-              </li>
-              <li>
-                <h2>Notre divulgation de vos données personnelles informations supplémentaires</h2>
-                <p>
-                Dans tous les cas, Families_Share (et donc le partenaire responsable ViLabs) ne peut divulguer vos données personnelles que si la loi l'exige ou en croyant de bonne foi qu'une telle action est nécessaire pour :
-                </p>
-                <ul>
-                  <li>
-                    <p> &bull; Respecter une obligation légale</p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Agir en cas d'urgence pour protéger la sécurité personnelle des utilisateurs des services ou du public
-                    </p>
-                  </li>
-                  <li>
-                    <p> &bull; Protéger contre toute responsabilité juridique</p>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <h2>Vos choix</h2>
-                <p>
-                Vous pouvez visiter les services sans fournir de données personnelles. Si vous choisissez de ne pas fournir de données Personnelles, il se peut que vous ne puissiez pas utiliser certains services de Families_Share.
-                </p>
-              </li>
-              <li>
-                <h2>Recueil des données    </h2>
-                <p>
-                Toutes les données proviennent des utilisateurs qui s'inscrivent à la plate-forme Families_Share. La plupart du temps, les parents doivent donner leur consentement au traitement d'informations privées et « sensibles » sur leurs enfants. En particulier, les informations concernant les enfants sont fournies par les parents et les données sont recueillies es conformément au RGPD (article 8) :
-                </p>
-                <ul>
-                  <li>
-                    <p>
-                      &bull; Lorsque l'article 6, paragraphe 1, point a, s'applique, en ce qui concerne l'offre de services de la société d'information directement à un enfant, le traitement des données à caractère personnel d'un enfant est légal lorsque l'enfant est âgé d'au moins 16 ans. Lorsque l'enfant est âgé de moins de 16 ans, ce traitement n'est légal que si et dans la mesure où le titulaire de la responsabilité parentale de l'enfant autorise ou donne son consentement. 
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull;Dans de tels cas, le contrôleur doit faire des efforts raisonnables pour vérifier que le titulaire de la responsabilité parentale de l'enfant autorise ou donne son consentement, en tenant compte de la technologie disponible.
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      &bull; Le paragraphe 1 n'affecte pas le droit général des contrats des États membres, notamment les règles relatives à la validité, à la formation ou à l'effet d'un contrat à l'égard d'un enfant
-                    </p>
-                  </li>
-                </ul>
-                <p>
-                Rappelez-vous également le point 32 du RGPD : « Le consentement doit être donné par un acte affirmatif clair établissant une indication librement donnée, spécifique, éclairée et sans ambiguïté de l'accord de la personne concernée quant au traitement des données personnelles la concernant, par exemple par une déclaration écrite, y compris par des moyens électroniques, ou une déclaration orale. Cela pourrait inclure la coche d'une case lors de la visite d'un site Internet, le choix des paramètres techniques pour les services relatifs à la société de l'information ou une autre déclaration ou comportement indiquant clairement dans ce contexte l'acceptation par la personne concernée du traitement proposé de ses données personnelles [...] Si le consentement de la personne concernée doit être donné à la suite d'une demande par voie électronique, la demande doit être claire, concise et ne pas perturber inutilement l'utilisation du service pour lequel elle est fournie ».
-                </p>
-              </li>
-              <li>
-                <h2>Enfants</h2>
-                <p>
-                Families_Share ne collecte pas sciemment les données personnelles fournies par les enfants de moins de 16 ans. Si vous avez moins de 16 ans, veuillez ne pas fournir de données personnelles par le biais des services. Nous encourageons les parents et les tuteurs légaux à surveiller l'utilisation d'Internet de leurs enfants et à contribuer à l'application de notre politique de confidentialité en demandant à leurs enfants de ne jamais fournir de données personnelles sur les services sans leur autorisation. Si vous avez des raisons de croire qu'un enfant de moins de 16 ans a fourni des données personnelles à Families_Share par le biais des services, veuillez nous contacter et nous nous efforcerons de supprimer ces informations de nos bases de données.
-                </p>
-              </li>
-              <li>
-                <h2>Stratégie de stockage et de protection des données </h2>
-                <p>
-                L'ensemble des services Families_Share sont proposés via le cloud, et les parties frontale et dorsale de la plateforme ainsi que les données sont stockées sur des serveurs dédiés sécurisés et protégés par l'intermédiaire d'un fournisseur de cloud certifié, qui dispose de toutes les infrastructures et certifications requises par le RGPD.
-                </p>
-                <p>
-                Le fournisseur de services cloud est géré par une personne responsable de VILABS et un responsable de la protection des données (Prof. Agostino Cortesi, Universita Ca'Foscari Venezia, cortesi@unive.it), suivant les meilleures pratiques et normes disponibles.
-                </p>
-                <p>
-                Les données personnelles seront stockées tout au long du cycle de vie officiel du projet Families_Share financé par le programme de l'UE Horizon 2020 (jusqu'au 31/10/2020). Après la fin de la période officielle du projet, les données personnelles des utilisateurs qui ne se sont pas connectés à leur compte depuis un an (365 jours) seront entièrement supprimées. 
-                </p>
-                <p>
-                L'installation de stockage protégé du fournisseur de services cloud sera basée sur des systèmes redondants et située dans l'UE. Les données sont sauvegardées quotidiennement et une copie de sauvegarde est également stockée dans les centres de données de l'UE
-                </p>
-                <p>
-                L'accès aux données sur le stockage est soumis à une authentification au moyen d'un nom d'utilisateur et d'un mot de passe gérés conformément à la directive 2002/58/CE du Parlement européen.
-                </p>
-                <p>
-                Seuls les chercheurs VILabs (à des fins de recherche) et les administrateurs système (à des fins de maintenance) auront accès au dossier de données.
-                </p>
-              </li>
-              <li>
-                <h2>Partage de données avec des tiers</h2>
-                <p>
-                Aucun des renseignements personnels recueillis ne sera partagé avec des tiers. Les informations collectées ne seront utilisées que dans la plate-forme elle-même, comme décrit ci-dessus (V.)
-                </p>
-                <p>
-                L'application ne fait pas usage de l'utilisation d'« intentions » implicites. Cela empêche l'accès inapproprié aux données par d'autres applications installées sur le même appareil.
-                </p>
-              </li>
-              <li>
-                <h2>Sécurité</h2>
-                <p>
-                ViLabs prend des mesures raisonnables pour protéger les données personnelles fournies via les services contre la perte, l'utilisation abusive et l'accès non autorisé, la divulgation, l'altération ou la destruction. La communication de données depuis/vers l'utilisateur sera gérée via le protocole SSL https. 
-                </p>
-                <p>
-                Il est de votre responsabilité de protéger correctement l'accès à l'appareil sur lequel l'application est installée contre toute utilisation non autorisée.
-                </p>
-                <p>
-                Les utilisateurs enregistrés Families_Share disposent d'un nom d'utilisateur et d'un identifiant unique, ce qui vous permet d'accéder à certaines parties de nos services.  Vous êtes responsable de les garder confidentiels. Assurez-vous de ne pas les partager avec quelqu'un d'autre.
-                </p>
-              </li>
-              <li>
-                <h2>Vos droits - Fermeture de votre compte </h2>
-                <p>
-                La législation de l'UE sur la protection des données donne aux citoyens de l'UE le droit d'accéder aux informations les concernant. Ces informations sont mentionnées ci-dessus et peuvent être modifiées par vous via les services, conformément au RGPD (art. 15-22). En outre, vous avez le droit de rectification, le droit de retirer le consentement donné (lorsque le consentement est la base légale du traitement des données à caractère personnel), le droit d'effacement (« droit à l'oubli »), le droit de restreindre le traitement, le droit à la portabilité des données, le droit de s'opposer au traitement, le droit de ne pas faire l'objet d'une décision fondée sur un traitement automatisé (y compris le profilage), le droit de déposer une plainte auprès d'une autorité de contrôle, le droit à un recours judiciaire effectif. 
-                </p>
-                <p>
-                Vous pouvez nous envoyer un e-mail à contact@families-share.eu 
-                </p>
-                <p>
-                Tous les utilisateurs peuvent modifier leurs informations personnelles comme ils le souhaitent, avoir accès et peuvent télécharger une copie de leurs informations et de leur participation à des activités via l'application Families_Share, tout en ayant le droit de supprimer complètement leur compte et toutes les informations relatives à leur compte.
-                </p>
-                <p>
-                À la suite de l'annulation du compte par l'utilisateur, sauf dans le cas de données anonymes, il y a une obligation de supprimer les données à caractère personnel dès que possible, puisque la base légale pour le traitement ultérieur doit avoir disparu.
-                </p>
-                <p>
-                Vous pouvez également nous envoyer un e-mail à contact@families-share.eu pour nous demander de supprimer vos informations personnelles de notre base de données. 
-                </p>
-              </li>
-              <li>
-                <h2>Modification de la politique de confidentialité</h2>
-                <p>
-                Cette politique de confidentialité peut changer de temps à autre. Lorsque des modifications sont apportées, la date d'entrée en vigueur indiquée ci-dessous changera également en conséquence, et la nouvelle politique de confidentialité sera publiée en ligne, tandis que toutes les parties concernées recevront une notification spécifique.
-                </p>
-              </li>
-              <li>
-                <h2>Communication </h2>
-                <p>
-                Pour toute autre information à notre sujet, veuillez visiter notre site web : https://www.families-share.eu/
-                </p>
-                <p>
-                N'hésitez pas à nous contacter si vous avez des questions concernant la politique de confidentialité de Families_Share ou les pratiques en matière d'information des services. Vous pouvez nous contacter en envoyant un e-mail à l’adresse contact@families-share.eu  
-                </p>
-              </li>
-              <li>
-                <h2>Gestion des données</h2>
-                <p>
-                  DPO: Coordinateur du projet Prof. Agostino Cortesi, Universita Ca'Foscari Venezia, <bold>cortesi@unive.it</bold>
-                </p>
-                <p>
-                Gestionnaire des données de la plateforme: Apostolos Vontas, Directeur de ViLabs,{" "}
-                  <bold>avontas@vilabs.eu</bold>
-                </p>
-                <p>
-                Contrôleur des données : Apostolos Vontas, directeur de ViLabs,
-                  <bold>avontas@vilabs.eu</bold>
-                </p>
-              </li>
-            </ol>
+          </li>
+          <li>
+            <h2>Notre statut juridique et les lois applicables en matière de confidentialité des données</h2>
             <p>
-              By clicking on Accept button, I confirm that I have read, understood
-              and agree to the Privacy Policy above
+              ViLabs assume le rôle de responsable du traitement et du contrôle des données en vertu de la législation de l'UE. Toutes les données à caractère personnel sont collectées, utilisées, stockées et traitées en pleine conformité avec le règlement général sur la protection des données (règlement (UE) 679/2016 également connu sous le nom de « RGPD ») et la directive 2002/58/CE du Parlement européen (directive sur la vie privée et les communications électroniques). Seuls les chercheurs Vilabs et les administrateurs système auront accès au répertoire de données. Les services Families_Share sont hébergés sur des serveurs situés dans l'Union européenne et fournis par Contabo (https://contabo.com/).
+                </p>
+          </li>
+          <li>
+            <h2>Informations que nous recueillons</h2>
+            <p>
+              Lorsque vous interagissez avec nous par le biais des services, nous recueillons des données personnelles et autres informations vous concernant, comme décrit ci-dessous :
+
+              Nous recueillons des données personnelles auprès de vous lorsque vous fournissez volontairement de telles informations, par exemple lorsque vous nous contactez pour des demandes de renseignements, vous vous inscrivez pour accéder aux services ou vous utilisez certains des services.
+
+                </p>
+            <p>
+              En particulier, dans la plate-forme Families_Share sont recueillies des informations sur les parents, les enfants et les groupes de garde d'enfants.
+                </p>
+            <ul>
+              <li>
+                <p>
+                  &bull; Concernant les parents : prénom, nom de famille, numéro de téléphone, adresse, e-mail et photo/avatar.
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Concernant les enfants : les informations sont collectées uniquement par ceux qui exercent la responsabilité parentale, et ils ont le droit de fournir les informations pertinentes, conformément à la législation applicable. Ces informations sont : nom, date de naissance, sexe, photo/avatar et autres informations directement spécifiées par les parents (allergies, maladies, régime alimentaire spécifique, besoins spéciaux, etc.).
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Concernant les groupes de garde d'enfants : le nom du groupe, la biographie du groupe, l'emplacement de la garde d'enfants, les périodes de garde d'enfants et les messages du flux de groupe (texte et images).
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Détails techniques ou autres concernant tout appareil que vous utilisez pour accéder aux services, y compris l'identifiant unique de périphérique (UDID) ou équivalent de l'appareil ; votre système d'exploitation, type de navigateur ou autre logiciel ; les détails de votre matériel ou de votre appareil mobile (y compris le type et le numéro de votre appareil mobile et les informations de votre opérateur mobile), s'il y a lieu ; ou d'autres détails techniques.
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Détails de votre utilisation de nos services : informations statistiques sur le moment et la façon dont vous utilisez les services.
+                    </p>
+              </li>
+            </ul>
+            <p>
+              En nous fournissant volontairement des données personnelles, vous consentez à ce que nous les utilisions dans le cadre des services et conformément à la présente politique de confidentialité (art. 6, par. 1, let. a, RGPD). Accessoirement, le traitement des données personnelles doit également être conforme à la loi lorsqu'il est nécessaire à l'exécution des services (art. 6, par. 1, let. b, RGPD). En ce qui concerne les catégories particulières de données personnelles, vous donnez votre consentement explicite au traitement de ces données dès leur communication aux fins des services.
+                </p>
+          </li>
+          <li>
+            <h2>Notre utilisation de vos données personnelles et autres informations</h2>
+            <p>
+              Toute information recueillie est immédiatement séparée en (i) une partie contenant des informations personnelles (non sensibles) (telles que le nom, l'adresse électronique, le numéro de téléphone, etc.) sur les participants concernés et (ii) une partie entièrement anonymisée (non identifiable) puis mise à la disposition de l'ensemble du consortium à des fins de recherche.
+                </p>
+            <p>
+              Les données personnelles des participants à chaque CityLab seront partagées via l'application aux autres membres du groupe pour la gestion des activités Families_Share, sous le contrôle de l'administrateur du groupe. Tout abus de la part d'un membre entraînera l'annulation de son compte. Notez que toute demande d'adhésion à un groupe est soumise à l'approbation de l'administrateur du groupe.
+                </p>
+            <p>
+              Des données personnelles supplémentaires des participants seront collectées si nécessaire et uniquement à des fins scientifiques (par exemple, pour élargir les contacts pour des études longitudinales) et seront supprimées immédiatement après l'achèvement du projet. Les données anonymisées sont stockées dans un dépôt partagé et seront conservées après l'achèvement du projet comme preuves pour les études et les publications.
+                </p>
+            <p>
+              En particulier, les services peuvent utiliser ces informations et les mettre en commun avec d'autres informations sur une base anonyme et généralisée pour suivre, par exemple, le nombre total d'utilisateurs de nos services, le nombre de visiteurs de chaque page de notre site et les noms de domaine des fournisseurs de services Internet de nos visiteurs (aucune donnée personnelle est concernée dans ce cas).
+                </p>
+          </li>
+          <li>
+            <h2>Notre divulgation de vos données personnelles informations supplémentaires</h2>
+            <p>
+              Dans tous les cas, Families_Share (et donc le partenaire responsable ViLabs) ne peut divulguer vos données personnelles que si la loi l'exige ou en croyant de bonne foi qu'une telle action est nécessaire pour :
+                </p>
+            <ul>
+              <li>
+                <p> &bull; Respecter une obligation légale</p>
+              </li>
+              <li>
+                <p>
+                  &bull; Agir en cas d'urgence pour protéger la sécurité personnelle des utilisateurs des services ou du public
+                    </p>
+              </li>
+              <li>
+                <p> &bull; Protéger contre toute responsabilité juridique</p>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <h2>Vos choix</h2>
+            <p>
+              Vous pouvez visiter les services sans fournir de données personnelles. Si vous choisissez de ne pas fournir de données Personnelles, il se peut que vous ne puissiez pas utiliser certains services de Families_Share.
+                </p>
+          </li>
+          <li>
+            <h2>Recueil des données    </h2>
+            <p>
+              Toutes les données proviennent des utilisateurs qui s'inscrivent à la plate-forme Families_Share. La plupart du temps, les parents doivent donner leur consentement au traitement d'informations privées et « sensibles » sur leurs enfants. En particulier, les informations concernant les enfants sont fournies par les parents et les données sont recueillies es conformément au RGPD (article 8) :
+                </p>
+            <ul>
+              <li>
+                <p>
+                  &bull; Lorsque l'article 6, paragraphe 1, point a, s'applique, en ce qui concerne l'offre de services de la société d'information directement à un enfant, le traitement des données à caractère personnel d'un enfant est légal lorsque l'enfant est âgé d'au moins 16 ans. Lorsque l'enfant est âgé de moins de 16 ans, ce traitement n'est légal que si et dans la mesure où le titulaire de la responsabilité parentale de l'enfant autorise ou donne son consentement.
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Dans de tels cas, le contrôleur doit faire des efforts raisonnables pour vérifier que le titulaire de la responsabilité parentale de l'enfant autorise ou donne son consentement, en tenant compte de la technologie disponible.
+                    </p>
+              </li>
+              <li>
+                <p>
+                  &bull; Le paragraphe 1 n'affecte pas le droit général des contrats des États membres, notamment les règles relatives à la validité, à la formation ou à l'effet d'un contrat à l'égard d'un enfant
+                    </p>
+              </li>
+            </ul>
+            <p>
+              Rappelez-vous également le point 32 du RGPD : « Le consentement doit être donné par un acte affirmatif clair établissant une indication librement donnée, spécifique, éclairée et sans ambiguïté de l'accord de la personne concernée quant au traitement des données personnelles la concernant, par exemple par une déclaration écrite, y compris par des moyens électroniques, ou une déclaration orale. Cela pourrait inclure la coche d'une case lors de la visite d'un site Internet, le choix des paramètres techniques pour les services relatifs à la société de l'information ou une autre déclaration ou comportement indiquant clairement dans ce contexte l'acceptation par la personne concernée du traitement proposé de ses données personnelles [...] Si le consentement de la personne concernée doit être donné à la suite d'une demande par voie électronique, la demande doit être claire, concise et ne pas perturber inutilement l'utilisation du service pour lequel elle est fournie ».
+                </p>
+          </li>
+          <li>
+            <h2>Enfants</h2>
+            <p>
+              Families_Share ne collecte pas sciemment les données personnelles fournies par les enfants de moins de 16 ans. Si vous avez moins de 16 ans, veuillez ne pas fournir de données personnelles par le biais des services. Nous encourageons les parents et les tuteurs légaux à surveiller l'utilisation d'Internet de leurs enfants et à contribuer à l'application de notre politique de confidentialité en demandant à leurs enfants de ne jamais fournir de données personnelles sur les services sans leur autorisation. Si vous avez des raisons de croire qu'un enfant de moins de 16 ans a fourni des données personnelles à Families_Share par le biais des services, veuillez nous contacter et nous nous efforcerons de supprimer ces informations de nos bases de données.
+                </p>
+          </li>
+          <li>
+            <h2>Stratégie de stockage et de protection des données </h2>
+            <p>
+              L'ensemble des services Families_Share sont proposés via le cloud, et les parties frontale et dorsale de la plateforme ainsi que les données sont stockées sur des serveurs dédiés sécurisés et protégés par l'intermédiaire d'un fournisseur de cloud certifié, qui dispose de toutes les infrastructures et certifications requises par le RGPD.
+                </p>
+            <p>
+              Le fournisseur de services cloud est géré par une personne responsable de VILABS et un responsable de la protection des données (Prof. Agostino Cortesi, Universita Ca'Foscari Venezia, cortesi@unive.it), suivant les meilleures pratiques et normes disponibles.
+                </p>
+            <p>
+              Les données personnelles seront stockées tout au long du cycle de vie officiel du projet Families_Share financé par le programme de l'UE Horizon 2020 (jusqu'au 31/10/2020). Après la fin de la période officielle du projet, les données personnelles des utilisateurs qui ne se sont pas connectés à leur compte depuis un an (365 jours) seront entièrement supprimées.
+                </p>
+            <p>
+              L'installation de stockage protégé du fournisseur de services cloud sera basée sur des systèmes redondants et située dans l'UE. Les données sont sauvegardées quotidiennement et une copie de sauvegarde est également stockée dans les centres de données de l'UE
+                </p>
+            <p>
+              L'accès aux données sur le stockage est soumis à une authentification au moyen d'un nom d'utilisateur et d'un mot de passe gérés conformément à la directive 2002/58/CE du Parlement européen.
+                </p>
+            <p>
+              Seuls les chercheurs VILabs (à des fins de recherche) et les administrateurs système (à des fins de maintenance) auront accès au dossier de données.
+                </p>
+          </li>
+          <li>
+            <h2>Partage de données avec des tiers</h2>
+            <p>
+              Aucun des renseignements personnels recueillis ne sera partagé avec des tiers. Les informations collectées ne seront utilisées que dans la plate-forme elle-même, comme décrit ci-dessus (V.)
+                </p>
+            <p>
+              L'application ne fait pas usage de l'utilisation d'« intentions » implicites. Cela empêche l'accès inapproprié aux données par d'autres applications installées sur le même appareil.
+                </p>
+          </li>
+          <li>
+            <h2>Sécurité</h2>
+            <p>
+              ViLabs prend des mesures raisonnables pour protéger les données personnelles fournies via les services contre la perte, l'utilisation abusive et l'accès non autorisé, la divulgation, l'altération ou la destruction. La communication de données depuis/vers l'utilisateur sera gérée via le protocole SSL https.
+                </p>
+            <p>
+              Il est de votre responsabilité de protéger correctement l'accès à l'appareil sur lequel l'application est installée contre toute utilisation non autorisée.
+                </p>
+            <p>
+              Les utilisateurs enregistrés Families_Share disposent d'un nom d'utilisateur et d'un identifiant unique, ce qui vous permet d'accéder à certaines parties de nos services.  Vous êtes responsable de les garder confidentiels. Assurez-vous de ne pas les partager avec quelqu'un d'autre.
+                </p>
+          </li>
+          <li>
+            <h2>Vos droits - Fermeture de votre compte </h2>
+            <p>
+              La législation de l'UE sur la protection des données donne aux citoyens de l'UE le droit d'accéder aux informations les concernant. Ces informations sont mentionnées ci-dessus et peuvent être modifiées par vous via les services, conformément au RGPD (art. 15-22). En outre, vous avez le droit de rectification, le droit de retirer le consentement donné (lorsque le consentement est la base légale du traitement des données à caractère personnel), le droit d'effacement (« droit à l'oubli »), le droit de restreindre le traitement, le droit à la portabilité des données, le droit de s'opposer au traitement, le droit de ne pas faire l'objet d'une décision fondée sur un traitement automatisé (y compris le profilage), le droit de déposer une plainte auprès d'une autorité de contrôle, le droit à un recours judiciaire effectif.
+                </p>
+            <p>
+              Vous pouvez nous envoyer un e-mail à contact@families-share.eu
+                </p>
+            <p>
+              Tous les utilisateurs peuvent modifier leurs informations personnelles comme ils le souhaitent, avoir accès et peuvent télécharger une copie de leurs informations et de leur participation à des activités via l'application Families_Share, tout en ayant le droit de supprimer complètement leur compte et toutes les informations relatives à leur compte.
+                </p>
+            <p>
+              À la suite de l'annulation du compte par l'utilisateur, sauf dans le cas de données anonymes, il y a une obligation de supprimer les données à caractère personnel dès que possible, puisque la base légale pour le traitement ultérieur doit avoir disparu.
+                </p>
+            <p>
+              Vous pouvez également nous envoyer un e-mail à contact@families-share.eu pour nous demander de supprimer vos informations personnelles de notre base de données.
+                </p>
+          </li>
+          <li>
+            <h2>Modification de la politique de confidentialité</h2>
+            <p>
+              Cette politique de confidentialité peut changer de temps à autre. Lorsque des modifications sont apportées, la date d'entrée en vigueur indiquée ci-dessous changera également en conséquence, et la nouvelle politique de confidentialité sera publiée en ligne, tandis que toutes les parties concernées recevront une notification spécifique.
+                </p>
+          </li>
+          <li>
+            <h2>Communication </h2>
+            <p>
+              Pour toute autre information à notre sujet, veuillez visiter notre site web : https://www.families-share.eu/
+                </p>
+            <p>
+              N'hésitez pas à nous contacter si vous avez des questions concernant la politique de confidentialité de Families_Share ou les pratiques en matière d'information des services. Vous pouvez nous contacter en envoyant un e-mail à l’adresse contact@families-share.eu
+                </p>
+          </li>
+          <li>
+            <h2>Gestion des données</h2>
+            <p>
+              DPO: Coordinateur du projet Prof. Agostino Cortesi, Universita Ca'Foscari Venezia, <bold>cortesi@unive.it</bold>
             </p>
-          </div>
-        ),
-        "accept": "ACCEPTER"
+            <p>
+              Gestionnaire des données de la plateforme: Apostolos Vontas, Directeur de ViLabs,{" "}
+              <bold>avontas@vilabs.eu</bold>
+            </p>
+            <p>
+              Contrôleur des données : Apostolos Vontas, directeur de ViLabs,
+                  <bold>avontas@vilabs.eu</bold>
+            </p>
+          </li>
+        </ol>
+        <p>
+          Je confirme que j'ai lu, compris et accepte la politique de confidentialité ci-dessus (veuillez cocher la case adjacente)
+            </p>
+      </div>
+    ),
+    "accept": "ACCEPTER"
+  },
+  "groupAbout": {
+    "header": "À propos du groupe",
+    "memberHeader": "À propos"
+  },
+  "groupActivities": {
+    "exportConfirm": "Êtes-vous sûr de vouloir exporter l'agenda du groupe ?",
+    "activitiesHeader": "Activités du groupe",
+    "plansHeader": "Plannings en attente",
+    "export": "Exporter l'agenda",
+    "newPlan": "Planification avancée",
+    "newActivity": "Nouvelle activité"
+  },
+  "activityListItem": {
+    "every": "Tous les",
+    "of": "de"
+  },
+  "groupListItem": {
+    "open": "La participation au groupe est ouverte.",
+    "closed": "La participation au groupe est fermée.",
+    "members": "Membres",
+    "kids": "Enfants"
+  },
+  "groupInfo": {
+    "contact": "CONTACTER LE GROUPE",
+    "contactMessage": "Informations copiées dans le presse-papiers",
+    "startGuideHeader": "Vous ne savez pas par où commencer ?",
+    "startGuideInfo": "Consultez le guide de démarrage en 7 étapes",
+    "join": "REJOINDRE LE GROUPE",
+    "leave": "QUITTER LE GROUPE",
+    "pending": "ANNULER LA DEMANDE",
+    "confirm": "Êtes-vous sûr de vouloir quitter le groupe ?"
+  },
+  "groupNavbar": {
+    "chatTab": "Chat",
+    "activitiesTab": "Activités",
+    "membersTab": "Membres",
+    "infoTab": "À propos",
+    "calendarTab": "Calendrier"
+  },
+  "groupMembersAdminOptions": {
+    "invite": "Inviter des gens",
+    "groupIsOpen": "Le groupe est ouvert",
+    "groupIsClosed": "Le groupe est fermé",
+    "requestsOpen": "Les demandes d'adhésion sont les bienvenues",
+    "requestsClosed": "La capacité maximale a été atteinte"
+  },
+  "inviteModal": {
+    "memberHeader": "Inviter des gens",
+    "parentHeader": "Ajouter un parent",
+    "framilyHeader": "Ajouter une famille",
+    "invite": "INVITER",
+    "add": "AJOUTER",
+    "cancel": "ANNULER",
+    "search": "Recherche"
+  },
+  "groupNewsNavbar": {
+    "parents": "PARENTS",
+    "children": "ENFANTS"
+  },
+  "cardWithLink": {
+    "learnMore": "EN SAVOIR PLUS"
+  },
+  "memberContact": {
+    "administrator": "Administrateur du groupe",
+    "addAdmin": "Ajouter un administrateur",
+    "removeAdmin": "Supprimer un administrateur",
+    "removeUser": "Supprimer l'utilisateur"
+  },
+  "startUpGuide": {
+    "backNavTitle": "Guide de démarrage",
+    "guide": [
+      {
+        "main": "Lancez l'initiative dans votre cercle",
+        "secondary": null
+      },
+      {
+        "main": "Rassemblez les premiers enthousiastes",
+        "secondary": null
+      },
+      {
+        "main": "Contactez le propriétaire de l'endroit où vous allez jouer",
+        "secondary": null
+      },
+      {
+        "main": "Fixez des rendez-vous en interne",
+        "secondary": null
+      },
+      {
+        "main": "Fermez l'agenda",
+        "secondary": null
+      },
+      {
+        "main": "C'est parti !",
+        "secondary": null
+      },
+      {
+        "main": "Bienvenue",
+        "secondary": null
+      }
+    ]
+  },
+  "notificationScreen": {
+    "backNavTitle": "Notification"
+  },
+  "myFamiliesShareHeader": {
+    "confirmDialogTitle": "Souhaitez-vous qu'un guide pas à pas de la plateforme vous soit envoyé par e-mail ?",
+    "walkthrough": "Guide de démarrage",
+    "rating": "Notez-nous",
+    "header": "My Families Share",
+    "homeButton": "Page d'accueil",
+    "myProfile": "Mon profil",
+    "myCalendar": "Mon calendrier",
+    "createGroup": "Créer un groupe",
+    "searchGroup": "Rechercher un groupe",
+    "inviteFriends": "Inviter des amis",
+    "faqs": "FAQ",
+    "about": "À propos",
+    "signOut": "Quitter",
+    "language": "Langue",
+    "export": "Exporter mes données",
+    "community": "Communauté"
+  },
+  "myFamiliesShareScreen": {
+    "myGroups": "Mes groupes",
+    "myActivities": "Mes activités",
+    "myNotifications": "Mes notifications",
+    "myGroupsPrompt": "Vous n'êtes pas encore dans un groupe, utilisez le menu latéral pour en trouver un",
+    "myActivitiesPrompt": "Vous verrez ici vos activités futures après vous être inscrit(e) à un ou plusieurs groupes",
+    "joinPrompt": "REJOINDRE LE GROUPE",
+    "createPrompt": "CRÉER UN GROUPE"
+  },
+  "faqsScreen": {
+    "backNavTitle": "FAQ"
+  },
+  "searchGroupModal": {
+    "search": "Rechercher un groupe",
+    "example": "p. ex., activités parascolaires",
+    "results": "Résultats"
+  },
+  "createGroup": {
+    "backNavTitle": "Créer un groupe"
+  },
+  "createGroupStepper": {
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "finish": "Terminer",
+    "stepLabels": [
+      "Fournir un nom et une description",
+      "Définir la visibilité",
+      "Indiquer la localité",
+      "Fournir des informations de contact",
+      "Inviter des gens"
+    ],
+    "contactTypes": {
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "none": " - "
     },
-    "groupAbout": {
-        "header": "À propos du groupe",
-        "memberHeader": "À propos"
-    },
-    "groupActivities": {
-        "exportConfirm": "Êtes-vous sûr de vouloir exporter l'agenda du groupe ?",
-        "activitiesHeader": "Activités du groupe",
-        "plansHeader": "Plannings en attente",
-        "export": "Exporter l'agenda",
-        "newPlan": "Planification avancée",
-        "newActivity": "Nouvelle activité"
-    },
-    "activityListItem": {
-        "every": "Tous les",
-        "of": "de"
-    },
-    "groupListItem": {
-        "open": "La participation au groupe est ouverte.",
-        "closed": "La participation au groupe est fermée.",
-        "members": "Membres",
-        "kids": "Enfants"
-    },
-    "groupInfo": {
-        "contact": "CONTACTER LE GROUPE",
-        "contactMessage": "Informations copiées dans le presse-papiers",
-        "startGuideHeader": "Vous ne savez pas par où commencer ?",
-        "startGuideInfo": "Consultez le guide de démarrage en 7 étapes",
-        "join": "REJOINDRE LE GROUPE",
-        "leave": "QUITTER LE GROUPE",
-        "pending": "ANNULER LA DEMANDE",
-        "confirm": "Êtes-vous sûr de vouloir quitter le groupe ?"
-    },
-    "groupNavbar": {
-        "chatTab": "Chat",
-        "activitiesTab": "Activités",
-        "membersTab": "Membres",
-        "infoTab": "À propos",
-        "calendarTab": "Calendrier"
-    },
-    "groupMembersAdminOptions": {
-        "invite": "Inviter des gens",
-        "groupIsOpen": "Le groupe est ouvert",
-        "groupIsClosed": "Le groupe est fermé",
-        "requestsOpen": "Les demandes d'adhésion sont les bienvenues",
-        "requestsClosed": "La capacité maximale a été atteinte"
-    },
-    "inviteModal": {
-        "memberHeader": "Inviter des gens",
-        "parentHeader": "Ajouter un parent",
-        "framilyHeader": "Ajouter une famille",
-        "invite": "INVITER",
-        "add": "AJOUTER",
-        "cancel": "ANNULER",
-        "search": "Recherche"
-    },
-    "groupNewsNavbar": {
-        "parents": "PARENTS",
-        "children": "ENFANTS"
-    },
-    "cardWithLink": {
-        "learnMore": "EN SAVOIR PLUS"
-    },
-    "memberContact": {
-        "administrator": "Administrateur du groupe",
-        "addAdmin": "Ajouter un administrateur",
-        "removeAdmin": "Supprimer un administrateur",
-        "removeUser": "Supprimer l'utilisateur"
-    },
-    "startUpGuide": {
-        "backNavTitle": "Guide de démarrage",
-        "guide": [
-            {
-                "main": "Lancez l'initiative dans votre cercle",
-                "secondary": null
-            },
-            {
-                "main": "Rassemblez les premiers enthousiastes",
-                "secondary": null
-            },
-            {
-                "main": "Contactez le propriétaire de l'endroit où vous allez jouer",
-                "secondary": null
-            },
-            {
-                "main": "Fixez des rendez-vous en interne",
-                "secondary": null
-            },
-            {
-                "main": "Fermez l'agenda",
-                "secondary": null
-            },
-            {
-                "main": "C'est parti !",
-                "secondary": null
-            },
-            {
-                "main": "Bienvenue",
-                "secondary": null
-            }
-        ]
-    },
-    "notificationScreen": {
-        "backNavTitle": "Notification"
-    },
-    "myFamiliesShareHeader": {
-        "confirmDialogTitle": "Souhaitez-vous qu'un guide pas à pas de la plateforme vous soit envoyé par e-mail ?",
-        "walkthrough": "Guide de démarrage",
-        "rating": "Notez nous",
-        "header": "My Families Share",
-        "homeButton": "Page d'accueil",
-        "myProfile": "Mon profil",
-        "myCalendar": "Mon calendrier",
-        "createGroup": "Créer un groupe",
-        "searchGroup": "Rechercher un groupe",
-        "inviteFriends": "Inviter des amis",
-        "faqs": "FAQ",
-        "about": "À propos",
-        "signOut": "Quitter",
-        "language": "Langue",
-        "export": "Exporter mes données",
-        "community": "Communauté"
-    },
-    "myFamiliesShareScreen": {
-        "myGroups": "Mes groupes",
-        "myActivities": "Mes activités",
-        "myNotifications": "Mes notifications",
-        "myGroupsPrompt": "Vous n'êtes pas encore dans un groupe, utilisez le menu latéral pour en trouver un",
-        "myActivitiesPrompt": "Vous verrez ici vos activités futures après vous être inscrit(e) à un ou plusieurs groupes",
-        "joinPrompt": "REJOINDRE LE GROUPE",
-        "createPrompt": "CRÉER UN GROUPE"
-    },
-    "faqsScreen": {
-        "backNavTitle": "FAQ"
-    },
-    "searchGroupModal": {
-        "search": "Rechercher un groupe",
-        "example": "p. ex., activités parascolaires",
-        "results": "Résultats"
-    },
-    "createGroup": {
-        "backNavTitle": "Créer un groupe"
-    },
-    "createGroupStepper": {
-        "continue": "Continuer",
-        "cancel": "Annuler",
-        "finish": "Terminer",
-        "stepLabels": [
-            "Fournir un nom et une description",
-            "Définir la visibilité",
-            "Indiquer la localité",
-            "Fournir des informations de contact",
-            "Inviter des gens"
-        ],
-        "contactTypes": {
-            "phone": "Téléphone",
-            "email": "E-mail",
-            "none": " - "
-        },
-        "contactInfo": "Veuillez remplir vos coordonnées",
-        "name": "Nom",
-        "description": "Description",
-        "visibleGroup": "D'autres peuvent trouver mon groupe",
-        "invisibleGroup": "D'autres ne peuvent pas trouver mon groupe",
-        "area": "Localité",
-        "invite": "Ajouter des membres",
-        "nameErr": "Le nom du groupe existe déjà",
-        "requiredErr": "Veuillez remplir ce champ."
-    },
-    "profileNavbar": {
-        "framily": "FAMILLE",
-        "info": "INFO",
-        "children": "ENFANTS"
-    },
-    "profileInfo": {
-        "adress": "Adresse",
-        "description": "Description",
-        "email": "Privé",
-        "mobile": "Mobile",
-        "home": "Maison",
-        "unspecified": "Non spécifié"
-    },
-    "profileScreen": {
-        "privateProfile": "Profil privé"
-    },
-    "editProfileScreen": {
-        "whatsappOption": "WhatsApp",
-        "viberOption": "Viber",
-        "emailOption": "E-mail",
-        "save": "SAUVEGARDER",
-        "header": "Modifier le profil",
-        "name": "Prénom",
-        "surname": "Nom de famille",
-        "phoneNumber": "Numéro de téléphone",
-        "phoneLabel": "Étiquette",
-        "street": "Rue",
-        "streetNumber": "Numéro",
-        "country": "Pays",
-        "city": "Ville",
-        "description": "Fournissez une description facultative...",
-        "email": "Adresse e-mail",
-        "mobile": "Mobile",
-        "home": "Maison",
-        "unspecified": "Non spécifié",
-        "visible": "Profil visible",
-        "invisible": "Profil invisible",
-        "cityErr": "La ville n'existe pas",
-        "requiredErr": "Veuillez remplir ce champ."
-    },
-    "editGroupScreen": {
-        "phone": "Téléphone",
-        "email": "E-mail",
-        "none": " - ",
-        "save": "SAUVEGARDER",
-        "header": "Modifier le groupe",
-        "name": "Nom",
-        "description": "Description",
-        "file": "Télécharger",
-        "area": "Localité",
-        "nameErr": "Le nom du groupe existe déjà",
-        "visible": "Groupe visible",
-        "invisible": "Groupe invisible",
-        "requiredErr": "Veuillez remplir ce champ."
-    },
-    "profileHeader": {
-        "export": "Exporter",
-        "delete": "Supprimer",
-        "signout": "Quitter",
-        "deleteDialogTitle": "Êtes-vous sûr de vouloir supprimer votre profil et supprimer toutes vos données ?",
-        "exportDialogTitle": "Êtes-vous sûr de vouloir exporter toutes vos informations personnelles ?",
-        "suspend": "Suspendre",
-        "suspendDialogTitle": "Êtes-vous sûr de vouloir suspendre temporairement votre compte ?",
-        "suspendSuccess": "Votre compte a été temporairement suspendu. La prochaine fois que vous vous connecterez votre compte sera réactivé.",
-        "exportSuccess": "Vous recevrez bientôt un e-mail contenant toutes vos informations personnelles",
-        "error": "Une erreur s'est produite."
-    },
-    "replyBar": {
-        "new": "Nouveau message",
-        "maxFilesError": "Vous pouvez télécharger un maximum de 3 fichiers."
-    },
-    "announcementReplies": {
-        "new": "Votre réponse..."
-    },
-    "reply": {
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer votre réponse ?"
-    },
-    "groupHeader": {
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer le groupe ?"
-    },
-    "announcementHeader": {
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ceci ?"
-    },
-    "childListItem": {
-        "boy": "Garçon",
-        "girl": "Fille",
-        "age": "ans"
-    },
-    "childProfileHeader": {
-        "delete": "Supprimer l'enfant",
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer l'enfant et supprimer toutes ses données ?"
-    },
-    "childProfileInfo": {
-        "boy": "Garçon",
-        "girl": "Fille",
-        "unspecified": "Non spécifié",
-        "age": " ans",
-        "additional": "Informations supplémentaires",
-        "allergies": "Allergies",
-        "otherInfo": "Autres informations",
-        "specialNeeds": "Besoins spéciaux",
-        "addAdditional": "AJOUTER",
-        "addParent": "AJOUTER UN PARENT",
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ce parent ?"
-    },
-    "editChildProfileScreen": {
-        "backNavTitle": "Modifier le profil",
-        "save": "SAUVEGARDER",
-        "name": "Prénom",
-        "surname": "Nom de famille",
-        "birthday": "Anniversaire",
-        "gender": "Sexe",
-        "additional": "Ajouter des informations spécifiques",
-        "example": "p. ex. intolérances alimentaires",
-        "boy": "Garçon",
-        "girl": "Fille",
-        "date": "Jour",
-        "add": "MODIFIER",
-        "month": "Mois",
-        "year": "Année",
-        "file": "Choisir un fichier",
-        "unspecified": "Non spécifié",
-        "requiredErrr": "Veuillez remplir ce champ."
-    },
-    "createChildScreen": {
-        "backNavTitle": "Ajouter un enfant",
-        "save": "SAUVEGARDER",
-        "file": "Choisir un fichier",
-        "name": "Prénom",
-        "surname": "Nom de famille",
-        "birthday": "Anniversaire",
-        "gender": "Sexe",
-        "additional": "Ajouter des informations spécifiques",
-        "add": "AJOUTER",
-        "edit": "MODIFIER",
-        "example": "p. ex. intolérances alimentaires",
-        "boy": "Garçon",
-        "girl": "Fille",
-        "date": "Jour",
-        "month": "Mois",
-        "year": "Année",
-        "acceptTerms": "J'accepte les Conditions d'utilisation et la Politique de confidentialité en ce qui concerne le traitement et l'utilisation de mes données.",
-        "acceptTermsErr": "Veuillez accepter les conditions",
-        "unspecified": "Non spécifié",
-        "requiredErr": "Veuillez remplir ce champ."
-    },
-    "additionalInfoScreen": {
-        "backNavTitle": "Informations",
-        "save": "SAUVEGARDER",
-        "allergy": "Allergies",
-        "special": "Besoins spéciaux",
-        "others": "Autres",
-        "acceptTerms": "Je reconnais que cette information sera divulguée aux membres du groupe directement impliqués dans les activités de garde d'enfants."
-    },
-    "createActivityScreen": {
-        "backNavTitle": "Nouvelle activité"
-    },
-    "createActivityStepper": {
-        "pendingMessage": "L'activité est en attente de confirmation de la part d'un administrateur",
-        "continue": "Continuer",
-        "cancel": "Annuler",
-        "finish": "Créer",
-        "save": "Sauvegarder",
-        "stepLabels": [
-            "Informations",
-            "Dates",
-            "Créneaux horaires"
-        ]
-    },
-    "createActivityInformation": {
-        "link": "Lien (facultatif)",
-        "color": "Couleur de l'activité",
-        "description": "Description (facultatif)",
-        "name": "Nom de l'activité",
-        "location": "Lieu (facultatif)"
-    },
-    "createActivityDates": {
-        "header": "Sélectionnez un ou plusieurs jours",
-        "repetition": "Répétition",
-        "weekly": "Hebdomadaire",
-        "monthly": "Mensuel",
-        "datesError": "La répétition n'est pas disponible lorsque plusieurs jours sont sélectionnés"
-    },
-    "createActivityTimeslots": {
-        "header": "Ajoutez des créneaux horaires aux jours sélectionnés",
-        "differentTimeslots": "DIFFÉRENTS CRÉNEAUX HORAIRES POUR CHAQUE JOUR ?",
-        "sameTimeslots": "MÊMES CRÉNEAUX HORAIRES POUR CHAQUE JOUR ?",
-        "selected": "dates sélectionnées"
-    },
-    "timeslotsContainer": {
-        "addTimeslot": "AJOUTER UN CRÉNEAU HORAIRE",
-        "timeslot": "créneau horaire",
-        "timeslots": "créneaux horaires",
-        "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ce créneau horaire ?",
-        "timeRangeError": "Combinaison d'heure de début et de fin erronée"
-    },
-    "clockModal": {
-        "am": "AM",
-        "pm": "PM",
-        "start": "DÉBUT",
-        "end": "FIN",
-        "confirm": "OK",
-        "cancel": "ANNULER"
-    },
-    "activityScreen": {
-        "pdfToaster": "L'activité est exportée au format pdf. Vous la recevrez sous peu par e-mail",
-        "excelToaster": "L'activité est exportée au format Excel. Vous la recevrez sous peu par e-mail",
-        "volunteers": "Volontaires",
-        "participant": "participant",
-        "participants": "participants",
-        "children": "Enfants",
-        "signup": "inscrit(s)",
-        "color": "Couleur",
-        "deleteDialogTitle": "Êtes-vous sûr de vouloir supprimer cette activité ?",
-        "exportDialogTitle": "Êtes-vous sûr de vouloir exporter cette activité ?",
-        "delete": "Supprimer",
-        "exportPdf": "Exporter PDF",
-        "exportExcel": "Exporter Excel",
-        "every": "Tous les",
-        "of": "de",
-        "infoHeader": "Informations sur l'activité :"
-    },
-    "timeslotsList": {
-        "fixed": "plamifiée",
-        "completed": "terminée",
-        "timeslot": "Créneau horaire",
-        "timeslots": "Créneaux horaires",
-        "available": " disponible",
-        "all": "Tous les créneaux horaires",
-        "mySigned": "Je suis inscrit(e)",
-        "myChildrenSigned": "Mon enfant est inscrit(e)",
-        "enough": "Avec suffisamment de participants",
-        "notEnough": "Sans suffisamment de participants"
-    },
-    "filterTimeslotsDrawer": {
-        "header": "Filtrer les créneaux horaires",
-        "all": "Tous les créneaux horaires",
-        "mySigned": "Je suis inscrit(e)",
-        "myChildrenSigned": "Mon enfant est inscrit(e)",
-        "enough": "Suffisamment de participants",
-        "notEnough": "Pas suffisamment de participants"
-    },
-    "expandedTimeslot": {
-        "signup": "S'inscrire :",
-        "parents": " parents inscrits",
-        "children": " enfants inscrits",
-        "parent": " parent inscrit",
-        "child": " enfant inscrit",
-        "fixed": "Planifiée",
-        "completed": "Terminé"
-    },
-    "expandedTimeslotEdit": {
-        "link": "Lien",
-        "details": "Détails",
-        "from": "De",
-        "to": "À",
-        "parents": "Parents requis",
-        "children": "Enfants requis",
-        "footer": "Les modifications affecteront uniquement ce créneau horaire et non l'activité",
-        "name": "Titre",
-        "location": "Lieu",
-        "description": "Description (facultatif)",
-        "cost": "Coût (facultatif)",
-        "status": "Statut du créneau horaire",
-        "fixed": "Arrangé",
-        "completed": "Terminé",
-        "timeErr": "Combinaison d'heure de début et de fin erronée",
-        "requiredErr": "Veuillez remplir ce champ.",
-        "rangeErr": "Veuillez sélectionner une valeur supérieure à zéro.",
-        "learning": "activités d'apprentissage ou éducatives/devoirs",
-        "nature": "nature",
-        "tourism": "tourisme et culture",
-        "hobby": "passe-temps et sport",
-        "accompanying": "accompagnement (covoiturage ou pédibus)",
-        "entertainment": "divertissement",
-        "parties": "fêtes ou événements",
-        "coplaying": "jour(s) de co-jeu",
-        "other": "autre",
-        "category": "Type d'activité"
-    },
-    "editActivityScreen": {
-        "backNavTitle": "Modifier l'activité",
-        "color": "Couleur de l'activité",
-        "description": "Description (facultatif)",
-        "name": "Nom de l'activité",
-        "save": "SAUVEGARDER",
-        "location": "Lieu (facultatif)"
-    },
-    "agendaView": {
-        "timeslots": "Créneaux horaires",
-        "available": " disponible",
-        "all": "Tous les créneaux horaires",
-        "signed": "Je suis inscrit(e)",
-        "enough": "Suffisamment de participants",
-        "notEnough": "Pas suffisamment de participants",
-        "notEnoughParticipants": "Pas assez de participants"
-    },
-    "confirmDialog": {
-        "agree": "Ok",
-        "disagree": "Annuler"
-    },
-    "pendingRequestsScreen": {
-        "requests": "Demandes en attente",
-        "invites": "Invitations en attente",
-        "activities": "Activités en attente",
-        "confirm": "CONFIRMER",
-        "delete": "SUPPRIMER"
-    },
-    "forgotPasswordScreen": {
-        "prompt": "Veuillez saisir votre e-mail pour recevoir un lien pour changer votre mot de passe",
-        "email": "E-mail",
-        "backNavTitle": "Mot de passe oublié",
-        "send": "ENVOYER",
-        "notExistErr": "L'utilisateur n'existe pas",
-        "err": "Une erreur s'est produite",
-        "success": "E-mail envoyé",
-        "requiredErrr": "Veuillez remplir ce champ."
-    },
-    "changePasswordScreen": {
-        "prompt": "Veuillez saisir votre nouveau mot de passe",
-        "password": "Mot de passe",
-        "confirm": "Confirmer mot de passe",
-        "change": "CHANGER",
-        "err": "Les mots de passe ne correspondent pas",
-        "badRequest": "Demande erronée",
-        "requiredErr": "Veuillez remplir ce champ",
-        "tooShortErr": "Veuillez utiliser au moins 8 caractères."
-    },
-    "calendar": {
-        "userCalendar": "Mon calendrier",
-        "groupCalendar": "Calendrier du groupe"
-    },
-    "framilyListItem": {
-        "delete": "Supprimer famille"
-    }
+    "contactInfo": "Veuillez remplir vos coordonnées",
+    "name": "Nom",
+    "description": "Description",
+    "visibleGroup": "D'autres peuvent trouver mon groupe",
+    "invisibleGroup": "D'autres ne peuvent pas trouver mon groupe",
+    "area": "Localité",
+    "invite": "Ajouter des membres",
+    "nameErr": "Le nom du groupe existe déjà",
+    "requiredErr": "Veuillez remplir ce champ."
+  },
+  "profileNavbar": {
+    "framily": "FAMILLE",
+    "info": "INFO",
+    "children": "ENFANTS"
+  },
+  "profileInfo": {
+    "adress": "Adresse",
+    "description": "Description",
+    "email": "Privé",
+    "mobile": "Mobile",
+    "home": "Maison",
+    "unspecified": "Non spécifié"
+  },
+  "profileScreen": {
+    "privateProfile": "Profil privé"
+  },
+  "editProfileScreen": {
+    "whatsappOption": "WhatsApp",
+    "viberOption": "Viber",
+    "emailOption": "E-mail",
+    "save": "SAUVEGARDER",
+    "header": "Modifier le profil",
+    "name": "Prénom",
+    "surname": "Nom de famille",
+    "phoneNumber": "Numéro de téléphone",
+    "phoneLabel": "Étiquette",
+    "street": "Rue",
+    "streetNumber": "Numéro",
+    "country": "Pays",
+    "city": "Ville",
+    "description": "Fournissez une description facultative...",
+    "email": "Adresse e-mail",
+    "mobile": "Mobile",
+    "home": "Maison",
+    "unspecified": "Non spécifié",
+    "visible": "Profil visible",
+    "invisible": "Profil invisible",
+    "cityErr": "La ville n'existe pas",
+    "requiredErr": "Veuillez remplir ce champ."
+  },
+  "editGroupScreen": {
+    "phone": "Téléphone",
+    "email": "E-mail",
+    "none": " - ",
+    "save": "SAUVEGARDER",
+    "header": "Modifier le groupe",
+    "name": "Nom",
+    "description": "Description",
+    "file": "Télécharger",
+    "area": "Localité",
+    "nameErr": "Le nom du groupe existe déjà",
+    "visible": "Groupe visible",
+    "invisible": "Groupe invisible",
+    "requiredErr": "Veuillez remplir ce champ."
+  },
+  "profileHeader": {
+    "export": "Exporter",
+    "delete": "Supprimer",
+    "signout": "Quitter",
+    "deleteDialogTitle": "Êtes-vous sûr de vouloir supprimer votre profil et supprimer toutes vos données ?",
+    "exportDialogTitle": "Êtes-vous sûr de vouloir exporter toutes vos informations personnelles ?",
+    "suspend": "Suspendre",
+    "suspendDialogTitle": "Êtes-vous sûr de vouloir suspendre temporairement votre compte ?",
+    "suspendSuccess": "Votre compte a été temporairement suspendu. La prochaine fois que vous vous connecterez votre compte sera réactivé.",
+    "exportSuccess": "Vous recevrez bientôt un e-mail contenant toutes vos informations personnelles",
+    "error": "Une erreur s'est produite."
+  },
+  "replyBar": {
+    "new": "Nouveau message",
+    "maxFilesError": "Vous pouvez télécharger un maximum de 3 fichiers."
+  },
+  "announcementReplies": {
+    "new": "Votre réponse..."
+  },
+  "reply": {
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer votre réponse ?"
+  },
+  "groupHeader": {
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer le groupe ?"
+  },
+  "announcementHeader": {
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ceci ?"
+  },
+  "childListItem": {
+    "boy": "Garçon",
+    "girl": "Fille",
+    "age": "ans"
+  },
+  "childProfileHeader": {
+    "delete": "Supprimer l'enfant",
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer l'enfant et supprimer toutes ses données ?"
+  },
+  "childProfileInfo": {
+    "boy": "Garçon",
+    "girl": "Fille",
+    "unspecified": "Non spécifié",
+    "age": " ans",
+    "additional": "Informations supplémentaires",
+    "allergies": "Allergies",
+    "otherInfo": "Autres informations",
+    "specialNeeds": "Besoins spéciaux",
+    "addAdditional": "AJOUTER",
+    "addParent": "AJOUTER UN PARENT",
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ce parent ?"
+  },
+  "editChildProfileScreen": {
+    "backNavTitle": "Modifier le profil",
+    "save": "SAUVEGARDER",
+    "name": "Prénom",
+    "surname": "Nom de famille",
+    "birthday": "Anniversaire",
+    "gender": "Sexe",
+    "additional": "Ajouter des informations spécifiques",
+    "example": "p. ex. intolérances alimentaires",
+    "boy": "Garçon",
+    "girl": "Fille",
+    "date": "Jour",
+    "add": "MODIFIER",
+    "month": "Mois",
+    "year": "Année",
+    "file": "Choisir un fichier",
+    "unspecified": "Non spécifié",
+    "requiredErrr": "Veuillez remplir ce champ."
+  },
+  "createChildScreen": {
+    "backNavTitle": "Ajouter un enfant",
+    "save": "SAUVEGARDER",
+    "file": "Choisir un fichier",
+    "name": "Prénom",
+    "surname": "Nom de famille",
+    "birthday": "Anniversaire",
+    "gender": "Sexe",
+    "additional": "Ajouter des informations spécifiques",
+    "add": "AJOUTER",
+    "edit": "MODIFIER",
+    "example": "p. ex. intolérances alimentaires",
+    "boy": "Garçon",
+    "girl": "Fille",
+    "date": "Jour",
+    "month": "Mois",
+    "year": "Année",
+    "acceptTerms": "J'accepte les Conditions d'utilisation et la Politique de confidentialité en ce qui concerne le traitement et l'utilisation de mes données.",
+    "acceptTermsErr": "Veuillez accepter les conditions",
+    "unspecified": "Non spécifié",
+    "requiredErr": "Veuillez remplir ce champ."
+  },
+  "additionalInfoScreen": {
+    "backNavTitle": "Informations",
+    "save": "SAUVEGARDER",
+    "allergy": "Allergies",
+    "special": "Besoins spéciaux",
+    "others": "Autres",
+    "acceptTerms": "Je reconnais que cette information sera divulguée aux membres du groupe directement impliqués dans les activités de garde d'enfants."
+  },
+  "createActivityScreen": {
+    "backNavTitle": "Nouvelle activité"
+  },
+  "createActivityStepper": {
+    "pendingMessage": "L'activité est en attente de confirmation de la part d'un administrateur",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "finish": "Créer",
+    "save": "Sauvegarder",
+    "stepLabels": [
+      "Informations",
+      "Dates",
+      "Créneaux horaires"
+    ]
+  },
+  "createActivityInformation": {
+    "link": "Lien (facultatif)",
+    "color": "Couleur de l'activité",
+    "description": "Description (facultatif)",
+    "name": "Nom de l'activité",
+    "location": "Lieu (facultatif)"
+  },
+  "createActivityDates": {
+    "header": "Sélectionnez un ou plusieurs jours",
+    "repetition": "Répétition",
+    "weekly": "Hebdomadaire",
+    "monthly": "Mensuel",
+    "datesError": "La répétition n'est pas disponible lorsque plusieurs jours sont sélectionnés"
+  },
+  "createActivityTimeslots": {
+    "header": "Ajoutez des créneaux horaires aux jours sélectionnés",
+    "differentTimeslots": "DIFFÉRENTS CRÉNEAUX HORAIRES POUR CHAQUE JOUR ?",
+    "sameTimeslots": "MÊMES CRÉNEAUX HORAIRES POUR CHAQUE JOUR ?",
+    "selected": "dates sélectionnées"
+  },
+  "timeslotsContainer": {
+    "addTimeslot": "AJOUTER UN CRÉNEAU HORAIRE",
+    "timeslot": "créneau horaire",
+    "timeslots": "créneaux horaires",
+    "confirmDialogTitle": "Êtes-vous sûr de vouloir supprimer ce créneau horaire ?",
+    "timeRangeError": "Combinaison d'heure de début et de fin erronée"
+  },
+  "clockModal": {
+    "am": "AM",
+    "pm": "PM",
+    "start": "DÉBUT",
+    "end": "FIN",
+    "confirm": "OK",
+    "cancel": "ANNULER"
+  },
+  "activityScreen": {
+    "pdfToaster": "L'activité est exportée au format pdf. Vous la recevrez sous peu par e-mail",
+    "excelToaster": "L'activité est exportée au format Excel. Vous la recevrez sous peu par e-mail",
+    "volunteers": "Volontaires",
+    "participant": "participant",
+    "participants": "participants",
+    "children": "Enfants",
+    "signup": "inscrit(s)",
+    "color": "Couleur",
+    "deleteDialogTitle": "Êtes-vous sûr de vouloir supprimer cette activité ?",
+    "exportDialogTitle": "Êtes-vous sûr de vouloir exporter cette activité ?",
+    "delete": "Supprimer",
+    "exportPdf": "Exporter PDF",
+    "exportExcel": "Exporter Excel",
+    "every": "Tous les",
+    "of": "de",
+    "infoHeader": "Informations sur l'activité :"
+  },
+  "timeslotsList": {
+    "fixed": "plamifiée",
+    "completed": "terminée",
+    "timeslot": "Créneau horaire",
+    "timeslots": "Créneaux horaires",
+    "available": " disponible",
+    "all": "Tous les créneaux horaires",
+    "mySigned": "Je suis inscrit(e)",
+    "myChildrenSigned": "Mon enfant est inscrit(e)",
+    "enough": "Avec suffisamment de participants",
+    "notEnough": "Sans suffisamment de participants"
+  },
+  "filterTimeslotsDrawer": {
+    "header": "Filtrer les créneaux horaires",
+    "all": "Tous les créneaux horaires",
+    "mySigned": "Je suis inscrit(e)",
+    "myChildrenSigned": "Mon enfant est inscrit(e)",
+    "enough": "Suffisamment de participants",
+    "notEnough": "Pas suffisamment de participants"
+  },
+  "expandedTimeslot": {
+    "signup": "S'inscrire :",
+    "parents": " parents inscrits",
+    "children": " enfants inscrits",
+    "parent": " parent inscrit",
+    "child": " enfant inscrit",
+    "fixed": "Planifiée",
+    "completed": "Terminé"
+  },
+  "expandedTimeslotEdit": {
+    "link": "Lien",
+    "details": "Détails",
+    "from": "De",
+    "to": "À",
+    "parents": "Parents requis",
+    "children": "Enfants requis",
+    "footer": "Les modifications affecteront uniquement ce créneau horaire et non l'activité",
+    "name": "Titre",
+    "location": "Lieu",
+    "description": "Description (facultatif)",
+    "cost": "Coût (facultatif)",
+    "status": "Statut du créneau horaire",
+    "fixed": "Arrangé",
+    "completed": "Terminé",
+    "timeErr": "Combinaison d'heure de début et de fin erronée",
+    "requiredErr": "Veuillez remplir ce champ.",
+    "rangeErr": "Veuillez sélectionner une valeur supérieure à zéro.",
+    "learning": "activités d'apprentissage ou éducatives/devoirs",
+    "nature": "nature",
+    "tourism": "tourisme et culture",
+    "hobby": "passe-temps et sport",
+    "accompanying": "accompagnement (covoiturage ou pédibus)",
+    "entertainment": "divertissement",
+    "parties": "fêtes ou événements",
+    "coplaying": "jour(s) de co-jeu",
+    "other": "autre",
+    "category": "Type d'activité"
+  },
+  "editActivityScreen": {
+    "backNavTitle": "Modifier l'activité",
+    "color": "Couleur de l'activité",
+    "description": "Description (facultatif)",
+    "name": "Nom de l'activité",
+    "save": "SAUVEGARDER",
+    "location": "Lieu (facultatif)"
+  },
+  "agendaView": {
+    "timeslots": "Créneaux horaires",
+    "available": " disponible",
+    "all": "Tous les créneaux horaires",
+    "signed": "Je suis inscrit(e)",
+    "enough": "Suffisamment de participants",
+    "notEnough": "Pas suffisamment de participants",
+    "notEnoughParticipants": "Pas assez de participants"
+  },
+  "confirmDialog": {
+    "agree": "Ok",
+    "disagree": "Annuler"
+  },
+  "pendingRequestsScreen": {
+    "requests": "Demandes en attente",
+    "invites": "Invitations en attente",
+    "activities": "Activités en attente",
+    "confirm": "CONFIRMER",
+    "delete": "SUPPRIMER"
+  },
+  "forgotPasswordScreen": {
+    "prompt": "Veuillez saisir votre e-mail pour recevoir un lien pour changer votre mot de passe",
+    "email": "E-mail",
+    "backNavTitle": "Mot de passe oublié",
+    "send": "ENVOYER",
+    "notExistErr": "L'utilisateur n'existe pas",
+    "err": "Une erreur s'est produite",
+    "success": "E-mail envoyé",
+    "requiredErrr": "Veuillez remplir ce champ."
+  },
+  "changePasswordScreen": {
+    "prompt": "Veuillez saisir votre nouveau mot de passe",
+    "password": "Mot de passe",
+    "confirm": "Confirmer mot de passe",
+    "change": "CHANGER",
+    "err": "Les mots de passe ne correspondent pas",
+    "badRequest": "Demande erronée",
+    "requiredErr": "Veuillez remplir ce champ",
+    "tooShortErr": "Veuillez utiliser au moins 8 caractères."
+  },
+  "calendar": {
+    "userCalendar": "Mon calendrier",
+    "groupCalendar": "Calendrier du groupe"
+  },
+  "framilyListItem": {
+    "delete": "Supprimer famille"
+  }
 }
 
-const texts = { en, el, it, hu, nl,  fr };
+const texts = { en, el, it, hu, nl, fr };
 
 export default texts;
