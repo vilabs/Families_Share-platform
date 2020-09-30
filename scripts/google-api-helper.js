@@ -75,3 +75,12 @@ const calendar = google.calendar({
 //     }
 //   }
 // })
+
+// Update specific event
+// calendar.events.patch({ calendarId: '',
+//   eventId: '',
+//   resource: {}
+// }, async (error, response) => {
+//   if (error) console.log(error)
+//   console.log(response.data)
+// })

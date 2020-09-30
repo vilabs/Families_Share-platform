@@ -23,16 +23,14 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
   new Promise(async (resolve, reject) => {
     try {
       const response = await calendar.events.list({ calendarId: calId })
-      console.log(response)
       const usersEvents = response.data.items.filter(event => {
         if (
           event.extendedProperties.shared.parents !== undefined &&
           event.extendedProperties.shared.children !== undefined
         ) {
-          console.log(event.extendedProperties.shared)
-          const parentIds = JSON.parse(event.extendedProperties.shared.parents || [])
+          const parentIds = JSON.parse(event.extendedProperties.shared.parents)
           const childrenIds = JSON.parse(
-            event.extendedProperties.shared.children || []
+            event.extendedProperties.shared.children
           )
           const userFlag = parentIds.indexOf(userId) !== -1
           const childFlag =
