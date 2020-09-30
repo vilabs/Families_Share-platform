@@ -29,10 +29,10 @@ const getUsersGroupEvents = (calId, userId, usersChildrenIds) =>
           event.extendedProperties.shared.parents !== undefined &&
           event.extendedProperties.shared.children !== undefined
         ) {
-          console.log(event)
-          const parentIds = JSON.parse(event.extendedProperties.shared.parents)
+          console.log(event.extendedProperties.shared)
+          const parentIds = JSON.parse(event.extendedProperties.shared.parents || [])
           const childrenIds = JSON.parse(
-            event.extendedProperties.shared.children
+            event.extendedProperties.shared.children || []
           )
           const userFlag = parentIds.indexOf(userId) !== -1
           const childFlag =
