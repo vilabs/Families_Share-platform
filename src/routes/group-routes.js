@@ -1552,11 +1552,11 @@ router.patch(
       } else if (volunteersReq && childrenReq) {
         await nh.timeslotRequirementsNotification(summary, parents, group_id, activity_id, timeslot_id)
       }
-      if (JSON.parse(extendedProperties.shared.children).length > 30) {
-        extendedProperties.shared.children = JSON.stringify(JSON.parse(extendedProperties.shared.children).slice(0, 30))
+      if (JSON.parse(extendedProperties.shared.children).length > 37) {
+        extendedProperties.shared.children = JSON.stringify(JSON.parse(extendedProperties.shared.children).slice(0, 36))
       }
-      if (JSON.parse(extendedProperties.shared.parents).length > 30) {
-        extendedProperties.shared.parents = JSON.stringify(JSON.parse(extendedProperties.shared.parents).slice(0, 30))
+      if (JSON.parse(extendedProperties.shared.parents).length > 37) {
+        extendedProperties.shared.parents = JSON.stringify(JSON.parse(extendedProperties.shared.parents).slice(0, 36))
       }
       const timeslotPatch = {
         summary,
