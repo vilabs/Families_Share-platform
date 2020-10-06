@@ -19,7 +19,9 @@ const landingImage = {
   Martellago: require("../images/martellagoImage.png"),
   Andria: require("../images/andriaImage.png"),
   Homeschooling: require("../images/homeschoolingImage.png"),
-  Pederobba: require("../images/pederobbaImage.png")
+  Pederobba: require("../images/pederobbaImage.png"),
+  Dadama: require("../images/dadamaImage.png"),
+  Teatrino: require("../images/teatrinoImage.png")
 };
 
 const Images = {
