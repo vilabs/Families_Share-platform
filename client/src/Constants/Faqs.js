@@ -5774,7 +5774,7 @@ const Dadama = {
   ]
 };
 
-const Teatrino = {
+const Aduepollici = {
   en: [
     {
       question: "How does the group work?",
@@ -9946,7 +9946,7 @@ const Cokido = {
 
 const Faqs = {
   Dadama,
-  Teatrino,
+  Aduepollici,
   Venice,
   FBK,
   Cokido,
