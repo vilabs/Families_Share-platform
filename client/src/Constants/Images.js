@@ -21,7 +21,7 @@ const landingImage = {
   Homeschooling: require("../images/homeschoolingImage.png"),
   Pederobba: require("../images/pederobbaImage.png"),
   Dadama: require("../images/dadamaImage.png"),
-  Teatrino: require("../images/teatrinoImage.png")
+  Aduepollici: require("../images/aduepolliciImage.png"),
 };
 
 const Images = {
@@ -57,6 +57,6 @@ const Images = {
   mapMarkerAltRegular: require("../images/mapMarkerAltRegular.png"),
   thumbtackRegular: require("../images/thumbtackRegular.png"),
   euroSignRegular: require("../images/euroSignRegular.png"),
-  promptImage: require("../images/promptImage.png")
+  promptImage: require("../images/promptImage.png"),
 };
 export default Images;
