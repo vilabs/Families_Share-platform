@@ -35,7 +35,7 @@ git clone https://github.com/vilabs/Families_Share-platform
 npm install
 ```
 
-   - An .env file needs to be created both for the [client](./.env.sample) and [server](./client/.env.sample) folder (based on the corresponding .env.sample files).
+   - An .env file needs to be created both for the [server](./.env.sample) and [client](./client/.env.sample) folder (based on the corresponding .env.sample files).
    - In order to run the application in development mode the user needs to run the following command in the projects main folder.
  
 ```javascript
