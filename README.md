@@ -14,8 +14,8 @@
    - In addition, the user needs to have a Google account. Any Gmail account is a valid developer account. If they don’t have one, they can create one at:
    
 [Google Account](https://accounts.google.com)
-
-    - The user needs to create a new Google project and a service account, as they will need the key from the service account in order to access the Google APIs from their Node.js client. Subsequently they need to enable the Google Calendar API that is necessary for the calendar features of the platform. All the above functionalities can be accessed from Google’s developer console. The following links can act as a guide for the above actions:
+  
+  - The user needs to create a new Google project and a service account, as they will need the key from the service account in order to access the Google APIs from their Node.js client. Subsequently they need to enable the Google Calendar API that is necessary for the calendar features of the platform. All the above functionalities can be accessed from Google’s developer console. The following links can act as a guide for the above actions:
     
 [Google Project](https://cloud.google.com/resource-manager/docs/creating-managing-projects)
 
