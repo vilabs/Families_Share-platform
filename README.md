@@ -21,5 +21,30 @@
 
    - Finally,in case the user wants to opt in for analytics in your production deployment they will need a Google Analytics account. You can create one at : [Google Analytics](https://analytics.google.com/analytics/web/provision/?authuser=0#/provision/create)
 
+### Deployment
+   - At first the user needs a clone of the Families Share repository. They may acquire one from: [Code](https://github.com/vilabs/Families_Share-platform)
+   - Alternatively, if the user has Git locally installed on their machine, they can run the following command in their terminal:
+   
+```javascript
+git clone https://github.com/vilabs/Families_Share-platform
+```
 
+   - After that the user has to install package dependencies both for client and server application by running the following command in the respective folders:
 
+```javascript
+npm install
+```
+
+   - An .env file needs to be created both for the client and server folder (based on the corresponding .env.sample files).
+   - In order to run the application in development mode the user needs to run the following command in the projects main folder.
+ 
+```javascript
+npm run dev
+```
+
+   - In order for the application to run in production mode the user needs to execute the following commands in the client and main folder correspondingly:
+
+```javascript
+npm run build
+npm start
+```
