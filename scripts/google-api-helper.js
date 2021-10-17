@@ -1,6 +1,7 @@
 const { google } = require('googleapis')
 require('dotenv').config()
 const config = require('config')
+const inquirer = require('inquirer')
 const googleEmail = config.get('google.email')
 const googleKey = config.get('google.key')
 
@@ -16,71 +17,126 @@ const calendar = google.calendar({
   auth: jwt
 })
 
+const question = [
+  {
+    type: 'list',
+    name: 'action',
+    message: 'What do you want to do?',
+    // eslint-disable-next-line no-sparse-arrays
+    choices: ['Show calendar', /* 'Show events', */ 'Delete all calendars', 'Delete all events', 'Update all events', 'Exit']
+  }
+]
+showMenu()
+
+function showMenu () {
+  inquirer.prompt(question).then((answers) => {
+    console.log(JSON.stringify(answers, null, '  '))
+    switch (answers.action) {
+      case 'Show calendar':
+        showCalendar()
+        break
+      // case 'Show events':
+      //   showEvents()
+      //   break
+      case 'Delete all calendars':
+        deleteCalendars()
+        break
+      case 'Delete all events':
+        deleteAllEvents()
+        break
+      case 'Update all events':
+        updateAllEvents()
+        break
+      case 'Exit':
+        process.exit(1)
+    }
+    showMenu()
+  })
+}
+
 // delete calendars
-// calendar.calendarList.list({ }, (error, response) => {
-// 	if (error) console.log(error);
-// 	response.data.items.forEach( cal => {
-// 		calendar.calendars.delete({calendarId: cal.id}, (err,resp)=>{
-// 			if (err) console.log(err);
-// 			console.log(`Deleted calendar with id ${cal.id} `)
-// 		})
-// 	});
-// })
+function deleteCalendars () {
+  calendar.calendarList.list({}, (error, response) => {
+    if (error) console.log(error)
+    response.data.items.forEach(cal => {
+      calendar.calendars.delete({ calendarId: cal.id }, (err, resp) => {
+        if (err) console.log(err)
+        console.log(`Deleted calendar with id ${cal.id} `)
+      })
+    })
+  })
+}
 
 // show calendars
-// calendar.calendarList.list({ }, (error, response) => {
-// 	if (error) console.log(error);
-// 	response.data.items.forEach( cal => {
-// 		console.log(cal)
-// 	});
-// })
+function showCalendar () {
+  calendar.calendarList.list({}, (error, response) => {
+    if (error) console.log(error)
+    response.data.items.forEach(cal => {
+      console.log(cal)
+    })
+  })
+}
 
 // delete events from calendar
-// calendar.calendarList.list({ }, (error, response) => {
-// 	if (error) console.log(error);
-// 	response.data.items.forEach( cal => {
-// 		calendar.events.list({calendarId: cal.id},(err,resp)=>{
-// 			if (err) console.log(err);
-// 			resp.data.items.forEach( event => {
-// 				calendar.events.delete({eventId: event.id, calendarId: cal.id}, (er, res)=>{
-// 					if(er) console.log(er)
-// 					console.log("deleted event with id "+event.id)
-// 				})
-// 			})
-// 		})
-// 	});
-// })
+function deleteAllEvents () {
+  calendar.calendarList.list({}, (error, response) => {
+    if (error) console.log(error)
+    response.data.items.forEach(cal => {
+      calendar.events.list({ calendarId: cal.id }, (err, resp) => {
+        if (err) console.log(err)
+        resp.data.items.forEach(event => {
+          calendar.events.delete({ eventId: event.id, calendarId: cal.id }, (er, res) => {
+            if (er) console.log(er)
+            console.log('deleted event with id ' + event.id)
+          })
+        })
+      })
+    })
+  })
+}
 
 // show events from calendar
-// calendar.events.list({ calendarId: '36c14k3ur2jfqrmsfel4qgm7qo@group.calendar.google.com', sharedExtendedProperty: 'activityId=5eeb4c02dab6d2b705000002' }, (err, resp) => {
-//   if (err) console.log(err)
-//   console.log(resp.data.items.filter(e => e.id === 'hh87c1kra5eigfqo6a73oua0tk'))
-// })
+// function showEvents () {
+//   calendar.events.list({
+//     calendarId: '36c14k3ur2jfqrmsfel4qgm7qo@group.calendar.google.com',
+//     sharedExtendedProperty: 'activityId=5eeb4c02dab6d2b705000002'
+//   }, (err, resp) => {
+//     if (err) console.log(err)
+//     console.log(resp.data.items.filter(e => e.id === 'hh87c1kra5eigfqo6a73oua0tk'))
+//   })
+// }
 
 // Patch All events
-// calendar.calendarList.list({ }, async (error, response) => {
-//   if (error) console.log(error)
-//   for (const cal of response.data.items) {
-//     try {
-//       const eventsResp = await calendar.events.list({ calendarId: cal.id })
-//       for (const item of eventsResp.data.items) {
-//         const timeslotPatch = {
-//           extendedProperties: {
-//             shared: {
-//               externals: JSON.stringify([])
-//             }
-//           }
-//         }
-//         console.log(item.summary)
-//         const patchResp = await calendar.events.patch({ calendarId: cal.id, eventId: item.id, resource: timeslotPatch })
-//       }
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
-// })
+function updateAllEvents () {
+  calendar.calendarList.list({}, async (error, response) => {
+    if (error) console.log(error)
+    for (const cal of response.data.items) {
+      try {
+        const eventsResp = await calendar.events.list({ calendarId: cal.id })
+        for (const item of eventsResp.data.items) {
+          const timeslotPatch = {
+            extendedProperties: {
+              shared: {
+                externals: JSON.stringify([])
+              }
+            }
+          }
+          console.log(item.summary)
+          const patchResp = await calendar.events.patch({
+            calendarId: cal.id,
+            eventId: item.id,
+            resource: timeslotPatch
+          })
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  })
+}
 
 // Update specific event
+/*
 calendar.events.patch({ calendarId: '7tgsm96jhoob4r1kpqc1q2e3e4@group.calendar.google.com',
   eventId: '5c6g83dob0a31ev92oa78v5hoo',
   resource: {
@@ -93,6 +149,7 @@ calendar.events.patch({ calendarId: '7tgsm96jhoob4r1kpqc1q2e3e4@group.calendar.g
   if (error) console.log(error)
   console.log(response.data)
 })
+ */
 
 // Get specific event
 // calendar.events.get({ calendarId: '7tgsm96jhoob4r1kpqc1q2e3e4@group.calendar.google.com',
