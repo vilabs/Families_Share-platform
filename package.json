@@ -28,7 +28,7 @@
     "find-remove": "^1.2.2",
     "fs": "0.0.1-security",
     "google-auth-library": "^2.0.2",
-    "googleapis": "^43.0.0",
+    "googleapis": "^88.2.0",
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",

@@ -7,13 +7,14 @@ const fr = require('find-remove')
 const { google } = require('googleapis')
 const googleEmail = config.get('google.email')
 const googleKey = config.get('google.key')
-const scopes = 'https://www.googleapis.com/auth/calendar'
-const jwt = new google.auth.JWT(
-  process.env[googleEmail],
-  null,
-  process.env[googleKey].replace(/\\n/g, '\n'),
-  scopes
+const scopes = ['https://www.googleapis.com/auth/calendar']
+const jwt = new google.auth.GoogleAuth(
+  {
+    keyFile: 'src/families-share-328918-d722949e5714.json',
+    scopes: scopes
+  }
 )
+
 const path = require('path')
 const sharp = require('sharp')
 const nodemailer = require('nodemailer')
@@ -102,6 +103,7 @@ const Child = require('../models/child')
 const Profile = require('../models/profile')
 const Community = require('../models/community')
 const User = require('../models/user')
+const { auth } = require('google-auth-library')
 
 router.get('/', (req, res, next) => {
   if (!req.user_id) return res.status(401).send('Not authenticated')
@@ -1144,7 +1146,7 @@ router.post('/:id/activities', async (req, res, next) => {
       events.map(event =>
         calendar.events.insert({
           calendarId: group.calendar_id,
-          resource: event
+          requestBody: event
         })
       )
     )
