@@ -5,12 +5,10 @@ const multer = require('multer')
 const objectid = require('objectid')
 const fr = require('find-remove')
 const { google } = require('googleapis')
-const googleEmail = config.get('google.email')
-const googleKey = config.get('google.key')
 const scopes = ['https://www.googleapis.com/auth/calendar']
 const jwt = new google.auth.GoogleAuth(
   {
-    keyFile: 'src/families-share-328918-d722949e5714.json',
+    keyFile: config.get('google.keyfile'),
     scopes: scopes
   }
 )
