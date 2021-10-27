@@ -8,7 +8,7 @@ const googleKey = config.get('google.key')
 const scopes = ['https://www.googleapis.com/auth/calendar']
 const jwt = new google.auth.GoogleAuth(
   {
-    keyFile: 'src/families-share-328918-d722949e5714.json',
+    keyFile: process.env[config.get('google.keyfile')],
     scopes: scopes
   }
 )
