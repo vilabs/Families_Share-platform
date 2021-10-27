@@ -3,6 +3,6 @@
     "host": "DB_PROD_HOST"
   },
   "google": {
-    "keyfile": "GOOGLE_CALENDAR_API_PRODUCTION_KEYFILE"
+    "keyfile": "GOOGLE_CALENDAR_API_DEV_KEYFILE"
   }
 }

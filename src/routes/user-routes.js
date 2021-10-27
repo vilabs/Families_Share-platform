@@ -17,7 +17,7 @@ const { google } = require('googleapis')
 const scopes = 'https://www.googleapis.com/auth/calendar'
 const googleToken = new google.auth.GoogleAuth(
   {
-    keyFile: config.get('google.keyfile'),
+    keyFile: process.env[config.get('google.keyfile')],
     scopes: scopes
   }
 )
