@@ -206,7 +206,9 @@ const initializeDB = async () => {
   }
   await chai.request(server).post(`/api/users/${user.user_id}/children`).send(child).set('Authorization', user.token)
 }
-describe('Test', () => {
+describe('Test', function () {
+  //FIXME: fix the root cause of the delay. The group API is too slow.
+  this.timeout(50000)
   before('Initializing DB', async () => {
     await initializeDB()
   })
