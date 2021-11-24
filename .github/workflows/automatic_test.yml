@@ -10,14 +10,31 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  run_tests:
+    name: Run tests
     runs-on: ubuntu-latest
+    environment: Test
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: ['14', 'lts/*']
+        mongo-version: ['4.4', '5.0' ]
+      fail-fast: false
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    services:
+      mongodb:
+        image: mongo:${{ matrix.mongo-version }}
+        env:
+          MONGO_INITDB_ROOT_USERNAME: ${{ secrets.DB_USER }}
+          MONGO_INITDB_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 27017:27017
 
     steps:
     - uses: actions/checkout@v2
@@ -42,3 +59,7 @@ jobs:
       env:
         DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
       continue-on-error: true
+
+#    Enable to debug MongoDB problems
+#    - name: Docker log
+#      run: docker logs "${{ job.services.mongodb.id }}"
