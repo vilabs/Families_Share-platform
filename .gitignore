@@ -73,8 +73,8 @@ web_modules/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
-.env
+#  environment variables file
+.env_old
 .env.test
 .env.production
 
@@ -241,3 +241,10 @@ fabric.properties
 .idea/codestream.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/node,webstorm
+activity.pdf
+
+reports/mocha.json
+
+Dockerfile
+
+.dockerignore

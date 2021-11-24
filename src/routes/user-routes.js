@@ -1,5 +1,4 @@
 const express = require('express')
-const config = require('config')
 const router = new express.Router()
 const objectid = require('objectid')
 const multer = require('multer')
@@ -17,7 +16,7 @@ const { google } = require('googleapis')
 const scopes = 'https://www.googleapis.com/auth/calendar'
 const googleToken = new google.auth.GoogleAuth(
   {
-    keyFile: process.env[config.get('google.keyfile')],
+    keyFile: process.env['GOOGLE_CALENDAR_API_KEYFILE'],
     scopes: scopes
   }
 )

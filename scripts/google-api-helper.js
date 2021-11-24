@@ -1,14 +1,10 @@
 const { google } = require('googleapis')
-require('dotenv').config()
-const config = require('config')
 const inquirer = require('inquirer')
-const googleEmail = config.get('google.email')
-const googleKey = config.get('google.key')
 
 const scopes = ['https://www.googleapis.com/auth/calendar']
 const jwt = new google.auth.GoogleAuth(
   {
-    keyFile: process.env[config.get('google.keyfile')],
+    keyFile: process.env['GOOGLE_CALENDAR_API_KEYFILE'],
     scopes: scopes
   }
 )

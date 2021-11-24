@@ -1,4 +1,3 @@
-require('dotenv').config()
 const mongoose = require('mongoose')
 const moment = require('moment')
 const args = process.argv.slice(2)

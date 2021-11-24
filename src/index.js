@@ -1,4 +1,3 @@
-require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
@@ -14,13 +13,10 @@ const fs = require('fs')
 const HTTPS_PORT = parseInt(process.env.HTTPS_PORT, 10)
 const HTTP_PORT = parseInt(process.env.HTTP_PORT, 10)
 
-const config = require('config')
-
-const dbHost = config.get('dbConfig.host')
 mongoose.set('useCreateIndex', true)
 mongoose.set('useNewUrlParser', true)
 mongoose.set('useUnifiedTopology', true)
-mongoose.connect(process.env[dbHost]) // { autoIndex: false } set this to false in production to disable auto creating indexes
+mongoose.connect(process.env['DB_CONNECTION_STRING']) // { autoIndex: false } set this to false in production to disable auto creating indexes
 mongoose.Promise = global.Promise
 
 const app = express()
@@ -68,7 +64,7 @@ app.use('/api/children', require('./routes/child-routes'))
 app.use('/api/github', require('./routes/github-routes'))
 app.use('/api/community', require('./routes/community-routes'))
 
-if (config.util.getEnv('NODE_ENV') === 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '../client/build')))
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../client/build', 'index.html'))

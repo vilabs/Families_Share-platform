@@ -1,8 +1,0 @@
-{
-  "dbConfig": {
-    "host": "DB_DEV_HOST"
-  },
-  "google": {
-    "keyfile": "GOOGLE_CALENDAR_API_DEV_KEYFILE"
-  }
-}
