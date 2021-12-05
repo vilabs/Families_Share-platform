@@ -47,10 +47,10 @@ const transporter = nodemailer.createTransport({
 })
 
 const groupStorage = multer.diskStorage({
-  destination (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, path.join(__dirname, '../../images/groups'))
   },
-  filename (req, file, cb) {
+  filename(req, file, cb) {
     const fileName = `${req.params.id}-${Date.now()}.${file.mimetype.slice(
       file.mimetype.indexOf('/') + 1,
       file.mimetype.length
@@ -65,10 +65,10 @@ const groupUpload = multer({
 })
 
 const announcementStorage = multer.diskStorage({
-  destination (req, file, cb) {
+  destination(req, file, cb) {
     cb(null, path.join(__dirname, '../../images/announcements'))
   },
-  filename (req, file, cb) {
+  filename(req, file, cb) {
     if (req.params.announcement_id === undefined) {
       req.params.announcement_id = objectid()
     }
@@ -96,6 +96,7 @@ const Notification = require('../models/notification')
 const Announcement = require('../models/announcement')
 const Parent = require('../models/parent')
 const Activity = require('../models/activity')
+const ActivityRequest = require('../models/activity-request')
 const Child = require('../models/child')
 const Profile = require('../models/profile')
 const Community = require('../models/community')
@@ -1675,6 +1676,137 @@ router.delete(
     }
   }
 )
+
+router.post('/:id/activityrequests', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const user_id = req.user_id
+  const group_id = req.params.id
+  try {
+    const { activityReq } = req.body
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!(member && user_id === activityReq.creator_id && group_id === activityReq.group_id)) {
+      return res.status(401).send('Unauthorized')
+    }
+    if (!(activityReq && activityReq.children)) {
+      return res.status(400).send('Bad Request')
+    }
+
+    const usersChildren = await Parent.find({ parent_id: user_id }).distinct('child_id');
+    if (!activityReq.children.every(c => usersChildren.includes(c))) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    activityReq.req_id = objectid()
+
+    await ActivityRequest.create(activityReq)
+
+    res.status(200).send()
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:id/activityrequests', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.id
+  const user_id = req.user_id
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+    const actrequests = await ActivityRequest.find({ group_id })
+      .sort({ createdAt: -1 })
+      .lean()
+      .exec()
+
+    if (actrequests.length === 0) {
+      return res.status(404).send('Group has no activities')
+    }
+
+    res.json(actrequests)
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.delete('/:groupId/activityrequests/:reqId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.groupId
+  const user_id = req.user_id
+  const req_id = req.params.reqId
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    const activityRequest = await Activity.findOne({ req_id, group_id })
+    if (!(member.admin || user_id === activityRequest.creator_id)) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    await ActivityRequest.deleteOne(activityRequest)
+
+    res.status(200).send('Activity Deleted')
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.get('/:groupId/activityrequests/:reqId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.groupId
+  const user_id = req.user_id
+  const req_id = req.params.reqId
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(401).send('Unauthorized')
+    }
+
+    const activityRequest = await ActivityRequest.findOne({ req_id, group_id })
+
+    if (!activityRequest) {
+      return res.status(404).send('Activity request not found')
+    }
+
+    res.json(activityRequest)
+  } catch (error) {
+    next(error)
+  }
+})
+
+
+
 router.get('/:id/announcements', (req, res, next) => {
   if (!req.user_id) {
     return res.status(401).send('Not authenticated')
