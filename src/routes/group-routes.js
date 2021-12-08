@@ -2,6 +2,8 @@ const express = require('express')
 const router = new express.Router()
 const multer = require('multer')
 const objectid = require('objectid')
+const Ajv = require("ajv")
+const ajv = new Ajv()
 const fr = require('find-remove')
 const { google } = require('googleapis')
 const scopes = ['https://www.googleapis.com/auth/calendar']
@@ -1805,7 +1807,59 @@ router.get('/:groupId/activityrequests/:reqId', async (req, res, next) => {
   }
 })
 
+router.patch('/:groupId/activityrequests/:reqId', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.groupId
+  const user_id = req.user_id
+  const req_id = req.params.reqId
+  try {
+    const member = await Member.findOne({
+      group_id,
+      user_id,
+      group_accepted: true,
+      user_accepted: true
+    })
+    if (!member) {
+      return res.status(403).send('Forbidden')
+    }
 
+    const activityRequest = await ActivityRequest.findOne({ req_id, group_id })
+    if (!(member.admin || user_id === activityRequest.creator_id)) {
+      return res.status(403).send('Forbidden')
+    }
+
+    const patch = req.body
+    const patchSchema = {
+      type: 'object',
+      properties: {
+        name: { type: 'string' },
+        description: { type: 'string' },
+        color: { type: 'string' },
+        children: {
+          type: 'array',
+          items: { type: 'string' },
+          minItems: 1
+        },
+        date: { type: 'string' },
+        startTime: { type: 'string' },
+        endTime: { type: 'string' }
+      },
+      additionalProperties: false
+    }
+
+    if (!ajv.validate(patchSchema, patch)) {
+      return res.status(400).send()
+    }
+
+    const update = await ActivityRequest.updateOne({ req_id, group_id }, patch)
+
+    res.status(200).json(update.nModified)
+  } catch (error) {
+    next(error)
+  }
+})
 
 router.get('/:id/announcements', (req, res, next) => {
   if (!req.user_id) {
