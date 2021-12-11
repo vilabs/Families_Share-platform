@@ -1705,8 +1705,6 @@ router.post('/:id/activityrequests', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
 
-    activityReq.req_id = objectid()
-
     await ActivityRequest.create(activityReq)
 
     res.status(200).send()
@@ -1736,10 +1734,6 @@ router.get('/:id/activityrequests', async (req, res, next) => {
       .lean()
       .exec()
 
-    if (actrequests.length === 0) {
-      return res.status(404).send('Group has no activities')
-    }
-
     res.json(actrequests)
   } catch (error) {
     next(error)
@@ -1764,7 +1758,7 @@ router.delete('/:groupId/activityrequests/:reqId', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
 
-    const activityRequest = await Activity.findOne({ req_id, group_id })
+    const activityRequest = await Activity.findById(req_id)
     if (!(member.admin || user_id === activityRequest.creator_id)) {
       return res.status(401).send('Unauthorized')
     }
@@ -1795,7 +1789,7 @@ router.get('/:groupId/activityrequests/:reqId', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
 
-    const activityRequest = await ActivityRequest.findOne({ req_id, group_id })
+    const activityRequest = await ActivityRequest.findById(req_id)
 
     if (!activityRequest) {
       return res.status(404).send('Activity request not found')
@@ -1825,7 +1819,7 @@ router.patch('/:groupId/activityrequests/:reqId', async (req, res, next) => {
       return res.status(403).send('Forbidden')
     }
 
-    const activityRequest = await ActivityRequest.findOne({ req_id, group_id })
+    const activityRequest = await ActivityRequest.findById(req_id)
     if (!(member.admin || user_id === activityRequest.creator_id)) {
       return res.status(403).send('Forbidden')
     }
@@ -1853,7 +1847,7 @@ router.patch('/:groupId/activityrequests/:reqId', async (req, res, next) => {
       return res.status(400).send()
     }
 
-    const update = await ActivityRequest.updateOne({ req_id, group_id }, patch)
+    const update = await ActivityRequest.updateOne({ _id }, patch)
 
     res.status(200).json(update.nModified)
   } catch (error) {

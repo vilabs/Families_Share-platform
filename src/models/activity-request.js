@@ -1,11 +1,6 @@
 const mongoose = require('mongoose')
 
 const activityRequestSchema = new mongoose.Schema({
-  req_id: {
-    type: String,
-    unique: true,
-    required: true
-  },
   group_id: {
     type: String,
     required: true
