@@ -904,9 +904,6 @@ router.get('/:groupId/plans', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
     const plans = await Plan.find({ group_id: groupId })
-    if (plans.length === 0) {
-      return res.status(404).send('Group has no ongoing plans')
-    }
     return res.json(plans)
   } catch (err) {
     next(err)
@@ -1181,9 +1178,6 @@ router.get('/:id/activities', (req, res, next) => {
         .lean()
         .exec()
         .then(activities => {
-          if (activities.length === 0) {
-            return res.status(404).send('Group has no activities')
-          }
           res.json(activities)
         })
     })
