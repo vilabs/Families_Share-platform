@@ -1154,7 +1154,7 @@ router.post('/:id/activities', async (req, res, next) => {
     if (member.admin) {
       await nh.newActivityNotification(group_id, user_id)
     }
-    res.json({ status: activity.status })
+    res.json({ status: activity.status, id: activity.activity_id })
   } catch (error) {
     next(error)
   }
@@ -1853,6 +1853,44 @@ router.patch('/:groupId/activityrequests/:reqId', async (req, res, next) => {
   } catch (error) {
     next(error)
   }
+})
+
+router.get('/:groupId/activityrequests/:reqId/compatibleTimeslots', async (req, res, next) => {
+  if (!req.user_id) {
+    return res.status(401).send('Not authenticated')
+  }
+  const group_id = req.params.groupId
+  const user_id = req.user_id
+  const req_id = req.params.reqId
+
+  const member = await Member.findOne({
+    group_id,
+    user_id,
+    group_accepted: true,
+    user_accepted: true
+  })
+  if (!member) {
+    return res.status(401).send('Unauthorized')
+  }
+
+  const activityRequest = await ActivityRequest.findById(req_id)
+  if (!activityRequest) {
+    return res.status(404).send('Activity request not found')
+  }
+  const dstart = new Date(activityRequest.date)
+  dstart.setHours(0, 0)
+  const dend = new Date(activityRequest.date)
+  dend.setHours(24, 0)
+
+  const group = await Group.findOne({ group_id })
+
+  const resp = await calendar.events.list({
+    calendarId: group.calendar_id,
+    timeMin: dstart,
+    timeMax: dend,
+  })
+
+  res.json(resp.data.items)
 })
 
 router.get('/:id/announcements', (req, res, next) => {
