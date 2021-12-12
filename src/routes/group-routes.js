@@ -1758,7 +1758,7 @@ router.delete('/:groupId/activityrequests/:reqId', async (req, res, next) => {
       return res.status(401).send('Unauthorized')
     }
 
-    const activityRequest = await Activity.findById(req_id)
+    const activityRequest = await ActivityRequest.findById(req_id)
     if (!(member.admin || user_id === activityRequest.creator_id)) {
       return res.status(401).send('Unauthorized')
     }
