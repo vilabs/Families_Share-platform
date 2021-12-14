@@ -11,8 +11,11 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "runtimeExecutable": "npm",
+            "runtimeExecutable": "doppler",
             "runtimeArgs": [
+                "run",
+                "--",
+                "npm",
                 "run",
                 "dev-server"
             ],
