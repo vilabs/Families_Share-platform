@@ -41,7 +41,7 @@
     "objectid": "^3.2.1",
     "path": "^0.12.7",
     "pdfmake": "^0.1.65",
-    "sharp": "^0.22.1"
+    "sharp": "^0.30.5"
   },
   "devDependencies": {
     "chai": "^4.2.0",
