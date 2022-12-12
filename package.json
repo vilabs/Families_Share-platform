@@ -24,7 +24,7 @@
     "dotenv": "^6.2.0",
     "exceljs": "^1.9.1",
     "expo-server-sdk": "^3.5.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "find-remove": "^1.2.2",
     "fs": "0.0.1-security",
     "google-auth-library": "^2.0.2",
